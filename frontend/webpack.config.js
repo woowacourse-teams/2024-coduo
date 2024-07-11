@@ -1,15 +1,15 @@
-import path from "path";
-import HtmlWebpackPlugin from "html-webpack-plugin";
-import CopyWebpackPlugin from "copy-webpack-plugin";
-import { fileURLToPath } from "url";
+import path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const config = {
-  mode: "development",
-  entry: "./src/index.tsx",
+  mode: 'development',
+  entry: './src/index.tsx',
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, 'dist'),
     clean: true,
   },
   module: {
@@ -17,7 +17,7 @@ const config = {
       {
         test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
-        use: ["ts-loader"],
+        use: ['ts-loader'],
       },
       // {
       //   test: /\.css$/,
@@ -26,9 +26,9 @@ const config = {
       {
         test: /\.(png|svg|jpg|gif)$/,
         use: {
-          loader: "file-loader",
+          loader: 'file-loader',
           options: {
-            name: "[name].[ext]",
+            name: '[name].[ext]',
           },
         },
       },
@@ -36,15 +36,15 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./public/index.html",
-      filename: "./index.html",
+      template: './public/index.html',
+      filename: './index.html',
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: "/src/assets", to: "assets/" }],
+      patterns: [{ from: 'src/assets', to: 'assets/' }],
     }),
   ],
   resolve: {
-    extensions: [".js", ".jsx", ".ts", ".tsx"],
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
   devServer: {
     client: {
