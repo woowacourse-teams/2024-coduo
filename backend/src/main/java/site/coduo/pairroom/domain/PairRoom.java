@@ -10,8 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
 
-@NoArgsConstructor
 @Getter
+@NoArgsConstructor
 @Entity
 public class PairRoom extends BaseTimeEntity {
 
