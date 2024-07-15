@@ -29,7 +29,7 @@ public class SwaggerConfig {
     }
 
     private Components securitySchemeComponents() {
-        SecurityScheme bearerAuth = new SecurityScheme()
+        final SecurityScheme bearerAuth = new SecurityScheme()
                 .type(SecurityScheme.Type.HTTP)
                 .scheme("bearer")
                 .bearerFormat("Authorization")
