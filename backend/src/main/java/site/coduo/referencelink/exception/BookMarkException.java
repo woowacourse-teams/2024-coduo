@@ -1,4 +1,4 @@
-package site.coduo.bookmark.exception;
+package site.coduo.referencelink.exception;
 
 import site.coduo.common.exception.CoduoException;
 

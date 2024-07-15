@@ -13,7 +13,9 @@ import site.coduo.common.controller.response.ApiErrorResponse;
 public class CommonErrorController {
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiErrorResponse> handleException() {
+    public ResponseEntity<ApiErrorResponse> handleException(final Exception exception) {
+        log.error(exception.getMessage());
+
         return ResponseEntity.status(CommonApiError.SERVER_ERROR.getHttpStatus())
                 .body(new ApiErrorResponse(CommonApiError.SERVER_ERROR.getMessage()));
     }
