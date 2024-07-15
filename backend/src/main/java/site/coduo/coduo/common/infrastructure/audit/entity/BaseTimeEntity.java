@@ -1,4 +1,4 @@
-package site.coduo.coduo.common.audit;
+package site.coduo.coduo.common.infrastructure.audit.entity;
 
 import java.time.LocalDateTime;
 
@@ -16,7 +16,7 @@ import lombok.Getter;
 @Getter
 @MappedSuperclass
 @EntityListeners(value = {AuditingEntityListener.class})
-public class BaseTimeEntity {
+public abstract class BaseTimeEntity {
 
     @CreatedDate
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
