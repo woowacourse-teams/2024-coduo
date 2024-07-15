@@ -1,6 +1,7 @@
 package site.coduo.pairroom.domain;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,19 +22,20 @@ public class PairRoom extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "pair1_name", nullable = false)
+    @Column(name = "PAIR1_NAME", nullable = false)
     private String pairAName;
 
-    @Column(name = "pair2_name", nullable = false)
+    @Column(name = "PAIR2_NAME", nullable = false)
     private String pairBName;
 
-    @Column(nullable = false)
-    private String accessCode;
+    @Embedded
+    @Column(name = "ACCESS_CODE", nullable = false)
+    private AccessCode accessCode;
 
-    public PairRoom(final String pairAName, final String pairBName, final String accessCode) {
+    public PairRoom(final String pairAName, final String pairBName) {
         this.pairAName = pairAName;
         this.pairBName = pairBName;
-        this.accessCode = accessCode;
+        this.accessCode = AccessCode.generate();
     }
 
     @Override

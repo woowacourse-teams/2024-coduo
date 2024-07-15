@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.pairroom.dto.CreatePairRoom;
+import site.coduo.pairroom.dto.PairRoomRequest;
+import site.coduo.pairroom.dto.PairRoomResponse;
 import site.coduo.pairroom.dto.ReadPairRoom;
-import site.coduo.pairroom.dto.ResponsePairRoom;
 import site.coduo.pairroom.service.PairRoomService;
 
 @RequiredArgsConstructor
@@ -21,13 +22,13 @@ public class PairRoomController {
     private final PairRoomService service;
 
     @GetMapping("/pair-room")
-    public ReadPairRoom getPairRoom(@RequestParam("accessCode") final String accessCode) {
-        return ReadPairRoom.from(service.findByAccessCode(accessCode));
+    public ReadPairRoom getPairRoom(@RequestParam("accessCode") final PairRoomRequest accessCode) {
+        return ReadPairRoom.from(service.findByAccessCode(accessCode.accessCode()));
     }
 
     @PostMapping("/pair-room")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponsePairRoom createPairRoom(@RequestBody final CreatePairRoom createPairRoom) {
-        return new ResponsePairRoom(service.save(createPairRoom)); // TODO 리팩터링 대상
+    public PairRoomResponse createPairRoom(@RequestBody final CreatePairRoom createPairRoom) {
+        return new PairRoomResponse(service.save(createPairRoom)); // TODO 리팩터링 대상
     }
 }

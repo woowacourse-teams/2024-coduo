@@ -10,7 +10,7 @@ import org.springframework.http.MediaType;
 
 import io.restassured.RestAssured;
 import site.coduo.pairroom.dto.CreatePairRoom;
-import site.coduo.pairroom.dto.ResponsePairRoom;
+import site.coduo.pairroom.dto.PairRoomResponse;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class PairRoomControllerTest {
@@ -27,7 +27,7 @@ class PairRoomControllerTest {
     @DisplayName("페어룸 요청 시 정보를 반환한다.")
     void show_pair_room() {
         //given
-        final ResponsePairRoom pairRoomUrl = createPairRoom(new CreatePairRoom("레디", "프람"));
+        final PairRoomResponse pairRoomUrl = createPairRoom(new CreatePairRoom("레디", "프람"));
 
         //when & then
         RestAssured.given().log().all()
@@ -37,13 +37,13 @@ class PairRoomControllerTest {
                 .statusCode(200);
     }
 
-    ResponsePairRoom createPairRoom(final CreatePairRoom pairRoom) {
+    PairRoomResponse createPairRoom(final CreatePairRoom pairRoom) {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .body(pairRoom)
                 .when().post("/pair-room")
                 .then().log().all()
-                .extract().as(ResponsePairRoom.class);
+                .extract().as(PairRoomResponse.class);
     }
 }
