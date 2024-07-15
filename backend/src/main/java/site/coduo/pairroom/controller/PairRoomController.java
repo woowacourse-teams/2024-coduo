@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.dto.CreatePairRoom;
+import site.coduo.pairroom.dto.ReadPairRoom;
 import site.coduo.pairroom.service.PairRoomService;
 
 @RequiredArgsConstructor
@@ -20,8 +20,8 @@ public class PairRoomController {
     private final PairRoomService service;
 
     @GetMapping("/pair-room")
-    public PairRoom getPairRoom(@RequestParam final String accessCode) {
-        return service.findByAccessCode(accessCode);
+    public ReadPairRoom getPairRoom(@RequestParam final String accessCode) {
+        return ReadPairRoom.from(service.findByAccessCode(accessCode));
     }
 
     @PostMapping("/pair-room")
