@@ -18,6 +18,8 @@ import lombok.NoArgsConstructor;
 @Entity
 public class PairRoom {
 
+    public static final int ACCESS_CODE_LENGTH = 6;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -18,10 +18,9 @@ public class PairRoomService {
 
     public String save(final CreatePairRoom createPairRoom) {
         final UUID uuid = UUID.randomUUID();
-        final PairRoom pairRoom = new PairRoom(null, createPairRoom.nameA(), createPairRoom.nameB(), uuid.toString(),
-                LocalDateTime.now(), null);
+        final PairRoom pairRoom = new PairRoom(null, createPairRoom.nameA(), createPairRoom.nameB(),
+                uuid.toString().substring(PairRoom.ACCESS_CODE_LENGTH), LocalDateTime.now(), null);
         final PairRoom saved = repository.save(pairRoom);
-
         return saved.getAccessCode();
     }
 
