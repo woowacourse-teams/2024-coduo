@@ -8,12 +8,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import site.coduo.referencelink.domain.ReferenceLink;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
 import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
 
+@Transactional
 @SpringBootTest
 class ReferenceLinkServiceTest {
 
@@ -50,5 +52,18 @@ class ReferenceLinkServiceTest {
 
         // then
         assertThat(responses).hasSize(3);
+    }
+
+    @Test
+    @DisplayName("레퍼런스 링크를 삭제한다.")
+    void delete_reference_link() {
+        // given
+        final ReferenceLink link = referenceLinkRepository.save(new ReferenceLink("url1"));
+
+        // when
+        referenceLinkService.deleteReferenceLinkCommand(link.getId());
+
+        // then
+        assertThat(referenceLinkRepository.findAll()).isEmpty();
     }
 }

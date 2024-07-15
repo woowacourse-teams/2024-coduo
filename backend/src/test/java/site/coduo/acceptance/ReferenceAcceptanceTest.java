@@ -31,6 +31,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
                 .post("/reference-link")
 
                 .then()
+                .assertThat()
                 .statusCode(HttpStatus.CREATED.value())
                 .header(HttpHeaders.LOCATION, "/");
     }
@@ -51,6 +52,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
                 .get("/reference-link")
 
                 .then()
+                .assertThat()
                 .statusCode(HttpStatus.OK.value())
                 .body("size()", is(2));
     }
@@ -64,7 +66,26 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
                 .body(request)
 
                 .when()
-                .log().all()
                 .post("/reference-link");
+    }
+
+    @Test
+    @DisplayName("레퍼런스 링크를 삭제하는 요청")
+    void delete_reference_link() {
+        // given
+        createReferenceLink("url");
+
+        // when & then
+        RestAssured
+                .given()
+                .contentType(ContentType.JSON)
+
+                .when()
+                .log().all()
+                .delete("/reference-link/1")
+
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.NO_CONTENT.value());
     }
 }

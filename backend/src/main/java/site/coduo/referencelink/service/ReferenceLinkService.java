@@ -18,6 +18,7 @@ public class ReferenceLinkService {
 
     private final ReferenceLinkRepository referenceLinkRepository;
 
+    @Transactional
     public void createReferenceLinkCommand(final ReferenceLinkCreateRequest request) {
         final ReferenceLink referenceLink = new ReferenceLink(request.url());
         referenceLinkRepository.save(referenceLink);
@@ -28,5 +29,10 @@ public class ReferenceLinkService {
                 .stream()
                 .map(referenceLink -> new ReferenceLinkResponse(referenceLink.getUrl()))
                 .toList();
+    }
+
+    @Transactional
+    public void deleteReferenceLinkCommand(Long id) {
+        referenceLinkRepository.deleteById(id);
     }
 }
