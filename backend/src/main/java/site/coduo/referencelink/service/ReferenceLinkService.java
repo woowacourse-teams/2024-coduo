@@ -42,7 +42,7 @@ public class ReferenceLinkService {
     }
 
     @Transactional
-    public void deleteReferenceLinkCommand(Long id) {
+    public void deleteReferenceLinkCommand(final Long id) {
         referenceLinkRepository.deleteById(id);
     }
 }
