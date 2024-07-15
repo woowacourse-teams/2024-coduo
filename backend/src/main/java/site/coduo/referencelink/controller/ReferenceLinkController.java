@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import site.coduo.referencelink.service.ReferenceLinkService;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
 import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
+import site.coduo.referencelink.service.dto.ReferenceLinkUpdateRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,10 +40,18 @@ public class ReferenceLinkController {
         return ResponseEntity.ok(responses);
     }
 
+    @PatchMapping("/reference-link")
+    public ResponseEntity<Void> update(@Valid @RequestBody final ReferenceLinkUpdateRequest request) {
+        referenceLinkService.updateReferenceLinkCommand(request);
+
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/reference-link/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") final Long id) {
         referenceLinkService.deleteReferenceLinkCommand(id);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent()
+                .build();
     }
 }

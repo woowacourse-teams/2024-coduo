@@ -14,6 +14,7 @@ import site.coduo.referencelink.domain.ReferenceLink;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
 import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
+import site.coduo.referencelink.service.dto.ReferenceLinkUpdateRequest;
 
 @Transactional
 @SpringBootTest
@@ -65,5 +66,24 @@ class ReferenceLinkServiceTest {
 
         // then
         assertThat(referenceLinkRepository.findAll()).isEmpty();
+    }
+
+
+    @Test
+    @DisplayName("레퍼런스 링크를 수정한다.")
+    void update_reference_link() {
+        // given
+        final ReferenceLink referenceLink = new ReferenceLink("origin url");
+        referenceLinkRepository.save(referenceLink);
+        final ReferenceLinkUpdateRequest request = new ReferenceLinkUpdateRequest(referenceLink.getId(),
+                "change url");
+
+        // when
+        referenceLinkService.updateReferenceLinkCommand(request);
+
+        // then
+        assertThat(referenceLink.getUrl()).isEqualTo(request.url());
+        assertThat(referenceLinkRepository.findById(referenceLink.getId()).orElseThrow().getUrl())
+                .isEqualTo(request.url());
     }
 }

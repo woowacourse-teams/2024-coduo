@@ -32,6 +32,10 @@ public class ReferenceLink extends BaseTimeEntity {
         this.url = url;
     }
 
+    public void update(final String url) {
+        this.url = url;
+    }
+
     @Override
     public final boolean equals(final Object o) {
         if (this == o) {

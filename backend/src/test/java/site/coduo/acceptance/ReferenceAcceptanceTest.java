@@ -13,7 +13,6 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
 class ReferenceAcceptanceTest extends AcceptanceFixture {
-
     @Test
     @DisplayName("레퍼런스 링크 생성 요청")
     void reference_link_create_request() {
@@ -71,7 +70,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
 
     @Test
     @DisplayName("레퍼런스 링크를 삭제하는 요청")
-    void delete_reference_link() {
+    void delete_reference_link_request() {
         // given
         createReferenceLink("url");
 
@@ -87,5 +86,26 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
                 .then()
                 .assertThat()
                 .statusCode(HttpStatus.NO_CONTENT.value());
+    }
+
+    @Test
+    @DisplayName("레퍼런스 링크를 수정하는 요청")
+    void update_reference_link_request() {
+        // given
+        createReferenceLink("url1");
+        Map<String, String> request = Map.of("id", "1", "url", "changed url");
+
+        // when & then
+        RestAssured
+                .given()
+                .contentType(ContentType.JSON)
+                .body(request)
+
+                .when()
+                .patch("/reference-link")
+
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value());
     }
 }

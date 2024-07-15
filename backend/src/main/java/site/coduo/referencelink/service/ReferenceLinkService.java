@@ -7,9 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.referencelink.domain.ReferenceLink;
+import site.coduo.referencelink.exception.ReferenceLinkNotFoundException;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
 import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
+import site.coduo.referencelink.service.dto.ReferenceLinkUpdateRequest;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +31,14 @@ public class ReferenceLinkService {
                 .stream()
                 .map(referenceLink -> new ReferenceLinkResponse(referenceLink.getUrl()))
                 .toList();
+    }
+
+    @Transactional
+    public void updateReferenceLinkCommand(final ReferenceLinkUpdateRequest request) {
+        final ReferenceLink referenceLink = referenceLinkRepository.findById(request.id())
+                .orElseThrow(() -> new ReferenceLinkNotFoundException("찾을 수 없는 레퍼런스 링크입니다."));
+
+        referenceLink.update(request.url());
     }
 
     @Transactional
