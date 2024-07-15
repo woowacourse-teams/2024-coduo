@@ -1,22 +1,19 @@
 package site.coduo.pairroom.domain;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Entity
-public class PairRoom {
+public class PairRoom extends BaseTimeEntity {
 
     public static final int ACCESS_CODE_LENGTH = 6;
 
@@ -33,8 +30,19 @@ public class PairRoom {
     @Column(nullable = false)
     private String accessCode;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
+    public PairRoom(final String pairAName, final String pairBName, final String accessCode) {
+        this.pairAName = pairAName;
+        this.pairBName = pairBName;
+        this.accessCode = accessCode;
+    }
 
-    private LocalDateTime updatedAt;
+    @Override
+    public String toString() {
+        return "PairRoom{" +
+               "id=" + id +
+               ", pairAName='" + pairAName + '\'' +
+               ", pairBName='" + pairBName + '\'' +
+               ", accessCode='" + accessCode + '\'' +
+               '}';
+    }
 }

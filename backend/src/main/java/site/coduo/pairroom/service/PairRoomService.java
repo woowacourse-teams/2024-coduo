@@ -1,6 +1,5 @@
 package site.coduo.pairroom.service;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -17,9 +16,8 @@ public class PairRoomService {
     private final PairRoomRepository repository;
 
     public String save(final CreatePairRoom createPairRoom) {
-        final UUID uuid = UUID.randomUUID();
-        final PairRoom pairRoom = new PairRoom(null, createPairRoom.nameA(), createPairRoom.nameB(),
-                uuid.toString().substring(PairRoom.ACCESS_CODE_LENGTH), LocalDateTime.now(), null);
+        final String uuid = UUID.randomUUID().toString().substring(PairRoom.ACCESS_CODE_LENGTH);
+        final PairRoom pairRoom = new PairRoom(createPairRoom.nameA(), createPairRoom.nameB(), uuid);
         final PairRoom saved = repository.save(pairRoom);
         return saved.getAccessCode();
     }
