@@ -102,7 +102,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
                 .body(request)
 
                 .when()
-                .patch("/reference-link")
+                .patch("/reference-link/1")
 
                 .then()
                 .assertThat()

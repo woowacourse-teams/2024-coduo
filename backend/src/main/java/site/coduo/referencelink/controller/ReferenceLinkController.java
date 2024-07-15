@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import site.coduo.referencelink.controller.docs.ReferenceLinkDocs;
 import site.coduo.referencelink.service.ReferenceLinkService;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
 import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
@@ -22,7 +23,7 @@ import site.coduo.referencelink.service.dto.ReferenceLinkUpdateRequest;
 
 @RestController
 @RequiredArgsConstructor
-public class ReferenceLinkController {
+public class ReferenceLinkController implements ReferenceLinkDocs {
     private final ReferenceLinkService referenceLinkService;
 
     @PostMapping("/reference-link")
@@ -40,12 +41,16 @@ public class ReferenceLinkController {
         return ResponseEntity.ok(responses);
     }
 
-    @PatchMapping("/reference-link")
-    public ResponseEntity<Void> update(@Valid @RequestBody final ReferenceLinkUpdateRequest request) {
-        referenceLinkService.updateReferenceLinkCommand(request);
+    @PatchMapping("/reference-link/{id}")
+    public ResponseEntity<Void> update(
+            @PathVariable("id") final long id,
+            @Valid @RequestBody final ReferenceLinkUpdateRequest request
+    ) {
+        referenceLinkService.updateReferenceLinkCommand(id, request);
 
         return ResponseEntity.ok().build();
     }
+
 
     @DeleteMapping("/reference-link/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") final Long id) {

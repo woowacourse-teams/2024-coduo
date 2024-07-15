@@ -34,8 +34,8 @@ public class ReferenceLinkService {
     }
 
     @Transactional
-    public void updateReferenceLinkCommand(final ReferenceLinkUpdateRequest request) {
-        final ReferenceLink referenceLink = referenceLinkRepository.findById(request.id())
+    public void updateReferenceLinkCommand(final long id, final ReferenceLinkUpdateRequest request) {
+        final ReferenceLink referenceLink = referenceLinkRepository.findById(id)
                 .orElseThrow(() -> new ReferenceLinkNotFoundException("찾을 수 없는 레퍼런스 링크입니다."));
 
         referenceLink.update(request.url());

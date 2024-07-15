@@ -75,11 +75,10 @@ class ReferenceLinkServiceTest {
         // given
         final ReferenceLink referenceLink = new ReferenceLink("origin url");
         referenceLinkRepository.save(referenceLink);
-        final ReferenceLinkUpdateRequest request = new ReferenceLinkUpdateRequest(referenceLink.getId(),
-                "change url");
+        final ReferenceLinkUpdateRequest request = new ReferenceLinkUpdateRequest("change url");
 
         // when
-        referenceLinkService.updateReferenceLinkCommand(request);
+        referenceLinkService.updateReferenceLinkCommand(referenceLink.getId(), request);
 
         // then
         assertThat(referenceLink.getUrl()).isEqualTo(request.url());
