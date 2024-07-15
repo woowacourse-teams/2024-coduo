@@ -3,7 +3,7 @@ spring:
     active: local
 
   datasource:
-    url: jdbc:h2:mem:database
+    url: jdbc:h2:mem:coduo
 
   jpa:
     database: h2
