@@ -1,5 +1,7 @@
 package site.coduo.acceptance;
 
+import static org.hamcrest.Matchers.is;
+
 import java.util.Map;
 
 import org.junit.jupiter.api.DisplayName;
@@ -31,5 +33,38 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
                 .then()
                 .statusCode(HttpStatus.CREATED.value())
                 .header(HttpHeaders.LOCATION, "/");
+    }
+
+    @Test
+    @DisplayName("모든 레퍼런스 링크를 조회하는 요청")
+    void read_all_reference_link_request() {
+        // given
+        createReferenceLink("url1");
+        createReferenceLink("url2");
+
+        // when & then
+        RestAssured
+                .given()
+                .contentType(ContentType.JSON)
+
+                .when()
+                .get("/reference-link")
+
+                .then()
+                .statusCode(HttpStatus.OK.value())
+                .body("size()", is(2));
+    }
+
+    void createReferenceLink(final String url) {
+        final Map<String, Object> request = Map.of("url", url);
+
+        RestAssured
+                .given()
+                .contentType(ContentType.JSON)
+                .body(request)
+
+                .when()
+                .log().all()
+                .post("/reference-link");
     }
 }

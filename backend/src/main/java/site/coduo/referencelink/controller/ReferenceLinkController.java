@@ -1,10 +1,12 @@
 package site.coduo.referencelink.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import site.coduo.referencelink.service.ReferenceLinkService;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
+import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,5 +27,12 @@ public class ReferenceLinkController {
 
         return ResponseEntity.created(URI.create("/"))
                 .build();
+    }
+
+    @GetMapping("/reference-link")
+    public ResponseEntity<List<ReferenceLinkResponse>> readAll() {
+        final List<ReferenceLinkResponse> responses = referenceLinkService.readAllReferenceLinkQuery();
+
+        return ResponseEntity.ok(responses);
     }
 }
