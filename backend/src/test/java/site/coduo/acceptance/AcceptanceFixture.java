@@ -16,6 +16,7 @@ abstract class AcceptanceFixture {
 
     @Autowired
     private ReferenceLinkRepository referenceLinkRepository;
+    
     @Autowired
     private JdbcTemplate jdbcTemplate;
 

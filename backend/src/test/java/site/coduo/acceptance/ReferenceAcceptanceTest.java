@@ -13,6 +13,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
 class ReferenceAcceptanceTest extends AcceptanceFixture {
+    
     @Test
     @DisplayName("레퍼런스 링크 생성 요청")
     void reference_link_create_request() {

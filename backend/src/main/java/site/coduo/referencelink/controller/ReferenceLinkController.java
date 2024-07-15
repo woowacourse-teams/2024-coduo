@@ -21,9 +21,10 @@ import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
 import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
 import site.coduo.referencelink.service.dto.ReferenceLinkUpdateRequest;
 
-@RestController
 @RequiredArgsConstructor
+@RestController
 public class ReferenceLinkController implements ReferenceLinkDocs {
+
     private final ReferenceLinkService referenceLinkService;
 
     @PostMapping("/reference-link")
@@ -53,7 +54,7 @@ public class ReferenceLinkController implements ReferenceLinkDocs {
 
 
     @DeleteMapping("/reference-link/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") final Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") final long id) {
         referenceLinkService.deleteReferenceLinkCommand(id);
 
         return ResponseEntity.noContent()

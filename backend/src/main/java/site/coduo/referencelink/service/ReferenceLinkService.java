@@ -13,9 +13,9 @@ import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
 import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
 import site.coduo.referencelink.service.dto.ReferenceLinkUpdateRequest;
 
-@Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Service
 public class ReferenceLinkService {
 
     private final ReferenceLinkRepository referenceLinkRepository;

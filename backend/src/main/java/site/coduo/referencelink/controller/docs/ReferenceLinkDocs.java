@@ -42,5 +42,5 @@ public interface ReferenceLinkDocs {
     @Operation(summary = "레퍼런스 링크를 삭제한다.")
     @ApiResponse(responseCode = "200", description = "레퍼런스 링크 삭제 성공", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     @ApiResponse(responseCode = "4xx", description = "레퍼런스 링크 삭제 실패", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class)))
-    ResponseEntity<Void> delete(@Parameter(description = "레퍼런스 링크 식별자", required = true) Long id);
+    ResponseEntity<Void> delete(@Parameter(description = "레퍼런스 링크 식별자", required = true) long id);
 }
