@@ -1,4 +1,4 @@
-package site.coduo.coduo.bookmark.controller.error;
+package site.coduo.bookmark.controller.error;
 
 import org.springframework.http.HttpStatus;
 

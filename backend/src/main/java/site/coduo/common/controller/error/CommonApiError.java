@@ -1,4 +1,4 @@
-package site.coduo.coduo.common.controller.error;
+package site.coduo.common.controller.error;
 
 import org.springframework.http.HttpStatus;
 

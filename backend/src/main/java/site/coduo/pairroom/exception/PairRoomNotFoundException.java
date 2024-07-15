@@ -1,4 +1,4 @@
-package site.coduo.coduo.pairroom.exception;
+package site.coduo.pairroom.exception;
 
 public class PairRoomNotFoundException extends PairRoomException {
 

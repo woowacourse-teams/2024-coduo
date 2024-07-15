@@ -1,4 +1,4 @@
-package site.coduo.coduo.common.infrastructure.swagger.config;
+package site.coduo.common.infrastructure.swagger.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

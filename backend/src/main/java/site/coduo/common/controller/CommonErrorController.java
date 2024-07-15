@@ -1,12 +1,12 @@
-package site.coduo.coduo.common.controller;
+package site.coduo.common.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import lombok.extern.slf4j.Slf4j;
-import site.coduo.coduo.common.controller.response.ApiErrorResponse;
-import site.coduo.coduo.common.controller.error.CommonApiError;
+import site.coduo.common.controller.error.CommonApiError;
+import site.coduo.common.controller.response.ApiErrorResponse;
 
 @Slf4j
 @RestControllerAdvice

@@ -1,4 +1,4 @@
-package site.coduo.coduo.common.controller.response;
+package site.coduo.common.controller.response;
 
 public record ApiErrorResponse(String message) {
 }

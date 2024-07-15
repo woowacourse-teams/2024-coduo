@@ -1,6 +1,6 @@
-package site.coduo.coduo.bookmark.exception;
+package site.coduo.bookmark.exception;
 
-import site.coduo.coduo.common.exception.CoduoException;
+import site.coduo.common.exception.CoduoException;
 
 public class BookMarkException extends CoduoException {
 

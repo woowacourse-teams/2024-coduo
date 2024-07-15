@@ -1,4 +1,4 @@
-package site.coduo.coduo.pairroom.controller.error;
+package site.coduo.pairroom.controller.error;
 
 import org.springframework.http.HttpStatus;
 

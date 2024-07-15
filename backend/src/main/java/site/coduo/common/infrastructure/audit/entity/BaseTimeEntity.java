@@ -1,4 +1,4 @@
-package site.coduo.coduo.common.infrastructure.audit.entity;
+package site.coduo.common.infrastructure.audit.entity;
 
 import java.time.LocalDateTime;
 

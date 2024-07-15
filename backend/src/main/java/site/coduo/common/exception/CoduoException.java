@@ -1,4 +1,4 @@
-package site.coduo.coduo.common.exception;
+package site.coduo.common.exception;
 
 public class CoduoException extends RuntimeException {
 

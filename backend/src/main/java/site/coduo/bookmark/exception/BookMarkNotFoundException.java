@@ -1,4 +1,4 @@
-package site.coduo.coduo.bookmark.exception;
+package site.coduo.bookmark.exception;
 
 public class BookMarkNotFoundException extends BookMarkException {
 
