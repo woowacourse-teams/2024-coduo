@@ -1,10 +1,12 @@
-create table pair_room (
-    id bigint not null auto_increment,
-    pair1_name varchar(255) not null,
-    pair2_name varchar(255) not null,
-    access_code varchar(50) not null,
-    created_at timestamp not null,
-    updated_at timestamp,
-    primary key (id),
-    unique (access_code)
+CREATE TABLE PAIR_ROOM
+(
+    ID          BIGINT       NOT NULL AUTO_INCREMENT,
+    PAIR1_NAME  VARCHAR(255) NOT NULL,
+    PAIR2_NAME  VARCHAR(255) NOT NULL,
+    ACCESS_CODE VARCHAR(50)  NOT NULL,
+    CREATED_AT  TIMESTAMP    NOT NULL,
+    UPDATED_AT  TIMESTAMP,
+
+    PRIMARY KEY (ID),
+    UNIQUE (ACCESS_CODE)
 );
