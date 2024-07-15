@@ -21,3 +21,9 @@ spring:
   h2:
     console:
       enabled: true
+
+springdoc:
+  swagger-ui:
+    persist-authorization: true
+    default-models-expand-depth: -1
+    path: /api-docs
