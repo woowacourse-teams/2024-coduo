@@ -9,5 +9,4 @@ class CoduoApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

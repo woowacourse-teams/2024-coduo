@@ -9,5 +9,4 @@ public class CoduoApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CoduoApplication.class, args);
 	}
-
 }
