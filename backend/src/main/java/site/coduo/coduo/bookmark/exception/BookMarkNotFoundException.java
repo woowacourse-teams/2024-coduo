@@ -2,11 +2,11 @@ package site.coduo.coduo.bookmark.exception;
 
 public class BookMarkNotFoundException extends BookMarkException {
 
-    public BookMarkNotFoundException(String message) {
+    public BookMarkNotFoundException(final String message) {
         super(message);
     }
 
-    public BookMarkNotFoundException(String message, Throwable cause) {
+    public BookMarkNotFoundException(final String message, final Throwable cause) {
         super(message, cause);
     }
 }

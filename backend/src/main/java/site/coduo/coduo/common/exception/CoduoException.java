@@ -2,11 +2,11 @@ package site.coduo.coduo.common.exception;
 
 public class CoduoException extends RuntimeException {
 
-    public CoduoException(String message) {
+    public CoduoException(final String message) {
         super(message);
     }
 
-    public CoduoException(String message, Throwable cause) {
+    public CoduoException(final String message, final Throwable cause) {
         super(message, cause);
     }
 }

@@ -2,11 +2,11 @@ package site.coduo.coduo.pairroom.exception;
 
 public class PairRoomNotFoundException extends PairRoomException {
 
-    public PairRoomNotFoundException(String message) {
+    public PairRoomNotFoundException(final String message) {
         super(message);
     }
 
-    public PairRoomNotFoundException(String message, Throwable cause) {
+    public PairRoomNotFoundException(final String message, final Throwable cause) {
         super(message, cause);
     }
 }

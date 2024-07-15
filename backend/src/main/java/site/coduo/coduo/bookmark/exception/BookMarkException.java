@@ -4,11 +4,11 @@ import site.coduo.coduo.common.exception.CoduoException;
 
 public class BookMarkException extends CoduoException {
 
-    public BookMarkException(String message) {
+    public BookMarkException(final String message) {
         super(message);
     }
 
-    public BookMarkException(String message, Throwable cause) {
+    public BookMarkException(final String message, final Throwable cause) {
         super(message, cause);
     }
 }
