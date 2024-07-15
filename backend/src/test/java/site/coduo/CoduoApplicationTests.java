@@ -1,4 +1,4 @@
-package site.coduo.coduo;
+package site.coduo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
