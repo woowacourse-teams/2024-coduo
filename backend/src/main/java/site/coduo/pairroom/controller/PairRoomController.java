@@ -1,6 +1,7 @@
 package site.coduo.pairroom.controller;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,7 @@ import site.coduo.pairroom.service.PairRoomService;
 
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class PairRoomController {
 
     private final PairRoomService service;

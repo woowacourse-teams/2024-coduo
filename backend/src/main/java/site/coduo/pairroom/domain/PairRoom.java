@@ -42,8 +42,8 @@ public class PairRoom extends BaseTimeEntity {
     public String toString() {
         return "PairRoom{" +
                "id=" + id +
-               ", pairAName='" + pairAName + '\'' +
-               ", pairBName='" + pairBName + '\'' +
+               ", nameA='" + pairAName + '\'' +
+               ", nameB='" + pairBName + '\'' +
                ", accessCode='" + accessCode + '\'' +
                '}';
     }
