@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import site.coduo.pairroom.controller.docs.PairRoomDocs;
 import site.coduo.pairroom.dto.CreatePairRoom;
 import site.coduo.pairroom.dto.PairRoomRequest;
 import site.coduo.pairroom.dto.PairRoomResponse;
@@ -19,7 +20,7 @@ import site.coduo.pairroom.service.PairRoomService;
 @RequiredArgsConstructor
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
-public class PairRoomController {
+public class PairRoomController implements PairRoomDocs {
 
     private final PairRoomService service;
 
