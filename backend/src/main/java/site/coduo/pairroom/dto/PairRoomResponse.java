@@ -1,4 +1,7 @@
 package site.coduo.pairroom.dto;
 
-public record PairRoomResponse(String accessCode) {
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "페어룸 생성 응답 바디")
+public record PairRoomResponse(@Schema(description = "페어룸 접근 코드", example = "abcdef") String accessCode) {
 }
