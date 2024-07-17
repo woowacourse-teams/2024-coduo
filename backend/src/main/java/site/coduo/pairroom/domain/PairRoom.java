@@ -7,9 +7,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import org.apache.commons.lang3.StringUtils;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
+import site.coduo.pairroom.exception.InvalidNameFormatException;
 
 @Getter
 @NoArgsConstructor
@@ -31,17 +34,24 @@ public class PairRoom extends BaseTimeEntity {
     private AccessCode accessCode;
 
     public PairRoom(final String firstPair, final String secondPair) {
+        validate(firstPair, secondPair);
         this.firstPair = firstPair;
         this.secondPair = secondPair;
         this.accessCode = new AccessCode();
+    }
+
+    private void validate(final String firstPair, final String secondPair) {
+        if (StringUtils.isBlank(firstPair) || StringUtils.isBlank(secondPair)) {
+            throw new InvalidNameFormatException("페어의 이름이 비어있습니다.");
+        }
     }
 
     @Override
     public String toString() {
         return "PairRoom{" +
                "id=" + id +
-               ", nameA='" + firstPair + '\'' +
-               ", nameB='" + secondPair + '\'' +
+               ", firstPair='" + firstPair + '\'' +
+               ", secondPair='" + secondPair + '\'' +
                ", accessCode='" + accessCode + '\'' +
                '}';
     }
