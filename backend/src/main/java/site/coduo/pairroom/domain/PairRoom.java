@@ -16,8 +16,6 @@ import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
 @Entity
 public class PairRoom extends BaseTimeEntity {
 
-    public static final int ACCESS_CODE_LENGTH = 6;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,7 +33,7 @@ public class PairRoom extends BaseTimeEntity {
     public PairRoom(final String pairAName, final String pairBName) {
         this.pairAName = pairAName;
         this.pairBName = pairBName;
-        this.accessCode = AccessCode.generate();
+        this.accessCode = new AccessCode();
     }
 
     @Override

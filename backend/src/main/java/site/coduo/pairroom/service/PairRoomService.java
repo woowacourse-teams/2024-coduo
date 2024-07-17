@@ -18,7 +18,7 @@ public class PairRoomService {
         final PairRoom pairRoom = new PairRoom(createPairRoom.nameA(), createPairRoom.nameB());
         final PairRoom saved = repository.save(pairRoom);
         return saved.getAccessCode()
-                .value();
+                .getValue();
     }
 
     public PairRoom findByAccessCode(final String accessCode) {
