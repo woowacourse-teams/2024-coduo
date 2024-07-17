@@ -20,19 +20,19 @@ public class PairRoom extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "PAIR1_NAME", nullable = false)
-    private String pairAName;
+    @Column(name = "FIRST_PAIR", nullable = false)
+    private String firstPair;
 
-    @Column(name = "PAIR2_NAME", nullable = false)
-    private String pairBName;
+    @Column(name = "SECOND_PAIR", nullable = false)
+    private String secondPair;
 
     @Embedded
     @Column(name = "ACCESS_CODE", nullable = false)
     private AccessCode accessCode;
 
-    public PairRoom(final String pairAName, final String pairBName) {
-        this.pairAName = pairAName;
-        this.pairBName = pairBName;
+    public PairRoom(final String firstPair, final String secondPair) {
+        this.firstPair = firstPair;
+        this.secondPair = secondPair;
         this.accessCode = new AccessCode();
     }
 
@@ -40,8 +40,8 @@ public class PairRoom extends BaseTimeEntity {
     public String toString() {
         return "PairRoom{" +
                "id=" + id +
-               ", nameA='" + pairAName + '\'' +
-               ", nameB='" + pairBName + '\'' +
+               ", nameA='" + firstPair + '\'' +
+               ", nameB='" + secondPair + '\'' +
                ", accessCode='" + accessCode + '\'' +
                '}';
     }
