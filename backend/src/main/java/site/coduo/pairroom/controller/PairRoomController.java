@@ -1,6 +1,9 @@
 package site.coduo.pairroom.controller;
 
+import java.net.URI;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,13 +28,15 @@ public class PairRoomController implements PairRoomDocs {
     private final PairRoomService service;
 
     @GetMapping("/pair-room")
-    public PairRoomReadResponse getPairRoom(@RequestParam("accessCode") final PairRoomReadRequest accessCode) {
-        return PairRoomReadResponse.from(service.findByAccessCode(accessCode.accessCode()));
+    public ResponseEntity<PairRoomReadResponse> getPairRoom(@RequestParam("accessCode") final PairRoomReadRequest accessCode) {
+        final PairRoomReadResponse response = PairRoomReadResponse.from(service.findByAccessCode(accessCode.accessCode()));
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/pair-room")
-    @ResponseStatus(HttpStatus.CREATED)
-    public PairRoomCreateResponse createPairRoom(@RequestBody final PairRoomCreateRequest pairRoomCreateRequest) {
-        return new PairRoomCreateResponse(service.save(pairRoomCreateRequest));
+    public ResponseEntity<PairRoomCreateResponse> createPairRoom(@RequestBody final PairRoomCreateRequest pairRoomCreateRequest) {
+        final PairRoomCreateResponse response = new PairRoomCreateResponse(service.save(pairRoomCreateRequest));
+        return ResponseEntity.created(URI.create("/"))
+                .body(response);
     }
 }
