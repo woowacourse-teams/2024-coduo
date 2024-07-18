@@ -10,6 +10,7 @@ module.exports = {
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:import/typescript',
+    'plugin:import/recommended',
     'plugin:storybook/recommended',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs', '**/*.config.js'],
@@ -18,6 +19,13 @@ module.exports = {
     react: {
       version: 'detect',
     },
+    'import/resolver': {
+      node: {},
+      typescript: {
+        directory: './src',
+      },
+    },
+    'import/parsers': { '@typescript-eslint/parser': ['.ts', '.tsx'] },
   },
   rules: {
     // 함수 선언
@@ -42,5 +50,66 @@ module.exports = {
 
     // 기타
     'import/no-named-as-default': 0,
+
+    // import문 순서
+    'import/order': [
+      'error',
+      {
+        groups: [
+          'builtin', // Node.js 내장 모듈
+          'external', // 외부 라이브러리
+          'internal', // 내부 모듈
+          ['parent', 'sibling', 'index'], // 상대 경로 모듈
+        ],
+        pathGroups: [
+          {
+            pattern: 'react*',
+            group: 'builtin',
+            position: 'before',
+          },
+          {
+            pattern: '@/pages/**',
+            group: 'internal',
+            position: 'after',
+          },
+          {
+            pattern: '@/components/**',
+            group: 'internal',
+            position: 'after',
+          },
+          {
+            pattern: '@/hooks/**',
+            group: 'internal',
+            position: 'after',
+          },
+          {
+            pattern: '@/utils/**',
+            group: 'internal',
+            position: 'after',
+          },
+          {
+            pattern: '@/types/**',
+            group: 'internal',
+            position: 'after',
+          },
+          {
+            pattern: '@/constants/**',
+            group: 'internal',
+            position: 'after',
+          },
+          {
+            pattern: '@/styles/**',
+            group: 'internal',
+            position: 'after',
+          },
+        ],
+        pathGroupsExcludedImportTypes: ['builtin'],
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: true,
+        },
+        'newlines-between': 'always',
+      },
+    ],
   },
 };
