@@ -10,7 +10,6 @@ module.exports = {
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:import/typescript',
-    'plugin:import/recommended',
     'plugin:storybook/recommended',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs', '**/*.config.js'],
