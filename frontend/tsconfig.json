@@ -19,7 +19,16 @@
     "noFallthroughCasesInSwitch": true,
 
     /* Testing */
-    "esModuleInterop": true
+    "esModuleInterop": true,
+
+    /* Path */
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["src/*"],
+      "@/pages/*": ["src/pages/*"],
+      "@/components/*": ["src/components/*"],
+      "@/hooks/*": ["src/hooks/*"]
+    }
   },
   "include": ["src"]
 }
