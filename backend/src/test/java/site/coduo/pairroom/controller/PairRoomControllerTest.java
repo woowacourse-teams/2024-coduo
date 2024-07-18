@@ -9,8 +9,8 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 
 import io.restassured.RestAssured;
-import site.coduo.pairroom.dto.CreatePairRoom;
-import site.coduo.pairroom.dto.PairRoomResponse;
+import site.coduo.pairroom.dto.PairRoomCreateRequest;
+import site.coduo.pairroom.dto.PairRoomCreateResponse;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class PairRoomControllerTest {
@@ -27,7 +27,7 @@ class PairRoomControllerTest {
     @DisplayName("페어룸 요청 시 정보를 반환한다.")
     void show_pair_room() {
         //given
-        final PairRoomResponse pairRoomUrl = createPairRoom(new CreatePairRoom("레디", "프람"));
+        final PairRoomCreateResponse pairRoomUrl = createPairRoom(new PairRoomCreateRequest("레디", "프람"));
 
         //when & then
         RestAssured.given().log().all()
@@ -37,13 +37,13 @@ class PairRoomControllerTest {
                 .statusCode(200);
     }
 
-    PairRoomResponse createPairRoom(final CreatePairRoom pairRoom) {
+    PairRoomCreateResponse createPairRoom(final PairRoomCreateRequest pairRoom) {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .body(pairRoom)
                 .when().post("/pair-room")
                 .then().log().all()
-                .extract().as(PairRoomResponse.class);
+                .extract().as(PairRoomCreateResponse.class);
     }
 }

@@ -7,43 +7,51 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import org.apache.commons.lang3.StringUtils;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
+import site.coduo.pairroom.exception.InvalidNameFormatException;
 
 @Getter
 @NoArgsConstructor
 @Entity
 public class PairRoom extends BaseTimeEntity {
 
-    public static final int ACCESS_CODE_LENGTH = 6;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "PAIR1_NAME", nullable = false)
-    private String pairAName;
+    @Column(name = "FIRST_PAIR", nullable = false)
+    private String firstPair;
 
-    @Column(name = "PAIR2_NAME", nullable = false)
-    private String pairBName;
+    @Column(name = "SECOND_PAIR", nullable = false)
+    private String secondPair;
 
     @Embedded
     @Column(name = "ACCESS_CODE", nullable = false)
     private AccessCode accessCode;
 
-    public PairRoom(final String pairAName, final String pairBName) {
-        this.pairAName = pairAName;
-        this.pairBName = pairBName;
-        this.accessCode = AccessCode.generate();
+    public PairRoom(final String firstPair, final String secondPair) {
+        validate(firstPair, secondPair);
+        this.firstPair = firstPair;
+        this.secondPair = secondPair;
+        this.accessCode = new AccessCode();
+    }
+
+    private void validate(final String firstPair, final String secondPair) {
+        if (StringUtils.isBlank(firstPair) || StringUtils.isBlank(secondPair)) {
+            throw new InvalidNameFormatException("페어의 이름이 비어있습니다.");
+        }
     }
 
     @Override
     public String toString() {
         return "PairRoom{" +
                "id=" + id +
-               ", nameA='" + pairAName + '\'' +
-               ", nameB='" + pairBName + '\'' +
+               ", firstPair='" + firstPair + '\'' +
+               ", secondPair='" + secondPair + '\'' +
                ", accessCode='" + accessCode + '\'' +
                '}';
     }
