@@ -11,6 +11,10 @@ public record PairRoomReadResponse(
 ) {
 
     public static PairRoomReadResponse from(final PairRoom pairRoom) {
-        return new PairRoomReadResponse(pairRoom.getId(), pairRoom.getFirstPair(), pairRoom.getSecondPair());
+        return new PairRoomReadResponse(
+                pairRoom.getId(),
+                pairRoom.getPair().getFirstPair().getValue(),
+                pairRoom.getPair().getSecondPair().getValue()
+        );
     }
 }
