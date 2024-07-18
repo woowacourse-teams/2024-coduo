@@ -1,53 +1,23 @@
 package site.coduo.referencelink.domain;
 
-import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
+import site.coduo.referencelink.exception.InvalidUrlFormatException;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity
-public class ReferenceLink extends BaseTimeEntity {
+public class ReferenceLink {
 
-    @Id
-    @Column(name = "ID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "URL", nullable = false)
-    private String url;
+    private final String url;
 
     public ReferenceLink(final String url) {
+        validate(url);
         this.url = url;
     }
 
-    public void update(final String url) {
-        this.url = url;
-    }
-
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
+    private void validate(final String url) {
+        if (StringUtils.isBlank(url)) {
+            throw new InvalidUrlFormatException("url이 비어있습니다.");
         }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        ReferenceLink that = (ReferenceLink) o;
-        return Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
     }
 }

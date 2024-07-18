@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import site.coduo.referencelink.domain.ReferenceLink;
+import site.coduo.referencelink.repository.ReferenceLinkEntity;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
 import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
@@ -44,9 +45,9 @@ class ReferenceLinkServiceTest {
     @DisplayName("모든 레퍼런스 링크를 조회한다.")
     void search_all_reference_link() {
         // given
-        referenceLinkRepository.save(new ReferenceLink("url1"));
-        referenceLinkRepository.save(new ReferenceLink("url2"));
-        referenceLinkRepository.save(new ReferenceLink("url3"));
+        referenceLinkRepository.save(new ReferenceLinkEntity(new ReferenceLink("url1")));
+        referenceLinkRepository.save(new ReferenceLinkEntity(new ReferenceLink("url2")));
+        referenceLinkRepository.save(new ReferenceLinkEntity(new ReferenceLink("url3")));
 
         // when
         final List<ReferenceLinkResponse> responses = referenceLinkService.readAllReferenceLinkQuery();
@@ -59,7 +60,8 @@ class ReferenceLinkServiceTest {
     @DisplayName("레퍼런스 링크를 삭제한다.")
     void delete_reference_link() {
         // given
-        final ReferenceLink link = referenceLinkRepository.save(new ReferenceLink("url1"));
+        final ReferenceLinkEntity link = referenceLinkRepository.save(
+                new ReferenceLinkEntity(new ReferenceLink("url1")));
 
         // when
         referenceLinkService.deleteReferenceLinkCommand(link.getId());
@@ -68,21 +70,20 @@ class ReferenceLinkServiceTest {
         assertThat(referenceLinkRepository.findAll()).isEmpty();
     }
 
-
     @Test
     @DisplayName("레퍼런스 링크를 수정한다.")
     void update_reference_link() {
         // given
-        final ReferenceLink referenceLink = new ReferenceLink("origin url");
-        referenceLinkRepository.save(referenceLink);
+        final ReferenceLinkEntity referenceLinkEntity = new ReferenceLinkEntity(new ReferenceLink("origin url"));
+        referenceLinkRepository.save(referenceLinkEntity);
         final ReferenceLinkUpdateRequest request = new ReferenceLinkUpdateRequest("change url");
 
         // when
-        referenceLinkService.updateReferenceLinkCommand(referenceLink.getId(), request);
+        referenceLinkService.updateReferenceLinkCommand(referenceLinkEntity.getId(), request);
 
         // then
-        assertThat(referenceLink.getUrl()).isEqualTo(request.url());
-        assertThat(referenceLinkRepository.findById(referenceLink.getId()).orElseThrow().getUrl())
+        assertThat(referenceLinkEntity.getUrl()).isEqualTo(request.url());
+        assertThat(referenceLinkRepository.findById(referenceLinkEntity.getId()).orElseThrow().getUrl())
                 .isEqualTo(request.url());
     }
 }

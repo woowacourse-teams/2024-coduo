@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import site.coduo.referencelink.domain.ReferenceLink;
 import site.coduo.referencelink.exception.ReferenceLinkNotFoundException;
+import site.coduo.referencelink.repository.ReferenceLinkEntity;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
 import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
@@ -23,7 +24,8 @@ public class ReferenceLinkService {
     @Transactional
     public void createReferenceLinkCommand(final ReferenceLinkCreateRequest request) {
         final ReferenceLink referenceLink = new ReferenceLink(request.url());
-        referenceLinkRepository.save(referenceLink);
+        final ReferenceLinkEntity referenceLinkEntity = new ReferenceLinkEntity(referenceLink);
+        referenceLinkRepository.save(referenceLinkEntity);
     }
 
     public List<ReferenceLinkResponse> readAllReferenceLinkQuery() {
@@ -35,14 +37,15 @@ public class ReferenceLinkService {
 
     @Transactional
     public void updateReferenceLinkCommand(final long id, final ReferenceLinkUpdateRequest request) {
-        final ReferenceLink referenceLink = referenceLinkRepository.findById(id)
+        final ReferenceLinkEntity referenceLinkEntity = referenceLinkRepository.findById(id)
                 .orElseThrow(() -> new ReferenceLinkNotFoundException("찾을 수 없는 레퍼런스 링크입니다."));
 
-        referenceLink.update(request.url());
+        final ReferenceLink referenceLink = new ReferenceLink(request.url());
+        referenceLinkEntity.update(referenceLink);
     }
 
     @Transactional
-    public void deleteReferenceLinkCommand(final Long id) {
+    public void deleteReferenceLinkCommand(final long id) {
         referenceLinkRepository.deleteById(id);
     }
 }
