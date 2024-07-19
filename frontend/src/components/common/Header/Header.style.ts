@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const ButtonHover = styled.button`
+const ButtonInteraction = styled.button`
   transition:
     transform 0.2s,
     opacity 0.2s;
@@ -8,6 +8,11 @@ const ButtonHover = styled.button`
   &:hover {
     transform: scale(0.95);
     opacity: 0.8;
+  }
+
+  &:active {
+    transform: scale(0.85);
+    opacity: 0.7;
   }
 `;
 
@@ -21,7 +26,7 @@ export const Container = styled.div`
   border-bottom: 0.3rem solid ${({ theme }) => theme.color.black[30]};
 `;
 
-export const LogoWrapper = styled(ButtonHover)``;
+export const LogoWrapper = styled(ButtonInteraction)``;
 
 export const Logo = styled.img`
   height: 3.5rem;
@@ -40,7 +45,7 @@ export const ButtonWrapper = styled.div`
   gap: 3rem;
 `;
 
-export const HomeButton = styled(ButtonHover)`
+export const HomeButton = styled(ButtonInteraction)`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,7 +64,7 @@ export const HowToPairButtonWrapper = styled.div`
   }
 `;
 
-export const HowToPairTextButton = styled(ButtonHover)`
+export const HowToPairTextButton = styled(ButtonInteraction)`
   color: ${({ theme }) => theme.color.black[80]};
   font-size: ${({ theme }) => theme.fontSize.base};
   @media (max-width: 768px) {
@@ -67,7 +72,7 @@ export const HowToPairTextButton = styled(ButtonHover)`
   }
 `;
 
-export const HowToPairIconButton = styled(ButtonHover)`
+export const HowToPairIconButton = styled(ButtonInteraction)`
   color: ${({ theme }) => theme.color.black[80]};
   display: none;
   @media (max-width: 768px) {
