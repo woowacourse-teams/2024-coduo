@@ -47,6 +47,7 @@
     "storybook": "^8.2.4",
     "style-loader": "^4.0.0",
     "ts-loader": "^9.5.1",
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
     "typescript": "^5.5.3",
     "webpack": "^5.92.1",
     "webpack-cli": "^5.1.4",
