@@ -5,7 +5,7 @@ import site.coduo.pairroom.domain.PairRoom;
 
 @Schema(description = "페어룸 조회 응답 바디")
 public record PairRoomReadResponse(
-        @Schema(description = "페어룸 id") Long id,
+        @Schema(description = "페어룸 id") long id,
         @Schema(description = "첫 번째 페어의 이름") String firstPair,
         @Schema(description = "두 번째 페어의 이름") String secondPair
 ) {
