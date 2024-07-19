@@ -4,7 +4,6 @@ export const Layout = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding-bottom: 4rem;
 `;
 
 export const Title = styled.h3`

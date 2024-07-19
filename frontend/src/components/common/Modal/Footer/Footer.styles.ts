@@ -12,7 +12,6 @@ export const Layout = styled.div<{ $direction: Direction }>`
   display: flex;
   justify-content: ${({ $direction }) => DIRECTION_MAPPER[$direction]};
   gap: 1.6rem;
-  padding-top: 4rem;
 `;
 
 export const CancelButton = styled.button`
