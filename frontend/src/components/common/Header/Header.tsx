@@ -5,23 +5,24 @@ import { logo_icon_with_title } from '@/assets';
 
 import * as S from './Header.style';
 
+// TODO: 링크에 따라 href 값 수정 필요
 const Header = () => {
   return (
     <S.Container>
-      <S.LogoWrapper>
+      <S.LogoWrapper href="/">
         <S.Logo src={logo_icon_with_title} alt="logo_icon_with_title" />
       </S.LogoWrapper>
-      <S.ButtonWrapper>
-        <S.HowToPairButtonWrapper>
-          <S.HowToPairTextButton>페어 프로그래밍이란?</S.HowToPairTextButton>
-          <S.HowToPairIconButton>
+      <S.AnchorWrapper>
+        <S.HowToPairAnchorWrapper>
+          <S.HowToPairTextAnchor href="/how-to-pair">페어 프로그래밍이란?</S.HowToPairTextAnchor>
+          <S.HowToPairIconAnchor href="/how-to-pair">
             <HiQuestionMarkCircle style={{ width: '2.5rem', height: '2.5rem' }} />
-          </S.HowToPairIconButton>
-        </S.HowToPairButtonWrapper>
-        <S.HomeButton>
+          </S.HowToPairIconAnchor>
+        </S.HowToPairAnchorWrapper>
+        <S.HomeAnchor href="/">
           <LuHome style={{ width: '2.5rem', height: '2.5rem' }} />
-        </S.HomeButton>
-      </S.ButtonWrapper>
+        </S.HomeAnchor>
+      </S.AnchorWrapper>
     </S.Container>
   );
 };

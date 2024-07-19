@@ -1,18 +1,13 @@
 import styled from 'styled-components';
 
-const ButtonInteraction = styled.button`
-  transition:
-    transform 0.2s,
-    opacity 0.2s;
+const AnchorInteraction = styled.a`
+  transition: all 0.1s;
   cursor: pointer;
   &:hover {
-    transform: scale(0.95);
-    opacity: 0.8;
-  }
-
-  &:active {
-    transform: scale(0.85);
     opacity: 0.7;
+  }
+  &:active {
+    opacity: 0.5;
   }
 `;
 
@@ -26,26 +21,20 @@ export const Container = styled.div`
   border-bottom: 0.3rem solid ${({ theme }) => theme.color.black[30]};
 `;
 
-export const LogoWrapper = styled(ButtonInteraction)``;
+export const LogoWrapper = styled(AnchorInteraction)``;
 
 export const Logo = styled.img`
   height: 3.5rem;
-  cursor: pointer;
-  transition: all 0.2s;
-  &:hover {
-    opacity: 0.8;
-    transform: scale(0.95);
-  }
 `;
 
-export const ButtonWrapper = styled.div`
+export const AnchorWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 3rem;
 `;
 
-export const HomeButton = styled(ButtonInteraction)`
+export const HomeAnchor = styled(AnchorInteraction)`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -53,7 +42,7 @@ export const HomeButton = styled(ButtonInteraction)`
   height: 3rem;
 `;
 
-export const HowToPairButtonWrapper = styled.div`
+export const HowToPairAnchorWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -64,7 +53,7 @@ export const HowToPairButtonWrapper = styled.div`
   }
 `;
 
-export const HowToPairTextButton = styled(ButtonInteraction)`
+export const HowToPairTextAnchor = styled(AnchorInteraction)`
   color: ${({ theme }) => theme.color.black[80]};
   font-size: ${({ theme }) => theme.fontSize.base};
   @media (max-width: 768px) {
@@ -72,7 +61,7 @@ export const HowToPairTextButton = styled(ButtonInteraction)`
   }
 `;
 
-export const HowToPairIconButton = styled(ButtonInteraction)`
+export const HowToPairIconAnchor = styled(AnchorInteraction)`
   color: ${({ theme }) => theme.color.black[80]};
   display: none;
   @media (max-width: 768px) {
