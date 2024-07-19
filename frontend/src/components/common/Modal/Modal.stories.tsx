@@ -19,6 +19,26 @@ const meta = {
       </div>
     ),
   ],
+  argTypes: {
+    position: {
+      options: ['center', 'bottom'],
+      control: { type: 'radio' },
+    },
+    size: {
+      options: ['sm', 'md', 'lg'],
+      control: { type: 'radio' },
+    },
+    backdropType: {
+      options: ['transparent', 'blur', 'opaque'],
+      control: { type: 'radio' },
+    },
+    shadow: {
+      control: { type: 'boolean' },
+    },
+    animation: {
+      control: { type: 'boolean' },
+    },
+  },
 } satisfies Meta<typeof Modal>;
 
 export default meta;
