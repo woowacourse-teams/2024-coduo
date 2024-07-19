@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 
 export const Layout = styled.div`
-  flex-grow: 1;
   overflow-y: auto;
-  padding: 4rem 0;
-  line-height: 1.5rem;
+  margin: 4rem 0;
+  line-height: 1.5;
   font-size: ${({ theme }) => theme.fontSize.base};
 `;

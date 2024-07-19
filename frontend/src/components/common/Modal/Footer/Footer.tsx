@@ -3,19 +3,19 @@ import * as S from './Footer.styles';
 export type Direction = 'left' | 'center' | 'right';
 
 interface FooterProps {
-  confirmText: string;
-  cancelText: string;
+  confirmText?: string;
+  cancelText?: string;
+  direction?: Direction;
   onConfirm: () => void;
   onCancel: () => void;
-  direction?: Direction;
 }
 
 const Footer = ({
   confirmText = '확인',
   cancelText = '취소',
+  direction = 'right',
   onConfirm,
   onCancel,
-  direction = 'right',
 }: FooterProps) => {
   return (
     <S.Layout $direction={direction}>
