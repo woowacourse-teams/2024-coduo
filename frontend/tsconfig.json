@@ -24,11 +24,11 @@
     /* Path */
     "baseUrl": "src",
     "paths": {
-      "@/*": ["src/*"],
-      "@/pages/*": ["src/pages/*"],
-      "@/components/*": ["src/components/*"],
-      "@/hooks/*": ["src/hooks/*"],
-      "@/assets/*": ["src/assets/*"]
+      "@/*": ["./*"],
+      "@/pages/*": ["./pages/*"],
+      "@/components/*": ["./components/*"],
+      "@/hooks/*": ["./hooks/*"],
+      "@/assets/*": ["./assets/*"]
     }
   },
   "include": ["src"]
