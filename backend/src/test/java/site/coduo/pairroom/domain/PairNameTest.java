@@ -1,7 +1,7 @@
 package site.coduo.pairroom.domain;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ class PairNameTest {
         final PairName pairName = new PairName(value);
 
         // then
-        assertEquals(value, pairName.getValue());
+        assertThat(pairName.getValue()).isEqualTo(value);
     }
 
     @Test
@@ -30,6 +30,7 @@ class PairNameTest {
         final String value = "abcdefghijk";
 
         // when & then
-        assertThrows(InvalidNameFormatException.class, () -> new PairName(value));
+        assertThatThrownBy(() -> new PairName(value))
+                .isExactlyInstanceOf(InvalidNameFormatException.class);
     }
 }
