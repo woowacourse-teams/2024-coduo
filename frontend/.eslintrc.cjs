@@ -49,6 +49,7 @@ module.exports = {
 
     // 기타
     'import/no-named-as-default': 0,
+    'import/no-unresolved': 'off',
 
     // import문 순서
     'import/order': [
