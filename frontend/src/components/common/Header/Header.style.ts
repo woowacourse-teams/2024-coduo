@@ -3,15 +3,17 @@ import styled from 'styled-components';
 const AnchorInteraction = styled.a`
   transition: all 0.1s;
   cursor: pointer;
+
   &:hover {
     opacity: 0.7;
   }
+
   &:active {
     opacity: 0.5;
   }
 `;
 
-export const Container = styled.div`
+export const Layout = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -27,7 +29,7 @@ export const Logo = styled.img`
   height: 3.5rem;
 `;
 
-export const AnchorWrapper = styled.div`
+export const AnchorContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -42,7 +44,7 @@ export const HomeAnchor = styled(AnchorInteraction)`
   height: 3rem;
 `;
 
-export const HowToPairAnchorWrapper = styled.div`
+export const HowToPairAnchorContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
