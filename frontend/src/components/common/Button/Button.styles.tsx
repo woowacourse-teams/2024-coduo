@@ -24,8 +24,6 @@ export const BasicButton = styled.button<BasicButtonProp>`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  ${(props) => props.css}
 `;
 
 export const DisabledButton = styled(BasicButton)`
@@ -34,6 +32,8 @@ export const DisabledButton = styled(BasicButton)`
 
   border: 1px solid ${(props) => (props.filled ? 'white' : props.theme.color.black[50])};
   border-radius: ${(props) => (props.rounded ? '50rem' : '1rem')};
+
+  ${(props) => props.css}
 `;
 
 export const Button = styled(BasicButton)<ButtonStyleProp>`
@@ -62,4 +62,6 @@ export const Button = styled(BasicButton)<ButtonStyleProp>`
 
     border: 1px solid ${(props) => (props.filled ? 'white' : props.theme.color[props.color][700])};
   }
+
+  ${(props) => props.css}
 `;

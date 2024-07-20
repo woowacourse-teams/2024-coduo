@@ -18,7 +18,7 @@ interface ButtonProp {
 
   click: () => void;
 
-  children?: React.ReactNode;
+  children: React.ReactNode;
   css?: ReturnType<typeof css>;
 }
 
