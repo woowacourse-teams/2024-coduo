@@ -95,12 +95,6 @@ const ANIMATION_MAPPER = {
   `,
 };
 
-export const CloseButton = styled.button`
-  position: absolute;
-  top: 3.5rem;
-  right: 3.5rem;
-`;
-
 export const Container = styled.div<{
   $size: Size | string;
   $position: Position;

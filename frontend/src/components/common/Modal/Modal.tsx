@@ -1,7 +1,5 @@
 import { createPortal } from 'react-dom';
 
-import { MdClose } from 'react-icons/md';
-
 import useEscapeKey from '@/hooks/useEscapeKey';
 import useFocusTrap from '@/hooks/useFocusTrap';
 import usePreventScroll from '@/hooks/usePreventScroll';
@@ -40,9 +38,6 @@ const Modal = ({
     <S.Layout ref={modalRef} $position={position}>
       <S.Backdrop onClick={close} $backdropType={backdropType} />
       <S.Container $size={size} $position={position} $shadow={shadow} $animation={animation}>
-        <S.CloseButton onClick={close}>
-          <MdClose size="30" color="#CCC" />
-        </S.CloseButton>
         {children}
       </S.Container>
     </S.Layout>,
