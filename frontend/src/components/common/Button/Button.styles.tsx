@@ -24,6 +24,8 @@ export const BasicButton = styled.button<BasicButtonProp>`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  cursor: pointer;
 `;
 
 export const DisabledButton = styled(BasicButton)`
