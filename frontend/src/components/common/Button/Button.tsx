@@ -15,7 +15,9 @@ interface ButtonProp {
 
   disabled?: boolean;
   animation?: boolean;
+
   click: () => void;
+
   children?: React.ReactNode;
   css?: ReturnType<typeof css>;
 }
@@ -25,25 +27,22 @@ const Button = ({
   filled = true,
   rounded = false,
   disabled = false,
-  click,
-
-  children,
   animation = true,
-
-  css,
-
   color = 'primary',
+  click,
+  children,
+  css,
 }: ButtonProp) => {
   const getSizeStyles = (size: ButtonSize) => {
     switch (size) {
       case 'sm':
-        return { width: '6rem', height: '3rem', fontSize: '1.2rem' };
+        return { width: '96px', height: '48px', fontSize: '19.2px' };
       case 'md':
-        return { width: '10rem', height: '4rem', fontSize: '1.4rem' };
+        return { width: '160px', height: '64px', fontSize: '22.4px' };
       case 'lg':
-        return { width: '15rem', height: '4rem', fontSize: '1.6rem' };
+        return { width: '240px', height: '64px', fontSize: '25.6px' };
       case 'xl':
-        return { width: '25rem', height: '6.5rem', fontSize: '1.8rem' };
+        return { width: '400px', height: '104px', fontSize: '28.8px' };
     }
   };
 

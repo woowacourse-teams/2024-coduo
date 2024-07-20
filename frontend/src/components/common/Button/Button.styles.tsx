@@ -3,9 +3,9 @@ import styled, { css } from 'styled-components';
 import { ButtonColor } from './Button';
 
 interface ButtonStyleProp {
-  width?: string;
-  height?: string;
-  fontSize?: string;
+  width: string;
+  height: string;
+  fontSize: string;
 
   color: ButtonColor;
   filled: boolean;
