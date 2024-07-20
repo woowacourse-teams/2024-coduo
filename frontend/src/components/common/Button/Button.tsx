@@ -49,20 +49,34 @@ const Button = ({
   const buttonSize = getSizeStyles(size);
 
   return (
-    <S.Button
-      onClick={click}
-      disabled={disabled}
-      width={buttonSize.width}
-      height={buttonSize.height}
-      fontSize={buttonSize.fontSize}
-      filled={filled}
-      rounded={rounded}
-      animation={animation}
-      color={color}
-      css={css}
-    >
-      {children}
-    </S.Button>
+    <>
+      {disabled ? (
+        <S.DisabledButton
+          width={buttonSize.width}
+          height={buttonSize.height}
+          fontSize={buttonSize.fontSize}
+          filled={filled}
+          rounded={rounded}
+          css={css}
+        >
+          {children}
+        </S.DisabledButton>
+      ) : (
+        <S.Button
+          onClick={click}
+          width={buttonSize.width}
+          height={buttonSize.height}
+          fontSize={buttonSize.fontSize}
+          filled={filled}
+          rounded={rounded}
+          animation={animation}
+          color={color}
+          css={css}
+        >
+          {children}
+        </S.Button>
+      )}
+    </>
   );
 };
 
