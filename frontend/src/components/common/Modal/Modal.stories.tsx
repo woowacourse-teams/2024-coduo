@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import Body from '@/components/common/Modal/Body/Body';
+import CloseButton from '@/components/common/Modal/CloseButton/CloseButton';
 import Footer from '@/components/common/Modal/Footer/Footer';
 import Header from '@/components/common/Modal/Header/Header';
 
@@ -47,6 +48,7 @@ type Story = StoryObj<typeof Modal>;
 
 const CHILDREN_EXAMPLE = (
   <>
+    <CloseButton close={() => {}} />
     <Header title="모달 제목" subTitle="모달 부제목" />
     <Body>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam pulvinar risus non risus hendrerit venenatis.

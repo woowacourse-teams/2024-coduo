@@ -22,6 +22,7 @@ export const CancelButton = styled.button`
   color: ${({ theme }) => theme.color.primary[500]};
   font-size: ${({ theme }) => theme.fontSize.base};
   text-align: center;
+  cursor: pointer;
 `;
 
 export const ConfirmButton = styled.button`
@@ -32,4 +33,5 @@ export const ConfirmButton = styled.button`
   color: ${({ theme }) => theme.color.black[10]};
   font-size: ${({ theme }) => theme.fontSize.base};
   text-align: center;
+  cursor: pointer;
 `;
