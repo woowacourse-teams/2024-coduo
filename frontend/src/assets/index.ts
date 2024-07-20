@@ -1,5 +1,5 @@
-import logo_icon from '@/assets/images/logo_icon.svg';
-import logo_icon_with_title from '@/assets/images/logo_icon_with_title.svg';
-import logo_title from '@/assets/images/logo_title.svg';
+import LogoIcon from '@/assets/images/logo_icon.svg';
+import LogoIconWithTitle from '@/assets/images/logo_icon_with_title.svg';
+import LogoTitle from '@/assets/images/logo_title.svg';
 
-export { logo_icon, logo_icon_with_title, logo_title };
+export { LogoIcon, LogoIconWithTitle, LogoTitle };
