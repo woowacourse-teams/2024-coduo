@@ -24,14 +24,14 @@ const CustomButton = css`
 
 export const Default: Story = {
   args: {
-    click: () => console.log(),
+    onClick: () => console.log(),
     children: '확인',
   },
 };
 
 export const UsedCss: Story = {
   args: {
-    click: () => console.log(),
+    onClick: () => console.log(),
     children: '확인',
     css: CustomButton,
   },
