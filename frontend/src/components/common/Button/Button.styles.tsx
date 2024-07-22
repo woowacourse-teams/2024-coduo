@@ -14,23 +14,23 @@ interface ButtonStyleProp {
 
 const buttonShapes = {
   sm: css`
-    width: 9.6rem;
-    height: 4.8rem;
+    width: 6rem;
+    height: 3rem;
     font-size: ${({ theme }) => theme.fontSize.sm};
   `,
   md: css`
-    width: 16rem;
-    height: 6.4rem;
+    width: 10rem;
+    height: 4rem;
     font-size: ${({ theme }) => theme.fontSize.base};
   `,
   lg: css`
-    width: 24rem;
-    height: 6.4rem;
+    width: 15rem;
+    height: 4rem;
     font-size: ${({ theme }) => theme.fontSize.base};
   `,
   xl: css`
-    width: 40rem;
-    height: 10.4rem;
+    width: 24.5rem;
+    height: 6.5;
     font-size: ${({ theme }) => theme.fontSize.h5};
   `,
 };
