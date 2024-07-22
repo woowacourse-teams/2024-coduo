@@ -45,35 +45,32 @@ export const Button = styled.button<ButtonStyleProp>`
 
   ${({ $size }) => buttonShapes[$size]}
 
-  background-color: ${(props) => (props.$filled ? props.theme.color[props.$color][500] : 'white')};
-  color: ${(props) => (props.$filled ? 'white' : props.theme.color[props.$color][500])};
+  background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][500] : theme.color.black[10])};
+  color: ${({ $filled, theme, $color }) => ($filled ? theme.color.black[10] : theme.color[$color][500])};
 
-  border: 1px solid ${(props) => (props.$filled ? 'white' : props.theme.color[props.$color][500])};
-  border-radius: ${(props) => (props.$rounded ? '50rem' : '1rem')};
+  border: 1px solid ${({ theme, $color }) => theme.color[$color][500]};
+  border-radius: ${({ $rounded }) => ($rounded ? '50rem' : '1rem')};
 
   &:hover {
-    transform: ${(props) => props.$animation && 'scale(1.01)'};
+    transform: ${({ $animation }) => $animation && 'scale(1.01)'};
 
-    background-color: ${(props) => (props.$filled ? props.theme.color[props.$color][600] : 'white')};
-    color: ${(props) => (props.$filled ? 'white' : props.theme.color[props.$color][600])};
+    background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][600] : theme.color.black[10])};
+    color: ${({ $filled, theme, $color }) => ($filled ? theme.color.black[10] : theme.color[$color][600])};
 
-    border: 1px solid ${(props) => (props.$filled ? 'white' : props.theme.color[props.$color][600])};
+    border: 1px solid ${({ theme, $color }) => theme.color[$color][600]};
   }
 
   &:active {
-    transform: ${(props) => props.$animation && 'scale(1.02)'};
+    transform: ${($animation) => $animation && 'scale(1.02)'};
 
-    background-color: ${(props) => (props.$filled ? props.theme.color[props.$color][700] : 'white')};
-    color: ${(props) => (props.$filled ? 'white' : props.theme.color[props.$color][700])};
-
-    border: 1px solid ${(props) => (props.$filled ? 'white' : props.theme.color[props.$color][700])};
+    background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][700] : theme.color.black[10])};
+    color: ${({ $filled, theme, $color }) => ($filled ? theme.color.black[10] : theme.color[$color][700])};
+    border: 1px solid ${({ theme, $color }) => theme.color[$color][700]};
   }
 
   &:disabled {
-    background-color: ${(props) => (props.$filled ? props.theme.color.black[50] : 'white')};
-    color: ${(props) => (props.$filled ? 'white' : props.theme.color.black[50])};
-
-    border: 1px solid ${(props) => (props.$filled ? 'white' : props.theme.color.black[50])};
+    background-color: ${({ $filled, theme }) => ($filled ? theme.color.black[50] : theme.color.black[10])};
+    color: ${({ $filled, theme }) => ($filled ? 'white' : theme.color.black[50])};
   }
 
   ${(props) => props.$css}
