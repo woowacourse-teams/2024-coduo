@@ -10,19 +10,15 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   height?: string;
   status?: InputStatus;
   message?: string;
-  id: string;
   label: string;
   $css?: ReturnType<typeof css>;
 }
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  (
-    { width = '80%', height = '4.8rem', status = 'default', message, id, label, ...props }: InputProps,
-    ref,
-  ): JSX.Element => {
+  ({ width = '100%', height = '4.8rem', status = 'default', message, label, ...props }: InputProps, ref) => {
     return (
       <S.Layout>
-        <S.Label htmlFor={id}>{label}</S.Label>
-        <S.Input ref={ref} id={id} $width={width} $height={height} $status={status} {...props} />
+        <S.Label htmlFor={props.id}>{label}</S.Label>
+        <S.Input ref={ref} $width={width} $height={height} $status={status} {...props} />
         {message && <S.Message $status={status}>{message}</S.Message>}
       </S.Layout>
     );
