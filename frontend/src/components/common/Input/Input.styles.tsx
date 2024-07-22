@@ -6,6 +6,7 @@ interface InputProps {
   $status: InputStatus;
   $width: string;
   $height: string;
+  $css?: ReturnType<typeof css>;
 }
 
 const inputStatusCss = {
@@ -71,4 +72,6 @@ export const Input = styled.input<InputProps>`
     border: 1px solid ${({ theme }) => theme.color.black[40]};
     background-color: ${({ theme }) => theme.color.black[30]};
   }
+
+  ${(props) => props.$css}
 `;
