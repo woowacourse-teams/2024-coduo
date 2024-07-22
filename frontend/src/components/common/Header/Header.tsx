@@ -1,7 +1,9 @@
 import { HiQuestionMarkCircle } from 'react-icons/hi';
 import { LuHome } from 'react-icons/lu';
 
-import { LogoIconWithTitle } from '@/assets';
+import { LogoIcon } from '@/assets';
+
+import { theme } from '@/styles/theme';
 
 import * as S from './Header.style';
 
@@ -9,18 +11,18 @@ import * as S from './Header.style';
 const Header = () => {
   return (
     <S.Layout>
-      <S.LogoWrapper href="/">
-        <S.Logo src={LogoIconWithTitle} alt="logo_icon_with_title" />
-      </S.LogoWrapper>
+      <a href="/">
+        <S.Logo src={LogoIcon} alt="logo_icon_with_title" />
+      </a>
       <S.AnchorContainer>
         <S.HowToPairAnchorContainer>
           <S.HowToPairTextAnchor href="/how-to-pair">페어 프로그래밍이란?</S.HowToPairTextAnchor>
           <S.HowToPairIconAnchor href="/how-to-pair">
-            <HiQuestionMarkCircle style={{ width: '2.5rem', height: '2.5rem' }} />
+            <HiQuestionMarkCircle size={theme.iconSize.sm} />
           </S.HowToPairIconAnchor>
         </S.HowToPairAnchorContainer>
         <S.HomeAnchor href="/">
-          <LuHome style={{ width: '2.5rem', height: '2.5rem' }} />
+          <LuHome size={theme.iconSize.sm} />
         </S.HomeAnchor>
       </S.AnchorContainer>
     </S.Layout>
