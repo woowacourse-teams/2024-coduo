@@ -10,13 +10,14 @@ import lombok.extern.slf4j.Slf4j;
 import site.coduo.common.controller.error.CommonApiError;
 import site.coduo.common.controller.response.ApiErrorResponse;
 import site.coduo.pairroom.controller.error.PairRoomApiError;
+import site.coduo.pairroom.exception.InvalidNameFormatException;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
 
 @Slf4j
 @RestControllerAdvice
 public class PairRoomErrorController {
 
-    @ExceptionHandler(InvalidPropertiesFormatException.class)
+    @ExceptionHandler(InvalidNameFormatException.class)
     public ResponseEntity<ApiErrorResponse> handleInvalidPropertiesFormatException(
             final InvalidPropertiesFormatException e) {
         log.warn(e.getMessage());

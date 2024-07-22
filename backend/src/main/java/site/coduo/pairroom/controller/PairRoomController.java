@@ -27,16 +27,15 @@ public class PairRoomController implements PairRoomDocs {
 
     @GetMapping("/pair-room")
     public ResponseEntity<PairRoomReadResponse> getPairRoom(
-            @RequestParam("accessCode") final PairRoomReadRequest accessCode) {
+            @RequestParam("accessCode") final PairRoomReadRequest request) {
         final PairRoomReadResponse response = PairRoomReadResponse.from(
-                service.findByAccessCode(accessCode.accessCode()));
+                service.findByAccessCode(request.accessCode()));
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/pair-room")
-    public ResponseEntity<PairRoomCreateResponse> createPairRoom(
-            @RequestBody final PairRoomCreateRequest pairRoomCreateRequest) {
-        final PairRoomCreateResponse response = new PairRoomCreateResponse(service.save(pairRoomCreateRequest));
+    public ResponseEntity<PairRoomCreateResponse> createPairRoom(@RequestBody final PairRoomCreateRequest request) {
+        final PairRoomCreateResponse response = new PairRoomCreateResponse(service.save(request));
         return ResponseEntity.created(URI.create("/"))
                 .body(response);
     }

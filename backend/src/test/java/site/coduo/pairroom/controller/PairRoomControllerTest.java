@@ -30,20 +30,33 @@ class PairRoomControllerTest {
         final PairRoomCreateResponse pairRoomUrl = createPairRoom(new PairRoomCreateRequest("레디", "프람"));
 
         //when & then
-        RestAssured.given().log().all()
+        RestAssured
+                .given()
+                .log()
+                .all()
                 .contentType("application/json")
-                .when().get("/pair-room?accessCode=" + pairRoomUrl.accessCode())
-                .then().log().all()
+
+                .when()
+                .get("/pair-room?accessCode=" + pairRoomUrl.accessCode())
+
+                .then()
+                .log()
+                .all()
                 .statusCode(200);
     }
 
     PairRoomCreateResponse createPairRoom(final PairRoomCreateRequest pairRoom) {
-        return RestAssured.given().log().all()
+        return RestAssured
+                .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .body(pairRoom)
-                .when().post("/pair-room")
-                .then().log().all()
-                .extract().as(PairRoomCreateResponse.class);
+
+                .when()
+                .post("/pair-room")
+
+                .then()
+                .extract()
+                .as(PairRoomCreateResponse.class);
     }
 }
