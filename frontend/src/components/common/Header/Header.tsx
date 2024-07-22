@@ -5,7 +5,7 @@ import { LogoIcon } from '@/assets';
 
 import { theme } from '@/styles/theme';
 
-import * as S from './Header.style';
+import * as S from './Header.styles';
 
 // TODO: 링크에 따라 href 값 수정 필요
 const Header = () => {
