@@ -42,7 +42,7 @@ public class PairName {
         }
     }
 
-    private boolean isPatternMatch(String value) {
+    private boolean isPatternMatch(final String value) {
         return VALID_REGEX.matcher(value).matches();
     }
 
