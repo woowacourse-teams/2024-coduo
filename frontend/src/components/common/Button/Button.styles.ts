@@ -30,7 +30,7 @@ const buttonShapes = {
   `,
   xl: css`
     width: 24.5rem;
-    height: 6.5;
+    height: 6.5rem;
     font-size: ${({ theme }) => theme.fontSize.h5};
   `,
 };
