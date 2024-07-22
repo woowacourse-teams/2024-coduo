@@ -9,7 +9,7 @@ interface CloseButtonProps {
 const CloseButton = ({ close }: CloseButtonProps) => {
   return (
     <S.Button onClick={close}>
-      <MdClose size="30" color="#CCC" />
+      <MdClose size="3rem" color="#CCC" />
     </S.Button>
   );
 };
