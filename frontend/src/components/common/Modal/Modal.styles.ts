@@ -44,7 +44,7 @@ export const Layout = styled.div<{ $position: Position }>`
   animation: ${fadeIn} 0.3s ease;
 `;
 
-const BACKDROP_MAPPER = {
+const backdropMapper = {
   opaque: css`
     background: ${({ theme }) => theme.color.black[90]};
     opacity: 36%;
@@ -64,16 +64,16 @@ export const Backdrop = styled.div<{ $backdropType: BackdropType }>`
   top: 0;
   width: 100%;
   height: 100%;
-  ${({ $backdropType }) => BACKDROP_MAPPER[$backdropType]}
+  ${({ $backdropType }) => backdropMapper[$backdropType]}
 `;
 
-const SIZE_MAPPER: Record<Size, string> = {
+const sizeMapper: Record<Size, string> = {
   sm: '30%',
   md: '60%',
   lg: '90%',
 };
 
-const POSITION_MAPPER = {
+const positionMapper = {
   bottom: css`
     max-height: 90vh;
     border-radius: 4rem 4rem 0 0;
@@ -86,7 +86,7 @@ const POSITION_MAPPER = {
   `,
 };
 
-const ANIMATION_MAPPER = {
+const animationMapper = {
   bottom: css`
     animation: ${slideIn} 0.3s ease-in forwards;
   `,
@@ -110,7 +110,7 @@ export const Container = styled.div<{
     $shadow &&
     ` 0px 3px 6px rgba(0, 0, 0, 0.1),
     0px 3px 6px rgba(0, 0, 0, 0.1)`};
-  width: ${({ $size }) => SIZE_MAPPER[$size as Size] ?? $size};
-  ${({ $position }) => POSITION_MAPPER[$position]}
-  ${({ $position, $animation }) => $animation && ANIMATION_MAPPER[$position]}
+  width: ${({ $size }) => sizeMapper[$size as Size] ?? $size};
+  ${({ $position }) => positionMapper[$position]}
+  ${({ $position, $animation }) => $animation && animationMapper[$position]}
 `;
