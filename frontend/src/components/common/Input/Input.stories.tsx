@@ -13,9 +13,10 @@ type Story = StoryObj<typeof Input>;
 
 export const Default: Story = {
   args: {
-    id: 'success',
+    id: 'default',
     placeholder: '입력해주세요',
     message: '메세지입니다',
     label: '라벨',
+    disabled: false,
   },
 };
