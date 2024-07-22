@@ -12,15 +12,15 @@ const color = {
     800: '#00506B',
   },
   secondary: {
-    100: 'FFF8DC',
-    200: 'FFEEBA',
-    300: 'FFE296',
-    400: 'FFD67D',
-    500: 'FFC453',
-    600: 'DB9E3C',
-    700: 'B87C2A',
-    800: '935D1A',
-    900: '7A4510',
+    100: '#FFF8DC',
+    200: '#FFEEBA',
+    300: '#FFE296',
+    400: '#FFD67D',
+    500: '#FFC453',
+    600: '#DB9E3C',
+    700: '#B87C2A',
+    800: '#935D1A',
+    900: '#7A4510',
   },
   success: {
     100: '#F1FBD1',
@@ -92,6 +92,10 @@ const fontSize = {
   xs: '1.0rem',
 };
 
+const deviceWidth = {
+  mobile: '768px',
+};
+
 const fontWeight = {
   light: '400',
   base: '500',
@@ -100,12 +104,23 @@ const fontWeight = {
   bold: '900',
 };
 
+const iconSize = {
+  sm: '2.5rem',
+  md: '3.5rem',
+  lg: '4.5rem',
+  xl: '5.5rem',
+};
+
 export type ColorTypes = typeof color;
 export type FontSizeTypes = typeof fontSize;
 export type FontWeightTypes = typeof fontWeight;
+export type DeviceWidthTypes = typeof deviceWidth;
+export type IconSizeTypes = typeof iconSize;
 
 export const theme: DefaultTheme = {
   color,
   fontSize,
   fontWeight,
+  deviceWidth,
+  iconSize,
 };
