@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 import { Direction } from '@/components/common/Modal/Footer/Footer';
 
-const DIRECTION_MAPPER = {
+const directionMapper = {
   left: 'start',
   center: 'center',
   right: 'end',
@@ -10,7 +10,7 @@ const DIRECTION_MAPPER = {
 
 export const Layout = styled.div<{ $direction: Direction }>`
   display: flex;
-  justify-content: ${({ $direction }) => DIRECTION_MAPPER[$direction]};
+  justify-content: ${({ $direction }) => directionMapper[$direction]};
   gap: 1.6rem;
 `;
 
