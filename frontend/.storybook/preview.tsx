@@ -9,6 +9,9 @@ import GlobalStyles from '../src/styles/Global.style';
 
 const preview: Preview = {
   parameters: {
+    viewport: {
+      viewport: { defaultViewport: 'iphonese2' },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
