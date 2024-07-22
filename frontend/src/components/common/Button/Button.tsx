@@ -12,8 +12,6 @@ interface ButtonProp extends ButtonHTMLAttributes<HTMLButtonElement> {
   color?: ButtonColor;
   filled?: boolean;
   rounded?: boolean;
-
-  disabled?: boolean;
   animation?: boolean;
 
   css?: ReturnType<typeof css>;
@@ -23,11 +21,12 @@ const Button = ({
   size = 'lg',
   filled = true,
   rounded = false,
-  disabled = false,
   animation = true,
   color = 'primary',
   children,
   css,
+  disabled = false,
+  ...props
 }: React.PropsWithChildren<ButtonProp>) => {
   return (
     <S.Button
@@ -37,7 +36,8 @@ const Button = ({
       $animation={animation}
       $color={color}
       $css={css}
-      disabled={disabled}
+      $disabled={disabled}
+      {...props}
     >
       {children}
     </S.Button>
