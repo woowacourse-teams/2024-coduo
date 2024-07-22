@@ -38,7 +38,7 @@ public class PairName {
             throw new InvalidNameFormatException("이름은 10자 이하여야 합니다.");
         }
         if (!isPatternMatch(value)) {
-            throw new InvalidNameFormatException("한글, 영어, 특수문자, 이모지가 아닌 문자는 혀용하지 않습니다.");
+            throw new InvalidNameFormatException("한글, 영어, 특수문자, 이모지가 아닌 문자는 허용하지 않습니다.");
         }
     }
 
