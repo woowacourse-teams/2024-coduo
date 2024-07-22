@@ -3,7 +3,7 @@ import { forwardRef, InputHTMLAttributes } from 'react';
 import * as S from '@/components/common/Input/Input.styles';
 import { InputStatus } from '@/components/common/Input/Input.type';
 
-interface InputProp extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   width?: string;
   height?: string;
   status?: InputStatus;
@@ -11,9 +11,9 @@ interface InputProp extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
   label: string;
 }
-const Input = forwardRef<HTMLInputElement, InputProp>(
+const Input = forwardRef<HTMLInputElement, InputProps>(
   (
-    { width = '80%', height = '4.8rem', status = 'default', message, id, label, ...props }: InputProp,
+    { width = '80%', height = '4.8rem', status = 'default', message, id, label, ...props }: InputProps,
     ref,
   ): JSX.Element => {
     return (
