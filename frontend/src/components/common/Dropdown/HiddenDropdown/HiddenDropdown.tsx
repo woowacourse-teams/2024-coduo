@@ -1,6 +1,4 @@
-import { HTMLAttributes } from 'react';
-
-interface HiddenDropdownProps extends HTMLAttributes<HTMLSelectElement> {
+interface HiddenDropdownProps extends React.HTMLAttributes<HTMLSelectElement> {
   options: string[];
   selectedOption?: string;
   handleSelect: (value: string) => void;

@@ -3,10 +3,10 @@ import styled from 'styled-components';
 
 import Button from '@/components/common/Button/Button';
 
-export const Layout = styled.div`
+export const Layout = styled.div<{ $width: string }>`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: ${({ $width }) => $width};
   height: fit-content;
   gap: 1rem;
 
@@ -33,19 +33,19 @@ export const Layout = styled.div`
   }
 `;
 
-export const DropdownButton = styled(Button)<{ $isSelected: boolean; $isOpen: boolean }>`
+export const OpenButton = styled(Button)<{ $isSelected: boolean; $isOpen: boolean }>`
   border: 1px solid
     ${({ $isSelected, $isOpen, theme }) => ($isSelected || $isOpen ? theme.color.primary[700] : theme.color.black[50])};
   background-color: white;
   color: ${({ $isSelected, theme }) => ($isSelected ? theme.color.primary[700] : theme.color.black[50])};
 `;
 
-export const DropdownIcon = styled(RiArrowDropDownLine)<{ $isOpen: boolean }>`
+export const Icon = styled(RiArrowDropDownLine)<{ $isOpen: boolean }>`
   transform: rotate(${({ $isOpen }) => ($isOpen ? 180 : 0)}deg);
   transition: transform 0.2s ease-in-out;
 `;
 
-export const DropdownMenuItemList = styled.ul`
+export const ItemList = styled.ul`
   max-height: 20rem;
   overflow-y: auto;
   background-color: white;
@@ -55,7 +55,7 @@ export const DropdownMenuItemList = styled.ul`
     1px 1px 3px gray;
 `;
 
-export const DropdownMenuItem = styled(Button)`
+export const Item = styled(Button)`
   border: none;
   justify-content: flex-start;
   color: ${({ theme }) => theme.color.primary[700]};
