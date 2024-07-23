@@ -40,6 +40,9 @@ dependencies {
     // H2
     runtimeOnly 'com.h2database:h2'
 
+    // Mysql
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
     // Swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 
