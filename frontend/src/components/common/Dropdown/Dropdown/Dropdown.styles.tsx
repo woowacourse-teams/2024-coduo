@@ -45,14 +45,14 @@ export const DropdownIcon = styled(RiArrowDropDownLine)<{ $isOpen: boolean }>`
   transition: transform 0.2s ease-in-out;
 `;
 
-export const DropdownMenu = styled.ul`
+export const DropdownMenuItemList = styled.ul`
   max-height: 20rem;
   overflow-y: auto;
   background-color: white;
   border-radius: 0.8rem;
   box-shadow:
-    0px 1px 2px ${({ theme }) => theme.color.black[10]},
-    1px 1px 3px ${({ theme }) => theme.color.black[60]};
+    0px 1px 2px black,
+    1px 1px 3px gray;
 `;
 
 export const DropdownMenuItem = styled(Button)`
