@@ -15,8 +15,3 @@ export const Container = styled.div`
   gap: 3rem;
   width: 41vw;
 `;
-
-export const PairRoleCard = styled.div`
-  display: flex;
-  height: 16rem;
-`;

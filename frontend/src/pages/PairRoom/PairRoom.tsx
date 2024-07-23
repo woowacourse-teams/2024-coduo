@@ -1,6 +1,7 @@
 import { IoPeople } from 'react-icons/io5';
 
 import PairListCard from '@/components/PairRoom/PairListCard/PairListCard';
+import PairRoleCard from '@/components/PairRoom/PairRoleCard/PairRoleCard';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 
 import { theme } from '@/styles/theme';
@@ -12,11 +13,7 @@ const PairRoom = () => {
     <S.Layout>
       <PairListCard />
       <S.Container>
-        <S.PairRoleCard>
-          <PairRoomCard>
-            <div>내용</div>
-          </PairRoomCard>
-        </S.PairRoleCard>
+        <PairRoleCard />
         <PairRoomCard>
           <div>내용</div>
         </PairRoomCard>
