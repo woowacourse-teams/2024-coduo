@@ -16,11 +16,6 @@ export const Container = styled.div`
   width: 41vw;
 `;
 
-export const PairListCard = styled.div`
-  display: flex;
-  width: 18vw;
-`;
-
 export const PairRoleCard = styled.div`
   display: flex;
   height: 16rem;
