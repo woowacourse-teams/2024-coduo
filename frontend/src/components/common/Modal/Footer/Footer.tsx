@@ -1,26 +1,17 @@
 import * as S from './Footer.styles';
 
-export type Direction = 'left' | 'center' | 'right';
+export type Direction = 'row' | 'column';
+export type Position = 'left' | 'center' | 'right';
 
 interface FooterProps {
-  confirmText?: string;
-  cancelText?: string;
   direction?: Direction;
-  onConfirm: () => void;
-  onCancel: () => void;
+  position?: Position;
 }
 
-const Footer = ({
-  confirmText = '확인',
-  cancelText = '취소',
-  direction = 'right',
-  onConfirm,
-  onCancel,
-}: FooterProps) => {
+const Footer = ({ direction = 'row', position = 'right', children }: React.PropsWithChildren<FooterProps>) => {
   return (
-    <S.Layout $direction={direction}>
-      <S.CancelButton onClick={onCancel}>{cancelText}</S.CancelButton>
-      <S.ConfirmButton onClick={onConfirm}>{confirmText}</S.ConfirmButton>
+    <S.Layout $direction={direction} $position={position}>
+      {children}
     </S.Layout>
   );
 };
