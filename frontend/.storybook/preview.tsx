@@ -1,12 +1,8 @@
 import React from 'react';
-
 import type { Preview } from '@storybook/react';
-
 import { ThemeProvider } from 'styled-components';
-
 import { theme } from '../src/styles/theme';
 import GlobalStyles from '../src/styles/Global.style';
-
 const preview: Preview = {
   parameters: {
     viewport: {
@@ -28,5 +24,4 @@ const preview: Preview = {
     ),
   ],
 };
-
 export default preview;
