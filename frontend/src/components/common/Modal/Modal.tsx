@@ -11,6 +11,7 @@ interface ModalProps {
   isOpen: boolean;
   close: () => void;
   size?: Size | string;
+  height?: string;
   position?: Position;
   shadow?: boolean;
   animation?: boolean;
@@ -21,6 +22,7 @@ const Modal = ({
   isOpen,
   close,
   size = 'md',
+  height = '',
   position = 'center',
   shadow = true,
   animation = true,
@@ -37,7 +39,7 @@ const Modal = ({
   return createPortal(
     <S.Layout ref={modalRef} $position={position}>
       <S.Backdrop onClick={close} $backdropType={backdropType} />
-      <S.Container $size={size} $position={position} $shadow={shadow} $animation={animation}>
+      <S.Container $size={size} $height={height} $position={position} $shadow={shadow} $animation={animation}>
         {children}
       </S.Container>
     </S.Layout>,
