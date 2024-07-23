@@ -31,6 +31,5 @@ abstract class AcceptanceFixture {
     @AfterEach
     void tearDown() {
         referenceLinkRepository.deleteAll();
-        jdbcTemplate.update("ALTER TABLE REFERENCE_LINK AlTER COLUMN ID RESTART WITH 1");
     }
 }
