@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import Button from '@/components/common/Button/Button';
 import Body from '@/components/common/Modal/Body/Body';
 import CloseButton from '@/components/common/Modal/CloseButton/CloseButton';
 import Footer from '@/components/common/Modal/Footer/Footer';
@@ -61,7 +62,10 @@ const CHILDREN_EXAMPLE = (
       venenatis. Pellentesque sit amet hendrerit risus, sed porttitor quam.Lorem ipsum dolor sit amet, consectetur
       adipiscing elit.
     </Body>
-    <Footer onConfirm={() => {}} onCancel={() => {}} />
+    <Footer>
+      <Button filled={false}>취소</Button>
+      <Button>확인</Button>
+    </Footer>
   </>
 );
 
