@@ -14,13 +14,6 @@ const meta = {
   parameters: {
     controls: { exclude: ['close', 'children'] },
   },
-  decorators: [
-    (Story) => (
-      <div style={{ height: '500px' }}>
-        <Story />
-      </div>
-    ),
-  ],
   argTypes: {
     position: {
       options: ['center', 'bottom'],
@@ -29,6 +22,9 @@ const meta = {
     size: {
       options: ['sm', 'md', 'lg'],
       control: { type: 'radio' },
+    },
+    height: {
+      control: { type: 'text' },
     },
     backdropType: {
       options: ['transparent', 'blur', 'opaque'],

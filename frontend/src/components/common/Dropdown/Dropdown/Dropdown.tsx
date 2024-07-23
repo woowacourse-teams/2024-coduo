@@ -49,7 +49,7 @@ const Dropdown = ({ placeholder, options, onSelect, defaultOption, selected, wid
         <S.Icon $isOpen={isOpen} size={theme.iconSize.md} />
       </S.OpenButton>
       {isOpen && (
-        <S.ItemList>
+        <S.ItemList $width={width}>
           {options.map((option, index) => (
             <li key={`${option}_${index}`}>
               <S.Item

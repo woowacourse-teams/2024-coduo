@@ -97,6 +97,7 @@ const animationMapper = {
 
 export const Container = styled.div<{
   $size: Size | string;
+  $height: string;
   $position: Position;
   $shadow: boolean;
   $animation: boolean;
@@ -111,6 +112,7 @@ export const Container = styled.div<{
     ` 0px 3px 6px rgba(0, 0, 0, 0.1),
     0px 3px 6px rgba(0, 0, 0, 0.1)`};
   width: ${({ $size }) => sizeMapper[$size as Size] ?? $size};
+  height: ${({ $height }) => $height && $height};
   ${({ $position }) => positionMapper[$position]}
   ${({ $position, $animation }) => $animation && animationMapper[$position]}
 `;
