@@ -3,8 +3,6 @@ import { useState, useEffect, useRef } from 'react';
 import * as S from '@/components/common/Dropdown/Dropdown/Dropdown.styles';
 import HiddenDropdown from '@/components/common/Dropdown/HiddenDropdown/HiddenDropdown';
 
-import useClickOutside from '@/hooks/useClickOutside';
-
 import { theme } from '@/styles/theme';
 
 interface DropdownProps {
@@ -33,10 +31,8 @@ const Dropdown = ({ placeholder, options, onSelect, defaultOption, selected, wid
     setIsOpen(false);
   };
 
-  useClickOutside(dropdownRef, () => setIsOpen(false));
-
   return (
-    <S.Layout $width={width} ref={dropdownRef}>
+    <S.Layout $width={width} ref={dropdownRef} onBlur={() => setIsOpen(false)}>
       <HiddenDropdown options={options} selectedOption={selectedOption} handleSelect={handleSelect} />
       <S.OpenButton
         filled={false}
@@ -49,7 +45,7 @@ const Dropdown = ({ placeholder, options, onSelect, defaultOption, selected, wid
         <S.Icon $isOpen={isOpen} size={theme.iconSize.md} />
       </S.OpenButton>
       {isOpen && (
-        <S.ItemList>
+        <S.ItemList $width={width}>
           {options.map((option, index) => (
             <li key={`${option}_${index}`}>
               <S.Item

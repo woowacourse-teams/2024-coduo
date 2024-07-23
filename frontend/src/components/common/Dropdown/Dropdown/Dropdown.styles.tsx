@@ -9,6 +9,7 @@ export const Layout = styled.div<{ $width: string }>`
   width: ${({ $width }) => $width};
   height: fit-content;
   gap: 1rem;
+  position: relative;
 
   Button {
     display: flex;
@@ -45,14 +46,19 @@ export const Icon = styled(RiArrowDropDownLine)<{ $isOpen: boolean }>`
   transition: transform 0.2s ease-in-out;
 `;
 
-export const ItemList = styled.ul`
+export const ItemList = styled.ul<{ $width: string }>`
   max-height: 20rem;
   overflow-y: auto;
   background-color: white;
   border-radius: 0.8rem;
   box-shadow:
-    0px 1px 2px black,
-    1px 1px 3px gray;
+    0px 0px 2px grey,
+    1px 1px 3px lightgrey;
+  position: absolute;
+  top: calc(100% + 1rem);
+  left: 0;
+  z-index: 1000;
+  width: ${({ $width }) => $width};
 `;
 
 export const Item = styled(Button)`
