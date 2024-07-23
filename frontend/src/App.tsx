@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components';
 
 import Layout from '@/pages/Layout';
 import Main from '@/pages/Main/Main';
+import PairRoom from '@/pages/PairRoom/PairRoom';
 
 import GlobalStyles from './styles/Global.style';
 import { theme } from './styles/theme';
@@ -17,6 +18,10 @@ const App = () => {
         {
           path: '',
           element: <Main />,
+        },
+        {
+          path: 'room',
+          element: <PairRoom />,
         },
       ],
     },
