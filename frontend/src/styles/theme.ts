@@ -97,8 +97,8 @@ const deviceWidth = {
 };
 
 const fontWeight = {
-  light: '400',
-  base: '500',
+  light: '300',
+  base: '400',
   medium: '600',
   semibold: '700',
   bold: '900',
