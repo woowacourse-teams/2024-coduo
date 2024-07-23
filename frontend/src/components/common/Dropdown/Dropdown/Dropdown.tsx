@@ -15,7 +15,7 @@ interface DropdownProps {
 
 const Dropdown = ({ placeholder, options, onSelect, defaultOption, width = '100%' }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<string>(defaultOption || '');
+  const [selectedOption, setSelectedOption] = useState(defaultOption || '');
 
   const handleSelect = (option: string) => {
     setSelectedOption(option);
