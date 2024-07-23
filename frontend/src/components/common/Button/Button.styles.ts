@@ -8,7 +8,7 @@ interface ButtonStyleProp {
   $size: ButtonSize;
   $filled: boolean;
   $rounded: boolean;
-  $disabled: boolean;
+  disabled: boolean;
   $css?: ReturnType<typeof css>;
 }
 
@@ -40,7 +40,7 @@ export const Button = styled.button<ButtonStyleProp>`
   justify-content: center;
   align-items: center;
 
-  cursor: ${({ $disabled }) => ($disabled ? 'default' : 'pointer')};
+  cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
   transition: all 0.2s;
 
   ${({ $size }) => buttonShapes[$size]}

@@ -36,7 +36,7 @@ const Button = ({
       $animation={animation}
       $color={color}
       $css={css}
-      $disabled={disabled}
+      disabled={disabled}
       {...props}
     >
       {children}
@@ -45,4 +45,3 @@ const Button = ({
 };
 
 export default Button;
-
