@@ -37,7 +37,7 @@ const Dropdown = ({ placeholder, options, onSelect, defaultOption, width = '100%
         <S.DropdownIcon $isOpen={isOpen} size={theme.iconSize.md} />
       </S.DropdownButton>
       {isOpen && (
-        <S.DropdownMenu>
+        <S.DropdownMenuItemList>
           {options.map((option) => (
             <li key={option}>
               <S.DropdownMenuItem
@@ -50,7 +50,7 @@ const Dropdown = ({ placeholder, options, onSelect, defaultOption, width = '100%
               </S.DropdownMenuItem>
             </li>
           ))}
-        </S.DropdownMenu>
+        </S.DropdownMenuItemList>
       )}
     </S.Layout>
   );
