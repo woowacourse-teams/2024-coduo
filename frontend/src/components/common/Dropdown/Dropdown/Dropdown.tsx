@@ -15,7 +15,7 @@ interface DropdownProps {
 
 const Dropdown = ({ placeholder, options, onSelect, defaultOption, width = '100%' }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<string | undefined>(defaultOption);
+  const [selectedOption, setSelectedOption] = useState<string>(defaultOption || '');
 
   const handleSelect = (option: string) => {
     setSelectedOption(option);
@@ -24,9 +24,9 @@ const Dropdown = ({ placeholder, options, onSelect, defaultOption, width = '100%
   };
 
   return (
-    <S.Layout style={{ width: width }}>
+    <S.Layout $width={width}>
       <HiddenDropdown options={options} selectedOption={selectedOption} handleSelect={handleSelect} />
-      <S.DropdownButton
+      <S.OpenButton
         filled={false}
         $isSelected={!!selectedOption}
         $isOpen={isOpen}
@@ -34,23 +34,23 @@ const Dropdown = ({ placeholder, options, onSelect, defaultOption, width = '100%
         onClick={() => setIsOpen(!isOpen)}
       >
         {selectedOption || placeholder}
-        <S.DropdownIcon $isOpen={isOpen} size={theme.iconSize.md} />
-      </S.DropdownButton>
+        <S.Icon $isOpen={isOpen} size={theme.iconSize.md} />
+      </S.OpenButton>
       {isOpen && (
-        <S.DropdownMenuItemList>
-          {options.map((option) => (
-            <li key={option}>
-              <S.DropdownMenuItem
+        <S.ItemList>
+          {options.map((option, index) => (
+            <li key={`${option}_${index}`}>
+              <S.Item
                 filled={false}
                 role="option"
                 aria-selected={selectedOption === option}
                 onClick={() => handleSelect(option)}
               >
                 {option}
-              </S.DropdownMenuItem>
+              </S.Item>
             </li>
           ))}
-        </S.DropdownMenuItemList>
+        </S.ItemList>
       )}
     </S.Layout>
   );
