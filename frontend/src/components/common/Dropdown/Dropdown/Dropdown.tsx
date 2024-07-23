@@ -3,6 +3,8 @@ import { useState, useEffect, useRef } from 'react';
 import * as S from '@/components/common/Dropdown/Dropdown/Dropdown.styles';
 import HiddenDropdown from '@/components/common/Dropdown/HiddenDropdown/HiddenDropdown';
 
+import useClickOutside from '@/hooks/useClickOutside';
+
 import { theme } from '@/styles/theme';
 
 interface DropdownProps {
@@ -31,8 +33,10 @@ const Dropdown = ({ placeholder, options, onSelect, defaultOption, selected, wid
     setIsOpen(false);
   };
 
+  useClickOutside(dropdownRef, () => setIsOpen(false));
+
   return (
-    <S.Layout $width={width} ref={dropdownRef} onBlur={() => setIsOpen(false)}>
+    <S.Layout $width={width} ref={dropdownRef}>
       <HiddenDropdown options={options} selectedOption={selectedOption} handleSelect={handleSelect} />
       <S.OpenButton
         filled={false}
