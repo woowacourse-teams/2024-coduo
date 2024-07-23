@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const PairRoleCard = styled.div`
+export const Layout = styled.div`
   display: flex;
   height: 16rem;
 `;

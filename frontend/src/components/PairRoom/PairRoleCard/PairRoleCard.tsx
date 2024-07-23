@@ -4,11 +4,11 @@ import * as S from './PairRoleCard.styles';
 
 const PairRoleCard = () => {
   return (
-    <S.PairRoleCard>
+    <S.Layout>
       <PairRoomCard>
         <div>내용</div>
       </PairRoomCard>
-    </S.PairRoleCard>
+    </S.Layout>
   );
 };
 
