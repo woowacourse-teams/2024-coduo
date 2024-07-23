@@ -8,8 +8,7 @@ export const Layout = styled.div`
   align-items: center;
   min-height: calc(100vh - 7rem);
   padding: 0 10.8vw;
-  background-image: url(${Wave});
-  background-repeat: no-repeat;
+  background: no-repeat url(${Wave});
   background-size: contain;
 `;
 
