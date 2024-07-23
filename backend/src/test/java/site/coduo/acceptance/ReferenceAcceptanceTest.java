@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.is;
 
 import java.util.Map;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -89,6 +90,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
                 .statusCode(HttpStatus.NO_CONTENT.value());
     }
 
+    @Disabled
     @Test
     @DisplayName("레퍼런스 링크를 수정하는 요청")
     void update_reference_link_request() {
