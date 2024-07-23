@@ -71,6 +71,7 @@ export const Button = styled.button<ButtonStyleProp>`
   &:disabled {
     background-color: ${({ $filled, theme }) => ($filled ? theme.color.black[50] : theme.color.black[10])};
     color: ${({ $filled, theme }) => ($filled ? 'white' : theme.color.black[50])};
+    border: 1px solid ${({ theme }) => theme.color.black[50]};
   }
 
   ${(props) => props.$css}
