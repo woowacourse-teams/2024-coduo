@@ -6,6 +6,7 @@ export const Layout = styled.div<{ $isOpen: boolean }>`
   flex-direction: column;
   width: ${(props) => (props.$isOpen ? '16vw' : '6rem')};
   min-width: ${(props) => (props.$isOpen ? '20rem' : '6rem')};
+  min-height: 40rem;
   align-items: center;
   justify-content: center;
   transition: all 0.3s;
