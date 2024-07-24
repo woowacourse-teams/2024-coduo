@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import io.restassured.RestAssured;
+import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -16,9 +16,9 @@ abstract class AcceptanceFixture {
 
     @Autowired
     private ReferenceLinkRepository referenceLinkRepository;
-    
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private PairRoomRepository pairRoomRepository;
 
     @LocalServerPort
     private int port;
@@ -31,6 +31,7 @@ abstract class AcceptanceFixture {
     @AfterEach
     void tearDown() {
         referenceLinkRepository.deleteAll();
-//        jdbcTemplate.update("ALTER TABLE REFERENCE_LINK AlTER COLUMN ID RESTART WITH 1");
+        pairRoomRepository.deleteAll();
+//        jdbcTemplate.update("ALTER TABLE REFERENCE_LINK AlTER COLUMN ID RESTART WITH 1"); //TODO: h2에서만 지원하는 문법이여서 해결 필요
     }
 }

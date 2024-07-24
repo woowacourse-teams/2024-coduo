@@ -1,27 +1,14 @@
-package site.coduo.pairroom.controller;
+package site.coduo.acceptance;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 
 import io.restassured.RestAssured;
 import site.coduo.pairroom.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.dto.PairRoomCreateResponse;
 
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class PairRoomControllerTest {
-
-    @LocalServerPort
-    int port;
-
-    @BeforeEach
-    void beforeEach() {
-        RestAssured.port = port;
-    }
+class PairRoomAcceptanceTest extends AcceptanceFixture {
 
     @Test
     @DisplayName("페어룸 요청 시 정보를 반환한다.")
