@@ -51,14 +51,11 @@ const usePairNameInput = () => {
   };
   const isButtonActive = firstPairValue.status !== 'error' && secondPairValue.status !== 'error';
 
-  const getPairNameValue = { firstPairName: firstPairValue.value, secondPairName: secondPairValue.value };
-
   return {
     firstPairValidateOnChange,
     secondPairValidateOnChange,
     resetPairNameValue,
     isButtonActive,
-    getPairNameValue,
     firstPairValue,
     secondPairValue,
   };
