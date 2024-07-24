@@ -28,4 +28,9 @@ public class PairRoomService {
     public PairRoom findByAccessCode(final String accessCode) {
         return repository.fetchByAccessCode(new AccessCode(accessCode));
     }
+
+    public void deletePairRoom(final String accessCode) {
+        final PairRoom pairRoom = repository.fetchByAccessCode(new AccessCode(accessCode));
+        repository.delete(pairRoom);
+    }
 }

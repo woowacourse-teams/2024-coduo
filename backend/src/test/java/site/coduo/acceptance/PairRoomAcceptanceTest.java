@@ -32,6 +32,47 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .statusCode(200);
     }
 
+    @Test
+    @DisplayName("페어룸을 삭제한다.")
+    void delete_pair_room() {
+        //given
+        final PairRoomCreateResponse pairRoomUrl = createPairRoom(new PairRoomCreateRequest("레디", "프람"));
+
+        //when & then
+        RestAssured
+                .given()
+                .log()
+                .all()
+                .contentType("application/json")
+
+                .when()
+                .delete("/pair-room?accessCode=" + pairRoomUrl.accessCode())
+
+                .then()
+                .log()
+                .all()
+                .statusCode(204);
+    }
+
+    @Test
+    @DisplayName("존재하지 않은 accessCode로 페어룸 삭제시 실패한다.")
+    void fail_delete_pair_room() {
+        //when & then
+        RestAssured
+                .given()
+                .log()
+                .all()
+                .contentType("application/json")
+
+                .when()
+                .delete("/pair-room?accessCode=" + "zzzzzz")
+
+                .then()
+                .log()
+                .all()
+                .statusCode(404);
+    }
+
     PairRoomCreateResponse createPairRoom(final PairRoomCreateRequest pairRoom) {
         return RestAssured
                 .given()
