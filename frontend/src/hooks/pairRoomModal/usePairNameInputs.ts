@@ -34,12 +34,12 @@ const usePairNameInput = () => {
   };
 
   const validatePairName = (name: string) => {
-    if (name.length === 0) return { status: 'default', message: '' };
-    if (name.length > 10) return { status: 'error', message: '페어 이름은 10자 이하로 입력해주세요.' };
+    if (name.length === 0) return { status: 'error', message: '값을 입력해주세요.' };
+    if (name.length > 10) return { status: 'error', message: '페어이름은 10자 이하로 입력해주세요.' };
 
     return {
-      status: 'success',
-      message: '알맞은 이름 입니다!',
+      status: 'default',
+      message: '',
     };
   };
 
