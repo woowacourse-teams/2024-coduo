@@ -3,7 +3,13 @@ import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 
 import * as S from './PairRoleCard.styles';
 
-const PairRoleCard = () => {
+interface PairRoleCardProps {
+  driver: string;
+  navigator: string;
+  onSwap: () => void;
+}
+
+const PairRoleCard = ({ driver, navigator, onSwap }: PairRoleCardProps) => {
   return (
     <S.Layout>
       <PairRoomCard>
@@ -12,16 +18,16 @@ const PairRoleCard = () => {
             <S.RoleIcon>💻</S.RoleIcon>
             <S.RoleTextContainer>
               <S.DriverLabel>드라이버</S.DriverLabel>
-              <S.DriverText>퍼렁</S.DriverText>
+              <S.DriverText>{driver}</S.DriverText>
             </S.RoleTextContainer>
           </S.DriverBox>
-          <Button css={S.buttonStyle}>
+          <Button css={S.buttonStyle} onClick={onSwap}>
             <S.SwapIcon />
           </Button>
           <S.NavigatorBox>
             <S.RoleTextContainer>
               <S.NavigatorLabel>네비게이터</S.NavigatorLabel>
-              <S.NavigatorText>포롱</S.NavigatorText>
+              <S.NavigatorText>{navigator}</S.NavigatorText>
             </S.RoleTextContainer>
             <S.RoleIcon>🧭</S.RoleIcon>
           </S.NavigatorBox>

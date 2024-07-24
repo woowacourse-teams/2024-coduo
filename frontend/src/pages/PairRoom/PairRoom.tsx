@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import MemoCard from '@/components/PairRoom/MemoCard/MemoCard';
 import PairListCard from '@/components/PairRoom/PairListCard/PairListCard';
 import PairRoleCard from '@/components/PairRoom/PairRoleCard/PairRoleCard';
@@ -7,11 +9,19 @@ import TimerCard from '@/components/PairRoom/TimerCard/TimerCard';
 import * as S from './PairRoom.styles';
 
 const PairRoom = () => {
+  const [driver, setDriver] = useState('퍼렁');
+  const [navigator, setNavigator] = useState('포롱');
+
+  const handleSwap = () => {
+    setDriver(navigator);
+    setNavigator(driver);
+  };
+
   return (
     <S.Layout>
       <PairListCard />
       <S.Container>
-        <PairRoleCard />
+        <PairRoleCard driver={driver} navigator={navigator} onSwap={handleSwap} />
         <TimerCard />
       </S.Container>
       <S.Container>

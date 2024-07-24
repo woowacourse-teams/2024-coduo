@@ -12,15 +12,16 @@ export const RoleBoxContainer = styled.div`
   align-items: center;
   gap: 2rem;
   height: 100%;
+  padding: 3rem;
 `;
 
 const RoleBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem 3rem;
   width: 20rem;
   height: 11rem;
+  padding: 2rem 3rem;
   border-radius: 3rem;
 `;
 
