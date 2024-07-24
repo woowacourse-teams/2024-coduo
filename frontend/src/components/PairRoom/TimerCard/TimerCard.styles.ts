@@ -38,8 +38,10 @@ export const Timer = styled.div`
 export const TimerTextContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   gap: 0.4rem;
+  width: 10rem;
   font-size: ${({ theme }) => theme.fontSize.sm};
 `;
 
