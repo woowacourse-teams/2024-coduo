@@ -1,43 +1,64 @@
 import Button from '@/components/common/Button/Button';
+import Input from '@/components/common/Input/Input';
 import { Modal } from '@/components/common/Modal';
 import * as S from '@/components/CreatePairRoom/CreatePairRoom.styles';
 
+import usePairNameInput from '@/hooks/pairRoomModal/usePairNameInputs';
+
 interface CreatePairRoomModalProps {
-  isOpen: boolean;
   closeModal: () => void;
-  isButtonActive: boolean;
-  children: React.ReactNode;
-  createPairRoom: () => void;
+  createPairRoom: (firstPairName: string, secondPairName: string) => void;
 }
-const CreatePairRoomModal = ({
-  isButtonActive,
-  children,
-  isOpen,
-  closeModal,
-  createPairRoom,
-}: CreatePairRoomModalProps) => {
+const CreatePairRoomModal = ({ closeModal, createPairRoom }: CreatePairRoomModalProps) => {
+  const {
+    firstPairValidateOnChange,
+    secondPairValidateOnChange,
+    resetPairNameValue,
+    isButtonActive,
+    firstPairValue,
+    secondPairValue,
+  } = usePairNameInput();
+
+  const handleCreatePairRoom = () => {
+    createPairRoom(firstPairValue.value, secondPairValue.value);
+    resetPairNameValue();
+  };
+
+  const closePairRoomModal = () => {
+    closeModal();
+    resetPairNameValue();
+  };
+
   return (
-    <Modal isOpen={isOpen} close={closeModal} size="60rem" height="50rem">
-      <Modal.Header title="페어룸 만들기" subTitle="여러분의 이름(또는 닉네임)을 알려 주세요!" />
-      <Modal.CloseButton close={closeModal} />
+    <>
       <Modal.Body>
-        <S.InputLayout>{children}</S.InputLayout>
+        <S.InputLayout>
+          <Input
+            placeholder="이름을 입력해주세요"
+            label="페어1"
+            status={firstPairValue.status}
+            message={firstPairValue.message}
+            onChange={(event) => firstPairValidateOnChange(event)}
+          />
+          <Input
+            placeholder="이름을 입력해주세요"
+            label="페어2"
+            status={secondPairValue.status}
+            message={secondPairValue.message}
+            onChange={(event) => secondPairValidateOnChange(event)}
+          />
+        </S.InputLayout>
       </Modal.Body>
 
       <Modal.Footer>
-        <Button onClick={closeModal} filled={false}>
+        <Button onClick={closePairRoomModal} filled={false}>
           닫기
         </Button>
-        <Button
-          disabled={!isButtonActive}
-          onClick={() => {
-            createPairRoom();
-          }}
-        >
+        <Button disabled={!isButtonActive} onClick={handleCreatePairRoom}>
           확인
         </Button>
       </Modal.Footer>
-    </Modal>
+    </>
   );
 };
 

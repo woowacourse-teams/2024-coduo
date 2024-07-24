@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+
 import { FaRegPaste } from 'react-icons/fa6';
 
 import Button from '@/components/common/Button/Button';
@@ -5,11 +7,10 @@ import { Modal } from '@/components/common/Modal';
 import * as S from '@/components/CreatePairRoom/CreatePairRoom.styles';
 
 interface CompleteCreatePairRoomModalProps {
-  isOpen: boolean;
-  closeModal: () => void;
   pairRoomCode: string;
+  closeModal: () => void;
 }
-const CompleteCreatePairRoomModal = ({ isOpen, closeModal, pairRoomCode }: CompleteCreatePairRoomModalProps) => {
+const CompleteCreatePairRoomModal = ({ pairRoomCode, closeModal }: CompleteCreatePairRoomModalProps) => {
   const handleCopyClipBoard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -19,10 +20,10 @@ const CompleteCreatePairRoomModal = ({ isOpen, closeModal, pairRoomCode }: Compl
     }
   };
 
+  const navigate = useNavigate();
+
   return (
-    <Modal isOpen={isOpen} close={closeModal} size="60rem">
-      <Modal.Header title="페어룸 만들기 완료" subTitle="아래의 코드를 통해 계속 방에 참가하실 수 있습니다!" />
-      <Modal.CloseButton close={closeModal} />
+    <>
       <Modal.Body>
         <S.Content>
           <S.PairRoomCode>{pairRoomCode}</S.PairRoomCode>
@@ -35,9 +36,9 @@ const CompleteCreatePairRoomModal = ({ isOpen, closeModal, pairRoomCode }: Compl
         <Button onClick={closeModal} filled={false}>
           닫기
         </Button>
-        <Button>이동</Button>
+        <Button onClick={() => navigate('/')}>이동</Button>
       </Modal.Footer>
-    </Modal>
+    </>
   );
 };
 
