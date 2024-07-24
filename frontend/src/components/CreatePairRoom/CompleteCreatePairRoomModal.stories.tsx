@@ -2,6 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'styled-components';
 
+import { Modal } from '@/components/common/Modal';
+import { PAIR_ROOM_MODAL_INFO } from '@/components/constants/pairRoomModalInfo';
 import CompleteCreatePairRoomModal from '@/components/CreatePairRoom/CompleteCreatePairRoomModal';
 
 import { theme } from '@/styles/theme';
@@ -22,12 +24,16 @@ export const Default: Story = {
     return (
       <ThemeProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
-          <CompleteCreatePairRoomModal isOpen={true} closeModal={() => console.log()} pairRoomCode="abcdef" />
+          <Modal isOpen={true} close={() => console.log()} size="60rem">
+            <Modal.Header
+              title={PAIR_ROOM_MODAL_INFO.complete.title}
+              subTitle={PAIR_ROOM_MODAL_INFO.complete.subtitle}
+            />
+            <Modal.CloseButton close={() => console.log()} />
+            <CompleteCreatePairRoomModal closeModal={() => console.log()} pairRoomCode="abcdef" />
+          </Modal>
         </QueryClientProvider>
       </ThemeProvider>
     );
-  },
-  args: {
-    isOpen: true,
   },
 };
