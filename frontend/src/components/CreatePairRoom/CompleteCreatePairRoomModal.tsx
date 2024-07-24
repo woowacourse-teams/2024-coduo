@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 import { FaRegPaste } from 'react-icons/fa6';
 
@@ -20,7 +20,7 @@ const CompleteCreatePairRoomModal = ({ pairRoomCode, closeModal }: CompleteCreat
     }
   };
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   return (
     <>
@@ -36,7 +36,15 @@ const CompleteCreatePairRoomModal = ({ pairRoomCode, closeModal }: CompleteCreat
         <Button onClick={closeModal} filled={false}>
           닫기
         </Button>
-        <Button onClick={() => navigate('/')}>이동</Button>
+        <Button
+          onClick={
+            () => console.log()
+            // navigate('/')
+            //TODO: 페어룸으로 이동
+          }
+        >
+          이동
+        </Button>
       </Modal.Footer>
     </>
   );

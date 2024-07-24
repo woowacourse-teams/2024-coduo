@@ -34,7 +34,7 @@ const CreatePairRoom = ({ isOpen, closeModal }: CreatePairRoomProps) => {
   const createPairRoom = (firstPairName: string, secondPairName: string) =>
     addPairNameMutation({ firstPairName, secondPairName });
 
-  const [createPairRoomStatus, setCreatePairRoomStatus] = useState<CreatePairRoomStatus>('complete');
+  const [createPairRoomStatus, setCreatePairRoomStatus] = useState<CreatePairRoomStatus>('create');
 
   //TODO: query hook 파일로 분리
 
