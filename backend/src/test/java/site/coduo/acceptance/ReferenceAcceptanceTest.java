@@ -96,7 +96,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
     void update_reference_link_request() {
         // given
         createReferenceLink("url1");
-        Map<String, String> request = Map.of("id", "1", "url", "changed url");
+        final Map<String, String> request = Map.of("id", "1", "url", "changed url");
 
         // when & then
         RestAssured
