@@ -1,8 +1,17 @@
-import Button from '@/components/common/Button/Button';
+import * as S from '@/pages/Main/Main.styles';
 
-import * as S from './Main.styles';
+import Button from '@/components/common/Button/Button';
+import CreatePairRoomModal from '@/components/CreatePairRoomModal/CreatePairRoomModal';
+
+import useModal from '@/hooks/useModal';
 
 const Main = () => {
+  const {
+    isModalOpen: isCreatePairRoomModalOpen,
+    openModal: openCreatePairRoomModal,
+    closeModal: closeCreatePairRoomModal,
+  } = useModal();
+
   return (
     <S.Layout>
       <S.TextContainer>
@@ -23,15 +32,15 @@ const Main = () => {
         </S.Info>
       </S.TextContainer>
       <S.ButtonContainer>
-        <Button size="xl" rounded={true}>
+        <Button size="xl" rounded={true} onClick={openCreatePairRoomModal}>
           방 만들기
         </Button>
         <Button size="xl" filled={false} rounded={true}>
           방 들어가기
         </Button>
       </S.ButtonContainer>
+      <CreatePairRoomModal isOpen={isCreatePairRoomModalOpen} closeModal={closeCreatePairRoomModal} />
     </S.Layout>
   );
 };
-
 export default Main;
