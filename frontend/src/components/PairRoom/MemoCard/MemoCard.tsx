@@ -4,6 +4,7 @@ import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 
 import { theme } from '@/styles/theme';
 
+// TODO: 메모 기능 추가
 const MemoCard = () => {
   return (
     <PairRoomCard>
