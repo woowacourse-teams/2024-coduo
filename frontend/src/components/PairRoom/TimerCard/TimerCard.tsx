@@ -10,19 +10,21 @@ const formatSeconds = (seconds: number) => (seconds < 10 ? `0${seconds}` : `${se
 
 const formatTime = (time: number) => {
   const minutes = Math.floor(time / (60 * 1000));
-  const seconds = time % 60;
+  const seconds = Math.floor((time % 60000) / 1000);
 
   return { minutes: formatMinutes(minutes), seconds: formatSeconds(seconds) };
 };
 
+const DEFAULT_TIME = 60 * 1000;
+
 const TimerCard = () => {
-  const { timeLeft, isActive, handleStart, handlePause, handleStop } = useTimer();
+  const { timeLeft, isActive, handleStart, handlePause, handleStop } = useTimer(DEFAULT_TIME);
   const { minutes, seconds } = formatTime(timeLeft);
 
   return (
     <PairRoomCard>
       <S.Layout>
-        <S.ProgressBar>
+        <S.ProgressBar $progress={(timeLeft / DEFAULT_TIME) * 100}>
           <S.Timer>
             <S.TimerTextContainer>
               <S.TimerText>{minutes}</S.TimerText>

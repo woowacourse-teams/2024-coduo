@@ -12,7 +12,7 @@ export const Layout = styled.div`
   padding: 3rem;
 `;
 
-export const ProgressBar = styled.div`
+export const ProgressBar = styled.div<{ $progress: number }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,10 +23,12 @@ export const ProgressBar = styled.div`
   border: 0.8rem solid transparent;
   border-radius: 50%;
   background-image: linear-gradient(white, white),
-    conic-gradient(${({ theme }) => theme.color.primary[500]} 0%, ${({ theme }) => theme.color.primary[500]} 0%);
+    conic-gradient(
+      ${({ theme, $progress }) => `${theme.color.primary[500]} ${$progress}%, ${theme.color.black[30]} ${$progress}%`}
+    );
   background-origin: border-box;
   background-clip: content-box, border-box;
-  transition: background 1s linear;
+  transition: background-image 1s ease-in;
 `;
 
 export const Timer = styled.div`
