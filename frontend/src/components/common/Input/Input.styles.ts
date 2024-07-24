@@ -4,9 +4,11 @@ import { InputStatus } from '@/components/common/Input/Input.type';
 
 interface InputProps {
   $status: InputStatus;
-  $width: string;
-  $height: string;
   $css?: ReturnType<typeof css>;
+}
+
+interface LayoutProps {
+  $width: string;
 }
 
 const inputStatusCss = {
@@ -37,10 +39,12 @@ const inputStatusMessageCss = {
   `,
 };
 
-export const Layout = styled.div`
+export const Layout = styled.div<LayoutProps>`
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
+
+  width: ${({ $width }) => $width};
 `;
 
 export const Label = styled.label`
@@ -58,8 +62,8 @@ export const Input = styled.input<InputProps>`
   ${({ $status }) => inputStatusCss[$status]};
   ${({ $status }) => inputStatusCss[$status]};
 
-  width: ${({ $width }) => $width};
-  height: ${({ $height }) => $height};
+  width: 100%;
+  height: 4.8rem;
   border-radius: 0.5rem;
   font-size: ${({ theme }) => theme.fontSize.md};
   padding: 0 1rem;
