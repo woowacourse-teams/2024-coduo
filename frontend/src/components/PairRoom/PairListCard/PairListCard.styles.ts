@@ -1,66 +1,17 @@
 import styled from 'styled-components';
 
-export const Layout = styled.div`
+export const Layout = styled.div<{ $isOpen: boolean }>`
+  position: relative;
   display: flex;
   flex-direction: column;
+  width: ${(props) => (props.$isOpen ? '16vw' : '6rem')};
+  min-width: ${(props) => (props.$isOpen ? '20rem' : '6rem')};
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  white-space: nowrap;
 `;
 
-export const Sidebar = styled.div<{ isOpen: boolean }>`
-  width: ${(props) => (props.isOpen ? '250px' : '0')};
-  transition: width 0.3s;
+export const Sidebar = styled.div`
   overflow: hidden;
-  background-color: #f8f9fa;
-  border-right: 1px solid #dee2e6;
-`;
-
-export const SidebarHeader = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 16px;
-  background-color: #fff;
-  border-bottom: 1px solid #dee2e6;
-`;
-
-export const RoomCode = styled.span`
-  margin-left: auto;
-  font-weight: bold;
-`;
-
-export const CopyButton = styled.button`
-  margin-left: 8px;
-  background-color: #e9ecef;
-  border: none;
-  padding: 4px 8px;
-  cursor: pointer;
-`;
-
-export const PairList = styled.div`
-  padding: 16px;
-`;
-
-export const PairItem = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
-`;
-
-export const PairRole = styled.span`
-  background-color: #d1e7dd;
-  padding: 4px 8px;
-  border-radius: 12px;
-  margin-right: 8px;
-`;
-
-export const PairName = styled.span`
-  font-weight: bold;
-`;
-
-export const DeleteButton = styled.button`
-  width: 100%;
-  padding: 12px;
-  background-color: #f8d7da;
-  border: none;
-  color: #721c24;
-  cursor: pointer;
-  margin-top: auto;
 `;

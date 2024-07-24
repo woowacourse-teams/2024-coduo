@@ -1,43 +1,36 @@
 import { useState } from 'react';
 
-import { IoIosArrowBack } from 'react-icons/io';
-import { IoPeople } from 'react-icons/io5';
-
+import DeleteButton from '@/components/PairRoom/PairListCard/DeleteButton/DeleteButton';
+import Header from '@/components/PairRoom/PairListCard/Header/Header';
+import PairListSection from '@/components/PairRoom/PairListCard/PairListSection/PairListSection';
+import RoomCodeSection from '@/components/PairRoom/PairListCard/RoomCodeSection/RoomCodeSection';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
-
-import { theme } from '@/styles/theme';
 
 import * as S from './PairListCard.styles';
 
-const PairListCard = () => {
+interface PairListCardProps {
+  driver: string;
+  navigator: string;
+  roomCode: string;
+  onRoomDelete: () => void;
+}
+
+const PairListCard = ({ driver, navigator, roomCode, onRoomDelete }: PairListCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
+  const onCopy = () => {
+    window.navigator.clipboard.writeText(roomCode);
+    alert('방 코드가 복사되었습니다.');
   };
 
   return (
-    <S.Layout>
+    <S.Layout $isOpen={isOpen} onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
       <PairRoomCard>
-        <PairRoomCard.Header icon={<IoPeople color={theme.color.primary[500]} />} title="페어" />
-        <S.Sidebar isOpen={isOpen}>
-          <S.SidebarHeader>
-            <IoIosArrowBack onClick={toggleSidebar} />
-            <span>방 코드</span>
-            <S.RoomCode>IUUIASDFJK</S.RoomCode>
-            <S.CopyButton>복사</S.CopyButton>
-          </S.SidebarHeader>
-          <S.PairList>
-            <S.PairItem>
-              <S.PairRole>드라이버</S.PairRole>
-              <S.PairName>퍼링</S.PairName>
-            </S.PairItem>
-            <S.PairItem>
-              <S.PairRole>네비게이터</S.PairRole>
-              <S.PairName>포롱</S.PairName>
-            </S.PairItem>
-          </S.PairList>
-          <S.DeleteButton>방 삭제하기</S.DeleteButton>
+        <Header isOpen={isOpen} />
+        <S.Sidebar>
+          <RoomCodeSection isOpen={isOpen} roomCode={roomCode} onCopy={onCopy} />
+          <PairListSection isOpen={isOpen} driver={driver} navigator={navigator} />
+          <DeleteButton isOpen={isOpen} onRoomDelete={onRoomDelete} />
         </S.Sidebar>
       </PairRoomCard>
     </S.Layout>
