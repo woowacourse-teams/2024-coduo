@@ -24,14 +24,16 @@ const CompleteCreatePairRoomModal = ({ pairRoomCode, closeModal }: CompleteCreat
 
   return (
     <>
-      <Modal.Body>
-        <S.Content>
-          <S.PairRoomCode>{pairRoomCode}</S.PairRoomCode>
-          <S.IconBox onClick={() => handleCopyClipBoard(pairRoomCode)}>
-            <FaRegPaste size={'1.8rem'} />
-          </S.IconBox>
-        </S.Content>
-      </Modal.Body>
+      <S.Layout>
+        <Modal.Body>
+          <S.Content>
+            <S.PairRoomCode>{pairRoomCode}</S.PairRoomCode>
+            <S.IconBox onClick={() => handleCopyClipBoard(pairRoomCode)}>
+              <FaRegPaste size={'1.8rem'} />
+            </S.IconBox>
+          </S.Content>
+        </Modal.Body>
+      </S.Layout>
       <Modal.Footer>
         <Button onClick={closeModal} filled={false}>
           닫기

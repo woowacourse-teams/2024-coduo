@@ -24,7 +24,7 @@ export const Default: Story = {
     return (
       <ThemeProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
-          <Modal isOpen={true} close={() => console.log()} size="60rem">
+          <Modal isOpen={true} close={() => console.log()} size="60rem" height="45rem">
             <Modal.Header
               title={PAIR_ROOM_MODAL_INFO.complete.title}
               subTitle={PAIR_ROOM_MODAL_INFO.complete.subtitle}

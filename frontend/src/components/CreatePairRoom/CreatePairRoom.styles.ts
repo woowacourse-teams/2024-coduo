@@ -10,6 +10,7 @@ export const Content = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
   gap: 1.2rem;
 `;
 export const PairRoomCode = styled.p`
@@ -32,4 +33,13 @@ export const IconBox = styled.div`
   &:active {
     background-color: ${({ theme }) => theme.color.black[40]};
   }
+`;
+
+export const Layout = styled.div`
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
