@@ -12,7 +12,7 @@ const USER_OPTIONS = ['user1', 'user2']; // 임시 데이터
 
 const PairRoomOnboardingModal = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const [step, setStep] = useState<Step>('timerSetting');
+  const [step, setStep] = useState<Step>('roleSetting');
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
   const [timer, setTimer] = useState<string>();
