@@ -10,7 +10,7 @@ interface TimerSettingProps {
 }
 
 const TimerSetting = ({ timer, setTimer }: TimerSettingProps) => (
-  <>
+  <S.Layout>
     <S.InformationWrapper>
       <S.InformationTitle>
         <RiInformation2Line size="2rem" />왜 타이머 시간을 설정해야 하나요?
@@ -30,7 +30,7 @@ const TimerSetting = ({ timer, setTimer }: TimerSettingProps) => (
         onChange={(event) => setTimer(event.target.value)}
       />
     </S.SettingsContainer>
-  </>
+  </S.Layout>
 );
 
 export default TimerSetting;

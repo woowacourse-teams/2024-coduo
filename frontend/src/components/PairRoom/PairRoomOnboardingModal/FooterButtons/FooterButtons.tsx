@@ -12,22 +12,25 @@ interface FooterButtonsProps {
 }
 
 const FooterButtons: React.FC<FooterButtonsProps> = ({ step, handleBack, handleNext, isRoleSelected, timer }) => {
-  if (step === 'timerSetting') {
-    return (
-      <Button onClick={handleNext} disabled={!timer}>
-        완료
-      </Button>
-    );
+  switch (step) {
+    case 'timerSetting':
+      return (
+        <>
+          <Button onClick={handleBack}>이전</Button>
+          <Button onClick={handleNext} disabled={!timer}>
+            완료
+          </Button>
+        </>
+      );
+    case 'roleSetting':
+      return (
+        <Button onClick={handleNext} disabled={!isRoleSelected}>
+          다음
+        </Button>
+      );
+    default:
+      return;
   }
-
-  return (
-    <>
-      {step !== 'roleSetting' && <Button onClick={handleBack}>이전</Button>}
-      <Button onClick={handleNext} disabled={!isRoleSelected}>
-        다음
-      </Button>
-    </>
-  );
 };
 
 export default FooterButtons;

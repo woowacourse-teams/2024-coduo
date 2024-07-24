@@ -9,7 +9,7 @@ interface ProgressProps {
 }
 
 const Progress = ({ step, isRoleSelected }: ProgressProps) => (
-  <S.ProgressContainer>
+  <S.Layout>
     <S.ButtonWrapper>
       <Button rounded={true} size="lg" filled={true} animation={false}>
         1
@@ -23,7 +23,7 @@ const Progress = ({ step, isRoleSelected }: ProgressProps) => (
       </Button>
       <S.ButtonLabel>타이머 설정</S.ButtonLabel>
     </S.ButtonWrapper>
-  </S.ProgressContainer>
+  </S.Layout>
 );
 
 export default Progress;

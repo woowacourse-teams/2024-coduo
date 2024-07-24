@@ -13,7 +13,7 @@ interface RoleSettingProps {
 }
 
 const RoleSetting = ({ driver, navigator, userOptions = [], handleSelect }: RoleSettingProps) => (
-  <>
+  <S.Layout>
     <S.InformationWrapper>
       <S.InformationTitle>
         <RiInformation2Line size="2rem" />
@@ -44,7 +44,7 @@ const RoleSetting = ({ driver, navigator, userOptions = [], handleSelect }: Role
         />
       </S.DropdownWrapper>
     </S.SettingsContainer>
-  </>
+  </S.Layout>
 );
 
 export default RoleSetting;

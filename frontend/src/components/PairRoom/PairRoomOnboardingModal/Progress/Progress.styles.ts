@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ProgressContainer = styled.div`
+export const Layout = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
