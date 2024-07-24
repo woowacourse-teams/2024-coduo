@@ -4,6 +4,7 @@ import java.net.URI;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import site.coduo.pairroom.controller.docs.PairRoomDocs;
 import site.coduo.pairroom.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.dto.PairRoomCreateResponse;
+import site.coduo.pairroom.dto.PairRoomDeleteRequest;
 import site.coduo.pairroom.dto.PairRoomReadRequest;
 import site.coduo.pairroom.dto.PairRoomReadResponse;
 import site.coduo.pairroom.service.PairRoomService;
@@ -38,5 +40,12 @@ public class PairRoomController implements PairRoomDocs {
         final PairRoomCreateResponse response = new PairRoomCreateResponse(service.save(request));
         return ResponseEntity.created(URI.create("/"))
                 .body(response);
+    }
+
+    @DeleteMapping("/pair-room")
+    public ResponseEntity<Void> deletePairRoom(@RequestParam("accessCode") final PairRoomDeleteRequest request) {
+        service.deletePairRoom(request.accessCode());
+        return ResponseEntity.noContent()
+                .build();
     }
 }
