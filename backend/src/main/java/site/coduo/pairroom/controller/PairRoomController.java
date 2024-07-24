@@ -32,12 +32,14 @@ public class PairRoomController implements PairRoomDocs {
             @RequestParam("accessCode") final PairRoomReadRequest request) {
         final PairRoomReadResponse response = PairRoomReadResponse.from(
                 service.findByAccessCode(request.accessCode()));
+
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/pair-room")
     public ResponseEntity<PairRoomCreateResponse> createPairRoom(@RequestBody final PairRoomCreateRequest request) {
         final PairRoomCreateResponse response = new PairRoomCreateResponse(service.save(request));
+
         return ResponseEntity.created(URI.create("/"))
                 .body(response);
     }
@@ -45,6 +47,7 @@ public class PairRoomController implements PairRoomDocs {
     @DeleteMapping("/pair-room")
     public ResponseEntity<Void> deletePairRoom(@RequestParam("accessCode") final PairRoomDeleteRequest request) {
         service.deletePairRoom(request.accessCode());
+
         return ResponseEntity.noContent()
                 .build();
     }
