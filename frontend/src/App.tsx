@@ -9,6 +9,8 @@ import Main from '@/pages/Main/Main';
 import GlobalStyles from './styles/Global.style';
 import { theme } from './styles/theme';
 
+const queryClient = new QueryClient();
+
 const App = () => {
   const router = createBrowserRouter([
     {
@@ -22,7 +24,6 @@ const App = () => {
       ],
     },
   ]);
-  const queryClient = new QueryClient();
 
   return (
     <QueryClientProvider client={queryClient}>
