@@ -42,13 +42,13 @@ const CreatePairRoom = ({ isOpen, closeModal }: CreatePairRoomProps) => {
 
   return (
     <>
-      <Modal isOpen={isOpen} close={closeModal} size="60rem">
+      <Modal isOpen={isOpen} close={closeModal} size="60rem" height="45rem">
         <Modal.Header title={title} subTitle={subtitle} />
         <Modal.CloseButton close={closeModal} />
-        {createPairRoomStatus === 'create' && (
+        {!isPending && createPairRoomStatus === 'create' && (
           <CreatePairRoomModal closeModal={closeModal} createPairRoom={createPairRoom} />
         )}
-        {createPairRoomStatus === 'complete' && (
+        {!isPending && createPairRoomStatus === 'complete' && (
           <CompleteCreatePairRoomModal pairRoomCode={roomCode.current} closeModal={closeModal} />
         )}
         {isPending && <p>...Loading</p>}
