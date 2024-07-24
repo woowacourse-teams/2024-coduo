@@ -23,7 +23,13 @@ const TimerCard = () => {
   const [isActive, setIsActive] = useState(false);
 
   const handleStart = () => setIsActive(true);
-  const handleStop = () => setIsActive(false);
+
+  const handlePause = () => setIsActive(false);
+
+  const handleStop = () => {
+    setIsActive(false);
+    setTimeLeft(TIMER_DEFAULT);
+  };
 
   useEffect(() => {
     if (isActive && timeLeft > 0) {
@@ -61,7 +67,7 @@ const TimerCard = () => {
         </S.ProgressBar>
         <S.IconContainer>
           <S.PlayIcon $isActive={!isActive} onClick={handleStart} />
-          <S.PauseIcon $isActive={false} />
+          <S.PauseIcon $isActive={isActive} onClick={handlePause} />
           <S.StopIcon $isActive={isActive} onClick={handleStop} />
         </S.IconContainer>
       </S.Layout>
