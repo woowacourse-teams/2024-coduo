@@ -28,7 +28,7 @@ export const InformationTitle = styled.p`
   margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.8rem;
 `;
 
 export const InformationDescription = styled.p`
@@ -40,9 +40,9 @@ export const InformationDescription = styled.p`
 export const SettingsContainer = styled.div`
   display: flex;
   flex-direction: row;
-  width: 100%;
+  width: 90%;
+  min-height: 20rem;
   justify-content: space-around;
-  margin: 0 0 12rem 0;
 `;
 
 export const DropdownWrapper = styled.div`
@@ -56,4 +56,24 @@ export const DropdownLabel = styled.p`
   font-weight: 500;
   color: ${({ theme }) => theme.color.primary[700]};
   margin-bottom: 0.5rem;
+`;
+
+export const TimeSelectContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 2rem;
+`;
+
+export const TimeSelectTitle = styled.p`
+  font-size: 2rem;
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  color: ${({ theme }) => theme.color.primary[700]};
+`;
+
+export const TimeSelectButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 1.2rem;
 `;

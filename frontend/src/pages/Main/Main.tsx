@@ -1,12 +1,10 @@
 import Button from '@/components/common/Button/Button';
-import PairRoomOnboardingModal from '@/components/PairRoom/PairRoomOnboardingModal/PairRoomOnboardingModal';
 
 import * as S from './Main.styles';
 
 const Main = () => {
   return (
     <S.Layout>
-      <PairRoomOnboardingModal />
       <S.TextContainer>
         <S.TitleContainer>
           <S.SubTitle>

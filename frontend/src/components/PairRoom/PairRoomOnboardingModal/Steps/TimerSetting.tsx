@@ -1,5 +1,6 @@
 import { RiInformation2Line } from 'react-icons/ri';
 
+import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 
 import * as S from './Steps.styles';
@@ -21,14 +22,28 @@ const TimerSetting = ({ timer, setTimer }: TimerSettingProps) => (
       </S.InformationDescription>
     </S.InformationWrapper>
     <S.SettingsContainer>
-      <Input
-        label="타이머"
-        placeholder="타이머 시간 (분)"
-        width="90%"
-        value={timer}
-        type="number"
-        onChange={(event) => setTimer(event.target.value)}
-      />
+      <S.TimeSelectContainer>
+        <S.TimeSelectTitle>타이머 시간</S.TimeSelectTitle>
+        <S.TimeSelectButtonWrapper>
+          <Button color="primary" filled={timer === '10'} onClick={() => setTimer('10')} size="lg">
+            10분
+          </Button>
+          <Button color="primary" filled={timer === '15'} onClick={() => setTimer('15')} size="lg">
+            15분
+          </Button>
+          <Button color="primary" filled={timer === '30'} onClick={() => setTimer('30')} size="lg">
+            30분
+          </Button>
+        </S.TimeSelectButtonWrapper>
+        <Input
+          label="직접 설정"
+          placeholder="타이머 시간 (분)"
+          width="100%"
+          value={timer}
+          type="number"
+          onChange={(event) => setTimer(event.target.value)}
+        />
+      </S.TimeSelectContainer>
     </S.SettingsContainer>
   </S.Layout>
 );

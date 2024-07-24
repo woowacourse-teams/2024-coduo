@@ -12,7 +12,7 @@ const USER_OPTIONS = ['user1', 'user2']; // 임시 데이터
 
 const PairRoomOnboardingModal = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const [step, setStep] = useState<Step>('roleSetting');
+  const [step, setStep] = useState<Step>('timerSetting');
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
   const [timer, setTimer] = useState<string>();
@@ -55,7 +55,7 @@ const PairRoomOnboardingModal = () => {
   };
 
   return (
-    <Modal isOpen={isOpen} close={() => {}} position="bottom">
+    <Modal isOpen={isOpen} close={() => {}} position="bottom" height="95%">
       <Progress step={step} isRoleSelected={isRoleSelected} />
       <Modal.Body>
         {step === 'roleSetting' ? (
