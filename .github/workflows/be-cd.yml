@@ -60,6 +60,6 @@ jobs:
           envs: PROJECT
           script_stop: true
           script: |
-            docker compose -p $PROJECT down
-            docker pull ${{ secrets.DOCKER_HUB_REPO }}/springboot-app
-            docker compose -p $PROJECT up -d
+            docker compose down
+            docker rmi -f ${{ secrets.DOCKER_HUB_REPO }}/springboot-app
+            docker compose up -d
