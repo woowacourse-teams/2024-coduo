@@ -15,7 +15,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     void show_pair_room() {
         //given
         final PairRoomCreateResponse pairRoomUrl = createPairRoom(new PairRoomCreateRequest("레디", "프람"));
-
+ 
         //when & then
         RestAssured
                 .given()
