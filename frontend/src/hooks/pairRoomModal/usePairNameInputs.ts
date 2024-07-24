@@ -10,7 +10,7 @@ interface InitialValue {
 
 const usePairNameInputs = () => {
   const {
-    inputValue: firstPairValue,
+    inputValue: firstPair,
     handleOnChange: firstPairOnChange,
     resetInputValue: firstPairValueReset,
   } = useInput<InitialValue>({
@@ -19,7 +19,7 @@ const usePairNameInputs = () => {
     message: '',
   });
   const {
-    inputValue: secondPairValue,
+    inputValue: secondPair,
     handleOnChange: secondPairOnChange,
     resetInputValue: secondPairValueReset,
   } = useInput<InitialValue>({
@@ -49,15 +49,19 @@ const usePairNameInputs = () => {
   const handleSecondPair = (event: React.ChangeEvent<HTMLInputElement>) => {
     secondPairOnChange(event, validatePairName);
   };
-  const isButtonActive = firstPairValue.status !== 'error' && secondPairValue.status !== 'error';
+  const isButtonActive =
+    firstPair.status !== 'error' &&
+    secondPair.status !== 'error' &&
+    firstPair.value.length !== 0 &&
+    secondPair.value.length !== 0;
 
   return {
     handleFirstPair,
     handleSecondPair,
     resetPairName,
     isButtonActive,
-    firstPairValue,
-    secondPairValue,
+    firstPair,
+    secondPair,
   };
 };
 export default usePairNameInputs;

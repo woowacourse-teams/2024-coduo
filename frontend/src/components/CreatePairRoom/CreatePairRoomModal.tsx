@@ -10,11 +10,11 @@ interface CreatePairRoomModalProps {
   createPairRoom: (firstPairName: string, secondPairName: string) => void;
 }
 const CreatePairRoomModal = ({ closeModal, createPairRoom }: CreatePairRoomModalProps) => {
-  const { handleFirstPair, handleSecondPair, resetPairName, isButtonActive, firstPairValue, secondPairValue } =
+  const { handleFirstPair, handleSecondPair, resetPairName, isButtonActive, firstPair, secondPair } =
     usePairNameInputs();
 
   const handleCreatePairRoom = () => {
-    createPairRoom(firstPairValue.value, secondPairValue.value);
+    createPairRoom(firstPair.value, secondPair.value);
     resetPairName();
   };
 
@@ -30,15 +30,15 @@ const CreatePairRoomModal = ({ closeModal, createPairRoom }: CreatePairRoomModal
           <Input
             placeholder="이름을 입력해주세요"
             label="페어1"
-            status={firstPairValue.status}
-            message={firstPairValue.message}
+            status={firstPair.status}
+            message={firstPair.message}
             onChange={(event) => handleFirstPair(event)}
           />
           <Input
             placeholder="이름을 입력해주세요"
             label="페어2"
-            status={secondPairValue.status}
-            message={secondPairValue.message}
+            status={secondPair.status}
+            message={secondPair.message}
             onChange={(event) => handleSecondPair(event)}
           />
         </S.InputLayout>
