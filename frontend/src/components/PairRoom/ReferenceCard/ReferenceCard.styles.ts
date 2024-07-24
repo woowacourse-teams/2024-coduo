@@ -1,6 +1,7 @@
-import styled from 'styled-components';
+import { css } from 'styled-components';
 
-export const ButtonWrapper = styled.div`
-  display: flex;
-  gap: 0.5rem;
+export const buttonStyle = css`
+  width: 9rem;
+  height: 2.5rem;
+  font-size: ${({ theme }) => theme.fontSize.sm};
 `;
