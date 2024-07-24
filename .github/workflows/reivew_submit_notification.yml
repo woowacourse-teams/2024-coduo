@@ -2,6 +2,7 @@ name: Notify Slack on Pull Request Review Request
 
 on:
   pull_request_review:
+    types: [submitted]
 
 env:
   koust6u: U07D1PWSLSG
