@@ -16,7 +16,7 @@ export const Layout = styled.div<{ $width: string }>`
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    height: 5rem;
+    height: 4.8rem;
     border-radius: 0.8rem;
     padding: 1rem;
     padding-left: 1.7rem;
@@ -65,7 +65,7 @@ export const Item = styled(Button)`
   border: none;
   justify-content: flex-start;
   color: ${({ theme }) => theme.color.primary[700]};
-
+  height: 4.8rem;
   &:hover {
     border: none;
   }
