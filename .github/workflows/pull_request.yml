@@ -1,0 +1,72 @@
+name: PULL_REQUEST
+
+on:
+  pull_request:
+    types: [opened]
+     
+env:
+  koust6u: U07D1PWSLSG
+  kelly6bf: U07DSB12K99
+  JiHyeonL: U07E3T9PMA4
+  yechop: U07E3TG6CHE
+  reddevilmidzy: U07DF0QPUKV
+  dle234: U07E48NCK4G
+  greetings1012: U07DPGSCXRA
+  anttiey: U07DPGSCXRA
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Send HTTP request and extract GitHub IDs
+        id: extract_github_ids
+        run: |
+          response=$(curl -s -H "Content-Type: application/json" \
+                           -H "Github_id: ${{ github.event.pull_request.user.login }}" \
+                           http://43.200.237.127:8080/member)
+          GITHUB_IDS=$(echo "$response" | jq -r 'map(.githubId) | join(" ")')
+          echo "GITHUB_IDS=$GITHUB_IDS" >> $GITHUB_ENV
+
+      - name: Prepare GitHub IDs for Slack message
+        id: prepare_slack_message
+        run: |
+          GITHUB_IDS_ARRAY=($GITHUB_IDS)
+          
+          SLACK_USER_MENTIONS=""
+          for GITHUB_ID in "${GITHUB_IDS_ARRAY[@]}"; do
+            SLACK_ID="${!GITHUB_ID}"
+            if [ -n "$SLACK_ID" ]; then
+              SLACK_USER_MENTIONS+="<@$SLACK_ID> "
+            fi
+          done
+          echo "SLACK_USER_MENTIONS=$SLACK_USER_MENTIONS" >> $GITHUB_ENV
+
+      - name: PR opened
+        id: slack-pr-opened
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          channel-id: 'C07DN3TETSL'
+          payload: |
+            {
+              "text": "Backend PR opened: ${{ github.event.pull_request.html_url }}",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "🔔*PR 요청 왔어요. 코드 리뷰해주세요*🔔 \n<${{ github.event.pull_request.html_url }}|`${{github.event.pull_request.title}}`에 대한 코드 리뷰를 해주세요.>\n${{ env.SLACK_USER_MENTIONS }}"
+                  }
+                }
+              ]
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+
+      - name: thread store api request
+        run: |
+          curl -X POST http://43.200.237.127:8080/github/thread \
+          -H "Content-Type: application/json" \
+          -d '{"ts": "${{steps.slack-pr-opened.outputs.ts}}", "url": "${{github.event.pull_request.html_url}}"}'
