@@ -17,7 +17,7 @@ const CreatePairRoomModal = ({
   createPairRoom,
 }: CreatePairRoomModalProps) => {
   return (
-    <Modal isOpen={isOpen} close={closeModal} size="60rem">
+    <Modal isOpen={isOpen} close={closeModal} size="60rem" height="50rem">
       <Modal.Header title="페어룸 만들기" subTitle="여러분의 이름(또는 닉네임)을 알려 주세요!" />
       <Modal.CloseButton close={closeModal} />
       <Modal.Body>
