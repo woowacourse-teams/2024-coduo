@@ -1,13 +1,13 @@
+import * as S from '@/pages/Main/Main.styles';
+
 import Button from '@/components/common/Button/Button';
 import CreatePairRoom from '@/components/CreatePairRoom/CreatePairRoom';
 
 import useModal from '@/hooks/useModal';
 
-import * as S from './Main.styles';
-
 const Main = () => {
   const {
-    isModalOpen: isOpenCreatePairRoomModal,
+    isModalOpen: isCreatePairRoomModalOpen,
     openModal: openCreatePairRoomModal,
     closeModal: closeCreatePairRoomModal,
   } = useModal();
@@ -39,7 +39,7 @@ const Main = () => {
           방 들어가기
         </Button>
       </S.ButtonContainer>
-      <CreatePairRoom isOpen={isOpenCreatePairRoomModal} closeModal={closeCreatePairRoomModal} />
+      <CreatePairRoom isOpen={isCreatePairRoomModalOpen} closeModal={closeCreatePairRoomModal} />
     </S.Layout>
   );
 };

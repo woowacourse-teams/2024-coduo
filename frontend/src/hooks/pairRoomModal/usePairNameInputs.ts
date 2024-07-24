@@ -8,7 +8,7 @@ interface InitialValue {
   message: string;
 }
 
-const usePairNameInput = () => {
+const usePairNameInputs = () => {
   const {
     inputValue: firstPairValue,
     handleOnChange: firstPairOnChange,
@@ -28,7 +28,7 @@ const usePairNameInput = () => {
     message: '',
   });
 
-  const resetPairNameValue = () => {
+  const resetPairName = () => {
     firstPairValueReset();
     secondPairValueReset();
   };
@@ -43,21 +43,21 @@ const usePairNameInput = () => {
     };
   };
 
-  const firstPairValidateOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFirstPair = (event: React.ChangeEvent<HTMLInputElement>) => {
     firstPairOnChange(event, validatePairName);
   };
-  const secondPairValidateOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSecondPair = (event: React.ChangeEvent<HTMLInputElement>) => {
     secondPairOnChange(event, validatePairName);
   };
   const isButtonActive = firstPairValue.status !== 'error' && secondPairValue.status !== 'error';
 
   return {
-    firstPairValidateOnChange,
-    secondPairValidateOnChange,
-    resetPairNameValue,
+    handleFirstPair,
+    handleSecondPair,
+    resetPairName,
     isButtonActive,
     firstPairValue,
     secondPairValue,
   };
 };
-export default usePairNameInput;
+export default usePairNameInputs;

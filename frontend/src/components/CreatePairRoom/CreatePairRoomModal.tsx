@@ -3,30 +3,24 @@ import Input from '@/components/common/Input/Input';
 import { Modal } from '@/components/common/Modal';
 import * as S from '@/components/CreatePairRoom/CreatePairRoom.styles';
 
-import usePairNameInput from '@/hooks/pairRoomModal/usePairNameInputs';
+import usePairNameInputs from '@/hooks/pairRoomModal/usePairNameInputs';
 
 interface CreatePairRoomModalProps {
   closeModal: () => void;
   createPairRoom: (firstPairName: string, secondPairName: string) => void;
 }
 const CreatePairRoomModal = ({ closeModal, createPairRoom }: CreatePairRoomModalProps) => {
-  const {
-    firstPairValidateOnChange,
-    secondPairValidateOnChange,
-    resetPairNameValue,
-    isButtonActive,
-    firstPairValue,
-    secondPairValue,
-  } = usePairNameInput();
+  const { handleFirstPair, handleSecondPair, resetPairName, isButtonActive, firstPairValue, secondPairValue } =
+    usePairNameInputs();
 
   const handleCreatePairRoom = () => {
     createPairRoom(firstPairValue.value, secondPairValue.value);
-    resetPairNameValue();
+    resetPairName();
   };
 
   const closePairRoomModal = () => {
     closeModal();
-    resetPairNameValue();
+    resetPairName();
   };
 
   return (
@@ -38,14 +32,14 @@ const CreatePairRoomModal = ({ closeModal, createPairRoom }: CreatePairRoomModal
             label="페어1"
             status={firstPairValue.status}
             message={firstPairValue.message}
-            onChange={(event) => firstPairValidateOnChange(event)}
+            onChange={(event) => handleFirstPair(event)}
           />
           <Input
             placeholder="이름을 입력해주세요"
             label="페어2"
             status={secondPairValue.status}
             message={secondPairValue.message}
-            onChange={(event) => secondPairValidateOnChange(event)}
+            onChange={(event) => handleSecondPair(event)}
           />
         </S.InputLayout>
       </Modal.Body>

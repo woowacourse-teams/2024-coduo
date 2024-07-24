@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 import { useMutation } from '@tanstack/react-query';
 
@@ -7,7 +7,7 @@ import { PAIR_ROOM_MODAL_INFO } from '@/components/constants/pairRoomModalInfo';
 import CompleteCreatePairRoomModal from '@/components/CreatePairRoom/CompleteCreatePairRoomModal';
 import CreatePairRoomModal from '@/components/CreatePairRoom/CreatePairRoomModal';
 
-import { addPairName } from '@/apis/pairName';
+import { addPairNames } from '@/apis/pairName';
 
 interface CreatePairRoomProps {
   isOpen: boolean;
@@ -17,13 +17,14 @@ interface CreatePairRoomProps {
 type CreatePairRoomStatus = 'create' | 'complete';
 
 const CreatePairRoom = ({ isOpen, closeModal }: CreatePairRoomProps) => {
-  const roomCode = useRef<string>('abcdef');
-
   //query 는 폴더 구조를 맞추지 않아서 일단 여기에 뒀어요 !
-  const { mutate: addPairNameMutation, isPending } = useMutation({
-    mutationFn: addPairName,
-    onSuccess: (data) => {
-      roomCode.current = data;
+  const {
+    mutate: addPairNameMutation,
+    isPending,
+    data,
+  } = useMutation({
+    mutationFn: addPairNames,
+    onSuccess: () => {
       setCreatePairRoomStatus('complete');
     },
     onError: (error) => {
@@ -49,7 +50,7 @@ const CreatePairRoom = ({ isOpen, closeModal }: CreatePairRoomProps) => {
           <CreatePairRoomModal closeModal={closeModal} createPairRoom={createPairRoom} />
         )}
         {!isPending && createPairRoomStatus === 'complete' && (
-          <CompleteCreatePairRoomModal pairRoomCode={roomCode.current} closeModal={closeModal} />
+          <CompleteCreatePairRoomModal pairRoomCode={data.accessCode} closeModal={closeModal} />
         )}
         {isPending && <p>...Loading</p>}
       </Modal>
