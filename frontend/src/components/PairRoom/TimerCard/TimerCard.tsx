@@ -1,12 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
-
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
+
+import useTimer from '@/hooks/PairRoom/useTimer';
 
 import * as S from './TimerCard.styles';
 
-const TIMER_DEFAULT = 3 * 60 * 1000;
-
 const formatMinutes = (minutes: number) => (minutes < 10 ? `0${minutes}` : `${minutes}`);
+
 const formatSeconds = (seconds: number) => (seconds < 10 ? `0${seconds}` : `${seconds}`);
 
 const formatTime = (time: number) => {
@@ -17,36 +16,7 @@ const formatTime = (time: number) => {
 };
 
 const TimerCard = () => {
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-  const [timeLeft, setTimeLeft] = useState(TIMER_DEFAULT);
-  const [isActive, setIsActive] = useState(false);
-
-  const handleStart = () => setIsActive(true);
-
-  const handlePause = () => setIsActive(false);
-
-  const handleStop = () => {
-    setIsActive(false);
-    setTimeLeft(TIMER_DEFAULT);
-  };
-
-  useEffect(() => {
-    if (isActive && timeLeft > 0) {
-      timerRef.current = setInterval(() => {
-        setTimeLeft((timeLeft) => timeLeft - 1);
-      }, 1000);
-    }
-
-    if (timeLeft === 0) {
-      setIsActive(false);
-    }
-
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [isActive, timeLeft]);
-
+  const { timeLeft, isActive, handleStart, handlePause, handleStop } = useTimer();
   const { minutes, seconds } = formatTime(timeLeft);
 
   return (
