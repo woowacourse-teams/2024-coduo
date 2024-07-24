@@ -3,19 +3,20 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'styled-components';
 
 import { Modal } from '@/components/common/Modal';
-import { PAIR_ROOM_MODAL_INFO } from '@/components/constants/pairRoomModalInfo';
-import CompleteCreatePairRoomModal from '@/components/CreatePairRoom/CompleteCreatePairRoomModal';
+import CompleteCreatePairRoom from '@/components/CreatePairRoomModal/CompleteCreatePairRoom';
+
+import { PAIR_ROOM_MODAL_INFO } from '@/constants/pairRoomModalInfo';
 
 import { theme } from '@/styles/theme';
 
 const meta = {
   title: 'component/CreatePairRoom/CompleteCreatePairRoomModal',
-  component: CompleteCreatePairRoomModal,
-} satisfies Meta<typeof CompleteCreatePairRoomModal>;
+  component: CompleteCreatePairRoom,
+} satisfies Meta<typeof CompleteCreatePairRoom>;
 
 export default meta;
 
-type Story = StoryObj<typeof CompleteCreatePairRoomModal>;
+type Story = StoryObj<typeof CompleteCreatePairRoom>;
 
 const queryClient = new QueryClient();
 
@@ -30,7 +31,7 @@ export const Default: Story = {
               subTitle={PAIR_ROOM_MODAL_INFO.complete.subtitle}
             />
             <Modal.CloseButton close={() => console.log()} />
-            <CompleteCreatePairRoomModal closeModal={() => console.log()} pairRoomCode="abcdef" />
+            <CompleteCreatePairRoom closeModal={() => console.log()} pairRoomCode="abcdef" />
           </Modal>
         </QueryClientProvider>
       </ThemeProvider>

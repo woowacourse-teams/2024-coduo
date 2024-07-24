@@ -35,7 +35,7 @@ export const IconBox = styled.div`
   }
 `;
 
-export const Layout = styled.div`
+export const ModalBodyWrapper = styled.div`
   height: 100%;
   width: 100%;
 

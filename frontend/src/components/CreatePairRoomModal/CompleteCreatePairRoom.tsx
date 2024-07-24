@@ -4,13 +4,14 @@ import { FaRegPaste } from 'react-icons/fa6';
 
 import Button from '@/components/common/Button/Button';
 import { Modal } from '@/components/common/Modal';
-import * as S from '@/components/CreatePairRoom/CreatePairRoom.styles';
 
-interface CompleteCreatePairRoomModalProps {
+import * as S from './CreatePairRoomModal.styles';
+
+interface CompleteCreatePairRoomProps {
   pairRoomCode: string;
   closeModal: () => void;
 }
-const CompleteCreatePairRoomModal = ({ pairRoomCode, closeModal }: CompleteCreatePairRoomModalProps) => {
+const CompleteCreatePairRoom = ({ pairRoomCode, closeModal }: CompleteCreatePairRoomProps) => {
   const handleCopyClipBoard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -24,7 +25,7 @@ const CompleteCreatePairRoomModal = ({ pairRoomCode, closeModal }: CompleteCreat
 
   return (
     <>
-      <S.Layout>
+      <S.ModalBodyWrapper>
         <Modal.Body>
           <S.Content>
             <S.PairRoomCode>{pairRoomCode}</S.PairRoomCode>
@@ -33,7 +34,7 @@ const CompleteCreatePairRoomModal = ({ pairRoomCode, closeModal }: CompleteCreat
             </S.IconBox>
           </S.Content>
         </Modal.Body>
-      </S.Layout>
+      </S.ModalBodyWrapper>
       <Modal.Footer>
         <Button onClick={closeModal} filled={false}>
           닫기
@@ -52,4 +53,4 @@ const CompleteCreatePairRoomModal = ({ pairRoomCode, closeModal }: CompleteCreat
   );
 };
 
-export default CompleteCreatePairRoomModal;
+export default CompleteCreatePairRoom;

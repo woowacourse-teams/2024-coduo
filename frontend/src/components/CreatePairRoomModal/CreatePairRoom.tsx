@@ -1,15 +1,15 @@
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import { Modal } from '@/components/common/Modal';
-import * as S from '@/components/CreatePairRoom/CreatePairRoom.styles';
+import * as S from '@/components/CreatePairRoomModal/CreatePairRoomModal.styles';
 
 import usePairNameInputs from '@/hooks/pairRoomModal/usePairNameInputs';
 
-interface CreatePairRoomModalProps {
+interface CreatePairRoomProps {
   closeModal: () => void;
   createPairRoom: (firstPairName: string, secondPairName: string) => void;
 }
-const CreatePairRoomModal = ({ closeModal, createPairRoom }: CreatePairRoomModalProps) => {
+const CreatePairRoom = ({ closeModal, createPairRoom }: CreatePairRoomProps) => {
   const { handleFirstPair, handleSecondPair, resetPairName, isButtonActive, firstPair, secondPair } =
     usePairNameInputs();
 
@@ -56,4 +56,4 @@ const CreatePairRoomModal = ({ closeModal, createPairRoom }: CreatePairRoomModal
   );
 };
 
-export default CreatePairRoomModal;
+export default CreatePairRoom;
