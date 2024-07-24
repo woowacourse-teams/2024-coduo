@@ -2,10 +2,11 @@ import { useState } from 'react';
 
 import { Modal } from '@/components/common/Modal';
 import FooterButtons from '@/components/PairRoom/PairRoomOnboardingModal/FooterButtons/FooterButtons';
-import type { Role, Step } from '@/components/PairRoom/PairRoomOnboardingModal/PairRoomOnboardingModal.type';
 import Progress from '@/components/PairRoom/PairRoomOnboardingModal/Progress/Progress';
 import RoleSetting from '@/components/PairRoom/PairRoomOnboardingModal/Steps/RoleSetting';
 import TimerSetting from '@/components/PairRoom/PairRoomOnboardingModal/Steps/TimerSetting';
+
+import type { Role, Step } from './PairRoomOnboardingModal.type';
 
 const USER_OPTIONS = ['user1', 'user2']; // 임시 데이터
 
