@@ -56,7 +56,7 @@ const ReferenceCard = () => {
   };
 
   const addReference = (url: string) => {
-    mutate({ url });
+    mutate(url);
   };
   return (
     <>
