@@ -7,25 +7,15 @@ export const buttonStyle = css`
 `;
 
 export const ReferenceLinkForm = styled.form`
-  position: fixed;
-  top: 17rem;
-  right: 3rem;
-  z-index: 10;
-
-  width: 38.5%;
-  gap: 1rem;
-  padding: 1rem;
-  background-color: ${({ theme }) => theme.color.black[20]};
-
   display: flex;
   justify-content: center;
   align-items: center;
-
-  box-shadow: 0px 4px 2px rgba(0, 0, 0, 0.12);
+  width: 80%;
+  gap: 2rem;
 `;
 
 export const ReferenceLink = styled.a`
-  font-size: ${({ theme }) => theme.fontSize.h6};
+  font-size: ${({ theme }) => theme.fontSize.base};
   transition: all 0.1s;
 
   &:hover {
