@@ -22,5 +22,6 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Run RTL tests
-        run: yarn test:rtl
+      - name: Run unit tests
+        run: yarn jest
+
