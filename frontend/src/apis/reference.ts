@@ -12,10 +12,7 @@ export const fetchReferenceLink = async () => {
   return pairRoomCode;
 };
 
-interface AddReferenceLinkRequest {
-  url: string;
-}
-export const addReferenceLink = async ({ url }: AddReferenceLinkRequest) => {
+export const addReferenceLink = async (url: string) => {
   const response = await fetcher.post({
     url: `${baseURL}/reference-link`,
     body: { url },
