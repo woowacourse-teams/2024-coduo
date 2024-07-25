@@ -12,7 +12,7 @@ const USER_OPTIONS = ['user1', 'user2']; // 임시 데이터
 
 const PairRoomOnboardingModal = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const [step, setStep] = useState<Step>('roleSetting');
+  const [step, setStep] = useState<Step>('role');
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
   const [timer, setTimer] = useState<string>();
@@ -37,10 +37,10 @@ const PairRoomOnboardingModal = () => {
 
   const handleNext = () => {
     switch (step) {
-      case 'roleSetting':
-        setStep('timerSetting');
+      case 'role':
+        setStep('timer');
         break;
-      case 'timerSetting':
+      case 'timer':
         setIsOpen(false); // TODO: 페이지로 정보 전달 로직 추가 필요
         break;
     }
@@ -48,8 +48,8 @@ const PairRoomOnboardingModal = () => {
 
   const handleBack = () => {
     switch (step) {
-      case 'timerSetting':
-        setStep('roleSetting');
+      case 'timer':
+        setStep('role');
         break;
     }
   };
@@ -58,7 +58,7 @@ const PairRoomOnboardingModal = () => {
     <Modal isOpen={isOpen} close={() => {}} position="bottom" height="95%">
       <Progress step={step} isRoleSelected={isRoleSelected} />
       <Modal.Body>
-        {step === 'roleSetting' ? (
+        {step === 'role' ? (
           <>
             <Modal.Header title="역할 설정" subTitle="드라이버 / 내비게이터를 설정해 주세요." />
             <RoleSetting driver={driver} navigator={navigator} userOptions={USER_OPTIONS} handleSelect={handleSelect} />
