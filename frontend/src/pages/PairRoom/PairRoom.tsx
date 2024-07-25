@@ -1,5 +1,9 @@
 import { useState } from 'react';
 
+import { useQuery } from '@tanstack/react-query';
+
+import { getPairNames } from '@/apis/pairName';
+
 import MemoCard from '@/components/PairRoom/MemoCard/MemoCard';
 import OnboardingModal from '@/components/PairRoom/OnboardingModal/OnboardingModal';
 import PairListCard from '@/components/PairRoom/PairListCard/PairListCard';
@@ -21,6 +25,10 @@ const PairRoom = () => {
   };
 
   const { isModalOpen, closeModal } = useModal(true);
+
+  const { data } = useQuery({ queryKey: ['getPairNames'], queryFn: () => getPairNames });
+
+  console.log(data);
 
   return (
     <>

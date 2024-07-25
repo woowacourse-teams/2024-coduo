@@ -23,7 +23,7 @@ const App = () => {
           element: <Main />,
         },
         {
-          path: 'room',
+          path: 'room/:accessCode',
           element: <PairRoom />,
         },
       ],

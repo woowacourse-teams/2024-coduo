@@ -1,4 +1,4 @@
-// import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { FaRegPaste } from 'react-icons/fa6';
 
@@ -8,10 +8,10 @@ import { Modal } from '@/components/common/Modal';
 import * as S from './CreatePairRoomModal.styles';
 
 interface CompleteCreatePairRoomProps {
-  pairRoomCode: string;
+  accessCode: string;
   closeModal: () => void;
 }
-const CompleteCreatePairRoom = ({ pairRoomCode, closeModal }: CompleteCreatePairRoomProps) => {
+const CompleteCreatePairRoom = ({ accessCode, closeModal }: CompleteCreatePairRoomProps) => {
   const handleCopyClipBoard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -21,15 +21,13 @@ const CompleteCreatePairRoom = ({ pairRoomCode, closeModal }: CompleteCreatePair
     }
   };
 
-  // const navigate = useNavigate();
-
   return (
     <>
       <S.ModalBodyWrapper>
         <Modal.Body>
           <S.Content>
-            <S.PairRoomCode>{pairRoomCode}</S.PairRoomCode>
-            <S.IconBox onClick={() => handleCopyClipBoard(pairRoomCode)}>
+            <S.PairRoomCode>{accessCode}</S.PairRoomCode>
+            <S.IconBox onClick={() => handleCopyClipBoard(accessCode)}>
               <FaRegPaste size={'1.8rem'} />
             </S.IconBox>
           </S.Content>
@@ -39,15 +37,9 @@ const CompleteCreatePairRoom = ({ pairRoomCode, closeModal }: CompleteCreatePair
         <Button onClick={closeModal} filled={false}>
           닫기
         </Button>
-        <Button
-          onClick={
-            () => console.log()
-            // navigate('/')
-            //TODO: 페어룸으로 이동
-          }
-        >
-          이동
-        </Button>
+        <Link to={`/room/${accessCode}`}>
+          <Button>이동</Button>
+        </Link>
       </Modal.Footer>
     </>
   );
