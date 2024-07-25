@@ -18,7 +18,7 @@ const Progress = ({ step, isRoleSelected }: ProgressProps) => (
     </S.ButtonWrapper>
     <S.ProgressLine $isRoleSelected={isRoleSelected} />
     <S.ButtonWrapper>
-      <Button rounded={true} size="lg" filled={step === 'timerSetting'} disabled={!isRoleSelected} animation={false}>
+      <Button rounded={true} size="lg" filled={step === 'timer'} disabled={!isRoleSelected} animation={false}>
         2
       </Button>
       <S.ButtonLabel>타이머 설정</S.ButtonLabel>

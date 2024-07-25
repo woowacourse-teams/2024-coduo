@@ -15,7 +15,7 @@ const PairRoomOnboardingModal = () => {
   const [step, setStep] = useState<Step>('role');
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
-  const [timer, setTimer] = useState<string>();
+  const [timer, setTimer] = useState('');
 
   const isRoleSelected = Boolean(driver && navigator);
 
