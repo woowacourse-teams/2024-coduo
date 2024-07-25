@@ -6,17 +6,17 @@ import {
   ROLE_SETTING_LABEL,
   TIMER_SETTING_LABEL,
   WHY_SET_TIMER_TITLE,
-} from '@/components/PairRoom/PairRoomOnboardingModal/constants';
+} from '@/components/PairRoom/OnboardingModal/constants';
 
 import FooterButtons from './FooterButtons/FooterButtons';
-import type { Role, Step } from './PairRoomOnboardingModal.type';
+import type { Role, Step } from './OnboardingModal.type';
 import ProgressBar from './Progress/ProgressBar';
 import RoleSetting from './Steps/RoleSetting';
 import TimerSetting from './Steps/TimerSetting';
 
 const USER_OPTIONS = ['user1', 'user2']; // 임시 데이터
 
-const PairRoomOnboardingModal = () => {
+const OnboardingModal = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [step, setStep] = useState<Step>('role');
   const [driver, setDriver] = useState('');
@@ -89,4 +89,4 @@ const PairRoomOnboardingModal = () => {
   );
 };
 
-export default PairRoomOnboardingModal;
+export default OnboardingModal;

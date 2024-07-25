@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Role } from '@/components/PairRoom/PairRoomOnboardingModal/PairRoomOnboardingModal.type';
+import { Role } from '@/components/PairRoom/OnboardingModal/OnboardingModal.type';
 
 import RoleSetting from './RoleSetting';
 
 const meta = {
-  title: 'component/PairRoom/PairRoomOnboardingModal/Steps/RoleSetting',
+  title: 'component/PairRoom/OnboardingModal/Steps/RoleSetting',
   component: RoleSetting,
 } satisfies Meta<typeof RoleSetting>;
 

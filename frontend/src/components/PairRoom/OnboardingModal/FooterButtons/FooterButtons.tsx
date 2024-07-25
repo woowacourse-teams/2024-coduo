@@ -1,8 +1,6 @@
-import React from 'react';
-
 import Button from '@/components/common/Button/Button';
-import { COMPLETE_BUTTON_LABEL, NEXT_BUTTON_LABEL } from '@/components/PairRoom/PairRoomOnboardingModal/constants';
-import { Step } from '@/components/PairRoom/PairRoomOnboardingModal/PairRoomOnboardingModal.type';
+import { COMPLETE_BUTTON_LABEL, NEXT_BUTTON_LABEL } from '@/components/PairRoom/OnboardingModal/constants';
+import { Step } from '@/components/PairRoom/OnboardingModal/OnboardingModal.type';
 
 interface FooterButtonsProps {
   step: Step;
@@ -12,7 +10,7 @@ interface FooterButtonsProps {
   timer?: string;
 }
 
-const FooterButtons: React.FC<FooterButtonsProps> = ({ step, handleBack, handleNext, isRoleSelected, timer }) => {
+const FooterButtons = ({ step, handleBack, handleNext, isRoleSelected, timer }: FooterButtonsProps) => {
   switch (step) {
     case 'role':
       return (

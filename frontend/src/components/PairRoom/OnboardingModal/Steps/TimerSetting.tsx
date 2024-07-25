@@ -8,7 +8,7 @@ import {
   TIMER_PLACEHOLDER,
   WHY_SET_TIMER_DESCRIPTION,
   WHY_SET_TIMER_TITLE,
-} from '@/components/PairRoom/PairRoomOnboardingModal/constants';
+} from '@/components/PairRoom/OnboardingModal/constants';
 
 import * as S from './Steps.styles';
 
