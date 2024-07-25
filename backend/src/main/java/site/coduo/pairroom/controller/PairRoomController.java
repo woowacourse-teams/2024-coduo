@@ -2,6 +2,8 @@ package site.coduo.pairroom.controller;
 
 import java.net.URI;
 
+import jakarta.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,24 +29,32 @@ public class PairRoomController implements PairRoomDocs {
 
     private final PairRoomService service;
 
-    @GetMapping("/pair-room")
-    public ResponseEntity<PairRoomReadResponse> getPairRoom(
-            @RequestParam("accessCode") final PairRoomReadRequest request) {
-        final PairRoomReadResponse response = PairRoomReadResponse.from(
-                service.findByAccessCode(request.accessCode()));
-        return ResponseEntity.ok(response);
-    }
-
     @PostMapping("/pair-room")
-    public ResponseEntity<PairRoomCreateResponse> createPairRoom(@RequestBody final PairRoomCreateRequest request) {
+    public ResponseEntity<PairRoomCreateResponse> createPairRoom(
+            @Valid @RequestBody final PairRoomCreateRequest request
+    ) {
         final PairRoomCreateResponse response = new PairRoomCreateResponse(service.save(request));
+
         return ResponseEntity.created(URI.create("/"))
                 .body(response);
     }
 
+    @GetMapping("/pair-room")
+    public ResponseEntity<PairRoomReadResponse> getPairRoom(
+            @Valid @RequestParam("accessCode") final PairRoomReadRequest request
+    ) {
+        final PairRoomReadResponse response = PairRoomReadResponse.from(
+                service.findByAccessCode(request.accessCode()));
+
+        return ResponseEntity.ok(response);
+    }
+
     @DeleteMapping("/pair-room")
-    public ResponseEntity<Void> deletePairRoom(@RequestParam("accessCode") final PairRoomDeleteRequest request) {
+    public ResponseEntity<Void> deletePairRoom(
+            @Valid @RequestParam("accessCode") final PairRoomDeleteRequest request
+    ) {
         service.deletePairRoom(request.accessCode());
+
         return ResponseEntity.noContent()
                 .build();
     }
