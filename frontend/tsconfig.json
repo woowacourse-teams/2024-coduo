@@ -20,6 +20,7 @@
 
     /* Testing */
     "esModuleInterop": true,
+    "types": ["jest", "@testing-library/jest-dom"],
 
     /* Path */
     "baseUrl": "src",
