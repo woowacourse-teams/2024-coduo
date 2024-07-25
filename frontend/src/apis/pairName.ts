@@ -2,7 +2,13 @@ import fetcher from '@/apis/fetcher';
 
 import { API_URL } from '@/constants/api';
 
-export const getPairNames = async (accessCode: string) => {
+interface GetPairNamesResponse {
+  id: number;
+  firstPair: string;
+  secondPair: string;
+}
+
+export const getPairNames = async (accessCode: string): Promise<GetPairNamesResponse> => {
   const response = await fetcher.get({
     url: `${API_URL}/pair-room?accessCode=${accessCode}`,
     errorMessage: '',

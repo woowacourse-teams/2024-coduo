@@ -1,8 +1,5 @@
 import { useState } from 'react';
-
-import { useQuery } from '@tanstack/react-query';
-
-import { getPairNames } from '@/apis/pairName';
+import { useParams } from 'react-router-dom';
 
 import MemoCard from '@/components/PairRoom/MemoCard/MemoCard';
 import OnboardingModal from '@/components/PairRoom/OnboardingModal/OnboardingModal';
@@ -16,8 +13,10 @@ import useModal from '@/hooks/useModal';
 import * as S from './PairRoom.styles';
 
 const PairRoom = () => {
-  const [driver, setDriver] = useState('퍼렁');
-  const [navigator, setNavigator] = useState('포롱');
+  const { accessCode } = useParams();
+
+  const [driver, setDriver] = useState('');
+  const [navigator, setNavigator] = useState('');
 
   const handleSwap = () => {
     setDriver(navigator);
@@ -25,10 +24,6 @@ const PairRoom = () => {
   };
 
   const { isModalOpen, closeModal } = useModal(true);
-
-  const { data } = useQuery({ queryKey: ['getPairNames'], queryFn: () => getPairNames });
-
-  console.log(data);
 
   return (
     <>
@@ -43,7 +38,7 @@ const PairRoom = () => {
           <MemoCard />
         </S.Container>
       </S.Layout>
-      <OnboardingModal isOpen={isModalOpen} closeModal={closeModal} />
+      <OnboardingModal accessCode={accessCode || ''} isOpen={isModalOpen} closeModal={closeModal} />
     </>
   );
 };

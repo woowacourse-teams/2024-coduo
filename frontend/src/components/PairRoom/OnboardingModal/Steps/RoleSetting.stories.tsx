@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Role } from '@/components/PairRoom/OnboardingModal/OnboardingModal.type';
-
 import RoleSetting from './RoleSetting';
 
 const meta = {
@@ -17,8 +15,5 @@ export const Default: Story = {
   args: {
     driver: 'user1',
     navigator: 'user2',
-    handleSelect: (role: Role, option: string) => {
-      alert(`${option} : ${role}`);
-    },
   },
 };

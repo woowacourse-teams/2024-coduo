@@ -1,4 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+import { useQuery } from '@tanstack/react-query';
+
+import { getPairNames } from '@/apis/pairName';
 
 import { Modal } from '@/components/common/Modal';
 import {
@@ -14,44 +18,39 @@ import ProgressBar from './Progress/ProgressBar';
 import RoleSetting from './Steps/RoleSetting';
 import TimerSetting from './Steps/TimerSetting';
 
-const USER_OPTIONS = ['user1', 'user2']; // 임시 데이터
-
 interface OnboardingModalProps {
+  accessCode: string;
   isOpen: boolean;
   closeModal: () => void;
 }
 
-const OnboardingModal = ({ isOpen, closeModal }: OnboardingModalProps) => {
+const OnboardingModal = ({ accessCode, isOpen, closeModal }: OnboardingModalProps) => {
   const [step, setStep] = useState<Step>('role');
+
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
+
   const [timer, setTimer] = useState('');
 
-  const isRoleSelected = Boolean(driver && navigator);
+  const { data } = useQuery({ queryKey: ['getPairNames'], queryFn: () => getPairNames(accessCode) });
 
-  const handleSelect = (role: Role, option: string) => {
-    // TODO: api 호출 후 로직 수정 필요
-    if (!option || !USER_OPTIONS) return;
+  useEffect(() => {
+    if (data) {
+      setDriver(data.firstPair);
+      setNavigator(data.secondPair);
+    }
+  }, [data]);
 
+  const handleSelect = (option: string, role: Role) => {
+    if (!option) return;
     switch (role) {
       case 'driver':
         setDriver(option);
-        setNavigator(option === USER_OPTIONS[0] ? USER_OPTIONS[1] : USER_OPTIONS[0]);
+        if (data) setNavigator(option === data.firstPair ? data.secondPair : data.firstPair);
         return;
       case 'navigator':
         setNavigator(option);
-        setDriver(option === USER_OPTIONS[0] ? USER_OPTIONS[1] : USER_OPTIONS[0]);
-        return;
-    }
-  };
-
-  const handleNext = () => {
-    switch (step) {
-      case 'role':
-        setStep('timer');
-        break;
-      case 'timer':
-        closeModal(); // TODO: 페이지로 정보 전달 로직 추가 필요
+        if (data) setDriver(option === data.firstPair ? data.secondPair : data.firstPair);
         return;
     }
   };
@@ -60,18 +59,36 @@ const OnboardingModal = ({ isOpen, closeModal }: OnboardingModalProps) => {
     switch (step) {
       case 'timer':
         setStep('role');
-        break;
+        return;
+    }
+  };
+
+  const handleNext = () => {
+    switch (step) {
+      case 'role':
+        setStep('timer');
+        return;
+      case 'timer':
+        closeModal();
+        return;
     }
   };
 
   return (
     <Modal isOpen={isOpen} close={() => {}} position="bottom" height="95%" backdropType="blur">
-      <ProgressBar step={step} isRoleSelected={isRoleSelected} />
+      <ProgressBar step={step} isRoleSelected={Boolean(driver && navigator)} />
       <Modal.Body>
         {step === 'role' ? (
           <>
             <Modal.Header title={ROLE_SETTING_LABEL} subTitle={DRIVER_NAVIGATOR_TITLE} />
-            <RoleSetting driver={driver} navigator={navigator} userOptions={USER_OPTIONS} handleSelect={handleSelect} />
+            {data && (
+              <RoleSetting
+                driver={driver}
+                navigator={navigator}
+                userOptions={[data.firstPair, data.secondPair]}
+                handleSelect={handleSelect}
+              />
+            )}
           </>
         ) : (
           <>
@@ -85,7 +102,7 @@ const OnboardingModal = ({ isOpen, closeModal }: OnboardingModalProps) => {
           step={step}
           handleBack={handleBack}
           handleNext={handleNext}
-          isRoleSelected={isRoleSelected}
+          isRoleSelected={Boolean(driver && navigator)}
           timer={timer}
         />
       </Modal.Footer>

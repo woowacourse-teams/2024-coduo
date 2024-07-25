@@ -14,7 +14,7 @@ interface RoleSettingProps {
   driver: string;
   navigator: string;
   userOptions: string[];
-  handleSelect: (role: Role, option: string) => void;
+  handleSelect: (option: string, role: Role) => void;
 }
 
 const RoleSetting = ({ driver, navigator, userOptions = [], handleSelect }: RoleSettingProps) => (
@@ -32,7 +32,7 @@ const RoleSetting = ({ driver, navigator, userOptions = [], handleSelect }: Role
         <Dropdown
           placeholder={SELECT_NAME_PLACEHOLDER}
           selected={driver}
-          onSelect={(option) => handleSelect('driver', option)}
+          onSelect={(option) => handleSelect(option, 'driver')}
           options={userOptions}
         />
       </S.DropdownWrapper>
@@ -41,7 +41,7 @@ const RoleSetting = ({ driver, navigator, userOptions = [], handleSelect }: Role
         <Dropdown
           placeholder={SELECT_NAME_PLACEHOLDER}
           selected={navigator}
-          onSelect={(option) => handleSelect('navigator', option)}
+          onSelect={(option) => handleSelect(option, 'navigator')}
           options={userOptions}
         />
       </S.DropdownWrapper>
