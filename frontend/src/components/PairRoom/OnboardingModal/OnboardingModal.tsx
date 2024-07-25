@@ -16,8 +16,12 @@ import TimerSetting from './Steps/TimerSetting';
 
 const USER_OPTIONS = ['user1', 'user2']; // 임시 데이터
 
-const OnboardingModal = () => {
-  const [isOpen, setIsOpen] = useState(true);
+interface OnboardingModalProps {
+  isOpen: boolean;
+  closeModal: () => void;
+}
+
+const OnboardingModal = ({ isOpen, closeModal }: OnboardingModalProps) => {
   const [step, setStep] = useState<Step>('role');
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
@@ -47,7 +51,7 @@ const OnboardingModal = () => {
         setStep('timer');
         break;
       case 'timer':
-        setIsOpen(false); // TODO: 페이지로 정보 전달 로직 추가 필요
+        closeModal(); // TODO: 페이지로 정보 전달 로직 추가 필요
         return;
     }
   };
@@ -61,7 +65,7 @@ const OnboardingModal = () => {
   };
 
   return (
-    <Modal isOpen={isOpen} close={() => {}} position="bottom" height="95%">
+    <Modal isOpen={isOpen} close={() => {}} position="bottom" height="95%" backdropType="blur">
       <ProgressBar step={step} isRoleSelected={isRoleSelected} />
       <Modal.Body>
         {step === 'role' ? (

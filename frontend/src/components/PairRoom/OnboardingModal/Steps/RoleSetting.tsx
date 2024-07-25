@@ -5,8 +5,8 @@ import {
   DRIVER_NAVIGATOR_DESCRIPTION,
   DRIVER_NAVIGATOR_TITLE,
   SELECT_NAME_PLACEHOLDER,
-} from '@/components/PairRoom/PairRoomOnboardingModal/constants';
-import { Role } from '@/components/PairRoom/PairRoomOnboardingModal/PairRoomOnboardingModal.type';
+} from '@/components/PairRoom/OnboardingModal/constants';
+import { Role } from '@/components/PairRoom/OnboardingModal/OnboardingModal.type';
 
 import * as S from './Steps.styles';
 
