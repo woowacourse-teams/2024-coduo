@@ -4,7 +4,7 @@ export const Layout = styled.div`
   display: flex;
   gap: 3rem;
   width: 100%;
-  min-height: calc(100vh - 7rem);
+  height: calc(100vh - 7rem);
   padding: 3rem;
   background: ${({ theme }) => theme.color.primary[100]};
 `;
