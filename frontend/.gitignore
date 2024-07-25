@@ -1,3 +1,7 @@
 node_modules
 .env
 *storybook.log
+
+Dockerfile
+nginx.conf
+.dockerignore
