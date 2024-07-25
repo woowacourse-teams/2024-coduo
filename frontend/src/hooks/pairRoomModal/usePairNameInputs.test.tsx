@@ -12,7 +12,7 @@ describe('usePairNameInputs', () => {
     });
 
     expect(result.current.firstPair.status).toBe('error');
-    expect(result.current.firstPair.message).toBe('값을 입력해주세요');
+    expect(result.current.firstPair.message).toBe('값을 입력해주세요.');
 
     act(() => {
       result.current.handleSecondPair({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
