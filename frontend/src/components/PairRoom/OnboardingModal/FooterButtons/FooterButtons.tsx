@@ -1,5 +1,4 @@
 import Button from '@/components/common/Button/Button';
-import { COMPLETE_BUTTON_LABEL, NEXT_BUTTON_LABEL } from '@/components/PairRoom/OnboardingModal/constants';
 import { Step } from '@/components/PairRoom/OnboardingModal/OnboardingModal.type';
 
 interface FooterButtonsProps {
@@ -15,7 +14,7 @@ const FooterButtons = ({ step, handleBack, handleNext, isRoleSelected, timer }: 
     case 'role':
       return (
         <Button onClick={handleNext} disabled={!isRoleSelected}>
-          {NEXT_BUTTON_LABEL}
+          다음
         </Button>
       );
     case 'timer':
@@ -23,7 +22,7 @@ const FooterButtons = ({ step, handleBack, handleNext, isRoleSelected, timer }: 
         <>
           <Button onClick={handleBack}>이전</Button>
           <Button onClick={handleNext} disabled={!timer}>
-            {COMPLETE_BUTTON_LABEL}
+            완료
           </Button>
         </>
       );

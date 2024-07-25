@@ -5,16 +5,10 @@ import { useQuery } from '@tanstack/react-query';
 import { getPairNames } from '@/apis/pairName';
 
 import { Modal } from '@/components/common/Modal';
-import {
-  DRIVER_NAVIGATOR_TITLE,
-  ROLE_SETTING_LABEL,
-  TIMER_SETTING_LABEL,
-  WHY_SET_TIMER_TITLE,
-} from '@/components/PairRoom/OnboardingModal/constants';
 
 import FooterButtons from './FooterButtons/FooterButtons';
 import type { Role, Step } from './OnboardingModal.type';
-import ProgressBar from './Progress/ProgressBar';
+import ProgressBar from './ProgressBar/ProgressBar';
 import RoleSetting from './Steps/RoleSetting';
 import TimerSetting from './Steps/TimerSetting';
 
@@ -78,23 +72,15 @@ const OnboardingModal = ({ accessCode, isOpen, closeModal }: OnboardingModalProp
     <Modal isOpen={isOpen} close={() => {}} position="bottom" height="95%" backdropType="blur">
       <ProgressBar step={step} isRoleSelected={Boolean(driver && navigator)} />
       <Modal.Body>
-        {step === 'role' ? (
-          <>
-            <Modal.Header title={ROLE_SETTING_LABEL} subTitle={DRIVER_NAVIGATOR_TITLE} />
-            {data && (
-              <RoleSetting
-                driver={driver}
-                navigator={navigator}
-                userOptions={[data.firstPair, data.secondPair]}
-                handleSelect={handleSelect}
-              />
-            )}
-          </>
+        {step === 'role' && data ? (
+          <RoleSetting
+            driver={driver}
+            navigator={navigator}
+            userOptions={[data.firstPair, data.secondPair]}
+            handleSelect={handleSelect}
+          />
         ) : (
-          <>
-            <Modal.Header title={TIMER_SETTING_LABEL} subTitle={WHY_SET_TIMER_TITLE} />
-            <TimerSetting timer={timer} setTimer={setTimer} />
-          </>
+          <TimerSetting timer={timer} setTimer={setTimer} />
         )}
       </Modal.Body>
       <Modal.Footer position="center">
