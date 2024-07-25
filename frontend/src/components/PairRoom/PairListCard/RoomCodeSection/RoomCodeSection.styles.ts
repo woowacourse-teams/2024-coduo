@@ -6,9 +6,10 @@ export const Layout = styled.div<{ $isOpen: boolean }>`
   justify-content: ${({ $isOpen }) => ($isOpen ? 'space-between' : 'center')};
   width: 100%;
   height: 7rem;
-  background-color: ${({ theme }) => theme.color.black[30]};
+  background-color: ${({ $isOpen, theme }) => ($isOpen ? theme.color.black[30] : 'white')};
   padding: 2rem;
   cursor: pointer;
+  transition: background-color 0.3s ease-out;
 `;
 
 export const RoomCodeWrapper = styled.div`

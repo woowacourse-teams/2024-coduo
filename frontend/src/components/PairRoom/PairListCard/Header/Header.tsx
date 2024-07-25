@@ -9,7 +9,9 @@ interface HeaderProps {
 }
 
 const Header = ({ isOpen }: HeaderProps) => (
-  <S.Layout icon={<IoPeople color={theme.color.primary[500]} />} title={isOpen ? '페어' : ''} />
+  <S.Layout icon={isOpen ? <IoPeople color={theme.color.primary[500]} /> : <></>} title={isOpen ? '페어' : ''}>
+    <S.ArrowIcon $isOpen={isOpen} />
+  </S.Layout>
 );
 
 export default Header;
