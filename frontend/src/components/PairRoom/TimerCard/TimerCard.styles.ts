@@ -54,6 +54,11 @@ export const TimerText = styled.p`
 export const IconContainer = styled.div`
   display: flex;
   gap: 5rem;
+`;
+
+export const IconButton = styled.button`
+  width: ${({ theme }) => theme.fontSize.h4};
+  background: transparent;
   font-size: ${({ theme }) => theme.fontSize.h4};
 `;
 

@@ -38,9 +38,15 @@ const TimerCard = () => {
           </S.Timer>
         </S.ProgressBar>
         <S.IconContainer>
-          <S.PlayIcon $isActive={!isActive} onClick={handleStart} />
-          <S.PauseIcon $isActive={isActive} onClick={handlePause} />
-          <S.StopIcon $isActive={isActive} onClick={handleStop} />
+          <S.IconButton disabled={isActive} onClick={handleStart}>
+            <S.PlayIcon $isActive={!isActive} />
+          </S.IconButton>
+          <S.IconButton disabled={!isActive} onClick={handlePause}>
+            <S.PauseIcon $isActive={isActive} />
+          </S.IconButton>
+          <S.IconButton disabled={!isActive} onClick={handleStop}>
+            <S.StopIcon $isActive={isActive} />
+          </S.IconButton>
         </S.IconContainer>
       </S.Layout>
     </PairRoomCard>
