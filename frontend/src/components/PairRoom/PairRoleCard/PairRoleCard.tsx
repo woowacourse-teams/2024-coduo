@@ -1,13 +1,37 @@
+import Button from '@/components/common/Button/Button';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 
 import * as S from './PairRoleCard.styles';
 
-// TODO: 드라이버 & 네비게이터 교체 기능 추가
-const PairRoleCard = () => {
+interface PairRoleCardProps {
+  driver: string;
+  navigator: string;
+  onSwap: () => void;
+}
+
+const PairRoleCard = ({ driver, navigator, onSwap }: PairRoleCardProps) => {
   return (
     <S.Layout>
       <PairRoomCard>
-        <div>내용</div>
+        <S.RoleBoxContainer>
+          <S.DriverBox>
+            <S.RoleIcon>💻</S.RoleIcon>
+            <S.RoleTextContainer>
+              <S.DriverLabel>드라이버</S.DriverLabel>
+              <S.DriverText>{driver}</S.DriverText>
+            </S.RoleTextContainer>
+          </S.DriverBox>
+          <Button css={S.buttonStyle} onClick={onSwap}>
+            <S.SwapIcon />
+          </Button>
+          <S.NavigatorBox>
+            <S.RoleTextContainer>
+              <S.NavigatorLabel>네비게이터</S.NavigatorLabel>
+              <S.NavigatorText>{navigator}</S.NavigatorText>
+            </S.RoleTextContainer>
+            <S.RoleIcon>🧭</S.RoleIcon>
+          </S.NavigatorBox>
+        </S.RoleBoxContainer>
       </PairRoomCard>
     </S.Layout>
   );
