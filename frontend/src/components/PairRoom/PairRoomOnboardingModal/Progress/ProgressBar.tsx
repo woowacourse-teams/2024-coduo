@@ -1,14 +1,14 @@
 import Button from '@/components/common/Button/Button';
 import { Step } from '@/components/PairRoom/PairRoomOnboardingModal/PairRoomOnboardingModal.type';
 
-import * as S from './Progress.styles';
+import * as S from './ProgressBar.styles';
 
-interface ProgressProps {
+interface ProgressBarProps {
   step: Step;
   isRoleSelected: boolean;
 }
 
-const Progress = ({ step, isRoleSelected }: ProgressProps) => (
+const ProgressBar = ({ step, isRoleSelected }: ProgressBarProps) => (
   <S.Layout>
     <S.ButtonWrapper>
       <Button rounded={true} size="lg" filled={true} animation={false}>
@@ -26,4 +26,4 @@ const Progress = ({ step, isRoleSelected }: ProgressProps) => (
   </S.Layout>
 );
 
-export default Progress;
+export default ProgressBar;

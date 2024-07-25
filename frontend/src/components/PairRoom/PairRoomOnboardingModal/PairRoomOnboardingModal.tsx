@@ -4,7 +4,7 @@ import { Modal } from '@/components/common/Modal';
 
 import FooterButtons from './FooterButtons/FooterButtons';
 import type { Role, Step } from './PairRoomOnboardingModal.type';
-import Progress from './Progress/Progress';
+import ProgressBar from './Progress/ProgressBar';
 import RoleSetting from './Steps/RoleSetting';
 import TimerSetting from './Steps/TimerSetting';
 
@@ -56,7 +56,7 @@ const PairRoomOnboardingModal = () => {
 
   return (
     <Modal isOpen={isOpen} close={() => {}} position="bottom" height="95%">
-      <Progress step={step} isRoleSelected={isRoleSelected} />
+      <ProgressBar step={step} isRoleSelected={isRoleSelected} />
       <Modal.Body>
         {step === 'role' ? (
           <>
