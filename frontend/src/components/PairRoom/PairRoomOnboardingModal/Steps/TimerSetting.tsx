@@ -2,6 +2,12 @@ import { RiInformation2Line } from 'react-icons/ri';
 
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
+import {
+  DIRECT_INPUT_LABEL,
+  TIMER_PLACEHOLDER,
+  WHY_SET_TIMER_DESCRIPTION,
+  WHY_SET_TIMER_TITLE,
+} from '@/components/PairRoom/PairRoomOnboardingModal/constants';
 
 import * as S from './Steps.styles';
 
@@ -14,12 +20,10 @@ const TimerSetting = ({ timer, setTimer }: TimerSettingProps) => (
   <S.Layout>
     <S.InformationWrapper>
       <S.InformationTitle>
-        <RiInformation2Line size="2rem" />왜 타이머 시간을 설정해야 하나요?
+        <RiInformation2Line size="2rem" />
+        {WHY_SET_TIMER_TITLE}
       </S.InformationTitle>
-      <S.InformationDescription>
-        정기적인 역할 교대는 피드백을 주고받을 수 있는 자연스러운 기회를 제공합니다. <br />
-        이는 코드 품질을 높이고, 문제를 조기에 발견하여 수정할 수 있게 합니다.
-      </S.InformationDescription>
+      <S.InformationDescription>{WHY_SET_TIMER_DESCRIPTION}</S.InformationDescription>
     </S.InformationWrapper>
     <S.SettingsContainer>
       <S.TimeSelectContainer>
@@ -36,8 +40,8 @@ const TimerSetting = ({ timer, setTimer }: TimerSettingProps) => (
           </Button>
         </S.TimeSelectButtonWrapper>
         <Input
-          label="직접 설정"
-          placeholder="타이머 시간 (분)"
+          label={DIRECT_INPUT_LABEL}
+          placeholder={TIMER_PLACEHOLDER}
           width="100%"
           value={timer}
           type="number"

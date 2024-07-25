@@ -1,6 +1,12 @@
 import { useState } from 'react';
 
 import { Modal } from '@/components/common/Modal';
+import {
+  DRIVER_NAVIGATOR_TITLE,
+  ROLE_SETTING_LABEL,
+  TIMER_SETTING_LABEL,
+  WHY_SET_TIMER_TITLE,
+} from '@/components/PairRoom/PairRoomOnboardingModal/constants';
 
 import FooterButtons from './FooterButtons/FooterButtons';
 import type { Role, Step } from './PairRoomOnboardingModal.type';
@@ -60,12 +66,12 @@ const PairRoomOnboardingModal = () => {
       <Modal.Body>
         {step === 'role' ? (
           <>
-            <Modal.Header title="역할 설정" subTitle="드라이버 / 내비게이터를 설정해 주세요." />
+            <Modal.Header title={ROLE_SETTING_LABEL} subTitle={DRIVER_NAVIGATOR_TITLE} />
             <RoleSetting driver={driver} navigator={navigator} userOptions={USER_OPTIONS} handleSelect={handleSelect} />
           </>
         ) : (
           <>
-            <Modal.Header title="타이머 설정" subTitle="타이머를 설정해 주세요." />
+            <Modal.Header title={TIMER_SETTING_LABEL} subTitle={WHY_SET_TIMER_TITLE} />
             <TimerSetting timer={timer} setTimer={setTimer} />
           </>
         )}
