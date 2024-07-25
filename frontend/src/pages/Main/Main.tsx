@@ -2,6 +2,7 @@ import * as S from '@/pages/Main/Main.styles';
 
 import Button from '@/components/common/Button/Button';
 import CreatePairRoomModal from '@/components/CreatePairRoomModal/CreatePairRoomModal';
+import PairRoomEntryModal from '@/components/PairRoomEntryModal/PairRoomEntryModal';
 
 import useModal from '@/hooks/useModal';
 
@@ -10,6 +11,12 @@ const Main = () => {
     isModalOpen: isCreatePairRoomModalOpen,
     openModal: openCreatePairRoomModal,
     closeModal: closeCreatePairRoomModal,
+  } = useModal();
+
+  const {
+    isModalOpen: isPairRoomEntryModalOpen,
+    openModal: openPairRoomEntryModal,
+    closeModal: closePairRoomEntryModal,
   } = useModal();
 
   return (
@@ -35,11 +42,12 @@ const Main = () => {
         <Button size="xl" rounded={true} onClick={openCreatePairRoomModal}>
           방 만들기
         </Button>
-        <Button size="xl" filled={false} rounded={true}>
+        <Button size="xl" filled={false} rounded={true} onClick={openPairRoomEntryModal}>
           방 들어가기
         </Button>
       </S.ButtonContainer>
       <CreatePairRoomModal isOpen={isCreatePairRoomModalOpen} closeModal={closeCreatePairRoomModal} />
+      <PairRoomEntryModal isOpen={isPairRoomEntryModalOpen} closeModal={closePairRoomEntryModal}></PairRoomEntryModal>
     </S.Layout>
   );
 };
