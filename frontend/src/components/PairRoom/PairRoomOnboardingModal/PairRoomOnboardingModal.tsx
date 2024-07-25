@@ -27,11 +27,11 @@ const PairRoomOnboardingModal = () => {
       case 'driver':
         setDriver(option);
         setNavigator(option === USER_OPTIONS[0] ? USER_OPTIONS[1] : USER_OPTIONS[0]);
-        break;
+        return;
       case 'navigator':
         setNavigator(option);
         setDriver(option === USER_OPTIONS[0] ? USER_OPTIONS[1] : USER_OPTIONS[0]);
-        break;
+        return;
     }
   };
 
@@ -42,7 +42,7 @@ const PairRoomOnboardingModal = () => {
         break;
       case 'timer':
         setIsOpen(false); // TODO: 페이지로 정보 전달 로직 추가 필요
-        break;
+        return;
     }
   };
 
