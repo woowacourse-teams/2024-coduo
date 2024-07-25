@@ -1,0 +1,26 @@
+name: Coduo Frontend CI
+
+on:
+  push:
+    branches: [FE/main, FE/dev]
+  pull_request:
+    branches: [FE/main, FE/dev]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.9.0'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run RTL tests
+        run: yarn test:rtl
