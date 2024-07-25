@@ -21,6 +21,7 @@ export const PairRole = styled.span<{ $role: Role }>`
   text-align: center;
   background-color: ${({ theme, $role }) =>
     $role === 'driver' ? theme.color.primary[500] : theme.color.secondary[500]};
+  color: white;
 `;
 
 export const PairName = styled.span`
