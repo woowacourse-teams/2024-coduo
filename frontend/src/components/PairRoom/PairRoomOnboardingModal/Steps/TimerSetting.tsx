@@ -4,6 +4,7 @@ import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import {
   DIRECT_INPUT_LABEL,
+  TIMER_OPTIONS,
   TIMER_PLACEHOLDER,
   WHY_SET_TIMER_DESCRIPTION,
   WHY_SET_TIMER_TITLE,
@@ -29,15 +30,17 @@ const TimerSetting = ({ timer, setTimer }: TimerSettingProps) => (
       <S.TimeSelectContainer>
         <S.TimeSelectTitle>타이머 시간</S.TimeSelectTitle>
         <S.TimeSelectButtonWrapper>
-          <Button color="primary" filled={timer === '10'} onClick={() => setTimer('10')} size="lg">
-            10분
-          </Button>
-          <Button color="primary" filled={timer === '15'} onClick={() => setTimer('15')} size="lg">
-            15분
-          </Button>
-          <Button color="primary" filled={timer === '30'} onClick={() => setTimer('30')} size="lg">
-            30분
-          </Button>
+          {TIMER_OPTIONS.map((option) => (
+            <Button
+              key={option.value}
+              color="primary"
+              filled={timer === option.value}
+              onClick={() => setTimer(option.value)}
+              size="lg"
+            >
+              {option.label}
+            </Button>
+          ))}
         </S.TimeSelectButtonWrapper>
         <Input
           label={DIRECT_INPUT_LABEL}

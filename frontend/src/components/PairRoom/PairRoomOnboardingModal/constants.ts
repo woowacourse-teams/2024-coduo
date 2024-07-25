@@ -1,3 +1,9 @@
+export const TIMER_OPTIONS = [
+  { label: '10분', value: '10' },
+  { label: '15분', value: '15' },
+  { label: '30분', value: '30' },
+];
+
 export const ROLE_SETTING_LABEL = '역할 설정';
 export const TIMER_SETTING_LABEL = '타이머 설정';
 export const WHY_SET_TIMER_TITLE = '왜 타이머 시간을 설정해야 하나요?';
