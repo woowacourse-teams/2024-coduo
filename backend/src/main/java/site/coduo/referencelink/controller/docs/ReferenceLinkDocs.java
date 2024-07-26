@@ -32,14 +32,6 @@ public interface ReferenceLinkDocs {
     @ApiResponse(responseCode = "4xx", description = "레퍼런스 링크 조회 실패", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class)))
     ResponseEntity<List<ReferenceLinkResponse>> getReferenceLinks(String accessCode);
 
-    @Operation(summary = "레퍼런스 링크를 수정한다.")
-    @ApiResponse(responseCode = "200", description = "레퍼런스 링크 수정 성공", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
-    @ApiResponse(responseCode = "4xx", description = "레퍼런스 링크 수정 실패", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class)))
-    ResponseEntity<Void> updateReferenceLink(
-            @Parameter(description = "레퍼런스 링크 식별자", required = true) long id,
-            @Parameter(description = "레퍼런스 링크 수정 요청", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)) ReferenceLinkUpdateRequest request
-    );
-
     @Operation(summary = "레퍼런스 링크를 삭제한다.")
     @ApiResponse(responseCode = "200", description = "레퍼런스 링크 삭제 성공", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     @ApiResponse(responseCode = "4xx", description = "레퍼런스 링크 삭제 실패", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class)))
