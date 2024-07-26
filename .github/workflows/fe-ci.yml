@@ -31,3 +31,4 @@ jobs:
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           storybookConfigDir: .storybook
+        working-directory: ./frontend
