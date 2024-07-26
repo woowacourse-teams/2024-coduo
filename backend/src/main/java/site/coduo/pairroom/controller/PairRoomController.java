@@ -8,9 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -39,9 +39,9 @@ public class PairRoomController implements PairRoomDocs {
                 .body(response);
     }
 
-    @GetMapping("/pair-room")
+    @GetMapping("/pair-room/{accessCode}")
     public ResponseEntity<PairRoomReadResponse> getPairRoom(
-            @Valid @RequestParam("accessCode") final PairRoomReadRequest request
+            @Valid @PathVariable("accessCode") final PairRoomReadRequest request
     ) {
         final PairRoomReadResponse response = PairRoomReadResponse.from(
                 service.findByAccessCode(request.accessCode()));
@@ -49,9 +49,9 @@ public class PairRoomController implements PairRoomDocs {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/pair-room")
+    @DeleteMapping("/pair-room/{accessCode}")
     public ResponseEntity<Void> deletePairRoom(
-            @Valid @RequestParam("accessCode") final PairRoomDeleteRequest request
+            @Valid @PathVariable("accessCode") final PairRoomDeleteRequest request
     ) {
         service.deletePairRoom(request.accessCode());
 
