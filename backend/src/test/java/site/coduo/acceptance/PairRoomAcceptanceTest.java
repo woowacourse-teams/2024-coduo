@@ -73,7 +73,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .statusCode(404);
     }
 
-    PairRoomCreateResponse createPairRoom(final PairRoomCreateRequest pairRoom) {
+    static PairRoomCreateResponse createPairRoom(final PairRoomCreateRequest pairRoom) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
