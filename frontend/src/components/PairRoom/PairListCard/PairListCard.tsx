@@ -18,7 +18,9 @@ interface PairListCardProps {
 const PairListCard = ({ driver, navigator, roomCode, onRoomDelete }: PairListCardProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const onCopy = () => {
+  const toggleOpen = () => setIsOpen(!isOpen);
+
+  const handleCopy = () => {
     window.navigator.clipboard.writeText(roomCode);
     alert('방 코드가 복사되었습니다.');
   };
@@ -26,9 +28,9 @@ const PairListCard = ({ driver, navigator, roomCode, onRoomDelete }: PairListCar
   return (
     <S.Layout $isOpen={isOpen} onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
       <PairRoomCard>
-        <Header isOpen={isOpen} />
+        <Header isOpen={isOpen} toggleOpen={toggleOpen} />
         <S.Sidebar>
-          <RoomCodeSection isOpen={isOpen} roomCode={roomCode} onCopy={onCopy} />
+          <RoomCodeSection isOpen={isOpen} roomCode={roomCode} onCopy={handleCopy} />
           <PairListSection isOpen={isOpen} driver={driver} navigator={navigator} />
           <DeleteButton isOpen={isOpen} onRoomDelete={onRoomDelete} />
         </S.Sidebar>
