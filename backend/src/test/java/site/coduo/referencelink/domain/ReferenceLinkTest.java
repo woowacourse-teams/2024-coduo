@@ -6,6 +6,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import site.coduo.pairroom.domain.AccessCode;
+import site.coduo.pairroom.domain.PairName;
+import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.referencelink.exception.InvalidUrlFormatException;
 
 class ReferenceLinkTest {
@@ -17,7 +20,7 @@ class ReferenceLinkTest {
         final String url = "https://www.google.com";
 
         // when & then
-        assertThatCode(() -> new ReferenceLink(url))
+        assertThatCode(() -> new ReferenceLink(url, new AccessCode("value")))
                 .doesNotThrowAnyException();
     }
 
@@ -29,7 +32,7 @@ class ReferenceLinkTest {
         final String url = "";
 
         // when & then
-        assertThatThrownBy(() -> new ReferenceLink(url))
+        assertThatThrownBy(() -> new ReferenceLink(url, new AccessCode("value")))
                 .isInstanceOf(InvalidUrlFormatException.class);
     }
 
@@ -40,7 +43,7 @@ class ReferenceLinkTest {
         final String url = null;
 
         // when & then
-        assertThatThrownBy(() -> new ReferenceLink(url))
+        assertThatThrownBy(() -> new ReferenceLink(url, new AccessCode("value")))
                 .isInstanceOf(InvalidUrlFormatException.class);
     }
 }

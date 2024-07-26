@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.dto.PairRoomCreateResponse;
 
@@ -33,7 +34,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
 
                 .when()
                 .log().all()
-                .post("/" + pairRoom.accessCode() + "/reference-link/")
+                .post("/" + pairRoom.accessCode() + "/reference-link")
 
                 .then()
                 .assertThat()
@@ -46,8 +47,8 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
     void read_all_reference_link_request() {
         // given
         final PairRoomCreateResponse pairRoom = createPairRoom(new PairRoomCreateRequest("레모네", "프람"));
-        createReferenceLink("url1");
-        createReferenceLink("url2");
+        createReferenceLink("url1", pairRoom.accessCode());
+        createReferenceLink("url2", pairRoom.accessCode());
 
         // when & then
         RestAssured
@@ -63,8 +64,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
                 .body("size()", is(2));
     }
 
-    void createReferenceLink(final String url) {
-        final PairRoomCreateResponse pairRoom = createPairRoom(new PairRoomCreateRequest("레모네", "프람"));
+    void createReferenceLink(final String url, String accessCodeText) {
         final Map<String, Object> request = Map.of("url", url);
 
         RestAssured
@@ -73,7 +73,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
                 .body(request)
 
                 .when()
-                .post("/" + pairRoom.accessCode() + "/reference-link/");
+                .post("/" + accessCodeText + "/reference-link");
     }
 
     @Test
@@ -82,7 +82,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
         // given
         final PairRoomCreateResponse pairRoom = createPairRoom(new PairRoomCreateRequest("레모네", "프람"));
 
-        createReferenceLink("url");
+        createReferenceLink("url", pairRoom.accessCode());
 
         // when & then
         RestAssured
