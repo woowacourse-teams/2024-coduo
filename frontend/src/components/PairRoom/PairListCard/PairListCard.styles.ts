@@ -4,11 +4,9 @@ export const Layout = styled.div<{ $isOpen: boolean }>`
   position: relative;
   display: flex;
   flex-direction: column;
-  width: ${(props) => (props.$isOpen ? '16vw' : '6rem')};
-  min-width: ${(props) => (props.$isOpen ? '20rem' : '6rem')};
-  min-height: 40rem;
-  align-items: center;
+  width: ${(props) => (props.$isOpen ? '66rem' : '6rem')};
   justify-content: center;
+  align-items: center;
   transition: all 0.3s;
   white-space: nowrap;
 `;

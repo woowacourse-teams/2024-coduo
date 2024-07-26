@@ -7,12 +7,12 @@ export const Layout = styled.button`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 4.8rem;
+  height: 7rem;
   gap: 0.8rem;
   background-color: ${({ theme }) => theme.color.danger[200]};
   border-radius: 0 0 2rem 2rem;
   color: ${({ theme }) => theme.color.danger[600]};
-  font-size: ${({ theme }) => theme.fontSize.md};
+  font-size: ${({ theme }) => theme.fontSize.base};
   cursor: pointer;
   margin-top: auto;
 `;
