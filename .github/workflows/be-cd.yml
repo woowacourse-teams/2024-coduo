@@ -1,0 +1,51 @@
+name: Coduo Backend CD
+
+on:
+  push:
+    branches: ["BE/main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+
+      - name: Make prod application.yml
+        run: |
+          rm -rf ./src/main/resources/application.yml
+          touch ./src/main/resources/application.yml
+          echo ${{ secrets.BE_PROD_YML }} | base64 --decode > ./src/main/resources/application.yml
+        shell: bash
+
+      - name: Grant Execute Permission For Gradlew
+        run: chmod +x gradlew
+
+      - name: Build With Gradle
+        run: ./gradlew build -x test
+
+      - name: Docker build & Push
+        run: |
+          docker login -u ${{ secrets.DOCKER_HUB_ID }} -p ${{ secrets.DOCKER_HUB_PASSWORD }}
+          docker buildx build --platform=linux/arm64 -t ${{ secrets.DOCKER_HUB_REPO }}/springboot-app .
+          docker push ${{ secrets.DOCKER_HUB_REPO }}/springboot-app
+
+  deploy:
+    needs: build
+    runs-on: coduo-backend-ec2
+    steps:
+      - name: Deploy Images with Docker compose
+        run: |
+          docker-compose -f ~/docker-compose.yml down
+          docker rmi -f ${{ secrets.DOCKER_HUB_REPO }}/springboot-app
+          docker pull ${{ secrets.DOCKER_HUB_REPO }}/springboot-app
+          docker-compose -f ~/docker-compose.yml up -d
