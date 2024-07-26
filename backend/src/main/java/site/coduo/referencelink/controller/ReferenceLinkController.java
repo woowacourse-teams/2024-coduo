@@ -6,6 +6,7 @@ import java.util.List;
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -23,12 +24,13 @@ import site.coduo.referencelink.service.dto.ReferenceLinkUpdateRequest;
 
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000", "http://3.35.178.58"})
 public class ReferenceLinkController implements ReferenceLinkDocs {
 
     private final ReferenceLinkService referenceLinkService;
 
     @PostMapping("/reference-link")
-    public ResponseEntity<Void> create(@Valid @RequestBody final ReferenceLinkCreateRequest request) {
+    public ResponseEntity<Void> createReferenceLink(@Valid @RequestBody final ReferenceLinkCreateRequest request) {
         referenceLinkService.createReferenceLinkCommand(request);
 
         return ResponseEntity.created(URI.create("/"))
@@ -36,14 +38,14 @@ public class ReferenceLinkController implements ReferenceLinkDocs {
     }
 
     @GetMapping("/reference-link")
-    public ResponseEntity<List<ReferenceLinkResponse>> readAll() {
+    public ResponseEntity<List<ReferenceLinkResponse>> getReferenceLinks() {
         final List<ReferenceLinkResponse> responses = referenceLinkService.readAllReferenceLinkQuery();
 
         return ResponseEntity.ok(responses);
     }
 
     @PatchMapping("/reference-link/{id}")
-    public ResponseEntity<Void> update(
+    public ResponseEntity<Void> updateReferenceLink(
             @PathVariable("id") final long id,
             @Valid @RequestBody final ReferenceLinkUpdateRequest request
     ) {
@@ -54,7 +56,7 @@ public class ReferenceLinkController implements ReferenceLinkDocs {
 
 
     @DeleteMapping("/reference-link/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") final long id) {
+    public ResponseEntity<Void> deleteReferenceLink(@PathVariable("id") final long id) {
         referenceLinkService.deleteReferenceLinkCommand(id);
 
         return ResponseEntity.noContent()
