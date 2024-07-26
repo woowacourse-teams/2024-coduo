@@ -2,7 +2,7 @@ name: Coduo Backend CI
 
 on:
   pull_request:
-    branches: [ "BE/main" ]
+    branches: [ "BE/main", "BE/dev" ]
 
 permissions: write-all
 jobs:
