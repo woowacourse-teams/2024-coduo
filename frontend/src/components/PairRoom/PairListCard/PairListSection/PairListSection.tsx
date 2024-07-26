@@ -7,7 +7,7 @@ interface PairListSectionProps {
 }
 
 const PairListSection = ({ isOpen, driver, navigator }: PairListSectionProps) => (
-  <S.Layout>
+  <div>
     <S.PairItem>
       {isOpen && <S.PairRole $role="driver">드라이버</S.PairRole>}
       <S.PairName>{driver}</S.PairName>
@@ -16,7 +16,7 @@ const PairListSection = ({ isOpen, driver, navigator }: PairListSectionProps) =>
       {isOpen && <S.PairRole $role="navigator">네비게이터</S.PairRole>}
       <S.PairName>{navigator}</S.PairName>
     </S.PairItem>
-  </S.Layout>
+  </div>
 );
 
 export default PairListSection;

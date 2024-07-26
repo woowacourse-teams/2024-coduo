@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { IoIosLink } from 'react-icons/io';
 
 import { getReferenceLinks, addReferenceLink } from '@/apis/referenceLink';
@@ -16,15 +16,23 @@ import * as S from './ReferenceCard.styles';
 
 type Status = 'error' | 'default';
 
-const ReferenceCard = () => {
+interface ReferenceCardProps {
+  accessCode: string;
+}
+
+const ReferenceCard = ({ accessCode }: ReferenceCardProps) => {
+  const queryClient = useQueryClient();
+
   const { data } = useQuery({
     queryKey: ['getReferenceLinks'],
-    queryFn: getReferenceLinks,
+    queryFn: () => getReferenceLinks({ accessCode }),
   });
 
   const { mutate } = useMutation({
     mutationFn: addReferenceLink,
-    onSuccess: () => {},
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['getReferenceLinks'] });
+    },
     onError: (error) => alert(error.message),
   });
 
@@ -38,7 +46,7 @@ const ReferenceCard = () => {
   };
 
   const addReference = (url: string) => {
-    mutate({ url });
+    mutate({ accessCode, url });
   };
 
   return (

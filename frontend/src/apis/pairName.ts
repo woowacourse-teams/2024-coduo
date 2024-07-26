@@ -10,7 +10,7 @@ interface GetPairNamesResponse {
 
 export const getPairNames = async (accessCode: string): Promise<GetPairNamesResponse> => {
   const response = await fetcher.get({
-    url: `${API_URL}/pair-room?accessCode=${accessCode}`,
+    url: `${API_URL}/pair-room/${accessCode}`,
     errorMessage: '',
   });
 

@@ -41,7 +41,7 @@ const PairRoom = () => {
         />
       </S.Container>
       <S.Container>
-        <ReferenceCard />
+        <ReferenceCard accessCode={accessCode || ''} />
         <MemoCard />
       </S.Container>
     </S.Layout>

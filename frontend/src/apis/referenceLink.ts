@@ -7,9 +7,13 @@ interface Link {
   url: string;
 }
 
-export const getReferenceLinks = async (): Promise<Link[]> => {
+interface GetReferenceLinksRequest {
+  accessCode: string;
+}
+
+export const getReferenceLinks = async ({ accessCode }: GetReferenceLinksRequest): Promise<Link[]> => {
   const response = await fetcher.get({
-    url: `${API_URL}/reference-link`,
+    url: `${API_URL}/${accessCode}/reference-link`,
     errorMessage: '레퍼런스 링크 불러오기에 실패했습니다.',
   });
 
@@ -17,11 +21,12 @@ export const getReferenceLinks = async (): Promise<Link[]> => {
 };
 
 interface AddReferenceLinkRequest {
+  accessCode: string;
   url: string;
 }
 
-export const addReferenceLink = async ({ url }: AddReferenceLinkRequest) => {
-  const response = await fetch(`${API_URL}/reference-link`, {
+export const addReferenceLink = async ({ accessCode, url }: AddReferenceLinkRequest) => {
+  const response = await fetch(`${API_URL}/${accessCode}/reference-link`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -32,8 +37,4 @@ export const addReferenceLink = async ({ url }: AddReferenceLinkRequest) => {
   if (!response.ok) {
     throw new Error('레퍼런스 링크 저장에 실패했습니다.');
   }
-
-  const data = await response.json();
-
-  return data.accessCode;
 };
