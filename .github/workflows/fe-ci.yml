@@ -1,8 +1,6 @@
 name: Coduo Frontend CI
 
 on:
-  push:
-    branches: [FE/main, FE/dev]
   pull_request:
     branches: [FE/main, FE/dev]
 
@@ -15,7 +13,9 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -27,3 +27,6 @@ jobs:
 
       - name: Run unit tests
         run: yarn jest
+
+      - name: Publish storybook
+        run: npx chromatic --project-token=${{ secrets.CHROMATIC_PROJECT_TOKEN }} --storybook-config-dir=.storybook
