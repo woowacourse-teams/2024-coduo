@@ -1,6 +1,6 @@
 import fetcher from '@/apis/fetcher';
 
-import { API_URL } from '@/constants/api';
+const API_URL = process.env.REACT_APP_API_URL;
 
 interface GetPairNamesResponse {
   id: number;

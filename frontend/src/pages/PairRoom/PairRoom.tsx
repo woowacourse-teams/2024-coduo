@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 import MemoCard from '@/components/PairRoom/MemoCard/MemoCard';
 import PairListCard from '@/components/PairRoom/PairListCard/PairListCard';
@@ -13,6 +13,7 @@ import * as S from './PairRoom.styles';
 
 const PairRoom = () => {
   const { state } = useLocation();
+  const { accessCode } = useParams();
 
   const [driver, setDriver] = useState(state.driver || '');
   const [navigator, setNavigator] = useState(state.navigator || '');
@@ -28,7 +29,7 @@ const PairRoom = () => {
 
   return (
     <S.Layout>
-      <PairListCard driver="퍼렁" navigator="포롱" roomCode="IUUIASDFJK" onRoomDelete={() => {}} />
+      <PairListCard driver={driver} navigator={navigator} roomCode={accessCode || ''} onRoomDelete={() => {}} />
       <S.Container>
         <PairRoleCard driver={driver} navigator={navigator} onSwap={handleSwap} onTimerReset={handleStop} />
         <TimerCard
