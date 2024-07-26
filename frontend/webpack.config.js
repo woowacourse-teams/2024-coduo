@@ -5,7 +5,12 @@ import { fileURLToPath } from 'url';
 import webpack from 'webpack';
 import dotenv from 'dotenv';
 
-dotenv.config();
+const env = dotenv.config().parsed;
+
+const envKeys = Object.keys(env).reduce((prev, next) => {
+  prev[`process.env.${next}`] = JSON.stringify(env[next]);
+  return prev;
+}, {});
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -46,9 +51,7 @@ const config = {
     new CopyWebpackPlugin({
       patterns: [{ from: 'src/assets', to: 'assets/' }],
     }),
-    new webpack.DefinePlugin({
-      'process.env': JSON.stringify(process.env),
-    }),
+    new webpack.DefinePlugin(envKeys),
   ],
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
