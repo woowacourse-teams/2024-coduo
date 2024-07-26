@@ -6,6 +6,7 @@ import { ThemeProvider } from 'styled-components';
 import Layout from '@/pages/Layout';
 import Main from '@/pages/Main/Main';
 import PairRoom from '@/pages/PairRoom/PairRoom';
+import PairRoomOnboarding from '@/pages/PairRoomOnboarding/PairRoomOnboarding';
 
 import GlobalStyles from './styles/Global.style';
 import { theme } from './styles/theme';
@@ -25,6 +26,10 @@ const App = () => {
         {
           path: 'room/:accessCode',
           element: <PairRoom />,
+        },
+        {
+          path: 'room/:accessCode/onboarding',
+          element: <PairRoomOnboarding />,
         },
       ],
     },

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useQuery } from '@tanstack/react-query';
 
@@ -15,16 +16,17 @@ import TimerSetting from './Steps/TimerSetting';
 interface OnboardingModalProps {
   accessCode: string;
   isOpen: boolean;
-  closeModal: () => void;
 }
 
-const OnboardingModal = ({ accessCode, isOpen, closeModal }: OnboardingModalProps) => {
+const OnboardingModal = ({ accessCode, isOpen }: OnboardingModalProps) => {
   const [step, setStep] = useState<Step>('role');
 
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
 
   const [timer, setTimer] = useState('');
+
+  const navigate = useNavigate();
 
   const { data } = useQuery({ queryKey: ['getPairNames'], queryFn: () => getPairNames(accessCode) });
 
@@ -63,7 +65,7 @@ const OnboardingModal = ({ accessCode, isOpen, closeModal }: OnboardingModalProp
         setStep('timer');
         return;
       case 'timer':
-        closeModal();
+        navigate(`/room/${accessCode}`, { state: { driver, navigator, timer } });
         return;
     }
   };

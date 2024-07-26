@@ -37,7 +37,7 @@ const CompleteCreatePairRoom = ({ accessCode, closeModal }: CompleteCreatePairRo
         <Button onClick={closeModal} filled={false}>
           닫기
         </Button>
-        <Link to={`/room/${accessCode}`}>
+        <Link to={`/room/${accessCode}/onboarding`}>
           <Button>이동</Button>
         </Link>
       </Modal.Footer>
