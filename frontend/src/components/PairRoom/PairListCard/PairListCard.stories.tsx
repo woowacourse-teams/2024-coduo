@@ -12,5 +12,10 @@ export default meta;
 type Story = StoryObj<typeof PairListCard>;
 
 export const Default: Story = {
-  args: {},
+  args: {
+    roomCode: 'IUUIASDFJK',
+    driver: '퍼렁',
+    navigator: '포롱',
+    onRoomDelete: () => alert('방이 삭제되었습니다.'),
+  },
 };

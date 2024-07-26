@@ -5,12 +5,16 @@ const useInput = <T extends object>(initialValue: T) => {
 
   const handleOnChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    validateValue: (value: string) => { status: string; message: string },
+    validateValue?: (value: string) => { status: string; message: string },
   ) => {
     const { value } = event.target;
-    const { status, message } = validateValue(value);
 
-    setInputValue({ ...inputValue, value, status, message });
+    if (validateValue) {
+      const { status, message } = validateValue(value);
+      setInputValue({ ...inputValue, value, status, message });
+    } else {
+      setInputValue({ ...inputValue, value });
+    }
   };
 
   const resetInputValue = () => setInputValue({ ...initialValue });

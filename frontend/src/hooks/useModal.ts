@@ -7,7 +7,9 @@ const useModal = (defaultValue: boolean = false) => {
 
   const closeModal = () => setIsModalOpen(false);
 
-  return { isModalOpen, openModal, closeModal };
+  const modalToggle = () => setIsModalOpen(!isModalOpen);
+
+  return { isModalOpen, openModal, closeModal, modalToggle };
 };
 
 export default useModal;

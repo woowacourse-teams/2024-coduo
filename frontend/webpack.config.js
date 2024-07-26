@@ -2,6 +2,15 @@ import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import { fileURLToPath } from 'url';
+import webpack from 'webpack';
+import dotenv from 'dotenv';
+
+const env = dotenv.config().parsed;
+
+const envKeys = Object.keys(env).reduce((prev, next) => {
+  prev[`process.env.${next}`] = JSON.stringify(env[next]);
+  return prev;
+}, {});
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -43,6 +52,7 @@ const config = {
     new CopyWebpackPlugin({
       patterns: [{ from: 'src/assets', to: 'assets/' }],
     }),
+    new webpack.DefinePlugin(envKeys),
   ],
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],

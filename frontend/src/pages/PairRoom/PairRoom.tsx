@@ -28,7 +28,7 @@ const PairRoom = () => {
 
   return (
     <S.Layout>
-      <PairListCard />
+      <PairListCard driver="퍼렁" navigator="포롱" roomCode="IUUIASDFJK" onRoomDelete={() => {}} />
       <S.Container>
         <PairRoleCard driver={driver} navigator={navigator} onSwap={handleSwap} onTimerReset={handleStop} />
         <TimerCard
