@@ -6,6 +6,7 @@ import java.util.List;
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -23,6 +24,7 @@ import site.coduo.referencelink.service.dto.ReferenceLinkUpdateRequest;
 
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000", "http://3.35.178.58"})
 public class ReferenceLinkController implements ReferenceLinkDocs {
 
     private final ReferenceLinkService referenceLinkService;
