@@ -1,8 +1,6 @@
 name: Coduo Frontend CI
 
 on:
-  push:
-    branches: [FE/main, FE/dev]
   pull_request:
     branches: [FE/main, FE/dev]
 
@@ -27,3 +25,9 @@ jobs:
 
       - name: Run unit tests
         run: yarn jest
+
+      - name: Publish storybook
+        uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          storybookConfigDir: .storybook
