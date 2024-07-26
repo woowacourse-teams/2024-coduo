@@ -24,7 +24,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
     void reference_link_create_request() {
         // given
         final PairRoomCreateResponse pairRoom = createPairRoom(new PairRoomCreateRequest("레모네", "프람"));
-        final Map<String, Object> request = Map.of("url", "value");
+        final Map<String, Object> request = Map.of("url", "http://www.naber.com");
 
         // when & then
         RestAssured
@@ -47,8 +47,8 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
     void read_all_reference_link_request() {
         // given
         final PairRoomCreateResponse pairRoom = createPairRoom(new PairRoomCreateRequest("레모네", "프람"));
-        createReferenceLink("url1", pairRoom.accessCode());
-        createReferenceLink("url2", pairRoom.accessCode());
+        createReferenceLink("http://www.some.url", pairRoom.accessCode());
+        createReferenceLink("http://www.some.url2", pairRoom.accessCode());
 
         // when & then
         RestAssured

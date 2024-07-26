@@ -15,6 +15,7 @@ import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.ReferenceLink;
+import site.coduo.referencelink.domain.Url;
 import site.coduo.referencelink.repository.ReferenceLinkEntity;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
@@ -39,7 +40,7 @@ class ReferenceLinkServiceTest {
     void save_reference_link() {
         // given
         final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(new PairName("first"), new PairName("second")));
-        final ReferenceLinkCreateRequest request = new ReferenceLinkCreateRequest("url");
+        final ReferenceLinkCreateRequest request = new ReferenceLinkCreateRequest("http://url.com");
 
         // when
         referenceLinkService.createReferenceLinkCommand(pairRoom.getAccessCodeText(), request);
@@ -55,9 +56,9 @@ class ReferenceLinkServiceTest {
         // given
         final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(new PairName("first"), new PairName("second")));
         final AccessCode accessCode = pairRoom.getAccessCode();
-        referenceLinkRepository.save(new ReferenceLinkEntity(new ReferenceLink("url1", accessCode), pairRoom));
-        referenceLinkRepository.save(new ReferenceLinkEntity(new ReferenceLink("url2", accessCode), pairRoom));
-        referenceLinkRepository.save(new ReferenceLinkEntity(new ReferenceLink("url3", accessCode), pairRoom));
+        referenceLinkRepository.save(new ReferenceLinkEntity(new ReferenceLink(new Url("http://url1.com"), accessCode), pairRoom));
+        referenceLinkRepository.save(new ReferenceLinkEntity(new ReferenceLink(new Url("http://url2.com"), accessCode), pairRoom));
+        referenceLinkRepository.save(new ReferenceLinkEntity(new ReferenceLink(new Url("http://url3.com"), accessCode), pairRoom));
 
         // when
         final List<ReferenceLinkResponse> responses = referenceLinkService.readAllReferenceLinkQuery(accessCode.getValue());
@@ -73,7 +74,7 @@ class ReferenceLinkServiceTest {
         final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(new PairName("first"), new PairName("second")));
         final AccessCode accessCode = pairRoom.getAccessCode();
         final ReferenceLinkEntity link = referenceLinkRepository.save(
-                new ReferenceLinkEntity(new ReferenceLink("url1", accessCode), pairRoom));
+                new ReferenceLinkEntity(new ReferenceLink(new Url("http://url1.com"), accessCode), pairRoom));
 
         // when
         referenceLinkService.deleteReferenceLinkCommand(link.getId());

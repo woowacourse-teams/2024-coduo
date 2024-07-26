@@ -39,7 +39,7 @@ public class ReferenceLinkEntity extends BaseTimeEntity {
     private PairRoom pairRoom;
 
     public ReferenceLinkEntity(final ReferenceLink referenceLink, final PairRoom pairRoom) {
-        this.url = referenceLink.getUrl();
+        this.url = referenceLink.getUrlText();
         this.pairRoom = pairRoom;
     }
 

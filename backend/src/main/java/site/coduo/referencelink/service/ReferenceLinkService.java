@@ -11,6 +11,7 @@ import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.exception.AccessCodeNotFoundException;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.ReferenceLink;
+import site.coduo.referencelink.domain.Url;
 import site.coduo.referencelink.exception.ReferenceLinkNotFoundException;
 import site.coduo.referencelink.repository.ReferenceLinkEntity;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
@@ -31,7 +32,7 @@ public class ReferenceLinkService {
         final AccessCode accessCode = new AccessCode(accessCodeText);
         final PairRoom pairRoom = pairRoomRepository.findByAccessCode(accessCode)
                 .orElseThrow(() -> new AccessCodeNotFoundException("찾을 수 없는 엑세스 코드입니다."));
-        final ReferenceLink referenceLink = new ReferenceLink(request.url(), accessCode);
+        final ReferenceLink referenceLink = new ReferenceLink(new Url(request.url()), accessCode);
         final ReferenceLinkEntity referenceLinkEntity = new ReferenceLinkEntity(referenceLink, pairRoom);
         referenceLinkRepository.save(referenceLinkEntity);
     }

@@ -20,30 +20,7 @@ class ReferenceLinkTest {
         final String url = "https://www.google.com";
 
         // when & then
-        assertThatCode(() -> new ReferenceLink(url, new AccessCode("value")))
+        assertThatCode(() -> new ReferenceLink(new Url(url), new AccessCode("value")))
                 .doesNotThrowAnyException();
-    }
-
-
-    @Test
-    @DisplayName("레퍼런스 링크가 빈값이면 예외를 발생한다")
-    void throw_exception_when_create_reference_link_with_blank_url() {
-        // given
-        final String url = "";
-
-        // when & then
-        assertThatThrownBy(() -> new ReferenceLink(url, new AccessCode("value")))
-                .isInstanceOf(InvalidUrlFormatException.class);
-    }
-
-    @Test
-    @DisplayName("레퍼런스 링크가 빈값이면 예외를 발생한다")
-    void throw_exception_when_create_reference_link_with_null_url() {
-        // given
-        final String url = null;
-
-        // when & then
-        assertThatThrownBy(() -> new ReferenceLink(url, new AccessCode("value")))
-                .isInstanceOf(InvalidUrlFormatException.class);
     }
 }
