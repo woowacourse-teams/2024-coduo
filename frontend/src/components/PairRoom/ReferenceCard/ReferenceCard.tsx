@@ -1,6 +1,7 @@
-// import { useQuery } from '@tanstack/react-query';
-import { useMutation } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { IoIosLink } from 'react-icons/io';
+
+import { getReferenceLinks, addReferenceLink } from '@/apis/referenceLink';
 
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
@@ -13,33 +14,13 @@ import { theme } from '@/styles/theme';
 
 import * as S from './ReferenceCard.styles';
 
-import { addReferenceLink } from '@/apis/reference';
-
-// import { getReference } from '@/apis/reference';
-
 type Status = 'error' | 'default';
-// TODO: 레퍼런스 모음 기능 추가
-const DATA = [
-  {
-    url: 'https://github.com/woowacourse-teams/2024-coduo/pull/114',
-    id: '1',
-  },
-  {
-    url: 'https://github.com/woowacourse-teams/2024-coduo/pull/114',
-    id: '2',
-  },
-  {
-    url: 'https://github.com/woowacourse-teams/2024-coduo/pull/114',
-    id: '3',
-  },
-];
-const ReferenceCard = () => {
-  const { inputValue, handleOnChange, resetInputValue } = useInput({ value: '', message: '', status: 'default' });
 
-  // const { data: DATA } = useQuery({
-  //   queryKey: ['fetchCartItems'],
-  //   queryFn: getReference,
-  // });
+const ReferenceCard = () => {
+  const { data } = useQuery({
+    queryKey: ['getReferenceLinks'],
+    queryFn: getReferenceLinks,
+  });
 
   const { mutate } = useMutation({
     mutationFn: addReferenceLink,
@@ -47,17 +28,19 @@ const ReferenceCard = () => {
     onError: (error) => alert(error.message),
   });
 
+  const { inputValue, handleOnChange, resetInputValue } = useInput({ value: '', message: '', status: 'default' });
+
   const buttonActive = inputValue.value !== '' && inputValue.status === 'default';
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    console.log('Submitted value:', inputValue.value);
     resetInputValue();
   };
 
   const addReference = (url: string) => {
     mutate({ url });
   };
+
   return (
     <>
       <PairRoomCard>
@@ -83,9 +66,13 @@ const ReferenceCard = () => {
           </S.ReferenceLinkForm>
         </PairRoomCard.Header>
         <S.ReferenceList>
-          {DATA.map((data) => {
-            return <Reference key={data.id} link={data.url} />;
-          })}
+          {data ? (
+            data.map((data) => {
+              return <Reference key={data.id} link={data.url} />;
+            })
+          ) : (
+            <S.EmptyText>저장된 링크가 없습니다.</S.EmptyText>
+          )}
         </S.ReferenceList>
       </PairRoomCard>
     </>
