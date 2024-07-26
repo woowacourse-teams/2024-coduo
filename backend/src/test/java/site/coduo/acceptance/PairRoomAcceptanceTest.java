@@ -15,7 +15,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     void show_pair_room() {
         //given
         final PairRoomCreateResponse pairRoomUrl = createPairRoom(new PairRoomCreateRequest("레디", "프람"));
- 
+
         //when & then
         RestAssured
                 .given()
@@ -24,7 +24,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .contentType("application/json")
 
                 .when()
-                .get("/pair-room?accessCode=" + pairRoomUrl.accessCode())
+                .get("/pair-room/" + pairRoomUrl.accessCode())
 
                 .then()
                 .log()
@@ -46,7 +46,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .contentType("application/json")
 
                 .when()
-                .delete("/pair-room?accessCode=" + pairRoomUrl.accessCode())
+                .delete("/pair-room/" + pairRoomUrl.accessCode())
 
                 .then()
                 .log()
@@ -65,7 +65,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .contentType("application/json")
 
                 .when()
-                .delete("/pair-room?accessCode=" + "zzzzzz")
+                .delete("/pair-room/" + "zzzzzz")
 
                 .then()
                 .log()
