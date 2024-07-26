@@ -12,12 +12,10 @@ import site.coduo.pairroom.exception.AccessCodeNotFoundException;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.ReferenceLink;
 import site.coduo.referencelink.domain.Url;
-import site.coduo.referencelink.exception.ReferenceLinkNotFoundException;
 import site.coduo.referencelink.repository.ReferenceLinkEntity;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
 import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
-import site.coduo.referencelink.service.dto.ReferenceLinkUpdateRequest;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -37,7 +35,7 @@ public class ReferenceLinkService {
         referenceLinkRepository.save(referenceLinkEntity);
     }
 
-    public List<ReferenceLinkResponse> readAllReferenceLinkQuery(String accessCodeText) {
+    public List<ReferenceLinkResponse> readAllReferenceLinkQuery(final String accessCodeText) {
 
         return referenceLinkRepository.findAll()
                 .stream()

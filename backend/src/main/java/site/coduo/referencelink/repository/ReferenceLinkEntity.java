@@ -8,7 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -43,7 +42,7 @@ public class ReferenceLinkEntity extends BaseTimeEntity {
         this.pairRoom = pairRoom;
     }
 
-    public boolean isSameAccessCode(AccessCode accessCode) {
+    public boolean isSameAccessCode(final AccessCode accessCode) {
         return pairRoom.getAccessCode()
                 .equals(accessCode);
     }
