@@ -29,22 +29,27 @@ public class ReferenceLinkController implements ReferenceLinkDocs {
 
     private final ReferenceLinkService referenceLinkService;
 
-    @PostMapping("/reference-link")
-    public ResponseEntity<Void> createReferenceLink(@Valid @RequestBody final ReferenceLinkCreateRequest request) {
+    @PostMapping("/{accessCode}/reference-link")
+    public ResponseEntity<Void> createReferenceLink(
+            @PathVariable("accessCode") final String accessCode,
+            @Valid @RequestBody final ReferenceLinkCreateRequest request
+    ) {
         referenceLinkService.createReferenceLinkCommand(request);
 
         return ResponseEntity.created(URI.create("/"))
                 .build();
     }
 
-    @GetMapping("/reference-link")
-    public ResponseEntity<List<ReferenceLinkResponse>> getReferenceLinks() {
+    @GetMapping("/{accessCode}/reference-link")
+    public ResponseEntity<List<ReferenceLinkResponse>> getReferenceLinks(
+            @PathVariable("accessCode") final String accessCode
+    ) {
         final List<ReferenceLinkResponse> responses = referenceLinkService.readAllReferenceLinkQuery();
 
         return ResponseEntity.ok(responses);
     }
 
-    @PatchMapping("/reference-link/{id}")
+    @PatchMapping("/reference-link/{id}") //TODO 지우기
     public ResponseEntity<Void> updateReferenceLink(
             @PathVariable("id") final long id,
             @Valid @RequestBody final ReferenceLinkUpdateRequest request
@@ -54,9 +59,11 @@ public class ReferenceLinkController implements ReferenceLinkDocs {
         return ResponseEntity.ok().build();
     }
 
-
-    @DeleteMapping("/reference-link/{id}")
-    public ResponseEntity<Void> deleteReferenceLink(@PathVariable("id") final long id) {
+    @DeleteMapping("/{accessCode}/reference-link/{id}")
+    public ResponseEntity<Void> deleteReferenceLink(
+            @PathVariable("accessCode") final String accessCode,
+            @PathVariable("id") final long id
+    ) {
         referenceLinkService.deleteReferenceLinkCommand(id);
 
         return ResponseEntity.noContent()
