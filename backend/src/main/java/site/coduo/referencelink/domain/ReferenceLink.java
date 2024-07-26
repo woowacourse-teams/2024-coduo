@@ -1,23 +1,20 @@
 package site.coduo.referencelink.domain;
 
-import org.apache.commons.lang3.StringUtils;
-
 import lombok.Getter;
-import site.coduo.referencelink.exception.InvalidUrlFormatException;
+import site.coduo.pairroom.domain.AccessCode;
 
 @Getter
 public class ReferenceLink {
 
-    private final String url;
+    private final Url url;
+    private final AccessCode accessCode;
 
-    public ReferenceLink(final String url) {
-        validate(url);
+    public ReferenceLink(final Url url, final AccessCode accessCode) {
         this.url = url;
+        this.accessCode = accessCode;
     }
 
-    private void validate(final String url) {
-        if (StringUtils.isBlank(url)) {
-            throw new InvalidUrlFormatException("url이 비어있습니다.");
-        }
+    public String getUrlText() {
+        return url.getValue();
     }
 }

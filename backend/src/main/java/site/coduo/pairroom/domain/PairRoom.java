@@ -32,6 +32,10 @@ public class PairRoom extends BaseTimeEntity {
         this.accessCode = new AccessCode();
     }
 
+    public String getAccessCodeText() {
+        return accessCode.getValue();
+    }
+
     @Override
     public String toString() {
         return "PairRoom{" +

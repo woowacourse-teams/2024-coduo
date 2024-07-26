@@ -1,5 +1,6 @@
 package site.coduo.pairroom.domain;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -24,5 +25,22 @@ public class AccessCode {
 
     public AccessCode(final String value) {
         this.value = value;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final AccessCode that = (AccessCode) o;
+        return Objects.equals(value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(value);
     }
 }
