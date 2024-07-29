@@ -38,6 +38,8 @@ const OnboardingModal = ({ accessCode, isOpen }: OnboardingModalProps) => {
     }
   }, [data]);
 
+  const handleTimer = (time: string) => setTimer(time);
+
   const handleSelect = (option: string, role: Role) => {
     if (!option) return;
     switch (role) {
@@ -84,7 +86,7 @@ const OnboardingModal = ({ accessCode, isOpen }: OnboardingModalProps) => {
               handleSelect={handleSelect}
             />
           )}
-          {step === 'timer' && <TimerSetting timer={timer} setTimer={setTimer} />}
+          {step === 'timer' && <TimerSetting timer={timer} onTimer={handleTimer} />}
         </div>
         <FooterButtons
           step={step}

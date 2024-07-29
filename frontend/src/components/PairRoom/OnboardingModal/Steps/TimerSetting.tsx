@@ -7,24 +7,26 @@ import Input from '@/components/common/Input/Input';
 import { Modal } from '@/components/common/Modal';
 import { TIMER_OPTIONS } from '@/components/PairRoom/OnboardingModal/constants';
 
+import { validateTime } from '@/utils/validate';
+
 import * as S from './Steps.styles';
 
 interface TimerSettingProps {
-  timer: string | undefined;
-  setTimer: (value: string) => void;
+  timer: string;
+  onTimer: (time: string) => void;
 }
 
-const TimerSetting = ({ timer, setTimer }: TimerSettingProps) => {
+const TimerSetting = ({ timer, onTimer }: TimerSettingProps) => {
   const [isSelf, setIsSelf] = useState(false);
 
   const handleTimer = (option: string) => {
     if (isSelf) setIsSelf(false);
-    setTimer(option);
+    onTimer(option);
   };
 
   const handleIsSelf = () => {
     if (!isSelf) setIsSelf(true);
-    setTimer('');
+    onTimer('');
   };
 
   return (
@@ -57,14 +59,14 @@ const TimerSetting = ({ timer, setTimer }: TimerSettingProps) => {
           </Button>
           {isSelf && (
             <Input
-              $css={S.inputStyles}
               width="16rem"
-              type="number"
+              $css={S.inputStyles}
               value={timer}
-              label=""
               placeholder="타이머 시간 (분)"
-              onChange={(event) => setTimer(event.target.value)}
+              status={!validateTime(Number(timer)) ? 'error' : 'default'}
+              message={!validateTime(Number(timer)) ? '0 이상의 숫자를 입력해 주세요.' : ''}
               disabled={!isSelf}
+              onChange={(event) => onTimer(event.target.value)}
             />
           )}
         </S.TimeInputWrapper>
