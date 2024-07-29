@@ -1,75 +1,67 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 6rem;
-  justify-content: center;
-  align-items: center;
+  gap: 5rem;
   width: 100%;
+  padding: 4rem 0;
+`;
+
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 `;
 
 export const InformationWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  justify-content: center;
-  align-items: start;
-  gap: 1.6rem 0;
-  background-color: ${({ theme }) => theme.color.primary[200]};
-  padding: 1.6rem;
-  border-radius: 1.2rem;
-  margin: 2rem 0;
+  gap: 1rem 0;
+  padding: 2rem;
+  background-color: ${({ theme }) => theme.color.primary[100]};
+  border-radius: 1rem;
 `;
 
 export const InformationTitle = styled.p`
-  font-size: 1.6rem;
-  font-weight: 500;
-  color: ${({ theme }) => theme.color.primary[700]};
-  margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
   gap: 0.8rem;
+  color: ${({ theme }) => theme.color.primary[700]};
+  font-size: ${({ theme }) => theme.fontSize.base};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
 
 export const InformationDescription = styled.p`
-  font-size: 1.4rem;
-  font-weight: ${({ theme }) => theme.fontWeight.medium};
   color: ${({ theme }) => theme.color.black[70]};
+  font-size: ${({ theme }) => theme.fontSize.md};
+  font-weight: ${({ theme }) => theme.fontWeight.normal};
+  line-height: 1.6;
 `;
 
 export const SettingsContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  width: 90%;
-  min-height: 20rem;
-  justify-content: space-around;
+  gap: 2rem;
+  width: 100%;
 `;
 
 export const DropdownWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 45%;
+  gap: 1rem;
+  width: 50%;
 `;
 
 export const DropdownLabel = styled.p`
-  font-size: 1.6rem;
-  font-weight: 500;
   color: ${({ theme }) => theme.color.primary[700]};
-  margin-bottom: 0.5rem;
+  font-size: ${({ theme }) => theme.fontSize.base};
+  font-weight: 500;
 `;
 
 export const TimeSelectContainer = styled.div`
   display: flex;
-  flex-direction: column;
   width: 100%;
   gap: 2rem;
-`;
-
-export const TimeSelectTitle = styled.p`
-  font-size: 2rem;
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
-  color: ${({ theme }) => theme.color.primary[700]};
 `;
 
 export const TimeSelectButtonWrapper = styled.div`
@@ -77,4 +69,14 @@ export const TimeSelectButtonWrapper = styled.div`
   flex-direction: row;
   width: 100%;
   gap: 1.2rem;
+`;
+
+export const TimeInputWrapper = styled.div`
+  display: flex;
+  gap: 0.5rem;
+`;
+
+export const inputStyles = css`
+  height: 4rem;
+  border-radius: 1rem;
 `;
