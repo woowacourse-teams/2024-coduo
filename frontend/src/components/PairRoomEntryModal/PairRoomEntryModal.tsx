@@ -6,9 +6,9 @@ import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import { Modal } from '@/components/common/Modal';
 
-import useInput from '@/hooks/useInput';
-
 import { addRoomCode } from '@/apis/roomCode';
+
+import useInput from '@/hooks/useInput';
 
 interface PairRoomEntryModal {
   isOpen: boolean;
