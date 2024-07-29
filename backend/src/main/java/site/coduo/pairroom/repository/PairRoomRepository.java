@@ -4,8 +4,8 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import site.coduo.pairroom.domain.AccessCode;
 import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
 
 public interface PairRoomRepository extends JpaRepository<PairRoom, Long> {

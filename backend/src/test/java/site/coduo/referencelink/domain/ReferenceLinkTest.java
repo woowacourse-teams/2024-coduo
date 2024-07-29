@@ -1,15 +1,11 @@
 package site.coduo.referencelink.domain;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import site.coduo.pairroom.domain.AccessCode;
-import site.coduo.pairroom.domain.PairName;
-import site.coduo.pairroom.domain.PairRoom;
-import site.coduo.referencelink.exception.InvalidUrlFormatException;
+import site.coduo.pairroom.domain.accesscode.AccessCode;
 
 class ReferenceLinkTest {
 

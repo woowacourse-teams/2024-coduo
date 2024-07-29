@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import site.coduo.pairroom.domain.AccessCode;
 import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.exception.AccessCodeNotFoundException;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.ReferenceLink;

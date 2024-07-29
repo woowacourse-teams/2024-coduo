@@ -7,12 +7,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
+import site.coduo.pairroom.domain.accesscode.AccessCode;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class PairRoom extends BaseTimeEntity {
 
@@ -27,9 +29,9 @@ public class PairRoom extends BaseTimeEntity {
     @Column(name = "ACCESS_CODE", nullable = false)
     private AccessCode accessCode;
 
-    public PairRoom(final PairName firstPair, final PairName secondPair) {
-        this.pair = new Pair(firstPair, secondPair);
-        this.accessCode = new AccessCode();
+    public PairRoom(final Pair pair, final AccessCode accessCode) {
+        this.pair = pair;
+        this.accessCode = accessCode;
     }
 
     public String getAccessCodeText() {
