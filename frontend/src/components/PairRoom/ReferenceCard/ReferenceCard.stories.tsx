@@ -21,7 +21,7 @@ export const Default: Story = {
   render: () => (
     <ThemeProvider theme={theme}>
       <QueryClientProvider client={queryClient}>
-        <ReferenceCard />
+        <ReferenceCard accessCode="1234" />
       </QueryClientProvider>
     </ThemeProvider>
   ),
