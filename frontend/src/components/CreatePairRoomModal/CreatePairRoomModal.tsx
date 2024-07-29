@@ -41,7 +41,7 @@ const CreatePairRoomModal = ({ isOpen, closeModal }: CreatePairRoomModalProps) =
   const { title, subtitle } = PAIR_ROOM_MODAL_INFO[createPairRoomStatus];
 
   return (
-    <Modal isOpen={isOpen} close={closeModal} size="60rem" height="45rem">
+    <Modal isOpen={isOpen} close={closeModal} size="60rem">
       <Modal.Header title={title} subTitle={subtitle} />
       <Modal.CloseButton close={closeModal} />
       {!isPending && createPairRoomStatus === 'create' && (
