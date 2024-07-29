@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 
-const useTimer = (defaultTime: number) => {
+const useTimer = (defaultTime: number, onStop: () => void) => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const [timeLeft, setTimeLeft] = useState(defaultTime);
@@ -25,6 +25,7 @@ const useTimer = (defaultTime: number) => {
     if (timeLeft === 0) {
       setIsActive(false);
       setTimeLeft(defaultTime);
+      onStop();
     }
 
     return () => {

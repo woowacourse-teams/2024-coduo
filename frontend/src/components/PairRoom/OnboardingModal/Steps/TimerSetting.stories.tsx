@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import TimerSetting from './TimerSetting';
 
 const meta = {
-  title: 'component/PairRoom/PairRoomOnboardingModal/Steps/TimerSetting',
+  title: 'component/PairRoom/OnboardingModal/Steps/TimerSetting',
   component: TimerSetting,
 } satisfies Meta<typeof TimerSetting>;
 

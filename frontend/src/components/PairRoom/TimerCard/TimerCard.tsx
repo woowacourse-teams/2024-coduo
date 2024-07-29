@@ -1,7 +1,5 @@
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 
-import useTimer from '@/hooks/PairRoom/useTimer';
-
 import * as S from './TimerCard.styles';
 
 const formatMinutes = (minutes: number) => (minutes < 10 ? `0${minutes}` : `${minutes}`);
@@ -17,8 +15,15 @@ const formatTime = (time: number) => {
 
 const DEFAULT_TIME = 60 * 1000;
 
-const TimerCard = () => {
-  const { timeLeft, isActive, handleStart, handlePause, handleStop } = useTimer(DEFAULT_TIME);
+interface TimerCardProps {
+  timeLeft: number;
+  isActive: boolean;
+  onStart: () => void;
+  onPause: () => void;
+  onStop: () => void;
+}
+
+const TimerCard = ({ timeLeft, isActive, onStart, onPause, onStop }: TimerCardProps) => {
   const { minutes, seconds } = formatTime(timeLeft);
 
   return (
@@ -38,13 +43,13 @@ const TimerCard = () => {
           </S.Timer>
         </S.ProgressBar>
         <S.IconContainer>
-          <S.IconButton disabled={isActive} onClick={handleStart}>
+          <S.IconButton disabled={isActive} onClick={onStart}>
             <S.PlayIcon $isActive={!isActive} />
           </S.IconButton>
-          <S.IconButton disabled={!isActive} onClick={handlePause}>
+          <S.IconButton disabled={!isActive} onClick={onPause}>
             <S.PauseIcon $isActive={isActive} />
           </S.IconButton>
-          <S.IconButton disabled={!isActive} onClick={handleStop}>
+          <S.IconButton disabled={!isActive} onClick={onStop}>
             <S.StopIcon $isActive={isActive} />
           </S.IconButton>
         </S.IconContainer>

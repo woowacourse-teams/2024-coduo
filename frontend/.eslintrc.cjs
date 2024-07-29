@@ -12,7 +12,7 @@ module.exports = {
     'plugin:import/typescript',
     'plugin:storybook/recommended',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs', '**/*.config.js'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'jest.config.cjs', '**/*.config.js'],
   parser: '@typescript-eslint/parser',
   settings: {
     react: {

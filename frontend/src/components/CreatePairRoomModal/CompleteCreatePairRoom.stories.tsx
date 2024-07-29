@@ -31,7 +31,7 @@ export const Default: Story = {
               subTitle={PAIR_ROOM_MODAL_INFO.complete.subtitle}
             />
             <Modal.CloseButton close={() => console.log()} />
-            <CompleteCreatePairRoom closeModal={() => console.log()} pairRoomCode="abcdef" />
+            <CompleteCreatePairRoom closeModal={() => console.log()} accessCode="abcdef" />
           </Modal>
         </QueryClientProvider>
       </ThemeProvider>

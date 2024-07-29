@@ -7,9 +7,10 @@ interface PairRoleCardProps {
   driver: string;
   navigator: string;
   onSwap: () => void;
+  onTimerReset: () => void;
 }
 
-const PairRoleCard = ({ driver, navigator, onSwap }: PairRoleCardProps) => {
+const PairRoleCard = ({ driver, navigator, onSwap, onTimerReset }: PairRoleCardProps) => {
   return (
     <S.Layout>
       <PairRoomCard>
@@ -21,7 +22,13 @@ const PairRoleCard = ({ driver, navigator, onSwap }: PairRoleCardProps) => {
               <S.DriverText>{driver}</S.DriverText>
             </S.RoleTextContainer>
           </S.DriverBox>
-          <Button css={S.buttonStyle} onClick={onSwap}>
+          <Button
+            css={S.buttonStyle}
+            onClick={() => {
+              onSwap();
+              onTimerReset();
+            }}
+          >
             <S.SwapIcon />
           </Button>
           <S.NavigatorBox>
