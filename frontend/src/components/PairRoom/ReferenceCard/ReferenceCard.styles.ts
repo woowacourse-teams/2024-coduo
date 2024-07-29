@@ -37,3 +37,8 @@ export const ReferenceList = styled.ul`
 
   gap: 1rem;
 `;
+
+export const EmptyText = styled.p`
+  color: ${({ theme }) => theme.color.black[60]};
+  font-size: ${({ theme }) => theme.fontSize.md};
+`;

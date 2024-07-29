@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Step } from '@/components/PairRoom/PairRoomOnboardingModal/PairRoomOnboardingModal.type';
+import { Step } from '@/components/PairRoom/OnboardingModal/OnboardingModal.type';
 
 import Progress from './ProgressBar';
 
 const meta = {
-  title: 'component/PairRoom/PairRoomOnboardingModal/Progress',
+  title: 'component/PairRoom/OnboardingModal/Progress',
   component: Progress,
 } satisfies Meta<typeof Progress>;
 
