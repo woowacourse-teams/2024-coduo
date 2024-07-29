@@ -2,13 +2,13 @@ import { useNavigate } from 'react-router-dom';
 
 import { useMutation } from '@tanstack/react-query';
 
+import { addRoomCode } from '@/apis/roomCode';
+
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import { Modal } from '@/components/common/Modal';
 
 import useInput from '@/hooks/useInput';
-
-import { addRoomCode } from '@/apis/roomCode';
 
 interface PairRoomEntryModal {
   isOpen: boolean;
