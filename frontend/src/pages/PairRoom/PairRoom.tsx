@@ -33,6 +33,7 @@ const PairRoom = () => {
       <S.Container>
         <PairRoleCard driver={driver} navigator={navigator} onSwap={handleSwap} onTimerReset={handleStop} />
         <TimerCard
+          defaultTime={time}
           timeLeft={timeLeft}
           isActive={isActive}
           onStart={handleStart}
