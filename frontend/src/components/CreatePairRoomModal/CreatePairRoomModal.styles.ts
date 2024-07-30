@@ -10,21 +10,11 @@ export const Content = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
+  padding: 1.2rem 3.2rem;
   gap: 1.2rem;
-`;
-export const PairRoomCode = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.h1};
-  font-weight: ${({ theme }) => theme.fontWeight.semibold};
-`;
-
-export const IconBox = styled.div`
   cursor: pointer;
-  color: ${({ theme }) => theme.color.primary[500]};
-
-  padding: 0.5rem;
-  padding-bottom: 0;
-  border-radius: 0.5rem;
+  border-radius: 5rem;
+  transition: background-color 0.2s ease-in-out;
 
   &:hover {
     background-color: ${({ theme }) => theme.color.black[30]};
@@ -33,6 +23,18 @@ export const IconBox = styled.div`
   &:active {
     background-color: ${({ theme }) => theme.color.black[40]};
   }
+`;
+export const PairRoomCode = styled.p`
+  font-size: ${({ theme }) => theme.fontSize.h1};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
+`;
+
+export const IconBox = styled.div`
+  color: ${({ theme }) => theme.color.primary[500]};
+
+  padding: 0.5rem;
+  padding-bottom: 0;
+  border-radius: 0.5rem;
 `;
 
 export const ModalBodyWrapper = styled.div`

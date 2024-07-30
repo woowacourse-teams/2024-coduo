@@ -20,17 +20,12 @@ const PairListCard = ({ driver, navigator, roomCode, onRoomDelete }: PairListCar
 
   const toggleOpen = () => setIsOpen(!isOpen);
 
-  const handleCopy = () => {
-    window.navigator.clipboard.writeText(roomCode);
-    alert('방 코드가 복사되었습니다.');
-  };
-
   return (
     <S.Layout $isOpen={isOpen} onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
       <PairRoomCard>
         <Header isOpen={isOpen} toggleOpen={toggleOpen} />
         <S.Sidebar>
-          <RoomCodeSection isOpen={isOpen} roomCode={roomCode} onCopy={handleCopy} />
+          <RoomCodeSection isOpen={isOpen} roomCode={roomCode} />
           <PairListSection isOpen={isOpen} driver={driver} navigator={navigator} />
           <DeleteButton isOpen={isOpen} onRoomDelete={onRoomDelete} />
         </S.Sidebar>

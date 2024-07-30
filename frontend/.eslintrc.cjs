@@ -78,6 +78,11 @@ module.exports = {
             position: 'after',
           },
           {
+            pattern: '@/apis/**',
+            group: 'internal',
+            position: 'after',
+          },
+          {
             pattern: '@/hooks/**',
             group: 'internal',
             position: 'after',
