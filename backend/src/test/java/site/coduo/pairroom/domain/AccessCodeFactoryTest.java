@@ -29,5 +29,4 @@ class AccessCodeFactoryTest {
         // then
         assertThat(accessCode).isEqualTo(new AccessCode("FAKE_5"));
     }
-
 }

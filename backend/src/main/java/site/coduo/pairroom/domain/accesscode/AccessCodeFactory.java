@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class AccessCodeFactory {
+
     private final AccessCodeStrategy strategy;
 
     public AccessCode generateWithoutDuplication(final List<AccessCode> accessCodes) {
@@ -15,5 +16,4 @@ public class AccessCodeFactory {
         }
         return accessCode;
     }
-
 }

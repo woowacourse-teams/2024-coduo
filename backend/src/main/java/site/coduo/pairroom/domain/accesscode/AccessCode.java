@@ -8,20 +8,21 @@ import java.util.Objects;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
 public class AccessCode {
 
     @Column(name = "ACCESS_CODE", length = ACCESS_CODE_LENGTH, nullable = false)
-    private String value;
+    private final String value;
 
     public AccessCode(final String value) {
         this.value = value;
+    }
+
+    protected AccessCode() {
+        this.value = null;
     }
 
     @Override

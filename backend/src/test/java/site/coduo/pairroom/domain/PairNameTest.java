@@ -61,7 +61,6 @@ class PairNameTest {
         assertThat(pairName.getValue()).isEqualTo("helloWorld");
     }
 
-
     @ParameterizedTest
     @NullAndEmptySource
     @DisplayName("페어룸 생성 시 빈 이름이 입력되면 예외를 발생시킨다.")
