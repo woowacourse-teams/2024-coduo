@@ -1,11 +1,11 @@
 import { HiQuestionMarkCircle } from 'react-icons/hi';
 import { LuHome } from 'react-icons/lu';
 
-import { LogoIcon } from '@/assets';
-
 import { theme } from '@/styles/theme';
 
 import * as S from './Header.styles';
+
+import { LogoIcon } from '@/assets';
 
 // TODO: 링크에 따라 href 값 수정 필요
 const Header = () => {

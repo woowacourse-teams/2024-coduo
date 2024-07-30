@@ -13,9 +13,8 @@ const formatTime = (time: number) => {
   return { minutes: formatMinutes(minutes), seconds: formatSeconds(seconds) };
 };
 
-const DEFAULT_TIME = 60 * 1000;
-
 interface TimerCardProps {
+  defaultTime: number;
   timeLeft: number;
   isActive: boolean;
   onStart: () => void;
@@ -23,13 +22,13 @@ interface TimerCardProps {
   onStop: () => void;
 }
 
-const TimerCard = ({ timeLeft, isActive, onStart, onPause, onStop }: TimerCardProps) => {
+const TimerCard = ({ defaultTime, timeLeft, isActive, onStart, onPause, onStop }: TimerCardProps) => {
   const { minutes, seconds } = formatTime(timeLeft);
 
   return (
     <PairRoomCard>
       <S.Layout>
-        <S.ProgressBar $progress={(timeLeft / DEFAULT_TIME) * 100}>
+        <S.ProgressBar $progress={(timeLeft / defaultTime) * 100}>
           <S.Timer>
             <S.TimerTextContainer>
               <S.TimerText>{minutes}</S.TimerText>

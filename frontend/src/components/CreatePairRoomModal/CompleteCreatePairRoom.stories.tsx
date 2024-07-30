@@ -1,3 +1,5 @@
+import { BrowserRouter } from 'react-router-dom';
+
 import type { Meta, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'styled-components';
@@ -23,18 +25,20 @@ const queryClient = new QueryClient();
 export const Default: Story = {
   render: () => {
     return (
-      <ThemeProvider theme={theme}>
-        <QueryClientProvider client={queryClient}>
-          <Modal isOpen={true} close={() => console.log()} size="60rem" height="45rem">
-            <Modal.Header
-              title={PAIR_ROOM_MODAL_INFO.complete.title}
-              subTitle={PAIR_ROOM_MODAL_INFO.complete.subtitle}
-            />
-            <Modal.CloseButton close={() => console.log()} />
-            <CompleteCreatePairRoom closeModal={() => console.log()} accessCode="abcdef" />
-          </Modal>
-        </QueryClientProvider>
-      </ThemeProvider>
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <QueryClientProvider client={queryClient}>
+            <Modal isOpen={true} close={() => console.log()} size="60rem" height="45rem">
+              <Modal.Header
+                title={PAIR_ROOM_MODAL_INFO.complete.title}
+                subTitle={PAIR_ROOM_MODAL_INFO.complete.subtitle}
+              />
+              <Modal.CloseButton close={() => console.log()} />
+              <CompleteCreatePairRoom closeModal={() => console.log()} accessCode="12345" />
+            </Modal>
+          </QueryClientProvider>
+        </ThemeProvider>
+      </BrowserRouter>
     );
   },
 };
