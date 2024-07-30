@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { RiInformation2Line } from 'react-icons/ri';
 
 import Button from '@/components/common/Button/Button';
@@ -5,17 +7,31 @@ import Input from '@/components/common/Input/Input';
 import { Modal } from '@/components/common/Modal';
 import { TIMER_OPTIONS } from '@/components/PairRoom/OnboardingModal/constants';
 
+import { validateTime } from '@/utils/validate';
+
 import * as S from './Steps.styles';
 
 interface TimerSettingProps {
-  timer: string | undefined;
-  setTimer: (value: string) => void;
+  timer: string;
+  onTimer: (time: string) => void;
 }
 
-const TimerSetting = ({ timer, setTimer }: TimerSettingProps) => (
-  <>
-    <Modal.Header title="타이머 설정" subTitle="타이머 시간을 설정해 주세요" />
+const TimerSetting = ({ timer, onTimer }: TimerSettingProps) => {
+  const [isSelf, setIsSelf] = useState(false);
+
+  const handleTimer = (option: string) => {
+    if (isSelf) setIsSelf(false);
+    onTimer(option);
+  };
+
+  const handleIsSelf = () => {
+    if (!isSelf) setIsSelf(true);
+    onTimer('');
+  };
+
+  return (
     <S.Layout>
+      <Modal.Header title="타이머 설정" subTitle="타이머 시간을 설정해 주세요" />
       <S.InformationWrapper>
         <S.InformationTitle>
           <RiInformation2Line size="2rem" />왜 타이머 시간을 설정해야 하나요?
@@ -26,33 +42,37 @@ const TimerSetting = ({ timer, setTimer }: TimerSettingProps) => (
         </S.InformationDescription>
       </S.InformationWrapper>
       <S.SettingsContainer>
-        <S.TimeSelectContainer>
-          <S.TimeSelectTitle>타이머 시간</S.TimeSelectTitle>
-          <S.TimeSelectButtonWrapper>
-            {TIMER_OPTIONS.map((option) => (
-              <Button
-                key={option.value}
-                color="primary"
-                filled={timer === option.value}
-                onClick={() => setTimer(option.value)}
-                size="lg"
-              >
-                {option.label}
-              </Button>
-            ))}
-          </S.TimeSelectButtonWrapper>
-          <Input
-            label="직접 설정"
-            placeholder="타이머 시간 (분)"
-            width="100%"
-            value={timer}
-            type="number"
-            onChange={(event) => setTimer(event.target.value)}
-          />
-        </S.TimeSelectContainer>
+        {TIMER_OPTIONS.map((option) => (
+          <Button
+            key={option.value}
+            color="primary"
+            size="md"
+            filled={timer === option.value}
+            onClick={() => handleTimer(option.value)}
+          >
+            {option.label}
+          </Button>
+        ))}
+        <S.TimeInputWrapper>
+          <Button key="직접 설정" color="primary" size="md" filled={isSelf} onClick={handleIsSelf}>
+            직접 설정
+          </Button>
+          {isSelf && (
+            <Input
+              width="16rem"
+              $css={S.inputStyles}
+              value={timer}
+              placeholder="타이머 시간 (분)"
+              status={!validateTime(Number(timer)) ? 'error' : 'default'}
+              message={!validateTime(Number(timer)) ? '0 이상의 숫자를 입력해 주세요.' : ''}
+              disabled={!isSelf}
+              onChange={(event) => onTimer(event.target.value)}
+            />
+          )}
+        </S.TimeInputWrapper>
       </S.SettingsContainer>
     </S.Layout>
-  </>
-);
+  );
+};
 
 export default TimerSetting;

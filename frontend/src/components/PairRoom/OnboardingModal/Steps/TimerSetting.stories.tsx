@@ -14,7 +14,7 @@ type Story = StoryObj<typeof TimerSetting>;
 export const Default: Story = {
   args: {
     timer: '25',
-    setTimer: (value: string) => {
+    onTimer: (value: string) => {
       alert(`${value}분`);
     },
   },

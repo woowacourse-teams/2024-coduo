@@ -8,6 +8,7 @@ import { Modal } from '@/components/common/Modal';
 import { getPairNames } from '@/apis/pairName';
 
 import FooterButtons from './FooterButtons/FooterButtons';
+import * as S from './OnboardingModal.styles';
 import type { Role, Step } from './OnboardingModal.type';
 import ProgressBar from './ProgressBar/ProgressBar';
 import RoleSetting from './Steps/RoleSetting';
@@ -36,6 +37,8 @@ const OnboardingModal = ({ accessCode, isOpen }: OnboardingModalProps) => {
       setNavigator(data.secondPair);
     }
   }, [data]);
+
+  const handleTimer = (time: string) => setTimer(time);
 
   const handleSelect = (option: string, role: Role) => {
     if (!option) return;
@@ -71,21 +74,20 @@ const OnboardingModal = ({ accessCode, isOpen }: OnboardingModalProps) => {
   };
 
   return (
-    <Modal isOpen={isOpen} close={() => {}} position="bottom" height="95%" backdropType="blur">
-      <ProgressBar step={step} isRoleSelected={Boolean(driver && navigator)} />
-      <Modal.Body>
-        {step === 'role' && data ? (
-          <RoleSetting
-            driver={driver}
-            navigator={navigator}
-            userOptions={[data.firstPair, data.secondPair]}
-            handleSelect={handleSelect}
-          />
-        ) : (
-          <TimerSetting timer={timer} setTimer={setTimer} />
-        )}
-      </Modal.Body>
-      <Modal.Footer position="center">
+    <Modal isOpen={isOpen} close={() => {}} position="bottom" height="95vh" backdropType="blur">
+      <S.Layout>
+        <div>
+          <ProgressBar step={step} isRoleSelected={Boolean(driver && navigator)} />
+          {step === 'role' && data && (
+            <RoleSetting
+              driver={driver}
+              navigator={navigator}
+              userOptions={[data.firstPair, data.secondPair]}
+              handleSelect={handleSelect}
+            />
+          )}
+          {step === 'timer' && <TimerSetting timer={timer} onTimer={handleTimer} />}
+        </div>
         <FooterButtons
           step={step}
           handleBack={handleBack}
@@ -93,7 +95,7 @@ const OnboardingModal = ({ accessCode, isOpen }: OnboardingModalProps) => {
           isRoleSelected={Boolean(driver && navigator)}
           timer={timer}
         />
-      </Modal.Footer>
+      </S.Layout>
     </Modal>
   );
 };
