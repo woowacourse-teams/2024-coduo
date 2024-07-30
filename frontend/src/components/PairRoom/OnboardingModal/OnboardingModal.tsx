@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 import { useQuery } from '@tanstack/react-query';
 
-import { getPairNames } from '@/apis/pairName';
-
 import { Modal } from '@/components/common/Modal';
+
+import { getPairNames } from '@/apis/pairName';
 
 import FooterButtons from './FooterButtons/FooterButtons';
 import * as S from './OnboardingModal.styles';

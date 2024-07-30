@@ -15,7 +15,6 @@ export const Default: Story = {
   args: {
     isOpen: true,
     roomCode: 'IUUIASDFJK',
-    onCopy: () => alert('Room code copied'),
   },
 };
 
@@ -23,6 +22,5 @@ export const Closed: Story = {
   args: {
     isOpen: false,
     roomCode: 'IUUIASDFJK',
-    onCopy: () => alert('Room code copied'),
   },
 };

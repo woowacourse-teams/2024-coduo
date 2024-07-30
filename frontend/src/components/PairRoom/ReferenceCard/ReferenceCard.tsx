@@ -8,6 +8,8 @@ import Input from '@/components/common/Input/Input';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import Reference from '@/components/PairRoom/ReferenceCard/Reference';
 
+import { getReferenceLinks, addReferenceLink } from '@/apis/referenceLink';
+
 import useInput from '@/hooks/useInput';
 
 import { theme } from '@/styles/theme';

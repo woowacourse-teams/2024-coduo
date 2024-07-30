@@ -5,6 +5,8 @@ import { FaRegPaste } from 'react-icons/fa6';
 import Button from '@/components/common/Button/Button';
 import { Modal } from '@/components/common/Modal';
 
+import useCopyClipBoard from '@/hooks/useCopyClipboard';
+
 import * as S from './CreatePairRoomModal.styles';
 
 interface CompleteCreatePairRoomProps {
@@ -12,22 +14,20 @@ interface CompleteCreatePairRoomProps {
   closeModal: () => void;
 }
 const CompleteCreatePairRoom = ({ accessCode, closeModal }: CompleteCreatePairRoomProps) => {
-  const handleCopyClipBoard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      alert('코드가 복사되었습니다.');
-    } catch (event) {
-      alert('코드 복사에 실패했습니다.');
-    }
+  const [isCopy, onCopy] = useCopyClipBoard();
+
+  const handleCopyClipBoard = (text: string) => {
+    onCopy(text);
+    console.log(isCopy); // TODO: 토스트 알림 로직 추가 필요
   };
 
   return (
     <>
       <S.ModalBodyWrapper>
         <Modal.Body>
-          <S.Content>
+          <S.Content onClick={() => handleCopyClipBoard(accessCode)}>
             <S.PairRoomCode>{accessCode}</S.PairRoomCode>
-            <S.IconBox onClick={() => handleCopyClipBoard(accessCode)}>
+            <S.IconBox>
               <FaRegPaste size={'1.8rem'} />
             </S.IconBox>
           </S.Content>
