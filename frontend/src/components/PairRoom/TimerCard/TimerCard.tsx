@@ -14,9 +14,9 @@ const formatTime = (time: number) => {
 };
 
 interface TimerCardProps {
+  defaultTime: number;
   timeLeft: number;
   isActive: boolean;
-  defaultTime: number;
   onStart: () => void;
   onPause: () => void;
   onStop: () => void;

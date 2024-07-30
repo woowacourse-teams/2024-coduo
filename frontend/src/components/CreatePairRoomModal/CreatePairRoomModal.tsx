@@ -6,9 +6,9 @@ import { Modal } from '@/components/common/Modal';
 import CompleteCreatePairRoomModal from '@/components/CreatePairRoomModal/CompleteCreatePairRoom';
 import CreatePairRoom from '@/components/CreatePairRoomModal/CreatePairRoom';
 
-import { addPairNames } from '@/apis/pairName';
-
 import { PAIR_ROOM_MODAL_INFO } from '@/constants/pairRoomModalInfo';
+
+import { addPairNames } from '@/apis/pairName';
 
 interface CreatePairRoomModalProps {
   isOpen: boolean;
