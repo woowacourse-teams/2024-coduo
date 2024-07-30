@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import site.coduo.pairroom.exception.InvalidNameFormatException;
@@ -15,7 +16,7 @@ class PairNameTest {
     @ParameterizedTest
     @ValueSource(strings = {"레디!", "파슬리 🌿", "여 왕 님", "lemon", "abcdeabcde"})
     @DisplayName("한글, 한글 자음 & 모음, 영어, 기호, 이모지가 들어간 이름을 생성한다.")
-    void create_name_contains_special_character(String validName) {
+    void create_name_contains_special_character(final String validName) {
         // given & when
         final PairName pairName = new PairName(validName);
 
@@ -58,5 +59,13 @@ class PairNameTest {
 
         // then
         assertThat(pairName.getValue()).isEqualTo("helloWorld");
+    }
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    @DisplayName("페어룸 생성 시 빈 이름이 입력되면 예외를 발생시킨다.")
+    void throw_exception_when_create_pair_room_with_blank_parameters(final String name) {
+        assertThatThrownBy(() -> new PairName(name))
+                .isInstanceOf(InvalidNameFormatException.class);
     }
 }

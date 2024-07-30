@@ -20,7 +20,7 @@ public class PairName {
     private final String value;
 
     protected PairName() {
-        this.value =  null;
+        this.value = null;
     }
 
     public PairName(final String value) {
