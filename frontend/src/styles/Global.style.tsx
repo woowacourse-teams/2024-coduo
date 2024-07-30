@@ -1,13 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
-    @font-face {
-        font-family: 'Pretendard';
-        src: url('/fonts/Pretendard-Regular.ttf') format('truetype');
-        font-weight: 400;
-        font-style: normal;
-    }
-
     /*
     Remove all the styles of the "User-Agent-Stylesheet", except for the 'display' property
     - The "symbol *" part is to solve Firefox SVG sprite bug
@@ -27,15 +20,9 @@ const GlobalStyles = createGlobalStyle`
 
     /* Fix mobile Safari increase font-size on landscape mode */
     html {
-        font-family: 'Pretendard';
-        font-size: 62.5%;
         -moz-text-size-adjust: none;
         -webkit-text-size-adjust: none;
         text-size-adjust: none;
-    }
-
-    body {
-        font-family: 'Pretendard';
     }
 
     /* Reapply the pointer cursor for anchor tags */
