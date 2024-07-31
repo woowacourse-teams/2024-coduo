@@ -15,8 +15,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
-import site.coduo.pairroom.domain.AccessCode;
 import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.referencelink.domain.ReferenceLink;
 
 @Getter
