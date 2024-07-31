@@ -13,16 +13,16 @@ interface LayoutProps {
 
 const inputStatusCss = {
   default: css`
-    border: 1px solid ${({ theme }) => theme.color.black[40]};
     background-color: ${({ theme }) => theme.color.black[10]};
+    border: 1px solid ${({ theme }) => theme.color.black[40]};
   `,
   error: css`
-    border: 1px solid ${({ theme }) => theme.color.danger[600]};
     background-color: ${({ theme }) => theme.color.danger[100]};
+    border: 1px solid ${({ theme }) => theme.color.danger[600]};
   `,
   success: css`
-    border: 1px solid ${({ theme }) => theme.color.success[600]};
     background-color: ${({ theme }) => theme.color.success[100]};
+    border: 1px solid ${({ theme }) => theme.color.success[600]};
   `,
 };
 
@@ -43,14 +43,13 @@ export const Layout = styled.div<LayoutProps>`
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
-
   width: ${({ $width }) => $width};
 `;
 
 export const Label = styled.label`
   font-size: ${({ theme }) => theme.fontSize.base};
-  color: ${({ theme }) => theme.color.primary[700]};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
+  color: ${({ theme }) => theme.color.primary[700]};
 `;
 
 export const Message = styled.p<{ $status: InputStatus }>`
@@ -61,20 +60,22 @@ export const Message = styled.p<{ $status: InputStatus }>`
 export const Input = styled.input<InputProps>`
   ${({ $status }) => inputStatusCss[$status]};
   ${({ $status }) => inputStatusCss[$status]};
-
   width: 100%;
   height: 4.8rem;
-  border-radius: 0.5rem;
-  font-size: ${({ theme }) => theme.fontSize.md};
   padding: 0 1rem;
 
+  font-size: ${({ theme }) => theme.fontSize.md};
+
+  border-radius: 0.5rem;
+
   &:focus {
-    border: 1px solid ${({ theme }) => theme.color.primary[700]};
     background-color: ${({ theme }) => theme.color.black[10]};
+    border: 1px solid ${({ theme }) => theme.color.primary[700]};
   }
+
   &:disabled {
-    border: 1px solid ${({ theme }) => theme.color.black[40]};
     background-color: ${({ theme }) => theme.color.black[30]};
+    border: 1px solid ${({ theme }) => theme.color.black[40]};
   }
 
   ${(props) => props.$css}
