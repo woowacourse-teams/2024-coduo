@@ -3,6 +3,8 @@ import { Step } from '@/pages/PairRoomOnboarding/PairRoomOnboarding.type';
 import Button from '@/components/common/Button/Button';
 import { Modal } from '@/components/common/Modal';
 
+import { BUTTON_TEXT } from '@/constants/button';
+
 interface FooterButtonsProps {
   step: Step;
   isComplete: boolean;
@@ -13,12 +15,12 @@ interface FooterButtonsProps {
 const FooterButtons = ({ step, isComplete, onBack, onNext }: FooterButtonsProps) => {
   return (
     <Modal.Footer position="center">
-      {step === 'role' && <Button onClick={onNext}>다음</Button>}
+      {step === 'role' && <Button onClick={onNext}>{BUTTON_TEXT.NEXT}</Button>}
       {step === 'timer' && (
         <>
-          <Button onClick={onBack}>이전</Button>
+          <Button onClick={onBack}>{BUTTON_TEXT.BACK}</Button>
           <Button onClick={onNext} disabled={!isComplete}>
-            완료
+            {BUTTON_TEXT.COMPLETE}
           </Button>
         </>
       )}

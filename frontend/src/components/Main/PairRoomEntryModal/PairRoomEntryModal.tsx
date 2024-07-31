@@ -10,6 +10,8 @@ import { addRoomCode } from '@/apis/roomCode';
 
 import useInput from '@/hooks/common/useInput';
 
+import { BUTTON_TEXT } from '@/constants/button';
+
 interface PairRoomEntryModal {
   isOpen: boolean;
   closeModal: () => void;
@@ -57,10 +59,10 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={closeModal} filled={false}>
-          닫기
+          {BUTTON_TEXT.CLOSE}
         </Button>
         <Button disabled={enterModalButtonDisabled} onClick={() => addRoomCodeMutation(inputValue.value)}>
-          확인
+          {BUTTON_TEXT.COMPLETE}
         </Button>
       </Modal.Footer>
     </Modal>
