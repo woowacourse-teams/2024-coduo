@@ -74,19 +74,19 @@ jobs:
           mkdir -p .github/logs
           cd .github/logs
   
-          if [ -f thread.json ]; then
-            jq --argjson new "$NEW_THREAD_JSON" '. += [$new]' thread.json > thread.tmp.json
-            mv thread.tmp.json thread.json
+          if [ -f thread_fe.json ]; then
+            jq --argjson new "$NEW_THREAD_JSON" '. += [$new]' thread_fe.json > thread_fe.tmp.json
+            mv thread_fe.tmp.json thread_fe.json
           else
-            echo "[$NEW_THREAD_JSON]" > thread.json
+            echo "[$NEW_THREAD_JSON]" > thread_fe.json
           fi
 
-      - name: Commit updated thread.json
+      - name: Commit updated thread_fe.json
         run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Actions"
-          git add .github/logs/thread_be.json
-          git commit -m "Update thread.json with new thread data"
+          git add .github/logs/thread_fe.json
+          git commit -m "Update thread_fe.json with new thread data"
           git push origin ${{ vars.SLACK_BRANCH }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

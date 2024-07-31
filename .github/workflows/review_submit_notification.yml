@@ -19,7 +19,7 @@ jobs:
       - name: Read Thead JSON and Set Env Variables
         run: |
           TARGET_URL=${{ github.event.pull_request.html_url }}
-          JSON_CONTENT=$(cat .github/logs/thread.json)
+          JSON_CONTENT=$(cat .github/logs/thread_fe.json)
           TARGET_OBJECT=$(echo "$JSON_CONTENT" | jq --arg url "$TARGET_URL" '.[] | select(.pr_url == $url)')
           
           PR_URL=$(echo "$TARGET_OBJECT" | jq -r '.pr_url')
