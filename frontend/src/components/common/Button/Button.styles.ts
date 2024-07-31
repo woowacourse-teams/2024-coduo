@@ -36,41 +36,39 @@ const buttonShapes = {
 };
 
 export const Button = styled.button<ButtonStyleProp>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: ${({ $filled, theme, $color }) => ($filled ? theme.color.black[10] : theme.color[$color][500])};
+
+  background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][500] : theme.color.black[10])};
+  border: 1px solid ${({ theme, $color }) => theme.color[$color][500]};
+  border-radius: ${({ $rounded }) => ($rounded ? '50rem' : '1rem')};
+
   transition: all 0.2s;
 
   ${({ $size }) => buttonShapes[$size]}
 
-  background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][500] : theme.color.black[10])};
-  color: ${({ $filled, theme, $color }) => ($filled ? theme.color.black[10] : theme.color[$color][500])};
-
-  border: 1px solid ${({ theme, $color }) => theme.color[$color][500]};
-  border-radius: ${({ $rounded }) => ($rounded ? '50rem' : '1rem')};
-
   &:hover {
     transform: ${({ $animation }) => $animation && 'scale(1.01)'};
-
-    background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][600] : theme.color.black[10])};
     color: ${({ $filled, theme, $color }) => ($filled ? theme.color.black[10] : theme.color[$color][600])};
-
+    background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][600] : theme.color.black[10])};
     border: 1px solid ${({ theme, $color }) => theme.color[$color][600]};
   }
 
   &:active {
     transform: ${($animation) => $animation && 'scale(1.02)'};
-
-    background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][700] : theme.color.black[10])};
     color: ${({ $filled, theme, $color }) => ($filled ? theme.color.black[10] : theme.color[$color][700])};
+    background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][700] : theme.color.black[10])};
     border: 1px solid ${({ theme, $color }) => theme.color[$color][700]};
   }
 
   &:disabled {
-    background-color: ${({ $filled, theme }) => ($filled ? theme.color.black[50] : theme.color.black[10])};
     color: ${({ $filled, theme }) => ($filled ? 'white' : theme.color.black[50])};
+    background-color: ${({ $filled, theme }) => ($filled ? theme.color.black[50] : theme.color.black[10])};
     border: 1px solid ${({ theme }) => theme.color.black[50]};
   }
 

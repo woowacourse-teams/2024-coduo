@@ -7,13 +7,17 @@ export const InputLayout = styled.div`
 `;
 
 export const Content = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1.2rem 3.2rem;
-  gap: 1.2rem;
   cursor: pointer;
+
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+  justify-content: center;
+
+  padding: 1.2rem 3.2rem;
+
   border-radius: 5rem;
+
   transition: background-color 0.2s ease-in-out;
 
   &:hover {
@@ -30,18 +34,17 @@ export const PairRoomCode = styled.p`
 `;
 
 export const IconBox = styled.div`
-  color: ${({ theme }) => theme.color.primary[500]};
-
   padding: 0.5rem;
   padding-bottom: 0;
+  color: ${({ theme }) => theme.color.primary[500]};
   border-radius: 0.5rem;
 `;
 
 export const ModalBodyWrapper = styled.div`
-  height: 100%;
-  width: 100%;
-
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 100%;
 `;

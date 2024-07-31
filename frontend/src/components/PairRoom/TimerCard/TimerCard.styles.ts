@@ -4,9 +4,10 @@ import styled, { css } from 'styled-components';
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   gap: 3rem;
+  align-items: center;
+  justify-content: center;
+
   width: 100%;
   height: 100%;
   padding: 3rem;
@@ -14,36 +15,41 @@ export const Layout = styled.div`
 
 export const ProgressBar = styled.div<{ $progress: number }>`
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+
   width: 28vw;
-  height: 28vw;
   max-width: 100%;
+  height: 28vw;
   max-height: 100%;
-  border: 0.8rem solid transparent;
-  border-radius: 50%;
+
   background-image: linear-gradient(white, white),
     conic-gradient(
       ${({ theme, $progress }) => `${theme.color.primary[500]} ${$progress}%, ${theme.color.black[30]} ${$progress}%`}
     );
-  background-origin: border-box;
   background-clip: content-box, border-box;
+  background-origin: border-box;
+  border: 0.8rem solid transparent;
+  border-radius: 50%;
+
   transition: background-image 1s ease-in;
 `;
 
 export const Timer = styled.div`
   display: flex;
-  align-items: center;
   gap: 4rem;
+  align-items: center;
 `;
 
 export const TimerTextContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   gap: 0.4rem;
+  align-items: center;
+  justify-content: center;
+
   width: 10rem;
+
   font-size: ${({ theme }) => theme.fontSize.sm};
 `;
 
@@ -58,13 +64,13 @@ export const IconContainer = styled.div`
 
 export const IconButton = styled.button`
   width: ${({ theme }) => theme.fontSize.h4};
-  background: transparent;
   font-size: ${({ theme }) => theme.fontSize.h4};
+  background: transparent;
 `;
 
 const iconStyle = css<{ $isActive: boolean }>`
-  color: ${({ $isActive, theme }) => ($isActive ? theme.color.secondary[500] : theme.color.black[50])};
   cursor: ${({ $isActive }) => ($isActive ? 'pointer' : 'default')};
+  color: ${({ $isActive, theme }) => ($isActive ? theme.color.secondary[500] : theme.color.black[50])};
 `;
 
 export const PlayIcon = styled(FaPlay)<{ $isActive: boolean }>`

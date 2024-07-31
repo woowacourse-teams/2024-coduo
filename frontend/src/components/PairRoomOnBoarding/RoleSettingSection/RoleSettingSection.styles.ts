@@ -4,6 +4,7 @@ export const Layout = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5rem;
+
   width: 100%;
   padding: 4rem 0;
 `;
@@ -22,7 +23,7 @@ export const DropdownWrapper = styled.div`
 `;
 
 export const DropdownLabel = styled.p`
-  color: ${({ theme }) => theme.color.primary[700]};
   font-size: ${({ theme }) => theme.fontSize.base};
   font-weight: 500;
+  color: ${({ theme }) => theme.color.primary[700]};
 `;

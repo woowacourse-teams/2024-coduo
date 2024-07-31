@@ -8,10 +8,11 @@ export const buttonStyle = css`
 
 export const ReferenceLinkForm = styled.form`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 80%;
   gap: 2rem;
+  align-items: center;
+  justify-content: center;
+
+  width: 80%;
 `;
 
 export const ReferenceLink = styled.a`
@@ -30,15 +31,15 @@ export const ReferenceLink = styled.a`
 export const ReferenceList = styled.ul`
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+  margin: 3rem;
+
   li {
     list-style-type: none;
   }
-  margin: 3rem 3rem;
-
-  gap: 1rem;
 `;
 
 export const EmptyText = styled.p`
-  color: ${({ theme }) => theme.color.black[60]};
   font-size: ${({ theme }) => theme.fontSize.md};
+  color: ${({ theme }) => theme.color.black[60]};
 `;
