@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import * as S from '@/components/common/Dropdown/Dropdown/Dropdown.styles';
 import HiddenDropdown from '@/components/common/Dropdown/HiddenDropdown/HiddenDropdown';
 
-import useClickOutside from '@/hooks/useClickOutside';
+import useClickOutside from '@/hooks/common/useClickOutside';
 
 import { theme } from '@/styles/theme';
 

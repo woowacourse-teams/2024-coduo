@@ -1,4 +1,4 @@
-import useInput from '@/hooks/useInput';
+import useInput from '@/hooks/common/useInput';
 
 type InputStatus = 'default' | 'error' | 'success';
 

@@ -5,7 +5,7 @@ import { FaRegPaste } from 'react-icons/fa6';
 import Button from '@/components/common/Button/Button';
 import { Modal } from '@/components/common/Modal';
 
-import useCopyClipBoard from '@/hooks/useCopyClipboard';
+import useCopyClipBoard from '@/hooks/common/useCopyClipboard';
 
 import * as S from './CreatePairRoomModal.styles';
 

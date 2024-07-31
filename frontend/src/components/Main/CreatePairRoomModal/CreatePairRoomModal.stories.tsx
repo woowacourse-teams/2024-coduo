@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'styled-components';
 
-import CreatePairRoomModal from '@/components/CreatePairRoomModal/CreatePairRoomModal';
+import CreatePairRoomModal from '@/components/Main/CreatePairRoomModal/CreatePairRoomModal';
 
 import { theme } from '@/styles/theme';
 

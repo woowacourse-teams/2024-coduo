@@ -1,8 +1,8 @@
 import Button from '@/components/common/Button/Button';
 import { Modal } from '@/components/common/Modal';
-import { Step } from '@/components/PairRoom/OnboardingModal/OnboardingModal.type';
+import { Step } from '@/components/PairRoomOnBoarding/OnboardingModal/OnboardingModal.type';
 
-import { validateTime } from '@/utils/validate';
+import { validateTime } from '@/utils/PairRoomOnboarding/validate';
 
 interface FooterButtonsProps {
   step: Step;

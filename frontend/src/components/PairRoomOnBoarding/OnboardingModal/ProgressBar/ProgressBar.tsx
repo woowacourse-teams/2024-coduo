@@ -1,5 +1,5 @@
 import Button from '@/components/common/Button/Button';
-import { Step } from '@/components/PairRoom/OnboardingModal/OnboardingModal.type';
+import { Step } from '@/components/PairRoomOnBoarding/OnboardingModal/OnboardingModal.type';
 
 import * as S from './ProgressBar.styles';
 

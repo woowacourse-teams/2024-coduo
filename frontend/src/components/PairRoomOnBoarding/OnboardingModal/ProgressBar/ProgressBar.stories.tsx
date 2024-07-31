@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Step } from '@/components/PairRoom/OnboardingModal/OnboardingModal.type';
+import { Step } from '@/components/PairRoomOnBoarding/OnboardingModal/OnboardingModal.type';
 
 import Progress from './ProgressBar';
 

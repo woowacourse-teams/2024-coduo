@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'styled-components';
 
 import { Modal } from '@/components/common/Modal';
-import CompleteCreatePairRoom from '@/components/CreatePairRoomModal/CompleteCreatePairRoom';
+import CompleteCreatePairRoom from '@/components/Main/CreatePairRoomModal/CompleteCreatePairRoom';
 
 import { PAIR_ROOM_MODAL_INFO } from '@/constants/pairRoomModalInfo';
 

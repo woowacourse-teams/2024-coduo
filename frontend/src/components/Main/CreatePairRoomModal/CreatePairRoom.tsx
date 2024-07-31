@@ -1,9 +1,10 @@
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import { Modal } from '@/components/common/Modal';
-import * as S from '@/components/CreatePairRoomModal/CreatePairRoomModal.styles';
 
-import usePairNameInputs from '@/hooks/pairRoomModal/usePairNameInputs';
+import usePairNameInputs from '@/hooks/Main/usePairNameInputs';
+
+import * as S from './CreatePairRoomModal.styles';
 
 interface CreatePairRoomProps {
   closeModal: () => void;

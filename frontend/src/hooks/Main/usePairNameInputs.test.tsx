@@ -1,7 +1,7 @@
 import { describe, it, expect } from '@jest/globals';
 import { renderHook, act } from '@testing-library/react';
 
-import usePairNameInputs from '@/hooks/pairRoomModal/usePairNameInputs';
+import usePairNameInputs from '@/hooks/Main/usePairNameInputs';
 
 describe('usePairNameInputs', () => {
   it('페어 이름을 입력하지 않으면 error 상태와 에러 메세지가 출력된다.', async () => {

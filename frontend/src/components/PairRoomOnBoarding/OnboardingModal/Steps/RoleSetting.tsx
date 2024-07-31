@@ -2,7 +2,7 @@ import { RiInformation2Line } from 'react-icons/ri';
 
 import Dropdown from '@/components/common/Dropdown/Dropdown/Dropdown';
 import { Modal } from '@/components/common/Modal';
-import { Role } from '@/components/PairRoom/OnboardingModal/OnboardingModal.type';
+import { Role } from '@/components/PairRoomOnBoarding/OnboardingModal/OnboardingModal.type';
 
 import * as S from './Steps.styles';
 

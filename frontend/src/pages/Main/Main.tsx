@@ -1,10 +1,10 @@
 import * as S from '@/pages/Main/Main.styles';
 
 import Button from '@/components/common/Button/Button';
-import CreatePairRoomModal from '@/components/CreatePairRoomModal/CreatePairRoomModal';
-import PairRoomEntryModal from '@/components/PairRoomEntryModal/PairRoomEntryModal';
+import CreatePairRoomModal from '@/components/Main/CreatePairRoomModal/CreatePairRoomModal';
+import PairRoomEntryModal from '@/components/Main/PairRoomEntryModal/PairRoomEntryModal';
 
-import useModal from '@/hooks/useModal';
+import useModal from '@/hooks/common/useModal';
 
 const Main = () => {
   const {

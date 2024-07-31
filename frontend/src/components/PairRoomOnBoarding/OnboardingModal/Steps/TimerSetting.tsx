@@ -5,9 +5,9 @@ import { RiInformation2Line } from 'react-icons/ri';
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import { Modal } from '@/components/common/Modal';
-import { TIMER_OPTIONS } from '@/components/PairRoom/OnboardingModal/constants';
+import { TIMER_OPTIONS } from '@/components/PairRoomOnBoarding/OnboardingModal/constants';
 
-import { validateTime } from '@/utils/validate';
+import { validateTime } from '@/utils/PairRoomOnboarding/validate';
 
 import * as S from './Steps.styles';
 

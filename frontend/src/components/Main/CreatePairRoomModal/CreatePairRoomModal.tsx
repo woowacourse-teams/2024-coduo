@@ -3,12 +3,12 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 
 import { Modal } from '@/components/common/Modal';
-import CompleteCreatePairRoomModal from '@/components/CreatePairRoomModal/CompleteCreatePairRoom';
-import CreatePairRoom from '@/components/CreatePairRoomModal/CreatePairRoom';
-
-import { PAIR_ROOM_MODAL_INFO } from '@/constants/pairRoomModalInfo';
+import CompleteCreatePairRoom from '@/components/Main/CreatePairRoomModal/CompleteCreatePairRoom';
+import CreatePairRoom from '@/components/Main/CreatePairRoomModal/CreatePairRoom';
 
 import { addPairNames } from '@/apis/pairName';
+
+import { PAIR_ROOM_MODAL_INFO } from '@/constants/pairRoomModalInfo';
 
 interface CreatePairRoomModalProps {
   isOpen: boolean;
@@ -36,8 +36,6 @@ const CreatePairRoomModal = ({ isOpen, closeModal }: CreatePairRoomModalProps) =
 
   const [createPairRoomStatus, setCreatePairRoomStatus] = useState<Status>('create');
 
-  //TODO: query hook 파일로 분리
-
   const { title, subtitle } = PAIR_ROOM_MODAL_INFO[createPairRoomStatus];
 
   return (
@@ -48,7 +46,7 @@ const CreatePairRoomModal = ({ isOpen, closeModal }: CreatePairRoomModalProps) =
         <CreatePairRoom closeModal={closeModal} createPairRoom={createPairRoom} />
       )}
       {!isPending && createPairRoomStatus === 'complete' && (
-        <CompleteCreatePairRoomModal accessCode={data} closeModal={closeModal} />
+        <CompleteCreatePairRoom accessCode={data} closeModal={closeModal} />
       )}
       {isPending && <p>...Loading</p>}
     </Modal>
