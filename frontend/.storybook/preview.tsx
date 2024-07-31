@@ -5,6 +5,7 @@ import { ThemeProvider } from 'styled-components';
 import { BrowserRouter } from 'react-router-dom';
 import { theme } from '../src/styles/theme';
 import GlobalStyle from '../src/styles/Global.style';
+import '../src/styles/font.css';
 
 const queryClient = new QueryClient();
 
