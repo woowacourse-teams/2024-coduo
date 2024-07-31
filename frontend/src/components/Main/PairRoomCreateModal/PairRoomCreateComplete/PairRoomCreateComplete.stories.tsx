@@ -6,8 +6,6 @@ import { ThemeProvider } from 'styled-components';
 
 import { Modal } from '@/components/common/Modal';
 
-import { PAIR_ROOM_MODAL_INFO } from '@/constants/pairRoomModalInfo';
-
 import { theme } from '@/styles/theme';
 
 import PairRoomCreateComplete from './PairRoomCreateComplete';
@@ -29,13 +27,10 @@ export const Default: Story = {
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <QueryClientProvider client={queryClient}>
-            <Modal isOpen={true} close={() => console.log()} size="60rem" height="45rem">
-              <Modal.Header
-                title={PAIR_ROOM_MODAL_INFO.complete.title}
-                subTitle={PAIR_ROOM_MODAL_INFO.complete.subtitle}
-              />
-              <Modal.CloseButton close={() => console.log()} />
-              <PairRoomCreateComplete closeModal={() => console.log()} accessCode="12345" />
+            <Modal isOpen={true} close={() => {}} size="60rem" height="45rem">
+              <Modal.Header title="페어룸 만들기 완료" subTitle="아래의 코드를 통해 계속 방에 참가하실 수 있습니다!" />
+              <Modal.CloseButton close={() => {}} />
+              <PairRoomCreateComplete closeModal={() => {}} accessCode="12345" />
             </Modal>
           </QueryClientProvider>
         </ThemeProvider>
