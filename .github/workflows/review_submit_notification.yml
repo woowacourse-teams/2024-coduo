@@ -43,7 +43,7 @@ jobs:
         uses: actions/github-script@v7.0.1
         with:
           script: |
-            const members = JSON.parse(process.env.SLACK_CREW_INFO_JSON);
+            const members = JSON.parse(process.env.CREW_INFO_JSON);
             const reviewee = members.find(entry => entry.githubId === process.env.PR_AUTHOR);
             const reviewer = members.find(entry => entry.githubId === process.env.REVIEW_AUTHOR);
             console.log(`::set-output name=reviewee_slack_id::${reviewee.slackId}`);
