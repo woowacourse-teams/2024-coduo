@@ -16,18 +16,18 @@ const meta = {
   },
   argTypes: {
     position: {
-      options: ['center', 'bottom'],
+      options: ['CENTER', 'BOTTOM'],
       control: { type: 'radio' },
     },
     size: {
-      options: ['sm', 'md', 'lg'],
+      options: ['SM', 'MD', 'LG'],
       control: { type: 'radio' },
     },
     height: {
       control: { type: 'text' },
     },
     backdropType: {
-      options: ['transparent', 'blur', 'opaque'],
+      options: ['TRANSPARENT', 'BLUR', 'OPAQUE'],
       control: { type: 'radio' },
     },
     shadow: {
@@ -76,6 +76,6 @@ export const Bottom: Story = {
   args: {
     isOpen: true,
     children: CHILDREN_EXAMPLE,
-    position: 'bottom',
+    position: 'BOTTOM',
   },
 };
