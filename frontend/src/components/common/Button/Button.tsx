@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes } from 'react';
 import { css } from 'styled-components';
 
 import * as S from '@/components/common/Button/Button.styles';
-import { ButtonColor, ButtonSize } from '@/components/common/Button/Button.type';
+import type { ButtonColor, ButtonSize } from '@/components/common/Button/Button.type';
 
 interface ButtonProp extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: ButtonSize;
@@ -18,11 +18,11 @@ interface ButtonProp extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const Button = ({
-  size = 'lg',
+  size = 'LG',
   filled = true,
   rounded = false,
   animation = true,
-  color = 'primary',
+  color = 'PRIMARY',
   children,
   css,
   disabled = false,

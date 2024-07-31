@@ -21,12 +21,12 @@ interface ModalProps {
 const Modal = ({
   isOpen,
   close,
-  size = 'md',
+  size = 'MD',
   height = '',
-  position = 'center',
+  position = 'CENTER',
   shadow = true,
   animation = true,
-  backdropType = 'opaque',
+  backdropType = 'OPAQUE',
   children,
 }: React.PropsWithChildren<ModalProps>) => {
   const modalRef = useFocusTrap(isOpen);

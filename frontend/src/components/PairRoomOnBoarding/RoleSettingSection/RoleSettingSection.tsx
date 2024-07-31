@@ -1,4 +1,4 @@
-import { Role } from '@/pages/PairRoomOnboarding/PairRoomOnboarding.type';
+import type { Role } from '@/pages/PairRoomOnboarding/PairRoomOnboarding.type';
 
 import Dropdown from '@/components/common/Dropdown/Dropdown/Dropdown';
 import { Modal } from '@/components/common/Modal';
@@ -28,7 +28,7 @@ const RoleSettingSection = ({ driver, navigator, userOptions, handleSelect }: Ro
           <Dropdown
             placeholder={'이름을 선택해주세요.'}
             selected={driver}
-            onSelect={(option) => handleSelect(option, 'driver')}
+            onSelect={(option) => handleSelect(option, 'DRIVER')}
             options={userOptions}
           />
         </S.DropdownWrapper>
@@ -37,7 +37,7 @@ const RoleSettingSection = ({ driver, navigator, userOptions, handleSelect }: Ro
           <Dropdown
             placeholder={'이름을 선택해주세요.'}
             selected={navigator}
-            onSelect={(option) => handleSelect(option, 'navigator')}
+            onSelect={(option) => handleSelect(option, 'NAVIGATOR')}
             options={userOptions}
           />
         </S.DropdownWrapper>

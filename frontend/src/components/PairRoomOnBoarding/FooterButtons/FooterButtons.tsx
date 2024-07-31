@@ -1,4 +1,4 @@
-import { Step } from '@/pages/PairRoomOnboarding/PairRoomOnboarding.type';
+import type { Step } from '@/pages/PairRoomOnboarding/PairRoomOnboarding.type';
 
 import Button from '@/components/common/Button/Button';
 import { Modal } from '@/components/common/Modal';
@@ -14,9 +14,9 @@ interface FooterButtonsProps {
 
 const FooterButtons = ({ step, isComplete, onBack, onNext }: FooterButtonsProps) => {
   return (
-    <Modal.Footer position="center">
-      {step === 'role' && <Button onClick={onNext}>{BUTTON_TEXT.NEXT}</Button>}
-      {step === 'timer' && (
+    <Modal.Footer position="CENTER">
+      {step === 'ROLE' && <Button onClick={onNext}>{BUTTON_TEXT.NEXT}</Button>}
+      {step === 'TIMER' && (
         <>
           <Button onClick={onBack}>{BUTTON_TEXT.BACK}</Button>
           <Button onClick={onNext} disabled={!isComplete}>

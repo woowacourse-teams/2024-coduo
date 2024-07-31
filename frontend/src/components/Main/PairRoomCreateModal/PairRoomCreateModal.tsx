@@ -14,7 +14,7 @@ interface PairRoomCreateModalProps {
   closeModal: () => void;
 }
 
-type Status = 'create' | 'complete';
+type Status = 'CREATE' | 'COMPLETE';
 
 const PairRoomCreateModal = ({ isOpen, closeModal }: PairRoomCreateModalProps) => {
   const {
@@ -24,7 +24,7 @@ const PairRoomCreateModal = ({ isOpen, closeModal }: PairRoomCreateModalProps) =
   } = useMutation({
     mutationFn: addPairNames,
     onSuccess: () => {
-      setCreatePairRoomStatus('complete');
+      setCreatePairRoomStatus('COMPLETE');
     },
     onError: (error) => {
       alert(error.message);
@@ -33,16 +33,16 @@ const PairRoomCreateModal = ({ isOpen, closeModal }: PairRoomCreateModalProps) =
 
   const createPairRoom = (firstPair: string, secondPair: string) => addPairNameMutation({ firstPair, secondPair });
 
-  const [createPairRoomStatus, setCreatePairRoomStatus] = useState<Status>('create');
+  const [createPairRoomStatus, setCreatePairRoomStatus] = useState<Status>('CREATE');
 
   return (
     <Modal isOpen={isOpen} close={closeModal} size="60rem">
       <Modal.Header title="페어룸 만들기" subTitle="여러분의 이름(또는 닉네임)을 알려 주세요!" />
       <Modal.CloseButton close={closeModal} />
-      {!isPending && createPairRoomStatus === 'create' && (
+      {!isPending && createPairRoomStatus === 'CREATE' && (
         <CreatePairRoom closeModal={closeModal} createPairRoom={createPairRoom} />
       )}
-      {!isPending && createPairRoomStatus === 'complete' && (
+      {!isPending && createPairRoomStatus === 'COMPLETE' && (
         <CompleteCreatePairRoom accessCode={data} closeModal={closeModal} />
       )}
       {isPending && <p>...Loading</p>}

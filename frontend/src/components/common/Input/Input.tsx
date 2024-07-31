@@ -3,7 +3,7 @@ import { forwardRef, InputHTMLAttributes } from 'react';
 import { css } from 'styled-components';
 
 import * as S from '@/components/common/Input/Input.styles';
-import { InputStatus } from '@/components/common/Input/Input.type';
+import type { InputStatus } from '@/components/common/Input/Input.type';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   width?: string;
@@ -14,7 +14,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   $css?: ReturnType<typeof css>;
 }
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ width = '100%', status = 'default', message, label, ...props }: InputProps, ref) => {
+  ({ width = '100%', status = 'DEFAULT', message, label, ...props }: InputProps, ref) => {
     return (
       <S.Layout $width={width}>
         {label && <S.Label htmlFor={props.id}>{label}</S.Label>}

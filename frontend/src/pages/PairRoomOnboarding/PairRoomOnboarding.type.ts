@@ -1,3 +1,3 @@
-export type Step = 'role' | 'timer';
+export type Step = 'ROLE' | 'TIMER';
 
-export type Role = 'driver' | 'navigator';
+export type Role = 'DRIVER' | 'NAVIGATOR';

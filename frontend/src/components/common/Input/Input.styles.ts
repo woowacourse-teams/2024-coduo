@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { InputStatus } from '@/components/common/Input/Input.type';
+import type { InputStatus } from '@/components/common/Input/Input.type';
 
 interface InputProps {
   $status: InputStatus;
@@ -12,29 +12,29 @@ interface LayoutProps {
 }
 
 const inputStatusCss = {
-  default: css`
+  DEFAULT: css`
     background-color: ${({ theme }) => theme.color.black[10]};
     border: 1px solid ${({ theme }) => theme.color.black[40]};
   `,
-  error: css`
+  ERROR: css`
     background-color: ${({ theme }) => theme.color.danger[100]};
     border: 1px solid ${({ theme }) => theme.color.danger[600]};
   `,
-  success: css`
+  SUCCESS: css`
     background-color: ${({ theme }) => theme.color.success[100]};
     border: 1px solid ${({ theme }) => theme.color.success[600]};
   `,
 };
 
 const inputStatusMessageCss = {
-  default: css`
+  DEFAULT: css`
     color: ${({ theme }) => theme.color.black[80]};
   `,
-  error: css`
+  ERROR: css`
     color: ${({ theme }) => theme.color.danger[700]};
   `,
 
-  success: css`
+  SUCCESS: css`
     color: ${({ theme }) => theme.color.success[700]};
   `,
 };

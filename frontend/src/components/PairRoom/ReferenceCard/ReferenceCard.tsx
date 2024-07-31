@@ -16,7 +16,7 @@ import { theme } from '@/styles/theme';
 
 import * as S from './ReferenceCard.styles';
 
-type Status = 'error' | 'default';
+type Status = 'ERROR' | 'DEFAULT';
 
 interface ReferenceCardProps {
   accessCode: string;
@@ -67,7 +67,7 @@ const ReferenceCard = ({ accessCode }: ReferenceCardProps) => {
             <Button
               disabled={!buttonActive}
               css={S.buttonStyle}
-              color="secondary"
+              color="SECONDARY"
               rounded={true}
               onClick={() => addReference(inputValue.value)}
             >
