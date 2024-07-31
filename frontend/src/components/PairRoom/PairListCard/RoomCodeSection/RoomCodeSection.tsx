@@ -1,6 +1,6 @@
 import { FaRegPaste } from 'react-icons/fa6';
 
-import useCopyClipBoard from '@/hooks/useCopyClipboard';
+import useCopyClipBoard from '@/hooks/common/useCopyClipboard';
 
 import * as S from './RoomCodeSection.styles';
 

@@ -1,8 +1,8 @@
 import { createPortal } from 'react-dom';
 
-import useEscapeKey from '@/hooks/useEscapeKey';
-import useFocusTrap from '@/hooks/useFocusTrap';
-import usePreventScroll from '@/hooks/usePreventScroll';
+import useEscapeKey from '@/hooks/common/useEscapeKey';
+import useFocusTrap from '@/hooks/common/useFocusTrap';
+import usePreventScroll from '@/hooks/common/usePreventScroll';
 
 import * as S from './Modal.styles';
 import type { Position, Size, BackdropType } from './Modal.type';

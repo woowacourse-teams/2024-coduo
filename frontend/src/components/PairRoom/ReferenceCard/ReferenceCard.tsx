@@ -1,8 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { IoIosLink } from 'react-icons/io';
 
-import { getReferenceLinks, addReferenceLink } from '@/apis/referenceLink';
-
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
@@ -10,7 +8,7 @@ import Reference from '@/components/PairRoom/ReferenceCard/Reference';
 
 import { getReferenceLinks, addReferenceLink } from '@/apis/referenceLink';
 
-import useInput from '@/hooks/useInput';
+import useInput from '@/hooks/common/useInput';
 
 import { theme } from '@/styles/theme';
 
