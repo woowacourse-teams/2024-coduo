@@ -1,5 +1,6 @@
+import { Step } from '@/pages/PairRoomOnboarding/PairRoomOnboarding.type';
+
 import Button from '@/components/common/Button/Button';
-import { Step } from '@/components/PairRoomOnBoarding/OnboardingModal/OnboardingModal.type';
 
 import * as S from './ProgressBar.styles';
 
@@ -11,7 +12,7 @@ interface ProgressBarProps {
 const ProgressBar = ({ step, isRoleSelected }: ProgressBarProps) => (
   <S.Layout>
     <S.ButtonWrapper>
-      <Button rounded={true} size="lg" filled={true} animation={false}>
+      <Button rounded={true} size="lg" filled={step === 'role'} animation={false}>
         1
       </Button>
       <S.ButtonLabel>역할 설정</S.ButtonLabel>
