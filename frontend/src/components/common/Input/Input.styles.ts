@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { InputStatus } from '@/components/common/Input/Input.type';
+import type { InputStatus } from '@/components/common/Input/Input.type';
 
 interface InputProps {
   $status: InputStatus;

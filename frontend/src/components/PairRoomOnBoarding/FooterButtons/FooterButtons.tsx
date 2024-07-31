@@ -1,4 +1,4 @@
-import { Step } from '@/pages/PairRoomOnboarding/PairRoomOnboarding.type';
+import type { Step } from '@/pages/PairRoomOnboarding/PairRoomOnboarding.type';
 
 import Button from '@/components/common/Button/Button';
 import { Modal } from '@/components/common/Modal';

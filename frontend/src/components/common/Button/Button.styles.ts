@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { ButtonColor, ButtonSize } from '@/components/common/Button/Button.type';
+import type { ButtonColor, ButtonSize } from '@/components/common/Button/Button.type';
 
 interface ButtonStyleProp {
   $color: ButtonColor;
