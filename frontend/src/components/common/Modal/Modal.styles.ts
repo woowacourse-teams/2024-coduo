@@ -36,22 +36,25 @@ const slideOut = keyframes`
 export const Layout = styled.div<{ $position: Position }>`
   position: fixed;
   top: 0;
+
   display: flex;
-  justify-content: center;
   align-items: ${({ $position }) => ($position === 'bottom' ? 'flex-end' : 'center')};
+  justify-content: center;
+
   width: 100%;
   height: 100%;
+
   animation: ${fadeIn} 0.3s ease;
 `;
 
 const backdropMapper = {
   opaque: css`
+    opacity: 0.36;
     background: ${({ theme }) => theme.color.black[90]};
-    opacity: 36%;
   `,
   blur: css`
+    opacity: 0.36;
     background: ${({ theme }) => theme.color.black[90]};
-    opacity: 36%;
     backdrop-filter: blur(10px);
   `,
   transparent: css`
@@ -76,13 +79,13 @@ const sizeMapper: Record<Size, string> = {
 const positionMapper = {
   bottom: css`
     max-height: 90vh;
-    border-radius: 4rem 4rem 0 0;
     margin: 0;
+    border-radius: 4rem 4rem 0 0;
   `,
   center: css`
     max-height: 70vh;
-    border-radius: 4rem;
     margin: 0 3rem;
+    border-radius: 4rem;
   `,
 };
 
@@ -103,16 +106,20 @@ export const Container = styled.div<{
   $animation: boolean;
 }>`
   position: relative;
+
   display: flex;
   flex-direction: column;
-  background: ${({ theme }) => theme.color.black[10]};
-  padding: 4rem;
-  box-shadow: ${({ $shadow }) =>
-    $shadow &&
-    ` 0px 3px 6px rgba(0, 0, 0, 0.1),
-    0px 3px 6px rgba(0, 0, 0, 0.1)`};
+
   width: ${({ $size }) => sizeMapper[$size as Size] ?? $size};
   height: ${({ $height }) => $height && $height};
+  padding: 4rem;
+
+  background: ${({ theme }) => theme.color.black[10]};
+  box-shadow: ${({ $shadow }) =>
+    $shadow &&
+    ` 0 3px 6px rgb(0 0 0 / 10%),
+    0 3px 6px rgb(0 0 0 / 10%)`};
+
   ${({ $position }) => positionMapper[$position]}
   ${({ $position, $animation }) => $animation && animationMapper[$position]}
 `;

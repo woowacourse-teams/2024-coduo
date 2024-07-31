@@ -4,41 +4,46 @@ import styled from 'styled-components';
 import Button from '@/components/common/Button/Button';
 
 export const Layout = styled.div<{ $width: string }>`
-  display: flex;
-  flex-direction: column;
-  width: ${({ $width }) => $width};
-  height: fit-content;
-  gap: 1rem;
   position: relative;
 
-  Button {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  width: ${({ $width }) => $width};
+  height: fit-content;
+
+  button {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     width: 100%;
     height: 4.8rem;
-    border-radius: 0.8rem;
     padding: 1rem;
     padding-left: 1.7rem;
+
     font-size: 1.6rem;
 
+    border-radius: 0.8rem;
+
     &:hover {
-      background-color: ${({ theme }) => theme.color.black[40]};
       transform: none;
+      background-color: ${({ theme }) => theme.color.black[40]};
     }
 
     &:active {
-      background-color: ${({ theme }) => theme.color.black[60]};
       transform: none;
+      background-color: ${({ theme }) => theme.color.black[60]};
     }
   }
 `;
 
 export const OpenButton = styled(Button)<{ $isSelected: boolean; $isOpen: boolean }>`
+  color: ${({ $isSelected, theme }) => ($isSelected ? theme.color.primary[700] : theme.color.black[50])};
+  background-color: white;
   border: 1px solid
     ${({ $isSelected, $isOpen, theme }) => ($isSelected || $isOpen ? theme.color.primary[700] : theme.color.black[50])};
-  background-color: white;
-  color: ${({ $isSelected, theme }) => ($isSelected ? theme.color.primary[700] : theme.color.black[50])};
 `;
 
 export const Icon = styled(RiArrowDropDownLine)<{ $isOpen: boolean }>`
@@ -47,25 +52,29 @@ export const Icon = styled(RiArrowDropDownLine)<{ $isOpen: boolean }>`
 `;
 
 export const ItemList = styled.ul<{ $width: string }>`
-  max-height: 20rem;
+  position: absolute;
+  z-index: 1000;
+  top: calc(100% + 1rem);
+  left: 0;
+
   overflow-y: auto;
+
+  width: ${({ $width }) => $width};
+  max-height: 20rem;
+
   background-color: white;
   border-radius: 0.8rem;
   box-shadow:
-    0px 0px 2px grey,
+    0 0 2px grey,
     1px 1px 3px lightgrey;
-  position: absolute;
-  top: calc(100% + 1rem);
-  left: 0;
-  z-index: 1000;
-  width: ${({ $width }) => $width};
 `;
 
 export const Item = styled(Button)`
-  border: none;
   justify-content: flex-start;
-  color: ${({ theme }) => theme.color.primary[700]};
   height: 4.8rem;
+  color: ${({ theme }) => theme.color.primary[700]};
+  border: none;
+
   &:hover {
     border: none;
   }

@@ -7,12 +7,12 @@ export const Layout = styled.div`
 `;
 
 export const Title = styled.h3`
-  color: ${({ theme }) => theme.color.primary[700]};
   font-size: ${({ theme }) => theme.fontSize.h3};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
+  color: ${({ theme }) => theme.color.primary[700]};
 `;
 
 export const SubTitle = styled.p`
-  color: ${({ theme }) => theme.color.primary[600]};
   font-size: ${({ theme }) => theme.fontSize.h6};
+  color: ${({ theme }) => theme.color.primary[600]};
 `;

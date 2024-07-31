@@ -8,20 +8,23 @@ export const Layout = styled.div`
 
 export const RoleBoxContainer = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
   gap: 2rem;
+  align-items: center;
+  justify-content: center;
+
   height: 100%;
   padding: 3rem;
 `;
 
 const RoleBox = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+
   width: 20rem;
   height: 11rem;
   padding: 2rem 3rem;
+
   border-radius: 3rem;
 `;
 
@@ -44,8 +47,8 @@ export const RoleIcon = styled.p`
 export const RoleTextContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 0.6rem;
+  align-items: center;
 
   p {
     font-size: ${({ theme }) => theme.fontSize.h3};
@@ -56,10 +59,12 @@ export const RoleTextContainer = styled.div`
 const RoleLabel = styled.div`
   width: 8rem;
   padding: 0.4rem 0;
-  color: ${({ theme }) => theme.color.black[10]};
-  border-radius: 10rem;
+
   font-size: ${({ theme }) => theme.fontSize.sm};
+  color: ${({ theme }) => theme.color.black[10]};
   text-align: center;
+
+  border-radius: 10rem;
 `;
 
 export const DriverLabel = styled(RoleLabel)`
@@ -81,17 +86,18 @@ export const NavigatorText = styled.p`
 export const buttonStyle = css`
   width: 5rem;
   height: 5rem;
-  border-radius: 100%;
-  border-color: ${({ theme }) => theme.color.secondary[100]};
+
   background-color: ${({ theme }) => theme.color.secondary[100]};
+  border-color: ${({ theme }) => theme.color.secondary[100]};
+  border-radius: 100%;
 
   &:hover {
-    border-color: ${({ theme }) => theme.color.secondary[200]};
     background-color: ${({ theme }) => theme.color.secondary[200]};
+    border-color: ${({ theme }) => theme.color.secondary[200]};
   }
 `;
 
 export const SwapIcon = styled(IoMdSwap)`
-  color: ${({ theme }) => theme.color.secondary[500]};
   font-size: ${({ theme }) => theme.fontSize.h5};
+  color: ${({ theme }) => theme.color.secondary[500]};
 `;
