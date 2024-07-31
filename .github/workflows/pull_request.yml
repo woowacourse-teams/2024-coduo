@@ -43,7 +43,7 @@ jobs:
         id: pull_request_notify
         uses: slackapi/slack-github-action@v1.26.0
         with: 
-          channel-id: ${{vars.SLACK_CHANNEL_ID}}
+          channel-id: ${{secrets.SLACK_FE_REVIEW_CHANNEL}}
           payload: |
             {
               "text": "⌛PR왔다 리뷰해라⌛",
