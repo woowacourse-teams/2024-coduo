@@ -10,6 +10,8 @@ import { addRoomCode } from '@/apis/roomCode';
 
 import useInput from '@/hooks/common/useInput';
 
+import { BUTTON_TEXT } from '@/constants/button';
+
 interface PairRoomEntryModal {
   isOpen: boolean;
   closeModal: () => void;
@@ -23,6 +25,7 @@ interface InputState {
 
 const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
   const navigate = useNavigate();
+
   const { inputValue, handleOnChange } = useInput<InputState>({
     status: 'default',
     value: '',
@@ -42,30 +45,27 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
   const enterModalButtonDisabled = !inputValue.value;
 
   return (
-    <>
-      <Modal isOpen={isOpen} close={closeModal} size="60rem">
-        <Modal.Header title="페어룸 참가하기" />
-        <Modal.CloseButton close={closeModal} />
-        <Modal.Body>
-          <Input
-            placeholder="코드를 입력해 주세요"
-            label="페어룸 참가 코드"
-            status={inputValue.status}
-            message={inputValue.message}
-            onChange={(event) => handleOnChange(event)}
-          />
-        </Modal.Body>
-
-        <Modal.Footer>
-          <Button onClick={closeModal} filled={false}>
-            닫기
-          </Button>
-          <Button disabled={enterModalButtonDisabled} onClick={() => addRoomCodeMutation(inputValue.value)}>
-            확인
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </>
+    <Modal isOpen={isOpen} close={closeModal} size="60rem">
+      <Modal.Header title="페어룸 참가하기" />
+      <Modal.CloseButton close={closeModal} />
+      <Modal.Body>
+        <Input
+          placeholder="코드를 입력해 주세요"
+          label="페어룸 참가 코드"
+          status={inputValue.status}
+          message={inputValue.message}
+          onChange={(event) => handleOnChange(event)}
+        />
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={closeModal} filled={false}>
+          {BUTTON_TEXT.CLOSE}
+        </Button>
+        <Button disabled={enterModalButtonDisabled} onClick={() => addRoomCodeMutation(inputValue.value)}>
+          {BUTTON_TEXT.COMPLETE}
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 

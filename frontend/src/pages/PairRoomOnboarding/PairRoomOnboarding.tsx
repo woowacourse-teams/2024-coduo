@@ -12,6 +12,8 @@ import { getPairNames } from '@/apis/pairName';
 
 import { validateTime } from '@/utils/PairRoomOnboarding/validate';
 
+import { QUERY_KEYS } from '@/constants/queryKeys';
+
 import * as S from './PairRoomOnboarding.styles';
 import type { Role, Step } from './PairRoomOnboarding.type';
 
@@ -24,7 +26,7 @@ const PairRoomOnboarding = () => {
   const [navigator, setNavigator] = useState('');
   const [timer, setTimer] = useState('');
 
-  const { data } = useQuery({ queryKey: ['getPairNames'], queryFn: () => getPairNames(accessCode || '') });
+  const { data } = useQuery({ queryKey: [QUERY_KEYS.GET_PAIR_NAMES], queryFn: () => getPairNames(accessCode || '') });
 
   useEffect(() => {
     if (data) {

@@ -10,6 +10,8 @@ import { getReferenceLinks, addReferenceLink } from '@/apis/referenceLink';
 
 import useInput from '@/hooks/common/useInput';
 
+import { QUERY_KEYS } from '@/constants/queryKeys';
+
 import { theme } from '@/styles/theme';
 
 import * as S from './ReferenceCard.styles';
@@ -24,14 +26,14 @@ const ReferenceCard = ({ accessCode }: ReferenceCardProps) => {
   const queryClient = useQueryClient();
 
   const { data } = useQuery({
-    queryKey: ['getReferenceLinks'],
+    queryKey: [QUERY_KEYS.GET_REFERENCE_LINKS],
     queryFn: () => getReferenceLinks({ accessCode }),
   });
 
   const { mutate } = useMutation({
     mutationFn: addReferenceLink,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['getReferenceLinks'] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_REFERENCE_LINKS] });
     },
     onError: (error) => alert(error.message),
   });

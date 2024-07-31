@@ -1,5 +1,7 @@
 import fetcher from '@/apis/fetcher';
 
+import { ERROR_MESSAGES } from '@/constants/message';
+
 const API_URL = process.env.REACT_APP_API_URL;
 
 interface GetPairNamesResponse {
@@ -11,7 +13,7 @@ interface GetPairNamesResponse {
 export const getPairNames = async (accessCode: string): Promise<GetPairNamesResponse> => {
   const response = await fetcher.get({
     url: `${API_URL}/pair-room/${accessCode}`,
-    errorMessage: '',
+    errorMessage: ERROR_MESSAGES.GET_PAIR_NAMES,
   });
 
   return await response.json();
@@ -39,7 +41,7 @@ export const addPairNames = async ({ firstPair, secondPair }: AddPairNamesReques
   });
 
   if (!response.ok) {
-    throw new Error('페어룸 생성에 실패했습니다.');
+    throw new Error(ERROR_MESSAGES.ADD_PAIR_NAMES);
   }
 
   const data = await response.json();
