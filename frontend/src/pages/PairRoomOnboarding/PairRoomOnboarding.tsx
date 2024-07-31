@@ -19,7 +19,7 @@ const PairRoomOnboarding = () => {
   const navigate = useNavigate();
   const { accessCode } = useParams();
 
-  const [step, setStep] = useState<Step>('role');
+  const [step, setStep] = useState<Step>('ROLE');
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
   const [timer, setTimer] = useState('');
@@ -36,11 +36,11 @@ const PairRoomOnboarding = () => {
   const handleSelect = (option: string, role: Role) => {
     if (!option) return;
     switch (role) {
-      case 'driver':
+      case 'DRIVER':
         setDriver(option);
         if (data) setNavigator(option === data.firstPair ? data.secondPair : data.firstPair);
         return;
-      case 'navigator':
+      case 'NAVIGATOR':
         setNavigator(option);
         if (data) setDriver(option === data.firstPair ? data.secondPair : data.firstPair);
         return;
@@ -51,18 +51,18 @@ const PairRoomOnboarding = () => {
 
   const handleBack = () => {
     switch (step) {
-      case 'timer':
-        setStep('role');
+      case 'TIMER':
+        setStep('ROLE');
         return;
     }
   };
 
   const handleNext = () => {
     switch (step) {
-      case 'role':
-        setStep('timer');
+      case 'ROLE':
+        setStep('TIMER');
         return;
-      case 'timer':
+      case 'TIMER':
         navigate(`/room/${accessCode}`, { state: { driver, navigator, timer } });
         return;
     }
@@ -73,7 +73,7 @@ const PairRoomOnboarding = () => {
       <S.Container>
         <div>
           <ProgressBar step={step} isRoleSelected={Boolean(driver && navigator)} />
-          {step === 'role' && data && (
+          {step === 'ROLE' && data && (
             <RoleSettingSection
               driver={driver}
               navigator={navigator}
@@ -81,7 +81,7 @@ const PairRoomOnboarding = () => {
               handleSelect={handleSelect}
             />
           )}
-          {step === 'timer' && <TimerSettingSection timer={timer} onTimer={handleTimer} />}
+          {step === 'TIMER' && <TimerSettingSection timer={timer} onTimer={handleTimer} />}
         </div>
         <FooterButtons step={step} isComplete={validateTime(timer)} onBack={handleBack} onNext={handleNext} />
       </S.Container>

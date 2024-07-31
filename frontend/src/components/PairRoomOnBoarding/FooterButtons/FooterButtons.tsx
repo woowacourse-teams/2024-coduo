@@ -12,9 +12,9 @@ interface FooterButtonsProps {
 
 const FooterButtons = ({ step, isComplete, onBack, onNext }: FooterButtonsProps) => {
   return (
-    <Modal.Footer position="center">
-      {step === 'role' && <Button onClick={onNext}>다음</Button>}
-      {step === 'timer' && (
+    <Modal.Footer position="CENTER">
+      {step === 'ROLE' && <Button onClick={onNext}>다음</Button>}
+      {step === 'TIMER' && (
         <>
           <Button onClick={onBack}>이전</Button>
           <Button onClick={onNext} disabled={!isComplete}>

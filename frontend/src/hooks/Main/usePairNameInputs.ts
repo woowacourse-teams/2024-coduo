@@ -1,6 +1,6 @@
 import useInput from '@/hooks/common/useInput';
 
-type InputStatus = 'default' | 'error' | 'success';
+type InputStatus = 'DEFAULT' | 'ERROR' | 'SUCCESS';
 
 interface InitialValue {
   value: string;
@@ -15,7 +15,7 @@ const usePairNameInputs = () => {
     resetInputValue: firstPairValueReset,
   } = useInput<InitialValue>({
     value: '',
-    status: 'default',
+    status: 'DEFAULT',
     message: '',
   });
   const {
@@ -24,7 +24,7 @@ const usePairNameInputs = () => {
     resetInputValue: secondPairValueReset,
   } = useInput<InitialValue>({
     value: '',
-    status: 'default',
+    status: 'DEFAULT',
     message: '',
   });
 
@@ -34,11 +34,11 @@ const usePairNameInputs = () => {
   };
 
   const validatePairName = (name: string) => {
-    if (name.length === 0) return { status: 'error', message: '값을 입력해주세요.' };
-    if (name.length > 10) return { status: 'error', message: '페어이름은 10자 이하로 입력해주세요.' };
+    if (name.length === 0) return { status: 'ERROR', message: '값을 입력해주세요.' };
+    if (name.length > 10) return { status: 'ERROR', message: '페어이름은 10자 이하로 입력해주세요.' };
 
     return {
-      status: 'default',
+      status: 'DEFAULT',
       message: '',
     };
   };
@@ -50,8 +50,8 @@ const usePairNameInputs = () => {
     secondPairOnChange(event, validatePairName);
   };
   const isButtonActive =
-    firstPair.status !== 'error' &&
-    secondPair.status !== 'error' &&
+    firstPair.status !== 'ERROR' &&
+    secondPair.status !== 'ERROR' &&
     firstPair.value.length !== 0 &&
     secondPair.value.length !== 0;
 

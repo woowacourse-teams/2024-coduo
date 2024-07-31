@@ -38,7 +38,7 @@ export const Layout = styled.div<{ $position: Position }>`
   top: 0;
 
   display: flex;
-  align-items: ${({ $position }) => ($position === 'bottom' ? 'flex-end' : 'center')};
+  align-items: ${({ $position }) => ($position === 'BOTTOM' ? 'flex-end' : 'center')};
   justify-content: center;
 
   width: 100%;
@@ -48,16 +48,16 @@ export const Layout = styled.div<{ $position: Position }>`
 `;
 
 const backdropMapper = {
-  opaque: css`
+  OPAQUE: css`
     opacity: 0.36;
     background: ${({ theme }) => theme.color.black[90]};
   `,
-  blur: css`
+  BLUR: css`
     opacity: 0.36;
     background: ${({ theme }) => theme.color.black[90]};
     backdrop-filter: blur(10px);
   `,
-  transparent: css`
+  TRANSPARENT: css`
     background: transparent;
   `,
 };
@@ -71,18 +71,18 @@ export const Backdrop = styled.div<{ $backdropType: BackdropType }>`
 `;
 
 const sizeMapper: Record<Size, string> = {
-  sm: '30%',
-  md: '60%',
-  lg: '90%',
+  SM: '30%',
+  MD: '60%',
+  LG: '90%',
 };
 
 const positionMapper = {
-  bottom: css`
+  BOTTOM: css`
     max-height: 90vh;
     margin: 0;
     border-radius: 4rem 4rem 0 0;
   `,
-  center: css`
+  CENTER: css`
     max-height: 70vh;
     margin: 0 3rem;
     border-radius: 4rem;
@@ -90,10 +90,10 @@ const positionMapper = {
 };
 
 const animationMapper = {
-  bottom: css`
+  BOTTOM: css`
     animation: ${slideIn} 0.3s ease-in forwards;
   `,
-  center: css`
+  CENTER: css`
     animation: ${slideOut} 0.3s ease-in forwards;
   `,
 };

@@ -1,14 +1,14 @@
 import * as S from './Footer.styles';
 
-export type Direction = 'row' | 'column';
-export type Position = 'left' | 'center' | 'right';
+export type Direction = 'ROW' | 'COLUMN';
+export type Position = 'LEFT' | 'CENTER' | 'RIGHT';
 
 interface FooterProps {
   direction?: Direction;
   position?: Position;
 }
 
-const Footer = ({ direction = 'row', position = 'right', children }: React.PropsWithChildren<FooterProps>) => {
+const Footer = ({ direction = 'ROW', position = 'RIGHT', children }: React.PropsWithChildren<FooterProps>) => {
   return (
     <S.Layout $direction={direction} $position={position}>
       {children}

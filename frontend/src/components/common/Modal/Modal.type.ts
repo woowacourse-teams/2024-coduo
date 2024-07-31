@@ -1,3 +1,3 @@
-export type Size = 'sm' | 'md' | 'lg';
-export type Position = 'center' | 'bottom';
-export type BackdropType = 'transparent' | 'blur' | 'opaque';
+export type Size = 'SM' | 'MD' | 'LG';
+export type Position = 'CENTER' | 'BOTTOM';
+export type BackdropType = 'TRANSPARENT' | 'BLUR' | 'OPAQUE';

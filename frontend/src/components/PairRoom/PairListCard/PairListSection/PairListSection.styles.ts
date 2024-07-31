@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-type Role = 'driver' | 'navigator';
+type Role = 'DRIVER' | 'NAVIGATOR';
 
 export const PairItem = styled.div`
   display: flex;
@@ -23,7 +23,7 @@ export const PairRole = styled.span<{ $role: Role }>`
   text-align: center;
 
   background-color: ${({ theme, $role }) =>
-    $role === 'driver' ? theme.color.primary[500] : theme.color.secondary[500]};
+    $role === 'DRIVER' ? theme.color.primary[500] : theme.color.secondary[500]};
   border-radius: 1.2rem;
 `;
 
