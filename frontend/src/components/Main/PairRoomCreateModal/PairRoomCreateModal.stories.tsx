@@ -2,18 +2,18 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'styled-components';
 
-import CreatePairRoomModal from '@/components/Main/CreatePairRoomModal/CreatePairRoomModal';
-
 import { theme } from '@/styles/theme';
 
+import PairRoomCreateModal from './PairRoomCreateModal';
+
 const meta = {
-  title: 'component/CreatePairRoom/CreatePairRoom',
-  component: CreatePairRoomModal,
-} satisfies Meta<typeof CreatePairRoomModal>;
+  title: 'component/PairRoomCreateModal/PairRoomCreateModal',
+  component: PairRoomCreateModal,
+} satisfies Meta<typeof PairRoomCreateModal>;
 
 export default meta;
 
-type Story = StoryObj<typeof CreatePairRoomModal>;
+type Story = StoryObj<typeof PairRoomCreateModal>;
 
 const queryClient = new QueryClient();
 
@@ -22,7 +22,7 @@ export const Default: Story = {
     return (
       <ThemeProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
-          <CreatePairRoomModal isOpen={true} closeModal={() => console.log()} />
+          <PairRoomCreateModal isOpen={true} closeModal={() => console.log()} />
         </QueryClientProvider>
       </ThemeProvider>
     );

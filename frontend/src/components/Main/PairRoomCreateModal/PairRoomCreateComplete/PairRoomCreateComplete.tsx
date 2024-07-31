@@ -7,13 +7,14 @@ import { Modal } from '@/components/common/Modal';
 
 import useCopyClipBoard from '@/hooks/common/useCopyClipboard';
 
-import * as S from './CreatePairRoomModal.styles';
+import * as S from '../PairRoomCreateModal.styles';
 
-interface CompleteCreatePairRoomProps {
+interface PairRoomCreateCompleteProps {
   accessCode: string;
   closeModal: () => void;
 }
-const CompleteCreatePairRoom = ({ accessCode, closeModal }: CompleteCreatePairRoomProps) => {
+
+const PairRoomCreateComplete = ({ accessCode, closeModal }: PairRoomCreateCompleteProps) => {
   const [isCopy, onCopy] = useCopyClipBoard();
 
   const handleCopyClipBoard = (text: string) => {
@@ -45,4 +46,4 @@ const CompleteCreatePairRoom = ({ accessCode, closeModal }: CompleteCreatePairRo
   );
 };
 
-export default CompleteCreatePairRoom;
+export default PairRoomCreateComplete;

@@ -3,21 +3,22 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 
 import { Modal } from '@/components/common/Modal';
-import CompleteCreatePairRoom from '@/components/Main/CreatePairRoomModal/CompleteCreatePairRoom';
-import CreatePairRoom from '@/components/Main/CreatePairRoomModal/CreatePairRoom';
 
 import { addPairNames } from '@/apis/pairName';
 
 import { PAIR_ROOM_MODAL_INFO } from '@/constants/pairRoomModalInfo';
 
-interface CreatePairRoomModalProps {
+import CreatePairRoom from './PairRoomCreate/PairRoomCreate';
+import CompleteCreatePairRoom from './PairRoomCreateComplete/PairRoomCreateComplete';
+
+interface PairRoomCreateModalProps {
   isOpen: boolean;
   closeModal: () => void;
 }
 
 type Status = 'create' | 'complete';
 
-const CreatePairRoomModal = ({ isOpen, closeModal }: CreatePairRoomModalProps) => {
+const PairRoomCreateModal = ({ isOpen, closeModal }: PairRoomCreateModalProps) => {
   const {
     mutate: addPairNameMutation,
     isPending,
@@ -53,4 +54,4 @@ const CreatePairRoomModal = ({ isOpen, closeModal }: CreatePairRoomModalProps) =
   );
 };
 
-export default CreatePairRoomModal;
+export default PairRoomCreateModal;
