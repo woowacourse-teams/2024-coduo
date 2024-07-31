@@ -45,8 +45,8 @@ const TimerSettingSection = ({ timer, onTimer }: TimerSettingSectionProps) => {
         {OPTIONS.map((option) => (
           <Button
             key={option.value}
-            color="primary"
-            size="md"
+            color="PRIMARY"
+            size="MD"
             filled={timer === option.value}
             onClick={() => handleTimer(option.value)}
           >
@@ -54,7 +54,7 @@ const TimerSettingSection = ({ timer, onTimer }: TimerSettingSectionProps) => {
           </Button>
         ))}
         <S.InputContainer>
-          <Button key="직접 설정" color="primary" size="md" filled={isSelf} onClick={handleIsSelf}>
+          <Button key="직접 설정" color="PRIMARY" size="MD" filled={isSelf} onClick={handleIsSelf}>
             직접 설정
           </Button>
           {isSelf && (
@@ -63,7 +63,7 @@ const TimerSettingSection = ({ timer, onTimer }: TimerSettingSectionProps) => {
               $css={S.inputStyles}
               value={timer}
               placeholder="타이머 시간 (분)"
-              status={!validateTime(timer) ? 'error' : 'default'}
+              status={!validateTime(timer) ? 'ERROR' : 'DEFAULT'}
               message={!validateTime(timer) ? '0 이상의 숫자를 입력해 주세요.' : ''}
               disabled={!isSelf}
               onChange={(event) => onTimer(event.target.value)}

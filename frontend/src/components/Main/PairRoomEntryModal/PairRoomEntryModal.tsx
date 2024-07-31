@@ -18,7 +18,7 @@ interface PairRoomEntryModal {
 }
 
 interface InputState {
-  status: 'default' | 'error';
+  status: 'DEFAULT' | 'ERROR';
   value: string;
   message: string;
 }
@@ -27,7 +27,7 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
   const navigate = useNavigate();
 
   const { inputValue, handleOnChange } = useInput<InputState>({
-    status: 'default',
+    status: 'DEFAULT',
     value: '',
     message: '',
   });
