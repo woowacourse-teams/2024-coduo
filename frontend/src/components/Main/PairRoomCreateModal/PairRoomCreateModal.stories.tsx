@@ -1,8 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ThemeProvider } from 'styled-components';
-
-import { theme } from '@/styles/theme';
 
 import PairRoomCreateModal from './PairRoomCreateModal';
 
@@ -15,17 +11,9 @@ export default meta;
 
 type Story = StoryObj<typeof PairRoomCreateModal>;
 
-const queryClient = new QueryClient();
-
 export const Default: Story = {
   render: () => {
-    return (
-      <ThemeProvider theme={theme}>
-        <QueryClientProvider client={queryClient}>
-          <PairRoomCreateModal isOpen={true} closeModal={() => console.log()} />
-        </QueryClientProvider>
-      </ThemeProvider>
-    );
+    return <PairRoomCreateModal isOpen={true} closeModal={() => console.log()} />;
   },
   args: {
     isOpen: true,

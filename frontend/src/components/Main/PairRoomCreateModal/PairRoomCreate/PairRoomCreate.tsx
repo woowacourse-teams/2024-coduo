@@ -4,6 +4,8 @@ import { Modal } from '@/components/common/Modal';
 
 import usePairNameInputs from '@/hooks/Main/usePairNameInputs';
 
+import { BUTTON_TEXT } from '@/constants/button';
+
 import * as S from '../PairRoomCreateModal.styles';
 
 interface PairRoomCreateProps {
@@ -47,10 +49,10 @@ const PairRoomCreate = ({ closeModal, createPairRoom }: PairRoomCreateProps) => 
 
       <Modal.Footer>
         <Button onClick={closePairRoomModal} filled={false}>
-          닫기
+          {BUTTON_TEXT.CLOSE}
         </Button>
         <Button disabled={!isButtonActive} onClick={handleCreatePairRoom}>
-          확인
+          {BUTTON_TEXT.COMPLETE}
         </Button>
       </Modal.Footer>
     </>
