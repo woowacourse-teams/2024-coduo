@@ -1,5 +1,7 @@
 import fetcher from '@/apis/fetcher';
 
+import { ERROR_MESSAGES } from '@/constants/message';
+
 const API_URL = process.env.REACT_APP_API_URL;
 
 interface Link {
@@ -14,7 +16,7 @@ interface GetReferenceLinksRequest {
 export const getReferenceLinks = async ({ accessCode }: GetReferenceLinksRequest): Promise<Link[]> => {
   const response = await fetcher.get({
     url: `${API_URL}/${accessCode}/reference-link`,
-    errorMessage: '레퍼런스 링크 불러오기에 실패했습니다.',
+    errorMessage: ERROR_MESSAGES.GET_REFERENCE_LINKS,
   });
 
   return await response.json();
@@ -35,6 +37,6 @@ export const addReferenceLink = async ({ accessCode, url }: AddReferenceLinkRequ
   });
 
   if (!response.ok) {
-    throw new Error('레퍼런스 링크 저장에 실패했습니다.');
+    throw new Error(ERROR_MESSAGES.ADD_REFERENCE_LINKS);
   }
 };
