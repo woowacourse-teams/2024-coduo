@@ -10,6 +10,7 @@ import site.coduo.pairroom.domain.AccessCode;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.exception.AccessCodeNotFoundException;
 import site.coduo.pairroom.repository.PairRoomRepository;
+import site.coduo.referencelink.domain.OpenGraph;
 import site.coduo.referencelink.domain.ReferenceLink;
 import site.coduo.referencelink.domain.Url;
 import site.coduo.referencelink.repository.ReferenceLinkEntity;
@@ -24,6 +25,7 @@ public class ReferenceLinkService {
 
     private final ReferenceLinkRepository referenceLinkRepository;
     private final PairRoomRepository pairRoomRepository;
+    private final OpenGraphService openGraphService;
 
     @Transactional
     public void createReferenceLinkCommand(final String accessCodeText, final ReferenceLinkCreateRequest request) {
@@ -36,16 +38,27 @@ public class ReferenceLinkService {
     }
 
     public List<ReferenceLinkResponse> readAllReferenceLinkQuery(final String accessCodeText) {
-
-        return referenceLinkRepository.findAll()
+        final List<ReferenceLinkEntity> referenceLinkEntities = referenceLinkRepository.findAll()
                 .stream()
                 .filter(link -> link.isSameAccessCode(new AccessCode(accessCodeText)))
-                .map(link -> new ReferenceLinkResponse(link.getUrl()))
                 .toList();
+
+        return referenceLinkEntities.stream()
+                .map(this::makeReferenceLinkResponse)
+                .toList();
+    }
+
+    private ReferenceLinkResponse makeReferenceLinkResponse(final ReferenceLinkEntity referenceLinkEntity) {
+        final OpenGraph openGraph = openGraphService.findOpenGraphQuery(referenceLinkEntity.getId());
+        if (openGraph == null) {
+            return new ReferenceLinkResponse(referenceLinkEntity.getUrl());
+        }
+        return new ReferenceLinkResponse(referenceLinkEntity.getUrl(), openGraph);
     }
 
     @Transactional
     public void deleteReferenceLinkCommand(final long id) {
         referenceLinkRepository.deleteById(id);
+        openGraphService.deleteByReferenceLinkIdCommand(id);
     }
 }

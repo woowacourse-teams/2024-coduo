@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.referencelink.controller.docs.ReferenceLinkDocs;
+import site.coduo.referencelink.service.OpenGraphService;
 import site.coduo.referencelink.service.ReferenceLinkService;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
 import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
@@ -26,6 +27,7 @@ import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
 public class ReferenceLinkController implements ReferenceLinkDocs {
 
     private final ReferenceLinkService referenceLinkService;
+    private final OpenGraphService openGraphService;
 
     @PostMapping("/{accessCode}/reference-link")
     public ResponseEntity<Void> createReferenceLink(
@@ -33,6 +35,7 @@ public class ReferenceLinkController implements ReferenceLinkDocs {
             @Valid @RequestBody final ReferenceLinkCreateRequest request
     ) {
         referenceLinkService.createReferenceLinkCommand(accessCodeText, request);
+        openGraphService.createOpenGraphCommand(request);
 
         return ResponseEntity.created(URI.create("/"))
                 .build();
