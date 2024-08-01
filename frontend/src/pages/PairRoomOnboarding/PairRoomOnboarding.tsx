@@ -6,21 +6,18 @@ import useGetPairRoomInformation from '@/queries/PairRoom/useGetPairRoomInformat
 import FooterButtons from '@/components/PairRoomOnBoarding/FooterButtons/FooterButtons';
 import ProgressBar from '@/components/PairRoomOnBoarding/ProgressBar/ProgressBar';
 import RoleSettingSection from '@/components/PairRoomOnBoarding/RoleSettingSection/RoleSettingSection';
-import TimerSettingSection from '@/components/PairRoomOnBoarding/TimerSettingSection/TimerSettingSection';
-
-import { validateTime } from '@/utils/PairRoomOnboarding/validate';
 
 import * as S from './PairRoomOnboarding.styles';
 import type { Role, Step } from './PairRoomOnboarding.type';
 
 const PairRoomOnboarding = () => {
+  const step: Step = 'ROLE';
+
   const navigate = useNavigate();
   const { accessCode } = useParams();
 
-  const [step, setStep] = useState<Step>('ROLE');
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
-  const [timer, setTimer] = useState('');
 
   const { pairNames } = useGetPairRoomInformation(accessCode || '');
 
@@ -43,17 +40,7 @@ const PairRoomOnboarding = () => {
         return;
       case 'NAVIGATOR':
         setNavigator(option);
-        setDriver(otherPair || '');
-        return;
-    }
-  };
-
-  const handleTimer = (time: string) => setTimer(time);
-
-  const handleBack = () => {
-    switch (step) {
-      case 'TIMER':
-        setStep('ROLE');
+        setDriver(otherPair);
         return;
     }
   };
@@ -61,10 +48,7 @@ const PairRoomOnboarding = () => {
   const handleNext = () => {
     switch (step) {
       case 'ROLE':
-        setStep('TIMER');
-        return;
-      case 'TIMER':
-        navigate(`/room/${accessCode}`, { state: { driver, navigator, timer } });
+        navigate(`/room/${accessCode}`, { state: { driver, navigator } });
         return;
     }
   };
@@ -73,7 +57,7 @@ const PairRoomOnboarding = () => {
     <S.Layout>
       <S.Container>
         <div>
-          <ProgressBar step={step} isRoleSelected={Boolean(driver && navigator)} />
+          <ProgressBar step={step} />
           {step === 'ROLE' && pairNames && (
             <RoleSettingSection
               driver={driver}
@@ -82,9 +66,8 @@ const PairRoomOnboarding = () => {
               handleSelect={handleSelect}
             />
           )}
-          {step === 'TIMER' && <TimerSettingSection timer={timer} onTimer={handleTimer} />}
         </div>
-        <FooterButtons step={step} isComplete={validateTime(timer)} onBack={handleBack} onNext={handleNext} />
+        <FooterButtons step={step} isComplete={driver !== '' && navigator !== ''} onNext={handleNext} />
       </S.Container>
     </S.Layout>
   );

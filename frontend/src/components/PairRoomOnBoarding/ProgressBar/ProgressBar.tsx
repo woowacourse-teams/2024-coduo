@@ -2,28 +2,24 @@ import type { Step } from '@/pages/PairRoomOnboarding/PairRoomOnboarding.type';
 
 import Button from '@/components/common/Button/Button';
 
+import { OPTIONS } from '@/constants/PairRoomOnboarding/step';
+
 import * as S from './ProgressBar.styles';
 
 interface ProgressBarProps {
   step: Step;
-  isRoleSelected: boolean;
 }
 
-const ProgressBar = ({ step, isRoleSelected }: ProgressBarProps) => (
+const ProgressBar = ({ step }: ProgressBarProps) => (
   <S.Layout>
-    <S.ButtonWrapper>
-      <Button rounded={true} size="lg" filled={step === 'ROLE'} animation={false}>
-        1
-      </Button>
-      <S.ButtonLabel>역할 설정</S.ButtonLabel>
-    </S.ButtonWrapper>
-    <S.ProgressLine $isRoleSelected={isRoleSelected} />
-    <S.ButtonWrapper>
-      <Button rounded={true} size="lg" filled={step === 'TIMER'} disabled={!isRoleSelected} animation={false}>
-        2
-      </Button>
-      <S.ButtonLabel>타이머 설정</S.ButtonLabel>
-    </S.ButtonWrapper>
+    {OPTIONS.map((option, idx) => (
+      <S.ButtonWrapper key={option.id}>
+        <Button rounded={true} size="lg" filled={step === option.id} animation={false}>
+          {idx + 1}
+        </Button>
+        <S.ButtonLabel>{option.label}</S.ButtonLabel>
+      </S.ButtonWrapper>
+    ))}
   </S.Layout>
 );
 

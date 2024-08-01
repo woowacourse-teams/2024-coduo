@@ -8,21 +8,16 @@ import { BUTTON_TEXT } from '@/constants/button';
 interface FooterButtonsProps {
   step: Step;
   isComplete: boolean;
-  onBack: () => void;
   onNext: () => void;
 }
 
-const FooterButtons = ({ step, isComplete, onBack, onNext }: FooterButtonsProps) => {
+const FooterButtons = ({ step, isComplete, onNext }: FooterButtonsProps) => {
   return (
     <Modal.Footer position="CENTER">
-      {step === 'ROLE' && <Button onClick={onNext}>{BUTTON_TEXT.NEXT}</Button>}
-      {step === 'TIMER' && (
-        <>
-          <Button onClick={onBack}>{BUTTON_TEXT.BACK}</Button>
-          <Button onClick={onNext} disabled={!isComplete}>
-            {BUTTON_TEXT.COMPLETE}
-          </Button>
-        </>
+      {step === 'ROLE' && (
+        <Button onClick={onNext} disabled={!isComplete}>
+          {BUTTON_TEXT.COMPLETE}
+        </Button>
       )}
     </Modal.Footer>
   );
