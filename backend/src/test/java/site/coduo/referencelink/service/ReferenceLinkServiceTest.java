@@ -20,7 +20,6 @@ import site.coduo.referencelink.repository.ReferenceLinkEntity;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
 import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
-import site.coduo.referencelink.service.dto.ReferenceLinkUpdateRequest;
 
 @Transactional
 @SpringBootTest
@@ -56,12 +55,16 @@ class ReferenceLinkServiceTest {
         // given
         final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(new PairName("first"), new PairName("second")));
         final AccessCode accessCode = pairRoom.getAccessCode();
-        referenceLinkRepository.save(new ReferenceLinkEntity(new ReferenceLink(new Url("http://url1.com"), accessCode), pairRoom));
-        referenceLinkRepository.save(new ReferenceLinkEntity(new ReferenceLink(new Url("http://url2.com"), accessCode), pairRoom));
-        referenceLinkRepository.save(new ReferenceLinkEntity(new ReferenceLink(new Url("http://url3.com"), accessCode), pairRoom));
+        referenceLinkRepository.save(
+                new ReferenceLinkEntity(new ReferenceLink(new Url("http://url1.com"), accessCode), pairRoom));
+        referenceLinkRepository.save(
+                new ReferenceLinkEntity(new ReferenceLink(new Url("http://url2.com"), accessCode), pairRoom));
+        referenceLinkRepository.save(
+                new ReferenceLinkEntity(new ReferenceLink(new Url("http://url3.com"), accessCode), pairRoom));
 
         // when
-        final List<ReferenceLinkResponse> responses = referenceLinkService.readAllReferenceLinkQuery(accessCode.getValue());
+        final List<ReferenceLinkResponse> responses = referenceLinkService.readAllReferenceLinkQuery(
+                accessCode.getValue());
 
         // then
         assertThat(responses).hasSize(3);

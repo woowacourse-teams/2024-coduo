@@ -6,6 +6,8 @@ import static site.coduo.acceptance.PairRoomAcceptanceTest.createPairRoom;
 
 import java.util.Map;
 
+import jakarta.transaction.Transactional;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -13,10 +15,10 @@ import org.springframework.http.HttpStatus;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.dto.PairRoomCreateResponse;
 
+@Transactional
 class ReferenceAcceptanceTest extends AcceptanceFixture {
 
     @Test
