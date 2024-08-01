@@ -7,6 +7,7 @@ export const buttonStyle = css`
 `;
 
 export const ReferenceLinkForm = styled.form`
+  overflow-y: auto;
   display: flex;
   gap: 2rem;
   align-items: center;
@@ -35,7 +36,7 @@ export const ReferenceList = styled.ul`
   gap: 3rem 1rem;
   place-items: center;
 
-  height: 85%;
+  height: calc(100vh - 30rem);
   margin: 3rem;
 
   li {
