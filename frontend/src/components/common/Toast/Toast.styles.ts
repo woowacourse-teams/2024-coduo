@@ -40,10 +40,6 @@ const backgroundMapper: Record<Status, RuleSet<object>> = {
 };
 
 export const Layout = styled.div<{ $isOpen: boolean; $status: Status }>`
-  position: fixed;
-  top: 9rem;
-  right: 2rem;
-
   max-width: 40rem;
   padding: 1.2rem 1.8rem;
 
