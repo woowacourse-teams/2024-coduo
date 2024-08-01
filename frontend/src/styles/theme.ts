@@ -56,6 +56,7 @@ const color = {
     900: '#7A5400',
   },
   danger: {
+    50: '#FFF4F1',
     100: '#FFEEDD',
     200: '#FFD9BB',
     300: '#FFBF99',

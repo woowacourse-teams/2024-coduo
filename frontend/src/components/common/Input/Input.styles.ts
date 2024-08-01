@@ -17,7 +17,7 @@ const inputStatusCss = {
     border: 1px solid ${({ theme }) => theme.color.black[40]};
   `,
   ERROR: css`
-    background-color: ${({ theme }) => theme.color.danger[100]};
+    background-color: ${({ theme }) => theme.color.danger[50]};
     border: 1px solid ${({ theme }) => theme.color.danger[600]};
   `,
   SUCCESS: css`
@@ -31,7 +31,7 @@ const inputStatusMessageCss = {
     color: ${({ theme }) => theme.color.black[80]};
   `,
   ERROR: css`
-    color: ${({ theme }) => theme.color.danger[700]};
+    color: ${({ theme }) => theme.color.danger[600]};
   `,
 
   SUCCESS: css`
@@ -42,7 +42,7 @@ const inputStatusMessageCss = {
 export const Layout = styled.div<LayoutProps>`
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.45rem;
   width: ${({ $width }) => $width};
 `;
 
@@ -76,6 +76,10 @@ export const Input = styled.input<InputProps>`
   &:disabled {
     background-color: ${({ theme }) => theme.color.black[30]};
     border: 1px solid ${({ theme }) => theme.color.black[40]};
+  }
+
+  &::placeholder {
+    color: ${({ theme }) => theme.color.primary[700]};
   }
 
   ${(props) => props.$css}
