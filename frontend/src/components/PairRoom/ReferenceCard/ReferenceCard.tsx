@@ -42,7 +42,7 @@ const ReferenceCard = ({ accessCode }: ReferenceCardProps) => {
           <Button
             disabled={!isButtonActive}
             css={S.buttonStyle}
-            color="SECONDARY"
+            color="secondary"
             rounded={true}
             onClick={() => addReferenceLink({ accessCode, url: value })}
           >
