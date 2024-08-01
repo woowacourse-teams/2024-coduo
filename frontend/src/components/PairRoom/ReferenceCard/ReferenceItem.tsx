@@ -1,11 +1,11 @@
 import * as S from './ReferenceCard.styles';
 
-interface ReferenceProps {
-  link: string;
+interface ReferenceItemProps {
   key: string;
+  link: string;
 }
 
-const Reference = ({ link, key }: ReferenceProps) => {
+const ReferenceItem = ({ link, key }: ReferenceItemProps) => {
   return (
     <li key={key}>
       <S.ReferenceLink href={link} target="_blank">
@@ -15,4 +15,4 @@ const Reference = ({ link, key }: ReferenceProps) => {
   );
 };
 
-export default Reference;
+export default ReferenceItem;

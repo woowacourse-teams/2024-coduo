@@ -19,32 +19,19 @@ export const getPairNames = async (accessCode: string): Promise<GetPairNamesResp
   return await response.json();
 };
 
-// export const addPairNames = async (body: PairNameRequest) => {
-//   const response = await fetcher.post({ url: `${API_URL}/pair-room`, body, errorMessage: '' });
-//   const pairRoomCode = await response.json();
-
-//   return pairRoomCode;
-// };
-
 interface AddPairNamesRequest {
   firstPair: string;
   secondPair: string;
 }
 
 export const addPairNames = async ({ firstPair, secondPair }: AddPairNamesRequest) => {
-  const response = await fetch(`${API_URL}/pair-room`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+  const response = await fetcher.post({
+    url: `${API_URL}/pair-room`,
     body: JSON.stringify({ firstPair, secondPair }),
+    errorMessage: '',
   });
 
-  if (!response.ok) {
-    throw new Error(ERROR_MESSAGES.ADD_PAIR_NAMES);
-  }
+  const { accessCode } = await response.json();
 
-  const data = await response.json();
-
-  return data.accessCode;
+  return accessCode;
 };

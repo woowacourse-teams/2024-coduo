@@ -1,25 +1,29 @@
 import { useState } from 'react';
 
-const useInput = <T extends object>(initialValue: T) => {
-  const [inputValue, setInputValue] = useState<T>(initialValue);
+import type { InputStatus } from '@/components/common/Input/Input.type';
 
-  const handleOnChange = (
+const useInput = (initialValue: string = '') => {
+  const [value, setValue] = useState(initialValue);
+  const [status, setStatus] = useState<InputStatus>('DEFAULT');
+  const [message, setMessage] = useState('');
+
+  const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    validateValue?: (value: string) => { status: string; message: string },
+    validateValue?: (value: string) => { status: InputStatus; message: string },
   ) => {
-    const { value } = event.target;
-
     if (validateValue) {
-      const { status, message } = validateValue(value);
-      setInputValue({ ...inputValue, value, status, message });
-    } else {
-      setInputValue({ ...inputValue, value });
+      const { status, message } = validateValue(event.target.value);
+
+      setStatus(status);
+      setMessage(message);
     }
+
+    setValue(event.target.value);
   };
 
-  const resetInputValue = () => setInputValue({ ...initialValue });
+  const resetValue = () => setValue(initialValue);
 
-  return { inputValue, handleOnChange, resetInputValue } as const;
+  return { value, status, message, handleChange, resetValue } as const;
 };
 
 export default useInput;
