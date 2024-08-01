@@ -1,10 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { IoIosLink } from 'react-icons/io';
 
+import Bookmark from '@/components/common/Bookmark/Bookmark';
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
-import Reference from '@/components/PairRoom/ReferenceCard/Reference';
 
 import { getReferenceLinks, addReferenceLink } from '@/apis/referenceLink';
 
@@ -77,8 +77,8 @@ const ReferenceCard = ({ accessCode }: ReferenceCardProps) => {
         </PairRoomCard.Header>
         <S.ReferenceList>
           {data ? (
-            data.map((data) => {
-              return <Reference key={data.id} link={data.url} />;
+            data.map(({ id, url }) => {
+              return <Bookmark link={url} key={id} />;
             })
           ) : (
             <S.EmptyText>저장된 링크가 없습니다.</S.EmptyText>

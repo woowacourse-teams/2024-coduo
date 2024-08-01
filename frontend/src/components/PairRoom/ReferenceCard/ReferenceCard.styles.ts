@@ -29,13 +29,21 @@ export const ReferenceLink = styled.a`
 `;
 
 export const ReferenceList = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  overflow-y: scroll;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3rem 1rem;
+  place-items: center;
+
+  height: 85%;
   margin: 3rem;
 
   li {
     list-style-type: none;
+  }
+
+  @media (width >= 1600px) {
+    grid-template-columns: repeat(3, 1fr);
   }
 `;
 
