@@ -69,7 +69,7 @@ export const IconButton = styled.button`
 `;
 
 const iconStyle = css<{ $isActive: boolean }>`
-  cursor: ${({ $isActive }) => ($isActive ? 'pointer' : 'DEFAULT')};
+  cursor: ${({ $isActive }) => ($isActive ? 'pointer' : 'default')};
   color: ${({ $isActive, theme }) => ($isActive ? theme.color.secondary[500] : theme.color.black[50])};
 `;
 
