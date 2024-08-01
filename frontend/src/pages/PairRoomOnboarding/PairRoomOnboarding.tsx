@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import useGetPairRoom from '@/queries/PairRoom/useGetPairRoom';
+import useGetPairRoomInformation from '@/queries/PairRoom/useGetPairRoomInformation';
 
 import FooterButtons from '@/components/PairRoomOnBoarding/FooterButtons/FooterButtons';
 import ProgressBar from '@/components/PairRoomOnBoarding/ProgressBar/ProgressBar';
@@ -22,7 +22,7 @@ const PairRoomOnboarding = () => {
   const [navigator, setNavigator] = useState('');
   const [timer, setTimer] = useState('');
 
-  const { pairNames } = useGetPairRoom(accessCode || '');
+  const { pairNames } = useGetPairRoomInformation(accessCode || '');
 
   useEffect(() => {
     if (pairNames) {
