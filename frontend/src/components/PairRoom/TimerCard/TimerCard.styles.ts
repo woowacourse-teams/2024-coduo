@@ -1,4 +1,4 @@
-import { FaPause, FaPlay, FaStop } from 'react-icons/fa6';
+import { FaPause, FaPlay } from 'react-icons/fa6';
 import styled, { css } from 'styled-components';
 
 export const Layout = styled.div`
@@ -78,9 +78,5 @@ export const PlayIcon = styled(FaPlay)<{ $isActive: boolean }>`
 `;
 
 export const PauseIcon = styled(FaPause)<{ $isActive: boolean }>`
-  ${iconStyle}
-`;
-
-export const StopIcon = styled(FaStop)<{ $isActive: boolean }>`
   ${iconStyle}
 `;

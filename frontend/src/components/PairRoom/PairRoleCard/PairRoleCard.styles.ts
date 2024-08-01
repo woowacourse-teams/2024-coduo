@@ -1,5 +1,4 @@
-import { IoMdSwap } from 'react-icons/io';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const Layout = styled.div`
   display: flex;
@@ -10,7 +9,7 @@ export const RoleBoxContainer = styled.div`
   display: flex;
   gap: 2rem;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
 
   height: 100%;
   padding: 3rem;
@@ -81,23 +80,4 @@ export const DriverText = styled.p`
 
 export const NavigatorText = styled.p`
   color: ${({ theme }) => theme.color.primary[800]};
-`;
-
-export const buttonStyle = css`
-  width: 5rem;
-  height: 5rem;
-
-  background-color: ${({ theme }) => theme.color.secondary[100]};
-  border-color: ${({ theme }) => theme.color.secondary[100]};
-  border-radius: 100%;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.color.secondary[200]};
-    border-color: ${({ theme }) => theme.color.secondary[200]};
-  }
-`;
-
-export const SwapIcon = styled(IoMdSwap)`
-  font-size: ${({ theme }) => theme.fontSize.h5};
-  color: ${({ theme }) => theme.color.secondary[500]};
 `;
