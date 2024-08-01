@@ -30,7 +30,7 @@ export const ReferenceLink = styled.a`
 `;
 
 export const ReferenceList = styled.ul`
-  overflow-y: scroll;
+  overflow-y: auto;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 3rem 1rem;
