@@ -2,7 +2,7 @@ interface RequestProps {
   url: string;
   method: 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'PUT';
   errorMessage: string;
-  body?: Record<string | number, string | number>;
+  body?: string;
   headers?: Record<string, string>;
 }
 
@@ -13,34 +13,36 @@ const fetcher = {
     try {
       const response = await fetch(url, {
         method,
-        body: body && JSON.stringify(body),
         headers: headers && headers,
+        body: body && body,
       });
 
+      if (!response.ok) throw new Error(errorMessage);
       return response;
     } catch (error) {
-      if (!(error instanceof Error)) {
-        throw new Error(errorMessage);
-      }
-
+      if (!(error instanceof Error)) throw new Error(errorMessage);
       throw error;
     }
   },
 
-  get({ url, headers, errorMessage }: FetchProps) {
-    return this.request({ url, method: 'GET', headers, errorMessage });
+  get(props: FetchProps) {
+    return this.request({ ...props, method: 'GET' });
   },
-  post({ url, body, headers, errorMessage }: FetchProps) {
-    return this.request({ url, method: 'POST', body, headers, errorMessage });
+  post(props: FetchProps) {
+    return this.request({
+      ...props,
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+    });
   },
-  delete({ url, headers, errorMessage }: FetchProps) {
-    return this.request({ url, method: 'DELETE', headers, errorMessage });
+  delete(props: FetchProps) {
+    return this.request({ ...props, method: 'DELETE' });
   },
-  patch({ url, headers, errorMessage, body }: FetchProps) {
-    return this.request({ url, method: 'PATCH', headers, errorMessage, body });
+  patch(props: FetchProps) {
+    return this.request({ ...props, method: 'PATCH' });
   },
-  put({ url, headers, errorMessage }: FetchProps) {
-    return this.request({ url, method: 'PUT', headers, errorMessage });
+  put(props: FetchProps) {
+    return this.request({ ...props, method: 'PUT' });
   },
 };
 

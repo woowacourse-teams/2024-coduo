@@ -1,12 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 
-import { useMutation } from '@tanstack/react-query';
-
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import { Modal } from '@/components/common/Modal';
-
-import { addRoomCode } from '@/apis/roomCode';
 
 import useInput from '@/hooks/common/useInput';
 
@@ -17,32 +13,10 @@ interface PairRoomEntryModal {
   closeModal: () => void;
 }
 
-interface InputState {
-  status: 'DEFAULT' | 'ERROR';
-  value: string;
-  message: string;
-}
-
 const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
   const navigate = useNavigate();
 
-  const { inputValue, handleOnChange } = useInput<InputState>({
-    status: 'DEFAULT',
-    value: '',
-    message: '',
-  });
-
-  const { mutate: addRoomCodeMutation } = useMutation({
-    mutationFn: addRoomCode,
-    onSuccess: () => {
-      navigate('/');
-    },
-    onError: (error) => {
-      alert(error.message);
-    },
-  });
-
-  const enterModalButtonDisabled = !inputValue.value;
+  const { value, status, message, handleChange } = useInput();
 
   return (
     <Modal isOpen={isOpen} close={closeModal} size="60rem">
@@ -52,16 +26,16 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
         <Input
           placeholder="코드를 입력해 주세요"
           label="페어룸 참가 코드"
-          status={inputValue.status}
-          message={inputValue.message}
-          onChange={(event) => handleOnChange(event)}
+          status={status}
+          message={message}
+          onChange={handleChange}
         />
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={closeModal} filled={false}>
           {BUTTON_TEXT.CLOSE}
         </Button>
-        <Button disabled={enterModalButtonDisabled} onClick={() => addRoomCodeMutation(inputValue.value)}>
+        <Button disabled={!value} onClick={() => navigate(`/room/${value}/onboarding`)}>
           {BUTTON_TEXT.COMPLETE}
         </Button>
       </Modal.Footer>
