@@ -1,22 +1,21 @@
 import * as S from './Bookmark.styles';
 interface BookmarkProps {
   link: string;
+  image?: string;
   // key: string;
 }
+const BOOKMARK_TITLE = 'titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle';
+const BOOKMARK_CONTENTS =
+  'contentcontentcontentcontecontentcontentcontentcontentcocontentcontentcontentconcontentcontentcontentcontentcontentcontentcontentconntentconntcontentcontentcontentcontent';
 
-const Bookmark = ({ link }: BookmarkProps) => {
+const Bookmark = ({ link, image }: BookmarkProps) => {
   return (
     <S.Layout href={link}>
-      <S.Image
-        alt="link"
-        src="https://fastly.picsum.photos/id/873/200/300.jpg?hmac=CQHrOY67pytIwHLic3cAxphNbh2NwdxnFQtwaX5MLkM"
-      />
-      {/* <S.NoneImage>이미지가 없어욧</S.NoneImage> */}
+      {image ? <S.Image alt="link" src={image} /> : <S.NoneImage>이미지가 없어욧</S.NoneImage>}
+
       <S.Box>
-        <S.Title>titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle</S.Title>
-        <S.Content>
-          contentcontentcontentcontecontentcontentcontentcontentcocontentcontentcontentconcontentcontentcontentcontentcontentcontentcontentconntentconntcontentcontentcontentcontent
-        </S.Content>
+        <S.Title>{BOOKMARK_TITLE}</S.Title>
+        <S.Content>{BOOKMARK_CONTENTS}</S.Content>
       </S.Box>
     </S.Layout>
   );

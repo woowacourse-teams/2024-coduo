@@ -50,6 +50,7 @@ const ReferenceCard = ({ accessCode }: ReferenceCardProps) => {
   const addReference = (url: string) => {
     mutate({ accessCode, url });
   };
+  const IMAGE = 'https://fastly.picsum.photos/id/873/200/300.jpg?hmac=CQHrOY67pytIwHLic3cAxphNbh2NwdxnFQtwaX5MLkM';
 
   return (
     <>
@@ -78,7 +79,8 @@ const ReferenceCard = ({ accessCode }: ReferenceCardProps) => {
         <S.ReferenceList>
           {data ? (
             data.map(({ id, url }) => {
-              return <Bookmark link={url} key={id} />;
+              return <Bookmark link={url} image={IMAGE} key={id} />;
+              //TODO: 서버 구현 완료 시 이미지 및 props 추가하기
             })
           ) : (
             <S.EmptyText>저장된 링크가 없습니다.</S.EmptyText>
