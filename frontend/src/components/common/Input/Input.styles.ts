@@ -78,5 +78,9 @@ export const Input = styled.input<InputProps>`
     border: 1px solid ${({ theme }) => theme.color.black[40]};
   }
 
+  &::placeholder {
+    color: ${({ theme }) => theme.color.primary[700]};
+  }
+
   ${(props) => props.$css}
 `;
