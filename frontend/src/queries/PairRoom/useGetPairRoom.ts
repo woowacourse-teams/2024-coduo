@@ -4,7 +4,7 @@ import { getPairNames } from '@/apis/pairName';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-const usePairRoom = (accessCode: string) => {
+const useGetPairRoom = (accessCode: string) => {
   const { data: pairNames } = useQuery({
     queryKey: [QUERY_KEYS.GET_PAIR_NAMES],
     queryFn: () => getPairNames(accessCode),
@@ -13,4 +13,4 @@ const usePairRoom = (accessCode: string) => {
   return { pairNames: pairNames };
 };
 
-export default usePairRoom;
+export default useGetPairRoom;
