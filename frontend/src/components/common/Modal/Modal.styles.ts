@@ -70,9 +70,9 @@ export const Backdrop = styled.div<{ $backdropType: BackdropType }>`
 `;
 
 const sizeMapper: Record<Size, string> = {
-  SM: '30%',
-  MD: '60%',
-  LG: '90%',
+  sm: '30%',
+  md: '60%',
+  lg: '90%',
 };
 
 const positionMapper = {

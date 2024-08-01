@@ -18,11 +18,11 @@ interface ButtonProp extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const Button = ({
-  size = 'LG',
+  size = 'lg',
   filled = true,
   rounded = false,
   animation = true,
-  color = 'PRIMARY',
+  color = 'primary',
   children,
   css,
   disabled = false,
