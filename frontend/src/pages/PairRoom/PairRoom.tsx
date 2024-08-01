@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 
-import MemoCard from '@/components/PairRoom/MemoCard/MemoCard';
 import PairListCard from '@/components/PairRoom/PairListCard/PairListCard';
 import PairRoleCard from '@/components/PairRoom/PairRoleCard/PairRoleCard';
 import ReferenceCard from '@/components/PairRoom/ReferenceCard/ReferenceCard';
@@ -25,25 +24,23 @@ const PairRoom = () => {
     setNavigator(driver);
   };
 
-  const { timeLeft, isActive, handleStart, handlePause, handleStop } = useTimer(time, handleSwap);
+  const { timeLeft, isActive, handleStart, handlePause } = useTimer(time, handleSwap);
 
   return (
     <S.Layout>
       <PairListCard driver={driver} navigator={navigator} roomCode={accessCode || ''} onRoomDelete={() => {}} />
       <S.Container>
-        <PairRoleCard driver={driver} navigator={navigator} onSwap={handleSwap} onTimerReset={handleStop} />
+        <PairRoleCard driver={driver} navigator={navigator} />
         <TimerCard
           defaultTime={time}
           timeLeft={timeLeft}
           isActive={isActive}
           onStart={handleStart}
           onPause={handlePause}
-          onStop={handleStop}
         />
       </S.Container>
       <S.Container>
         <ReferenceCard accessCode={accessCode || ''} />
-        <MemoCard />
       </S.Container>
     </S.Layout>
   );

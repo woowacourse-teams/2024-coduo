@@ -19,10 +19,9 @@ interface TimerCardProps {
   isActive: boolean;
   onStart: () => void;
   onPause: () => void;
-  onStop: () => void;
 }
 
-const TimerCard = ({ defaultTime, timeLeft, isActive, onStart, onPause, onStop }: TimerCardProps) => {
+const TimerCard = ({ defaultTime, timeLeft, isActive, onStart, onPause }: TimerCardProps) => {
   const { minutes, seconds } = formatTime(timeLeft);
 
   return (
@@ -47,9 +46,6 @@ const TimerCard = ({ defaultTime, timeLeft, isActive, onStart, onPause, onStop }
           </S.IconButton>
           <S.IconButton disabled={!isActive} onClick={onPause}>
             <S.PauseIcon $isActive={isActive} />
-          </S.IconButton>
-          <S.IconButton disabled={!isActive} onClick={onStop}>
-            <S.StopIcon $isActive={isActive} />
           </S.IconButton>
         </S.IconContainer>
       </S.Layout>

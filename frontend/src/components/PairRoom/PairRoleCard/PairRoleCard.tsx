@@ -1,4 +1,3 @@
-import Button from '@/components/common/Button/Button';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 
 import * as S from './PairRoleCard.styles';
@@ -6,11 +5,9 @@ import * as S from './PairRoleCard.styles';
 interface PairRoleCardProps {
   driver: string;
   navigator: string;
-  onSwap: () => void;
-  onTimerReset: () => void;
 }
 
-const PairRoleCard = ({ driver, navigator, onSwap, onTimerReset }: PairRoleCardProps) => {
+const PairRoleCard = ({ driver, navigator }: PairRoleCardProps) => {
   return (
     <S.Layout>
       <PairRoomCard>
@@ -22,15 +19,6 @@ const PairRoleCard = ({ driver, navigator, onSwap, onTimerReset }: PairRoleCardP
               <S.DriverText>{driver}</S.DriverText>
             </S.RoleTextContainer>
           </S.DriverBox>
-          <Button
-            css={S.buttonStyle}
-            onClick={() => {
-              onSwap();
-              onTimerReset();
-            }}
-          >
-            <S.SwapIcon />
-          </Button>
           <S.NavigatorBox>
             <S.RoleTextContainer>
               <S.NavigatorLabel>네비게이터</S.NavigatorLabel>
