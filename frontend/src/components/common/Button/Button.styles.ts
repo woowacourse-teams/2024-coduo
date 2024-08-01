@@ -11,24 +11,24 @@ interface ButtonStyleProp {
   disabled: boolean;
   $css?: ReturnType<typeof css>;
 }
-const getColor = ($color: ButtonColor) => ($color === 'PRIMARY' ? 'primary' : 'secondary');
+const getColor = ($color: ButtonColor) => ($color === 'primary' ? 'primary' : 'secondary');
 const buttonShapes = {
-  SM: css`
+  sm: css`
     width: 6rem;
     height: 3rem;
     font-size: ${({ theme }) => theme.fontSize.sm};
   `,
-  MD: css`
+  md: css`
     width: 10rem;
     height: 4rem;
     font-size: ${({ theme }) => theme.fontSize.base};
   `,
-  LG: css`
+  lg: css`
     width: 15rem;
     height: 4rem;
     font-size: ${({ theme }) => theme.fontSize.base};
   `,
-  XL: css`
+  xl: css`
     width: 24.5rem;
     height: 6.5rem;
     font-size: ${({ theme }) => theme.fontSize.h5};
@@ -37,7 +37,6 @@ const buttonShapes = {
 
 export const Button = styled.button<ButtonStyleProp>`
   cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
-
   display: flex;
   align-items: center;
   justify-content: center;

@@ -38,9 +38,9 @@ const ReferenceCard = ({ accessCode }: ReferenceCardProps) => {
     onError: (error) => alert(error.message),
   });
 
-  const { inputValue, handleOnChange, resetInputValue } = useInput({ value: '', message: '', status: 'default' });
+  const { inputValue, handleOnChange, resetInputValue } = useInput({ value: '', message: '', status: 'DEFAULT' });
 
-  const buttonActive = inputValue.value !== '' && inputValue.status === 'default';
+  const buttonActive = inputValue.value !== '' && inputValue.status === 'DEFAULT';
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -67,7 +67,7 @@ const ReferenceCard = ({ accessCode }: ReferenceCardProps) => {
             <Button
               disabled={!buttonActive}
               css={S.buttonStyle}
-              color="SECONDARY"
+              color="secondary"
               rounded={true}
               onClick={() => addReference(inputValue.value)}
             >

@@ -20,7 +20,7 @@ const meta = {
       control: { type: 'radio' },
     },
     size: {
-      options: ['SM', 'MD', 'LG'],
+      options: ['sm', 'md', 'lg'],
       control: { type: 'radio' },
     },
     height: {
