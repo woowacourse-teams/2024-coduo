@@ -53,8 +53,7 @@ const backdropMapper = {
     background: ${({ theme }) => theme.color.black[90]};
   `,
   BLUR: css`
-    opacity: 0.36;
-    background: ${({ theme }) => theme.color.black[90]};
+    background: #00000080;
     backdrop-filter: blur(10px);
   `,
   TRANSPARENT: css`

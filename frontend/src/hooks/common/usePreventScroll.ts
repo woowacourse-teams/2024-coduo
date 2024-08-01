@@ -6,7 +6,7 @@ const preventScroll = () => {
   document.body.style.position = 'fixed';
   document.body.style.width = '100%';
   document.body.style.top = `-${currentScrollY}px`;
-  document.body.style.overflowY = 'scroll';
+  document.body.style.overflowY = 'auto';
 
   return currentScrollY;
 };
