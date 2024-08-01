@@ -13,8 +13,7 @@ interface PairRoomCreateProps {
   createPairRoom: (firstPairName: string, secondPairName: string) => void;
 }
 const PairRoomCreate = ({ closeModal, createPairRoom }: PairRoomCreateProps) => {
-  const { handleFirstPair, handleSecondPair, resetPairName, isButtonActive, firstPair, secondPair } =
-    usePairNameInputs();
+  const { firstPair, secondPair, handleFirstPair, handleSecondPair, resetPairName } = usePairNameInputs();
 
   const handleCreatePairRoom = () => {
     createPairRoom(firstPair.value, secondPair.value);
@@ -25,6 +24,9 @@ const PairRoomCreate = ({ closeModal, createPairRoom }: PairRoomCreateProps) => 
     closeModal();
     resetPairName();
   };
+
+  const isButtonActive =
+    firstPair.value && secondPair.value && firstPair.status === 'DEFAULT' && secondPair.status === 'DEFAULT';
 
   return (
     <>
@@ -46,7 +48,6 @@ const PairRoomCreate = ({ closeModal, createPairRoom }: PairRoomCreateProps) => 
           />
         </S.InputLayout>
       </Modal.Body>
-
       <Modal.Footer>
         <Button onClick={closePairRoomModal} filled={false}>
           {BUTTON_TEXT.CLOSE}

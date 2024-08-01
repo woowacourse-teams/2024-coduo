@@ -13,20 +13,10 @@ interface PairRoomEntryModal {
   closeModal: () => void;
 }
 
-interface InputState {
-  status: 'DEFAULT' | 'ERROR';
-  value: string;
-  message: string;
-}
-
 const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
   const navigate = useNavigate();
 
-  const { inputValue, handleOnChange } = useInput<InputState>({
-    status: 'DEFAULT',
-    value: '',
-    message: '',
-  });
+  const { value, status, message, handleChange } = useInput();
 
   return (
     <Modal isOpen={isOpen} close={closeModal} size="60rem">
@@ -36,16 +26,16 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
         <Input
           placeholder="코드를 입력해 주세요"
           label="페어룸 참가 코드"
-          status={inputValue.status}
-          message={inputValue.message}
-          onChange={(event) => handleOnChange(event)}
+          status={status}
+          message={message}
+          onChange={handleChange}
         />
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={closeModal} filled={false}>
           {BUTTON_TEXT.CLOSE}
         </Button>
-        <Button disabled={!inputValue.value} onClick={() => navigate(`/room/${inputValue.value}/onboarding`)}>
+        <Button disabled={!value} onClick={() => navigate(`/room/${value}/onboarding`)}>
           {BUTTON_TEXT.COMPLETE}
         </Button>
       </Modal.Footer>

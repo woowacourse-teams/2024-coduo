@@ -13,25 +13,19 @@ import { theme } from '@/styles/theme';
 
 import * as S from './ReferenceCard.styles';
 
-type Status = 'ERROR' | 'DEFAULT';
-
 interface ReferenceCardProps {
   accessCode: string;
 }
 
 const ReferenceCard = ({ accessCode }: ReferenceCardProps) => {
+  const { value, status, message, handleChange, resetValue } = useInput();
   const { referenceLinks, addReferenceLink } = useReferenceLinks(accessCode);
-  const { inputValue, handleOnChange, resetInputValue } = useInput({ value: '', message: '', status: 'DEFAULT' });
 
-  const buttonActive = inputValue.value !== '' && inputValue.status === 'default';
+  const isButtonActive = value !== '' && status === 'DEFAULT';
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    resetInputValue();
-  };
-
-  const addReference = (url: string) => {
-    addReferenceLink({ accessCode, url });
+    resetValue();
   };
 
   return (
@@ -40,18 +34,17 @@ const ReferenceCard = ({ accessCode }: ReferenceCardProps) => {
         <S.ReferenceLinkForm onSubmit={handleSubmit}>
           <Input
             placeholder="링크를 입력해주세요."
-            value={inputValue.value}
-            status={inputValue.status as Status}
-            onChange={(event) => handleOnChange(event)}
-            label=""
-            message={inputValue.message}
+            value={value}
+            status={status}
+            message={message}
+            onChange={handleChange}
           />
           <Button
-            disabled={!buttonActive}
+            disabled={!isButtonActive}
             css={S.buttonStyle}
             color="SECONDARY"
             rounded={true}
-            onClick={() => addReference(inputValue.value)}
+            onClick={() => addReferenceLink({ accessCode, url: value })}
           >
             링크 추가
           </Button>

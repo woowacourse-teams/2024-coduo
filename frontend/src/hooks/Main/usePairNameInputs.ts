@@ -1,67 +1,45 @@
+import { InputStatus } from '@/components/common/Input/Input.type';
+
 import useInput from '@/hooks/common/useInput';
 
-type InputStatus = 'DEFAULT' | 'ERROR' | 'SUCCESS';
+const validatePairName = (name: string) => {
+  if (name.length === 0) return { status: 'ERROR' as InputStatus, message: '값을 입력해주세요.' };
+  if (name.length > 10) return { status: 'ERROR' as InputStatus, message: '페어 이름은 10자 이하로 입력해주세요.' };
 
-interface InitialValue {
-  value: string;
-  status: InputStatus;
-  message: string;
-}
+  return { status: 'DEFAULT' as InputStatus, message: '' };
+};
 
 const usePairNameInputs = () => {
   const {
-    inputValue: firstPair,
-    handleOnChange: firstPairOnChange,
-    resetInputValue: firstPairValueReset,
-  } = useInput<InitialValue>({
-    value: '',
-    status: 'DEFAULT',
-    message: '',
-  });
+    value: firstPair,
+    status: firstPairStatus,
+    message: firstPairMessage,
+    handleChange: onFirstPairChange,
+    resetValue: resetFirstPair,
+  } = useInput();
+
   const {
-    inputValue: secondPair,
-    handleOnChange: secondPairOnChange,
-    resetInputValue: secondPairValueReset,
-  } = useInput<InitialValue>({
-    value: '',
-    status: 'DEFAULT',
-    message: '',
-  });
+    value: secondPair,
+    status: secondPairStatus,
+    message: secondPairMessage,
+    handleChange: onSecondPairChange,
+    resetValue: resetSecondPair,
+  } = useInput();
 
   const resetPairName = () => {
-    firstPairValueReset();
-    secondPairValueReset();
+    resetFirstPair();
+    resetSecondPair();
   };
 
-  const validatePairName = (name: string) => {
-    if (name.length === 0) return { status: 'ERROR', message: '값을 입력해주세요.' };
-    if (name.length > 10) return { status: 'ERROR', message: '페어이름은 10자 이하로 입력해주세요.' };
-
-    return {
-      status: 'DEFAULT',
-      message: '',
-    };
-  };
-
-  const handleFirstPair = (event: React.ChangeEvent<HTMLInputElement>) => {
-    firstPairOnChange(event, validatePairName);
-  };
-  const handleSecondPair = (event: React.ChangeEvent<HTMLInputElement>) => {
-    secondPairOnChange(event, validatePairName);
-  };
-  const isButtonActive =
-    firstPair.status !== 'ERROR' &&
-    secondPair.status !== 'ERROR' &&
-    firstPair.value.length !== 0 &&
-    secondPair.value.length !== 0;
+  const handleFirstPair = (event: React.ChangeEvent<HTMLInputElement>) => onFirstPairChange(event, validatePairName);
+  const handleSecondPair = (event: React.ChangeEvent<HTMLInputElement>) => onSecondPairChange(event, validatePairName);
 
   return {
+    firstPair: { value: firstPair, status: firstPairStatus, message: firstPairMessage },
+    secondPair: { value: secondPair, status: secondPairStatus, message: secondPairMessage },
     handleFirstPair,
     handleSecondPair,
     resetPairName,
-    isButtonActive,
-    firstPair,
-    secondPair,
   };
 };
 export default usePairNameInputs;
