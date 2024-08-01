@@ -1,18 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { useQuery } from '@tanstack/react-query';
+import usePairRoom from '@/queries/PairRoom/usePairRoom';
 
 import FooterButtons from '@/components/PairRoomOnBoarding/FooterButtons/FooterButtons';
 import ProgressBar from '@/components/PairRoomOnBoarding/ProgressBar/ProgressBar';
 import RoleSettingSection from '@/components/PairRoomOnBoarding/RoleSettingSection/RoleSettingSection';
 import TimerSettingSection from '@/components/PairRoomOnBoarding/TimerSettingSection/TimerSettingSection';
 
-import { getPairNames } from '@/apis/pairName';
-
 import { validateTime } from '@/utils/PairRoomOnboarding/validate';
-
-import { QUERY_KEYS } from '@/constants/queryKeys';
 
 import * as S from './PairRoomOnboarding.styles';
 import type { Role, Step } from './PairRoomOnboarding.type';
@@ -26,25 +22,28 @@ const PairRoomOnboarding = () => {
   const [navigator, setNavigator] = useState('');
   const [timer, setTimer] = useState('');
 
-  const { data } = useQuery({ queryKey: [QUERY_KEYS.GET_PAIR_NAMES], queryFn: () => getPairNames(accessCode || '') });
+  const { pairNames } = usePairRoom(accessCode || '');
 
   useEffect(() => {
-    if (data) {
-      setDriver(data.firstPair);
-      setNavigator(data.secondPair);
+    if (pairNames) {
+      setDriver(pairNames.firstPair);
+      setNavigator(pairNames.secondPair);
     }
-  }, [data]);
+  }, [pairNames]);
 
   const handleSelect = (option: string, role: Role) => {
-    if (!option) return;
+    if (!pairNames) return;
+
+    const otherPair = pairNames.firstPair === option ? pairNames.secondPair : pairNames.firstPair;
+
     switch (role) {
       case 'DRIVER':
         setDriver(option);
-        if (data) setNavigator(option === data.firstPair ? data.secondPair : data.firstPair);
+        setNavigator(otherPair);
         return;
       case 'NAVIGATOR':
         setNavigator(option);
-        if (data) setDriver(option === data.firstPair ? data.secondPair : data.firstPair);
+        setDriver(otherPair || '');
         return;
     }
   };
@@ -75,11 +74,11 @@ const PairRoomOnboarding = () => {
       <S.Container>
         <div>
           <ProgressBar step={step} isRoleSelected={Boolean(driver && navigator)} />
-          {step === 'ROLE' && data && (
+          {step === 'ROLE' && pairNames && (
             <RoleSettingSection
               driver={driver}
               navigator={navigator}
-              userOptions={[data.firstPair, data.secondPair]}
+              userOptions={[pairNames.firstPair, pairNames.secondPair]}
               handleSelect={handleSelect}
             />
           )}

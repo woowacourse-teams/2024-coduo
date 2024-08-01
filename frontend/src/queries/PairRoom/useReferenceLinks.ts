@@ -7,7 +7,7 @@ import { QUERY_KEYS } from '@/constants/queryKeys';
 const useReferenceLinks = (accessCode: string) => {
   const queryClient = useQueryClient();
 
-  const { data } = useQuery({
+  const { data: referenceLinks } = useQuery({
     queryKey: [QUERY_KEYS.GET_REFERENCE_LINKS],
     queryFn: () => getReferenceLinks({ accessCode }),
   });
@@ -18,7 +18,7 @@ const useReferenceLinks = (accessCode: string) => {
     onError: (error) => alert(error.message),
   });
 
-  return { referenceLinks: data || [], addReferenceLink: mutate };
+  return { referenceLinks: referenceLinks || [], addReferenceLink: mutate };
 };
 
 export default useReferenceLinks;
