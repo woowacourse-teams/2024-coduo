@@ -11,16 +11,21 @@ public record ReferenceLinkResponse(
         @NotBlank(message = "빈 url은 허용하지 않습니다.")
         String url,
 
+        @Schema(description = "오픈그래프 제목", nullable = true)
         String title,
+
+        @Schema(description = "오픈그래프 설명", nullable = true)
         String description,
+
+        @Schema(description = "오픈그래프 이미지", nullable = true)
         String image
 ) {
 
-    public ReferenceLinkResponse(String url) {
+    public ReferenceLinkResponse(final String url) {
         this(url, null, null, null);
     }
 
-    public ReferenceLinkResponse(String url, OpenGraph openGraph) {
+    public ReferenceLinkResponse(final String url, final OpenGraph openGraph) {
         this(url, openGraph.getTitle(), openGraph.getDescription(), openGraph.getImage());
     }
 }

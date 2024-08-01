@@ -1,8 +1,5 @@
 package site.coduo.referencelink.domain;
 
-import java.io.IOException;
-
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
@@ -10,6 +7,8 @@ import lombok.Getter;
 
 @Getter
 public class OpenGraph {
+
+    private static final String OPEN_GRAPH_META_TAG_SELECTOR = "meta[property=og:%s]";
 
     private final String title;
     private final String description;
@@ -21,22 +20,23 @@ public class OpenGraph {
         this.image = image;
     }
 
-    public static OpenGraph from(final String url) {
-        Document doc;
-        try {
-            doc = Jsoup.connect(url).get();
-        } catch (IOException e) {
+    public static OpenGraph from(final Document document) {
+        if (document == null) {
             return null;
         }
 
-        final String title = findMetaTag(doc, "title");
-        final String description = findMetaTag(doc, "description");
-        final String image = findMetaTag(doc, "image");
+        final String title = findMetaTag(document, "title");
+        final String description = findMetaTag(document, "description");
+        final String image = findMetaTag(document, "image");
+
+        if (title == null && description == null && image == null) {
+            return null;
+        }
         return new OpenGraph(title, description, image);
     }
 
-    private static String findMetaTag(final Document doc, final String key) {
-        Element element = doc.selectFirst("meta[property=og:" + key + "]");
+    private static String findMetaTag(final Document document, final String key) {
+        Element element = document.selectFirst(String.format(OPEN_GRAPH_META_TAG_SELECTOR, key));
         if (element == null) {
             return null;
         }

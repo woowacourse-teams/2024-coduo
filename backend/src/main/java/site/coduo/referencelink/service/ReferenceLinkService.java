@@ -33,8 +33,10 @@ public class ReferenceLinkService {
         final PairRoom pairRoom = pairRoomRepository.findByAccessCode(accessCode)
                 .orElseThrow(() -> new AccessCodeNotFoundException("찾을 수 없는 엑세스 코드입니다."));
         final ReferenceLink referenceLink = new ReferenceLink(new Url(request.url()), accessCode);
-        final ReferenceLinkEntity referenceLinkEntity = new ReferenceLinkEntity(referenceLink, pairRoom);
-        referenceLinkRepository.save(referenceLinkEntity);
+
+        final ReferenceLinkEntity referenceLinkEntity = referenceLinkRepository.save(
+                new ReferenceLinkEntity(referenceLink, pairRoom));
+        openGraphService.createOpenGraphCommand(referenceLinkEntity);
     }
 
     public List<ReferenceLinkResponse> readAllReferenceLinkQuery(final String accessCodeText) {
@@ -58,7 +60,7 @@ public class ReferenceLinkService {
 
     @Transactional
     public void deleteReferenceLinkCommand(final long id) {
-        referenceLinkRepository.deleteById(id);
         openGraphService.deleteByReferenceLinkIdCommand(id);
+        referenceLinkRepository.deleteById(id);
     }
 }

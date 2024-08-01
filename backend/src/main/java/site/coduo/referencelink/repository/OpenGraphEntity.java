@@ -2,6 +2,7 @@ package site.coduo.referencelink.repository;
 
 import java.util.Objects;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,23 +28,27 @@ public class OpenGraphEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Nullable
     @Column(name = "TITLE")
     private String title;
 
+    @Nullable
     @Column(name = "DESCRIPTION")
     private String description;
 
+    @Nullable
     @Column(name = "IMAGE")
     private String image;
 
     @OneToOne
-    @JoinColumn(name = "REFERENCE_LINK_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "REFERENCE_LINK_ID", referencedColumnName = "ID", nullable = false)
     private ReferenceLinkEntity referenceLinkEntity;
 
-    public OpenGraphEntity(final OpenGraph openGraph) {
+    public OpenGraphEntity(final OpenGraph openGraph, final ReferenceLinkEntity referenceLinkEntity) {
         this.title = openGraph.getTitle();
         this.description = openGraph.getDescription();
         this.image = openGraph.getImage();
+        this.referenceLinkEntity = referenceLinkEntity;
     }
 
     public OpenGraph toDomain() {
