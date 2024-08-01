@@ -28,14 +28,14 @@ export const Logo = styled.img`
   height: 3.5rem;
 `;
 
-export const AnchorContainer = styled.div`
+export const LinkContainer = styled.div`
   display: flex;
   gap: 3rem;
   align-items: center;
   justify-content: space-between;
 `;
 
-export const HomeAnchor = styled.a`
+export const HomeLink = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -44,7 +44,7 @@ export const HomeAnchor = styled.a`
   height: ${({ theme }) => theme.iconSize.md};
 `;
 
-export const HowToPairAnchorContainer = styled.div`
+export const HowToPairLinkContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
@@ -56,7 +56,7 @@ export const HowToPairAnchorContainer = styled.div`
   }
 `;
 
-export const HowToPairTextAnchor = styled.a`
+export const HowToPairTextLink = styled.div`
   font-size: ${({ theme }) => theme.fontSize.base};
   color: ${({ theme }) => theme.color.black[80]};
 
@@ -65,7 +65,7 @@ export const HowToPairTextAnchor = styled.a`
   }
 `;
 
-export const HowToPairIconAnchor = styled.a`
+export const HowToPairIconLink = styled.div`
   display: none;
   color: ${({ theme }) => theme.color.black[80]};
 
