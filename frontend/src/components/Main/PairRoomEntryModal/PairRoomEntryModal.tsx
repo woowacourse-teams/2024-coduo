@@ -1,12 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 
-import { useMutation } from '@tanstack/react-query';
-
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import { Modal } from '@/components/common/Modal';
-
-import { addRoomCode } from '@/apis/roomCode';
 
 import useInput from '@/hooks/common/useInput';
 
@@ -32,18 +28,6 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
     message: '',
   });
 
-  const { mutate: addRoomCodeMutation } = useMutation({
-    mutationFn: addRoomCode,
-    onSuccess: () => {
-      navigate('/');
-    },
-    onError: (error) => {
-      alert(error.message);
-    },
-  });
-
-  const enterModalButtonDisabled = !inputValue.value;
-
   return (
     <Modal isOpen={isOpen} close={closeModal} size="60rem">
       <Modal.Header title="페어룸 참가하기" />
@@ -61,7 +45,7 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
         <Button onClick={closeModal} filled={false}>
           {BUTTON_TEXT.CLOSE}
         </Button>
-        <Button disabled={enterModalButtonDisabled} onClick={() => addRoomCodeMutation(inputValue.value)}>
+        <Button disabled={!inputValue.value} onClick={() => navigate(`/room/${inputValue.value}/onboarding`)}>
           {BUTTON_TEXT.COMPLETE}
         </Button>
       </Modal.Footer>
