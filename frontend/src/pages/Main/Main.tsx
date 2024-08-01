@@ -39,10 +39,10 @@ const Main = () => {
         </S.Info>
       </S.TextContainer>
       <S.ButtonContainer>
-        <Button size="XL" rounded={true} onClick={openPairRoomCreateModal}>
+        <Button size="xl" rounded={true} onClick={openPairRoomCreateModal}>
           방 만들기
         </Button>
-        <Button size="XL" filled={false} rounded={true} onClick={openPairRoomEntryModal}>
+        <Button size="xl" filled={false} rounded={true} onClick={openPairRoomEntryModal}>
           방 들어가기
         </Button>
       </S.ButtonContainer>

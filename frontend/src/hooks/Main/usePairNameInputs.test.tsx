@@ -11,14 +11,14 @@ describe('usePairNameInputs', () => {
       result.current.handleFirstPair({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
     });
 
-    expect(result.current.firstPair.status).toBe('ERROR');
+    expect(result.current.firstPair.status).toBe('error');
     expect(result.current.firstPair.message).toBe('값을 입력해주세요.');
 
     act(() => {
       result.current.handleSecondPair({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>);
     });
 
-    expect(result.current.secondPair.status).toBe('ERROR');
+    expect(result.current.secondPair.status).toBe('error');
     expect(result.current.secondPair.message).toBe('값을 입력해주세요.');
   });
 });

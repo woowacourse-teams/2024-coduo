@@ -21,7 +21,7 @@ interface ModalProps {
 const Modal = ({
   isOpen,
   close,
-  size = 'MD',
+  size = 'md',
   height = '',
   position = 'CENTER',
   shadow = true,
