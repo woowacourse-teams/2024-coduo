@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import { HiQuestionMarkCircle } from 'react-icons/hi';
 import { LuHome } from 'react-icons/lu';
 
@@ -7,24 +9,29 @@ import { theme } from '@/styles/theme';
 
 import * as S from './Header.styles';
 
-// TODO: 링크에 따라 href 값 수정 필요
 const Header = () => {
   return (
     <S.Layout>
-      <a href="/">
+      <Link to="/">
         <S.Logo src={LogoIcon} alt="logo_icon_with_title" />
-      </a>
-      <S.AnchorContainer>
-        <S.HowToPairAnchorContainer>
-          <S.HowToPairTextAnchor href="/how-to-pair">페어 프로그래밍이란?</S.HowToPairTextAnchor>
-          <S.HowToPairIconAnchor href="/how-to-pair">
-            <HiQuestionMarkCircle size={theme.iconSize.sm} />
-          </S.HowToPairIconAnchor>
-        </S.HowToPairAnchorContainer>
-        <S.HomeAnchor href="/">
-          <LuHome size={theme.iconSize.sm} />
-        </S.HomeAnchor>
-      </S.AnchorContainer>
+      </Link>
+      <S.LinkContainer>
+        <S.HowToPairLinkContainer>
+          <Link to="/how-to-pair">
+            <S.HowToPairTextLink>페어 프로그래밍이란?</S.HowToPairTextLink>
+          </Link>
+          <Link to="/how-to-pair">
+            <S.HowToPairIconLink>
+              <HiQuestionMarkCircle size={theme.iconSize.sm} />
+            </S.HowToPairIconLink>
+          </Link>
+        </S.HowToPairLinkContainer>
+        <Link to="/">
+          <S.HomeLink>
+            <LuHome size={theme.iconSize.sm} />
+          </S.HomeLink>
+        </Link>
+      </S.LinkContainer>
     </S.Layout>
   );
 };
