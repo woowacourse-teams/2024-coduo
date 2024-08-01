@@ -9,6 +9,12 @@ export const Layout = styled.div`
   padding: 4rem 0;
 `;
 
+export const HeaderContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+`;
+
 export const ButtonContainer = styled.div`
   display: flex;
   gap: 2rem;

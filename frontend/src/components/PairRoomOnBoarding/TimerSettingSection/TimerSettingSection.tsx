@@ -35,12 +35,14 @@ const TimerSettingSection = ({ timer, onTimer }: TimerSettingSectionProps) => {
 
   return (
     <S.Layout>
-      <Modal.Header title="타이머 설정" subTitle="타이머 시간을 설정해 주세요" />
-      <InformationBox
-        title="왜 타이머 시간을 설정해야 하나요?"
-        description="정기적인 역할 교대는 피드백을 주고받을 수 있는 자연스러운 기회를 제공합니다. 이는 코드 품질을 높이고, 문제를
+      <S.HeaderContainer>
+        <Modal.Header title="타이머 설정" subTitle="타이머 시간을 설정해 주세요" />
+        <InformationBox
+          title="왜 타이머 시간을 설정해야 하나요?"
+          description="정기적인 역할 교대는 피드백을 주고받을 수 있는 자연스러운 기회를 제공합니다. 이는 코드 품질을 높이고, 문제를
           조기에 발견하여 수정할 수 있게 합니다."
-      />
+        />
+      </S.HeaderContainer>
       <S.ButtonContainer>
         {OPTIONS.map((option) => (
           <Button

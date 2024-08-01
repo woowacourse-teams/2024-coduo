@@ -17,7 +17,7 @@ export const Container = styled.div`
   justify-content: space-between;
 
   width: 60%;
-  height: 90vh;
+  height: 95%;
   padding: 4rem;
 
   background-color: ${({ theme }) => theme.color.black[10]};

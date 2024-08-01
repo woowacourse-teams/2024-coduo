@@ -14,9 +14,11 @@ type Story = StoryObj<typeof Button>;
 
 const CustomButton = css`
   background-color: red;
+
   &:hover {
     background-color: #d80000;
   }
+
   &:active {
     background-color: #9e0000;
   }
