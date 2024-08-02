@@ -1,7 +1,10 @@
+import { MdClose } from 'react-icons/md';
 import styled from 'styled-components';
 
 export const Layout = styled.a`
   cursor: pointer;
+
+  position: relative;
 
   display: flex;
   flex-direction: column;
@@ -67,4 +70,27 @@ export const Content = styled.p`
   text-overflow: ellipsis;
   word-break: break-all;
   white-space: normal;
+`;
+
+export const DeleteButton = styled(MdClose)`
+  cursor: pointer;
+
+  position: absolute;
+  z-index: 3;
+  top: 1rem;
+  right: 1rem;
+
+  width: 2rem;
+  height: 2rem;
+  padding: 0.3rem;
+
+  color: ${({ theme }) => theme.color.black[50]};
+
+  opacity: 0.5;
+  background-color: ${({ theme }) => theme.color.black[80]};
+  border-radius: 100%;
+
+  &:hover {
+    opacity: 1;
+  }
 `;
