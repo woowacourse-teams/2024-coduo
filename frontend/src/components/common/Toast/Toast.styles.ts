@@ -49,12 +49,15 @@ const backgroundMapper: Record<Status, RuleSet<object>> = {
 };
 
 export const Layout = styled.div<{ $isOpen: boolean; $isPush: boolean; $status: Status }>`
+  display: flex;
+  align-items: center;
+
   width: 30rem;
   min-height: 5rem;
   padding: 1.2rem 1.8rem;
 
   font-size: ${({ theme }) => theme.fontSize.md};
-  line-height: 1.6;
+  line-height: 1.5;
   color: ${({ theme }) => theme.color.black[10]};
 
   border-radius: 1.5rem;
