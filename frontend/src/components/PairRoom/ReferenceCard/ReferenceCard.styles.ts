@@ -7,6 +7,7 @@ export const buttonStyle = css`
 `;
 
 export const ReferenceLinkForm = styled.form`
+  overflow-y: auto;
   display: flex;
   gap: 2rem;
   align-items: center;
@@ -29,13 +30,21 @@ export const ReferenceLink = styled.a`
 `;
 
 export const ReferenceList = styled.ul`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3rem 1rem;
+  place-items: center;
+
+  height: calc(100vh - 30rem);
   margin: 3rem;
 
   li {
     list-style-type: none;
+  }
+
+  @media (width >= 1600px) {
+    grid-template-columns: repeat(3, 1fr);
   }
 `;
 
