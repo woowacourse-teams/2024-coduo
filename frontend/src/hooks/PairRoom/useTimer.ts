@@ -4,10 +4,6 @@ import AlarmSound from '@/assets/audio/alarm_sound.mp3';
 
 import useNotification from '@/hooks/common/useNotification';
 
-type ExtendedNotificationOptions = NotificationOptions & {
-  actions?: { action: string; title: string }[];
-};
-
 const useTimer = (defaultTime: number, onStop: () => void) => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const [timeLeft, setTimeLeft] = useState(defaultTime);
@@ -40,7 +36,7 @@ const useTimer = (defaultTime: number, onStop: () => void) => {
       fireNotification('타이머가 끝났어요!', {
         body: '드라이버 / 내비게이터 역할을 바꾸세요!',
         requireInteraction: true,
-      } as ExtendedNotificationOptions);
+      });
       onStop();
     };
 
