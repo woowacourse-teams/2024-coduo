@@ -5,7 +5,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import site.coduo.pairroom.domain.AccessCode;
+import site.coduo.pairroom.domain.accesscode.AccessCode;
 
 class ReferenceLinkTest {
 
