@@ -13,16 +13,8 @@ export default meta;
 
 type Story = StoryObj<typeof ProgressBar>;
 
-export const Role: Story = {
+export const Default: Story = {
   args: {
-    step: 'role' as Step,
-    isRoleSelected: false,
-  },
-};
-
-export const Timer: Story = {
-  args: {
-    step: 'timer' as Step,
-    isRoleSelected: true,
+    step: 'ROLE' as Step,
   },
 };

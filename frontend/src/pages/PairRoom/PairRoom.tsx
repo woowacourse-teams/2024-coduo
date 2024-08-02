@@ -10,6 +10,8 @@ import useTimer from '@/hooks/PairRoom/useTimer';
 
 import * as S from './PairRoom.styles';
 
+const DEFAULT_MINUTES = 10;
+
 const PairRoom = () => {
   const { state } = useLocation();
   const { accessCode } = useParams();
@@ -17,7 +19,7 @@ const PairRoom = () => {
   const [driver, setDriver] = useState(state.driver || '');
   const [navigator, setNavigator] = useState(state.navigator || '');
 
-  const time = Number(state.timer || '') * 60 * 1000;
+  const time = DEFAULT_MINUTES * 60 * 1000;
 
   const handleSwap = () => {
     setDriver(navigator);
