@@ -24,6 +24,15 @@ const slideOut = keyframes`
   }
 `;
 
+const pushDown = keyframes`
+  from {
+    transform: translateY(-5.6rem);
+  }
+  to {
+    transform: translateY(0);
+  }
+`;
+
 const backgroundMapper: Record<Status, RuleSet<object>> = {
   SUCCESS: css`
     background-color: ${({ theme }) => theme.color.success[500]};
@@ -39,8 +48,9 @@ const backgroundMapper: Record<Status, RuleSet<object>> = {
   `,
 };
 
-export const Layout = styled.div<{ $isOpen: boolean; $status: Status }>`
-  max-width: 40rem;
+export const Layout = styled.div<{ $isOpen: boolean; $isPush: boolean; $status: Status }>`
+  width: 30rem;
+  min-height: 5rem;
   padding: 1.2rem 1.8rem;
 
   font-size: ${({ theme }) => theme.fontSize.md};
@@ -49,7 +59,9 @@ export const Layout = styled.div<{ $isOpen: boolean; $status: Status }>`
 
   border-radius: 1.5rem;
 
-  animation: ${({ $isOpen }) => ($isOpen ? slideIn : slideOut)} 0.5s none;
+  animation:
+    ${({ $isOpen }) => ($isOpen ? slideIn : slideOut)} 0.5s none,
+    ${({ $isPush }) => $isPush && pushDown} 0.5s none;
 
   ${({ $status }) => backgroundMapper[$status]};
 `;

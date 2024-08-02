@@ -1,14 +1,16 @@
+import useToastStore from '@/stores/toastStore';
+
 import Toast from '@/components/common/Toast/Toast';
 
 import * as S from './ToastList.styles';
 
-const TOAST_LIST = ['에러 메시지 1', '에러 메시지 2', '에러 메시지 3'];
-
 const ToastList = () => {
+  const { toastList } = useToastStore();
+
   return (
     <S.Layout>
-      {TOAST_LIST.map((message) => (
-        <Toast key={message} isOpen={true} message={message} />
+      {toastList.map((item) => (
+        <Toast key={item.id} isOpen={item.isOpen} isPush={item.isPush} message={item.message} status={item.status} />
       ))}
     </S.Layout>
   );
