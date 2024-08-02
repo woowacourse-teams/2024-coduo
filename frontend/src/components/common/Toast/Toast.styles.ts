@@ -26,7 +26,7 @@ const slideOut = keyframes`
 
 const pushDown = keyframes`
   from {
-    transform: translateY(-5.6rem);
+    transform: translateY(-50%);
   }
   to {
     transform: translateY(0);
@@ -63,7 +63,7 @@ export const Layout = styled.div<{ $isOpen: boolean; $isPush: boolean; $status: 
   border-radius: 1.5rem;
 
   animation:
-    ${({ $isOpen }) => ($isOpen ? slideIn : slideOut)} 0.5s none,
+    ${({ $isOpen }) => ($isOpen ? slideIn : slideOut)} 0.8s none,
     ${({ $isPush }) => $isPush && pushDown} 0.5s none;
 
   ${({ $status }) => backgroundMapper[$status]};

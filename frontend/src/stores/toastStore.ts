@@ -36,8 +36,8 @@ const useToastStore = create<ToastStore>((set) => ({
         set((state) => ({
           toastList: state.toastList.filter((item) => item.id !== id),
         }));
-      }, 500);
-    }, 1500);
+      }, 750);
+    }, 3000);
   },
 }));
 
