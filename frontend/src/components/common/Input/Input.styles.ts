@@ -68,6 +68,10 @@ export const Input = styled.input<InputProps>`
 
   border-radius: 0.5rem;
 
+  &::placeholder {
+    color: ${({ theme }) => theme.color.black[50]};
+  }
+
   &:focus {
     background-color: ${({ theme }) => theme.color.black[10]};
     border: 1px solid ${({ theme }) => theme.color.primary[700]};
@@ -76,10 +80,6 @@ export const Input = styled.input<InputProps>`
   &:disabled {
     background-color: ${({ theme }) => theme.color.black[30]};
     border: 1px solid ${({ theme }) => theme.color.black[40]};
-  }
-
-  &::placeholder {
-    color: ${({ theme }) => theme.color.black[50]};
   }
 
   ${(props) => props.$css}

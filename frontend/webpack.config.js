@@ -34,7 +34,7 @@ const config = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(png|svg|jpg|gif)$/,
+        test: /\.(png|svg|jpg|gif|mp3)$/,
         use: {
           loader: 'file-loader',
           options: {

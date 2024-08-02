@@ -37,6 +37,7 @@ const buttonShapes = {
 
 export const Button = styled.button<ButtonStyleProp>`
   cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
+
   display: flex;
   align-items: center;
   justify-content: center;
