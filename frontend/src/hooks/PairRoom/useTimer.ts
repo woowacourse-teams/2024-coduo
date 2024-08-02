@@ -6,10 +6,12 @@ import useNotification from '@/hooks/common/useNotification';
 
 const useTimer = (defaultTime: number, onStop: () => void) => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const alarmAudio = useRef(new Audio(AlarmSound));
+
   const [timeLeft, setTimeLeft] = useState(defaultTime);
   const [isActive, setIsActive] = useState(false);
   const [startTime, setStartTime] = useState<number | null>(null);
-  const alarmAudio = useRef(new Audio(AlarmSound));
+
   const { fireNotification } = useNotification();
 
   const handleStart = () => {
@@ -33,8 +35,7 @@ const useTimer = (defaultTime: number, onStop: () => void) => {
       setIsActive(false);
       setTimeLeft(0);
       alarmAudio.current.play();
-      fireNotification('타이머가 끝났어요!', {
-        body: '드라이버 / 내비게이터 역할을 바꾸세요!',
+      fireNotification('타이머가 끝났어요!', '드라이버 / 내비게이 역할을 바꾸세요!', {
         requireInteraction: true,
       });
       onStop();
@@ -62,7 +63,7 @@ const useTimer = (defaultTime: number, onStop: () => void) => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isActive, startTime, timeLeft, onStop]);
+  }, [isActive, startTime, timeLeft]);
 
   return { timeLeft, isActive, handleStart, handlePause, handleStop };
 };

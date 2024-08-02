@@ -17,9 +17,10 @@ const useNotification = () => {
     }
   };
 
-  const fireNotification = (title: string, options: NotificationOptions) => {
+  const fireNotification = (title: string, body: string, options?: NotificationOptions) => {
     if (Notification.permission === 'granted' && !document.hasFocus()) {
       const newOption = {
+        body: body || ' ',
         badge: LogoIcon,
         icon: LogoIcon,
         ...options,
