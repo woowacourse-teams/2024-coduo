@@ -40,3 +40,16 @@ export const addReferenceLink = async ({ accessCode, url }: AddReferenceLinkRequ
     throw new Error(ERROR_MESSAGES.ADD_REFERENCE_LINKS);
   }
 };
+
+interface DeleteReferenceLinkRequest {
+  accessCode: string;
+  id: string;
+}
+
+export const deleteReferenceLink = async ({ accessCode, id }: DeleteReferenceLinkRequest) => {
+  const response = await fetcher.delete({ url: `${API_URL}/${accessCode}/reference-link/${id}`, errorMessage: '' });
+
+  if (!response.ok) {
+    throw new Error(ERROR_MESSAGES.DELETE_REFERENCE_LINKS);
+  }
+};
