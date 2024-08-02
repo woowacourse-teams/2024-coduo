@@ -15,13 +15,14 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
 import site.coduo.referencelink.domain.OpenGraph;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "OPEN_GRAPH")
 @Entity
-public class OpenGraphEntity {
+public class OpenGraphEntity extends BaseTimeEntity {
 
     @Id
     @Column(name = "ID", nullable = false)
