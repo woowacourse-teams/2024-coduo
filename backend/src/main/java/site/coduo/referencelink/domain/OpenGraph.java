@@ -36,7 +36,7 @@ public class OpenGraph {
     }
 
     private static String findMetaTag(final Document document, final String key) {
-        Element element = document.selectFirst(String.format(OPEN_GRAPH_META_TAG_SELECTOR, key));
+        final Element element = document.selectFirst(String.format(OPEN_GRAPH_META_TAG_SELECTOR, key));
         if (element == null) {
             return null;
         }
