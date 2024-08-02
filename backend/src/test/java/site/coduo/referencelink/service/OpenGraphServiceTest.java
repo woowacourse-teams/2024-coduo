@@ -2,8 +2,6 @@ package site.coduo.referencelink.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import jakarta.transaction.Transactional;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,7 +23,7 @@ import site.coduo.referencelink.repository.ReferenceLinkRepository;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest
-public class OpenGraphServiceTest {
+class OpenGraphServiceTest {
 
     private static final String DEFAULT_OPEN_GRAPH_VALUE = "";
 

@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.transaction.annotation.Transactional;
 
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
@@ -82,7 +81,7 @@ class ReferenceLinkServiceTest {
     }
 
     @Test
-    @DisplayName("레퍼런스 링크와 오픈그래프를 삭제된다.")
+    @DisplayName("레퍼런스 링크와 오픈그래프를 삭제한다.")
     void delete_reference_link_and_open_graph() {
         // given
         final Pair pair = new Pair(new PairName("first"), new PairName("second"));
