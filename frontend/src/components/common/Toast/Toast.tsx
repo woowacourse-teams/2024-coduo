@@ -9,10 +9,17 @@ interface ToastProps {
   status?: Status;
 }
 
+const TOAST_IMOJI: Record<Status, string> = {
+  SUCCESS: '✅',
+  INFO: '📖',
+  WARNING: '👀',
+  ERROR: '⛔️',
+};
+
 const Toast = ({ isOpen, isPush, message, status = 'ERROR' }: ToastProps) => {
   return (
     <S.Layout $isOpen={isOpen} $isPush={isPush} $status={status}>
-      {message}
+      {`${TOAST_IMOJI[status]} ${message}`}
     </S.Layout>
   );
 };
