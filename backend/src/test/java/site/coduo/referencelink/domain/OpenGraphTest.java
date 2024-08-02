@@ -2,10 +2,10 @@ package site.coduo.referencelink.domain;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ class OpenGraphTest {
         final OpenGraph openGraph = OpenGraph.from(document);
 
         // then
-        Assertions.assertAll(
+        assertAll(
                 () -> assertThat(openGraph.getHeadTitle()).isEqualTo(DEFAULT_VALUE),
                 () -> assertThat(openGraph.getOpenGraphTitle()).isEqualTo(DEFAULT_VALUE),
                 () -> assertThat(openGraph.getDescription()).isEqualTo(DEFAULT_VALUE),
@@ -48,7 +48,7 @@ class OpenGraphTest {
         final OpenGraph openGraph = OpenGraph.from(document);
 
         // then
-        Assertions.assertAll(
+        assertAll(
                 () -> assertThat(openGraph.getHeadTitle()).isEqualTo(DEFAULT_VALUE),
                 () -> assertThat(openGraph.getOpenGraphTitle()).isEqualTo(DEFAULT_VALUE),
                 () -> assertThat(openGraph.getDescription()).isEqualTo(DEFAULT_VALUE),
@@ -77,7 +77,7 @@ class OpenGraphTest {
             final OpenGraph openGraph = OpenGraph.from(document);
 
             // when & then
-            Assertions.assertAll(
+            assertAll(
                     () -> assertThat(openGraph.getHeadTitle()).isEqualTo(DEFAULT_VALUE),
                     () -> assertThat(openGraph.getOpenGraphTitle()).isEqualTo("Open Graph Title Hello"),
                     () -> assertThat(openGraph.getDescription()).isEqualTo("Description Hello"),
@@ -102,7 +102,7 @@ class OpenGraphTest {
             final OpenGraph openGraph = OpenGraph.from(document);
 
             // when & then
-            Assertions.assertAll(
+            assertAll(
                     () -> assertThat(openGraph.getHeadTitle()).isEqualTo("Jsoup Test"),
                     () -> assertThat(openGraph.getOpenGraphTitle()).isEqualTo(DEFAULT_VALUE),
                     () -> assertThat(openGraph.getDescription()).isEqualTo("Description Hello"),
@@ -127,7 +127,7 @@ class OpenGraphTest {
             final OpenGraph openGraph = OpenGraph.from(document);
 
             // when & then
-            Assertions.assertAll(
+            assertAll(
                     () -> assertThat(openGraph.getHeadTitle()).isEqualTo("Jsoup Test"),
                     () -> assertThat(openGraph.getOpenGraphTitle()).isEqualTo("Open Graph Title Hello"),
                     () -> assertThat(openGraph.getDescription()).isEqualTo(DEFAULT_VALUE),
@@ -152,7 +152,7 @@ class OpenGraphTest {
             final OpenGraph openGraph = OpenGraph.from(document);
 
             // when & then
-            Assertions.assertAll(
+            assertAll(
                     () -> assertThat(openGraph.getHeadTitle()).isEqualTo("Jsoup Test"),
                     () -> assertThat(openGraph.getOpenGraphTitle()).isEqualTo("Open Graph Title Hello"),
                     () -> assertThat(openGraph.getDescription()).isEqualTo("Description Hello"),

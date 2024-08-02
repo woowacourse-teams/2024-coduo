@@ -6,12 +6,11 @@ import static site.coduo.acceptance.PairRoomAcceptanceTest.createPairRoom;
 
 import java.util.Map;
 
-import jakarta.transaction.Transactional;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
