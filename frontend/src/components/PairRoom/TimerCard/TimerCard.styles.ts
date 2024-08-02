@@ -18,9 +18,11 @@ export const ProgressBar = styled.div<{ $progress: number }>`
   align-items: center;
   justify-content: center;
 
-  width: 28vw;
+  width: 25vw;
+  min-width: 30rem;
   max-width: 100%;
-  height: 28vw;
+  height: 25vw;
+  min-height: 30rem;
   max-height: 100%;
 
   background-image: linear-gradient(white, white),
