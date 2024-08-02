@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
@@ -22,7 +23,7 @@ import site.coduo.referencelink.repository.OpenGraphRepository;
 import site.coduo.referencelink.repository.ReferenceLinkEntity;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 
-@Transactional
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 @SpringBootTest
 public class OpenGraphServiceTest {
 
@@ -104,7 +105,6 @@ public class OpenGraphServiceTest {
         openGraphService.deleteByReferenceLinkIdCommand(1L);
 
         // then
-        assertThat(openGraphRepository.findAll())
-                .hasSize(0);
+        assertThat(openGraphRepository.findAll()).isEmpty();
     }
 }
