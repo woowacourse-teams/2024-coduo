@@ -1,23 +1,25 @@
 import * as S from './Bookmark.styles';
 interface BookmarkProps {
-  link: string;
+  url: string;
   image?: string;
-  // key: string;
-}
-const BOOKMARK_TITLE = 'titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle';
-const BOOKMARK_CONTENTS =
-  'contentcontentcontentcontecontentcontentcontentcontentcocontentcontentcontentconcontentcontentcontentcontentcontentcontentcontentconntentconntcontentcontentcontentcontent';
+  title: string;
+  description: string;
+  deleteReferenceLink: () => void;
+} //TODO: 삭제 버튼 시 이동 안되게 하기
 
-const Bookmark = ({ link, image }: BookmarkProps) => {
+const Bookmark = ({ url, image, title, description, deleteReferenceLink }: BookmarkProps) => {
+  //TODO: 삭제 로직
   return (
-    <S.Layout href={link}>
-      {image ? <S.Image alt="link" src={image} /> : <S.NoneImage>이미지가 없어욧</S.NoneImage>}
-
-      <S.Box>
-        <S.Title>{BOOKMARK_TITLE}</S.Title>
-        <S.Content>{BOOKMARK_CONTENTS}</S.Content>
-      </S.Box>
-    </S.Layout>
+    <>
+      <S.Layout href={url}>
+        <S.DeleteButton onClick={() => deleteReferenceLink()} />
+        {image ? <S.Image alt="link" src={image} /> : <S.NoneImage>이미지가 없어욧</S.NoneImage>}
+        <S.Box>
+          <S.Title>{title}</S.Title>
+          <S.Content>{description}</S.Content>
+        </S.Box>
+      </S.Layout>
+    </>
   );
 };
 

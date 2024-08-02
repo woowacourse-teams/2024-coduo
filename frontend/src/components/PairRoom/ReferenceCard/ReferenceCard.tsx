@@ -19,7 +19,7 @@ interface ReferenceCardProps {
 
 const ReferenceCard = ({ accessCode }: ReferenceCardProps) => {
   const { value, status, message, handleChange, resetValue } = useInput();
-  const { referenceLinks, addReferenceLink } = useReferenceLinks(accessCode);
+  const { referenceLinks, addReferenceLink, deleteReferenceLink } = useReferenceLinks(accessCode);
 
   const isButtonActive = value !== '' && status === 'DEFAULT';
 
@@ -28,6 +28,9 @@ const ReferenceCard = ({ accessCode }: ReferenceCardProps) => {
     resetValue();
   };
   const IMAGE = 'https://fastly.picsum.photos/id/873/200/300.jpg?hmac=CQHrOY67pytIwHLic3cAxphNbh2NwdxnFQtwaX5MLkM';
+  const BOOKMARK_TITLE = 'titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle';
+  const BOOKMARK_CONTENTS =
+    'contentcontentcontentcontecontentcontentcontentcontentcocontentcontentcontentconcontentcontentcontentcontentcontentcontentcontentconntentconntcontentcontentcontentcontent';
 
   return (
     <PairRoomCard>
@@ -54,7 +57,17 @@ const ReferenceCard = ({ accessCode }: ReferenceCardProps) => {
       <S.ReferenceList>
         {referenceLinks.length > 0 ? (
           referenceLinks.map(({ url, id }) => {
-            return <Bookmark link={url} image={IMAGE} key={id} />;
+            // url, title, description, image
+            return (
+              <Bookmark
+                url={url}
+                image={IMAGE}
+                key={id}
+                title={BOOKMARK_TITLE}
+                description={BOOKMARK_CONTENTS}
+                deleteReferenceLink={() => deleteReferenceLink({ accessCode, id })}
+              />
+            );
           })
         ) : (
           <S.EmptyText>저장된 링크가 없습니다.</S.EmptyText>
