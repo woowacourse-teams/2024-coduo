@@ -1,7 +1,7 @@
 package site.coduo.referencelink.domain;
 
 import lombok.Getter;
-import site.coduo.pairroom.domain.AccessCode;
+import site.coduo.pairroom.domain.accesscode.AccessCode;
 
 @Getter
 public class ReferenceLink {

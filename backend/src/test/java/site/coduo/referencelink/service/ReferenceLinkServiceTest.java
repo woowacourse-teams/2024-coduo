@@ -11,9 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import site.coduo.pairroom.domain.AccessCode;
+import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.ReferenceLink;
 import site.coduo.referencelink.domain.Url;
@@ -43,7 +44,8 @@ class ReferenceLinkServiceTest {
     @DisplayName("레퍼런스 링크와 오픈그래프를 함께 저장한다.")
     void save_reference_link_and_open_graph() {
         // given
-        final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(new PairName("first"), new PairName("second")));
+        final Pair pair = new Pair(new PairName("first"), new PairName("second"));
+        final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(pair, new AccessCode("code`")));
         final ReferenceLinkCreateRequest request = new ReferenceLinkCreateRequest("http://url.com");
 
         // when
@@ -60,7 +62,8 @@ class ReferenceLinkServiceTest {
     @DisplayName("모든 레퍼런스 링크를 조회한다.")
     void search_all_reference_link() {
         // given
-        final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(new PairName("first"), new PairName("second")));
+        final Pair pair = new Pair(new PairName("first"), new PairName("second"));
+        final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(pair, new AccessCode("code")));
         final AccessCode accessCode = pairRoom.getAccessCode();
         referenceLinkRepository.save(
                 new ReferenceLinkEntity(new ReferenceLink(new Url("http://url1.com"), accessCode), pairRoom));
@@ -81,10 +84,11 @@ class ReferenceLinkServiceTest {
     @DisplayName("레퍼런스 링크와 오픈그래프를 삭제된다.")
     void delete_reference_link_and_open_graph() {
         // given
-        final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(new PairName("first"), new PairName("second")));
-        final AccessCode accessCode = pairRoom.getAccessCode();
+        final Pair pair = new Pair(new PairName("first"), new PairName("second"));
+        AccessCode code = new AccessCode("hello");
+        final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(pair, code));
         final ReferenceLinkEntity link = referenceLinkRepository.save(
-                new ReferenceLinkEntity(new ReferenceLink(new Url("http://url1.com"), accessCode), pairRoom));
+                new ReferenceLinkEntity(new ReferenceLink(new Url("http://url1.com"), code), pairRoom));
 
         // when
         referenceLinkService.deleteReferenceLinkCommand(link.getId());
