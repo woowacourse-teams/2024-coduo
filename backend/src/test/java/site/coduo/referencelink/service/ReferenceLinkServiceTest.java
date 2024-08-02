@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.ReferenceLink;
 import site.coduo.referencelink.domain.Url;
+import site.coduo.referencelink.repository.OpenGraphRepository;
 import site.coduo.referencelink.repository.ReferenceLinkEntity;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
@@ -34,9 +36,12 @@ class ReferenceLinkServiceTest {
     @Autowired
     private PairRoomRepository pairRoomRepository;
 
+    @Autowired
+    private OpenGraphRepository openGraphRepository;
+
     @Test
-    @DisplayName("레퍼런스 링크를 저장한다.")
-    void save_reference_link() {
+    @DisplayName("레퍼런스 링크와 오픈그래프를 함께 저장한다.")
+    void save_reference_link_and_open_graph() {
         // given
         final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(new PairName("first"), new PairName("second")));
         final ReferenceLinkCreateRequest request = new ReferenceLinkCreateRequest("http://url.com");
@@ -45,8 +50,10 @@ class ReferenceLinkServiceTest {
         referenceLinkService.createReferenceLinkCommand(pairRoom.getAccessCodeText(), request);
 
         // then
-        assertThat(referenceLinkRepository.findAll())
-                .hasSize(1);
+        Assertions.assertAll(
+                () -> assertThat(referenceLinkRepository.findAll()).hasSize(1),
+                () -> assertThat(openGraphRepository.findAll()).hasSize(1)
+        );
     }
 
     @Test
@@ -71,8 +78,8 @@ class ReferenceLinkServiceTest {
     }
 
     @Test
-    @DisplayName("레퍼런스 링크를 삭제한다.")
-    void delete_reference_link() {
+    @DisplayName("레퍼런스 링크와 오픈그래프를 삭제된다.")
+    void delete_reference_link_and_open_graph() {
         // given
         final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(new PairName("first"), new PairName("second")));
         final AccessCode accessCode = pairRoom.getAccessCode();
@@ -83,6 +90,9 @@ class ReferenceLinkServiceTest {
         referenceLinkService.deleteReferenceLinkCommand(link.getId());
 
         // then
-        assertThat(referenceLinkRepository.findAll()).isEmpty();
+        Assertions.assertAll(
+                () -> assertThat(referenceLinkRepository.findAll()).isEmpty(),
+                () -> assertThat(openGraphRepository.findAll()).isEmpty()
+        );
     }
 }

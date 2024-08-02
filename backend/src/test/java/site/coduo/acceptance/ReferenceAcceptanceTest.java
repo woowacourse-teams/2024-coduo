@@ -1,7 +1,6 @@
 package site.coduo.acceptance;
 
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.nullValue;
 
 import static site.coduo.acceptance.PairRoomAcceptanceTest.createPairRoom;
 
@@ -68,7 +67,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
     }
 
     @Test
-    @DisplayName("오픈그래프 정보가 없는 레퍼런스 링크를 조회하면 모든 오픈그래프 필드가 null인 상태로 반환된다.")
+    @DisplayName("오픈그래프 정보가 없는 레퍼런스 링크를 조회하면 모든 오픈그래프 필드가 기본 값 상태로 반환된다.")
     void read_reference_link_without_open_graph() {
         // given
         final PairRoomCreateResponse pairRoom = createPairRoom(new PairRoomCreateRequest("잉크", "해시"));
@@ -87,9 +86,10 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
                 .assertThat()
                 .statusCode(HttpStatus.OK.value())
                 .body("[0].url", is(expectedUrl))
-                .body("[0].title", nullValue())
-                .body("[0].description", nullValue())
-                .body("[0].image", nullValue());
+                .body("[0].headTitle", is("Google"))
+                .body("[0].openGraphTitle", is(""))
+                .body("[0].description", is(""))
+                .body("[0].image", is(""));
     }
 
     void createReferenceLink(final String url, String accessCodeText) {

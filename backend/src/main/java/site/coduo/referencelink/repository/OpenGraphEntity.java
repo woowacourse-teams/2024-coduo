@@ -2,7 +2,6 @@ package site.coduo.referencelink.repository;
 
 import java.util.Objects;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,16 +28,16 @@ public class OpenGraphEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Nullable
-    @Column(name = "TITLE")
-    private String title;
+    @Column(name = "HEAD_TITLE", nullable = false)
+    private String headTitle;
 
-    @Nullable
-    @Column(name = "DESCRIPTION")
+    @Column(name = "OPEN_GRAPH_TITLE", nullable = false)
+    private String openGraphTitle;
+
+    @Column(name = "DESCRIPTION", nullable = false)
     private String description;
 
-    @Nullable
-    @Column(name = "IMAGE")
+    @Column(name = "IMAGE", nullable = false)
     private String image;
 
     @OneToOne
@@ -46,14 +45,20 @@ public class OpenGraphEntity extends BaseTimeEntity {
     private ReferenceLinkEntity referenceLinkEntity;
 
     public OpenGraphEntity(final OpenGraph openGraph, final ReferenceLinkEntity referenceLinkEntity) {
-        this.title = openGraph.getTitle();
+        this.headTitle = openGraph.getHeadTitle();
+        this.openGraphTitle = openGraph.getOpenGraphTitle();
         this.description = openGraph.getDescription();
         this.image = openGraph.getImage();
         this.referenceLinkEntity = referenceLinkEntity;
     }
 
     public OpenGraph toDomain() {
-        return new OpenGraph(title, description, image);
+        return OpenGraph.builder()
+                .headTitle(headTitle)
+                .openGraphTitle(openGraphTitle)
+                .description(description)
+                .image(image)
+                .build();
     }
 
     @Override

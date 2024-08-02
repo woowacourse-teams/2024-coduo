@@ -52,10 +52,7 @@ public class ReferenceLinkService {
 
     private ReferenceLinkResponse makeReferenceLinkResponse(final ReferenceLinkEntity referenceLinkEntity) {
         final OpenGraph openGraph = openGraphService.findOpenGraphQuery(referenceLinkEntity.getId());
-        if (openGraph == null) {
-            return new ReferenceLinkResponse(referenceLinkEntity.getUrl());
-        }
-        return new ReferenceLinkResponse(referenceLinkEntity.getUrl(), openGraph);
+        return new ReferenceLinkResponse(referenceLinkEntity, openGraph);
     }
 
     @Transactional

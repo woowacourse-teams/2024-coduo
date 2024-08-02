@@ -3,42 +3,56 @@ package site.coduo.referencelink.domain;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class OpenGraph {
 
+    private static final String EMPTY = "";
     private static final String OPEN_GRAPH_META_TAG_SELECTOR = "meta[property=og:%s]";
 
-    private final String title;
+    private final String headTitle;
+    private final String openGraphTitle;
     private final String description;
     private final String image;
 
-    public OpenGraph(final String title, final String description, final String image) {
-        this.title = title;
+    public OpenGraph() {
+        headTitle = EMPTY;
+        this.openGraphTitle = EMPTY;
+        this.description = EMPTY;
+        this.image = EMPTY;
+    }
+
+    @Builder
+    public OpenGraph(final String headTitle,
+                     final String openGraphTitle,
+                     final String description,
+                     final String image
+    ) {
+        this.headTitle = headTitle;
+        this.openGraphTitle = openGraphTitle;
         this.description = description;
         this.image = image;
     }
 
     public static OpenGraph from(final Document document) {
         if (document == null) {
-            return null;
+            return new OpenGraph(EMPTY, EMPTY, EMPTY, EMPTY);
         }
 
-        final String title = findMetaTag(document, "title");
-        final String description = findMetaTag(document, "description");
-        final String image = findMetaTag(document, "image");
-
-        if (title == null && description == null && image == null) {
-            return null;
-        }
-        return new OpenGraph(title, description, image);
+        return OpenGraph.builder()
+                .headTitle(document.title())
+                .openGraphTitle(findMetaTag(document, "title"))
+                .description(findMetaTag(document, "description"))
+                .image(findMetaTag(document, "image"))
+                .build();
     }
 
     private static String findMetaTag(final Document document, final String key) {
         final Element element = document.selectFirst(String.format(OPEN_GRAPH_META_TAG_SELECTOR, key));
         if (element == null) {
-            return null;
+            return EMPTY;
         }
         return element.attr("content");
     }

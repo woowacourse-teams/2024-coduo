@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import jakarta.transaction.Transactional;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import site.coduo.pairroom.domain.AccessCode;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.repository.PairRoomRepository;
+import site.coduo.referencelink.domain.OpenGraph;
 import site.coduo.referencelink.domain.ReferenceLink;
 import site.coduo.referencelink.domain.Url;
 import site.coduo.referencelink.repository.OpenGraphRepository;
@@ -22,6 +24,8 @@ import site.coduo.referencelink.repository.ReferenceLinkRepository;
 @Transactional
 @SpringBootTest
 public class OpenGraphServiceTest {
+
+    private static final String DEFAULT_OPEN_GRAPH_VALUE = "";
 
     @Autowired
     private OpenGraphService openGraphService;
@@ -57,13 +61,19 @@ public class OpenGraphServiceTest {
                 .hasSize(1);
     }
 
-    @DisplayName("일치하는 오픈그래프가 없으면 null을 반환한다.")
+    @DisplayName("일치하는 오픈그래프가 없으면 기본 값을 넣은 오픈그래프를 반환한다.")
     @Test
     void return_null_when_cannot_find_open_graph() {
-        // given
+        // given & when
+        final OpenGraph openGraph = openGraphService.findOpenGraphQuery(1L);
 
-        // when & then
-        assertThat(openGraphService.findOpenGraphQuery(1L)).isNull();
+        // then
+        Assertions.assertAll(
+                () -> assertThat(openGraph.getHeadTitle()).isEqualTo(DEFAULT_OPEN_GRAPH_VALUE),
+                () -> assertThat(openGraph.getOpenGraphTitle()).isEqualTo(DEFAULT_OPEN_GRAPH_VALUE),
+                () -> assertThat(openGraph.getDescription()).isEqualTo(DEFAULT_OPEN_GRAPH_VALUE),
+                () -> assertThat(openGraph.getImage()).isEqualTo(DEFAULT_OPEN_GRAPH_VALUE)
+        );
     }
 
     @DisplayName("레퍼런스링크 id로 오픈그래프를 삭제한다.")

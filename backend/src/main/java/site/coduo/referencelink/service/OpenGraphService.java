@@ -22,9 +22,6 @@ public class OpenGraphService {
     public void createOpenGraphCommand(final ReferenceLinkEntity referenceLinkEntity) {
         final Document document = new Url(referenceLinkEntity.getUrl()).getDocument();
         final OpenGraph openGraph = OpenGraph.from(document);
-        if (openGraph == null) {
-            return;
-        }
         final OpenGraphEntity openGraphEntity = new OpenGraphEntity(openGraph, referenceLinkEntity);
         openGraphRepository.save(openGraphEntity);
     }
@@ -32,7 +29,7 @@ public class OpenGraphService {
     public OpenGraph findOpenGraphQuery(final Long id) {
         return openGraphRepository.findById(id)
                 .map(OpenGraphEntity::toDomain)
-                .orElse(null);
+                .orElse(new OpenGraph());
     }
 
     @Transactional
