@@ -25,7 +25,7 @@ public class OpenGraph {
     }
 
     @Builder
-    public OpenGraph(final String headTitle,
+    private OpenGraph(final String headTitle,
                      final String openGraphTitle,
                      final String description,
                      final String image
