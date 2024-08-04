@@ -34,7 +34,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
 
                 .when()
                 .log().all()
-                .post("/" + pairRoom.accessCode() + "/reference-link")
+                .post("/api/" + pairRoom.accessCode() + "/reference-link")
 
                 .then()
                 .assertThat()
@@ -56,7 +56,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
                 .contentType(ContentType.JSON)
 
                 .when()
-                .get("/" + pairRoom.accessCode() + "/reference-link")
+                .get("/api/" + pairRoom.accessCode() + "/reference-link")
 
                 .then()
                 .assertThat()
@@ -73,7 +73,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
                 .body(request)
 
                 .when()
-                .post("/" + accessCodeText + "/reference-link");
+                .post("/api/" + accessCodeText + "/reference-link");
     }
 
     @Test
@@ -91,7 +91,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
 
                 .when()
                 .log().all()
-                .delete("/" + pairRoom.accessCode() + "/reference-link/1")
+                .delete("/api/" + pairRoom.accessCode() + "/reference-link/1")
 
                 .then()
                 .assertThat()
