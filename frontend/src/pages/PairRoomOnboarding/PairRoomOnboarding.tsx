@@ -3,9 +3,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import useGetPairRoomInformation from '@/queries/PairRoom/useGetPairRoomInformation';
 
-import FooterButtons from '@/components/PairRoomOnBoarding/FooterButtons/FooterButtons';
-import ProgressBar from '@/components/PairRoomOnBoarding/ProgressBar/ProgressBar';
-import RoleSettingSection from '@/components/PairRoomOnBoarding/RoleSettingSection/RoleSettingSection';
+import FooterButtons from '@/components/PairRoomOnboarding/FooterButtons/FooterButtons';
+import ProgressBar from '@/components/PairRoomOnboarding/ProgressBar/ProgressBar';
+import RoleSettingSection from '@/components/PairRoomOnboarding/RoleSettingSection/RoleSettingSection';
 
 import * as S from './PairRoomOnboarding.styles';
 import type { Role, Step } from './PairRoomOnboarding.type';

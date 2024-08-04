@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import { Modal } from '@/components/common/Modal';
-import InformationBox from '@/components/PairRoomOnBoarding/InformationBox/InformationBox';
+import InformationBox from '@/components/PairRoomOnboarding/InformationBox/InformationBox';
 
 import { validateTime } from '@/utils/PairRoomOnboarding/validate';
 

@@ -2,7 +2,7 @@ import type { Role } from '@/pages/PairRoomOnboarding/PairRoomOnboarding.type';
 
 import Dropdown from '@/components/common/Dropdown/Dropdown/Dropdown';
 import { Modal } from '@/components/common/Modal';
-import InformationBox from '@/components/PairRoomOnBoarding/InformationBox/InformationBox';
+import InformationBox from '@/components/PairRoomOnboarding/InformationBox/InformationBox';
 
 import * as S from './RoleSettingSection.styles';
 
