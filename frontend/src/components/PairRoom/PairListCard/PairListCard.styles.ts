@@ -8,7 +8,7 @@ export const Layout = styled.div<{ $isOpen: boolean }>`
   align-items: center;
   justify-content: center;
 
-  width: ${(props) => (props.$isOpen ? '66rem' : '6rem')};
+  min-width: ${(props) => (props.$isOpen ? '28rem' : '6rem')};
 
   white-space: nowrap;
 

@@ -8,7 +8,7 @@ export const Layout = styled.div`
   align-items: center;
   justify-content: center;
 
-  width: 100%;
+  min-width: 60rem;
   height: 100%;
   padding: 3rem;
 `;
