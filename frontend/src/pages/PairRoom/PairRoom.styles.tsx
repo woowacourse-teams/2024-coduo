@@ -4,6 +4,7 @@ export const Layout = styled.div`
   display: flex;
   gap: 3rem;
 
+  min-width: fit-content;
   min-height: calc(100vh - 7rem);
   padding: 3rem;
 
