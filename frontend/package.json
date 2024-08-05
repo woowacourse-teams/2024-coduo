@@ -14,6 +14,8 @@
     "lint:css:fix": "stylelint './src/**/*.styles.{ts,tsx}' --fix"
   },
   "dependencies": {
+    "@sentry/react": "^8.22.0",
+    "@sentry/webpack-plugin": "^2.21.1",
     "@tanstack/react-query": "^5.51.11",
     "dotenv-webpack": "^8.1.0",
     "react": "^18.3.1",

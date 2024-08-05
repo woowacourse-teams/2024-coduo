@@ -5,3 +5,5 @@ node_modules
 Dockerfile
 nginx.conf
 .dockerignore
+# Sentry Config File
+.env.sentry-build-plugin
