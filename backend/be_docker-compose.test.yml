@@ -10,9 +10,9 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       TZ: ${MYSQL_TIME_ZONE}
     volumes:
-      - ./docker-data/db/mysql/conf.d:/etc/mysql/conf.d
-      - ./docker-data/db/mysql/data:/var/lib/mysql
-      - ./docker-data/db/mysql/init:/docker_entrypoint-initdb.d
+      - ~/docker-data/db/mysql/conf.d:/etc/mysql/conf.d
+      - ~/docker-data/db/mysql/data:/var/lib/mysql
+      - ~/docker-data/db/mysql/init:/docker_entrypoint-initdb.d
     command:
       - '--character-set-server=utf8mb4'
       - '--collation-server=utf8mb4_0900_ai_ci'
