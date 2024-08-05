@@ -8,7 +8,7 @@ export const Layout = styled.div`
   align-items: center;
   justify-content: center;
 
-  width: 100%;
+  min-width: 60rem;
   height: 100%;
   padding: 3rem;
 `;
@@ -18,12 +18,8 @@ export const ProgressBar = styled.div<{ $progress: number }>`
   align-items: center;
   justify-content: center;
 
-  width: 25vw;
-  min-width: 30rem;
-  max-width: 100%;
-  height: 25vw;
-  min-height: 30rem;
-  max-height: 100%;
+  min-width: 45vh;
+  min-height: 45vh;
 
   background-image: linear-gradient(white, white),
     conic-gradient(

@@ -2,14 +2,16 @@ import { Outlet } from 'react-router-dom';
 
 import Header from '@/components/common/Header/Header';
 
+import * as S from './Layout.styles';
+
 const Layout = () => {
   return (
-    <div>
+    <S.Layout>
       <Header />
       <main>
         <Outlet />
       </main>
-    </div>
+    </S.Layout>
   );
 };
 

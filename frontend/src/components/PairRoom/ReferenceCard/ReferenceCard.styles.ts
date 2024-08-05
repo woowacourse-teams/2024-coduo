@@ -1,5 +1,11 @@
 import styled, { css } from 'styled-components';
 
+export const Layout = styled.div`
+  flex: 1;
+  min-width: 49rem;
+  max-height: calc(100vh - 13rem);
+`;
+
 export const buttonStyle = css`
   width: 9rem;
   height: 2.5rem;
@@ -29,22 +35,23 @@ export const ReferenceLink = styled.a`
   }
 `;
 
-export const ReferenceList = styled.ul`
+export const ReferenceListContainer = styled.div`
   overflow-y: auto;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 3rem 1rem;
-  place-items: center;
+  max-height: calc(100vh - 23rem);
+  padding: 3rem;
+`;
 
-  height: calc(100vh - 30rem);
-  margin: 3rem;
+export const ReferenceList = styled.ul`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
 
   li {
     list-style-type: none;
   }
 
-  @media (width >= 1600px) {
-    grid-template-columns: repeat(3, 1fr);
+  @media (width < 1600px) {
+    grid-template-columns: repeat(2, 1fr);
   }
 `;
 
