@@ -38,7 +38,7 @@ public class Url {
     public Document getDocument() {
         try {
             return Jsoup.connect(value).get();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new DocumentAccessException("URL에 대한 EDocumnet를 불러올 수 없습니다.");
         }
     }

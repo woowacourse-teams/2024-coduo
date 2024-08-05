@@ -38,24 +38,6 @@ class OpenGraphTest {
         );
     }
 
-    @Test
-    @DisplayName("Document가 null이면 기본값으로 채워 반환한다.")
-    void fill_default_value_when_cannot_find_document() {
-        // given
-        final Document document = null;
-
-        // when
-        final OpenGraph openGraph = OpenGraph.from(document);
-
-        // then
-        assertAll(
-                () -> assertThat(openGraph.getHeadTitle()).isEqualTo(DEFAULT_VALUE),
-                () -> assertThat(openGraph.getOpenGraphTitle()).isEqualTo(DEFAULT_VALUE),
-                () -> assertThat(openGraph.getDescription()).isEqualTo(DEFAULT_VALUE),
-                () -> assertThat(openGraph.getImage()).isEqualTo(DEFAULT_VALUE)
-        );
-    }
-
     @Nested
     @DisplayName("Document의 오픈그래프 데이터가 하나라도 존재하면 생성한다.")
     class CreateOpenGraphWithNullPropertyTests {

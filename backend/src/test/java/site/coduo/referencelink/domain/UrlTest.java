@@ -77,14 +77,4 @@ class UrlTest {
         // when & then
         assertThat(url.getDocument()).isNotNull();
     }
-
-    @Test
-    @DisplayName("Document를 가져올 수 없다면 null을 반환한다.")
-    void return_null_when_cannot_get_document() {
-        // given
-        final Url url = new Url("http://invalid.url");
-
-        // when & then
-        assertThat(url.getDocument()).isNull();
-    }
 }
