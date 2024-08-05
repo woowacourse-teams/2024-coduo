@@ -8,6 +8,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import lombok.Getter;
+import site.coduo.referencelink.exception.DocumentAccessException;
 import site.coduo.referencelink.exception.InvalidUrlFormatException;
 
 @Getter
@@ -25,7 +26,7 @@ public class Url {
 
     private void validate(final String value) {
         if (Objects.isNull(value)) {
-            throw new InvalidUrlFormatException("url이 비어있습니다.");
+            throw new InvalidUrlFormatException("URL 비어있습니다.");
         }
 
         if (VALID_REGEX.matcher(value).matches()) {
@@ -38,7 +39,7 @@ public class Url {
         try {
             return Jsoup.connect(value).get();
         } catch (IOException e) {
-            return null;
+            throw new DocumentAccessException("URL에 대한 EDocumnet를 불러올 수 없습니다.");
         }
     }
 }

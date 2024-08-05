@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import site.coduo.referencelink.domain.OpenGraph;
 import site.coduo.referencelink.domain.Url;
+import site.coduo.referencelink.exception.DocumentAccessException;
 import site.coduo.referencelink.repository.OpenGraphEntity;
 import site.coduo.referencelink.repository.OpenGraphRepository;
 import site.coduo.referencelink.repository.ReferenceLinkEntity;
@@ -20,10 +21,20 @@ public class OpenGraphService {
 
     @Transactional
     public void createOpenGraphCommand(final ReferenceLinkEntity referenceLinkEntity) {
-        final Document document = new Url(referenceLinkEntity.getUrl()).getDocument();
-        final OpenGraph openGraph = OpenGraph.from(document);
+        final OpenGraph openGraph = getOpenGraph(referenceLinkEntity);
         final OpenGraphEntity openGraphEntity = new OpenGraphEntity(openGraph, referenceLinkEntity);
         openGraphRepository.save(openGraphEntity);
+    }
+
+    private OpenGraph getOpenGraph(final ReferenceLinkEntity referenceLinkEntity) {
+        OpenGraph openGraph;
+        try {
+            final Document document = new Url(referenceLinkEntity.getUrl()).getDocument();
+            openGraph = OpenGraph.from(document);
+        } catch (final DocumentAccessException e) {
+            openGraph = new OpenGraph();
+        }
+        return openGraph;
     }
 
     public OpenGraph findOpenGraphQuery(final Long id) {
