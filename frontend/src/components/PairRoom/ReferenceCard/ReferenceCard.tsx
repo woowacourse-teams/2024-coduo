@@ -1,5 +1,7 @@
 import { IoIosLink } from 'react-icons/io';
 
+import useReferenceLinks from '@/queries/PairRoom/useReferenceLinks';
+
 import Bookmark from '@/components/common/Bookmark/Bookmark';
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
@@ -10,8 +12,6 @@ import useInput from '@/hooks/common/useInput';
 import { theme } from '@/styles/theme';
 
 import * as S from './ReferenceCard.styles';
-
-import useReferenceLinks from '@/queries/PairRoom/useReferenceLinks';
 
 interface ReferenceCardProps {
   accessCode: string;
@@ -33,47 +33,50 @@ const ReferenceCard = ({ accessCode }: ReferenceCardProps) => {
     'contentcontentcontentcontecontentcontentcontentcontentcocontentcontentcontentconcontentcontentcontentcontentcontentcontentcontentconntentconntcontentcontentcontentcontent';
 
   return (
-    <PairRoomCard>
-      <PairRoomCard.Header icon={<IoIosLink color={theme.color.primary[500]} />} title="링크">
-        <S.ReferenceLinkForm onSubmit={handleSubmit}>
-          <Input
-            placeholder="링크를 입력해주세요."
-            value={value}
-            status={status}
-            message={message}
-            onChange={handleChange}
-          />
-          <Button
-            disabled={!isButtonActive}
-            css={S.buttonStyle}
-            color="secondary"
-            rounded={true}
-            onClick={() => addReferenceLink({ accessCode, url: value })}
-          >
-            링크 추가
-          </Button>
-        </S.ReferenceLinkForm>
-      </PairRoomCard.Header>
-      <S.ReferenceList>
-        {referenceLinks.length > 0 ? (
-          referenceLinks.map(({ url, id }) => {
-            // url, title, description, image
-            return (
-              <Bookmark
-                url={url}
-                image={IMAGE}
-                key={id}
-                title={BOOKMARK_TITLE}
-                description={BOOKMARK_CONTENTS}
-                deleteReferenceLink={() => deleteReferenceLink({ accessCode, id })}
-              />
-            );
-          })
-        ) : (
-          <S.EmptyText>저장된 링크가 없습니다.</S.EmptyText>
-        )}
-      </S.ReferenceList>
-    </PairRoomCard>
+    <S.Layout>
+      <PairRoomCard>
+        <PairRoomCard.Header icon={<IoIosLink color={theme.color.primary[500]} />} title="링크">
+          <S.ReferenceLinkForm onSubmit={handleSubmit}>
+            <Input
+              placeholder="링크를 입력해주세요."
+              value={value}
+              status={status}
+              message={message}
+              onChange={handleChange}
+            />
+            <Button
+              disabled={!isButtonActive}
+              css={S.buttonStyle}
+              color="secondary"
+              rounded={true}
+              onClick={() => addReferenceLink({ accessCode, url: value })}
+            >
+              링크 추가
+            </Button>
+          </S.ReferenceLinkForm>
+        </PairRoomCard.Header>
+        <S.ReferenceListContainer>
+          {referenceLinks.length > 0 ? (
+            <S.ReferenceList>
+              {referenceLinks.map(({ url, id }) => {
+                return (
+                  <Bookmark
+                    key={id}
+                    url={url}
+                    image={IMAGE}
+                    title={BOOKMARK_TITLE}
+                    description={BOOKMARK_CONTENTS}
+                    deleteReferenceLink={() => deleteReferenceLink({ accessCode, id })}
+                  />
+                );
+              })}
+            </S.ReferenceList>
+          ) : (
+            <S.EmptyText>저장된 링크가 없습니다.</S.EmptyText>
+          )}
+        </S.ReferenceListContainer>
+      </PairRoomCard>
+    </S.Layout>
   );
 };
 
