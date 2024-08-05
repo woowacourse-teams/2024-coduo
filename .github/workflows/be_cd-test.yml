@@ -84,7 +84,7 @@ jobs:
 
       - name: Stop and remove existing containers
         run: |
-          sudo docker compose -f be_docker-compose.test.yml down --rmi all
+          sudo docker compose --env-file .be_env -f be_docker-compose.test.yml down --rmi all
 
       - name: Deploy docker container
         run: |
