@@ -109,7 +109,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
         // given
         final PairRoomCreateResponse pairRoom = createPairRoom(new PairRoomCreateRequest("레모네", "프람"));
 
-        createReferenceLink("url", pairRoom.accessCode());
+        createReferenceLink("http://www.delete.com", pairRoom.accessCode());
 
         // when & then
         RestAssured
