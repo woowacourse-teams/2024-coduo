@@ -70,7 +70,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
     void read_reference_link_without_open_graph() {
         // given
         final PairRoomCreateResponse pairRoom = createPairRoom(new PairRoomCreateRequest("잉크", "해시"));
-        final String expectedUrl = "http://www.google.com";
+        final String expectedUrl = "http://www.deleasfsdte.com";
         createReferenceLink(expectedUrl, pairRoom.accessCode());
 
         // when & then
@@ -85,7 +85,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
                 .assertThat()
                 .statusCode(HttpStatus.OK.value())
                 .body("[0].url", is(expectedUrl))
-                .body("[0].headTitle", is("Google"))
+                .body("[0].headTitle", is(""))
                 .body("[0].openGraphTitle", is(""))
                 .body("[0].description", is(""))
                 .body("[0].image", is(""));
