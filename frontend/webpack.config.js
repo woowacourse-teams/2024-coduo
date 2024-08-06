@@ -4,6 +4,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import { fileURLToPath } from 'url';
 import webpack from 'webpack';
 import dotenv from 'dotenv';
+import { sentryWebpackPlugin } from '@sentry/webpack-plugin';
 
 const env = dotenv.config().parsed;
 
@@ -17,6 +18,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const config = {
   mode: 'development',
   entry: './src/index.tsx',
+  devtool: 'source-map',
   output: {
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
@@ -51,6 +53,12 @@ const config = {
     }),
     new CopyWebpackPlugin({
       patterns: [{ from: 'src/assets', to: 'assets/' }],
+    }),
+    sentryWebpackPlugin({
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      org: '2024-coduo',
+      project: 'coduo2024',
+      telemetry: false,
     }),
     new webpack.DefinePlugin(envKeys),
   ],

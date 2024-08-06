@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Layout = styled.div`
   display: flex;
+  min-width: 60rem;
   height: 16rem;
 `;
 
