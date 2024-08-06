@@ -2,7 +2,7 @@ name: Coduo Backend Test Server CI
 
 on:
   pull_request:
-    branches: [ "BE/test" ]
+    branches: [ "BE/dev", "BE/test" ]
 
 jobs:
   build-and-test:
