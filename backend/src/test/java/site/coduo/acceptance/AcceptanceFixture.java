@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.context.annotation.Import;
 
 import io.restassured.RestAssured;
+import site.coduo.config.TestConfig;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 
+@Import(TestConfig.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 abstract class AcceptanceFixture {
 
