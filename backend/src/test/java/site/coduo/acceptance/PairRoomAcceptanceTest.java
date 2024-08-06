@@ -26,7 +26,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .contentType("application/json")
 
                 .when()
-                .get("/pair-room/" + pairRoomUrl.accessCode())
+                .get("/api/pair-room/" + pairRoomUrl.accessCode())
 
                 .then()
                 .log()
@@ -48,7 +48,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .contentType("application/json")
 
                 .when()
-                .delete("/pair-room/" + pairRoomUrl.accessCode())
+                .delete("/api/pair-room/" + pairRoomUrl.accessCode())
 
                 .then()
                 .log()
@@ -83,7 +83,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .body(pairRoom)
 
                 .when()
-                .post("/pair-room")
+                .post("/api/pair-room")
 
                 .then()
                 .extract()
