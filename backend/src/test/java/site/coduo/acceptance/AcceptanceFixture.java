@@ -43,24 +43,5 @@ abstract class AcceptanceFixture {
         openGraphRepository.deleteAll();
         referenceLinkRepository.deleteAll();
         pairRoomRepository.deleteAll();
-
-        resetIdSequences();
-    }
-
-    // ID 시퀀스 재설정 메서드
-    private void resetIdSequences() {
-        String dialect = entityManager.getEntityManagerFactory().getProperties().get("hibernate.dialect").toString();
-
-        if (dialect.contains("H2")) {
-            entityManager.createNativeQuery("ALTER TABLE PAIR_ROOM ALTER COLUMN ID RESTART WITH 1").executeUpdate();
-            entityManager.createNativeQuery("ALTER TABLE REFERENCE_LINK ALTER COLUMN ID RESTART WITH 1")
-                    .executeUpdate();
-            entityManager.createNativeQuery("ALTER TABLE OPEN_GRAPH ALTER COLUMN ID RESTART WITH 1").executeUpdate();
-        }
-        if (dialect.contains("MySQL")) {
-            entityManager.createNativeQuery("ALTER TABLE PAIR_ROOM AUTO_INCREMENT = 1").executeUpdate();
-            entityManager.createNativeQuery("ALTER TABLE REFERENCE_LINK AUTO_INCREMENT = 1").executeUpdate();
-            entityManager.createNativeQuery("ALTER TABLE OPEN_GRAPH AUTO_INCREMENT = 1").executeUpdate();
-        }
     }
 }

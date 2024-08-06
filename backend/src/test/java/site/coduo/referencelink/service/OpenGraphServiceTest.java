@@ -3,11 +3,11 @@ package site.coduo.referencelink.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
@@ -21,7 +21,6 @@ import site.coduo.referencelink.repository.OpenGraphRepository;
 import site.coduo.referencelink.repository.ReferenceLinkEntity;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 
-@Transactional
 @SpringBootTest
 class OpenGraphServiceTest {
 
@@ -38,6 +37,13 @@ class OpenGraphServiceTest {
 
     @Autowired
     private ReferenceLinkRepository referenceLinkRepository;
+
+    @AfterEach
+    void tearDown() {
+        openGraphRepository.deleteAll();
+        referenceLinkRepository.deleteAll();
+        pairRoomRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("오픈그래프를 생성 후 저장한다.")
@@ -100,7 +106,7 @@ class OpenGraphServiceTest {
         openGraphService.createOpenGraphCommand(referenceLinkEntity);
 
         // when
-        openGraphService.deleteByReferenceLinkIdCommand(1L);
+        openGraphService.deleteByReferenceLinkIdCommand(referenceLinkEntity.getId());
 
         // then
         assertThat(openGraphRepository.findAll()).isEmpty();

@@ -5,11 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
@@ -24,7 +24,6 @@ import site.coduo.referencelink.repository.ReferenceLinkRepository;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
 import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
 
-@Transactional
 @SpringBootTest
 class ReferenceLinkServiceTest {
 
@@ -39,6 +38,13 @@ class ReferenceLinkServiceTest {
 
     @Autowired
     private OpenGraphRepository openGraphRepository;
+
+    @AfterEach
+    void tearDown() {
+        openGraphRepository.deleteAll();
+        referenceLinkRepository.deleteAll();
+        pairRoomRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("레퍼런스 링크와 오픈그래프를 함께 저장한다.")
