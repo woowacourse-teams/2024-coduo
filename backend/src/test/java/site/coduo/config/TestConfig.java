@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Primary;
 
 import site.coduo.fake.FakeGithubOAuthClient;
 import site.coduo.fake.FixedNanceFactory;
-import site.coduo.oauth.client.OAuthClient;
-import site.coduo.oauth.security.NanceFactory;
+import site.coduo.oauth.client.GithubOAuthClient;
+import site.coduo.oauth.infrastructure.security.NanceFactory;
 
 @TestConfiguration
 public class TestConfig {
@@ -20,7 +20,7 @@ public class TestConfig {
 
     @Bean
     @Primary
-    public OAuthClient fakeOAuthClient() {
+    public GithubOAuthClient fakeGithubOAuthClient() {
         return new FakeGithubOAuthClient();
     }
 }

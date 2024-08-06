@@ -1,17 +1,15 @@
 package site.coduo.oauth.client;
 
-import java.nio.charset.Charset;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestClient;
 
 import site.coduo.oauth.client.dto.TokenRequest;
+import site.coduo.oauth.infrastructure.security.Basic;
 
 @Component
 public class GithubOAuthClient implements OAuthClient {
@@ -20,7 +18,6 @@ public class GithubOAuthClient implements OAuthClient {
     private static final int READ_TIME_OUT_VALUE = 10000;
 
     private final RestClient client;
-
 
     @Value("${oauth.github.client-id}")
     private String oAuthClientId;
@@ -45,17 +42,12 @@ public class GithubOAuthClient implements OAuthClient {
 
     @Override
     public String grant(TokenRequest request) {
-        LinkedMultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-        map.add("code", request.code());
-        map.add("redirect_uri", oAuthRedirectUri);
 
         return client.post()
                 .uri("/login/oauth/access_token")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .header(HttpHeaders.AUTHORIZATION,
-                        "BASIC " + HttpHeaders.encodeBasicAuth(oAuthClientId, oAuthClientSecret,
-                                Charset.defaultCharset()))
-                .body(map)
+                .header(HttpHeaders.AUTHORIZATION, new Basic(oAuthClientId, oAuthClientSecret).getValue())
+                .body(request.toQueryParams())
                 .retrieve()
                 .body(String.class);
     }

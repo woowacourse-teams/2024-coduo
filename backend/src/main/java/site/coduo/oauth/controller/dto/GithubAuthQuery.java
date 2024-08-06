@@ -12,11 +12,11 @@ public record GithubAuthQuery(String clientId, String redirectUri, String state)
     }
 
     public MultiValueMap<String, String> toQueryParams() {
-        LinkedMultiValueMap<String, String> queries = new LinkedMultiValueMap<>();
-        queries.add("client_id", clientId);
-        queries.add("state", state);
-        queries.add("redirect_uri", redirectUri);
+        LinkedMultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("client_id", clientId);
+        params.add("state", state);
+        params.add("redirect_uri", redirectUri);
 
-        return queries;
+        return params;
     }
 }

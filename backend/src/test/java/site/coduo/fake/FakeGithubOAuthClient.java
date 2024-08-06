@@ -1,9 +1,9 @@
 package site.coduo.fake;
 
-import site.coduo.oauth.client.OAuthClient;
+import site.coduo.oauth.client.GithubOAuthClient;
 import site.coduo.oauth.client.dto.TokenRequest;
 
-public class FakeGithubOAuthClient implements OAuthClient {
+public class FakeGithubOAuthClient extends GithubOAuthClient {
 
     public static final String ACCESS_TOKEN = "access-token";
     public static final String OAUTH_CLIENT_ID = "test";

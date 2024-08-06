@@ -1,6 +1,6 @@
 package site.coduo.fake;
 
-import site.coduo.oauth.security.NanceFactory;
+import site.coduo.oauth.infrastructure.security.NanceFactory;
 
 public class FixedNanceFactory implements NanceFactory {
     public static final String FIXED_VALUE = "random number";

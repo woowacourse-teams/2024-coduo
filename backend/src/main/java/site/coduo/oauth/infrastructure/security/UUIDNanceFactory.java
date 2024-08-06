@@ -1,4 +1,4 @@
-package site.coduo.oauth.security;
+package site.coduo.oauth.infrastructure.security;
 
 import java.util.UUID;
 
