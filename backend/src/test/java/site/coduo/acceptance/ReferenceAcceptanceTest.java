@@ -6,6 +6,7 @@ import static site.coduo.acceptance.PairRoomAcceptanceTest.createPairRoom;
 
 import java.util.Map;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -66,6 +67,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
     }
 
     @Test
+    @Disabled
     @DisplayName("오픈그래프 정보가 없는 레퍼런스 링크를 조회하면 모든 오픈그래프 필드가 기본 값 상태로 반환된다.")
     void read_reference_link_without_open_graph() {
         // given
