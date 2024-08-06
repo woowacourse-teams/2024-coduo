@@ -40,8 +40,8 @@ jobs:
 
       - name: Image build and push
         run: |
-          docker build --build-arg PROFILE=test --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_REPO_NAME }}/coduo_springboot-app:test-latest --platform linux/arm64 .
-          docker push ${{ secrets.DOCKER_REPO_NAME }}/coduo_springboot-app:test-latest
+          docker build --build-arg PROFILE=test --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_REPO_NAME }}/springboot-app:test-latest --platform linux/arm64 .
+          docker push ${{ secrets.DOCKER_REPO_NAME }}/springboot-app:test-latest
 
       - name: Upload docker-compose yaml script to artifact
         uses: actions/upload-artifact@v4

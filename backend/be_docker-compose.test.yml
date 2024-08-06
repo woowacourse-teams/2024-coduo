@@ -21,7 +21,7 @@ services:
 
   springboot:
     container_name: coduo_springboot-app
-    image: ${DOCKER_REPO_NAME}/coduo_springboot-app:test-latest
+    image: ${DOCKER_REPO_NAME}/springboot-app:test-latest
     platform: linux/arm64
     ports:
       - ${SERVER_BINDING_PORT}
