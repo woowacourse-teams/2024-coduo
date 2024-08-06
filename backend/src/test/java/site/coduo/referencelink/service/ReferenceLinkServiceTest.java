@@ -41,9 +41,9 @@ class ReferenceLinkServiceTest {
 
     @AfterEach
     void tearDown() {
-        pairRoomRepository.deleteAll();
-        referenceLinkRepository.deleteAll();
         openGraphRepository.deleteAll();
+        referenceLinkRepository.deleteAll();
+        pairRoomRepository.deleteAll();
     }
 
     @Test
