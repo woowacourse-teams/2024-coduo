@@ -5,6 +5,7 @@ import PairListCard from '@/components/PairRoom/PairListCard/PairListCard';
 import PairRoleCard from '@/components/PairRoom/PairRoleCard/PairRoleCard';
 import ReferenceCard from '@/components/PairRoom/ReferenceCard/ReferenceCard';
 import TimerCard from '@/components/PairRoom/TimerCard/TimerCard';
+import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
 
 import useTimer from '@/hooks/PairRoom/useTimer';
 
@@ -42,6 +43,7 @@ const PairRoom = () => {
         />
       </S.Container>
       <S.Container>
+        <TodoListCard />
         <ReferenceCard accessCode={accessCode || ''} />
       </S.Container>
     </S.Layout>
