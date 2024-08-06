@@ -3,11 +3,13 @@ package site.coduo.acceptance;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 
 import io.restassured.RestAssured;
 import site.coduo.pairroom.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.dto.PairRoomCreateResponse;
 
+@Transactional
 class PairRoomAcceptanceTest extends AcceptanceFixture {
 
     @Test
