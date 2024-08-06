@@ -10,6 +10,7 @@ import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.exception.AccessCodeNotFoundException;
 import site.coduo.pairroom.repository.PairRoomRepository;
+import site.coduo.referencelink.domain.OpenGraph;
 import site.coduo.referencelink.domain.ReferenceLink;
 import site.coduo.referencelink.domain.Url;
 import site.coduo.referencelink.repository.ReferenceLinkEntity;
@@ -24,6 +25,7 @@ public class ReferenceLinkService {
 
     private final ReferenceLinkRepository referenceLinkRepository;
     private final PairRoomRepository pairRoomRepository;
+    private final OpenGraphService openGraphService;
 
     @Transactional
     public void createReferenceLinkCommand(final String accessCodeText, final ReferenceLinkCreateRequest request) {
@@ -31,21 +33,31 @@ public class ReferenceLinkService {
         final PairRoom pairRoom = pairRoomRepository.findByAccessCode(accessCode)
                 .orElseThrow(() -> new AccessCodeNotFoundException("찾을 수 없는 엑세스 코드입니다."));
         final ReferenceLink referenceLink = new ReferenceLink(new Url(request.url()), accessCode);
-        final ReferenceLinkEntity referenceLinkEntity = new ReferenceLinkEntity(referenceLink, pairRoom);
-        referenceLinkRepository.save(referenceLinkEntity);
+
+        final ReferenceLinkEntity referenceLinkEntity = referenceLinkRepository.save(
+                new ReferenceLinkEntity(referenceLink, pairRoom));
+        openGraphService.createOpenGraphCommand(referenceLinkEntity);
     }
 
     public List<ReferenceLinkResponse> readAllReferenceLinkQuery(final String accessCodeText) {
-
-        return referenceLinkRepository.findAll()
+        final List<ReferenceLinkEntity> referenceLinkEntities = referenceLinkRepository.findAll()
                 .stream()
                 .filter(link -> link.isSameAccessCode(new AccessCode(accessCodeText)))
-                .map(link -> new ReferenceLinkResponse(link.getUrl()))
                 .toList();
+
+        return referenceLinkEntities.stream()
+                .map(this::makeReferenceLinkResponse)
+                .toList();
+    }
+
+    private ReferenceLinkResponse makeReferenceLinkResponse(final ReferenceLinkEntity referenceLinkEntity) {
+        final OpenGraph openGraph = openGraphService.findOpenGraphQuery(referenceLinkEntity.getId());
+        return new ReferenceLinkResponse(referenceLinkEntity, openGraph);
     }
 
     @Transactional
     public void deleteReferenceLinkCommand(final long id) {
+        openGraphService.deleteByReferenceLinkIdCommand(id);
         referenceLinkRepository.deleteById(id);
     }
 }
