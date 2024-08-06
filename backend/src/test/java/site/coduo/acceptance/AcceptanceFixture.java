@@ -40,8 +40,8 @@ abstract class AcceptanceFixture {
 
     @AfterEach
     void tearDown() {
-        openGraphRepository.deleteAll();
-        referenceLinkRepository.deleteAll();
         pairRoomRepository.deleteAll();
+        referenceLinkRepository.deleteAll();
+        openGraphRepository.deleteAll();
     }
 }
