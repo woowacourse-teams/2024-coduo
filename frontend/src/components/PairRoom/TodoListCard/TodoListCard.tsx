@@ -16,7 +16,7 @@ import { theme } from '@/styles/theme';
 import * as S from './TodoListCard.styles';
 
 const TodoListCard = () => {
-  const [todos, setTodos] = useState(['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5']);
+  const [todos, setTodos] = useState<string[]>([]);
   const [isInputOpen, setIsInputOpen] = useState(false);
 
   const handleTodos = (newTodos: string[]) => setTodos(newTodos);
@@ -34,16 +34,20 @@ const TodoListCard = () => {
     <PairRoomCard>
       <PairRoomCard.Header icon={<IoIosCheckbox color={theme.color.primary[500]} />} title="투두 리스트" />
       <S.TodoListWrapper>
-        {todos.map((todo, idx) => (
-          <TodoItem
-            key={idx}
-            id={idx}
-            content={todo}
-            onDragStart={handleDragStart}
-            onDragEnter={handleDragEnter}
-            onDrop={handleDrop}
-          />
-        ))}
+        {todos.length > 0 ? (
+          todos.map((todo, idx) => (
+            <TodoItem
+              key={idx}
+              id={idx}
+              content={todo}
+              onDragStart={handleDragStart}
+              onDragEnter={handleDragEnter}
+              onDrop={handleDrop}
+            />
+          ))
+        ) : (
+          <S.EmptyText>저장된 투두 리스트가 없습니다.</S.EmptyText>
+        )}
       </S.TodoListWrapper>
       <S.Footer>
         {isInputOpen ? (

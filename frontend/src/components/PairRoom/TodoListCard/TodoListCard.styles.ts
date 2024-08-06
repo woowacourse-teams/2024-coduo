@@ -4,7 +4,7 @@ export const TodoListWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  padding: 3rem;
+  padding: 2rem;
 `;
 
 export const Footer = styled.div`
@@ -52,4 +52,9 @@ export const AddButton = styled.button`
   &:hover {
     background-color: ${({ theme }) => theme.color.black[20]};
   }
+`;
+
+export const EmptyText = styled.p`
+  font-size: ${({ theme }) => theme.fontSize.md};
+  color: ${({ theme }) => theme.color.black[60]};
 `;
