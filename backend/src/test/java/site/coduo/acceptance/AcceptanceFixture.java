@@ -40,15 +40,10 @@ abstract class AcceptanceFixture {
 
     @AfterEach
     void tearDown() {
-        // 모든 변경 사항을 DB에 반영
-        entityManager.flush();
+        openGraphRepository.deleteAll();
+        referenceLinkRepository.deleteAll();
+        pairRoomRepository.deleteAll();
 
-        // 테이블의 모든 레코드 삭제 (순서 중요, 자식 먼저 삭제 후 부모 삭제해야 한다.)
-        entityManager.createNativeQuery("DELETE FROM OPEN_GRAPH").executeUpdate();
-        entityManager.createNativeQuery("DELETE FROM REFERENCE_LINK").executeUpdate();
-        entityManager.createNativeQuery("DELETE FROM PAIR_ROOM").executeUpdate();
-
-        // ID 재설정
         resetIdSequences();
     }
 

@@ -27,14 +27,12 @@ public class OpenGraphService {
     }
 
     private OpenGraph getOpenGraph(final ReferenceLinkEntity referenceLinkEntity) {
-        OpenGraph openGraph;
         try {
             final Document document = new Url(referenceLinkEntity.getUrl()).getDocument();
-            openGraph = OpenGraph.from(document);
+            return OpenGraph.from(document);
         } catch (final DocumentAccessException e) {
-            openGraph = new OpenGraph();
+            return new OpenGraph();
         }
-        return openGraph;
     }
 
     public OpenGraph findOpenGraphQuery(final Long id) {
