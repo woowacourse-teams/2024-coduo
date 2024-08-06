@@ -12,4 +12,9 @@ public class CommonController {
     public String healthCheck() {
         return "Coduo is OK";
     }
+
+    @GetMapping("/ci-test")
+    public String ciTest() {
+        return "Ci is OK?";
+    }
 }
