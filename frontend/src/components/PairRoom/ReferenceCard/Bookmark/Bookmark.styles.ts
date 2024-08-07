@@ -8,6 +8,7 @@ export const Layout = styled.div`
   flex-direction: column;
 
   width: 20rem;
+  height: 24rem;
 
   border: 1px solid ${({ theme }) => theme.color.black[30]};
   border-radius: 1.5rem;

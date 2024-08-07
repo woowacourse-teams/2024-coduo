@@ -14,7 +14,6 @@ export const Layout = styled.div`
 export const List = styled.ul`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  flex-grow: 1;
   gap: 3rem;
 
   li {
@@ -26,7 +25,9 @@ export const List = styled.ul`
   }
 `;
 
-export const EmptyText = styled.p`
+export const EmptyLayout = styled.div`
+  flex-grow: 1;
+  padding: 2rem;
   font-size: ${({ theme }) => theme.fontSize.md};
   color: ${({ theme }) => theme.color.black[60]};
 `;
