@@ -59,6 +59,7 @@ const config = {
       org: '2024-coduo',
       project: 'coduo2024',
       telemetry: false,
+      hideSourceMaps: true,
     }),
     new webpack.DefinePlugin(envKeys),
   ],
