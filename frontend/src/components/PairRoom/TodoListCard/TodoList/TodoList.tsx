@@ -13,7 +13,7 @@ const TodoList = ({ todos, handleTodos }: TodoListProps) => {
   const { handleDragStart, handleDragEnter, handleDrop } = useDragAndDrop(todos, handleTodos);
 
   return (
-    <S.TodoListWrapper>
+    <S.Layout>
       {todos.length > 0 ? (
         todos.map((todo, idx) => (
           <TodoItem
@@ -28,7 +28,7 @@ const TodoList = ({ todos, handleTodos }: TodoListProps) => {
       ) : (
         <S.EmptyText>저장된 투두 리스트가 없습니다.</S.EmptyText>
       )}
-    </S.TodoListWrapper>
+    </S.Layout>
   );
 };
 

@@ -1,61 +1,66 @@
 import styled, { css } from 'styled-components';
 
+export const inputStyles = css`
+  height: 4rem;
+`;
+
 export const Layout = styled.div`
   min-width: 49rem;
   max-height: calc(100vh - 23rem);
 `;
 
-export const buttonStyle = css`
-  width: 9rem;
-  height: 2.5rem;
-  font-size: ${({ theme }) => theme.fontSize.sm};
-`;
-
-export const ReferenceLinkForm = styled.form`
-  overflow-y: auto;
+export const Body = styled.div`
   display: flex;
-  gap: 2rem;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
 
-  width: 80%;
+  height: calc(100vh - 25rem);
+  min-height: 42rem;
+
+  border-top: 1px solid ${({ theme }) => theme.color.black[30]};
 `;
 
-export const ReferenceLink = styled.a`
+export const Form = styled.form`
+  display: flex;
+  gap: 4rem;
+  align-items: center;
+
+  width: 100%;
+  padding: 0 2rem;
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  gap: 0.6rem;
+`;
+
+export const Footer = styled.div`
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  height: 6rem;
+  min-height: 6rem;
+
+  border-top: 1px solid ${({ theme }) => theme.color.black[30]};
+`;
+
+export const FooterButton = styled.button`
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+
+  width: 100%;
+  height: 6rem;
+  padding: 2rem;
+
   font-size: ${({ theme }) => theme.fontSize.base};
-  transition: all 0.1s;
+  color: ${({ theme }) => theme.color.black[70]};
+
+  border-radius: 0 0 1.5rem 1.5rem;
+
+  transition: all 0.2s ease 0s;
 
   &:hover {
-    opacity: 0.7;
+    background-color: ${({ theme }) => theme.color.black[20]};
   }
-
-  &:active {
-    opacity: 0.5;
-  }
-`;
-
-export const Body = styled.div`
-  overflow-y: auto;
-  min-height: calc(100vh - 25rem);
-  padding: 2rem;
-`;
-
-export const ReferenceList = styled.ul`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  flex-grow: 1;
-  gap: 3rem;
-
-  li {
-    list-style-type: none;
-  }
-
-  @media (width < 1600px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-`;
-
-export const EmptyText = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.md};
-  color: ${({ theme }) => theme.color.black[60]};
 `;

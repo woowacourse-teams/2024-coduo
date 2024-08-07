@@ -31,9 +31,9 @@ const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
     event.preventDefault();
 
     setTodos((prev) => [...prev, value]);
-    setIsFooterOpen(false);
 
     resetValue();
+    setIsFooterOpen(false);
   };
 
   return (

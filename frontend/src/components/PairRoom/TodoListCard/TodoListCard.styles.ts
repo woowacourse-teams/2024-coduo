@@ -11,8 +11,11 @@ export const Layout = styled.div`
 export const Body = styled.div`
   display: flex;
   flex-direction: column;
+
   height: calc(100vh - 25rem);
   min-height: 42rem;
+
+  border-top: 1px solid ${({ theme }) => theme.color.black[30]};
 `;
 
 export const Footer = styled.div`
@@ -21,8 +24,11 @@ export const Footer = styled.div`
 
   width: 100%;
   height: 6rem;
+  min-height: 6rem;
 
+  background-color: ${({ theme }) => theme.color.black[10]};
   border-top: 1px solid ${({ theme }) => theme.color.black[30]};
+  border-radius: 0 0 1.5rem 1.5rem;
 `;
 
 export const Form = styled.form`

@@ -1,11 +1,14 @@
+import { useState } from 'react';
+
 import { IoIosLink } from 'react-icons/io';
+import { LuPlus } from 'react-icons/lu';
 
 import useReferenceLinks from '@/queries/PairRoom/useReferenceLinks';
 
-import Bookmark from '@/components/common/Bookmark/Bookmark';
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
+import ReferenceList from '@/components/PairRoom/ReferenceCard/ReferenceList/ReferenceList';
 
 import useInput from '@/hooks/common/useInput';
 
@@ -20,72 +23,65 @@ interface ReferenceCardProps {
 }
 
 const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps) => {
-  const { value, status, message, handleChange, resetValue } = useInput();
-  const { referenceLinks, addReferenceLink, deleteReferenceLink } = useReferenceLinks(accessCode);
+  const [isFooterOpen, setIsFooterOpen] = useState(false);
 
-  const isButtonActive = value !== '' && status === 'DEFAULT';
+  const { value, status, message, handleChange, resetValue } = useInput();
+  const { referenceLinks, handleAddReferenceLink, handleDeleteReferenceLink } = useReferenceLinks(accessCode);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+
+    handleAddReferenceLink(value);
+
     resetValue();
+    setIsFooterOpen(false);
   };
-  const IMAGE = 'https://fastly.picsum.photos/id/873/200/300.jpg?hmac=CQHrOY67pytIwHLic3cAxphNbh2NwdxnFQtwaX5MLkM';
-  const BOOKMARK_TITLE = 'titletitletitletitletitletitletitletitletitletitletitletitletitletitletitletitle';
-  const BOOKMARK_CONTENTS =
-    'contentcontentcontentcontecontentcontentcontentcontentcocontentcontentcontentconcontentcontentcontentcontentcontentcontentcontentconntentconntcontentcontentcontentcontent';
 
   return (
     <S.Layout>
       <PairRoomCard>
-        {isOpen ? (
-          <PairRoomCard.Header icon={<IoIosLink color={theme.color.primary[500]} />} title="링크" isOpen={isOpen}>
-            <S.ReferenceLinkForm onSubmit={handleSubmit}>
-              <Input
-                placeholder="링크를 입력해주세요."
-                value={value}
-                status={status}
-                message={message}
-                onChange={handleChange}
-              />
-              <Button
-                disabled={!isButtonActive}
-                css={S.buttonStyle}
-                color="secondary"
-                rounded={true}
-                onClick={() => addReferenceLink({ accessCode, url: value })}
-              >
-                링크 추가
-              </Button>
-            </S.ReferenceLinkForm>
-          </PairRoomCard.Header>
-        ) : (
-          <PairRoomCard.Header
-            icon={<IoIosLink color={theme.color.primary[500]} />}
-            title="링크"
-            isOpen={isOpen}
-            toggleIsOpen={toggleIsOpen}
-          ></PairRoomCard.Header>
-        )}
+        <PairRoomCard.Header
+          icon={<IoIosLink color={theme.color.primary[500]} />}
+          title="링크"
+          isOpen={isOpen}
+          toggleIsOpen={toggleIsOpen}
+        />
         {isOpen && (
           <S.Body>
-            {referenceLinks.length > 0 ? (
-              <S.ReferenceList>
-                {referenceLinks.map(({ url, id }) => {
-                  return (
-                    <Bookmark
-                      key={id}
-                      url={url}
-                      image={IMAGE}
-                      title={BOOKMARK_TITLE}
-                      description={BOOKMARK_CONTENTS}
-                      deleteReferenceLink={() => deleteReferenceLink({ accessCode, id })}
-                    />
-                  );
-                })}
-              </S.ReferenceList>
-            ) : (
-              <S.EmptyText>저장된 링크가 없습니다.</S.EmptyText>
-            )}
+            <ReferenceList referenceLinks={referenceLinks} onDeleteReferenceLink={handleDeleteReferenceLink} />
+            <S.Footer>
+              {isFooterOpen ? (
+                <S.Form onSubmit={handleSubmit}>
+                  <Input
+                    $css={S.inputStyles}
+                    placeholder="링크를 입력해주세요."
+                    value={value}
+                    status={status}
+                    message={message}
+                    onChange={handleChange}
+                  />
+                  <S.ButtonContainer>
+                    <Button
+                      type="button"
+                      size="sm"
+                      filled={false}
+                      rounded={true}
+                      onClick={() => setIsFooterOpen(false)}
+                    >
+                      취소
+                    </Button>
+                    <Button type="submit" size="sm" rounded={true} disabled={value === '' || status !== 'DEFAULT'}>
+                      확인
+                    </Button>
+                  </S.ButtonContainer>
+                </S.Form>
+              ) : (
+                <S.FooterButton onClick={() => setIsFooterOpen(true)}>
+                  <LuPlus />
+                  링크 추가하기
+                </S.FooterButton>
+              )}
+            </S.Footer>
           </S.Body>
         )}
       </PairRoomCard>
