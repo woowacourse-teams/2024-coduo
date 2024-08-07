@@ -13,10 +13,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18.x'
-          cache: 'yarn'
+        run: |
+          curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+          sudo apt-get install -y nodejs
+          npm install -g yarn
 
       - name: Install dependencies
         run: yarn install --no-lockfile
@@ -49,10 +49,10 @@ jobs:
           fetch-depth: 0
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18.x'
-          cache: 'yarn'
+        run: |
+          curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+          sudo apt-get install -y nodejs
+          npm install -g yarn
 
       - name: Install dependencies
         run: yarn install --no-lockfile
