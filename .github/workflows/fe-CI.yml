@@ -21,6 +21,10 @@ jobs:
           node-version: "22.4.1"
           cache: "yarn"
 
+      - name: Generate yarn.lock
+        run: yarn install --non-interactive
+        working-directory: ./frontend
+
       - name: Install dependencies
         run: yarn install
         working-directory: ./frontend
@@ -56,6 +60,10 @@ jobs:
         with:
           node-version: "22.4.1"
           cache: "yarn"
+
+      - name: Generate yarn.lock
+        run: yarn install --non-interactive
+        working-directory: ./frontend
 
       - name: Install dependencies
         run: yarn install
