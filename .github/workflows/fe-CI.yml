@@ -2,9 +2,9 @@ name: Coduo Frontend CI
 
 on:
   push:
-    branches: [FE/test]
+    branches: [FE/dev]
   pull_request:
-    branches: [FE/test]
+    branches: [FE/dev]
 
 jobs:
   test-and-lint:
@@ -26,11 +26,17 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Run lint
-        run: yarn lint:css
+      - name: Run build
+        run: yarn build
 
-      - name: Run RTL tests
-        run: yarn test:rtl
+      - name: Run tests
+        run: yarn test
+
+      - name: Run lint
+        run: yarn lint
+
+      - name: Run lint:css
+        run: yarn lint:css
 
   publish-storybook:
     runs-on: ubuntu-latest
