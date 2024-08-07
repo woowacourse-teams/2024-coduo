@@ -22,10 +22,6 @@ jobs:
         run: yarn install --no-lockfile
         working-directory: ./frontend
 
-      - name: Run build
-        run: yarn build
-        working-directory: ./frontend
-
       - name: Run tests
         run: yarn test
         working-directory: ./frontend
@@ -36,6 +32,10 @@ jobs:
 
       - name: Run lint:css
         run: yarn lint:css
+        working-directory: ./frontend
+
+      - name: Run build
+        run: yarn build
         working-directory: ./frontend
 
   publish-storybook:
