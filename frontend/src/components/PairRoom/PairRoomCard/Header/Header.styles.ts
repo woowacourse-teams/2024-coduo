@@ -10,8 +10,6 @@ export const Layout = styled.div<{ $isOpen: boolean }>`
   padding: 2rem;
 
   font-size: ${({ theme }) => theme.fontSize.lg};
-
-  border-bottom: ${({ $isOpen, theme }) => $isOpen && `1px solid ${theme.color.black[30]}`};
 `;
 
 export const TitleContainer = styled.div`

@@ -1,5 +1,9 @@
 import styled, { css } from 'styled-components';
 
+export const inputStyles = css`
+  height: 4rem;
+`;
+
 export const Layout = styled.div`
   min-width: 49rem;
 `;
@@ -9,16 +13,6 @@ export const Body = styled.div`
   flex-direction: column;
   height: calc(100vh - 25rem);
   min-height: 42rem;
-`;
-
-export const TodoListWrapper = styled.div`
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  gap: 1rem;
-
-  padding: 2rem;
 `;
 
 export const Footer = styled.div`
@@ -31,15 +25,10 @@ export const Footer = styled.div`
   border-top: 1px solid ${({ theme }) => theme.color.black[30]};
 `;
 
-export const inputStyles = css`
-  height: 4rem;
-`;
-
-export const InputContainer = styled.div`
+export const Form = styled.form`
   display: flex;
-  gap: 3rem;
+  gap: 4rem;
   align-items: center;
-  justify-content: space-between;
 
   width: 100%;
   padding: 0 2rem;
@@ -47,10 +36,11 @@ export const InputContainer = styled.div`
 
 export const ButtonContainer = styled.div`
   display: flex;
-  gap: 0.6rem;
+  gap: 1em;
+  align-items: center;
 `;
 
-export const AddButton = styled.button`
+export const FooterButton = styled.button`
   display: flex;
   gap: 1rem;
   align-items: center;
@@ -69,9 +59,4 @@ export const AddButton = styled.button`
   &:hover {
     background-color: ${({ theme }) => theme.color.black[20]};
   }
-`;
-
-export const EmptyText = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.md};
-  color: ${({ theme }) => theme.color.black[60]};
 `;

@@ -6,9 +6,8 @@ import { LuPlus } from 'react-icons/lu';
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
-import TodoItem from '@/components/PairRoom/TodoListCard/TodoItem/TodoItem';
+import TodoList from '@/components/PairRoom/TodoListCard/TodoList/TodoList';
 
-import useDragAndDrop from '@/hooks/common/useDragAndDrop';
 import useInput from '@/hooks/common/useInput';
 
 import { theme } from '@/styles/theme';
@@ -21,28 +20,20 @@ interface TodoListCardProps {
 }
 
 const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
-  const [todos, setTodos] = useState<string[]>([
-    '아이템 1',
-    '아이템 2',
-    '아이템 3',
-    '아이템 1',
-    '아이템 2',
-    '아이템 3',
-    '아이템 1',
-    '아이템 2',
-    '아이템 3',
-  ]);
-  const [isInputOpen, setIsInputOpen] = useState(false);
+  const [todos, setTodos] = useState<string[]>([]);
+  const [isFooterOpen, setIsFooterOpen] = useState(false);
+
+  const { value, handleChange, resetValue } = useInput();
 
   const handleTodos = (newTodos: string[]) => setTodos(newTodos);
 
-  const { value, handleChange, resetValue } = useInput();
-  const { handleDragStart, handleDragEnter, handleDrop } = useDragAndDrop(todos, handleTodos);
+  const addTodo = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-  const addTodoItem = () => {
     setTodos((prev) => [...prev, value]);
+    setIsFooterOpen(false);
+
     resetValue();
-    setIsInputOpen(false);
   };
 
   return (
@@ -56,40 +47,31 @@ const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
         />
         {isOpen && (
           <S.Body>
-            <S.TodoListWrapper>
-              {todos.length > 0 ? (
-                todos.map((todo, idx) => (
-                  <TodoItem
-                    key={idx}
-                    id={idx}
-                    content={todo}
-                    onDragStart={handleDragStart}
-                    onDragEnter={handleDragEnter}
-                    onDrop={handleDrop}
-                  />
-                ))
-              ) : (
-                <S.EmptyText>저장된 투두 리스트가 없습니다.</S.EmptyText>
-              )}
-            </S.TodoListWrapper>
+            <TodoList todos={todos} handleTodos={handleTodos} />
             <S.Footer>
-              {isInputOpen ? (
-                <S.InputContainer>
+              {isFooterOpen ? (
+                <S.Form onSubmit={addTodo}>
                   <Input $css={S.inputStyles} value={value} onChange={handleChange} />
                   <S.ButtonContainer>
-                    <Button size="sm" filled={false} rounded={true} onClick={() => setIsInputOpen(false)}>
+                    <Button
+                      type="button"
+                      size="sm"
+                      filled={false}
+                      rounded={true}
+                      onClick={() => setIsFooterOpen(false)}
+                    >
                       취소
                     </Button>
-                    <Button size="sm" rounded={true} onClick={addTodoItem}>
+                    <Button type="submit" size="sm" rounded={true} disabled={value === ''}>
                       확인
                     </Button>
                   </S.ButtonContainer>
-                </S.InputContainer>
+                </S.Form>
               ) : (
-                <S.AddButton onClick={() => setIsInputOpen(true)}>
+                <S.FooterButton onClick={() => setIsFooterOpen(true)}>
                   <LuPlus />
                   투두 추가하기
-                </S.AddButton>
+                </S.FooterButton>
               )}
             </S.Footer>
           </S.Body>
