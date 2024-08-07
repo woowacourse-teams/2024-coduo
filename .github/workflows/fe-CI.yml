@@ -7,13 +7,14 @@ on:
 jobs:
   test-and-lint:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./frontend
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: print working directory
-        run: pwd
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -21,34 +22,32 @@ jobs:
           node-version: "22.4.1"
           cache: "yarn"
 
-      - name: Generate yarn.lock
-        run: yarn install --non-interactive
-        working-directory: ./frontend
-
       - name: Install dependencies
+        working-directory: ./frontend
         run: yarn install
-        working-directory: ./frontend
-
-      - name: Run build
-        run: yarn build
-        working-directory: ./frontend
 
       - name: Run tests
-        run: yarn test
         working-directory: ./frontend
+        run: yarn test
 
       - name: Run lint
-        run: yarn lint
         working-directory: ./frontend
+        run: yarn lint
 
       - name: Run lint:css
-        run: yarn lint:css
         working-directory: ./frontend
+        run: yarn lint:css
+
+      - name: Run build
+        working-directory: ./frontend
+        run: yarn build
 
   publish-storybook:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
     needs: test-and-lint
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -61,14 +60,8 @@ jobs:
           node-version: "22.4.1"
           cache: "yarn"
 
-      - name: Generate yarn.lock
-        run: yarn install --non-interactive
-        working-directory: ./frontend
-
       - name: Install dependencies
         run: yarn install
-        working-directory: ./frontend
 
       - name: Publish storybook
         run: npx chromatic --project-token=${{ secrets.CHROMATIC_PROJECT_TOKEN }} --storybook-config-dir=.storybook
-        working-directory: ./frontend
