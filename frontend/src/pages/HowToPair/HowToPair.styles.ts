@@ -2,9 +2,7 @@ import styled from 'styled-components';
 
 export const Layout = styled.div`
   position: relative;
-
   padding: 4rem;
-
   line-height: 1.2;
   color: ${({ theme }) => theme.color.black[80]};
 `;

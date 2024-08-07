@@ -1,38 +1,37 @@
 import * as S from './HowToPair.styles';
 
 const HowToPair = () => {
-  const sections = [
-    {
-      title: '페어 프로그래밍이란?',
-      content: (
-        <>
-          <S.Paragraph>
-            페어 프로그래밍(Pair Programming)은 두 명의 프로그래머가 한 컴퓨터에서 함께 작업하며 소프트웨어 코드를
-            작성하는 협업 방식입니다.
-            <br /> 이 방법은 1990년대 후반에 &apos;익스트림 프로그래밍&apos;(Extreme Programming)이라는 소프트웨어 개발
-            방법론의 일부로 널리 알려지게 되었습니다.
-          </S.Paragraph>
-          <S.Paragraph>
-            페어 프로그래밍에서는 두 사람이 각각 &apos;드라이버&apos;(Driver)와 &apos;내비게이터&apos;(Navigator) 역할을
-            번갈아 가며 수행합니다:
-          </S.Paragraph>
-          <S.List>
-            <S.ListItem>
-              <S.Strong>드라이버:</S.Strong> 실제로 코드를 작성하는 사람으로, 키보드와 마우스를 사용해 코드를
-              타이핑합니다.
-            </S.ListItem>
-            <S.ListItem>
-              <S.Strong>내비게이터:</S.Strong> 작성된 코드를 실시간으로 검토하고 개선할 부분을 제안하며, 코드의 전반적인
-              구조와 논리를 생각합니다.
-            </S.ListItem>
-          </S.List>
-          <S.Paragraph>이 과정에서 두 사람은 지속적으로 소통하며 문제를 해결해 나갑니다.</S.Paragraph>
-        </>
-      ),
-    },
-    {
-      title: '페어 프로그래밍의 필요성',
-      content: (
+  return (
+    <S.Layout>
+      <S.Title>페어 프로그래밍: What, Why, How</S.Title>
+
+      <S.Section>
+        <S.SectionTitle>페어 프로그래밍이란?</S.SectionTitle>
+        <S.Paragraph>
+          페어 프로그래밍(Pair Programming)은 두 명의 프로그래머가 한 컴퓨터에서 함께 작업하며 소프트웨어 코드를
+          작성하는 협업 방식입니다.
+          <br /> 이 방법은 1990년대 후반에 &apos;익스트림 프로그래밍&apos;(Extreme Programming)이라는 소프트웨어 개발
+          방법론의 일부로 널리 알려지게 되었습니다.
+        </S.Paragraph>
+        <S.Paragraph>
+          페어 프로그래밍에서는 두 사람이 각각 &apos;드라이버&apos;(Driver)와 &apos;내비게이터&apos;(Navigator) 역할을
+          번갈아 가며 수행합니다:
+        </S.Paragraph>
+        <S.List>
+          <S.ListItem>
+            <S.Strong>드라이버:</S.Strong> 실제로 코드를 작성하는 사람으로, 키보드와 마우스를 사용해 코드를
+            타이핑합니다.
+          </S.ListItem>
+          <S.ListItem>
+            <S.Strong>내비게이터:</S.Strong> 작성된 코드를 실시간으로 검토하고 개선할 부분을 제안하며, 코드의 전반적인
+            구조와 논리를 생각합니다.
+          </S.ListItem>
+        </S.List>
+        <S.Paragraph>이 과정에서 두 사람은 지속적으로 소통하며 문제를 해결해 나갑니다.</S.Paragraph>
+      </S.Section>
+
+      <S.Section>
+        <S.SectionTitle>페어 프로그래밍의 필요성</S.SectionTitle>
         <S.List>
           <S.ListItem>
             <S.Strong>코드 품질 향상:</S.Strong> 두 사람이 함께 작업하면서 자연스럽게 코드 리뷰가 이루어져, 오류를
@@ -54,11 +53,10 @@ const HowToPair = () => {
             찾을 수 있습니다.
           </S.ListItem>
         </S.List>
-      ),
-    },
-    {
-      title: '페어 프로그래밍의 방법',
-      content: (
+      </S.Section>
+
+      <S.Section>
+        <S.SectionTitle>페어 프로그래밍의 방법</S.SectionTitle>
         <S.List>
           <S.ListItem>
             <S.Strong>역할 교환:</S.Strong> 드라이버와 내비게이터는 일정한 주기마다 역할을 교환합니다.
@@ -74,20 +72,7 @@ const HowToPair = () => {
             협업을 할 수 있도록 합니다.
           </S.ListItem>
         </S.List>
-      ),
-    },
-  ];
-
-  return (
-    <S.Layout>
-      <S.Title>페어 프로그래밍: What, Why, How</S.Title>
-
-      {sections.map((section, index) => (
-        <S.Section key={index}>
-          <S.SectionTitle>{section.title}</S.SectionTitle>
-          {section.content}
-        </S.Section>
-      ))}
+      </S.Section>
 
       <S.Conclusion>
         페어 프로그래밍은 단순히 코드를 함께 작성하는 것을 넘어서, 협업을 통해 더 나은 소프트웨어를 만들어 나가는
