@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/react';
+
 interface RequestProps {
   url: string;
   method: 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'PUT';
@@ -21,6 +23,7 @@ const fetcher = {
       return response;
     } catch (error) {
       if (!(error instanceof Error)) throw new Error(errorMessage);
+      Sentry.captureException(error);
       throw error;
     }
   },
