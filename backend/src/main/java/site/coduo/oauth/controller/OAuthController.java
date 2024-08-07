@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.coduo.oauth.client.dto.TokenResponse;
 import site.coduo.oauth.controller.dto.GithubAuthQuery;
 import site.coduo.oauth.controller.dto.GithubAuthUri;
 import site.coduo.oauth.controller.dto.GithubCallbackQuery;
@@ -42,8 +43,8 @@ public class OAuthController {
     public ResponseEntity<String> getAccessToken(@ModelAttribute GithubCallbackQuery query,
                                                  HttpSession session) {
         session.removeAttribute(CsrfConstant.STATE_SESSION_KEY);
-        String accessToken = oAuthService.getAccessToken(query.code());
-        log.info(accessToken);
-        return ResponseEntity.ok(accessToken);
+        TokenResponse accessToken = oAuthService.getAccessToken(query.code());
+        log.info("ACCESS TOKEN: {}", accessToken);
+        return ResponseEntity.ok(accessToken.accessToken());
     }
 }

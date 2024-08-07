@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import site.coduo.oauth.client.OAuthClient;
 import site.coduo.oauth.client.dto.TokenRequest;
+import site.coduo.oauth.client.dto.TokenResponse;
 import site.coduo.oauth.infrastructure.security.NanceFactory;
 import site.coduo.oauth.service.dto.OAuthTriggerContent;
 
@@ -24,7 +25,8 @@ public class OAuthService {
                 .build();
     }
 
-    public String getAccessToken(String authorizationCode) {
-        return oAuthClient.grant(new TokenRequest(authorizationCode, oAuthClient.getOAuthRedirectUri()));
+    public TokenResponse getAccessToken(String authorizationCode) {
+        String redirectUri = oAuthClient.getOAuthRedirectUri();
+        return oAuthClient.grant(new TokenRequest(authorizationCode, redirectUri));
     }
 }

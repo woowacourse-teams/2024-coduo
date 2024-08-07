@@ -1,4 +1,4 @@
-package site.coduo.oauth.infrastructure.security;
+package site.coduo.common.infrastructure.security;
 
 import java.nio.charset.StandardCharsets;
 
