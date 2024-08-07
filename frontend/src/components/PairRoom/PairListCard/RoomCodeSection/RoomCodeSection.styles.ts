@@ -8,7 +8,7 @@ export const Layout = styled.div<{ $isOpen: boolean }>`
   justify-content: ${({ $isOpen }) => ($isOpen ? 'space-between' : 'center')};
 
   width: 100%;
-  height: 7rem;
+  height: 6rem;
   padding: 2rem;
 
   background-color: ${({ theme }) => theme.color.black[30]};

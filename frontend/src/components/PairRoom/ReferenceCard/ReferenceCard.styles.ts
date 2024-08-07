@@ -1,9 +1,8 @@
 import styled, { css } from 'styled-components';
 
 export const Layout = styled.div`
-  flex: 1;
   min-width: 49rem;
-  max-height: calc(100vh - 13rem);
+  max-height: calc(100vh - 23rem);
 `;
 
 export const buttonStyle = css`
@@ -35,15 +34,16 @@ export const ReferenceLink = styled.a`
   }
 `;
 
-export const ReferenceListContainer = styled.div`
+export const Body = styled.div`
   overflow-y: auto;
-  max-height: calc(100vh - 23rem);
-  padding: 3rem;
+  min-height: calc(100vh - 25rem);
+  padding: 2rem;
 `;
 
 export const ReferenceList = styled.ul`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  flex-grow: 1;
   gap: 3rem;
 
   li {

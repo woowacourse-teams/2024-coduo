@@ -10,7 +10,7 @@ export const Layout = styled.div`
 
   min-width: 60rem;
   height: 100%;
-  padding: 3rem;
+  padding: 2rem;
 `;
 
 export const ProgressBar = styled.div<{ $progress: number }>`
@@ -18,8 +18,11 @@ export const ProgressBar = styled.div<{ $progress: number }>`
   align-items: center;
   justify-content: center;
 
-  min-width: 45vh;
-  min-height: 45vh;
+  aspect-ratio: 1;
+  width: 45vh;
+  min-width: 28rem;
+  height: 45vh;
+  min-height: 28rem;
 
   background-image: linear-gradient(white, white),
     conic-gradient(
@@ -35,7 +38,7 @@ export const ProgressBar = styled.div<{ $progress: number }>`
 
 export const Timer = styled.div`
   display: flex;
-  gap: 4rem;
+  gap: 3rem;
   align-items: center;
 `;
 

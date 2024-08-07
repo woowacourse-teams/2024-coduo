@@ -20,6 +20,10 @@ const PairRoom = () => {
   const [driver, setDriver] = useState(state.driver || '');
   const [navigator, setNavigator] = useState(state.navigator || '');
 
+  const [isCardOpen, setIsCardOpen] = useState(false);
+
+  const toggleIsCardOpen = () => setIsCardOpen((prev) => !prev);
+
   const time = DEFAULT_MINUTES * 60 * 1000;
 
   const handleSwap = () => {
@@ -43,8 +47,8 @@ const PairRoom = () => {
         />
       </S.Container>
       <S.Container>
-        <TodoListCard />
-        <ReferenceCard accessCode={accessCode || ''} />
+        <TodoListCard isOpen={!isCardOpen} toggleIsOpen={toggleIsCardOpen} />
+        <ReferenceCard accessCode={accessCode || ''} isOpen={isCardOpen} toggleIsOpen={toggleIsCardOpen} />
       </S.Container>
     </S.Layout>
   );
