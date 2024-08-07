@@ -23,6 +23,9 @@ jobs:
           node-version: "22.4.1"
           cache: "yarn"
 
+      - name: Print working directory
+        run: pwd
+
       - name: Install dependencies
         run: yarn install
 
