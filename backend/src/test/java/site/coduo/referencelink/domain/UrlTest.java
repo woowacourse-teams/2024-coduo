@@ -2,6 +2,7 @@ package site.coduo.referencelink.domain;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.DisplayName;
@@ -10,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import site.coduo.referencelink.exception.InvalidUrlFormatException;
 
 class UrlTest {
-    
+
     @Test
     @DisplayName("Url을 생성한다.")
     void generate_url() {
@@ -65,5 +66,15 @@ class UrlTest {
         // when & then
         AssertionsForClassTypes.assertThatThrownBy(() -> new Url(url))
                 .isInstanceOf(InvalidUrlFormatException.class);
+    }
+
+    @Test
+    @DisplayName("Document를 가져온다.")
+    void get_document() {
+        // given
+        final Url url = new Url("http://www.google.com");
+
+        // when & then
+        assertThat(url.getDocument()).isNotNull();
     }
 }
