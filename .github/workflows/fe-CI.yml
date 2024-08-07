@@ -11,12 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./frontend
+        working-directory: frontend
 
     steps:
-      - name: Print working directory
-        run: pwd
-
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -45,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./frontend
+        working-directory: frontend
     needs: test-and-lint
     steps:
       - name: Checkout code
