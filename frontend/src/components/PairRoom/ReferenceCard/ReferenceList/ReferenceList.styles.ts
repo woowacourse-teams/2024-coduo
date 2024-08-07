@@ -6,6 +6,7 @@ export const Layout = styled.div`
   flex-direction: column;
   flex-grow: 1;
   gap: 1rem;
+  align-items: center;
 
   padding: 2rem;
 `;
