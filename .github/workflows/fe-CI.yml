@@ -14,6 +14,9 @@ jobs:
         working-directory: frontend
 
     steps:
+      - name: print
+        run: pwd
+
       - name: Checkout code
         uses: actions/checkout@v4
 
