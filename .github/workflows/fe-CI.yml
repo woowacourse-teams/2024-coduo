@@ -9,12 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
+        shell: bash
         working-directory: ./frontend
 
     steps:
-      - name: print
-        run: pwd
-
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -25,19 +23,24 @@ jobs:
           cache: "yarn"
 
       - name: Install dependencies
+        working-directory: ./frontend
         run: yarn install
 
-      - name: Run build
-        run: yarn build
-
       - name: Run tests
+        working-directory: ./frontend
         run: yarn test
 
       - name: Run lint
+        working-directory: ./frontend
         run: yarn lint
 
       - name: Run lint:css
+        working-directory: ./frontend
         run: yarn lint:css
+
+      - name: Run build
+        working-directory: ./frontend
+        run: yarn build
 
   publish-storybook:
     runs-on: ubuntu-latest
