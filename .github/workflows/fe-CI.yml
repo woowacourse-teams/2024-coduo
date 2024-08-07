@@ -2,19 +2,16 @@ name: Coduo Frontend CI
 
 on:
   pull_request:
-    branches: ["FE/dev", "FE/test"]
+    branches: [FE/dev, FE/test]
 
 jobs:
   test-and-lint:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./frontend
+        working-directory: frontend
 
     steps:
-      - name: print
-        run: pwd
-
       - name: Checkout code
         uses: actions/checkout@v4
 
