@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import useGetPairRoomInformation from '@/queries/PairRoom/useGetPairRoomInformation';
-
+import StartMission from '@/components/PairRoom/StartMission/StartMission';
 import FooterButtons from '@/components/PairRoomOnboarding/FooterButtons/FooterButtons';
 import ProgressBar from '@/components/PairRoomOnboarding/ProgressBar/ProgressBar';
 import RoleSettingSection from '@/components/PairRoomOnboarding/RoleSettingSection/RoleSettingSection';
@@ -10,8 +9,11 @@ import RoleSettingSection from '@/components/PairRoomOnboarding/RoleSettingSecti
 import * as S from './PairRoomOnboarding.styles';
 import type { Role, Step } from './PairRoomOnboarding.type';
 
+import useCreateBranch from '@/queries/github/useCreateBranch';
+import useGetPairRoomInformation from '@/queries/PairRoom/useGetPairRoomInformation';
 const PairRoomOnboarding = () => {
-  const step: Step = 'ROLE';
+  const [step, setStep] = useState<Step>('MISSION');
+  const { handleStartMission } = useCreateBranch(() => setStep('ROLE'));
 
   const navigate = useNavigate();
   const { accessCode } = useParams();
@@ -58,6 +60,7 @@ const PairRoomOnboarding = () => {
       <S.Container>
         <div>
           <ProgressBar step={step} />
+          {step === 'MISSION' && <StartMission handleStartMission={handleStartMission} />}
           {step === 'ROLE' && pairNames && (
             <RoleSettingSection
               driver={driver}
