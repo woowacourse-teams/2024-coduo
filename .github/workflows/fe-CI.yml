@@ -1,24 +1,22 @@
 name: Coduo Frontend CI
 
 on:
-  push:
-    branches: [FE/dev]
   pull_request:
-    branches: [FE/dev]
+    branches: [FE/dev, FE/test]
 
 jobs:
   test-and-lint:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: frontend
+        working-directory: ./frontend
 
     steps:
       - name: print
         run: pwd
 
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -45,11 +43,11 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: frontend
+        working-directory: ./frontend
     needs: test-and-lint
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
