@@ -46,6 +46,12 @@ dependencies {
   // Mysql
   runtimeOnly 'com.mysql:mysql-connector-j'
 
+  // Actuator
+  implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+  // Prometheus
+  runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+
   // Swagger
   implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 

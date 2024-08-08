@@ -30,3 +30,9 @@ springdoc:
     path: /api/docs
   api-docs:
     path: /api/docs
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
