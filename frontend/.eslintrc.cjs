@@ -78,6 +78,16 @@ module.exports = {
             position: 'after',
           },
           {
+            pattern: '@/common/**',
+            group: 'internal',
+            position: 'after',
+          },
+          {
+            pattern: '@/stores/**',
+            group: 'internal',
+            position: 'after',
+          },
+          {
             pattern: '@/apis/**',
             group: 'internal',
             position: 'after',
@@ -104,6 +114,11 @@ module.exports = {
           },
           {
             pattern: '@/constants/**',
+            group: 'internal',
+            position: 'after',
+          },
+          {
+            pattern: '@/assets/**',
             group: 'internal',
             position: 'after',
           },

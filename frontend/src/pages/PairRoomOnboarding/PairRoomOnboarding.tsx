@@ -8,10 +8,10 @@ import RoleSettingSection from '@/components/PairRoomOnboarding/RoleSettingSecti
 import useGetPairRoomInformation from '@/queries/PairRoom/useGetPairRoomInformation';
 
 import * as S from './PairRoomOnboarding.styles';
-import type { Role, Step } from './PairRoomOnboarding.type';
+import type { Role } from './PairRoomOnboarding.type';
 
 const PairRoomOnboarding = () => {
-  const step: Step = 'ROLE';
+  const step = 'ROLE';
 
   const navigate = useNavigate();
   const { accessCode } = useParams();

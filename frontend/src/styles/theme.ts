@@ -87,6 +87,7 @@ const fontSize = {
   h4: '2.8rem',
   h5: '2.4rem',
   h6: '2.0rem',
+  lg: '1.8rem',
   base: '1.6rem',
   md: '1.4rem',
   sm: '1.2rem',

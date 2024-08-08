@@ -12,7 +12,7 @@ export const Layout = styled.button`
   justify-content: center;
 
   width: 100%;
-  height: 7rem;
+  height: 6rem;
   margin-top: auto;
 
   font-size: ${({ theme }) => theme.fontSize.base};
