@@ -9,10 +9,10 @@ const useInput = (initialValue: string = '') => {
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    validateValue?: (value: string) => { status: InputStatus; message: string },
+    validateValue?: { status: InputStatus; message: string },
   ) => {
     if (validateValue) {
-      const { status, message } = validateValue(event.target.value);
+      const { status, message } = validateValue;
 
       setStatus(status);
       setMessage(message);
