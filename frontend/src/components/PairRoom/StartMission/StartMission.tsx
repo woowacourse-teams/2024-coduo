@@ -3,19 +3,21 @@ import { useState } from 'react';
 import { BsArrowReturnRight } from 'react-icons/bs';
 
 import Button from '@/components/common/Button/Button';
+import { InputStatus } from '@/components/common/Input/Input.type';
 import { Modal } from '@/components/common/Modal';
 import MissionRepository from '@/components/PairRoom/StartMission/MissionRepository';
 import InformationBox from '@/components/PairRoomOnboarding/InformationBox/InformationBox';
 
+import useInput from '@/hooks/common/useInput';
 import useModal from '@/hooks/common/useModal';
 
+import useGetBranches from '@/queries/github/useGetBranches';
 import useGetRepositories from '@/queries/github/useGetRepositories';
 
 import { theme } from '@/styles/theme';
 
 import * as S from './StartMission.styles';
 
-const USER_ID = 'testId';
 interface StartMissionProps {
   handleStartMission: (userId: string, currentRepo: string) => void;
 }
@@ -35,6 +37,13 @@ const StartMission = ({ handleStartMission }: StartMissionProps) => {
   };
 
   const { isModalOpen, closeModal, openModal } = useModal();
+  const { isAlreadyCreated } = useGetBranches(currentRepo);
+  const { value, message, handleChange, status } = useInput();
+
+  const validate = (name: string): { status: InputStatus; message: string } => {
+    if (isAlreadyCreated(name)) return { status: 'ERROR', message: '중복된 브랜치 이름 입니다.' };
+    return { status: 'DEFAULT', message: '' };
+  };
 
   return (
     <>
@@ -46,14 +55,21 @@ const StartMission = ({ handleStartMission }: StartMissionProps) => {
             <S.MissionRepository> {currentRepo}</S.MissionRepository>
             <S.MissionBranchBox>
               <BsArrowReturnRight size={'3rem'} color={theme.color.black[70]} />
-              <S.MissionBranch> ⚙️ {USER_ID}</S.MissionBranch>
+              <S.MissionBranch value={value} onChange={(event) => handleChange(event, validate(event.target.value))} />
             </S.MissionBranchBox>
+            <S.Message>{message}</S.Message>
           </S.ModalContainer>
         </Modal.Body>
         <Modal.Footer position="CENTER">
-          <Button onClick={() => handleStartMission(currentRepo, USER_ID)}>브랜치 생성하기</Button>
+          <Button
+            disabled={status !== 'DEFAULT' || value === ''}
+            onClick={() => handleStartMission(currentRepo, value)}
+          >
+            브랜치 생성하기
+          </Button>
         </Modal.Footer>
       </Modal>
+
       <S.Layout>
         <S.HeaderContainer>
           <Modal.Header title="미션 선택" subTitle="구현해 볼 미션 레포지토리를 선택해주세요." />
@@ -69,14 +85,12 @@ const StartMission = ({ handleStartMission }: StartMissionProps) => {
             <div>loading</div>
           ) : (
             repositories.map((repository: RepositoryProps) => {
-              //TODO: 추후에 모든 레포의 브랜치를 생성했을때 경우 생각해봐야함.
               return (
                 <MissionRepository
                   key={repository.id}
                   name={repository.name}
                   id={repository.id}
                   handleSelectMission={handleSelectMission}
-                  branchName={USER_ID}
                 />
               );
             })

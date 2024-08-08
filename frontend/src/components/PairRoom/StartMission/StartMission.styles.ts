@@ -45,24 +45,25 @@ export const MissionRepository = styled.div`
   width: 100%;
   height: 5rem;
 
-  color: ${({ theme }) => theme.color.black[70]};
+  color: ${({ theme }) => theme.color.black[10]};
 
-  background-color: ${({ theme }) => theme.color.black[10]};
-  border: 2px solid ${({ theme }) => theme.color.black[70]};
+  background-color: ${({ theme }) => theme.color.black[80]};
   border-radius: 1rem;
 `;
 
-export const MissionBranch = styled.div`
+export const MissionBranch = styled.input`
   display: flex;
   align-items: center;
   justify-content: center;
 
   width: 80%;
   height: 4rem;
+  padding: 0 1rem;
 
-  color: ${({ theme }) => theme.color.black[10]};
+  color: ${({ theme }) => theme.color.black[70]};
 
-  background-color: ${({ theme }) => theme.color.black[80]};
+  background-color: ${({ theme }) => theme.color.black[10]};
+  border: 2px solid ${({ theme }) => theme.color.black[70]};
   border-radius: 1rem;
 `;
 
@@ -77,4 +78,9 @@ export const MissionBranchBox = styled.div`
   gap: 1rem;
   align-items: center;
   justify-content: flex-end;
+`;
+
+export const Message = styled.p`
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  color: ${({ theme }) => theme.color.danger[500]};
 `;

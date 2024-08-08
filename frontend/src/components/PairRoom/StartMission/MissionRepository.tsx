@@ -1,21 +1,16 @@
 import Button from '@/components/common/Button/Button';
 
-import useGetBranches from '@/queries/github/useGetBranches';
-
 import * as S from './StartMission.styles';
 
 interface MissionRepository {
   name: string;
   id: string;
   handleSelectMission: (currentRepo: string) => void;
-  branchName: string;
 }
 
-const MissionRepository = ({ name, id, handleSelectMission, branchName }: MissionRepository) => {
-  const { isAlreadyCreated } = useGetBranches(name);
+const MissionRepository = ({ name, id, handleSelectMission }: MissionRepository) => {
   return (
     <Button
-      disabled={isAlreadyCreated(branchName)}
       filled={false}
       color="secondary"
       key={id}
