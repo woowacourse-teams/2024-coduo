@@ -9,6 +9,7 @@ import { theme } from '@/styles/theme';
 
 import * as S from './Header.styles';
 
+
 const Header = () => {
   return (
     <S.Layout>
