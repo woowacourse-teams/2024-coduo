@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { IoIosLink } from 'react-icons/io';
 import { LuPlus } from 'react-icons/lu';
-        
+
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
