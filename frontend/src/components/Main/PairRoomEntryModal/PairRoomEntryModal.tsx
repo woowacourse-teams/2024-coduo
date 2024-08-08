@@ -6,9 +6,10 @@ import { Modal } from '@/components/common/Modal';
 
 import useInput from '@/hooks/common/useInput';
 
+import useGetPairRoomInformation from '@/queries/PairRoom/useGetPairRoomInformation';
+
 import { BUTTON_TEXT } from '@/constants/button';
 
-import useGetPairRoomInformation from '@/queries/PairRoom/useGetPairRoomInformation';
 import useToastStore from '@/stores/toastStore';
 
 interface PairRoomEntryModal {
