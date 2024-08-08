@@ -2,7 +2,7 @@ name: Coduo Frontend Test Server CD
 
 on:
   push:
-    branches: ['FE/test']
+    branches: ["FE/test"]
 
 jobs:
   build:
@@ -30,6 +30,7 @@ jobs:
           echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> .env.production
           echo "SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}" >> .env.production
           echo "GA_TRACKING_ID=${{ secrets.GA_TRACKING_ID }}" >> .env.production
+          echo "REACT_APP_GITHUB_AUTH=${{ secrets.REACT_APP_GITHUB_AUTH }}" >> .env.production
 
       - name: Image build and push
         run: |
