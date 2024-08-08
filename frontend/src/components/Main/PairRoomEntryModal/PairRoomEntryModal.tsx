@@ -1,7 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 
-import useToastStore from '@/stores/toastStore';
-
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import { Modal } from '@/components/common/Modal';
@@ -12,6 +10,7 @@ import useGetPairRoomInformation from '@/queries/PairRoom/useGetPairRoomInformat
 
 import { BUTTON_TEXT } from '@/constants/button';
 
+import useToastStore from '@/stores/toastStore';
 
 interface PairRoomEntryModal {
   isOpen: boolean;
@@ -23,14 +22,14 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
   const { addToast } = useToastStore();
 
   const { value, status, message, handleChange } = useInput();
-  const { isSuccess, refetch } = useGetPairRoomInformation(value);
+  const { isError, isSuccess, isFetching, refetch } = useGetPairRoomInformation(value);
   const enterPairRoom = async () => {
     await refetch();
-    if (!isSuccess) {
+    if (isError) {
       addToast({ status: 'ERROR', message: '해당 코드와 일치하는 방이 없습니다 🥹' });
       return;
     }
-    navigate(`/room/${value}/onboarding`);
+    if (!isFetching && isSuccess) navigate(`/room/${value}/onboarding`);
   };
 
   return (
