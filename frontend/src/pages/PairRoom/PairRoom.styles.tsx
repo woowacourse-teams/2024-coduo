@@ -2,11 +2,12 @@ import styled from 'styled-components';
 
 export const Layout = styled.div`
   display: flex;
-  gap: 3rem;
+  gap: 2rem;
 
   min-width: fit-content;
-  min-height: calc(100vh - 7rem);
-  padding: 3rem;
+  height: calc(100vh - 7rem);
+  min-height: 60rem;
+  padding: 2rem;
 
   background: ${({ theme }) => theme.color.primary[100]};
 `;
@@ -14,6 +15,9 @@ export const Layout = styled.div`
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 2rem;
+
   width: 100%;
+  min-height: 56rem;
+  max-height: calc(100vh - 11rem);
 `;
