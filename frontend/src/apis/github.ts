@@ -2,7 +2,7 @@ import { Octokit } from '@octokit/rest';
 import * as Sentry from '@sentry/react';
 
 const octokit = new Octokit({
-  auth: process.env.GITHUB_AUTH,
+  auth: process.env.REACT_APP_GITHUB_AUTH,
 });
 
 const CODUO_ORGANIZATION = 'coduo-missions';
