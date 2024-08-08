@@ -88,6 +88,11 @@ module.exports = {
             position: 'after',
           },
           {
+            pattern: '@/queries/**',
+            group: 'internal',
+            position: 'after',
+          },
+          {
             pattern: '@/utils/**',
             group: 'internal',
             position: 'after',

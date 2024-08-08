@@ -1,0 +1,54 @@
+name: Coduo Frontend Test Server CD
+
+on:
+  push:
+    branches: ['FE/test']
+
+jobs:
+  build:
+    environment: test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_ID }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+      - name: Create .env.production file
+        run: |
+          echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}" >> .env.production
+          echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> .env.production
+          echo "SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}" >> .env.production
+
+      - name: Image build and push
+        run: |
+          docker buildx create --use
+          docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKER_REPO_NAME }}/react-app:test-latest --push .
+
+  deploy:
+    environment: test
+    runs-on: coduo_runner_test-server
+    needs: build
+    steps:
+      - name: Stop and remove existing container
+        run: |
+          sudo docker stop coduo_react-app || true
+          sudo docker rm coduo_react-app || true
+
+      - name: Pull Docker image
+        run: |
+          sudo docker pull ${{ secrets.DOCKER_REPO_NAME }}/react-app:test-latest
+
+      - name: Run Docker container
+        run: |
+          sudo docker run -d --network coduo_net --name coduo_react-app -p 3000:3000 ${{ secrets.DOCKER_REPO_NAME }}/react-app:test-latest
