@@ -1,8 +1,9 @@
 import { useRef, useState, useEffect } from 'react';
 
+import { AlarmSound } from '@/assets';
+
 import useNotification from '@/hooks/common/useNotification';
 
-import { AlarmSound } from '@/assets';
 
 const useTimer = (defaultTime: number, onStop: () => void) => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
