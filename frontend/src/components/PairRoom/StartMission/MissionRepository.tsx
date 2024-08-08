@@ -1,8 +1,8 @@
 import Button from '@/components/common/Button/Button';
 
-import * as S from './StartMission.styles';
-
 import useGetBranches from '@/queries/github/useGetBranches';
+
+import * as S from './StartMission.styles';
 
 interface MissionRepository {
   name: string;

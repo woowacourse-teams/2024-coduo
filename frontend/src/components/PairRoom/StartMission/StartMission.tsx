@@ -9,11 +9,12 @@ import InformationBox from '@/components/PairRoomOnboarding/InformationBox/Infor
 
 import useModal from '@/hooks/common/useModal';
 
+import useGetRepositories from '@/queries/github/useGetRepositories';
+
 import { theme } from '@/styles/theme';
 
 import * as S from './StartMission.styles';
 
-import useGetRepositories from '@/queries/github/useGetRepositories';
 const USER_ID = 'testId';
 interface StartMissionProps {
   handleStartMission: (userId: string, currentRepo: string) => void;
