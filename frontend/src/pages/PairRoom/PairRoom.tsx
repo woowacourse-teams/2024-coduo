@@ -5,6 +5,7 @@ import PairListCard from '@/components/PairRoom/PairListCard/PairListCard';
 import PairRoleCard from '@/components/PairRoom/PairRoleCard/PairRoleCard';
 import ReferenceCard from '@/components/PairRoom/ReferenceCard/ReferenceCard';
 import TimerCard from '@/components/PairRoom/TimerCard/TimerCard';
+import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
 
 import useTimer from '@/hooks/PairRoom/useTimer';
 
@@ -18,6 +19,10 @@ const PairRoom = () => {
 
   const [driver, setDriver] = useState(state.driver || '');
   const [navigator, setNavigator] = useState(state.navigator || '');
+
+  const [isCardOpen, setIsCardOpen] = useState(false);
+
+  const toggleIsCardOpen = () => setIsCardOpen((prev) => !prev);
 
   const time = DEFAULT_MINUTES * 60 * 1000;
 
@@ -42,7 +47,8 @@ const PairRoom = () => {
         />
       </S.Container>
       <S.Container>
-        <ReferenceCard accessCode={accessCode || ''} />
+        <TodoListCard isOpen={!isCardOpen} toggleIsOpen={toggleIsCardOpen} />
+        <ReferenceCard accessCode={accessCode || ''} isOpen={isCardOpen} toggleIsOpen={toggleIsCardOpen} />
       </S.Container>
     </S.Layout>
   );
