@@ -8,6 +8,9 @@ jobs:
   build:
     environment: test
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -21,10 +24,16 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_ID }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
+      - name: Create .env.production file
+        run: |
+          echo "REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}" >> .env.production
+          echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> .env.production
+          echo "SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}" >> .env.production
+
       - name: Image build and push
         run: |
           docker buildx create --use
-          docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKER_REPO_NAME }}/react-app:test-latest --push ./frontend
+          docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKER_REPO_NAME }}/react-app:test-latest --push .
 
   deploy:
     environment: test
@@ -42,8 +51,4 @@ jobs:
 
       - name: Run Docker container
         run: |
-          sudo docker run -d --network coduo_net --name coduo_react-app -p 3000:3000 \
-          -e REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }} \
-          -e SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} \
-          -e SENTRY_DSN=${{ secrets.SENTRY_DSN }} \
-          ${{ secrets.DOCKER_REPO_NAME }}/react-app:test-latest
+          sudo docker run -d --network coduo_net --name coduo_react-app -p 3000:3000 ${{ secrets.DOCKER_REPO_NAME }}/react-app:test-latest
