@@ -67,7 +67,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .contentType("application/json")
 
                 .when()
-                .delete("/pair-room/" + "zzzzzz")
+                .delete("/api/pair-room/" + "zzzzzz")
 
                 .then()
                 .log()

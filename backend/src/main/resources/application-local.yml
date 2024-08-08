@@ -23,13 +23,17 @@ spring:
     console:
       enabled: true
 
+server:
+  servlet:
+    context-path: /api
+
 springdoc:
   swagger-ui:
     persist-authorization: true
     default-models-expand-depth: -1
-    path: /api/docs
+    path: /docs
   api-docs:
-    path: /api/docs
+    path: /docs
 
 management:
   endpoints:
