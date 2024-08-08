@@ -21,3 +21,9 @@ springdoc:
     persist-authorization: true
     default-models-expand-depth: -1
     path: /api/docs
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
