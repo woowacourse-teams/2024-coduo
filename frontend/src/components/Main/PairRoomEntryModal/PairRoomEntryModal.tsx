@@ -22,14 +22,14 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
   const { addToast } = useToastStore();
 
   const { value, status, message, handleChange } = useInput();
-  const { isSuccess, refetch, isFetching } = useGetPairRoomInformation(value);
+  const { isError, isSuccess, isFetching, refetch } = useGetPairRoomInformation(value);
   const enterPairRoom = async () => {
     await refetch();
-    if (!isSuccess) {
+    if (isError) {
       addToast({ status: 'ERROR', message: '해당 코드와 일치하는 방이 없습니다 🥹' });
       return;
     }
-    if (isSuccess && !isFetching) navigate(`/room/${value}/onboarding`);
+    if (!isFetching && isSuccess) navigate(`/room/${value}/onboarding`);
   };
 
   return (
