@@ -1,4 +1,4 @@
-export type Step = 'ROLE';
+export type Step = 'MISSION' | 'ROLE';
 
 export interface StepOption {
   id: Step;

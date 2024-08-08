@@ -4,9 +4,13 @@ import { ERROR_MESSAGES } from '@/constants/message';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-interface Link {
-  id: string;
+export interface Link {
+  id: number;
   url: string;
+  headTitle: string;
+  openGraphTitle: string;
+  description: string;
+  image: string;
 }
 
 interface GetReferenceLinksRequest {
@@ -23,33 +27,26 @@ export const getReferenceLinks = async ({ accessCode }: GetReferenceLinksRequest
 };
 
 interface AddReferenceLinkRequest {
-  accessCode: string;
   url: string;
+  accessCode: string;
 }
 
-export const addReferenceLink = async ({ accessCode, url }: AddReferenceLinkRequest) => {
-  const response = await fetch(`${API_URL}/${accessCode}/reference-link`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+export const addReferenceLink = async ({ url, accessCode }: AddReferenceLinkRequest) => {
+  await fetcher.post({
+    url: `${API_URL}/${accessCode}/reference-link`,
     body: JSON.stringify({ url }),
+    errorMessage: ERROR_MESSAGES.ADD_REFERENCE_LINKS,
   });
-
-  if (!response.ok) {
-    throw new Error(ERROR_MESSAGES.ADD_REFERENCE_LINKS);
-  }
 };
 
 interface DeleteReferenceLinkRequest {
+  id: number;
   accessCode: string;
-  id: string;
 }
 
-export const deleteReferenceLink = async ({ accessCode, id }: DeleteReferenceLinkRequest) => {
-  const response = await fetcher.delete({ url: `${API_URL}/${accessCode}/reference-link/${id}`, errorMessage: '' });
-
-  if (!response.ok) {
-    throw new Error(ERROR_MESSAGES.DELETE_REFERENCE_LINKS);
-  }
+export const deleteReferenceLink = async ({ id, accessCode }: DeleteReferenceLinkRequest) => {
+  await fetcher.delete({
+    url: `${API_URL}/${accessCode}/reference-link/${id}`,
+    errorMessage: ERROR_MESSAGES.DELETE_REFERENCE_LINKS,
+  });
 };

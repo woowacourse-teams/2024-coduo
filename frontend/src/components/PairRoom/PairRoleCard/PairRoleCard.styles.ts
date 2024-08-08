@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Layout = styled.div`
   display: flex;
   min-width: 60rem;
-  height: 16rem;
+  min-height: 14rem;
 `;
 
 export const RoleBoxContainer = styled.div`
@@ -13,19 +13,20 @@ export const RoleBoxContainer = styled.div`
   justify-content: space-evenly;
 
   height: 100%;
-  padding: 3rem;
+  padding: 2rem;
 `;
 
 const RoleBox = styled.div`
   display: flex;
+  gap: 1rem;
   align-items: center;
   justify-content: space-between;
 
-  width: 20rem;
-  height: 11rem;
-  padding: 2rem 3rem;
+  width: 18rem;
+  height: 9.4rem;
+  padding: 1.6rem 2.4rem;
 
-  border-radius: 3rem;
+  border-radius: 2rem;
 `;
 
 export const DriverBox = styled(RoleBox)`
@@ -51,7 +52,7 @@ export const RoleTextContainer = styled.div`
   align-items: center;
 
   p {
-    font-size: ${({ theme }) => theme.fontSize.h3};
+    font-size: ${({ theme }) => theme.fontSize.h4};
     font-weight: ${({ theme }) => theme.fontWeight.medium};
   }
 `;

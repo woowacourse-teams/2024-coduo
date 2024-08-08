@@ -13,12 +13,15 @@ interface ProgressBarProps {
 const ProgressBar = ({ step }: ProgressBarProps) => (
   <S.Layout>
     {OPTIONS.map((option, idx) => (
-      <S.ButtonWrapper key={option.id}>
-        <Button rounded={true} size="lg" filled={step === option.id} animation={false}>
-          {idx + 1}
-        </Button>
-        <S.ButtonLabel>{option.label}</S.ButtonLabel>
-      </S.ButtonWrapper>
+      <>
+        <S.ButtonWrapper key={option.id}>
+          <Button rounded={true} size="lg" filled={step === option.id} animation={false}>
+            {idx + 1}
+          </Button>
+          <S.ButtonLabel>{option.label}</S.ButtonLabel>
+        </S.ButtonWrapper>
+        {idx === 0 && <S.ProgressLine $isRoleSelected={true} />}
+      </>
     ))}
   </S.Layout>
 );
