@@ -22,7 +22,7 @@ const usePairNameInputs = () => {
   const validatePairName = (name: string, compareName: string) => {
     if (name.length === 0) return { status: 'ERROR' as InputStatus, message: '값을 입력해주세요.' };
     if (name.length > 10) return { status: 'ERROR' as InputStatus, message: '페어 이름은 10자 이하로 입력해주세요.' };
-    if (compareName === name) return { status: 'ERROR' as InputStatus, message: '중복된 페어 이름 입니다.' };
+    if (compareName === name) return { status: 'ERROR' as InputStatus, message: '중복된 페어 이름입니다. ' };
     return { status: 'DEFAULT' as InputStatus, message: '' };
   };
 

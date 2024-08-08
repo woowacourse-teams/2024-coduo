@@ -24,6 +24,9 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: Clear test cache
+        run: yarn jest --clearCache
+
       - name: Run tests
         run: yarn test
 

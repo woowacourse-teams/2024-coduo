@@ -33,7 +33,7 @@ const PairRoomCreateModal = ({ isOpen, closeModal }: PairRoomCreateModalProps) =
       <Modal.Header title="페어룸 만들기" subTitle="여러분의 이름(또는 닉네임)을 알려 주세요!" />
       <Modal.CloseButton close={handleClose} />
       {isPending ? (
-        <p>...Loading</p>
+        <div>...Loading</div>
       ) : (
         <>
           {status === 'CREATE' && <CreatePairRoom closeModal={handleClose} createPairRoom={createPairRoom} />}
