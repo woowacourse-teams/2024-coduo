@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import useGetPairRoomInformation from '@/queries/PairRoom/useGetPairRoomInformation';
-
 import FooterButtons from '@/components/PairRoomOnboarding/FooterButtons/FooterButtons';
 import ProgressBar from '@/components/PairRoomOnboarding/ProgressBar/ProgressBar';
 import RoleSettingSection from '@/components/PairRoomOnboarding/RoleSettingSection/RoleSettingSection';
 
 import * as S from './PairRoomOnboarding.styles';
 import type { Role, Step } from './PairRoomOnboarding.type';
+
+import useGetPairRoomInformation from '@/queries/PairRoom/useGetPairRoomInformation';
 
 const PairRoomOnboarding = () => {
   const step: Step = 'ROLE';
@@ -19,7 +19,8 @@ const PairRoomOnboarding = () => {
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
 
-  const { pairNames } = useGetPairRoomInformation(accessCode || '');
+  const { pairNames, isFetching, refetch } = useGetPairRoomInformation(accessCode || '');
+  refetch();
 
   useEffect(() => {
     if (pairNames) {
@@ -56,18 +57,24 @@ const PairRoomOnboarding = () => {
   return (
     <S.Layout>
       <S.Container>
-        <div>
-          <ProgressBar step={step} />
-          {step === 'ROLE' && pairNames && (
-            <RoleSettingSection
-              driver={driver}
-              navigator={navigator}
-              userOptions={[pairNames.firstPair, pairNames.secondPair]}
-              handleSelect={handleSelect}
-            />
-          )}
-        </div>
-        <FooterButtons step={step} isComplete={driver !== '' && navigator !== ''} onNext={handleNext} />
+        {isFetching ? (
+          <div>Loading</div>
+        ) : (
+          <>
+            <div>
+              <ProgressBar step={step} />
+              {step === 'ROLE' && pairNames && (
+                <RoleSettingSection
+                  driver={driver}
+                  navigator={navigator}
+                  userOptions={[pairNames.firstPair, pairNames.secondPair]}
+                  handleSelect={handleSelect}
+                />
+              )}
+            </div>
+            <FooterButtons step={step} isComplete={driver !== '' && navigator !== ''} onNext={handleNext} />
+          </>
+        )}
       </S.Container>
     </S.Layout>
   );

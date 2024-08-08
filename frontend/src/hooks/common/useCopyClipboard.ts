@@ -4,7 +4,7 @@ import useToastStore from '@/stores/toastStore';
 
 type onCopyFn = (text: string) => Promise<void>;
 
-const useCopyClipBoard = (): [boolean, onCopyFn] => {
+const useCopyClipBoard = () => {
   const [isCopy, setIsCopy] = useState<boolean>(false);
 
   const { addToast } = useToastStore();
@@ -20,7 +20,7 @@ const useCopyClipBoard = (): [boolean, onCopyFn] => {
     }
   };
 
-  return [isCopy, onCopy];
+  return { isCopy, onCopy };
 };
 
 export default useCopyClipBoard;
