@@ -10,10 +10,11 @@ interface RoomCodeSectionProps {
 }
 
 const RoomCodeSection = ({ isOpen, roomCode }: RoomCodeSectionProps) => {
-  const { onCopy } = useCopyClipBoard();
+  const [isCopy, onCopy] = useCopyClipBoard();
 
   const handleCopyClipBoard = (text: string) => {
     onCopy(text);
+    console.log(isCopy); // TODO: 토스트 알림 로직 추가 필요
   };
 
   return (
