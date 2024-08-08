@@ -20,7 +20,10 @@ const PairRoomOnboarding = () => {
   const [navigator, setNavigator] = useState('');
 
   const { pairNames, isFetching, refetch } = useGetPairRoomInformation(accessCode || '');
-  refetch();
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   useEffect(() => {
     if (pairNames) {
