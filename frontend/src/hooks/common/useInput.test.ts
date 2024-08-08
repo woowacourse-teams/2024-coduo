@@ -34,7 +34,10 @@ describe('useInput', () => {
     const { result } = renderHook(() => useInput('initial'));
 
     act(() => {
-      result.current.handleChange({ target: { value: 'new' } } as React.ChangeEvent<HTMLInputElement>, validateValue);
+      result.current.handleChange(
+        { target: { value: 'new' } } as React.ChangeEvent<HTMLInputElement>,
+        validateValue('new'),
+      );
     });
 
     expect(result.current.status).toBe('ERROR');
@@ -43,7 +46,7 @@ describe('useInput', () => {
     act(() => {
       result.current.handleChange(
         { target: { value: 'new value' } } as React.ChangeEvent<HTMLInputElement>,
-        validateValue,
+        validateValue('new value'),
       );
     });
 

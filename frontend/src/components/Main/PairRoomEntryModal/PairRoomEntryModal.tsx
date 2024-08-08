@@ -1,12 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 
+import useToastStore from '@/stores/toastStore';
+
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import { Modal } from '@/components/common/Modal';
 
 import useInput from '@/hooks/common/useInput';
 
+import useGetPairRoomInformation from '@/queries/PairRoom/useGetPairRoomInformation';
+
 import { BUTTON_TEXT } from '@/constants/button';
+
 
 interface PairRoomEntryModal {
   isOpen: boolean;
@@ -15,8 +20,18 @@ interface PairRoomEntryModal {
 
 const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
   const navigate = useNavigate();
+  const { addToast } = useToastStore();
 
   const { value, status, message, handleChange } = useInput();
+  const { isSuccess, refetch } = useGetPairRoomInformation(value);
+  const enterPairRoom = async () => {
+    await refetch();
+    if (!isSuccess) {
+      addToast({ status: 'ERROR', message: '해당 코드와 일치하는 방이 없습니다 🥹' });
+      return;
+    }
+    navigate(`/room/${value}/onboarding`);
+  };
 
   return (
     <Modal isOpen={isOpen} close={closeModal} size="60rem">
@@ -35,7 +50,7 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
         <Button onClick={closeModal} filled={false}>
           {BUTTON_TEXT.CLOSE}
         </Button>
-        <Button disabled={!value} onClick={() => navigate(`/room/${value}/onboarding`)}>
+        <Button disabled={!value} onClick={() => enterPairRoom()}>
           {BUTTON_TEXT.COMPLETE}
         </Button>
       </Modal.Footer>
