@@ -1,4 +1,5 @@
 import { Octokit } from '@octokit/rest';
+import * as Sentry from '@sentry/react';
 
 const octokit = new Octokit({
   auth: process.env.GITHUB_AUTH,
@@ -16,6 +17,7 @@ export const getSHAforMain = async (repositoryName: string) => {
     return response.data.object.sha;
   } catch (error) {
     if (error instanceof Error) throw new Error(error.message);
+    Sentry.captureException(error);
   }
 };
 
@@ -34,6 +36,7 @@ export const createBranch = async ({ repositoryName, branchName, sha }: CreateBr
     return result;
   } catch (error) {
     if (error instanceof Error) throw new Error(error.message);
+    Sentry.captureException(error);
   }
 };
 
@@ -48,6 +51,7 @@ export const getRepositories = async () => {
     return response.data;
   } catch (error) {
     if (error instanceof Error) throw new Error(error.message);
+    Sentry.captureException(error);
   }
 };
 
@@ -61,5 +65,6 @@ export const getBranches = async (repositoryName: string) => {
     return response.data;
   } catch (error) {
     if (error instanceof Error) throw new Error(error.message);
+    Sentry.captureException(error);
   }
 };

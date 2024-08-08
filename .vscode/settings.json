@@ -1,11 +1,8 @@
 {
   "editor.codeActionsOnSave": {
-    // 선택적으로 always를 쓰서도 됩니다.
     "source.fixAll.stylelint": "explicit"
   },
-  // user의 기본 세팅이 true라면 설정하지 않아도 됩니다.
   "stylelint.enable": true,
-  // css-in-js 방식이므로 typescript나 typescriptreact에서도 stylelint가 동작하게 합니다. js 환경의 경우 javascript, javascriptreact를 추가해 주세요.
   "stylelint.validate": [
     "css",
     "scss",
@@ -13,7 +10,6 @@
     "typescript",
     "typescriptreact"
   ],
-  // css in js에 맞는 stylelint 문법을 적용합니다.
   "stylelint.customSyntax": "postcss-styled-syntax",
   "diffEditor.ignoreTrimWhitespace": false
 }

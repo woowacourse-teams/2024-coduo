@@ -14,7 +14,7 @@ import { theme } from '@/styles/theme';
 import * as S from './StartMission.styles';
 
 import useGetRepositories from '@/queries/github/useGetRepositories';
-const USER_ID = 'dle23456';
+const USER_ID = 'testId';
 interface StartMissionProps {
   handleStartMission: (userId: string, currentRepo: string) => void;
 }
