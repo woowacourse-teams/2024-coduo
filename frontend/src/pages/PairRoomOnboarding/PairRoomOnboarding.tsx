@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import useGetPairRoomInformation from '@/queries/PairRoom/useGetPairRoomInformation';
-
 import FooterButtons from '@/components/PairRoomOnboarding/FooterButtons/FooterButtons';
 import ProgressBar from '@/components/PairRoomOnboarding/ProgressBar/ProgressBar';
 import RoleSettingSection from '@/components/PairRoomOnboarding/RoleSettingSection/RoleSettingSection';
+
+import useGetPairRoomInformation from '@/queries/PairRoom/useGetPairRoomInformation';
 
 import * as S from './PairRoomOnboarding.styles';
 import type { Role, Step } from './PairRoomOnboarding.type';
