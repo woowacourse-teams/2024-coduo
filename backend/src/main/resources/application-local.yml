@@ -28,6 +28,8 @@ springdoc:
     persist-authorization: true
     default-models-expand-depth: -1
     path: /api/docs
+  api-docs:
+    path: /api/docs
 
 management:
   endpoints:
