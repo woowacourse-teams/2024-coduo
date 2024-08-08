@@ -42,4 +42,8 @@ jobs:
 
       - name: Run Docker container
         run: |
-          sudo docker run -d --network coduo_net --name coduo_react-app -p 3000:3000 ${{ secrets.DOCKER_REPO_NAME }}/react-app:test-latest
+          sudo docker run -d --network coduo_net --name coduo_react-app -p 3000:3000 \
+          -e REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }} \
+          -e SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }} \
+          -e SENTRY_DSN=${{ secrets.SENTRY_DSN }} \
+          ${{ secrets.DOCKER_REPO_NAME }}/react-app:test-latest
