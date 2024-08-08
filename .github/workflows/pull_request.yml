@@ -1,0 +1,93 @@
+name: PULL REQUEST
+
+on: 
+  pull_request:
+    types: [opened, reopened]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ vars.SLACK_BRANCH}}
+  
+      - name: Install jq
+        run: sudo apt-get install jq
+      
+      - name: Decode base64 and parse JSON
+        run: |
+          echo ${{secrets.SLACK_CREW_INFO_JSON}} | base64 --decode > decoded.json
+          JSON_CONTENT=$(cat decoded.json | jq -c .)
+          echo "CREW_INFO_JSON=$JSON_CONTENT" >> $GITHUB_ENV
+
+      - name: Extract receiver list
+        id: extract_receiver_list
+        uses: actions/github-script@v7.0.1
+        with:
+          script: |
+            const excludeMember = context.payload.pull_request.user.login;
+            const members = JSON.parse(process.env.CREW_INFO_JSON);
+            const requester = members.find(entry => entry.githubId === excludeMember);
+            let outputString = '';
+            for (const member of members) {
+              if ((member.githubId !== excludeMember) && (member.tag === requester.tag)) {
+                outputString += `<@${member.slackId}> `;
+              }
+            }
+            console.log(`::set-output name=names::${outputString.trim()}`);
+            console.log(`::set-output name=requester::${requester.name}`);
+            
+      - name: pull_request_noifiy
+        id: pull_request_notify
+        uses: slackapi/slack-github-action@v1.26.0
+        with: 
+          channel-id: ${{secrets.SLACK_FE_REVIEW_CHANNEL}}
+          payload: |
+            {
+              "text": "⌛PR왔다 리뷰해라⌛",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*📬${{steps.extract_receiver_list.outputs.requester}}님의 PR이 도착했어요.📬*\n\n\n⚡⚡⚡⚡⚡⚡⚡⚡⚡\n*⚡<${{github.event.pull_request.html_url}}| [${{steps.extract_receiver_list.outputs.requester}}] 혼구멍 내러가기~>⚡* \n⚡⚡⚡⚡⚡⚡⚡⚡⚡\n\n _혼내줄 사람들: ${{steps.extract_receiver_list.outputs.names}}_ \n"
+                  }
+                },
+                {
+                  "type": "divider"
+                }
+              ]
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+  
+      - name: Append Thread info to JSON
+        run: |
+          NEW_THREAD_JSON=$(jq -n \
+            --arg url "${{ github.event.pull_request.html_url }}" \
+            --arg author "${{ github.event.pull_request.user.login }}" \
+            --arg thread_ts "${{ steps.pull_request_notify.outputs.ts }}" \
+            '{pr_url: $url, author: $author, thread_ts: $thread_ts}')
+
+          mkdir -p .github/logs
+          cd .github/logs
+  
+          if [ -f thread_fe.json ]; then
+            jq --argjson new "$NEW_THREAD_JSON" '. += [$new]' thread_fe.json > thread_fe.tmp.json
+            mv thread_fe.tmp.json thread_fe.json
+          else
+            echo "[$NEW_THREAD_JSON]" > thread_fe.json
+          fi
+
+      - name: Commit updated thread_fe.json
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Actions"
+          git add .github/logs/thread_fe.json
+          git commit -m "Update thread_fe.json with new thread data"
+          git push origin ${{ vars.SLACK_BRANCH }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

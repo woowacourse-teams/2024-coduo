@@ -6,10 +6,10 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const config = {
-  mode: 'development',
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
     clean: true,
   },
   module: {
@@ -19,12 +19,12 @@ const config = {
         exclude: /node_modules/,
         use: ['ts-loader'],
       },
-      // {
-      //   test: /\.css$/,
-      //   use: ["style-loader", "css-loader"],
-      // },
       {
-        test: /\.(png|svg|jpg|gif)$/,
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(png|svg|jpg|gif|mp3)$/,
         use: {
           loader: 'file-loader',
           options: {
@@ -45,17 +45,9 @@ const config = {
   ],
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
-  },
-  devServer: {
-    client: {
-      overlay: true,
-      progress: true,
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
     },
-    compress: true,
-    hot: true,
-    open: true,
-    port: 3000,
-    historyApiFallback: true,
   },
 };
 

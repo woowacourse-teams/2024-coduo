@@ -19,7 +19,19 @@
     "noFallthroughCasesInSwitch": true,
 
     /* Testing */
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "types": ["jest", "@testing-library/jest-dom"],
+
+    /* Path */
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["./*"],
+      "@/pages/*": ["./pages/*"],
+      "@/components/*": ["./components/*"],
+      "@/hooks/*": ["./hooks/*"],
+      "@/assets/*": ["./assets/*"],
+      "@/styles/*": ["./styles/*"]
+    }
   },
   "include": ["src"]
 }

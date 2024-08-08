@@ -1,0 +1,7 @@
+{
+  "extends": ["stylelint-config-standard", "stylelint-config-clean-order"],
+  "customSyntax": "postcss-styled-syntax",
+  "rules": {
+    "media-query-no-invalid": null
+  }
+}
