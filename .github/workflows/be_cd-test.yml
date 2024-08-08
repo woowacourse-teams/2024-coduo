@@ -70,6 +70,7 @@ jobs:
       - name: Extract secrets as .be_app-env file
         run: |
           cat <<EOF > ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env
+
           # Docker Hub info from Github Secrets
           DOCKER_REPO_NAME=${{ secrets.DOCKER_REPO_NAME }}
 
@@ -91,7 +92,6 @@ jobs:
       - name: Stop and remove existing containers
         run: |
           sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml down --rmi all
-
       - name: Deploy docker container
         run: |
           sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml up -d
