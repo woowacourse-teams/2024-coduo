@@ -26,8 +26,8 @@ services:
     ports:
       - ${SERVER_BINDING_PORT}
     volumes:
-      - ${DOCKER_DATA_PATH}/springboot-app/logs:/logs
-      - ${DOCKER_DATA_PATH}/springboot-app/logs-backup:/logs-backup
+      - ${SERVER_LOGS_PATH}/springboot-app:/logs
+      - ${SERVER_LOGS_PATH}/springboot-app/backup:/logs/backup
     environment:
       SPRING_DATASOURCE_URL: ${DB_URL}
       SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
