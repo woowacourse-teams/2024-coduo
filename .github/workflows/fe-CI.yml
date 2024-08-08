@@ -2,7 +2,7 @@ name: Coduo Frontend CI
 
 on:
   pull_request:
-    branches: [FE/dev, FE/test]
+    branches: [FE/dev]
 
 jobs:
   test-and-lint:
