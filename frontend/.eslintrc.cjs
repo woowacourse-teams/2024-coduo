@@ -78,6 +78,11 @@ module.exports = {
             position: 'after',
           },
           {
+            pattern: '@/common/**',
+            group: 'internal',
+            position: 'after',
+          },
+          {
             pattern: '@/stores/**',
             group: 'internal',
             position: 'after',
