@@ -5,7 +5,7 @@
     <property name="LOGS_DIR_ROOT_PATH" value="logs"/>
     <property name="LOGS_BACKUP_DIR_ROOT_PATH" value="logs-backup"/>
     <property name="CONSOLE_LOG_PATTERN"
-            value="[%d{yyyy-MM-dd HH:mm:ss}:%-4relative] %green([%thread]) %highlight(%-5level) %boldWhite([%C.%M:%yellow(%L)]) - %msg%n"/>
+              value="[%d{yyyy-MM-dd HH:mm:ss}:%-4relative] %green([%thread]) %highlight(%-5level) %boldWhite([%C.%M:%yellow(%L)]) - %msg%n"/>
     <property name="FILE_LOG_PATTERN"
               value="[%d{yyyy-MM-dd HH:mm:ss}:%-4relative] [%thread] %-5level [%C.%M:%L] - %msg%n"/>
 
