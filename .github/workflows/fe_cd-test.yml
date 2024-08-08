@@ -2,35 +2,18 @@ name: Coduo Frontend Test Server CD
 
 on:
   push:
-    branches: ['FE/test']
+    branches: ['FE/dev', 'FE/test']
 
 jobs:
   build:
     environment: test
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./frontend
     steps:
-      - name: checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '22'
-
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Build the frontend
-        run: yarn build
-
-      - name: Archive build artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: coduo-frontend
-          path: ./frontend/dist
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -40,16 +23,13 @@ jobs:
 
       - name: Image build and push
         run: |
-          docker build -t ${{ secrets.DOCKER_REPO_NAME }}/react-app:test-latest --platform linux/arm64 .
-          docker push ${{ secrets.DOCKER_REPO_NAME }}/react-app:test-latest
+          docker buildx create --use
+          docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKER_REPO_NAME }}/react-app:test-latest --push ./frontend
 
   deploy:
     environment: test
     runs-on: coduo_runner_test-server
     needs: build
-    defaults:
-      run:
-        working-directory: ./frontend
     steps:
       - name: Stop and remove existing container
         run: |
