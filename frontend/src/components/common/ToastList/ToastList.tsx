@@ -1,10 +1,10 @@
 import { createPortal } from 'react-dom';
 
-import useToastStore from '@/stores/toastStore';
-
 import Toast from '@/components/common/Toast/Toast';
 
 import * as S from './ToastList.styles';
+
+import useToastStore from '@/stores/toastStore';
 
 const ToastList = () => {
   const { toastList } = useToastStore();
