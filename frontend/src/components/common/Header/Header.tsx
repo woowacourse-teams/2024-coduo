@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { HiQuestionMarkCircle } from 'react-icons/hi';
 import { LuHome } from 'react-icons/lu';
 
-import { theme } from '@/styles/theme';
-
 import { LogoIcon } from '@/assets';
+
+import { theme } from '@/styles/theme';
 
 import * as S from './Header.styles';
 
