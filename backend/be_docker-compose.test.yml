@@ -25,6 +25,9 @@ services:
     platform: linux/arm64
     ports:
       - ${SERVER_BINDING_PORT}
+    volumes:
+      - ${DOCKER_DATA_PATH}/springboot-app/logs:/logs
+      - ${DOCKER_DATA_PATH}/springboot-app/logs-backup:/logs-backup
     environment:
       SPRING_DATASOURCE_URL: ${DB_URL}
       SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
