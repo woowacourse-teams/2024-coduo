@@ -2,7 +2,7 @@ name: Coduo Frontend Test Server CD
 
 on:
   push:
-    branches: ['FE/dev', 'FE/test']
+    branches: ['FE/test']
 
 jobs:
   build:
