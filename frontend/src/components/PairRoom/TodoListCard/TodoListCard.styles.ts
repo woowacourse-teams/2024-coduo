@@ -6,7 +6,6 @@ export const inputStyles = css`
 
 export const Layout = styled.div`
   min-width: 49rem;
-  max-height: calc(100vh - 23rem);
 `;
 
 export const Body = styled.div`
@@ -17,6 +16,19 @@ export const Body = styled.div`
   min-height: 42rem;
 
   border-top: 1px solid ${({ theme }) => theme.color.black[30]};
+`;
+
+export const Footer = styled.div`
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  height: 6rem;
+  min-height: 6rem;
+
+  background-color: ${({ theme }) => theme.color.black[10]};
+  border-top: 1px solid ${({ theme }) => theme.color.black[30]};
+  border-radius: 0 0 1.5rem 1.5rem;
 `;
 
 export const Form = styled.form`
@@ -30,18 +42,8 @@ export const Form = styled.form`
 
 export const ButtonContainer = styled.div`
   display: flex;
-  gap: 0.6rem;
-`;
-
-export const Footer = styled.div`
-  display: flex;
+  gap: 1em;
   align-items: center;
-
-  width: 100%;
-  height: 6rem;
-  min-height: 6rem;
-
-  border-top: 1px solid ${({ theme }) => theme.color.black[30]};
 `;
 
 export const FooterButton = styled.button`

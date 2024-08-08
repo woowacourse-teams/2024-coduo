@@ -6,6 +6,7 @@ import { getReferenceLinks, addReferenceLink, deleteReferenceLink } from '@/apis
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
+
 const useReferenceLinks = (accessCode: string) => {
   const queryClient = useQueryClient();
 
@@ -16,22 +17,25 @@ const useReferenceLinks = (accessCode: string) => {
     queryFn: () => getReferenceLinks({ accessCode }),
   });
 
-  const { mutate: addReferenceLinkMutate } = useMutation({
+  const { mutate: addReferenceLinkMutation } = useMutation({
     mutationFn: addReferenceLink,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_REFERENCE_LINKS] }),
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });
 
-  const { mutate: deleteReferenceLinkMutate } = useMutation({
+  const { mutate: deleteReferenceLinkMutation } = useMutation({
     mutationFn: deleteReferenceLink,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_REFERENCE_LINKS] }),
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });
 
+  const handleAddReferenceLink = (url: string) => addReferenceLinkMutation({ url, accessCode });
+  const handleDeleteReferenceLink = (id: number) => deleteReferenceLinkMutation({ id, accessCode });
+
   return {
     referenceLinks: referenceLinks || [],
-    addReferenceLink: addReferenceLinkMutate,
-    deleteReferenceLink: deleteReferenceLinkMutate,
+    handleAddReferenceLink,
+    handleDeleteReferenceLink,
   };
 };
 
