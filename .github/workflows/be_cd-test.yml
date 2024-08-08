@@ -85,6 +85,7 @@ jobs:
 
           # Server App
           SERVER_BINDING_PORT=${{ secrets.SERVER_BINDING_PORT }}
+          SERVER_LOGS_PATH=${{ secrets.SERVER_LOGS_PATH }}
           EOF
 
       - name: Stop and remove existing containers
