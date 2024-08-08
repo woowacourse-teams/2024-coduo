@@ -8,7 +8,7 @@ export const PairItem = styled.div`
   align-items: center;
   justify-content: start;
 
-  height: 7rem;
+  height: 6rem;
   padding: 0 1.6rem;
 
   border-bottom: 1px solid ${({ theme }) => theme.color.black[40]};
