@@ -42,6 +42,10 @@ public class PairRoomService {
         return pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
     }
 
+    public boolean existByAccessCode(final String accessCode) {
+        return pairRoomRepository.existsByAccessCode(new AccessCode(accessCode));
+    }
+
     @Transactional
     public void deletePairRoom(final String accessCode) {
         final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));

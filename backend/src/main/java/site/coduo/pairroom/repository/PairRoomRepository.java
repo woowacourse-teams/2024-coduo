@@ -12,6 +12,8 @@ public interface PairRoomRepository extends JpaRepository<PairRoom, Long> {
 
     Optional<PairRoom> findByAccessCode(AccessCode accessCode);
 
+    boolean existsByAccessCode(AccessCode accessCode);
+
     default PairRoom fetchByAccessCode(AccessCode accessCode) {
         return findByAccessCode(accessCode)
                 .orElseThrow(() -> new PairRoomNotFoundException("존재하지 않는 페어룸 접근 코드입니다."));

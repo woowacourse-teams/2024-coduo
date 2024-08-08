@@ -19,6 +19,8 @@ import site.coduo.pairroom.controller.docs.PairRoomDocs;
 import site.coduo.pairroom.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.dto.PairRoomCreateResponse;
 import site.coduo.pairroom.dto.PairRoomDeleteRequest;
+import site.coduo.pairroom.dto.PairRoomExistRequest;
+import site.coduo.pairroom.dto.PairRoomExistResponse;
 import site.coduo.pairroom.dto.PairRoomReadRequest;
 import site.coduo.pairroom.dto.PairRoomReadResponse;
 import site.coduo.pairroom.service.PairRoomService;
@@ -39,6 +41,16 @@ public class PairRoomController implements PairRoomDocs {
 
         return ResponseEntity.created(URI.create("/"))
                 .body(response);
+    }
+
+    @PostMapping("/pair-room/exist")
+    public ResponseEntity<PairRoomExistResponse> existPairRoom(
+            @Valid @RequestBody final PairRoomExistRequest request
+    ) {
+        final boolean existed = service.existByAccessCode(request.accessCode());
+        final PairRoomExistResponse response = new PairRoomExistResponse(existed);
+
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/pair-room/{accessCode}")
