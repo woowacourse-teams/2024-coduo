@@ -19,7 +19,11 @@ const PairRoomOnboarding = () => {
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
 
-  const { pairNames } = useGetPairRoomInformation(accessCode || '');
+  const { pairNames, isFetching, refetch } = useGetPairRoomInformation(accessCode || '');
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   useEffect(() => {
     if (pairNames) {
@@ -56,18 +60,24 @@ const PairRoomOnboarding = () => {
   return (
     <S.Layout>
       <S.Container>
-        <div>
-          <ProgressBar step={step} />
-          {step === 'ROLE' && pairNames && (
-            <RoleSettingSection
-              driver={driver}
-              navigator={navigator}
-              userOptions={[pairNames.firstPair, pairNames.secondPair]}
-              handleSelect={handleSelect}
-            />
-          )}
-        </div>
-        <FooterButtons step={step} isComplete={driver !== '' && navigator !== ''} onNext={handleNext} />
+        {isFetching ? (
+          <div>Loading</div>
+        ) : (
+          <>
+            <div>
+              <ProgressBar step={step} />
+              {step === 'ROLE' && pairNames && (
+                <RoleSettingSection
+                  driver={driver}
+                  navigator={navigator}
+                  userOptions={[pairNames.firstPair, pairNames.secondPair]}
+                  handleSelect={handleSelect}
+                />
+              )}
+            </div>
+            <FooterButtons step={step} isComplete={driver !== '' && navigator !== ''} onNext={handleNext} />
+          </>
+        )}
       </S.Container>
     </S.Layout>
   );
