@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 
-import AlarmSound from '@/assets/audio/alarm_sound.mp3';
+import { AlarmSound } from '@/assets';
 
 import useNotification from '@/hooks/common/useNotification';
 
