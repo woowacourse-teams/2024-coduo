@@ -5,9 +5,10 @@ import { LuHome } from 'react-icons/lu';
 
 import { theme } from '@/styles/theme';
 
+import { LogoIcon } from '@/assets';
+
 import * as S from './Header.styles';
 
-import { LogoIcon } from '@/assets';
 
 const Header = () => {
   return (
