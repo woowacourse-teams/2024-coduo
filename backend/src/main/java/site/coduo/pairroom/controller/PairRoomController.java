@@ -26,7 +26,7 @@ import site.coduo.pairroom.service.PairRoomService;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000", "http://3.35.178.58"})
+@CrossOrigin(origins = {"http://localhost:3000", "https://coduo.site"})
 public class PairRoomController implements PairRoomDocs {
 
     private final PairRoomService service;
