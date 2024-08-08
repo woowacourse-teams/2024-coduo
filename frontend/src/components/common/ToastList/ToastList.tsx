@@ -4,7 +4,9 @@ import useToastStore from '@/stores/toastStore';
 
 import Toast from '@/components/common/Toast/Toast';
 
+
 import * as S from './ToastList.styles';
+
 
 const ToastList = () => {
   const { toastList } = useToastStore();

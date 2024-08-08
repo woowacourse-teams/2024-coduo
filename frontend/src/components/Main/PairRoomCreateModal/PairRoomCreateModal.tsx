@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-import useAddPairRoom from '@/queries/PairRoom/useAddPairRoom';
-
 import { Modal } from '@/components/common/Modal';
+
+import useAddPairRoom from '@/queries/PairRoom/useAddPairRoom';
 
 import CreatePairRoom from './PairRoomCreate/PairRoomCreate';
 import CompleteCreatePairRoom from './PairRoomCreateComplete/PairRoomCreateComplete';
