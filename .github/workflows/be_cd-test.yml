@@ -63,9 +63,13 @@ jobs:
           name: docker-compose
           path: ${{ github.workspace }}/backend
 
+      - name: Move docker-compose YAML
+        run: |
+          sudo mv be_docker-compose.test.yml ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/
+
       - name: Extract secrets as .be_env file
         run: |
-          cat <<EOF > .be_env
+          cat <<EOF > ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_env
           # Docker Hub info from Github Secrets
           DOCKER_REPO_NAME=${{ secrets.DOCKER_REPO_NAME }}
 
@@ -85,8 +89,8 @@ jobs:
 
       - name: Stop and remove existing containers
         run: |
-          sudo docker-compose --env-file .be_env -f be_docker-compose.test.yml down --rmi all
+          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_docker-compose.test.yml down --rmi all
 
       - name: Deploy docker container
         run: |
-          sudo docker-compose --env-file .be_env -f be_docker-compose.test.yml up -d
+          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_docker-compose.test.yml up -d
