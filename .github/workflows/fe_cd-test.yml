@@ -2,7 +2,7 @@ name: Coduo Frontend Test Server CD
 
 on:
   push:
-    branches: ['FE/test']
+    branches: ["FE/test"]
 
 jobs:
   build:
@@ -33,11 +33,7 @@ jobs:
       - name: Image build and push
         run: |
           docker buildx create --use
-<<<<<<< HEAD
-          docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKER_REPO_NAME }}/react-app:test-latest --push ./frontend
-=======
           docker buildx build --platform linux/amd64,linux/arm64 -t ${{ secrets.DOCKER_REPO_NAME }}/react-app:test-latest --push .
->>>>>>> 414499bf082eeae144ffc2081b405cdcc0ba0161
 
   deploy:
     environment: test
