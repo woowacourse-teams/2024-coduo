@@ -12,4 +12,9 @@ public class CommonController {
     public String healthCheck() {
         return "Coduo is OK";
     }
+
+    @GetMapping("/help")
+    public String help() {
+        return "불쌍한 켈리를 살려주세요...";
+    }
 }
