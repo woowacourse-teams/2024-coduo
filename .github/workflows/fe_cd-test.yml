@@ -42,4 +42,4 @@ jobs:
 
       - name: Run Docker container
         run: |
-          sudo docker run -d --name coduo_react-app -p 3000:3000 ${{ secrets.DOCKER_REPO_NAME }}/react-app:test-latest
+          sudo docker run -d --network coduo_net --name coduo_react-app -p 3000:3000 ${{ secrets.DOCKER_REPO_NAME }}/react-app:test-latest
