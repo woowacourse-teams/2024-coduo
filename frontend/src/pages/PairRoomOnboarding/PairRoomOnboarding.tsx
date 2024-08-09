@@ -3,8 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import StartMission from '@/components/PairRoom/StartMission/StartMission';
 import FooterButtons from '@/components/PairRoomOnboarding/FooterButtons/FooterButtons';
+import HowToPairModal from '@/components/PairRoomOnboarding/HowToPairModal/HowToPairModal';
 import ProgressBar from '@/components/PairRoomOnboarding/ProgressBar/ProgressBar';
 import RoleSettingSection from '@/components/PairRoomOnboarding/RoleSettingSection/RoleSettingSection';
+
+import useModal from '@/hooks/common/useModal';
 
 import useCreateBranch from '@/queries/github/useCreateBranch';
 import useGetPairRoomInformation from '@/queries/PairRoom/useGetPairRoomInformation';
@@ -23,6 +26,8 @@ const PairRoomOnboarding = () => {
   const [navigator, setNavigator] = useState('');
 
   const { pairNames, isFetching, refetch } = useGetPairRoomInformation(accessCode || '');
+
+  const { isModalOpen: isHowToPairModalOpen, closeModal: closeHowToPairModal } = useModal(true);
 
   useEffect(() => {
     refetch();
@@ -62,6 +67,7 @@ const PairRoomOnboarding = () => {
 
   return (
     <S.Layout>
+      {' '}
       <S.Container>
         {isFetching ? (
           <div>Loading</div>
@@ -83,6 +89,7 @@ const PairRoomOnboarding = () => {
           </>
         )}
       </S.Container>
+      <HowToPairModal isOpen={isHowToPairModalOpen} closeModal={closeHowToPairModal} />
     </S.Layout>
   );
 };
