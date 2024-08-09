@@ -9,9 +9,11 @@ const useGetBranches = (repository: string) => {
     data: branches,
     isFetching,
     error,
+    refetch,
   } = useQuery({
     queryKey: [QUERY_KEYS.GET_BRANCHES, repository],
     queryFn: () => getBranches(repository),
+    enabled: false,
   });
 
   interface BranchResponse {
@@ -23,7 +25,7 @@ const useGetBranches = (repository: string) => {
     return branchesName.includes(branchName);
   };
 
-  return { branches, isFetching, error, isAlreadyCreated };
+  return { branches, isFetching, error, isAlreadyCreated, refetch };
 };
 
 export default useGetBranches;
