@@ -67,7 +67,6 @@ const PairRoomOnboarding = () => {
 
   return (
     <S.Layout>
-      {' '}
       <S.Container>
         {isFetching ? (
           <div>Loading</div>
