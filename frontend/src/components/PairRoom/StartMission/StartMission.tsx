@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { BsArrowReturnRight } from 'react-icons/bs';
 
@@ -37,13 +37,17 @@ const StartMission = ({ handleStartMission }: StartMissionProps) => {
   };
 
   const { isModalOpen, closeModal, openModal } = useModal();
-  const { isAlreadyCreated } = useGetBranches(currentRepo);
+  const { isAlreadyCreated, refetch } = useGetBranches(currentRepo);
   const { value, message, handleChange, status } = useInput();
 
   const validate = (name: string): { status: InputStatus; message: string } => {
     if (isAlreadyCreated(name)) return { status: 'ERROR', message: '중복된 브랜치 이름 입니다.' };
     return { status: 'DEFAULT', message: '' };
   };
+
+  useEffect(() => {
+    if (currentRepo !== '') refetch();
+  }, [currentRepo]);
 
   return (
     <>
