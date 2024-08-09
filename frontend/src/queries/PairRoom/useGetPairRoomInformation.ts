@@ -14,6 +14,7 @@ const useGetPairRoomInformation = (accessCode: string) => {
   } = useQuery({
     queryKey: [QUERY_KEYS.GET_PAIR_NAMES],
     queryFn: () => getPairNames(accessCode),
+    retry: 0,
     enabled: false,
   });
 
