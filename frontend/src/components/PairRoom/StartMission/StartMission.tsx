@@ -5,6 +5,7 @@ import { BsArrowReturnRight } from 'react-icons/bs';
 import Button from '@/components/common/Button/Button';
 import { InputStatus } from '@/components/common/Input/Input.type';
 import { Modal } from '@/components/common/Modal';
+import Spinner from '@/components/common/Spinner/Spinner';
 import MissionRepository from '@/components/PairRoom/StartMission/MissionRepository';
 import InformationBox from '@/components/PairRoomOnboarding/InformationBox/InformationBox';
 
@@ -86,7 +87,7 @@ const StartMission = ({ handleStartMission }: StartMissionProps) => {
 
         <S.Repositories>
           {isFetching ? (
-            <div>loading</div>
+            <Spinner />
           ) : (
             repositories.map((repository: RepositoryProps) => {
               return (
