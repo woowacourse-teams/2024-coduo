@@ -13,7 +13,7 @@ const PairListSection = ({ isOpen, driver, navigator }: PairListSectionProps) =>
       <S.PairName>{driver}</S.PairName>
     </S.PairItem>
     <S.PairItem>
-      {isOpen && <S.PairRole $role="NAVIGATOR">네비게이터</S.PairRole>}
+      {isOpen && <S.PairRole $role="NAVIGATOR">내비게이터</S.PairRole>}
       <S.PairName>{navigator}</S.PairName>
     </S.PairItem>
   </div>

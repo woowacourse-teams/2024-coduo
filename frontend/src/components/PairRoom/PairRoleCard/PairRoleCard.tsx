@@ -21,7 +21,7 @@ const PairRoleCard = ({ driver, navigator }: PairRoleCardProps) => {
           </S.DriverBox>
           <S.NavigatorBox>
             <S.RoleTextContainer>
-              <S.NavigatorLabel>네비게이터</S.NavigatorLabel>
+              <S.NavigatorLabel>내비게이터</S.NavigatorLabel>
               <S.NavigatorText>{navigator}</S.NavigatorText>
             </S.RoleTextContainer>
             <S.RoleIcon>🧭</S.RoleIcon>
