@@ -1,10 +1,17 @@
+import { SpinnerColor, SpinnerSize } from '@/components/common/Spinner/Spinner.type';
+
 import * as S from './Spinner.styles';
 
-const Spinner = () => {
+interface SpinnerProps {
+  size?: SpinnerSize;
+  color?: SpinnerColor;
+}
+
+const Spinner = ({ size = 'md', color = 'primary' }: SpinnerProps) => {
   return (
-    <S.Spinner>
-      <S.DoubleBounce1></S.DoubleBounce1>
-      <S.DoubleBounce2></S.DoubleBounce2>
+    <S.Spinner $size={size}>
+      <S.DoubleBounce1 $size={size} $color={color} />
+      <S.DoubleBounce2 $size={size} $color={color} />
     </S.Spinner>
   );
 };

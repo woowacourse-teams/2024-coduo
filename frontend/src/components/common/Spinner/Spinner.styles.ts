@@ -1,5 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 
+import { SpinnerColor, SpinnerSize } from '@/components/common/Spinner/Spinner.type';
+
 const skBounce = keyframes`
   0%,
   100% {
@@ -10,7 +12,14 @@ const skBounce = keyframes`
   }
 `;
 
-export const Spinner = styled.div`
+const buttonSizes = {
+  sm: '4rem',
+  md: '8rem',
+  lg: '12rem',
+  xl: '16rem',
+};
+
+export const Spinner = styled.div<{ $size: SpinnerSize }>`
   position: relative;
 
   display: flex;
@@ -18,34 +27,34 @@ export const Spinner = styled.div`
   justify-content: center;
 
   width: 100%;
-  min-width: 4rem;
+  min-width: ${({ $size }) => buttonSizes[$size]};
   height: 100%;
-  min-height: 4rem;
+  min-height: ${({ $size }) => buttonSizes[$size]};
 `;
 
-export const DoubleBounce1 = styled.div`
+export const DoubleBounce1 = styled.div<{ $size: SpinnerSize; $color: SpinnerColor }>`
   position: absolute;
 
   aspect-ratio: 1;
-  width: 4rem;
+  width: ${({ $size }) => buttonSizes[$size]};
   margin: auto;
 
   opacity: 0.6;
-  background-color: ${({ theme }) => theme.color.primary[800]};
+  background-color: ${({ theme, $color }) => theme.color[$color][700]};
   border-radius: 50%;
 
   animation: ${skBounce} 2s infinite ease-in-out;
 `;
 
-export const DoubleBounce2 = styled.div`
+export const DoubleBounce2 = styled.div<{ $size: SpinnerSize; $color: SpinnerColor }>`
   position: absolute;
 
   aspect-ratio: 1;
-  width: 4rem;
+  width: ${({ $size }) => buttonSizes[$size]};
   margin: auto;
 
   opacity: 0.6;
-  background-color: ${({ theme }) => theme.color.primary[800]};
+  background-color: ${({ theme, $color }) => theme.color[$color][700]};
   border-radius: 50%;
 
   animation: ${skBounce} 2s infinite ease-in-out;
