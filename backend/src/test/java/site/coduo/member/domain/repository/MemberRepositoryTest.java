@@ -10,7 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import site.coduo.member.domain.Member;
+import site.coduo.oauth.domain.Member;
+import site.coduo.oauth.domain.repository.MemberRepository;
 
 @SpringBootTest
 class MemberRepositoryTest {

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Primary;
 import site.coduo.fake.FakeGithubApiClient;
 import site.coduo.fake.FakeGithubOAuthClient;
 import site.coduo.fake.FixedNanceGenerator;
-import site.coduo.member.client.GithubApiClient;
+import site.coduo.oauth.client.GithubApiClient;
 import site.coduo.oauth.client.GithubOAuthClient;
 import site.coduo.oauth.infrastructure.security.NanceGenerator;
 

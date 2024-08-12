@@ -1,7 +1,7 @@
-package site.coduo.member.client.dto;
+package site.coduo.oauth.client.dto;
 
 import site.coduo.common.infrastructure.http.Bearer;
-import site.coduo.member.domain.Member;
+import site.coduo.oauth.domain.Member;
 
 public record GithubUserResponse(String userId, String longin, String avatarUrl) {
 

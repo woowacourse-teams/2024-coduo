@@ -14,7 +14,7 @@ import site.coduo.oauth.client.dto.TokenRequest;
 import site.coduo.oauth.client.dto.TokenResponse;
 
 @Component
-public class GithubOAuthClient implements OAuthClient {
+public class GithubOAuthClient {
 
     private static final int CONNECT_TIME_VALUE = 1000;
     private static final int READ_TIME_OUT_VALUE = 10000;
@@ -42,7 +42,6 @@ public class GithubOAuthClient implements OAuthClient {
                 .build();
     }
 
-    @Override
     public TokenResponse grant(TokenRequest request) {
 
         String body = client.post()
@@ -56,12 +55,10 @@ public class GithubOAuthClient implements OAuthClient {
         return new TokenResponse(new Bearer(body), "scope", "tokenType");
     }
 
-    @Override
     public String getOAuthClientId() {
         return oAuthClientId;
     }
 
-    @Override
     public String getOAuthRedirectUri() {
         return oAuthRedirectUri;
     }

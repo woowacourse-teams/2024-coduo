@@ -19,10 +19,10 @@ import site.coduo.oauth.service.dto.OAuthTriggerContent;
 
 @SpringBootTest
 @Import(TestConfig.class)
-class OAuthServiceTest {
+class GithubOAuthServiceTest {
 
     @Autowired
-    private OAuthService oAuthService;
+    private GithubOAuthService githubOAuthService;
 
     @Test
     @DisplayName("인가 요청을 위한 정보를 생성한다.")
@@ -35,7 +35,7 @@ class OAuthServiceTest {
                 .build();
 
         // when
-        final OAuthTriggerContent response = oAuthService.createAuthorizationContent();
+        final OAuthTriggerContent response = githubOAuthService.createAuthorizationContent();
 
         // then
         assertThat(response).isEqualTo(expect);
@@ -48,7 +48,7 @@ class OAuthServiceTest {
         final CallbackContent content = new CallbackContent("code", "nonce", "nonce");
 
         // when
-        final TokenResponse tokenResponse = oAuthService.invokeCallback(content);
+        final TokenResponse tokenResponse = githubOAuthService.invokeOAuthCallback(content);
 
         // then
         assertThat(tokenResponse.accessToken()).isEqualTo(FakeGithubOAuthClient.ACCESS_TOKEN);
@@ -61,7 +61,7 @@ class OAuthServiceTest {
         final CallbackContent content = new CallbackContent("code", "nonce", "nonce2");
 
         // when & then
-        assertThatThrownBy(() -> oAuthService.invokeCallback(content))
+        assertThatThrownBy(() -> githubOAuthService.invokeOAuthCallback(content))
                 .isInstanceOf(AuthorizationException.class);
     }
 }

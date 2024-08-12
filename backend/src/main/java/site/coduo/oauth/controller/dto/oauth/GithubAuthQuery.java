@@ -1,4 +1,4 @@
-package site.coduo.oauth.controller.dto;
+package site.coduo.oauth.controller.dto.oauth;
 
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;

@@ -13,18 +13,19 @@ import org.springframework.context.annotation.Import;
 import site.coduo.common.infrastructure.http.Bearer;
 import site.coduo.config.TestConfig;
 import site.coduo.fake.FakeGithubApiClient;
-import site.coduo.member.domain.Member;
-import site.coduo.member.domain.repository.MemberRepository;
-import site.coduo.member.exception.MemberNotFoundException;
-import site.coduo.member.service.dto.MemberOAuthCreateRequest;
-import site.coduo.member.service.dto.MemberReadResponse;
+import site.coduo.oauth.domain.Member;
+import site.coduo.oauth.domain.repository.MemberRepository;
+import site.coduo.oauth.exception.MemberNotFoundException;
+import site.coduo.oauth.service.MemberService;
+import site.coduo.oauth.service.dto.MemberCreateServiceRequest;
+import site.coduo.oauth.service.dto.MemberOAuthReadResponse;
 
 @SpringBootTest
 @Import(TestConfig.class)
 class MemberServiceTest {
 
     @Autowired
-    private MemberService memberService;
+    private MemberService MemberService;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -38,10 +39,10 @@ class MemberServiceTest {
     @DisplayName("회원을 저장한다.")
     void save_member() {
         // given
-        MemberOAuthCreateRequest request = new MemberOAuthCreateRequest(new Bearer("access-token"), "username");
+        MemberCreateServiceRequest request = new MemberCreateServiceRequest(new Bearer("access-token"), "username");
 
         // when
-        memberService.createMember(request);
+        MemberService.createMember(request);
 
         // then
         assertThat(memberRepository.findAll()).hasSize(1);
@@ -55,7 +56,7 @@ class MemberServiceTest {
         Bearer bearer = new Bearer(member.getAccessToken());
 
         // when
-        MemberReadResponse response = memberService.getMember(bearer);
+        MemberOAuthReadResponse response = MemberService.updateAccessToken(bearer);
 
         // then
         assertThat(response.username()).isEqualTo(member.getUsername());
@@ -68,7 +69,7 @@ class MemberServiceTest {
         Bearer bearer = new Bearer("does not exist token");
 
         // when & then
-        assertThatThrownBy(() -> memberService.getMember(bearer))
+        assertThatThrownBy(() -> MemberService.updateAccessToken(bearer))
                 .isInstanceOf(MemberNotFoundException.class);
     }
 

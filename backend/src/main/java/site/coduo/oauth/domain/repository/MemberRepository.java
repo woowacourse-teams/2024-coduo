@@ -1,10 +1,10 @@
-package site.coduo.member.domain.repository;
+package site.coduo.oauth.domain.repository;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import site.coduo.member.domain.Member;
+import site.coduo.oauth.domain.Member;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 

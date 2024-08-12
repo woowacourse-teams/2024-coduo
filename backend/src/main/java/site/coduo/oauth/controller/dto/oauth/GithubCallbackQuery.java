@@ -1,4 +1,4 @@
-package site.coduo.oauth.controller.dto;
+package site.coduo.oauth.controller.dto.oauth;
 
 public record GithubCallbackQuery(String code, String state) {
 }

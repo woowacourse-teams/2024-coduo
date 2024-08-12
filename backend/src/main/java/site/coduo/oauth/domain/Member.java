@@ -1,4 +1,4 @@
-package site.coduo.member.domain;
+package site.coduo.oauth.domain;
 
 import java.util.Objects;
 
@@ -48,6 +48,10 @@ public class Member {
         this.userId = userId;
         this.profileImage = profileImage;
         this.username = username;
+    }
+
+    public void updateAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
     @Override

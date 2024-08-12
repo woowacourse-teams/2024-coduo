@@ -1,6 +1,6 @@
 package site.coduo.oauth.service.dto;
 
-import site.coduo.oauth.controller.dto.GithubCallbackQuery;
+import site.coduo.oauth.controller.dto.oauth.GithubCallbackQuery;
 
 public record CallbackContent(String code, String returnedState, String savedState) {
 

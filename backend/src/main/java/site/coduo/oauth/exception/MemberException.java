@@ -1,4 +1,4 @@
-package site.coduo.member.exception;
+package site.coduo.oauth.exception;
 
 import site.coduo.common.exception.CoduoException;
 

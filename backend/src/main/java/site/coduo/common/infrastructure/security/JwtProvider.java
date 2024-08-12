@@ -3,10 +3,12 @@ package site.coduo.common.infrastructure.security;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
+@Component
 public class JwtProvider {
 
     @Value("${jwt.sign-key}")

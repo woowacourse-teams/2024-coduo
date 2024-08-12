@@ -1,12 +1,12 @@
-package site.coduo.member.client;
+package site.coduo.oauth.client;
 
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
-import site.coduo.member.client.dto.GithubUserRequest;
-import site.coduo.member.client.dto.GithubUserResponse;
+import site.coduo.oauth.client.dto.GithubUserRequest;
+import site.coduo.oauth.client.dto.GithubUserResponse;
 
 @Component
 public class GithubApiClient {
