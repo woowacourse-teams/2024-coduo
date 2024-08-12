@@ -55,12 +55,11 @@ export const Layout = styled.div<{ $isOpen: boolean; $isPush: boolean; $status: 
   width: 30rem;
   min-height: 5rem;
   padding: 1.2rem 1.8rem;
+  border-radius: 1.5rem;
 
+  color: ${({ theme }) => theme.color.black[10]};
   font-size: ${({ theme }) => theme.fontSize.md};
   line-height: 1.5;
-  color: ${({ theme }) => theme.color.black[10]};
-
-  border-radius: 1.5rem;
 
   animation:
     ${({ $isOpen }) => ($isOpen ? slideIn : slideOut)} 0.8s none,

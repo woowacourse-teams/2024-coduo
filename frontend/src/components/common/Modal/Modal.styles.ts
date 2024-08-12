@@ -34,12 +34,12 @@ const slideOut = keyframes`
 `;
 
 export const Layout = styled.div<{ $position: Position }>`
+  display: flex;
+  justify-content: center;
+  align-items: ${({ $position }) => ($position === 'BOTTOM' ? 'flex-end' : 'center')};
+
   position: fixed;
   top: 0;
-
-  display: flex;
-  align-items: ${({ $position }) => ($position === 'BOTTOM' ? 'flex-end' : 'center')};
-  justify-content: center;
 
   width: 100%;
   height: 100%;
@@ -49,8 +49,8 @@ export const Layout = styled.div<{ $position: Position }>`
 
 const backdropMapper = {
   OPAQUE: css`
-    opacity: 0.36;
     background: ${({ theme }) => theme.color.black[90]};
+    opacity: 0.36;
   `,
   BLUR: css`
     background: #00000080;
@@ -64,6 +64,7 @@ const backdropMapper = {
 export const Backdrop = styled.div<{ $backdropType: BackdropType }>`
   position: fixed;
   top: 0;
+
   width: 100%;
   height: 100%;
   ${({ $backdropType }) => backdropMapper[$backdropType]}
@@ -104,10 +105,10 @@ export const Container = styled.div<{
   $shadow: boolean;
   $animation: boolean;
 }>`
-  position: relative;
-
   display: flex;
   flex-direction: column;
+
+  position: relative;
 
   width: ${({ $size }) => sizeMapper[$size as Size] ?? $size};
   height: ${({ $height }) => $height && $height};
