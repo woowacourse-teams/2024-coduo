@@ -18,6 +18,7 @@ export const HeaderContainer = styled.div`
 export const Repositories = styled.div`
   display: flex;
   gap: 2rem;
+
   width: 100%;
 `;
 
@@ -39,32 +40,30 @@ export const MissionButton = css`
 
 export const MissionRepository = styled.div`
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 
   width: 100%;
   height: 5rem;
-
-  color: ${({ theme }) => theme.color.black[10]};
+  border-radius: 1rem;
 
   background-color: ${({ theme }) => theme.color.black[80]};
-  border-radius: 1rem;
+  color: ${({ theme }) => theme.color.black[10]};
 `;
 
 export const MissionBranch = styled.input`
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 
   width: 80%;
   height: 4rem;
   padding: 0 1rem;
-
-  color: ${({ theme }) => theme.color.black[70]};
-
-  background-color: ${({ theme }) => theme.color.black[10]};
   border: 2px solid ${({ theme }) => theme.color.black[70]};
   border-radius: 1rem;
+
+  background-color: ${({ theme }) => theme.color.black[10]};
+  color: ${({ theme }) => theme.color.black[70]};
 `;
 
 export const ModalContainer = styled.div`
@@ -75,12 +74,12 @@ export const ModalContainer = styled.div`
 
 export const MissionBranchBox = styled.div`
   display: flex;
-  gap: 1rem;
-  align-items: center;
   justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
 `;
 
 export const Message = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.sm};
   color: ${({ theme }) => theme.color.danger[500]};
+  font-size: ${({ theme }) => theme.fontSize.sm};
 `;

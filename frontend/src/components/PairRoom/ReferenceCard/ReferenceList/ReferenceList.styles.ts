@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
 export const Layout = styled.div`
-  overflow-y: auto;
   display: flex;
-  flex-direction: column;
   flex-grow: 1;
-  gap: 1rem;
+  flex-direction: column;
   align-items: center;
+  gap: 1rem;
+  overflow-y: auto;
 
   padding: 2rem;
 `;
@@ -14,6 +14,7 @@ export const Layout = styled.div`
 export const List = styled.ul`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+
   gap: 3rem;
 
   li {
@@ -27,7 +28,9 @@ export const List = styled.ul`
 
 export const EmptyLayout = styled.div`
   flex-grow: 1;
+
   padding: 2rem;
-  font-size: ${({ theme }) => theme.fontSize.md};
+
   color: ${({ theme }) => theme.color.black[60]};
+  font-size: ${({ theme }) => theme.fontSize.md};
 `;

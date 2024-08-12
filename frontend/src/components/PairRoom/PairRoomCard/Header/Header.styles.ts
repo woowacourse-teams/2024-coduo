@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 export const Layout = styled.div<{ $isOpen: boolean }>`
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
 
   width: 100%;
   height: 6rem;
@@ -14,6 +14,6 @@ export const Layout = styled.div<{ $isOpen: boolean }>`
 
 export const TitleContainer = styled.div`
   display: flex;
-  gap: 1rem;
   align-items: center;
+  gap: 1rem;
 `;
