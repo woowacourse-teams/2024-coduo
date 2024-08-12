@@ -10,8 +10,8 @@ interface SpinnerProps {
 const Spinner = ({ size = 'md', color = 'primary' }: SpinnerProps) => {
   return (
     <S.Spinner $size={size}>
-      <S.DoubleBounce1 $size={size} $color={color} />
-      <S.DoubleBounce2 $size={size} $color={color} />
+      <S.FirstBounce $size={size} $color={color} />
+      <S.SecondBounce $size={size} $color={color} />
     </S.Spinner>
   );
 };
