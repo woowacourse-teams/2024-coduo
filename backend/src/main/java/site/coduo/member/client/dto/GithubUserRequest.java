@@ -5,7 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import site.coduo.common.infrastructure.security.Bearer;
+import site.coduo.common.infrastructure.http.Bearer;
 
 public record GithubUserRequest(Bearer accessToken) {
 

@@ -34,7 +34,11 @@ dependencies {
     // Validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-    // JPA
+	// Auth
+	implementation 'io.jsonwebtoken:jjwt:0.12.6'
+	implementation 'io.jsonwebtoken:jjwt-impl:0.12.6'
+
+	// JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     // H2
