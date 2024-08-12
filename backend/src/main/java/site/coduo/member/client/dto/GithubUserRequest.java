@@ -7,7 +7,7 @@ import org.springframework.util.MultiValueMap;
 
 import site.coduo.common.infrastructure.security.Bearer;
 
-public record InquiryUserRequest(Bearer accessToken) {
+public record GithubUserRequest(Bearer accessToken) {
 
     public MultiValueMap<String, String> getHeaders() {
         LinkedMultiValueMap<String, String> headers = new LinkedMultiValueMap<>();

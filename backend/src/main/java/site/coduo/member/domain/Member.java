@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -24,19 +25,29 @@ public class Member {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @Column(name = "GITHUB_ACCESS_TOKEN", nullable = false, unique = true)
-    private String githubAccessToken;
+    @Column(name = "ACCESS_TOKEN", nullable = false)
+    private String accessToken;
 
-    @Column(name = "GITHUB_ID", nullable = false, unique = true)
-    private String githubId;
+    @Column(name = "PROVIDER_LOGIN_ID", nullable = false)
+    private String loginId;
 
-    @Column(name = "USER_ID", nullable = false, unique = true)
+    @Column(name = "PROVIDER_USER_ID", nullable = false)
     private String userId;
 
-    public Member(String githubAccessToken, String githubId, String userId) {
-        this.githubAccessToken = githubAccessToken;
-        this.githubId = githubId;
+    @Column(name = "PROFILE_IMAGE")
+    private String profileImage;
+
+    @Column(name = "USER_NAME")
+    private String username;
+
+    @Builder
+    private Member(String accessToken, String loginId, String userId, String profileImage,
+                   String username) {
+        this.accessToken = accessToken;
+        this.loginId = loginId;
         this.userId = userId;
+        this.profileImage = profileImage;
+        this.username = username;
     }
 
     @Override

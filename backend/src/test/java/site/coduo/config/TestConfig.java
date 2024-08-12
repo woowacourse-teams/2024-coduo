@@ -4,8 +4,10 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 
+import site.coduo.fake.FakeGithubApiClient;
 import site.coduo.fake.FakeGithubOAuthClient;
 import site.coduo.fake.FixedNanceFactory;
+import site.coduo.member.client.GithubApiClient;
 import site.coduo.oauth.client.GithubOAuthClient;
 import site.coduo.oauth.infrastructure.security.NanceFactory;
 
@@ -22,5 +24,11 @@ public class TestConfig {
     @Primary
     public GithubOAuthClient fakeGithubOAuthClient() {
         return new FakeGithubOAuthClient();
+    }
+
+    @Bean
+    @Primary
+    public GithubApiClient fakeGithubApiClient() {
+        return new FakeGithubApiClient();
     }
 }

@@ -18,9 +18,10 @@ class OAuthAcceptanceTest extends AcceptanceFixture {
                 .follow(false)
 
                 .when()
-                .get("/api/oauth/github/authorize")
+                .get("/api/sign-in/oauth/github")
 
                 .then().log().all()
+                .assertThat()
                 .statusCode(HttpStatus.FOUND.value())
                 .header(HttpHeaders.LOCATION,
                         "https://www.github.com/login/oauth/authorize?client_id=test&state=random%20number&redirect_uri=http://test.test");

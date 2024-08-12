@@ -2,11 +2,13 @@ package site.coduo.member.client;
 
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
-import site.coduo.member.client.dto.InquiryUserRequest;
-import site.coduo.member.client.dto.InquiryUserResponse;
+import site.coduo.member.client.dto.GithubUserRequest;
+import site.coduo.member.client.dto.GithubUserResponse;
 
+@Component
 public class GithubApiClient {
 
     private static final int CONNECT_TIME_VALUE = 1000;
@@ -26,13 +28,13 @@ public class GithubApiClient {
                 .build();
     }
 
-    public InquiryUserResponse inquiryUser(InquiryUserRequest request) {
+    public GithubUserResponse getUser(GithubUserRequest request) {
 
         return client.get()
                 .uri("/user")
                 .accept()
                 .headers(httpHeaders -> httpHeaders.addAll(request.getHeaders()))
                 .retrieve()
-                .body(InquiryUserResponse.class);
+                .body(GithubUserResponse.class);
     }
 }

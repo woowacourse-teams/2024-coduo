@@ -8,25 +8,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import site.coduo.oauth.client.dto.TokenResponse;
 import site.coduo.oauth.controller.dto.GithubAuthQuery;
 import site.coduo.oauth.controller.dto.GithubAuthUri;
 import site.coduo.oauth.controller.dto.GithubCallbackQuery;
 import site.coduo.oauth.infrastructure.security.CsrfConstant;
 import site.coduo.oauth.service.OAuthService;
+import site.coduo.oauth.service.dto.CallbackContent;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/oauth")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class OAuthController {
 
     private final OAuthService oAuthService;
 
-    @GetMapping("/github/authorize")
+    @GetMapping("/sign-in/oauth/github")
     public ResponseEntity<Void> getGithubAuthCode(HttpSession session) {
         GithubAuthQuery query = GithubAuthQuery.of(oAuthService.createAuthorizationContent());
         GithubAuthUri githubAuthUri = new GithubAuthUri(query);
@@ -40,11 +41,11 @@ public class OAuthController {
     }
 
     @GetMapping("/github/callback")
-    public ResponseEntity<String> getAccessToken(@ModelAttribute GithubCallbackQuery query,
-                                                 HttpSession session) {
-        session.removeAttribute(CsrfConstant.STATE_SESSION_KEY);
-        TokenResponse accessToken = oAuthService.getAccessToken(query.code());
-        log.info("ACCESS TOKEN: {}", accessToken);
-        return ResponseEntity.ok(accessToken.accessToken());
+    public ResponseEntity<Void> getAccessToken(@ModelAttribute GithubCallbackQuery query,
+                                               @SessionAttribute(name = CsrfConstant.STATE_SESSION_KEY) String state) {
+        oAuthService.login(new CallbackContent(query.code(), query.state(), state));
+
+        return ResponseEntity.ok()
+                .build();
     }
 }
