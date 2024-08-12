@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import Spinner from '@/components/common/Spinner/Spinner';
 import FooterButtons from '@/components/PairRoomOnboarding/FooterButtons/FooterButtons';
 import HowToPairModal from '@/components/PairRoomOnboarding/HowToPairModal/HowToPairModal';
 import ProgressBar from '@/components/PairRoomOnboarding/ProgressBar/ProgressBar';
@@ -66,7 +67,7 @@ const PairRoomOnboarding = () => {
     <S.Layout>
       <S.Container>
         {isFetching ? (
-          <div>Loading</div>
+          <Spinner />
         ) : (
           <>
             <div>
