@@ -1,7 +1,7 @@
 package site.coduo.fake;
 
 import site.coduo.common.exception.AuthorizationException;
-import site.coduo.oauth.infrastructure.security.NanceGenerator;
+import site.coduo.member.infrastructure.security.NanceGenerator;
 
 public class FixedNanceGenerator implements NanceGenerator {
     public static final String FIXED_VALUE = "random number";

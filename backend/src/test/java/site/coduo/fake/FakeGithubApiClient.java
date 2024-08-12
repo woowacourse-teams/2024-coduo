@@ -1,8 +1,8 @@
 package site.coduo.fake;
 
-import site.coduo.oauth.client.GithubApiClient;
-import site.coduo.oauth.client.dto.GithubUserRequest;
-import site.coduo.oauth.client.dto.GithubUserResponse;
+import site.coduo.member.client.GithubApiClient;
+import site.coduo.member.client.dto.GithubUserRequest;
+import site.coduo.member.client.dto.GithubUserResponse;
 
 public class FakeGithubApiClient extends GithubApiClient {
 
