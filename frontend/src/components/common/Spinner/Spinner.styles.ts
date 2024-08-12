@@ -32,7 +32,7 @@ export const Spinner = styled.div<{ $size: SpinnerSize }>`
   min-height: ${({ $size }) => spinnerSizes[$size]};
 `;
 
-export const DoubleBounce1 = styled.div<{ $size: SpinnerSize; $color: SpinnerColor }>`
+export const FirstBounce = styled.div<{ $size: SpinnerSize; $color: SpinnerColor }>`
   position: absolute;
 
   aspect-ratio: 1;
@@ -46,7 +46,7 @@ export const DoubleBounce1 = styled.div<{ $size: SpinnerSize; $color: SpinnerCol
   animation: ${bounce} 2s infinite ease-in-out;
 `;
 
-export const DoubleBounce2 = styled.div<{ $size: SpinnerSize; $color: SpinnerColor }>`
+export const SecondBounce = styled.div<{ $size: SpinnerSize; $color: SpinnerColor }>`
   position: absolute;
 
   aspect-ratio: 1;
