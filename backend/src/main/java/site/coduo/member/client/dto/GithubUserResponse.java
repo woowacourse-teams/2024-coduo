@@ -1,6 +1,6 @@
 package site.coduo.member.client.dto;
 
-import site.coduo.common.infrastructure.security.Bearer;
+import site.coduo.common.infrastructure.http.Bearer;
 import site.coduo.member.domain.Member;
 
 public record GithubUserResponse(String userId, String longin, String avatarUrl) {
@@ -14,4 +14,5 @@ public record GithubUserResponse(String userId, String longin, String avatarUrl)
                 .accessToken(accessToken.getCredential())
                 .build();
     }
+
 }

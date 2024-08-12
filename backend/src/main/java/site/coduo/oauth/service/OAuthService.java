@@ -4,11 +4,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.oauth.client.OAuthClient;
 import site.coduo.oauth.client.dto.TokenRequest;
 import site.coduo.oauth.client.dto.TokenResponse;
-import site.coduo.oauth.infrastructure.security.NanceFactory;
+import site.coduo.oauth.infrastructure.security.NanceGenerator;
 import site.coduo.oauth.service.dto.CallbackContent;
 import site.coduo.oauth.service.dto.OAuthTriggerContent;
 
@@ -18,22 +17,20 @@ import site.coduo.oauth.service.dto.OAuthTriggerContent;
 public class OAuthService {
 
     private final OAuthClient oAuthClient;
-    private final NanceFactory nanceFactory;
-    private final MemberRepository memberRepository;
+    private final NanceGenerator nanceGenerator;
 
     public OAuthTriggerContent createAuthorizationContent() {
 
         return OAuthTriggerContent.builder()
                 .clientId(oAuthClient.getOAuthClientId())
                 .redirectUri(oAuthClient.getOAuthRedirectUri())
-                .state(nanceFactory.generate())
+                .state(nanceGenerator.generate())
                 .build();
     }
 
-    @Transactional
-    public void login(final CallbackContent content) {
+    public TokenResponse invokeCallback(final CallbackContent content) {
+        nanceGenerator.verify(content.savedState(), content.returnedState());
         String redirectUri = oAuthClient.getOAuthRedirectUri();
-        TokenResponse tokenResponse = oAuthClient.grant(new TokenRequest(content.code(), redirectUri));
-        memberRepository.findByAccessToken(tokenResponse.accessToken());
+        return oAuthClient.grant(new TokenRequest(content.code(), redirectUri));
     }
 }

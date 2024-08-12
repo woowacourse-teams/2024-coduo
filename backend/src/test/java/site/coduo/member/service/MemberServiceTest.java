@@ -10,14 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 
-import site.coduo.common.infrastructure.security.Bearer;
+import site.coduo.common.infrastructure.http.Bearer;
 import site.coduo.config.TestConfig;
 import site.coduo.fake.FakeGithubApiClient;
 import site.coduo.member.domain.Member;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.exception.MemberNotFoundException;
 import site.coduo.member.service.dto.MemberOAuthCreateRequest;
-import site.coduo.member.service.dto.MemberReadServiceResponse;
+import site.coduo.member.service.dto.MemberReadResponse;
 
 @SpringBootTest
 @Import(TestConfig.class)
@@ -55,7 +55,7 @@ class MemberServiceTest {
         Bearer bearer = new Bearer(member.getAccessToken());
 
         // when
-        MemberReadServiceResponse response = memberService.findMember(bearer);
+        MemberReadResponse response = memberService.getMember(bearer);
 
         // then
         assertThat(response.username()).isEqualTo(member.getUsername());
@@ -68,7 +68,7 @@ class MemberServiceTest {
         Bearer bearer = new Bearer("does not exist token");
 
         // when & then
-        assertThatThrownBy(() -> memberService.findMember(bearer))
+        assertThatThrownBy(() -> memberService.getMember(bearer))
                 .isInstanceOf(MemberNotFoundException.class);
     }
 

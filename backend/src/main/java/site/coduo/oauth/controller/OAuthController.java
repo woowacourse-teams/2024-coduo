@@ -1,5 +1,7 @@
 package site.coduo.oauth.controller;
 
+import java.net.URI;
+
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
@@ -12,10 +14,10 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.coduo.oauth.client.dto.TokenResponse;
 import site.coduo.oauth.controller.dto.GithubAuthQuery;
 import site.coduo.oauth.controller.dto.GithubAuthUri;
 import site.coduo.oauth.controller.dto.GithubCallbackQuery;
-import site.coduo.oauth.infrastructure.security.CsrfConstant;
 import site.coduo.oauth.service.OAuthService;
 import site.coduo.oauth.service.dto.CallbackContent;
 
@@ -25,6 +27,11 @@ import site.coduo.oauth.service.dto.CallbackContent;
 @RequiredArgsConstructor
 public class OAuthController {
 
+    public static final String STATE_SESSION_KEY = "state";
+    public static final int STATE_SESSION_EXPIRE_IN = 30;
+    public static final String ACCESS_TOKEN_KEY = "access token";
+    public static final int ACCESS_TOKEN_EXPIRE_IN = 300;
+
     private final OAuthService oAuthService;
 
     @GetMapping("/sign-in/oauth/github")
@@ -32,8 +39,8 @@ public class OAuthController {
         GithubAuthQuery query = GithubAuthQuery.of(oAuthService.createAuthorizationContent());
         GithubAuthUri githubAuthUri = new GithubAuthUri(query);
 
-        session.setAttribute(CsrfConstant.STATE_SESSION_KEY, query.state());
-        session.setMaxInactiveInterval(CsrfConstant.SESSION_EXPIRE_IN);
+        session.setAttribute(STATE_SESSION_KEY, query.state());
+        session.setMaxInactiveInterval(STATE_SESSION_EXPIRE_IN);
 
         return ResponseEntity.status(HttpStatus.FOUND)
                 .location(githubAuthUri.toUri())
@@ -42,10 +49,22 @@ public class OAuthController {
 
     @GetMapping("/github/callback")
     public ResponseEntity<Void> getAccessToken(@ModelAttribute GithubCallbackQuery query,
-                                               @SessionAttribute(name = CsrfConstant.STATE_SESSION_KEY) String state) {
-        oAuthService.login(new CallbackContent(query.code(), query.state(), state));
+                                               @SessionAttribute(name = STATE_SESSION_KEY) String state,
+                                               HttpSession session) {
+        final TokenResponse tokenResponse = oAuthService.invokeCallback(CallbackContent.from(query, state));
 
-        return ResponseEntity.ok()
+        session.removeAttribute(STATE_SESSION_KEY);
+        session.setAttribute(ACCESS_TOKEN_KEY, tokenResponse.getCredential());
+        session.setMaxInactiveInterval(ACCESS_TOKEN_EXPIRE_IN);
+
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .location(URI.create("/api/sign-in/callback"))
                 .build();
+    }
+
+    @GetMapping("/sign-in/callback/oauth/github")
+    public ResponseEntity<Void> signIn() {
+        return null;
     }
 }

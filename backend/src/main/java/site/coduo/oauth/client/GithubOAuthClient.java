@@ -8,7 +8,8 @@ import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
-import site.coduo.common.infrastructure.security.Basic;
+import site.coduo.common.infrastructure.http.Basic;
+import site.coduo.common.infrastructure.http.Bearer;
 import site.coduo.oauth.client.dto.TokenRequest;
 import site.coduo.oauth.client.dto.TokenResponse;
 
@@ -51,7 +52,8 @@ public class GithubOAuthClient implements OAuthClient {
                 .body(request.toQueryParams())
                 .retrieve()
                 .body(String.class);
-        return new TokenResponse(body, "scope", "tokenType");
+
+        return new TokenResponse(new Bearer(body), "scope", "tokenType");
     }
 
     @Override
