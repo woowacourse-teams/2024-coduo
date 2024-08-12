@@ -20,6 +20,7 @@ const App = () => {
     {
       path: '/',
       element: <Layout />,
+      errorElement: <PageNotFound />,
       children: [
         {
           path: '',
@@ -36,10 +37,6 @@ const App = () => {
         {
           path: 'room/:accessCode/onboarding',
           element: <PairRoomOnboarding />,
-        },
-        {
-          path: '*',
-          element: <PageNotFound />,
         },
       ],
     },
