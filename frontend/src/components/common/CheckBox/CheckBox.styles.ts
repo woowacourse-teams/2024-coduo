@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
 export const Layout = styled.div`
-  cursor: pointer;
   display: flex;
+
+  cursor: pointer;
 `;
 
 export const Input = styled.input`
@@ -11,16 +12,16 @@ export const Input = styled.input`
 
 export const CheckMark = styled.div<{ $isChecked: boolean }>`
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 
   width: 2rem;
   height: 2rem;
+  border: 1px solid ${({ theme }) => theme.color.secondary[500]};
+  border-radius: 4px;
 
   background-color: ${({ theme, $isChecked }) =>
     $isChecked ? theme.color.secondary[500] : theme.color.secondary[200]};
-  border: 1px solid ${({ theme }) => theme.color.secondary[500]};
-  border-radius: 4px;
 
   transition: all 0.2s ease 0s;
 

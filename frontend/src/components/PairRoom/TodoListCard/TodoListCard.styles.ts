@@ -25,16 +25,16 @@ export const Footer = styled.div`
   width: 100%;
   height: 6rem;
   min-height: 6rem;
+  border-radius: 0 0 1.5rem 1.5rem;
 
   background-color: ${({ theme }) => theme.color.black[10]};
   border-top: 1px solid ${({ theme }) => theme.color.black[30]};
-  border-radius: 0 0 1.5rem 1.5rem;
 `;
 
 export const Form = styled.form`
   display: flex;
-  gap: 4rem;
   align-items: center;
+  gap: 4rem;
 
   width: 100%;
   padding: 0 2rem;
@@ -42,23 +42,22 @@ export const Form = styled.form`
 
 export const ButtonContainer = styled.div`
   display: flex;
-  gap: 1em;
   align-items: center;
+  gap: 1em;
 `;
 
 export const FooterButton = styled.button`
   display: flex;
-  gap: 1rem;
   align-items: center;
+  gap: 1rem;
 
   width: 100%;
   height: 6rem;
   padding: 2rem;
-
-  font-size: ${({ theme }) => theme.fontSize.base};
-  color: ${({ theme }) => theme.color.black[70]};
-
   border-radius: 0 0 1.5rem 1.5rem;
+
+  color: ${({ theme }) => theme.color.black[70]};
+  font-size: ${({ theme }) => theme.fontSize.base};
 
   transition: all 0.2s ease 0s;
 

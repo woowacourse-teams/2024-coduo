@@ -17,9 +17,9 @@ const RoleSettingSection = ({ driver, navigator, userOptions, handleSelect }: Ro
   return (
     <S.Layout>
       <S.HeaderContainer>
-        <Modal.Header title="역할 설정" subTitle="드라이버 / 네비게이터를 설정해 주세요." />
+        <Modal.Header title="역할 설정" subTitle="드라이버 / 내비게이터를 설정해 주세요." />
         <InformationBox
-          title="드라이버 / 네비게이터가 무엇인가요?"
+          title="드라이버 / 내비게이터가 무엇인가요?"
           description="드라이버는 키보드와 마우스를 사용하여 실제로 코드를 작성하는 사람입니다. 내비게이터는 코드의 논리적 흐름, 설계,
         오류 등을 검토하며, 드라이버에게 피드백을 제공합니다."
         />

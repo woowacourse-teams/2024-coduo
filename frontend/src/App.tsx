@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'styled-components';
 
+import PageNotFound from '@/pages/Error/PageNotFound';
 import HowToPair from '@/pages/HowToPair/HowToPair';
 import Layout from '@/pages/Layout';
 import Main from '@/pages/Main/Main';
@@ -19,6 +20,7 @@ const App = () => {
     {
       path: '/',
       element: <Layout />,
+      errorElement: <PageNotFound />,
       children: [
         {
           path: '',

@@ -4,9 +4,9 @@ import styled, { css } from 'styled-components';
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 3rem;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  gap: 3rem;
 
   min-width: 60rem;
   height: 100%;
@@ -15,39 +15,40 @@ export const Layout = styled.div`
 
 export const ProgressBar = styled.div<{ $progress: number }>`
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 
-  aspect-ratio: 1;
   width: 45vh;
   min-width: 28rem;
   height: 45vh;
   min-height: 28rem;
+  border: 0.8rem solid transparent;
+  border-radius: 50%;
 
   background-image: linear-gradient(white, white),
     conic-gradient(
       ${({ theme, $progress }) => `${theme.color.primary[500]} ${$progress}%, ${theme.color.black[30]} ${$progress}%`}
     );
-  background-clip: content-box, border-box;
-  background-origin: border-box;
-  border: 0.8rem solid transparent;
-  border-radius: 50%;
 
   transition: background-image 1s ease-in;
+
+  aspect-ratio: 1;
+  background-clip: content-box, border-box;
+  background-origin: border-box;
 `;
 
 export const Timer = styled.div`
   display: flex;
-  gap: 3rem;
   align-items: center;
+  gap: 3rem;
 `;
 
 export const TimerTextContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
 
   width: 10rem;
 
@@ -65,13 +66,15 @@ export const IconContainer = styled.div`
 
 export const IconButton = styled.button`
   width: ${({ theme }) => theme.fontSize.h4};
-  font-size: ${({ theme }) => theme.fontSize.h4};
+
   background: transparent;
+  font-size: ${({ theme }) => theme.fontSize.h4};
 `;
 
 const iconStyle = css<{ $isActive: boolean }>`
-  cursor: ${({ $isActive }) => ($isActive ? 'pointer' : 'default')};
   color: ${({ $isActive, theme }) => ($isActive ? theme.color.secondary[500] : theme.color.black[50])};
+
+  cursor: ${({ $isActive }) => ($isActive ? 'pointer' : 'default')};
 `;
 
 export const PlayIcon = styled(FaPlay)<{ $isActive: boolean }>`

@@ -4,9 +4,9 @@ type Role = 'DRIVER' | 'NAVIGATOR';
 
 export const PairItem = styled.div`
   display: flex;
-  gap: 1rem;
-  align-items: center;
   justify-content: start;
+  align-items: center;
+  gap: 1rem;
 
   height: 6rem;
   padding: 0 1.6rem;
@@ -17,14 +17,13 @@ export const PairItem = styled.div`
 export const PairRole = styled.span<{ $role: Role }>`
   width: 7rem;
   padding: 0.4rem 0.8rem;
-
-  font-size: ${({ theme }) => theme.fontSize.sm};
-  color: white;
-  text-align: center;
+  border-radius: 1.2rem;
 
   background-color: ${({ theme, $role }) =>
     $role === 'DRIVER' ? theme.color.primary[500] : theme.color.secondary[500]};
-  border-radius: 1.2rem;
+  color: white;
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  text-align: center;
 `;
 
 export const PairName = styled.span`

@@ -11,7 +11,7 @@ const positionMapper = {
 export const Layout = styled.div<{ $direction: Direction; $position: Position }>`
   display: flex;
   flex-direction: ${({ $direction }) => $direction};
-  gap: 1.6rem;
-  align-items: ${({ $direction, $position }) => $direction === 'COLUMN' && positionMapper[$position]};
   justify-content: ${({ $direction, $position }) => $direction === 'ROW' && positionMapper[$position]};
+  align-items: ${({ $direction, $position }) => $direction === 'COLUMN' && positionMapper[$position]};
+  gap: 1.6rem;
 `;
