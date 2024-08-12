@@ -20,11 +20,11 @@ const spinnerSizes = {
 };
 
 export const Spinner = styled.div<{ $size: SpinnerSize }>`
-  position: relative;
-
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+
+  position: relative;
 
   width: 100%;
   min-width: ${({ $size }) => spinnerSizes[$size]};
@@ -35,28 +35,30 @@ export const Spinner = styled.div<{ $size: SpinnerSize }>`
 export const FirstBounce = styled.div<{ $size: SpinnerSize; $color: SpinnerColor }>`
   position: absolute;
 
-  aspect-ratio: 1;
   width: ${({ $size }) => spinnerSizes[$size]};
   margin: auto;
-
-  opacity: 0.6;
-  background-color: ${({ theme, $color }) => theme.color[$color][700]};
   border-radius: 50%;
 
+  background-color: ${({ theme, $color }) => theme.color[$color][700]};
+  opacity: 0.6;
+
   animation: ${bounce} 2s infinite ease-in-out;
+
+  aspect-ratio: 1;
 `;
 
 export const SecondBounce = styled.div<{ $size: SpinnerSize; $color: SpinnerColor }>`
   position: absolute;
 
-  aspect-ratio: 1;
   width: ${({ $size }) => spinnerSizes[$size]};
   margin: auto;
-
-  opacity: 0.6;
-  background-color: ${({ theme, $color }) => theme.color[$color][700]};
   border-radius: 50%;
 
+  background-color: ${({ theme, $color }) => theme.color[$color][700]};
+  opacity: 0.6;
+
   animation: ${bounce} 2s infinite ease-in-out;
+
+  aspect-ratio: 1;
   animation-delay: -1s;
 `;
