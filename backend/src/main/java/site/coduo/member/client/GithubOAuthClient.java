@@ -16,8 +16,8 @@ import site.coduo.member.client.dto.TokenResponse;
 @Component
 public class GithubOAuthClient {
 
-    private static final int CONNECT_TIME_VALUE = 1000;
-    private static final int READ_TIME_OUT_VALUE = 10000;
+    private static final int CONNECT_TIME_VALUE = 10000;
+    private static final int READ_TIME_OUT_VALUE = 20000;
 
     private final RestClient client;
 

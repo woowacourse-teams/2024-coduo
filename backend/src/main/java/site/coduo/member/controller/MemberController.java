@@ -16,9 +16,9 @@ import lombok.RequiredArgsConstructor;
 import site.coduo.member.controller.dto.member.MemberCreateWebRequest;
 import site.coduo.member.service.MemberService;
 
-@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
+@RestController
 public class MemberController {
 
     private final MemberService memberService;

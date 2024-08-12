@@ -9,7 +9,7 @@ public class Bearer {
 
     private final String value;
 
-    public Bearer(String credential) {
+    public Bearer(final String credential) {
         this.value = SCHEME + " " + credential;
     }
 

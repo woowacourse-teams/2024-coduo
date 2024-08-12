@@ -9,6 +9,10 @@ import site.coduo.common.infrastructure.http.Bearer;
 
 public record GithubUserRequest(Bearer accessToken) {
 
+    public GithubUserRequest(final String token) {
+        this(new Bearer(token));
+    }
+
     public MultiValueMap<String, String> getHeaders() {
         LinkedMultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         headers.add("X-GitHub-Api-Version", "2022-11-28");

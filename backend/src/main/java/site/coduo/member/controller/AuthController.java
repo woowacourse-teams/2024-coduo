@@ -40,8 +40,8 @@ public class AuthController {
     }
 
     @GetMapping("/sign-in/callback")
-    public ResponseEntity<Void> signIn(@SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME) String accessToken,
-                                       HttpSession session) {
+    public ResponseEntity<Void> signIn(@SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME) final String accessToken,
+                                       final HttpSession session) {
         final String signInToken = authService.createSignInToken(accessToken);
         session.removeAttribute(ACCESS_TOKEN_SESSION_NAME);
 

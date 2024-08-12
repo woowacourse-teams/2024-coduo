@@ -14,7 +14,7 @@ public class JwtProvider {
     @Value("${jwt.sign-key}")
     private String key;
 
-    public String sign(String sub) {
+    public String sign(final String sub) {
         return Jwts.builder()
                 .issuedAt(new Date())
                 .subject(sub)
@@ -22,14 +22,14 @@ public class JwtProvider {
                 .compact();
     }
 
-    public void verify(String token) {
+    public void verify(final String token) {
         Jwts.parser()
                 .verifyWith(Keys.hmacShaKeyFor(key.getBytes()))
                 .build()
                 .parse(token);
     }
 
-    public String extractSubject(String token) {
+    public String extractSubject(final String token) {
         return Jwts.parser()
                 .verifyWith(Keys.hmacShaKeyFor(key.getBytes()))
                 .build()

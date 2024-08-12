@@ -41,8 +41,8 @@ public class Member {
     private String username;
 
     @Builder
-    private Member(String accessToken, String loginId, String userId, String profileImage,
-                   String username) {
+    private Member(final String accessToken, final String loginId, final String userId, final String profileImage,
+                   final String username) {
         this.accessToken = accessToken;
         this.loginId = loginId;
         this.userId = userId;
@@ -50,19 +50,15 @@ public class Member {
         this.username = username;
     }
 
-    public void updateAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Member member = (Member) o;
+        final Member member = (Member) o;
         return Objects.equals(id, member.id);
     }
 

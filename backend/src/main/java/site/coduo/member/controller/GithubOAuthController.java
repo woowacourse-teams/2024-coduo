@@ -34,11 +34,10 @@ public class GithubOAuthController {
 
     private final GithubOAuthService githubOAuthService;
 
-
     @GetMapping("/sign-in/oauth/github")
-    public ResponseEntity<Void> getGithubAuthCode(HttpSession session) {
-        GithubAuthQuery query = GithubAuthQuery.of(githubOAuthService.createAuthorizationContent());
-        GithubAuthUri githubAuthUri = new GithubAuthUri(query);
+    public ResponseEntity<Void> getGithubAuthCode(final HttpSession session) {
+        final GithubAuthQuery query = GithubAuthQuery.of(githubOAuthService.createAuthorizationContent());
+        final GithubAuthUri githubAuthUri = new GithubAuthUri(query);
 
         session.setAttribute(STATE_SESSION_NAME, query.state());
         session.setMaxInactiveInterval(STATE_SESSION_EXPIRE_IN);
@@ -49,9 +48,9 @@ public class GithubOAuthController {
     }
 
     @GetMapping("/github/callback")
-    public ResponseEntity<Void> getAccessToken(@ModelAttribute GithubCallbackQuery query,
-                                               @SessionAttribute(name = STATE_SESSION_NAME) String state,
-                                               HttpSession session) {
+    public ResponseEntity<Void> getAccessToken(@ModelAttribute final GithubCallbackQuery query,
+                                               @SessionAttribute(name = STATE_SESSION_NAME) final String state,
+                                               final HttpSession session) {
         final CallbackContent content = CallbackContent.from(query, state);
         final TokenResponse tokenResponse = githubOAuthService.invokeOAuthCallback(content);
 
