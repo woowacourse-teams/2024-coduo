@@ -54,6 +54,24 @@ class GithubAcceptanceTest extends AcceptanceFixture {
     }
 
     @Test
+    @DisplayName("깃허브로 인가 요청을 보낸다.")
+    void request_to_github_authorization_end_point() {
+        RestAssured
+                .given()
+                .redirects()
+                .follow(false)
+
+                .when()
+                .get("/api/sign-in/oauth/github")
+
+                .then().log().all()
+                .assertThat()
+                .statusCode(org.springframework.http.HttpStatus.FOUND.value())
+                .header(HttpHeaders.LOCATION,
+                        "https://www.github.com/login/oauth/authorize?client_id=test&state=random%20number&redirect_uri=http://test.test");
+    }
+
+    @Test
     @DisplayName("github authorize 엔드포인트 호출")
     void call_github_authorize_endpoint() {
         RestAssured

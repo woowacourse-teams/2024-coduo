@@ -12,18 +12,24 @@ import io.restassured.RestAssured;
 import site.coduo.config.TestConfig;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
+import site.coduo.referencelink.repository.OpenGraphRepository;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 
-@Import(TestConfig.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@Import(TestConfig.class)
 abstract class AcceptanceFixture {
 
     @Autowired
     protected MemberRepository memberRepository;
+
     @Autowired
     private ReferenceLinkRepository referenceLinkRepository;
     @Autowired
     private PairRoomRepository pairRoomRepository;
+
+    @Autowired
+    private OpenGraphRepository openGraphRepository;
+
     @LocalServerPort
     private int port;
 
@@ -34,8 +40,9 @@ abstract class AcceptanceFixture {
 
     @AfterEach
     void tearDown() {
+        memberRepository.deleteAll();
+        openGraphRepository.deleteAll();
         referenceLinkRepository.deleteAll();
         pairRoomRepository.deleteAll();
-        memberRepository.deleteAll();
     }
 }
