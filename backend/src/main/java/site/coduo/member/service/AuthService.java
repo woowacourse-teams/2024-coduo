@@ -4,13 +4,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import site.coduo.common.infrastructure.security.JwtProvider;
 import site.coduo.member.client.GithubApiClient;
 import site.coduo.member.client.dto.GithubUserRequest;
 import site.coduo.member.client.dto.GithubUserResponse;
-import site.coduo.member.domain.Member;
+import site.coduo.member.domain.MemberUpdate;
 import site.coduo.member.domain.repository.MemberRepository;
-import site.coduo.member.exception.MemberNotFoundException;
+import site.coduo.member.infrastructure.security.JwtProvider;
+import site.coduo.member.service.dto.CreateSignInTokenRequest;
+import site.coduo.member.service.dto.SignInServiceResponse;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -22,11 +23,14 @@ public class AuthService {
     private final JwtProvider jwtProvider;
 
     @Transactional
-    public String createSignInToken(final String accessToken) {
-        final GithubUserResponse userResponse = githubApiClient.getUser(new GithubUserRequest(accessToken));
-        final Member member = memberRepository.findByUserId(userResponse.userId())
-                .orElseThrow(() -> new MemberNotFoundException("회원을 찾을 수 없습니다."));
+    public SignInServiceResponse createSignInToken(final CreateSignInTokenRequest request) {
+        request.validateCreateRequest();
+        final GithubUserResponse userResponse = githubApiClient.getUser(new GithubUserRequest(request.accessToken()));
+        final String signInToken = jwtProvider.sign(userResponse.userId());
 
-        return jwtProvider.sign(member.getUserId());
+        memberRepository.findByUserId(userResponse.userId())
+                .ifPresent(member -> new MemberUpdate(member).update(request.accessToken()));
+
+        return new SignInServiceResponse(memberRepository.existsByUserId(userResponse.userId()), signInToken);
     }
 }

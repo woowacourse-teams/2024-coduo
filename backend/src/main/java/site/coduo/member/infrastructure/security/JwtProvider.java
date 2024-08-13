@@ -1,4 +1,4 @@
-package site.coduo.common.infrastructure.security;
+package site.coduo.member.infrastructure.security;
 
 import java.util.Date;
 

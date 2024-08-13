@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 
-import site.coduo.common.infrastructure.http.Bearer;
 import site.coduo.config.TestConfig;
 import site.coduo.member.domain.repository.MemberRepository;
-import site.coduo.member.service.dto.MemberCreateServiceRequest;
+import site.coduo.member.infrastructure.http.Bearer;
+import site.coduo.member.service.dto.SignUpServiceRequest;
 
 @SpringBootTest
 @Import(TestConfig.class)
@@ -33,7 +33,7 @@ class MemberServiceTest {
     @DisplayName("회원을 저장한다.")
     void save_member() {
         // given
-        MemberCreateServiceRequest request = new MemberCreateServiceRequest(new Bearer("access-token"), "username");
+        SignUpServiceRequest request = new SignUpServiceRequest(new Bearer("access-token"), "username");
 
         // when
         MemberService.createMember(request);

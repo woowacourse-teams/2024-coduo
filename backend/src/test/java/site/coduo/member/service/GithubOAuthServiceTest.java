@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 
-import site.coduo.common.exception.AuthorizationException;
 import site.coduo.config.TestConfig;
 import site.coduo.fake.FakeGithubOAuthClient;
 import site.coduo.fake.FixedNanceGenerator;
 import site.coduo.member.client.dto.TokenResponse;
+import site.coduo.member.exception.AuthenticationException;
 import site.coduo.member.service.dto.CallbackContent;
-import site.coduo.member.service.dto.OAuthTriggerContent;
+import site.coduo.member.service.dto.GithubAuthQuery;
 
 @SpringBootTest
 @Import(TestConfig.class)
@@ -28,14 +28,14 @@ class GithubOAuthServiceTest {
     @DisplayName("인가 요청을 위한 정보를 생성한다.")
     void create_info_for_authorization_request_to_third_party() {
         // given
-        final OAuthTriggerContent expect = OAuthTriggerContent.builder()
-                .clientId(FakeGithubOAuthClient.OAUTH_CLIENT_ID)
-                .redirectUri(FakeGithubOAuthClient.OAUTH_REDIRECT_URI)
-                .state(FixedNanceGenerator.FIXED_VALUE)
-                .build();
+        final GithubAuthQuery expect = new GithubAuthQuery(
+                FakeGithubOAuthClient.OAUTH_CLIENT_ID,
+                FakeGithubOAuthClient.OAUTH_REDIRECT_URI,
+                FixedNanceGenerator.FIXED_VALUE
+        );
 
         // when
-        final OAuthTriggerContent response = githubOAuthService.createAuthorizationContent();
+        final GithubAuthQuery response = githubOAuthService.createAuthorizationContent();
 
         // then
         assertThat(response).isEqualTo(expect);
@@ -62,6 +62,6 @@ class GithubOAuthServiceTest {
 
         // when & then
         assertThatThrownBy(() -> githubOAuthService.invokeOAuthCallback(content))
-                .isInstanceOf(AuthorizationException.class);
+                .isInstanceOf(AuthenticationException.class);
     }
 }

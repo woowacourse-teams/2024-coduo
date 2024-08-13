@@ -1,4 +1,4 @@
-package site.coduo.common.infrastructure.http;
+package site.coduo.member.infrastructure.http;
 
 import lombok.Getter;
 

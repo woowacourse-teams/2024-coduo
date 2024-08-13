@@ -1,9 +1,9 @@
 package site.coduo.fake;
 
-import site.coduo.common.infrastructure.http.Bearer;
 import site.coduo.member.client.GithubOAuthClient;
 import site.coduo.member.client.dto.TokenRequest;
 import site.coduo.member.client.dto.TokenResponse;
+import site.coduo.member.infrastructure.http.Bearer;
 
 public class FakeGithubOAuthClient extends GithubOAuthClient {
 

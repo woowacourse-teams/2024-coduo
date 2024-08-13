@@ -8,10 +8,10 @@ import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
-import site.coduo.common.infrastructure.http.Basic;
-import site.coduo.common.infrastructure.http.Bearer;
 import site.coduo.member.client.dto.TokenRequest;
 import site.coduo.member.client.dto.TokenResponse;
+import site.coduo.member.infrastructure.http.Basic;
+import site.coduo.member.infrastructure.http.Bearer;
 
 @Component
 public class GithubOAuthClient {

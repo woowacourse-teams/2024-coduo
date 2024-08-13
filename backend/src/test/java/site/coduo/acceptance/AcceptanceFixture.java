@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Import;
 
 import io.restassured.RestAssured;
 import site.coduo.config.TestConfig;
+import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 
@@ -18,11 +19,11 @@ import site.coduo.referencelink.repository.ReferenceLinkRepository;
 abstract class AcceptanceFixture {
 
     @Autowired
+    protected MemberRepository memberRepository;
+    @Autowired
     private ReferenceLinkRepository referenceLinkRepository;
-
     @Autowired
     private PairRoomRepository pairRoomRepository;
-
     @LocalServerPort
     private int port;
 
@@ -35,6 +36,6 @@ abstract class AcceptanceFixture {
     void tearDown() {
         referenceLinkRepository.deleteAll();
         pairRoomRepository.deleteAll();
-//        jdbcTemplate.update("ALTER TABLE REFERENCE_LINK AlTER COLUMN ID RESTART WITH 1"); //TODO: h2에서만 지원하는 문법이여서 해결 필요
+        memberRepository.deleteAll();
     }
 }

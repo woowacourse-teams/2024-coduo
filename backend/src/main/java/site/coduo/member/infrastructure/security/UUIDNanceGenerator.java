@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
-import site.coduo.common.exception.AuthorizationException;
+import site.coduo.member.exception.AuthorizationException;
 
 @Component
 public class UUIDNanceGenerator implements NanceGenerator {

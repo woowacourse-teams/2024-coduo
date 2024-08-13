@@ -1,6 +1,6 @@
 package site.coduo.fake;
 
-import site.coduo.common.exception.AuthorizationException;
+import site.coduo.member.exception.AuthorizationException;
 import site.coduo.member.infrastructure.security.NanceGenerator;
 
 public class FixedNanceGenerator implements NanceGenerator {

@@ -50,6 +50,14 @@ public class Member {
         this.username = username;
     }
 
+    public void update(final Member other) {
+        this.accessToken = other.accessToken;
+        this.loginId = other.loginId;
+        this.userId = other.userId;
+        this.profileImage = other.profileImage;
+        this.username = other.username;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

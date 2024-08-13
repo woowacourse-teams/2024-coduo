@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.coduo.member.client.dto.TokenResponse;
-import site.coduo.member.controller.dto.oauth.GithubAuthQuery;
 import site.coduo.member.controller.dto.oauth.GithubAuthUri;
 import site.coduo.member.controller.dto.oauth.GithubCallbackQuery;
 import site.coduo.member.service.GithubOAuthService;
 import site.coduo.member.service.dto.CallbackContent;
+import site.coduo.member.service.dto.GithubAuthQuery;
 
 @Slf4j
 @RestController
@@ -36,7 +36,7 @@ public class GithubOAuthController {
 
     @GetMapping("/sign-in/oauth/github")
     public ResponseEntity<Void> getGithubAuthCode(final HttpSession session) {
-        final GithubAuthQuery query = GithubAuthQuery.of(githubOAuthService.createAuthorizationContent());
+        final GithubAuthQuery query = githubOAuthService.createAuthorizationContent();
         final GithubAuthUri githubAuthUri = new GithubAuthUri(query);
 
         session.setAttribute(STATE_SESSION_NAME, query.state());
@@ -49,9 +49,9 @@ public class GithubOAuthController {
 
     @GetMapping("/github/callback")
     public ResponseEntity<Void> getAccessToken(@ModelAttribute final GithubCallbackQuery query,
-                                               @SessionAttribute(name = STATE_SESSION_NAME) final String state,
+                                               @SessionAttribute(name = STATE_SESSION_NAME, required = false) final String state,
                                                final HttpSession session) {
-        final CallbackContent content = CallbackContent.from(query, state);
+        final CallbackContent content = new CallbackContent(query, state);
         final TokenResponse tokenResponse = githubOAuthService.invokeOAuthCallback(content);
 
         session.removeAttribute(STATE_SESSION_NAME);

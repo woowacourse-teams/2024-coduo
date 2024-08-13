@@ -8,6 +8,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import site.coduo.member.infrastructure.security.JwtProvider;
+
 class JwtProviderTest {
 
     private final JwtProvider jwtProvider = new JwtProvider();
