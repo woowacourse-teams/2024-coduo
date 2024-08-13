@@ -1,0 +1,31 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: ${DDL_AUTO}
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQLDialect
+
+springdoc:
+  swagger-ui:
+    persist-authorization: true
+    default-models-expand-depth: -1
+    path: /api/docs
+  api-docs:
+    path: /api/docs
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus

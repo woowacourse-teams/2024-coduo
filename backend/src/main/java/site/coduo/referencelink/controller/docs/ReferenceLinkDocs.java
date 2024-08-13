@@ -14,7 +14,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import site.coduo.common.controller.response.ApiErrorResponse;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
 import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
-import site.coduo.referencelink.service.dto.ReferenceLinkUpdateRequest;
 
 @Tag(name = "레퍼런스 링크 API")
 public interface ReferenceLinkDocs {

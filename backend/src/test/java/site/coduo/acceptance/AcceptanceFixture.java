@@ -1,5 +1,8 @@
 package site.coduo.acceptance;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import io.restassured.RestAssured;
 import site.coduo.config.TestConfig;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
+import site.coduo.referencelink.repository.OpenGraphRepository;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 
 @Import(TestConfig.class)
@@ -24,6 +28,10 @@ abstract class AcceptanceFixture {
     private ReferenceLinkRepository referenceLinkRepository;
     @Autowired
     private PairRoomRepository pairRoomRepository;
+
+    @Autowired
+    private OpenGraphRepository openGraphRepository;
+
     @LocalServerPort
     private int port;
 
@@ -34,6 +42,7 @@ abstract class AcceptanceFixture {
 
     @AfterEach
     void tearDown() {
+        openGraphRepository.deleteAll();
         referenceLinkRepository.deleteAll();
         pairRoomRepository.deleteAll();
         memberRepository.deleteAll();
