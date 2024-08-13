@@ -1,0 +1,97 @@
+name: Coduo Backend Test Server CD
+
+on:
+  push:
+    branches: [ "BE/test" ]
+
+jobs:
+  build:
+    environment: test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          cache-write-only: true
+
+      - name: Grant Execute Permission For Gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew bootJar
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_ID }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+      - name: Image build and push
+        run: |
+          docker build --build-arg PROFILE=test --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_REPO_NAME }}/springboot-app:test-latest --platform linux/arm64 .
+          docker push ${{ secrets.DOCKER_REPO_NAME }}/springboot-app:test-latest
+
+      - name: Upload docker-compose yaml script to artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-compose
+          path: ${{ github.workspace }}/backend/be_app-docker-compose.yml
+
+  deploy:
+    environment: test
+    runs-on: coduo_runner_test-server
+    needs: build
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - name: Set docker-compose YAML script to runner
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-compose
+          path: ${{ github.workspace }}/backend
+
+      - name: Move docker-compose YAML
+        run: |
+          sudo mv be_app-docker-compose.yml ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/
+
+      - name: Extract secrets as .be_app-env file
+        run: |
+          cat <<EOF > ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env
+
+          # Docker Hub info from Github Secrets
+          DOCKER_REPO_NAME=${{ secrets.DOCKER_REPO_NAME }}
+
+          # DB Configuration secrets info from Github Secrets
+          MYSQL_DB_NAME=${{ secrets.MYSQL_DB_NAME }}
+          MYSQL_TIME_ZONE=${{ secrets.MYSQL_TIME_ZONE }}
+          DB_BINDING_PORT=${{ secrets.DB_BINDING_PORT }}
+          DOCKER_DATA_PATH=${{ secrets.DOCKER_DATA_PATH }}
+          DB_URL=${{ secrets.DB_URL }}
+          DB_USERNAME=${{ secrets.DB_USERNAME }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          DDL_AUTO=${{ secrets.DDL_AUTO }}
+
+          # Server App
+          SERVER_BINDING_PORT=${{ secrets.SERVER_BINDING_PORT }}
+          SERVER_LOGS_PATH=${{ secrets.SERVER_LOGS_PATH }}
+          EOF
+
+      - name: Stop and remove existing containers
+        run: |
+          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml down --rmi all
+      - name: Deploy docker container
+        run: |
+          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml up -d

@@ -10,13 +10,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.dto.PairRoomCreateResponse;
 
+@Transactional
 class ReferenceAcceptanceTest extends AcceptanceFixture {
 
     @Test
@@ -64,6 +65,32 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
                 .body("size()", is(2));
     }
 
+    @Test
+    @DisplayName("오픈그래프 정보가 없는 레퍼런스 링크를 조회하면 모든 오픈그래프 필드가 기본 값 상태로 반환된다.")
+    void read_reference_link_without_open_graph() {
+        // given
+        final PairRoomCreateResponse pairRoom = createPairRoom(new PairRoomCreateRequest("잉크", "해시"));
+        final String expectedUrl = "http://www.deleasfsdte.com";
+        createReferenceLink(expectedUrl, pairRoom.accessCode());
+
+        // when & then
+        RestAssured
+                .given()
+                .contentType(ContentType.JSON)
+
+                .when()
+                .get("/api/" + pairRoom.accessCode() + "/reference-link")
+
+                .then()
+                .assertThat()
+                .statusCode(HttpStatus.OK.value())
+                .body("[0].url", is(expectedUrl))
+                .body("[0].headTitle", is(""))
+                .body("[0].openGraphTitle", is(""))
+                .body("[0].description", is(""))
+                .body("[0].image", is(""));
+    }
+
     void createReferenceLink(final String url, String accessCodeText) {
         final Map<String, Object> request = Map.of("url", url);
 
@@ -82,7 +109,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
         // given
         final PairRoomCreateResponse pairRoom = createPairRoom(new PairRoomCreateRequest("레모네", "프람"));
 
-        createReferenceLink("url", pairRoom.accessCode());
+        createReferenceLink("http://www.delete.com", pairRoom.accessCode());
 
         // when & then
         RestAssured

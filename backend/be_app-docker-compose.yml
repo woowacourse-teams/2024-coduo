@@ -1,0 +1,44 @@
+services:
+  mysql:
+    container_name: coduo_mysql
+    image: mysql:8.0
+    restart: unless-stopped
+    ports:
+      - ${DB_BINDING_PORT}
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      TZ: ${MYSQL_TIME_ZONE}
+    volumes:
+      - ${DOCKER_DATA_PATH}/db/mysql/conf.d:/etc/mysql/conf.d
+      - ${DOCKER_DATA_PATH}/db/mysql/data:/var/lib/mysql
+      - ${DOCKER_DATA_PATH}/db/mysql/init:/docker_entrypoint-initdb.d
+    command:
+      - '--character-set-server=utf8mb4'
+      - '--collation-server=utf8mb4_0900_ai_ci'
+    networks:
+      - coduo_net
+
+  springboot:
+    container_name: coduo_springboot-app
+    image: ${DOCKER_REPO_NAME}/springboot-app:test-latest
+    platform: linux/arm64
+    ports:
+      - ${SERVER_BINDING_PORT}
+    volumes:
+      - ${SERVER_LOGS_PATH}/springboot-app:/logs
+      - ${SERVER_LOGS_PATH}/springboot-app/backup:/logs/backup
+    environment:
+      SPRING_DATASOURCE_URL: ${DB_URL}
+      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL-AUTO: ${DDL_AUTO}
+    restart: on-failure
+    networks:
+      - coduo_net
+    depends_on:
+      - mysql
+
+networks:
+  coduo_net:
+    external: true
