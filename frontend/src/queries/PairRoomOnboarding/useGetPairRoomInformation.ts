@@ -15,10 +15,17 @@ const useGetPairRoomInformation = (accessCode: string) => {
     queryKey: [QUERY_KEYS.GET_PAIR_NAMES],
     queryFn: () => getPairNames(accessCode),
     retry: 0,
-    enabled: false,
+    enabled: !!accessCode,
   });
 
-  return { pairNames: pairNames, isSuccess, isError, isFetching, refetch };
+  return {
+    firstPair: pairNames?.firstPair || '',
+    secondPair: pairNames?.secondPair || '',
+    isSuccess,
+    isError,
+    isFetching,
+    refetch,
+  };
 };
 
 export default useGetPairRoomInformation;

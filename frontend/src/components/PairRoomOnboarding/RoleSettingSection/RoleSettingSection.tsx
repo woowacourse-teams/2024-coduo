@@ -12,12 +12,12 @@ import * as S from './RoleSettingSection.styles';
 interface RoleSettingSectionProps {
   driver: string;
   navigator: string;
-  userOptions: string[];
-  onSelect: (option: string, role: Role) => void;
+  pairNames: string[];
+  onRoleSelect: (name: string, role: Role) => void;
   onNext: () => void;
 }
 
-const RoleSettingSection = ({ driver, navigator, userOptions, onSelect, onNext }: RoleSettingSectionProps) => {
+const RoleSettingSection = ({ driver, navigator, pairNames, onRoleSelect, onNext }: RoleSettingSectionProps) => {
   return (
     <S.Layout>
       <S.Container>
@@ -34,18 +34,18 @@ const RoleSettingSection = ({ driver, navigator, userOptions, onSelect, onNext }
             <S.DropdownLabel>드라이버</S.DropdownLabel>
             <Dropdown
               placeholder={'이름을 선택해주세요.'}
+              options={pairNames}
               selected={driver}
-              onSelect={(option) => onSelect(option, 'DRIVER')}
-              options={userOptions}
+              onSelect={(name) => onRoleSelect(name, 'DRIVER')}
             />
           </S.DropdownWrapper>
           <S.DropdownWrapper>
             <S.DropdownLabel>내비게이터</S.DropdownLabel>
             <Dropdown
               placeholder={'이름을 선택해주세요.'}
+              options={pairNames}
               selected={navigator}
-              onSelect={(option) => onSelect(option, 'NAVIGATOR')}
-              options={userOptions}
+              onSelect={(name) => onRoleSelect(name, 'NAVIGATOR')}
             />
           </S.DropdownWrapper>
         </S.DropdownContainer>
