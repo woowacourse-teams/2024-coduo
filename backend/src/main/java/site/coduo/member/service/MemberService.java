@@ -9,7 +9,7 @@ import site.coduo.member.client.dto.GithubUserRequest;
 import site.coduo.member.client.dto.GithubUserResponse;
 import site.coduo.member.domain.Member;
 import site.coduo.member.domain.repository.MemberRepository;
-import site.coduo.member.service.dto.SignUpServiceRequest;
+import site.coduo.member.infrastructure.http.Bearer;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -20,10 +20,10 @@ public class MemberService {
     private final GithubApiClient githubClient;
 
     @Transactional
-    public void createMember(final SignUpServiceRequest request) {
-        request.validateEmptyCredential();
-        GithubUserResponse userResponse = githubClient.getUser(new GithubUserRequest(request.bearer()));
-        Member member = userResponse.toDomain(request.bearer(), request.username());
+    public void createMember(final String username, final String accessToken) {
+        final Bearer bearer = new Bearer(accessToken);
+        GithubUserResponse userResponse = githubClient.getUser(new GithubUserRequest(bearer));
+        Member member = userResponse.toDomain(bearer, username);
         memberRepository.save(member);
     }
 }

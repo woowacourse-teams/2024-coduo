@@ -11,8 +11,6 @@ import org.springframework.context.annotation.Import;
 
 import site.coduo.config.TestConfig;
 import site.coduo.member.domain.repository.MemberRepository;
-import site.coduo.member.infrastructure.http.Bearer;
-import site.coduo.member.service.dto.SignUpServiceRequest;
 
 @SpringBootTest
 @Import(TestConfig.class)
@@ -33,10 +31,11 @@ class MemberServiceTest {
     @DisplayName("회원을 저장한다.")
     void save_member() {
         // given
-        SignUpServiceRequest request = new SignUpServiceRequest(new Bearer("access-token"), "username");
+        final String credential = "access-token";
+        final String username = "username";
 
         // when
-        MemberService.createMember(request);
+        MemberService.createMember(username, credential);
 
         // then
         assertThat(memberRepository.findAll()).hasSize(1);

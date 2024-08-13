@@ -15,7 +15,6 @@ import site.coduo.fake.FakeGithubApiClient;
 import site.coduo.member.domain.Member;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.infrastructure.security.JwtProvider;
-import site.coduo.member.service.dto.CreateSignInTokenRequest;
 import site.coduo.member.service.dto.SignInServiceResponse;
 
 @SpringBootTest
@@ -41,10 +40,9 @@ class AuthServiceTest {
     void search_member_by_access_token() {
         // given
         final Member member = createMember("username", FakeGithubApiClient.ACCESS_TOKEN, FakeGithubApiClient.USER_ID);
-        final CreateSignInTokenRequest request = new CreateSignInTokenRequest(member.getAccessToken());
 
         // when
-        final SignInServiceResponse signInToken = authService.createSignInToken(request);
+        final SignInServiceResponse signInToken = authService.createSignInToken(member.getAccessToken());
 
         // then
         assertThatCode(() -> jwtProvider.verify(signInToken.token()))
@@ -58,7 +56,7 @@ class AuthServiceTest {
         final String token = "does not exist token";
 
         // when
-        final SignInServiceResponse signInToken = authService.createSignInToken(new CreateSignInTokenRequest(token));
+        final SignInServiceResponse signInToken = authService.createSignInToken(token);
 
         // then
         assertThat(signInToken.token()).isEmpty();
@@ -83,7 +81,7 @@ class AuthServiceTest {
         final Member member = createMember("username", "origin", FakeGithubApiClient.USER_ID);
 
         // when
-        authService.createSignInToken(new CreateSignInTokenRequest("change"));
+        authService.createSignInToken("change");
 
         // then
         assertThat(memberRepository.findById(member.getId()).orElseThrow())

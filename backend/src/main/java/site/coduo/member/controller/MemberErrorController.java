@@ -1,6 +1,7 @@
 package site.coduo.member.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -13,6 +14,14 @@ import site.coduo.member.exception.AuthorizationException;
 @Slf4j
 @RestControllerAdvice
 public class MemberErrorController {
+    @ExceptionHandler(ServletRequestBindingException.class)
+    public ResponseEntity<ApiErrorResponse> handleServletRequestBindingException(
+            final ServletRequestBindingException e) {
+        log.warn(e.getMessage());
+
+        return ResponseEntity.status(MemberApiError.AUTHENTICATION_ERROR.getHttpStatus())
+                .body(new ApiErrorResponse(MemberApiError.AUTHENTICATION_ERROR.getMessage()));
+    }
 
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ApiErrorResponse> handleAuthenticationException(final AuthenticationException e) {

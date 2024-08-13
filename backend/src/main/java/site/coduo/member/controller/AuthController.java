@@ -19,17 +19,17 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import lombok.RequiredArgsConstructor;
+import site.coduo.member.controller.docs.AuthControllerDocs;
 import site.coduo.member.controller.dto.member.SignInWebResponse;
-import site.coduo.member.controller.dto.member.SignUpWebRequest;
+import site.coduo.member.controller.dto.member.SignUpRequest;
 import site.coduo.member.service.AuthService;
 import site.coduo.member.service.MemberService;
-import site.coduo.member.service.dto.CreateSignInTokenRequest;
 import site.coduo.member.service.dto.SignInServiceResponse;
 
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class AuthController {
+public class AuthController implements AuthControllerDocs {
 
     private static final String SIGN_IN_COOKIE_NAME = "coduo_whoami";
     private static final String SERVICE_DOMAIN_NAME = "coduo.site";
@@ -51,9 +51,9 @@ public class AuthController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<Void> signUp(@RequestBody final SignUpWebRequest request,
-                                       @SessionAttribute(value = ACCESS_TOKEN_SESSION_NAME, required = false) final String accessToken) {
-        memberService.createMember(request.toServiceRequest(accessToken));
+    public ResponseEntity<Void> signUp(@RequestBody final SignUpRequest request,
+                                       @SessionAttribute(value = ACCESS_TOKEN_SESSION_NAME) final String accessToken) {
+        memberService.createMember(request.username(), accessToken);
 
         return ResponseEntity.status(HttpStatus.FOUND)
                 .location(URI.create("/api/sign-in/callback"))
@@ -61,15 +61,15 @@ public class AuthController {
     }
 
     @GetMapping("/sign-in/callback")
-    public ResponseEntity<SignInWebResponse> signIn(
-            @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME, required = false) final String accessToken,
+    public ResponseEntity<SignInWebResponse> signInCallback(
+            @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME) final String accessToken,
             final HttpSession session) {
-        final SignInServiceResponse signInToken = authService.createSignInToken(
-                new CreateSignInTokenRequest(accessToken));
+        final SignInServiceResponse serviceResponse = authService.createSignInToken(accessToken);
+
         session.invalidate();
 
         final ResponseCookie cookie = ResponseCookie.from(SIGN_IN_COOKIE_NAME)
-                .value(signInToken.token())
+                .value(serviceResponse.token())
                 .httpOnly(true)
                 .secure(true)
                 .domain(SERVICE_DOMAIN_NAME)
@@ -78,6 +78,6 @@ public class AuthController {
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body(SignInWebResponse.of(signInToken));
+                .body(SignInWebResponse.of(serviceResponse));
     }
 }

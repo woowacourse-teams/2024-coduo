@@ -10,7 +10,6 @@ import site.coduo.member.client.dto.GithubUserResponse;
 import site.coduo.member.domain.MemberUpdate;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.infrastructure.security.JwtProvider;
-import site.coduo.member.service.dto.CreateSignInTokenRequest;
 import site.coduo.member.service.dto.SignInServiceResponse;
 
 @RequiredArgsConstructor
@@ -23,13 +22,13 @@ public class AuthService {
     private final JwtProvider jwtProvider;
 
     @Transactional
-    public SignInServiceResponse createSignInToken(final CreateSignInTokenRequest request) {
-        request.validateCreateRequest();
-        final GithubUserResponse userResponse = githubApiClient.getUser(new GithubUserRequest(request.accessToken()));
-        final String signInToken = jwtProvider.sign(userResponse.userId());
+    public SignInServiceResponse createSignInToken(final String accessToken) {
+        final GithubUserResponse userResponse = githubApiClient.getUser(new GithubUserRequest(accessToken));
 
         memberRepository.findByUserId(userResponse.userId())
-                .ifPresent(member -> new MemberUpdate(member).update(request.accessToken()));
+                .ifPresent(member -> new MemberUpdate(member).update(accessToken));
+
+        final String signInToken = jwtProvider.sign(userResponse.userId());
 
         return new SignInServiceResponse(memberRepository.existsByUserId(userResponse.userId()), signInToken);
     }

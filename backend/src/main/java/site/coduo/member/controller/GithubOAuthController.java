@@ -15,17 +15,19 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.coduo.member.client.dto.TokenResponse;
+import site.coduo.member.controller.docs.GithubOAuthControllerDocs;
+import site.coduo.member.controller.dto.oauth.GithubAuthQuery;
 import site.coduo.member.controller.dto.oauth.GithubAuthUri;
 import site.coduo.member.controller.dto.oauth.GithubCallbackQuery;
+import site.coduo.member.controller.dto.oauth.State;
 import site.coduo.member.service.GithubOAuthService;
-import site.coduo.member.service.dto.CallbackContent;
-import site.coduo.member.service.dto.GithubAuthQuery;
 
 @Slf4j
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class GithubOAuthController {
+public class GithubOAuthController implements GithubOAuthControllerDocs {
+
     public static final String ACCESS_TOKEN_SESSION_NAME = "access token";
 
     private static final String STATE_SESSION_NAME = "state";
@@ -49,10 +51,12 @@ public class GithubOAuthController {
 
     @GetMapping("/github/callback")
     public ResponseEntity<Void> getAccessToken(@ModelAttribute final GithubCallbackQuery query,
-                                               @SessionAttribute(name = STATE_SESSION_NAME, required = false) final String state,
+                                               @SessionAttribute(name = STATE_SESSION_NAME) final String state,
                                                final HttpSession session) {
-        final CallbackContent content = new CallbackContent(query, state);
-        final TokenResponse tokenResponse = githubOAuthService.invokeOAuthCallback(content);
+
+        State savedState = new State(state);
+        savedState.validate(new State(query.state()));
+        final TokenResponse tokenResponse = githubOAuthService.invokeOAuthCallback(query.code());
 
         session.removeAttribute(STATE_SESSION_NAME);
         session.setAttribute(ACCESS_TOKEN_SESSION_NAME, tokenResponse.getCredential());

@@ -17,7 +17,7 @@ public class GithubApiClient {
     private final RestClient client;
 
     public GithubApiClient() {
-        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+        final SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
         requestFactory.setConnectTimeout(CONNECT_TIME_VALUE);
         requestFactory.setReadTimeout(READ_TIME_OUT_VALUE);
 
@@ -28,7 +28,7 @@ public class GithubApiClient {
                 .build();
     }
 
-    public GithubUserResponse getUser(GithubUserRequest request) {
+    public GithubUserResponse getUser(final GithubUserRequest request) {
 
         return client.get()
                 .uri("/user")

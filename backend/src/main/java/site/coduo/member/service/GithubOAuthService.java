@@ -7,9 +7,8 @@ import lombok.RequiredArgsConstructor;
 import site.coduo.member.client.GithubOAuthClient;
 import site.coduo.member.client.dto.TokenRequest;
 import site.coduo.member.client.dto.TokenResponse;
-import site.coduo.member.infrastructure.security.NanceGenerator;
-import site.coduo.member.service.dto.CallbackContent;
-import site.coduo.member.service.dto.GithubAuthQuery;
+import site.coduo.member.controller.dto.oauth.GithubAuthQuery;
+import site.coduo.member.infrastructure.security.NanceProvider;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -17,21 +16,19 @@ import site.coduo.member.service.dto.GithubAuthQuery;
 public class GithubOAuthService {
 
     private final GithubOAuthClient oAuthClient;
-    private final NanceGenerator nanceGenerator;
+    private final NanceProvider nanceProvider;
 
     public GithubAuthQuery createAuthorizationContent() {
 
         return new GithubAuthQuery(
                 oAuthClient.getOAuthClientId(),
                 oAuthClient.getOAuthRedirectUri(),
-                nanceGenerator.generate()
+                nanceProvider.generate()
         );
     }
 
-    public TokenResponse invokeOAuthCallback(final CallbackContent content) {
-        content.validateState();
-        nanceGenerator.verify(content.savedState(), content.returnedState());
+    public TokenResponse invokeOAuthCallback(final String code) {
         String redirectUri = oAuthClient.getOAuthRedirectUri();
-        return oAuthClient.grant(new TokenRequest(content.code(), redirectUri));
+        return oAuthClient.grant(new TokenRequest(code, redirectUri));
     }
 }

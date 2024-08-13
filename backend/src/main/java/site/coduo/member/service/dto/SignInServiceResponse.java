@@ -1,9 +1,10 @@
 package site.coduo.member.service.dto;
 
-public record SignInServiceResponse(boolean singedUp, String token) {
+public record SignInServiceResponse(boolean signedIn, String token) {
 
-    public SignInServiceResponse(final boolean singedUp, final String token) {
-        this.singedUp = singedUp;
-        this.token = singedUp ? token : "";
+    public SignInServiceResponse(final boolean signedIn, final String token) {
+        this.signedIn = signedIn;
+        this.token = signedIn ? token : "";
     }
 }
+

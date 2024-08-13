@@ -1,7 +1,6 @@
 package site.coduo.member.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,11 +10,9 @@ import org.springframework.context.annotation.Import;
 
 import site.coduo.config.TestConfig;
 import site.coduo.fake.FakeGithubOAuthClient;
-import site.coduo.fake.FixedNanceGenerator;
+import site.coduo.fake.FixedNanceProvider;
 import site.coduo.member.client.dto.TokenResponse;
-import site.coduo.member.exception.AuthenticationException;
-import site.coduo.member.service.dto.CallbackContent;
-import site.coduo.member.service.dto.GithubAuthQuery;
+import site.coduo.member.controller.dto.oauth.GithubAuthQuery;
 
 @SpringBootTest
 @Import(TestConfig.class)
@@ -31,7 +28,7 @@ class GithubOAuthServiceTest {
         final GithubAuthQuery expect = new GithubAuthQuery(
                 FakeGithubOAuthClient.OAUTH_CLIENT_ID,
                 FakeGithubOAuthClient.OAUTH_REDIRECT_URI,
-                FixedNanceGenerator.FIXED_VALUE
+                FixedNanceProvider.FIXED_VALUE
         );
 
         // when
@@ -45,23 +42,12 @@ class GithubOAuthServiceTest {
     @DisplayName("엑세스 토큰을 발급 받아온다.")
     void get_access_token() {
         // given
-        final CallbackContent content = new CallbackContent("code", "nonce", "nonce");
+        final String code = "code";
 
         // when
-        final TokenResponse tokenResponse = githubOAuthService.invokeOAuthCallback(content);
+        final TokenResponse tokenResponse = githubOAuthService.invokeOAuthCallback(code);
 
         // then
         assertThat(tokenResponse.accessToken()).isEqualTo(FakeGithubOAuthClient.ACCESS_TOKEN);
-    }
-
-    @Test
-    @DisplayName("state 값이 호출 전/후가 다르면 CSRF 보안 공격으로 간주한다.")
-    void regard_csrf_attack_when_state_value_is_different_between_before_call_and_after() {
-        // given
-        final CallbackContent content = new CallbackContent("code", "nonce", "nonce2");
-
-        // when & then
-        assertThatThrownBy(() -> githubOAuthService.invokeOAuthCallback(content))
-                .isInstanceOf(AuthenticationException.class);
     }
 }

@@ -12,7 +12,7 @@ import org.springframework.http.HttpHeaders;
 import io.restassured.RestAssured;
 import site.coduo.fake.FakeGithubApiClient;
 import site.coduo.fake.FakeGithubOAuthClient;
-import site.coduo.fake.FixedNanceGenerator;
+import site.coduo.fake.FixedNanceProvider;
 import site.coduo.member.domain.Member;
 
 class GithubAcceptanceTest extends AcceptanceFixture {
@@ -21,7 +21,7 @@ class GithubAcceptanceTest extends AcceptanceFixture {
         final String session = callAuthorizeThenReturnSessionId();
 
         final Map<String, String> query = Map.of("code", "authorization code",
-                "state", FixedNanceGenerator.FIXED_VALUE);
+                "state", FixedNanceProvider.FIXED_VALUE);
 
         RestAssured
                 .given()
@@ -76,7 +76,7 @@ class GithubAcceptanceTest extends AcceptanceFixture {
         final String session = callAuthorizeThenReturnSessionId();
 
         final Map<String, String> query = Map.of("code", "authorization code",
-                "state", FixedNanceGenerator.FIXED_VALUE);
+                "state", FixedNanceProvider.FIXED_VALUE);
 
         // when & then
         RestAssured
@@ -107,7 +107,7 @@ class GithubAcceptanceTest extends AcceptanceFixture {
                 .build();
         final String session = callAuthorizeThenReturnSessionId();
         final Map<String, String> query = Map.of("code", "authorization code",
-                "state", FixedNanceGenerator.FIXED_VALUE);
+                "state", FixedNanceProvider.FIXED_VALUE);
 
         memberRepository.save(member);
 

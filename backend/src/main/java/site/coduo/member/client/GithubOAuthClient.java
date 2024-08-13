@@ -42,7 +42,7 @@ public class GithubOAuthClient {
                 .build();
     }
 
-    public TokenResponse grant(TokenRequest request) {
+    public TokenResponse grant(final TokenRequest request) {
 
         String body = client.post()
                 .uri("/login/oauth/access_token")
