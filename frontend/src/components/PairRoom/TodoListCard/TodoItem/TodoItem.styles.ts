@@ -13,3 +13,9 @@ export const Layout = styled.div`
 
   cursor: pointer;
 `;
+
+export const Divider = styled.div`
+  height: 0.15rem;
+
+  background: ${({ theme }) => theme.color.black[30]};
+`;

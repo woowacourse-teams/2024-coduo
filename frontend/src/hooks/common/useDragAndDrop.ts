@@ -1,31 +1,41 @@
-import { useRef } from 'react';
+import { useState } from 'react';
+
+export type DragPosition = 'ABOVE' | 'BELOW';
 
 const useDragAndDrop = (list: string[], handleList: (newList: string[]) => void) => {
-  const dragItem = useRef<number | null>(null);
-  const dragOverItem = useRef<number | null>(null);
+  const [dragItem, setDragItem] = useState<number | null>(null);
+  const [dragOverItem, setDragOverItem] = useState<number | null>(null);
+  const [dragOverPosition, setDragOverPosition] = useState<DragPosition | null>(null);
 
-  const handleDragStart = (position: number) => (dragItem.current = position);
+  const handleDragStart = (position: number) => setDragItem(position);
 
-  const handleDragEnter = (position: number) => (dragOverItem.current = position);
+  const handleDragEnter = (event: React.DragEvent<HTMLDivElement>, position: number) => {
+    const targetRect = event.currentTarget.getBoundingClientRect();
+    const mouseY = event.clientY;
+
+    setDragOverItem(position);
+    setDragOverPosition(mouseY < targetRect.y + targetRect.height / 2 ? 'ABOVE' : 'BELOW');
+  };
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
 
-    if (dragItem.current === null || dragOverItem.current === null) return;
+    if (dragItem === null || dragOverItem === null || dragOverPosition === null || dragItem === dragOverItem) return;
 
     const newList = [...list];
-    const draggedItem = newList[dragItem.current];
+    const draggedItem = newList[dragItem];
 
-    newList.splice(dragItem.current, 1);
-    newList.splice(dragOverItem.current, 0, draggedItem);
+    newList.splice(dragItem, 1);
+    newList.splice(dragOverPosition === 'ABOVE' ? dragOverItem : dragOverItem + 1, 0, draggedItem);
 
-    dragItem.current = null;
-    dragOverItem.current = null;
+    setDragItem(null);
+    setDragOverItem(null);
+    setDragOverPosition(null);
 
     handleList(newList);
   };
 
-  return { handleDragStart, handleDragEnter, handleDrop };
+  return { dragItem, dragOverItem, dragOverPosition, handleDragStart, handleDragEnter, handleDrop };
 };
 
 export default useDragAndDrop;

@@ -10,7 +10,10 @@ interface TodoListProps {
 }
 
 const TodoList = ({ todos, handleTodos }: TodoListProps) => {
-  const { handleDragStart, handleDragEnter, handleDrop } = useDragAndDrop(todos, handleTodos);
+  const { dragItem, dragOverItem, dragOverPosition, handleDragStart, handleDragEnter, handleDrop } = useDragAndDrop(
+    todos,
+    handleTodos,
+  );
 
   return (
     <S.Layout>
@@ -20,6 +23,8 @@ const TodoList = ({ todos, handleTodos }: TodoListProps) => {
             key={idx}
             id={idx}
             content={todo}
+            dragOverPosition={dragOverPosition}
+            isDraggedOver={dragItem !== dragOverItem && dragOverItem === idx}
             onDragStart={handleDragStart}
             onDragEnter={handleDragEnter}
             onDrop={handleDrop}
