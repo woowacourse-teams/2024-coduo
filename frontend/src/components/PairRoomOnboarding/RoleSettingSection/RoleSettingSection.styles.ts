@@ -2,11 +2,18 @@ import styled from 'styled-components';
 
 export const Layout = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
-  gap: 5rem;
+  justify-content: space-between;
 
   width: 100%;
   padding: 4rem 0;
+`;
+
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
 `;
 
 export const HeaderContainer = styled.div`

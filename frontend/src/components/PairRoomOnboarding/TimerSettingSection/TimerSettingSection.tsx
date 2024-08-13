@@ -7,6 +7,8 @@ import InformationBox from '@/components/PairRoomOnboarding/InformationBox/Infor
 
 import { validateTime } from '@/utils/PairRoomOnboarding/validate';
 
+import { BUTTON_TEXT } from '@/constants/button';
+
 import * as S from './TimerSettingSection.styles';
 
 const OPTIONS = [
@@ -18,9 +20,11 @@ const OPTIONS = [
 interface TimerSettingSectionProps {
   timer: string;
   onTimer: (time: string) => void;
+  onPrev: () => void;
+  onNext: () => void;
 }
 
-const TimerSettingSection = ({ timer, onTimer }: TimerSettingSectionProps) => {
+const TimerSettingSection = ({ timer, onTimer, onPrev, onNext }: TimerSettingSectionProps) => {
   const [isSelf, setIsSelf] = useState(false);
 
   const handleTimer = (option: string) => {
@@ -35,44 +39,52 @@ const TimerSettingSection = ({ timer, onTimer }: TimerSettingSectionProps) => {
 
   return (
     <S.Layout>
-      <S.HeaderContainer>
-        <Modal.Header title="타이머 설정" subTitle="타이머 시간을 설정해 주세요" />
-        <InformationBox
-          title="왜 타이머 시간을 설정해야 하나요?"
-          description="정기적인 역할 교대는 피드백을 주고받을 수 있는 자연스러운 기회를 제공합니다. 이는 코드 품질을 높이고, 문제를
+      <S.Container>
+        <S.HeaderContainer>
+          <Modal.Header title="타이머 설정" subTitle="타이머 시간을 설정해 주세요" />
+          <InformationBox
+            title="왜 타이머 시간을 설정해야 하나요?"
+            description="정기적인 역할 교대는 피드백을 주고받을 수 있는 자연스러운 기회를 제공합니다. 이는 코드 품질을 높이고, 문제를
           조기에 발견하여 수정할 수 있게 합니다."
-        />
-      </S.HeaderContainer>
-      <S.ButtonContainer>
-        {OPTIONS.map((option) => (
-          <Button
-            key={option.value}
-            color="primary"
-            size="md"
-            filled={timer === option.value}
-            onClick={() => handleTimer(option.value)}
-          >
-            {option.label}
-          </Button>
-        ))}
-        <S.InputContainer>
-          <Button key="직접 설정" color="primary" size="md" filled={isSelf} onClick={handleIsSelf}>
-            직접 설정
-          </Button>
-          {isSelf && (
-            <Input
-              width="16rem"
-              $css={S.inputStyles}
-              value={timer}
-              placeholder="타이머 시간 (분)"
-              status={!validateTime(timer) ? 'ERROR' : 'DEFAULT'}
-              message={!validateTime(timer) ? '0 이상의 숫자를 입력해 주세요.' : ''}
-              disabled={!isSelf}
-              onChange={(event) => onTimer(event.target.value)}
-            />
-          )}
-        </S.InputContainer>
-      </S.ButtonContainer>
+          />
+        </S.HeaderContainer>
+        <S.ButtonContainer>
+          {OPTIONS.map((option) => (
+            <Button
+              key={option.value}
+              color="primary"
+              size="md"
+              filled={timer === option.value}
+              onClick={() => handleTimer(option.value)}
+            >
+              {option.label}
+            </Button>
+          ))}
+          <S.InputContainer>
+            <Button key="직접 설정" color="primary" size="md" filled={isSelf} onClick={handleIsSelf}>
+              직접 설정
+            </Button>
+            {isSelf && (
+              <Input
+                width="16rem"
+                $css={S.inputStyles}
+                value={timer}
+                placeholder="타이머 시간 (분)"
+                status={!validateTime(timer) ? 'ERROR' : 'DEFAULT'}
+                message={!validateTime(timer) ? '0 이상의 숫자를 입력해 주세요.' : ''}
+                disabled={!isSelf}
+                onChange={(event) => onTimer(event.target.value)}
+              />
+            )}
+          </S.InputContainer>
+        </S.ButtonContainer>
+      </S.Container>
+      <Modal.Footer position="CENTER">
+        <Button onClick={onPrev}>{BUTTON_TEXT.BACK}</Button>
+        <Button onClick={onNext} disabled={timer === ''}>
+          {BUTTON_TEXT.COMPLETE}
+        </Button>
+      </Modal.Footer>
     </S.Layout>
   );
 };

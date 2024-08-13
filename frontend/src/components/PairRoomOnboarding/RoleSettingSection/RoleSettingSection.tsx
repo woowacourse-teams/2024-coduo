@@ -1,8 +1,11 @@
 import type { Role } from '@/pages/PairRoomOnboarding/PairRoomOnboarding.type';
 
+import Button from '@/components/common/Button/Button';
 import Dropdown from '@/components/common/Dropdown/Dropdown/Dropdown';
 import { Modal } from '@/components/common/Modal';
 import InformationBox from '@/components/PairRoomOnboarding/InformationBox/InformationBox';
+
+import { BUTTON_TEXT } from '@/constants/button';
 
 import * as S from './RoleSettingSection.styles';
 
@@ -10,40 +13,46 @@ interface RoleSettingSectionProps {
   driver: string;
   navigator: string;
   userOptions: string[];
-  handleSelect: (option: string, role: Role) => void;
+  onSelect: (option: string, role: Role) => void;
+  onNext: () => void;
 }
 
-const RoleSettingSection = ({ driver, navigator, userOptions, handleSelect }: RoleSettingSectionProps) => {
+const RoleSettingSection = ({ driver, navigator, userOptions, onSelect, onNext }: RoleSettingSectionProps) => {
   return (
     <S.Layout>
-      <S.HeaderContainer>
-        <Modal.Header title="역할 설정" subTitle="드라이버 / 내비게이터를 설정해 주세요." />
-        <InformationBox
-          title="드라이버 / 내비게이터가 무엇인가요?"
-          description="드라이버는 키보드와 마우스를 사용하여 실제로 코드를 작성하는 사람입니다. 내비게이터는 코드의 논리적 흐름, 설계,
+      <S.Container>
+        <S.HeaderContainer>
+          <Modal.Header title="역할 설정" subTitle="드라이버 / 내비게이터를 설정해 주세요." />
+          <InformationBox
+            title="드라이버 / 내비게이터가 무엇인가요?"
+            description="드라이버는 키보드와 마우스를 사용하여 실제로 코드를 작성하는 사람입니다. 내비게이터는 코드의 논리적 흐름, 설계,
         오류 등을 검토하며, 드라이버에게 피드백을 제공합니다."
-        />
-      </S.HeaderContainer>
-      <S.DropdownContainer>
-        <S.DropdownWrapper>
-          <S.DropdownLabel>드라이버</S.DropdownLabel>
-          <Dropdown
-            placeholder={'이름을 선택해주세요.'}
-            selected={driver}
-            onSelect={(option) => handleSelect(option, 'DRIVER')}
-            options={userOptions}
           />
-        </S.DropdownWrapper>
-        <S.DropdownWrapper>
-          <S.DropdownLabel>내비게이터</S.DropdownLabel>
-          <Dropdown
-            placeholder={'이름을 선택해주세요.'}
-            selected={navigator}
-            onSelect={(option) => handleSelect(option, 'NAVIGATOR')}
-            options={userOptions}
-          />
-        </S.DropdownWrapper>
-      </S.DropdownContainer>
+        </S.HeaderContainer>
+        <S.DropdownContainer>
+          <S.DropdownWrapper>
+            <S.DropdownLabel>드라이버</S.DropdownLabel>
+            <Dropdown
+              placeholder={'이름을 선택해주세요.'}
+              selected={driver}
+              onSelect={(option) => onSelect(option, 'DRIVER')}
+              options={userOptions}
+            />
+          </S.DropdownWrapper>
+          <S.DropdownWrapper>
+            <S.DropdownLabel>내비게이터</S.DropdownLabel>
+            <Dropdown
+              placeholder={'이름을 선택해주세요.'}
+              selected={navigator}
+              onSelect={(option) => onSelect(option, 'NAVIGATOR')}
+              options={userOptions}
+            />
+          </S.DropdownWrapper>
+        </S.DropdownContainer>
+      </S.Container>
+      <Modal.Footer position="CENTER">
+        <Button onClick={onNext}>{BUTTON_TEXT.NEXT}</Button>
+      </Modal.Footer>
     </S.Layout>
   );
 };
