@@ -11,11 +11,17 @@ export const Layout = styled.div`
   background: ${({ theme }) => theme.color.secondary[100]};
   font-size: ${({ theme }) => theme.fontSize.md};
 
+  transition: background 0.2s ease;
+
   cursor: pointer;
+
+  &:hover {
+    background: ${({ theme }) => theme.color.secondary[150]};
+  }
 `;
 
 export const Divider = styled.div`
-  height: 0.15rem;
+  height: 0.3rem;
 
   background: ${({ theme }) => theme.color.black[30]};
 `;
