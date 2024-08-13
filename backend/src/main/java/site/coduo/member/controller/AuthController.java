@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,9 +27,10 @@ import site.coduo.member.service.AuthService;
 import site.coduo.member.service.MemberService;
 import site.coduo.member.service.dto.SignInServiceResponse;
 
-@RestController
-@RequestMapping("/api")
 @RequiredArgsConstructor
+@RequestMapping("/api")
+@CrossOrigin(value = {"https://coduo.site", "http://localhost:3000" })
+@RestController
 public class AuthController implements AuthControllerDocs {
 
     private static final String SIGN_IN_COOKIE_NAME = "coduo_whoami";

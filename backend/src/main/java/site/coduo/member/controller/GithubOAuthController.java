@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,9 +24,10 @@ import site.coduo.member.controller.dto.oauth.State;
 import site.coduo.member.service.GithubOAuthService;
 
 @Slf4j
-@RestController
-@RequestMapping("/api")
 @RequiredArgsConstructor
+@CrossOrigin(value = {"https://coduo.site", "http://localhost:3000" })
+@RequestMapping("/api")
+@RestController
 public class GithubOAuthController implements GithubOAuthControllerDocs {
 
     public static final String ACCESS_TOKEN_SESSION_NAME = "access token";
