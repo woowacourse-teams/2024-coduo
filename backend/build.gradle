@@ -24,36 +24,45 @@ repositories {
 }
 
 dependencies {
-    // Web
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+	// Web
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    // Lombok
-    annotationProcessor 'org.projectlombok:lombok'
-    compileOnly 'org.projectlombok:lombok'
+	// Lombok
+	annotationProcessor 'org.projectlombok:lombok'
+	compileOnly 'org.projectlombok:lombok'
 
-    // Validation
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
+	// Jsoup
+	implementation 'org.jsoup:jsoup:1.17.2'
 
 	// Auth
 	implementation 'io.jsonwebtoken:jjwt:0.12.6'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.12.6'
 
+	// Validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
 	// JPA
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
-    // H2
-    runtimeOnly 'com.h2database:h2'
+	// H2
+	runtimeOnly 'com.h2database:h2'
 
-    // Mysql
-    runtimeOnly 'com.mysql:mysql-connector-j'
+	// Mysql
+	runtimeOnly 'com.mysql:mysql-connector-j'
 
-    // Swagger
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+	// Actuator
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-    // Test
+	// Prometheus
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+
+	// Swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+
+	// Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    testImplementation 'io.rest-assured:rest-assured:5.5.0'
+	testImplementation 'io.rest-assured:rest-assured:5.5.0'
 }
 
 tasks.named('test') {
@@ -61,5 +70,5 @@ tasks.named('test') {
 }
 
 jar {
-    enabled = false
+	enabled = false
 }

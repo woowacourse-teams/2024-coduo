@@ -24,6 +24,7 @@ abstract class AcceptanceFixture {
     private ReferenceLinkRepository referenceLinkRepository;
     @Autowired
     private PairRoomRepository pairRoomRepository;
+
     @LocalServerPort
     private int port;
 
