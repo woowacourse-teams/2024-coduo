@@ -31,9 +31,9 @@ management:
         include: prometheus
 oauth:
   github:
-    client-id: ${GITHUB_CLIENT_ID}
-    client-secret: ${GITHUB_CLIENT_SECRET}
-    redirect-uri: ${GITHUB_CLIENT_REDIECT_URI}
+    client-id: ${CLIENT_ID}
+    client-secret: ${CLIENT_SECRET}
+    redirect-uri: ${CLIENT_REDIECT_URI}
 
 jwt:
   sign-key: ${JWT_KEY}
