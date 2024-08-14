@@ -7,12 +7,12 @@ import useUserStatusStore from '@/stores/userStatusStore';
 
 import { addSignUpGithub } from '@/apis/oauth';
 
-const useSignUp = (username: string) => {
+const useSignUp = () => {
   const { addToast } = useToastStore();
   const navigate = useNavigate();
   const { setUserStatus } = useUserStatusStore();
   const { mutate, isSuccess } = useMutation({
-    mutationFn: () => addSignUpGithub(username),
+    mutationFn: (username: string) => addSignUpGithub(username),
     onSuccess: () => {
       setUserStatus('SIGNED_IN');
       navigate('/');
