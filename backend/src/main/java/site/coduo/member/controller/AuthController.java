@@ -7,6 +7,7 @@ import java.time.Duration;
 import java.util.Arrays;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -73,7 +74,8 @@ public class AuthController {
     @GetMapping("/sign-in/callback")
     public ResponseEntity<SignInWebResponse> signInCallback(
             final HttpServletRequest request,
-            @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME, required = false) final String accessToken
+            @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME, required = false) final String accessToken,
+            final HttpSession session
     ) {
 
         log.info("------로그인 시작------");
@@ -82,7 +84,10 @@ public class AuthController {
         Arrays.stream(request.getCookies())
                 .forEach(cookie -> log.info("쿠키 이름: {}, 값: {}", cookie.getName(),
                         cookie.getAttribute(cookie.getName())));
-
+        while (session.getAttributeNames().asIterator().hasNext()) {
+            final String sessionName = session.getAttributeNames().asIterator().next();
+            log.info("session 이름: {}, 값 {}", sessionName, session.getAttribute(sessionName));
+        }
         final SignInServiceResponse serviceResponse = authService.createSignInToken(accessToken);
         final ResponseCookie cookie = ResponseCookie.from(SIGN_IN_COOKIE_NAME)
                 .value(serviceResponse.token())
