@@ -25,6 +25,7 @@ abstract class AcceptanceFixture {
 
     @Autowired
     private ReferenceLinkRepository referenceLinkRepository;
+
     @Autowired
     private PairRoomRepository pairRoomRepository;
 
@@ -33,9 +34,6 @@ abstract class AcceptanceFixture {
 
     @Autowired
     private CategoryRepository categoryRepository;
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     @LocalServerPort
     private int port;
