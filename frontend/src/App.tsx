@@ -9,6 +9,7 @@ import Layout from '@/pages/Layout';
 import Main from '@/pages/Main/Main';
 import PairRoom from '@/pages/PairRoom/PairRoom';
 import PairRoomOnboarding from '@/pages/PairRoomOnboarding/PairRoomOnboarding';
+import SignUp from '@/pages/SignUp/SignUp';
 
 import GlobalStyles from './styles/Global.style';
 import { theme } from './styles/theme';
@@ -37,6 +38,10 @@ const App = () => {
         {
           path: 'room/:accessCode/onboarding',
           element: <PairRoomOnboarding />,
+        },
+        {
+          path: 'sign-up',
+          element: <SignUp />,
         },
       ],
     },

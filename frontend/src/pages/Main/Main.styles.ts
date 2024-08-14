@@ -1,6 +1,34 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { Wave } from '@/assets';
+
+export const GithubLoginButton = css`
+  justify-content: space-evenly;
+
+  border: 1px solid ${({ theme }) => theme.color.black[80]};
+
+  background-color: ${({ theme }) => theme.color.black[90]};
+  color: ${({ theme }) => theme.color.black[10]};
+
+  img {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  &:hover {
+    border: 1px solid ${({ theme }) => theme.color.black[70]};
+
+    background-color: ${({ theme }) => theme.color.black[80]};
+    color: ${({ theme }) => theme.color.black[10]};
+  }
+
+  &:active {
+    border: 1px solid ${({ theme }) => theme.color.black[60]};
+
+    background-color: ${({ theme }) => theme.color.black[70]};
+    color: ${({ theme }) => theme.color.black[10]};
+  }
+`;
 
 export const Layout = styled.div`
   display: flex;
