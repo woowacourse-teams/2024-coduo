@@ -12,6 +12,7 @@ import io.restassured.RestAssured;
 import site.coduo.config.TestConfig;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
+import site.coduo.referencelink.repository.CategoryRepository;
 import site.coduo.referencelink.repository.OpenGraphRepository;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 
@@ -24,11 +25,15 @@ abstract class AcceptanceFixture {
 
     @Autowired
     private ReferenceLinkRepository referenceLinkRepository;
+
     @Autowired
     private PairRoomRepository pairRoomRepository;
 
     @Autowired
     private OpenGraphRepository openGraphRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @LocalServerPort
     private int port;
@@ -43,6 +48,7 @@ abstract class AcceptanceFixture {
         memberRepository.deleteAll();
         openGraphRepository.deleteAll();
         referenceLinkRepository.deleteAll();
+        categoryRepository.deleteAll();
         pairRoomRepository.deleteAll();
     }
 }

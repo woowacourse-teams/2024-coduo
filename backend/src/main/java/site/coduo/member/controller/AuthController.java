@@ -5,6 +5,8 @@ import static site.coduo.member.controller.GithubOAuthController.ACCESS_TOKEN_SE
 import java.net.URI;
 import java.time.Duration;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -54,10 +56,15 @@ public class AuthController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<Void> signUp(@RequestBody final SignUpRequest request,
+                                       final HttpServletRequest httpRequest,
                                        @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME, required = false) final String accessToken
     ) {
+        log.info("-----회원가입 시작-----");
+        log.info("회원 가입 쿠키 불러오나? -> {}", httpRequest.getCookies().length);
+        log.info("회원 가입 엑세스 토큰 -> {}", accessToken);
         memberService.createMember(request.username(), accessToken);
 
+        log.info("-----회원가입 종료-----");
         return ResponseEntity.status(HttpStatus.FOUND)
                 .header(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
                 .location(URI.create("/api/sign-in/callback"))
@@ -66,11 +73,14 @@ public class AuthController {
 
     @GetMapping("/sign-in/callback")
     public ResponseEntity<SignInWebResponse> signInCallback(
-            @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME) final String accessToken
+            final HttpServletRequest request,
+            @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME, required = false) final String accessToken
     ) {
 
+        log.info("------로그인 시작------");
+        log.info("로그인에서 엑세스 토큰: {}", accessToken);
+        log.info("로그인 과정에서 쿠키: {}", request.getCookies().length);
         final SignInServiceResponse serviceResponse = authService.createSignInToken(accessToken);
-
         final ResponseCookie cookie = ResponseCookie.from(SIGN_IN_COOKIE_NAME)
                 .value(serviceResponse.token())
                 .httpOnly(true)
@@ -78,6 +88,8 @@ public class AuthController {
                 .domain(SERVICE_DOMAIN_NAME)
                 .path("/")
                 .build();
+
+        log.info("------로그인 종료------");
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
