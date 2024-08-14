@@ -6,7 +6,10 @@ import java.util.List;
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,10 +21,13 @@ import site.coduo.referencelink.service.CategoryService;
 import site.coduo.referencelink.service.dto.CategoryCreateRequest;
 import site.coduo.referencelink.service.dto.CategoryCreateResponse;
 import site.coduo.referencelink.service.dto.CategoryReadResponse;
+import site.coduo.referencelink.service.dto.CategoryUpdateRequest;
+import site.coduo.referencelink.service.dto.CategoryUpdateResponse;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
+@CrossOrigin(origins = {"http://localhost:3000", "https://coduo.site"})
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -41,5 +47,25 @@ public class CategoryController {
 
         return ResponseEntity.created(URI.create("/"))
                 .body(response);
+    }
+
+    @PatchMapping("/{accessCode}/category")
+    public ResponseEntity<CategoryUpdateResponse> updateCategory(@PathVariable("accessCode") String accessCode,
+                                                                 @RequestBody CategoryUpdateRequest categoryUpdateRequest
+    ) {
+        final CategoryUpdateResponse response = categoryService.updateCategoryName(accessCode,
+                categoryUpdateRequest);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{accessCode}/category/{categoryName}")
+    public ResponseEntity<Void> deleteCategory(@PathVariable("accessCode") String accessCode,
+                                               @PathVariable("categoryName") String categoryName
+    ) {
+        categoryService.deleteCategory(accessCode, categoryName);
+
+        return ResponseEntity.noContent()
+                .build();
     }
 }

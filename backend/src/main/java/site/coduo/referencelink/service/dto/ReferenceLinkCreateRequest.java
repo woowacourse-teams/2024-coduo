@@ -1,7 +1,7 @@
 package site.coduo.referencelink.service.dto;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -11,7 +11,8 @@ public record ReferenceLinkCreateRequest(
         @NotBlank(message = "빈 url은 허용하지 않습니다.")
         String url,
 
-        @Schema(description = "카테고리 id", example = "0")
-        @NotNull(message = "빈 값은 허용하지 않습니다.")
-        Long categoryId) {
+        @Schema(description = "카테고리 값", example = "자바 스크립트")
+        @Nullable
+        String categoryName
+) {
 }

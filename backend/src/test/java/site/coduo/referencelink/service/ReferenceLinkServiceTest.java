@@ -59,8 +59,7 @@ class ReferenceLinkServiceTest {
         // given
         final Pair pair = new Pair(new PairName("first"), new PairName("second"));
         final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(pair, new AccessCode("code`")));
-        final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoom, new Category("스프링")));
-        final ReferenceLinkCreateRequest request = new ReferenceLinkCreateRequest("http://url.com", category.getId());
+        final ReferenceLinkCreateRequest request = new ReferenceLinkCreateRequest("https://www.naver.com", null);
 
         // when
         referenceLinkService.createReferenceLinkCommand(pairRoom.getAccessCodeText(), request);
@@ -68,7 +67,14 @@ class ReferenceLinkServiceTest {
         // then
         assertAll(
                 () -> assertThat(referenceLinkRepository.findAll()).hasSize(1),
-                () -> assertThat(openGraphRepository.findAll()).hasSize(1)
+                () -> assertThat(openGraphRepository.findAll()).hasSize(1),
+                () -> {
+                    final ReferenceLinkResponse referenceLinkResponses =
+                            referenceLinkService.readAllReferenceLinkQuery(pairRoom.getAccessCodeText()).get(0);
+                    assertThat(referenceLinkResponses.url()).isEqualTo(request.url());
+                    assertThat(referenceLinkResponses.headTitle()).isEqualTo("NAVER");
+                    assertThat(referenceLinkResponses.openGraphTitle()).isEqualTo("네이버");
+                }
         );
     }
 

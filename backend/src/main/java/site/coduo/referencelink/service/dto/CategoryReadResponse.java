@@ -14,6 +14,6 @@ public record CategoryReadResponse(
 ) {
 
     public static CategoryReadResponse from(final CategoryEntity category) {
-        return new CategoryReadResponse(category.getId(), category.getCategory());
+        return new CategoryReadResponse(category.getId(), category.getCategoryName());
     }
 }

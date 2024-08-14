@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomRepository;
+import site.coduo.referencelink.domain.Category;
 import site.coduo.referencelink.domain.OpenGraph;
 import site.coduo.referencelink.domain.ReferenceLink;
 import site.coduo.referencelink.domain.Url;
@@ -35,11 +36,21 @@ public class ReferenceLinkService {
         final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(accessCode);
         final ReferenceLink referenceLink = new ReferenceLink(new Url(request.url()), accessCode);
 
-        final CategoryEntity categoryEntity = categoryRepository.fetchById(request.categoryId());
+        final ReferenceLinkEntity saved = saveReferenceLink(request, pairRoom, referenceLink);
+        openGraphService.createOpenGraphCommand(saved);
+    }
 
-        final ReferenceLinkEntity referenceLinkEntity = referenceLinkRepository.save(
-                new ReferenceLinkEntity(referenceLink, categoryEntity, pairRoom));
-        openGraphService.createOpenGraphCommand(referenceLinkEntity);
+    @Transactional
+    public ReferenceLinkEntity saveReferenceLink(final ReferenceLinkCreateRequest request,
+                                                 final PairRoom pairRoom,
+                                                 final ReferenceLink referenceLink
+    ) {
+        if (request.categoryName() == null) {
+            return referenceLinkRepository.save(new ReferenceLinkEntity(referenceLink, pairRoom));
+        }
+        final CategoryEntity categoryEntity = categoryRepository.fetchByPairRoomAndCategoryName(
+                pairRoom, request.categoryName());
+        return referenceLinkRepository.save(new ReferenceLinkEntity(referenceLink, categoryEntity, pairRoom));
     }
 
     public List<ReferenceLinkResponse> readAllReferenceLinkQuery(final String accessCodeText) {
@@ -50,6 +61,35 @@ public class ReferenceLinkService {
 
         return referenceLinkEntities.stream()
                 .map(this::makeReferenceLinkResponse)
+                .toList();
+    }
+
+    public List<ReferenceLinkResponse> findReferenceLinksByCategory(
+            final String accessCodeText,
+            final String categoryName
+    ) {
+        final AccessCode accessCode = new AccessCode(accessCodeText);
+        final Category category = new Category(categoryName);
+
+        return referenceLinkRepository.findAll()
+                .stream()
+                .filter(link -> link.isSameAccessCode(accessCode))
+                .filter(link -> link.isSameCategory(category))
+                .map(this::makeReferenceLinkResponse)
+                .toList();
+    }
+
+    public List<ReferenceLinkEntity> findReferenceLinksEntityByCategory(
+            final String accessCodeText,
+            final String categoryName
+    ) {
+        final AccessCode accessCode = new AccessCode(accessCodeText);
+        final Category category = new Category(categoryName);
+
+        return referenceLinkRepository.findAll()
+                .stream()
+                .filter(link -> link.isSameAccessCode(accessCode))
+                .filter(link -> link.isSameCategory(category))
                 .toList();
     }
 

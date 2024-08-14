@@ -37,7 +37,12 @@ public record ReferenceLinkResponse(
                 example = "https://s.pstatic.net/static/www/mobile/edit/2016/0705/mobile_212852414260.png",
                 nullable = false,
                 defaultValue = "\"\"")
-        String image
+        String image,
+
+        @Schema(description = "카테고리",
+                example = "스프링",
+                nullable = true)
+        String categoryName
 ) {
 
     public ReferenceLinkResponse(final ReferenceLinkEntity referenceLinkEntity, final OpenGraph openGraph) {
@@ -46,7 +51,8 @@ public record ReferenceLinkResponse(
                 openGraph.getHeadTitle(),
                 openGraph.getOpenGraphTitle(),
                 openGraph.getDescription(),
-                openGraph.getImage()
+                openGraph.getImage(),
+                referenceLinkEntity.getCategoryName()
         );
     }
 }

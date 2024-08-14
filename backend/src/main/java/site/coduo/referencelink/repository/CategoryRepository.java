@@ -10,11 +10,16 @@ import site.coduo.referencelink.exception.CategoryNotFoundException;
 
 public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
 
-    Optional<CategoryEntity> findById(Long id);
+    Optional<CategoryEntity> findByPairRoomAndCategoryName(PairRoom pairRoom, String categoryName);
 
-    default CategoryEntity fetchById(Long id) {
-        return findById(id).orElseThrow(() -> new CategoryNotFoundException("존재하지 않은 카테고리입니다."));
+    default CategoryEntity fetchByPairRoomAndCategoryName(PairRoom pairRoom, String categoryName) {
+        return findByPairRoomAndCategoryName(pairRoom, categoryName)
+                .orElseThrow(() -> new CategoryNotFoundException("존재하지 않은 카테고리입니다."));
     }
 
     List<CategoryEntity> findAllByPairRoom(PairRoom pairRoom);
+
+    boolean existsByCategoryName(String categoryName);
+
+    void deleteCategoryByPairRoomAndCategoryName(PairRoom pairRoom, String categoryName);
 }

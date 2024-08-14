@@ -27,8 +27,8 @@ public class CategoryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "CATEGORY") //TODO category 테이블에 category 괜찮은가...
-    private String category;
+    @Column(name = "CATEGORY_NAME")
+    private String categoryName;
 
     @ManyToOne
     @JoinColumn(name = "PAIR_ROOM", nullable = false)
@@ -36,7 +36,11 @@ public class CategoryEntity {
 
     public CategoryEntity(final PairRoom pairRoom, final Category category) {
         this.pairRoom = pairRoom;
-        this.category = category.getValue();
+        this.categoryName = category.getValue();
+    }
+
+    public void updateCategoryName(final String categoryName) {
+        this.categoryName = categoryName;
     }
 
     @Override

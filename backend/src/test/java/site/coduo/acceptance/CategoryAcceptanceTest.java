@@ -14,6 +14,21 @@ import site.coduo.referencelink.service.dto.CategoryCreateResponse;
 @Transactional
 class CategoryAcceptanceTest extends AcceptanceFixture {
 
+    static CategoryCreateResponse createCategory(final String accessCode, final CategoryCreateRequest request) {
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+
+                .when()
+                .post("/api/{accessCode}/category", accessCode)
+
+                .then()
+                .extract()
+                .as(CategoryCreateResponse.class);
+    }
+
     @Test
     @DisplayName("카테고리 요청 시 정보를 반환한다.")
     void show_category() {
@@ -21,7 +36,7 @@ class CategoryAcceptanceTest extends AcceptanceFixture {
         final PairRoomCreateResponse pairRoomUrl = PairRoomAcceptanceTest.createPairRoom(
                 new PairRoomCreateRequest("레디", "프람"));
 
-        createCategory("abcdef", new CategoryCreateRequest("새로운 카테고리"));
+        createCategory(pairRoomUrl.accessCode(), new CategoryCreateRequest("새로운 카테고리"));
 
         //when & then
         RestAssured
@@ -37,20 +52,5 @@ class CategoryAcceptanceTest extends AcceptanceFixture {
                 .log()
                 .all()
                 .statusCode(200);
-    }
-
-    static CategoryCreateResponse createCategory(final String accessCode, final CategoryCreateRequest request) {
-        return RestAssured
-                .given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .accept(MediaType.APPLICATION_JSON_VALUE)
-                .body(request)
-
-                .when()
-                .post("/api/{accessCode}/category", accessCode)
-
-                .then()
-                .extract()
-                .as(CategoryCreateResponse.class);
     }
 }
