@@ -3,6 +3,7 @@ package site.coduo.referencelink.domain;
 import java.util.Objects;
 
 import lombok.Getter;
+import site.coduo.referencelink.exception.InvalidCategoryException;
 
 @Getter
 public class Category {
@@ -10,7 +11,14 @@ public class Category {
     private final String value;
 
     public Category(final String value) {
+        validate(value);
         this.value = value;
+    }
+
+    private void validate(final String value) {
+        if (value.length() > 15) {
+            throw new InvalidCategoryException("카테고리 길이는 15자 이하여야 합니다.");
+        }
     }
 
     @Override
