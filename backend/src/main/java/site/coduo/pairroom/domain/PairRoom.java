@@ -32,6 +32,9 @@ public class PairRoom extends BaseTimeEntity {
     @Column(name = "ACCESS_CODE", nullable = false)
     private AccessCode accessCode;
 
+    @Column(name = "TIMER_DURATION", nullable = true)
+    private Long timerDuration;
+
     public PairRoom(final Pair pair, final AccessCode accessCode) {
         this.pair = pair;
         this.accessCode = accessCode;
@@ -47,6 +50,7 @@ public class PairRoom extends BaseTimeEntity {
                 "id=" + id +
                 ", pair=" + pair +
                 ", accessCode=" + accessCode +
+                ", timerDuration=" + timerDuration +
                 '}';
     }
 }
