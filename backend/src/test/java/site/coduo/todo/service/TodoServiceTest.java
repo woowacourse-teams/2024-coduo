@@ -62,6 +62,7 @@ class TodoServiceTest {
         assertSoftly(softAssertions -> {
             softAssertions.assertThat(savedTodo.getPairRoom().getId()).isEqualTo(pairRoomId);
             softAssertions.assertThat(savedTodo.getContent().getContent()).isEqualTo(content);
+            softAssertions.assertThat(savedTodo.getIsChecked().isChecked()).isFalse();
         });
     }
 
