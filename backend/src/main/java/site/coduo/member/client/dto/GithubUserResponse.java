@@ -1,9 +1,14 @@
 package site.coduo.member.client.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import site.coduo.member.domain.Member;
 import site.coduo.member.infrastructure.http.Bearer;
 
-public record GithubUserResponse(String userId, String longin, String avatarUrl) {
+public record GithubUserResponse(@JsonProperty(value = "user_id") String userId,
+                                 @JsonProperty(value = "login") String longin,
+                                 @JsonProperty(value = "avatar_url") String avatarUrl
+) {
 
     public Member toDomain(final Bearer accessToken, final String username) {
         return Member.builder()
