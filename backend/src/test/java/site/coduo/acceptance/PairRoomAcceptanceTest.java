@@ -12,6 +12,21 @@ import site.coduo.pairroom.dto.PairRoomCreateResponse;
 @Transactional
 class PairRoomAcceptanceTest extends AcceptanceFixture {
 
+    static PairRoomCreateResponse createPairRoom(final PairRoomCreateRequest pairRoom) {
+        return RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .body(pairRoom)
+
+                .when()
+                .post("/api/pair-room")
+
+                .then()
+                .extract()
+                .as(PairRoomCreateResponse.class);
+    }
+
     @Test
     @DisplayName("페어룸 요청 시 정보를 반환한다.")
     void show_pair_room() {
@@ -67,26 +82,11 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .contentType("application/json")
 
                 .when()
-                .delete("/pair-room/" + "zzzzzz")
+                .delete("/api/pair-room/" + "zzzzzz")
 
                 .then()
                 .log()
                 .all()
                 .statusCode(404);
-    }
-
-    static PairRoomCreateResponse createPairRoom(final PairRoomCreateRequest pairRoom) {
-        return RestAssured
-                .given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .accept(MediaType.APPLICATION_JSON_VALUE)
-                .body(pairRoom)
-
-                .when()
-                .post("/api/pair-room")
-
-                .then()
-                .extract()
-                .as(PairRoomCreateResponse.class);
     }
 }
