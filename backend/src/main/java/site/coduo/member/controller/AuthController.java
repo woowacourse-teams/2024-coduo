@@ -62,12 +62,12 @@ public class AuthController {
                                        final HttpServletRequest httpRequest,
                                        @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME, required = false) final String accessToken
     ) {
-        log.info("-----회원가입 시작-----");
-        log.info("회원 가입 쿠키 불러오나? -> {}", httpRequest.getCookies().length);
-        log.info("회원 가입 엑세스 토큰 -> {}", accessToken);
+        log.warn("-----회원가입 시작-----");
+        log.warn("회원 가입 쿠키 불러오나? -> {}", httpRequest.getCookies().length);
+        log.warn("회원 가입 엑세스 토큰 -> {}", accessToken);
         memberService.createMember(request.username(), accessToken);
 
-        log.info("-----회원가입 종료-----");
+        log.warn("-----회원가입 종료-----");
         return ResponseEntity.status(HttpStatus.FOUND)
                 .header(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
                 .location(URI.create("/api/sign-in/callback"))
@@ -81,9 +81,9 @@ public class AuthController {
             final HttpSession session
     ) {
 
-        log.info("------로그인 시작------");
-        log.info("로그인에서 엑세스 토큰: {}", accessToken);
-        log.info("로그인 과정에서 쿠키: {}", request.getCookies().length);
+        log.warn("------로그인 시작------");
+        log.warn("로그인에서 엑세스 토큰: {}", accessToken);
+        log.warn("로그인 과정에서 쿠키: {}", request.getCookies().length);
         Arrays.stream(request.getCookies())
                 .forEach(cookie -> log.info("쿠키 이름: {}, 값: {}", cookie.getName(),
                         cookie.getAttribute(cookie.getName())));
@@ -101,7 +101,7 @@ public class AuthController {
                 .path("/")
                 .build();
 
-        log.info("------로그인 종료------");
+        log.warn("------로그인 종료------");
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
