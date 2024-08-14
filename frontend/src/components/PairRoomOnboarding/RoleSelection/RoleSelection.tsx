@@ -21,23 +21,23 @@ const RoleSelection = ({ firstPair, secondPair, onNext }: RoleSettingSectionProp
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
 
-  const handleRole = (driver: string, navigator: string) => {
-    setDriver(driver);
-    setNavigator(navigator);
-  };
-
   useEffect(() => {
-    if (firstPair !== '' && secondPair !== '') handleRole(firstPair, secondPair);
+    if (firstPair && secondPair) {
+      setDriver(firstPair);
+      setNavigator(secondPair);
+    }
   }, [firstPair, secondPair]);
 
-  const handleRoleSelect = (name: string, role: Role) => {
+  const handleRole = (name: string, role: Role) => {
     const otherPair = firstPair === name ? secondPair : firstPair;
     switch (role) {
       case 'DRIVER':
-        handleRole(name, otherPair);
+        setDriver(name);
+        setNavigator(otherPair);
         return;
       case 'NAVIGATOR':
-        handleRole(otherPair, name);
+        setDriver(otherPair);
+        setNavigator(name);
         return;
     }
   };
@@ -60,7 +60,7 @@ const RoleSelection = ({ firstPair, secondPair, onNext }: RoleSettingSectionProp
               placeholder={'이름을 선택해주세요.'}
               options={[firstPair, secondPair]}
               selected={driver}
-              onSelect={(name) => handleRoleSelect(name, 'DRIVER')}
+              onSelect={(name) => handleRole(name, 'DRIVER')}
             />
           </S.DropdownWrapper>
           <S.DropdownWrapper>
@@ -69,7 +69,7 @@ const RoleSelection = ({ firstPair, secondPair, onNext }: RoleSettingSectionProp
               placeholder={'이름을 선택해주세요.'}
               options={[firstPair, secondPair]}
               selected={navigator}
-              onSelect={(name) => handleRoleSelect(name, 'NAVIGATOR')}
+              onSelect={(name) => handleRole(name, 'NAVIGATOR')}
             />
           </S.DropdownWrapper>
         </S.DropdownContainer>

@@ -24,17 +24,23 @@ interface TimerSettingSectionProps {
 
 const TimerSelection = ({ onPrev, onNext }: TimerSettingSectionProps) => {
   const [timer, setTimer] = useState('');
-  const [isSelf, setIsSelf] = useState(false);
+  const [isCustom, setIsCustom] = useState(false);
 
-  const handleOption = (option: string) => {
-    if (isSelf) setIsSelf(false);
+  const handleIsCustomTime = () => {
+    if (!isCustom) setIsCustom(true);
+    setTimer('');
+  };
+
+  const handleOptionTime = (option: string) => {
+    if (isCustom) setIsCustom(false);
     setTimer(option);
   };
 
-  const handleIsSelf = () => {
-    if (!isSelf) setIsSelf(true);
-    setTimer('');
+  const handleCustomTime = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTimer(event.target.value);
   };
+
+  const isNextDisabled = timer === '' || (isCustom && !validateTime(timer));
 
   return (
     <S.Layout>
@@ -54,16 +60,16 @@ const TimerSelection = ({ onPrev, onNext }: TimerSettingSectionProps) => {
               color="primary"
               size="md"
               filled={timer === option.value}
-              onClick={() => handleOption(option.value)}
+              onClick={() => handleOptionTime(option.value)}
             >
               {option.label}
             </Button>
           ))}
           <S.InputContainer>
-            <Button key="직접 설정" color="primary" size="md" filled={isSelf} onClick={handleIsSelf}>
+            <Button key="직접 설정" color="primary" size="md" filled={isCustom} onClick={handleIsCustomTime}>
               직접 설정
             </Button>
-            {isSelf && (
+            {isCustom && (
               <Input
                 width="16rem"
                 $css={S.inputStyles}
@@ -71,8 +77,8 @@ const TimerSelection = ({ onPrev, onNext }: TimerSettingSectionProps) => {
                 placeholder="타이머 시간 (분)"
                 status={!validateTime(timer) ? 'ERROR' : 'DEFAULT'}
                 message={!validateTime(timer) ? '0 이상의 숫자를 입력해 주세요.' : ''}
-                disabled={!isSelf}
-                onChange={(event) => setTimer(event.target.value)}
+                disabled={!isCustom}
+                onChange={handleCustomTime}
               />
             )}
           </S.InputContainer>
@@ -80,7 +86,7 @@ const TimerSelection = ({ onPrev, onNext }: TimerSettingSectionProps) => {
       </S.Container>
       <Modal.Footer position="CENTER">
         <Button onClick={onPrev}>{BUTTON_TEXT.BACK}</Button>
-        <Button onClick={() => onNext(timer)} disabled={timer === ''}>
+        <Button onClick={() => onNext(timer)} disabled={isNextDisabled}>
           {BUTTON_TEXT.COMPLETE}
         </Button>
       </Modal.Footer>
