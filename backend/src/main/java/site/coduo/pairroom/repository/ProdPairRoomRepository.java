@@ -11,15 +11,15 @@ import site.coduo.pairroom.domain.PairRoom;
 @Repository
 public class ProdPairRoomRepository implements site.coduo.pairroom.service.port.PairRoomRepository {
 
-    private final PairRoomRepository pairRoomRepository;
+    private final PairRoomRepository pairRoomJpaRepository;
 
     @Override
     public Optional<PairRoom> findById(final Long id) {
-        return pairRoomRepository.findById(id);
+        return pairRoomJpaRepository.findById(id);
     }
 
     @Override
     public PairRoom save(final PairRoom pairRoom) {
-        return pairRoomRepository.save(pairRoom);
+        return pairRoomJpaRepository.save(pairRoom);
     }
 }

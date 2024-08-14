@@ -12,4 +12,6 @@ public interface TodoRepository {
     Optional<Todo> findTopByPairRoomOrderBySortDesc(PairRoom pairRoom);
 
     Optional<Todo> findById(Long id);
+
+    void deleteById(Long id);
 }

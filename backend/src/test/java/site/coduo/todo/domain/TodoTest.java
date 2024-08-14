@@ -83,4 +83,28 @@ class TodoTest {
             softAssertions.assertThat(updatedTodo.getContent().getContent()).isEqualTo(newContent);
         });
     }
+
+    @DisplayName("투두 체크 상태 토글 요청이 오면 토글된 체크 상태를 가지는 Todo 객체를 반환한다.")
+    @Test
+    void toggleTodoChecked() {
+        // Given
+        final Long id = 1L;
+        final PairRoom pairRoom = new PairRoom(
+                new Pair(new PairName("A"), new PairName("B")),
+                new AccessCode("ACCESS-CODE")
+        );
+        final String content = "content!";
+        final int sort = 2048;
+        final boolean isChecked = false;
+        final Todo todo = new Todo(id, pairRoom, content, sort, isChecked);
+
+        // When
+        final Todo updated = todo.toggleTodoChecked();
+
+        // Then
+        assertSoftly(softAssertions -> {
+            softAssertions.assertThat(updated).isNotNull();
+            softAssertions.assertThat(updated.getIsChecked().isChecked()).isTrue();
+        });
+    }
 }

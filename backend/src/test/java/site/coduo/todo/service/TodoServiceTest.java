@@ -134,4 +134,53 @@ class TodoServiceTest {
                 .isInstanceOf(TodoNotFoundException.class)
                 .hasMessage("존재하지 않은 todo id입니다." + todoId);
     }
+
+    @DisplayName("투두 id가 입력되면 해당 아이디의 투두를 찾아 체크 상태를 토글후 저장한다.")
+    @Test
+    void toggleTodoChecked() {
+        // Given
+        final PairRoom pairRoom = new PairRoom(
+                new Pair(new PairName("A"), new PairName("B")),
+                new AccessCode("ACCESS-CODE")
+        );
+        final String content = "content!";
+        final int sort = 2048;
+        final boolean isChecked = false;
+        final Todo todo = new Todo(1L, pairRoom, content, sort, isChecked);
+        todoRepository.save(todo);
+
+        final Long todoId = 1L;
+
+        // When
+        todoService.toggleTodoChecked(todoId);
+
+        // Then
+        final Optional<Todo> findUpdatedTodo = todoRepository.findById(1L);
+        assertThat(findUpdatedTodo).isPresent();
+
+        final Todo updatedTodo = findUpdatedTodo.get();
+        assertThat(updatedTodo.getIsChecked().isChecked()).isTrue();
+    }
+
+    @DisplayName("존재하지 않은 투두 id와 함께 토글 요청이 들어오면 예외를 발생시킨다.")
+    @Test
+    void toggleTodoCheckedWithNotFoundTodoId() {
+        // Given
+        final PairRoom pairRoom = new PairRoom(
+                new Pair(new PairName("A"), new PairName("B")),
+                new AccessCode("ACCESS-CODE")
+        );
+        final String content = "content!";
+        final int sort = 2048;
+        final boolean isChecked = false;
+        final Todo todo = new Todo(1L, pairRoom, content, sort, isChecked);
+        todoRepository.save(todo);
+
+        final Long todoId = 12323L;
+
+        // When & Then
+        assertThatThrownBy(() -> todoService.toggleTodoChecked(todoId))
+                .isInstanceOf(TodoNotFoundException.class)
+                .hasMessage("존재하지 않은 todo id입니다." + todoId);
+    }
 }

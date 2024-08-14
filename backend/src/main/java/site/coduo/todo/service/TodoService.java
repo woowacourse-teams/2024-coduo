@@ -44,4 +44,11 @@ public class TodoService {
         final Todo updatedTodo = todo.updateContent(content);
         todoRepository.save(updatedTodo);
     }
+
+    public void toggleTodoChecked(final Long todoId) {
+        final Todo todo = todoRepository.findById(todoId)
+                .orElseThrow(() -> new TodoNotFoundException("존재하지 않은 todo id입니다." + todoId));
+        final Todo updatedTodo = todo.toggleTodoChecked();
+        todoRepository.save(updatedTodo);
+    }
 }

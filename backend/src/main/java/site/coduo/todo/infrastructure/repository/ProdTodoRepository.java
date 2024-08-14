@@ -33,4 +33,9 @@ public class ProdTodoRepository implements TodoRepository {
         return todoJpaRepository.findById(id)
                 .map(TodoEntity::toDomain);
     }
+
+    @Override
+    public void deleteById(final Long id) {
+        todoJpaRepository.deleteById(id);
+    }
 }

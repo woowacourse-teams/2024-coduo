@@ -10,4 +10,8 @@ public class TodoChecked {
     public TodoChecked(final boolean isChecked) {
         this.isChecked = isChecked;
     }
+
+    public TodoChecked toggle() {
+        return new TodoChecked(!isChecked);
+    }
 }

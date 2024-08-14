@@ -60,4 +60,14 @@ public class Todo {
                 this.getIsChecked()
         );
     }
+
+    public Todo toggleTodoChecked() {
+        return new Todo(
+                this.id,
+                this.getPairRoom(),
+                this.getContent(),
+                this.getSort(),
+                this.getIsChecked().toggle()
+        );
+    }
 }
