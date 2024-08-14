@@ -8,6 +8,8 @@ import site.coduo.referencelink.exception.InvalidCategoryException;
 @Getter
 public class Category {
 
+    private static final int CATEGORY_NAME_MAX_LENGTH = 15;
+
     private final String value;
 
     public Category(final String value) {
@@ -16,8 +18,8 @@ public class Category {
     }
 
     private void validate(final String value) {
-        if (value.length() > 15) {
-            throw new InvalidCategoryException("카테고리 길이는 15자 이하여야 합니다.");
+        if (value.length() > CATEGORY_NAME_MAX_LENGTH) {
+            throw new InvalidCategoryException("카테고리 길이는 " + CATEGORY_NAME_MAX_LENGTH + "자 이하여야 합니다.");
         }
     }
 
