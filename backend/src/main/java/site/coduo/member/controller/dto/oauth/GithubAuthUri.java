@@ -11,7 +11,7 @@ public record GithubAuthUri(GithubAuthQuery query) {
         return toUri().toString();
     }
 
-    private URI toUri() {
+    public URI toUri() {
         return UriComponentsBuilder.fromHttpUrl(GITHUB_AUTH_END_POINT)
                 .queryParams(query.toQueryParams())
                 .build()

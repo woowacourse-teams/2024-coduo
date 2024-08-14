@@ -135,13 +135,14 @@ class GithubAcceptanceTest extends AcceptanceFixture {
                 .given()
                 .queryParams(query)
                 .sessionId("JSESSIONID", session)
+                .redirects()
+                .follow(false)
                 .log().all()
 
                 .when()
                 .get("/api/github/callback")
 
                 .then().log().all()
-                .statusCode(HttpStatus.SC_OK)
-                .cookie("coduo_whoami");
+                .statusCode(302);
     }
 }

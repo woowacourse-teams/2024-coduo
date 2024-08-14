@@ -11,7 +11,6 @@ import org.springframework.web.client.RestClient;
 import site.coduo.member.client.dto.TokenRequest;
 import site.coduo.member.client.dto.TokenResponse;
 import site.coduo.member.infrastructure.http.Basic;
-import site.coduo.member.infrastructure.http.Bearer;
 
 @Component
 public class GithubOAuthClient {
@@ -44,15 +43,14 @@ public class GithubOAuthClient {
 
     public TokenResponse grant(final TokenRequest request) {
 
-        String body = client.post()
+        return client.post()
                 .uri("/login/oauth/access_token")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .accept(MediaType.APPLICATION_JSON)
                 .header(HttpHeaders.AUTHORIZATION, new Basic(oAuthClientId, oAuthClientSecret).getValue())
                 .body(request.toQueryParams())
                 .retrieve()
-                .body(String.class);
-
-        return new TokenResponse(new Bearer(body), "scope", "tokenType");
+                .body(TokenResponse.class);
     }
 
     public String getOAuthClientId() {

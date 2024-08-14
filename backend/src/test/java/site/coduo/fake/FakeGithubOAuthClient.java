@@ -13,7 +13,7 @@ public class FakeGithubOAuthClient extends GithubOAuthClient {
 
     @Override
     public TokenResponse grant(TokenRequest request) {
-        return new TokenResponse(ACCESS_TOKEN, "", Bearer.SCHEME);
+        return new TokenResponse(ACCESS_TOKEN.getCredential(), "", Bearer.SCHEME);
     }
 
     @Override

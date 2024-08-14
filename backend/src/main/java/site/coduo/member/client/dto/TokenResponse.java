@@ -1,11 +1,9 @@
 package site.coduo.member.client.dto;
 
-import site.coduo.member.infrastructure.http.Bearer;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record TokenResponse(Bearer accessToken, String scope, String tokenType) {
-
-    public String getCredential() {
-        return accessToken.getCredential();
-    }
-
+public record TokenResponse(@JsonProperty(value = "access_token") String accessToken,
+                            @JsonProperty(value = "scope") String scope,
+                            @JsonProperty(value = "token_type") String tokenType
+) {
 }

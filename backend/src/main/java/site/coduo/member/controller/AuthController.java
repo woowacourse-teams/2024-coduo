@@ -5,8 +5,6 @@ import static site.coduo.member.controller.GithubOAuthController.ACCESS_TOKEN_SE
 import java.net.URI;
 import java.time.Duration;
 
-import jakarta.servlet.http.HttpSession;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -20,18 +18,19 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import lombok.RequiredArgsConstructor;
-import site.coduo.member.controller.docs.AuthControllerDocs;
+import lombok.extern.slf4j.Slf4j;
 import site.coduo.member.controller.dto.member.SignInWebResponse;
 import site.coduo.member.controller.dto.member.SignUpRequest;
 import site.coduo.member.service.AuthService;
 import site.coduo.member.service.MemberService;
 import site.coduo.member.service.dto.SignInServiceResponse;
 
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api")
-@CrossOrigin(value = {"https://coduo.site", "http://localhost:3000" })
+@CrossOrigin(origins = {"https://coduo.site", "http://localhost:3000", "http://localhost:8080" })
 @RestController
-public class AuthController implements AuthControllerDocs {
+public class AuthController {
 
     private static final String SIGN_IN_COOKIE_NAME = "coduo_whoami";
     private static final String SERVICE_DOMAIN_NAME = "coduo.site";
@@ -49,26 +48,28 @@ public class AuthController implements AuthControllerDocs {
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, expireCookie.toString())
+                .header(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
                 .build();
     }
 
     @PostMapping("/sign-up")
     public ResponseEntity<Void> signUp(@RequestBody final SignUpRequest request,
-                                       @SessionAttribute(value = ACCESS_TOKEN_SESSION_NAME) final String accessToken) {
+                                       @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME, required = false) final String accessToken
+    ) {
         memberService.createMember(request.username(), accessToken);
 
         return ResponseEntity.status(HttpStatus.FOUND)
+                .header(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
                 .location(URI.create("/api/sign-in/callback"))
                 .build();
     }
 
     @GetMapping("/sign-in/callback")
     public ResponseEntity<SignInWebResponse> signInCallback(
-            @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME) final String accessToken,
-            final HttpSession session) {
-        final SignInServiceResponse serviceResponse = authService.createSignInToken(accessToken);
+            @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME) final String accessToken
+    ) {
 
-        session.invalidate();
+        final SignInServiceResponse serviceResponse = authService.createSignInToken(accessToken);
 
         final ResponseCookie cookie = ResponseCookie.from(SIGN_IN_COOKIE_NAME)
                 .value(serviceResponse.token())
@@ -80,6 +81,7 @@ public class AuthController implements AuthControllerDocs {
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .header(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
                 .body(SignInWebResponse.of(serviceResponse));
     }
 }
