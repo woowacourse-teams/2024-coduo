@@ -5,7 +5,7 @@ import { ERROR_MESSAGES } from '@/constants/message';
 const API_URL = process.env.REACT_APP_API_URL;
 
 export interface SignInGithubResponse {
-  signedIn: boolean;
+  endpoint: string;
 }
 
 export const getSignInGithub = async (): Promise<SignInGithubResponse> => {
@@ -19,9 +19,22 @@ export const getSignInGithub = async (): Promise<SignInGithubResponse> => {
 
 export const addSignUpGithub = async (username: string): Promise<void> => {
   const response = await fetcher.post({
-    url: `${API_URL}/sign-up/oauth/github`,
+    url: `${API_URL}/sign-up`,
     body: JSON.stringify({ username }),
     errorMessage: ERROR_MESSAGES.SIGN_UP,
+  });
+
+  return await response.json();
+};
+
+export interface SignInCallbackResponse {
+  signedUp: boolean;
+}
+
+export const getSignInCallback = async (): Promise<SignInCallbackResponse> => {
+  const response = await fetcher.get({
+    url: `${API_URL}/sign-in/callback`,
+    errorMessage: ERROR_MESSAGES.SIGN_IN,
   });
 
   return await response.json();
