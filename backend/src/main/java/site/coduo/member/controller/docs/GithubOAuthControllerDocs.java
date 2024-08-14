@@ -19,5 +19,5 @@ public interface GithubOAuthControllerDocs {
     @ApiResponse(responseCode = "401", description = "인증 실패",
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = ApiErrorResponse.class)))
-    ResponseEntity<Void> getGithubAuthCode(HttpSession session);
+    ResponseEntity<Void> getGithubAuthCode(HttpSession session, String origin);
 }
