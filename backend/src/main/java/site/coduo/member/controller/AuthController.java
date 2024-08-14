@@ -5,6 +5,7 @@ import static site.coduo.member.controller.GithubOAuthController.ACCESS_TOKEN_SE
 import java.net.URI;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Iterator;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -29,8 +31,9 @@ import site.coduo.member.service.MemberService;
 import site.coduo.member.service.dto.SignInServiceResponse;
 
 @Slf4j
+@RequestMapping("/api")
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"https://coduo.site", "http://localhost:3000", "http://localhost:8080" })
+@CrossOrigin(origins = {"https://coduo.site", "http://localhost:3000", "http://localhost:8080"})
 @RestController
 public class AuthController {
 
@@ -84,8 +87,9 @@ public class AuthController {
         Arrays.stream(request.getCookies())
                 .forEach(cookie -> log.info("쿠키 이름: {}, 값: {}", cookie.getName(),
                         cookie.getAttribute(cookie.getName())));
-        while (session.getAttributeNames().asIterator().hasNext()) {
-            final String sessionName = session.getAttributeNames().asIterator().next();
+        final Iterator<String> iterator = session.getAttributeNames().asIterator();
+        while (iterator.hasNext()) {
+            final String sessionName = iterator.next();
             log.info("session 이름: {}, 값 {}", sessionName, session.getAttribute(sessionName));
         }
         final SignInServiceResponse serviceResponse = authService.createSignInToken(accessToken);
