@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -207,5 +208,29 @@ class TodoServiceTest {
         // Then
         final Optional<Todo> findSavedTodo = todoRepository.findById(todoId);
         assertThat(findSavedTodo).isEmpty();
+    }
+
+    @DisplayName("저장된 모든 투두를 반환한다.")
+    @Test
+    void getAll() {
+        // Given
+        final PairRoom pairRoom = new PairRoom(
+                new Pair(new PairName("A"), new PairName("B")),
+                new AccessCode("ACCESS-CODE")
+        );
+        final Todo todo1 = new Todo(1L, pairRoom, "투두1!!", 1024, false);
+        final Todo todo2 = new Todo(2L, pairRoom, "투두2!!", 2048, false);
+        final Todo todo3 = new Todo(3L, pairRoom, "투두3!!", 3434, true);
+        final Todo todo4 = new Todo(4L, pairRoom, "투두4!!", 5555, false);
+        todoRepository.save(todo1);
+        todoRepository.save(todo2);
+        todoRepository.save(todo3);
+        todoRepository.save(todo4);
+
+        // When
+        final List<Todo> all = todoService.getAll();
+
+        // Then
+        assertThat(all).hasSize(4);
     }
 }

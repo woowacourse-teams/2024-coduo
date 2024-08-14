@@ -1,5 +1,6 @@
 package site.coduo.todo.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -22,6 +23,10 @@ public class TodoService {
 
     private final PairRoomRepository pairRoomRepository;
     private final TodoRepository todoRepository;
+
+    public List<Todo> getAll() {
+        return todoRepository.findAll();
+    }
 
     public void createTodo(final Long pairRoomId, final String content) {
         final PairRoom pairRoom = pairRoomRepository.findById(pairRoomId)

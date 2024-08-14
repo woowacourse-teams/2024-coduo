@@ -1,5 +1,6 @@
 package site.coduo.todo.service.port;
 
+import java.util.List;
 import java.util.Optional;
 
 import site.coduo.pairroom.domain.PairRoom;
@@ -7,11 +8,13 @@ import site.coduo.todo.domain.Todo;
 
 public interface TodoRepository {
 
-    Todo save(Todo todo);
+    List<Todo> findAll();
+
+    Optional<Todo> findById(Long id);
 
     Optional<Todo> findTopByPairRoomOrderBySortDesc(PairRoom pairRoom);
 
-    Optional<Todo> findById(Long id);
+    Todo save(Todo todo);
 
     void deleteById(Long id);
 }

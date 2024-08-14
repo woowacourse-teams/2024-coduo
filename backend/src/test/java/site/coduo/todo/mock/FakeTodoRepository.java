@@ -50,4 +50,9 @@ public class FakeTodoRepository implements TodoRepository {
     public void deleteById(final Long id) {
         data.removeIf(item -> Objects.equals(item.getId(), id));
     }
+
+    @Override
+    public List<Todo> findAll() {
+        return new ArrayList<>(this.data);
+    }
 }

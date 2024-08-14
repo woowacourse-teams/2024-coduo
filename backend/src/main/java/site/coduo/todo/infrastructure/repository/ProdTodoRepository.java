@@ -1,5 +1,6 @@
 package site.coduo.todo.infrastructure.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,14 @@ import site.coduo.todo.service.port.TodoRepository;
 public class ProdTodoRepository implements TodoRepository {
 
     private final TodoJpaRepository todoJpaRepository;
+
+    @Override
+    public List<Todo> findAll() {
+        return todoJpaRepository.findAll()
+                .stream()
+                .map(TodoEntity::toDomain)
+                .toList();
+    }
 
     @Override
     public Todo save(final Todo todo) {
