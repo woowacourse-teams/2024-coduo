@@ -8,11 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
-import site.coduo.pairroom.exception.AccessCodeNotFoundException;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.OpenGraph;
 import site.coduo.referencelink.domain.ReferenceLink;
 import site.coduo.referencelink.domain.Url;
+import site.coduo.referencelink.repository.CategoryEntity;
+import site.coduo.referencelink.repository.CategoryRepository;
 import site.coduo.referencelink.repository.ReferenceLinkEntity;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
@@ -25,17 +26,19 @@ public class ReferenceLinkService {
 
     private final ReferenceLinkRepository referenceLinkRepository;
     private final PairRoomRepository pairRoomRepository;
+    private final CategoryRepository categoryRepository;
     private final OpenGraphService openGraphService;
 
     @Transactional
     public void createReferenceLinkCommand(final String accessCodeText, final ReferenceLinkCreateRequest request) {
         final AccessCode accessCode = new AccessCode(accessCodeText);
-        final PairRoom pairRoom = pairRoomRepository.findByAccessCode(accessCode)
-                .orElseThrow(() -> new AccessCodeNotFoundException("찾을 수 없는 엑세스 코드입니다."));
+        final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(accessCode);
         final ReferenceLink referenceLink = new ReferenceLink(new Url(request.url()), accessCode);
 
+        final CategoryEntity categoryEntity = categoryRepository.fetchById(request.categoryId());
+
         final ReferenceLinkEntity referenceLinkEntity = referenceLinkRepository.save(
-                new ReferenceLinkEntity(referenceLink, pairRoom));
+                new ReferenceLinkEntity(referenceLink, categoryEntity, pairRoom));
         openGraphService.createOpenGraphCommand(referenceLinkEntity);
     }
 

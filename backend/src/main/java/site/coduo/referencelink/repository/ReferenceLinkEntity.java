@@ -33,12 +33,18 @@ public class ReferenceLinkEntity extends BaseTimeEntity {
     @Column(name = "URL", nullable = false)
     private String url;
 
-    @JoinColumn(name = "PAIR_ROOM_ID", referencedColumnName = "ID")
+    @ManyToOne
+    @JoinColumn(name = "CATEGORY_ID")
+    private CategoryEntity categoryEntity;
+
+    @JoinColumn(name = "PAIR_ROOM_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne
     private PairRoom pairRoom;
 
-    public ReferenceLinkEntity(final ReferenceLink referenceLink, final PairRoom pairRoom) {
+    public ReferenceLinkEntity(final ReferenceLink referenceLink, final CategoryEntity categoryEntity,
+                               final PairRoom pairRoom) {
         this.url = referenceLink.getUrlText();
+        this.categoryEntity = categoryEntity;
         this.pairRoom = pairRoom;
     }
 
