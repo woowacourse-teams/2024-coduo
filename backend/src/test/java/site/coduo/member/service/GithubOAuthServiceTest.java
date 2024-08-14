@@ -48,6 +48,6 @@ class GithubOAuthServiceTest {
         final TokenResponse tokenResponse = githubOAuthService.invokeOAuthCallback(code);
 
         // then
-        assertThat(tokenResponse.accessToken()).isEqualTo(FakeGithubOAuthClient.ACCESS_TOKEN);
+        assertThat(tokenResponse.accessToken()).isEqualTo(FakeGithubOAuthClient.ACCESS_TOKEN.getCredential());
     }
 }

@@ -1,5 +1,7 @@
 package site.coduo.acceptance;
 
+import java.util.Map;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -17,6 +19,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     void show_pair_room() {
         //given
         final PairRoomCreateResponse pairRoomUrl = createPairRoom(new PairRoomCreateRequest("레디", "프람"));
+        createTimerDuration(pairRoomUrl.accessCode(), 600000);
 
         //when & then
         RestAssured
@@ -32,6 +35,30 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .log()
                 .all()
                 .statusCode(200);
+    }
+
+    @Test
+    @DisplayName("타이머 시간을 저장한다.")
+    void save_timer_duration() {
+        // given
+        final PairRoomCreateResponse pairRoomUrl = createPairRoom(new PairRoomCreateRequest("레디", "프람"));
+        final Map<String, Object> request = Map.of("timerDuration", 600000);
+
+        // when & then
+        RestAssured
+                .given()
+                .log()
+                .all()
+                .contentType("application/json")
+                .body(request)
+
+                .when()
+                .post("/api/pair-room/{accessCode}/info", pairRoomUrl.accessCode())
+
+                .then()
+                .log()
+                .all()
+                .statusCode(201);
     }
 
     @Test
@@ -88,5 +115,24 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .then()
                 .extract()
                 .as(PairRoomCreateResponse.class);
+    }
+
+    static void createTimerDuration(final String accessCode, final long timerDuration) {
+        final Map<String, Object> request = Map.of("timerDuration", timerDuration);
+
+        RestAssured
+                .given()
+                .log()
+                .all()
+                .contentType("application/json")
+                .body(request)
+
+                .when()
+                .post("/api/pair-room/{accessCode}/info", accessCode)
+
+                .then()
+                .log()
+                .all()
+                .statusCode(201);
     }
 }

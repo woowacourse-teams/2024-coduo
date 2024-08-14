@@ -18,19 +18,19 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.coduo.member.client.dto.TokenResponse;
-import site.coduo.member.controller.docs.GithubOAuthControllerDocs;
 import site.coduo.member.controller.dto.oauth.GithubAuthQuery;
 import site.coduo.member.controller.dto.oauth.GithubAuthUri;
 import site.coduo.member.controller.dto.oauth.GithubCallbackQuery;
+import site.coduo.member.controller.dto.oauth.GithubOAuthEndpoint;
 import site.coduo.member.controller.dto.oauth.State;
 import site.coduo.member.service.GithubOAuthService;
 
 @Slf4j
 @RequiredArgsConstructor
-@CrossOrigin(value = {"https://coduo.site", "http://localhost:3000" })
+@CrossOrigin(origins = {"https://coduo.site", "http://localhost:3000", "http://127.0.0.1:3000" })
 @RequestMapping("/api")
 @RestController
-public class GithubOAuthController implements GithubOAuthControllerDocs {
+public class GithubOAuthController {
 
     public static final String ACCESS_TOKEN_SESSION_NAME = "access token";
 
@@ -41,35 +41,31 @@ public class GithubOAuthController implements GithubOAuthControllerDocs {
     private final GithubOAuthService githubOAuthService;
 
     @GetMapping("/sign-in/oauth/github")
-    public ResponseEntity<Void> getGithubAuthCode(final HttpSession session,
-                                                  @RequestHeader(name = HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, required = false) final String origin) {
+    public ResponseEntity<GithubOAuthEndpoint> getGithubAuthCode(final HttpSession session) {
         final GithubAuthQuery query = githubOAuthService.createAuthorizationContent();
         final GithubAuthUri githubAuthUri = new GithubAuthUri(query);
-
         session.setAttribute(STATE_SESSION_NAME, query.state());
         session.setMaxInactiveInterval(STATE_SESSION_EXPIRE_IN);
-
-        return ResponseEntity.status(HttpStatus.FOUND)
-                .location(githubAuthUri.toUri())
-                .header(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, origin)
-                .build();
+        return ResponseEntity.ok()
+                .header(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
+                .body(new GithubOAuthEndpoint(githubAuthUri.toPlainText()));
     }
 
     @GetMapping("/github/callback")
     public ResponseEntity<Void> getAccessToken(@ModelAttribute final GithubCallbackQuery query,
                                                @SessionAttribute(name = STATE_SESSION_NAME) final String state,
                                                final HttpSession session) {
-
         State savedState = new State(state);
         savedState.validate(new State(query.state()));
         final TokenResponse tokenResponse = githubOAuthService.invokeOAuthCallback(query.code());
 
         session.removeAttribute(STATE_SESSION_NAME);
-        session.setAttribute(ACCESS_TOKEN_SESSION_NAME, tokenResponse.getCredential());
+        session.setAttribute(ACCESS_TOKEN_SESSION_NAME, tokenResponse.accessToken());
         session.setMaxInactiveInterval(ACCESS_TOKEN_EXPIRE_IN);
 
         return ResponseEntity.status(HttpStatus.FOUND)
-                .location(URI.create("/api/sign-in/callback"))
+                .header(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
+                .location(URI.create("https://coduo.site/callback"))
                 .build();
     }
 }
