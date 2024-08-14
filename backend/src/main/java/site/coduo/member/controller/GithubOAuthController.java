@@ -4,11 +4,13 @@ import java.net.URI;
 
 import jakarta.servlet.http.HttpSession;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -39,7 +41,8 @@ public class GithubOAuthController implements GithubOAuthControllerDocs {
     private final GithubOAuthService githubOAuthService;
 
     @GetMapping("/sign-in/oauth/github")
-    public ResponseEntity<Void> getGithubAuthCode(final HttpSession session) {
+    public ResponseEntity<Void> getGithubAuthCode(final HttpSession session,
+                                                  @RequestHeader(name = HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, required = false) final String origin) {
         final GithubAuthQuery query = githubOAuthService.createAuthorizationContent();
         final GithubAuthUri githubAuthUri = new GithubAuthUri(query);
 
@@ -48,6 +51,7 @@ public class GithubOAuthController implements GithubOAuthControllerDocs {
 
         return ResponseEntity.status(HttpStatus.FOUND)
                 .location(githubAuthUri.toUri())
+                .header(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, origin)
                 .build();
     }
 
