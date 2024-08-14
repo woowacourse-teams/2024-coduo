@@ -57,4 +57,30 @@ class TodoTest {
                 .isInstanceOf(InvalidTodoArgumentException.class)
                 .hasMessage("Pair Room 정보로 null을 입력할 수 없습니다.");
     }
+
+    @DisplayName("새로운 content가 입력되면 해당 content를 가진 Todo 객체를 반환한다.")
+    @Test
+    void updateContent() {
+        // Given
+        final Long id = 1L;
+        final PairRoom pairRoom = new PairRoom(
+                new Pair(new PairName("A"), new PairName("B")),
+                new AccessCode("ACCESS-CODE")
+        );
+        final String content = "content!";
+        final int sort = 2048;
+        final boolean isChecked = false;
+        final Todo todo = new Todo(id, pairRoom, content, sort, isChecked);
+
+        final String newContent = "이거슨 새로운 내용!";
+
+        // When
+        final Todo updatedTodo = todo.updateContent(newContent);
+
+        // Then
+        assertSoftly(softAssertions -> {
+            softAssertions.assertThat(updatedTodo).isNotNull();
+            softAssertions.assertThat(updatedTodo.getContent().getContent()).isEqualTo(newContent);
+        });
+    }
 }

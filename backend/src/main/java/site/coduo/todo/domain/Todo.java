@@ -50,4 +50,14 @@ public class Todo {
             throw new InvalidTodoArgumentException("Pair Room 정보로 null을 입력할 수 없습니다.");
         }
     }
+
+    public Todo updateContent(final String content) {
+        return new Todo(
+                this.id,
+                this.getPairRoom(),
+                new TodoContent(content),
+                this.getSort(),
+                this.getIsChecked()
+        );
+    }
 }

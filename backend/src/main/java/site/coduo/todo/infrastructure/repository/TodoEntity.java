@@ -26,7 +26,6 @@ public class TodoEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "PAIR_ROOM", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private PairRoom pairRoom;
 

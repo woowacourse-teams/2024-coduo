@@ -10,6 +10,7 @@ import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.service.port.PairRoomRepository;
 import site.coduo.todo.domain.Todo;
 import site.coduo.todo.domain.TodoSort;
+import site.coduo.todo.domain.exception.TodoNotFoundException;
 import site.coduo.todo.service.port.TodoRepository;
 
 @RequiredArgsConstructor
@@ -35,5 +36,12 @@ public class TodoService {
     private Optional<TodoSort> getLastTodoSort(final PairRoom pairRoom) {
         return todoRepository.findTopByPairRoomOrderBySortDesc(pairRoom)
                 .map(Todo::getSort);
+    }
+
+    public void updateTodoContent(final Long todoId, final String content) {
+        final Todo todo = todoRepository.findById(todoId)
+                .orElseThrow(() -> new TodoNotFoundException("존재하지 않은 todo id입니다." + todoId));
+        final Todo updatedTodo = todo.updateContent(content);
+        todoRepository.save(updatedTodo);
     }
 }
