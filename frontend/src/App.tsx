@@ -3,11 +3,13 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'styled-components';
 
+import PageNotFound from '@/pages/Error/PageNotFound';
 import HowToPair from '@/pages/HowToPair/HowToPair';
 import Layout from '@/pages/Layout';
 import Main from '@/pages/Main/Main';
 import PairRoom from '@/pages/PairRoom/PairRoom';
 import PairRoomOnboarding from '@/pages/PairRoomOnboarding/PairRoomOnboarding';
+import SignUp from '@/pages/SignUp/SignUp';
 
 import GlobalStyles from './styles/Global.style';
 import { theme } from './styles/theme';
@@ -19,6 +21,7 @@ const App = () => {
     {
       path: '/',
       element: <Layout />,
+      errorElement: <PageNotFound />,
       children: [
         {
           path: '',
@@ -35,6 +38,10 @@ const App = () => {
         {
           path: 'room/:accessCode/onboarding',
           element: <PairRoomOnboarding />,
+        },
+        {
+          path: 'sign-up',
+          element: <SignUp />,
         },
       ],
     },

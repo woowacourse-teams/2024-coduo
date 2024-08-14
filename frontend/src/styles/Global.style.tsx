@@ -6,8 +6,9 @@ const GlobalStyles = createGlobalStyle`
     - The "symbol *" part is to solve Firefox SVG sprite bug
     - The "html" element is excluded, otherwise a bug in Chrome breaks the CSS hyphens property (https://github.com/elad2412/the-new-css-reset/issues/36)
     */
-    *:where(:not(html, iframe, canvas, img, svg, video, audio):not(svg *, symbol *)) {
+    *:where(:not(html, iframe, canvas, img, svg, video, audio, svg *, symbol *)) {
         all: unset;
+
         display: revert;
     }
 
@@ -20,8 +21,6 @@ const GlobalStyles = createGlobalStyle`
 
     /* Fix mobile Safari increase font-size on landscape mode */
     html {
-        -moz-text-size-adjust: none;
-        -webkit-text-size-adjust: none;
         text-size-adjust: none;
     }
 
@@ -53,7 +52,7 @@ const GlobalStyles = createGlobalStyle`
     /* Safari - solving issue when using user-select:none on the <body> text input doesn't working */
     input,
     textarea {
-        -webkit-user-select: auto;
+        user-select: auto;
     }
 
     /* Revert the 'white-space' property for textarea elements on Safari */
@@ -63,7 +62,6 @@ const GlobalStyles = createGlobalStyle`
 
     /* Minimum style to allow to style meter element */
     meter {
-        -webkit-appearance: revert;
         appearance: revert;
     }
 
@@ -86,8 +84,8 @@ const GlobalStyles = createGlobalStyle`
         -moz-user-modify: read-write;
         -webkit-user-modify: read-write;
         overflow-wrap: break-word;
-        -webkit-line-break: after-white-space;
-        -webkit-user-select: auto;
+        line-break: after-white-space;
+        user-select: auto;
     }
 
     /* Apply back the draggable feature - exist only in Chromium and Safari */
@@ -109,13 +107,14 @@ const GlobalStyles = createGlobalStyle`
     /* Chrome, Safari, Edge, Opera */
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+    appearance: none;
+
     margin: 0;
     }
 
     /* Firefox  */
     input[type='number'] {
-    -moz-appearance: textfield;
+    appearance: textfield;
     }
 `;
 

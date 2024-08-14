@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import { FaRegPaste } from 'react-icons/fa6';
+import { FaRegPaste, FaCheck } from 'react-icons/fa6';
 
 import Button from '@/components/common/Button/Button';
 import { Modal } from '@/components/common/Modal';
@@ -21,17 +21,16 @@ const PairRoomCreateComplete = ({ accessCode, closeModal }: PairRoomCreateComple
 
   const handleCopyClipBoard = (text: string) => {
     onCopy(text);
-    console.log(isCopy); // TODO: 토스트 알림 로직 추가 필요
   };
+
   return (
     <>
+      <Modal.Header title="페어룸 만들기 완료" subTitle="아래의 코드를 통해 계속 방에 참가하실 수 있습니다!" />
       <S.ModalBodyWrapper>
         <Modal.Body>
           <S.Content onClick={() => handleCopyClipBoard(accessCode)}>
             <S.PairRoomCode>{accessCode}</S.PairRoomCode>
-            <S.IconBox>
-              <FaRegPaste size={'1.8rem'} />
-            </S.IconBox>
+            <S.IconBox>{isCopy ? <FaCheck size={'1.8rem'} /> : <FaRegPaste size={'1.8rem'} />}</S.IconBox>
           </S.Content>
         </Modal.Body>
       </S.ModalBodyWrapper>

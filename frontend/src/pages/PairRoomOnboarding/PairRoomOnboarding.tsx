@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import StartMission from '@/components/PairRoom/StartMission/StartMission';
+import Spinner from '@/components/common/Spinner/Spinner';
 import FooterButtons from '@/components/PairRoomOnboarding/FooterButtons/FooterButtons';
 import HowToPairModal from '@/components/PairRoomOnboarding/HowToPairModal/HowToPairModal';
 import ProgressBar from '@/components/PairRoomOnboarding/ProgressBar/ProgressBar';
@@ -9,15 +9,13 @@ import RoleSettingSection from '@/components/PairRoomOnboarding/RoleSettingSecti
 
 import useModal from '@/hooks/common/useModal';
 
-import useCreateBranch from '@/queries/github/useCreateBranch';
 import useGetPairRoomInformation from '@/queries/PairRoom/useGetPairRoomInformation';
 
 import * as S from './PairRoomOnboarding.styles';
-import type { Role, Step } from './PairRoomOnboarding.type';
+import type { Role } from './PairRoomOnboarding.type';
 
 const PairRoomOnboarding = () => {
-  const [step, setStep] = useState<Step>('MISSION');
-  const { handleStartMission } = useCreateBranch(() => setStep('ROLE'));
+  const step = 'ROLE';
 
   const navigate = useNavigate();
   const { accessCode } = useParams();
@@ -69,12 +67,12 @@ const PairRoomOnboarding = () => {
     <S.Layout>
       <S.Container>
         {isFetching ? (
-          <div>Loading</div>
+          <Spinner />
         ) : (
           <>
             <div>
               <ProgressBar step={step} />
-              {step === 'MISSION' && <StartMission handleStartMission={handleStartMission} />}
+              {/* {step === 'MISSION' && <StartMission handleStartMission={handleStartMission} />} */}
               {step === 'ROLE' && pairNames && (
                 <RoleSettingSection
                   driver={driver}

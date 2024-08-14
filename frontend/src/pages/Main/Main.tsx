@@ -1,12 +1,19 @@
+import { GithubLogoWhite } from '@/assets';
+
 import * as S from '@/pages/Main/Main.styles';
 
 import Button from '@/components/common/Button/Button';
 import PairRoomCreateModal from '@/components/Main/PairRoomCreateModal/PairRoomCreateModal';
 import PairRoomEntryModal from '@/components/Main/PairRoomEntryModal/PairRoomEntryModal';
 
+import useUserStatusStore from '@/stores/userStatusStore';
+
 import useModal from '@/hooks/common/useModal';
+import useSignInHandler from '@/hooks/member/useSignInHandler';
 
 const Main = () => {
+  const { userStatus } = useUserStatusStore();
+
   const {
     isModalOpen: isPairRoomCreateModalOpen,
     openModal: openPairRoomCreateModal,
@@ -18,6 +25,8 @@ const Main = () => {
     openModal: openPairRoomEntryModal,
     closeModal: closePairRoomEntryModal,
   } = useModal();
+
+  const { handleSignInGithub } = useSignInHandler();
 
   return (
     <S.Layout>
@@ -39,12 +48,20 @@ const Main = () => {
         </S.Info>
       </S.TextContainer>
       <S.ButtonContainer>
-        <Button size="xl" rounded={true} onClick={openPairRoomCreateModal}>
-          방 만들기
-        </Button>
-        <Button size="xl" filled={false} rounded={true} onClick={openPairRoomEntryModal}>
-          방 들어가기
-        </Button>
+        <>
+          <Button size="xl" rounded={true} onClick={openPairRoomCreateModal}>
+            방 만들기
+          </Button>
+          <Button size="xl" filled={false} rounded={true} onClick={openPairRoomEntryModal}>
+            방 들어가기
+          </Button>
+        </>
+        {userStatus === 'SIGNED_OUT' && (
+          <Button css={S.GithubLoginButton} size="xl" filled={false} rounded={true} onClick={handleSignInGithub}>
+            <img src={GithubLogoWhite} alt="github logo" />
+            Github로 로그인
+          </Button>
+        )}
       </S.ButtonContainer>
       <PairRoomCreateModal isOpen={isPairRoomCreateModalOpen} closeModal={closePairRoomCreateModal} />
       <PairRoomEntryModal isOpen={isPairRoomEntryModalOpen} closeModal={closePairRoomEntryModal} />
