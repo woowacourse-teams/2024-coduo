@@ -19,6 +19,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     void show_pair_room() {
         //given
         final PairRoomCreateResponse pairRoomUrl = createPairRoom(new PairRoomCreateRequest("레디", "프람"));
+        createTimerDuration(pairRoomUrl.accessCode(), 600000);
 
         //when & then
         RestAssured
@@ -114,5 +115,24 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .then()
                 .extract()
                 .as(PairRoomCreateResponse.class);
+    }
+
+    static void createTimerDuration(final String accessCode, final long timerDuration) {
+        final Map<String, Object> request = Map.of("timerDuration", timerDuration);
+
+        RestAssured
+                .given()
+                .log()
+                .all()
+                .contentType("application/json")
+                .body(request)
+
+                .when()
+                .post("/api/pair-room/{accessCode}/info", accessCode)
+
+                .then()
+                .log()
+                .all()
+                .statusCode(201);
     }
 }
