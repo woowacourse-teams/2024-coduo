@@ -13,6 +13,8 @@ import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.domain.accesscode.AccessCodeFactory;
 import site.coduo.pairroom.domain.accesscode.UUIDAccessCodeStrategy;
 import site.coduo.pairroom.dto.PairRoomCreateRequest;
+import site.coduo.pairroom.dto.TimerDurationCreateRequest;
+import site.coduo.pairroom.exception.InvalidTimerDurationException;
 import site.coduo.pairroom.repository.PairRoomRepository;
 
 @RequiredArgsConstructor
@@ -20,10 +22,12 @@ import site.coduo.pairroom.repository.PairRoomRepository;
 @Service
 public class PairRoomService {
 
+    private static final int UPDATED_ROW_COUNT = 1;
+
     private final PairRoomRepository pairRoomRepository;
 
     @Transactional
-    public String save(final PairRoomCreateRequest request) {
+    public String savePairNameAndAccessCode(final PairRoomCreateRequest request) {
         final Pair pair = new Pair(new PairName(request.firstPair()), new PairName(request.secondPair()));
         final List<AccessCode> accessCodes = pairRoomRepository.findAll()
                 .stream()
@@ -36,6 +40,15 @@ public class PairRoomService {
         pairRoomRepository.save(pairRoom);
 
         return pairRoom.getAccessCodeText();
+    }
+
+    @Transactional
+    public void saveTimerDuration(final String accessCode, final TimerDurationCreateRequest request) {
+        final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
+
+        if (pairRoomRepository.updateTimerDuration(pairRoom.getId(), request.timerDuration()) != UPDATED_ROW_COUNT) {
+            throw new InvalidTimerDurationException("타이머 시간을 저장하는데 실패했습니다.");
+        }
     }
 
     public PairRoom findByAccessCode(final String accessCode) {
