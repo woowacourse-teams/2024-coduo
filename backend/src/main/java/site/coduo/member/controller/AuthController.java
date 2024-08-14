@@ -4,8 +4,11 @@ import static site.coduo.member.controller.GithubOAuthController.ACCESS_TOKEN_SE
 
 import java.net.URI;
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.Iterator;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -28,9 +31,9 @@ import site.coduo.member.service.MemberService;
 import site.coduo.member.service.dto.SignInServiceResponse;
 
 @Slf4j
-@RequiredArgsConstructor
 @RequestMapping("/api")
-@CrossOrigin(origins = {"https://coduo.site", "http://localhost:3000", "http://localhost:8080" })
+@RequiredArgsConstructor
+@CrossOrigin(origins = {"https://coduo.site", "http://localhost:3000", "http://localhost:8080"})
 @RestController
 public class AuthController {
 
@@ -74,12 +77,21 @@ public class AuthController {
     @GetMapping("/sign-in/callback")
     public ResponseEntity<SignInWebResponse> signInCallback(
             final HttpServletRequest request,
-            @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME, required = false) final String accessToken
+            @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME, required = false) final String accessToken,
+            final HttpSession session
     ) {
 
         log.info("------로그인 시작------");
         log.info("로그인에서 엑세스 토큰: {}", accessToken);
         log.info("로그인 과정에서 쿠키: {}", request.getCookies().length);
+        Arrays.stream(request.getCookies())
+                .forEach(cookie -> log.info("쿠키 이름: {}, 값: {}", cookie.getName(),
+                        cookie.getAttribute(cookie.getName())));
+        final Iterator<String> iterator = session.getAttributeNames().asIterator();
+        while (iterator.hasNext()) {
+            final String sessionName = iterator.next();
+            log.info("session 이름: {}, 값 {}", sessionName, session.getAttribute(sessionName));
+        }
         final SignInServiceResponse serviceResponse = authService.createSignInToken(accessToken);
         final ResponseCookie cookie = ResponseCookie.from(SIGN_IN_COOKIE_NAME)
                 .value(serviceResponse.token())

@@ -24,10 +24,10 @@ import site.coduo.pairroom.dto.PairRoomReadResponse;
 import site.coduo.pairroom.dto.TimerDurationCreateRequest;
 import site.coduo.pairroom.service.PairRoomService;
 
-@RequiredArgsConstructor
 @RequestMapping("/api")
+@RequiredArgsConstructor
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000", "https://coduo.site"})
+@CrossOrigin(origins = {"http://localhost:3000", "https://coduo.site" })
 public class PairRoomController implements PairRoomDocs {
 
     private final PairRoomService pairRoomService;
@@ -36,7 +36,8 @@ public class PairRoomController implements PairRoomDocs {
     public ResponseEntity<PairRoomCreateResponse> createPairRoom(
             @Valid @RequestBody final PairRoomCreateRequest request
     ) {
-        final PairRoomCreateResponse response = new PairRoomCreateResponse(pairRoomService.savePairNameAndAccessCode(request));
+        final PairRoomCreateResponse response = new PairRoomCreateResponse(
+                pairRoomService.savePairNameAndAccessCode(request));
 
         return ResponseEntity.created(URI.create("/"))
                 .body(response);

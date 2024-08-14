@@ -24,10 +24,10 @@ import site.coduo.referencelink.service.dto.CategoryReadResponse;
 import site.coduo.referencelink.service.dto.CategoryUpdateRequest;
 import site.coduo.referencelink.service.dto.CategoryUpdateResponse;
 
+@RequestMapping("/api")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
-@CrossOrigin(origins = {"http://localhost:3000", "https://coduo.site"})
+@CrossOrigin(origins = {"http://localhost:3000", "https://coduo.site" })
 public class CategoryController {
 
     private final CategoryService categoryService;

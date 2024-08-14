@@ -26,9 +26,9 @@ import site.coduo.member.controller.dto.oauth.State;
 import site.coduo.member.service.GithubOAuthService;
 
 @Slf4j
+@RequestMapping("/api")
 @RequiredArgsConstructor
 @CrossOrigin(origins = {"https://coduo.site", "http://localhost:3000", "http://127.0.0.1:3000" })
-@RequestMapping("/api")
 @RestController
 public class GithubOAuthController {
 
