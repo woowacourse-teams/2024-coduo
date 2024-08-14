@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,17 @@ public class ReferenceLinkController implements ReferenceLinkDocs {
             @PathVariable("accessCode") final String accessCodeText
     ) {
         final List<ReferenceLinkResponse> responses = referenceLinkService.readAllReferenceLinkQuery(accessCodeText);
+
+        return ResponseEntity.ok(responses);
+    }
+
+    @GetMapping(value = "/{accessCode}/reference-link", params = "categoryName")
+    public ResponseEntity<List<ReferenceLinkResponse>> getReferenceLinksOfCategory(
+            @PathVariable("accessCode") final String accessCodeText,
+            @RequestParam(value = "categoryName") final String categoryName
+    ) {
+        final List<ReferenceLinkResponse> responses = referenceLinkService.findReferenceLinksByCategory(accessCodeText,
+                categoryName);
 
         return ResponseEntity.ok(responses);
     }

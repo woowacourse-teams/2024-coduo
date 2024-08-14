@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
+import site.coduo.referencelink.domain.Category;
 import site.coduo.referencelink.domain.ReferenceLink;
 
 @Getter
@@ -33,18 +34,49 @@ public class ReferenceLinkEntity extends BaseTimeEntity {
     @Column(name = "URL", nullable = false)
     private String url;
 
-    @JoinColumn(name = "PAIR_ROOM_ID", referencedColumnName = "ID")
+    @ManyToOne
+    @JoinColumn(name = "CATEGORY_ID", nullable = true)
+    private CategoryEntity categoryEntity;
+
+    @JoinColumn(name = "PAIR_ROOM_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne
     private PairRoom pairRoom;
 
+    public ReferenceLinkEntity(final ReferenceLink referenceLink, final CategoryEntity categoryEntity,
+                               final PairRoom pairRoom) {
+        this.url = referenceLink.getUrlText();
+        this.categoryEntity = categoryEntity;
+        this.pairRoom = pairRoom;
+    }
+
     public ReferenceLinkEntity(final ReferenceLink referenceLink, final PairRoom pairRoom) {
         this.url = referenceLink.getUrlText();
+        this.categoryEntity = null;
         this.pairRoom = pairRoom;
     }
 
     public boolean isSameAccessCode(final AccessCode accessCode) {
         return pairRoom.getAccessCode()
                 .equals(accessCode);
+    }
+
+    public boolean isSameCategory(final Category category) {
+        if (categoryEntity == null) {
+            return false;
+        }
+        return categoryEntity.getCategoryName()
+                .equals(category.getValue());
+    }
+
+    public void updateCategoryToNull() {
+        categoryEntity = null;
+    }
+
+    public String getCategoryName() {
+        if (categoryEntity == null) {
+            return null;
+        }
+        return categoryEntity.getCategoryName();
     }
 
     @Override
@@ -55,7 +87,7 @@ public class ReferenceLinkEntity extends BaseTimeEntity {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        ReferenceLinkEntity that = (ReferenceLinkEntity) o;
+        final ReferenceLinkEntity that = (ReferenceLinkEntity) o;
         return Objects.equals(id, that.id);
     }
 
