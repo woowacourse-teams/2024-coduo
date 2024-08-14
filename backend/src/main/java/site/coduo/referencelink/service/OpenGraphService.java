@@ -1,5 +1,7 @@
 package site.coduo.referencelink.service;
 
+import java.util.Optional;
+
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,14 +14,13 @@ import site.coduo.referencelink.repository.OpenGraphEntity;
 import site.coduo.referencelink.repository.OpenGraphRepository;
 import site.coduo.referencelink.repository.ReferenceLinkEntity;
 
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class OpenGraphService {
 
     private final OpenGraphRepository openGraphRepository;
 
-    @Transactional
     public void createOpenGraphCommand(final ReferenceLinkEntity referenceLinkEntity) {
         final OpenGraph openGraph = getOpenGraph(referenceLinkEntity);
         final OpenGraphEntity openGraphEntity = new OpenGraphEntity(openGraph, referenceLinkEntity);
@@ -35,13 +36,16 @@ public class OpenGraphService {
         }
     }
 
+    @Transactional(readOnly = true)
     public OpenGraph findOpenGraphQuery(final Long id) {
-        return openGraphRepository.findById(id)
-                .map(OpenGraphEntity::toDomain)
-                .orElse(new OpenGraph());
+        final Optional<OpenGraphEntity> openGraphEntity = openGraphRepository.findByReferenceLinkEntityId(id);
+        if (openGraphEntity.isPresent()) {
+            return openGraphEntity.get().toDomain();
+        }
+
+        return new OpenGraph();
     }
 
-    @Transactional
     public void deleteByReferenceLinkIdCommand(final long referenceLinkEntityId) {
         openGraphRepository.deleteByReferenceLinkEntityId(referenceLinkEntityId);
     }
