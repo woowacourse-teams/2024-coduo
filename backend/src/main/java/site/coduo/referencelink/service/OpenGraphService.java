@@ -1,5 +1,7 @@
 package site.coduo.referencelink.service;
 
+import java.util.Optional;
+
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,9 +38,12 @@ public class OpenGraphService {
     }
 
     public OpenGraph findOpenGraphQuery(final Long id) {
-        return openGraphRepository.findById(id)
-                .map(OpenGraphEntity::toDomain)
-                .orElse(new OpenGraph());
+        final Optional<OpenGraphEntity> openGraphEntity = openGraphRepository.findByReferenceLinkEntityId(id);
+        if (openGraphEntity.isPresent()) {
+            return openGraphEntity.get().toDomain();
+        }
+
+        return new OpenGraph();
     }
 
     @Transactional
