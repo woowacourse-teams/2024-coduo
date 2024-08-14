@@ -7,6 +7,8 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import net.bytebuddy.TypeCache.Sort;
+
 import site.coduo.todo.domain.exception.InvalidTodoSortException;
 
 @DisplayName("TodoSort 도메인 테스트")
@@ -55,5 +57,25 @@ class TodoSortTest {
         assertThatThrownBy(() -> new TodoSort(input))
                 .isInstanceOf(InvalidTodoSortException.class)
                 .hasMessage("todoSort는 음수가 될 수 없습니다.");
+    }
+
+    @DisplayName("앞/뒤 정렬값이 입력되면 중간 정렬값을 계산 후 객체를 생성해 반환한다.")
+    @Test
+    void countBetweenSort() {
+        // Given
+        final TodoSort targetSort = new TodoSort(1024);
+        final TodoSort frontSort = new TodoSort(6144);
+        final TodoSort backSort = new TodoSort(8192);
+
+        final int expect = 7168;
+
+        // When
+        final TodoSort updatedSort = targetSort.countBetweenSort(frontSort, backSort);
+
+        // Then
+        assertSoftly(softAssertions -> {
+            assertThat(updatedSort).isNotNull();
+            assertThat(updatedSort.getSort()).isEqualTo(expect);
+        });
     }
 }

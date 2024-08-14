@@ -1,5 +1,6 @@
 package site.coduo.todo.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
@@ -105,6 +106,37 @@ class TodoTest {
         assertSoftly(softAssertions -> {
             softAssertions.assertThat(updated).isNotNull();
             softAssertions.assertThat(updated.getIsChecked().isChecked()).isTrue();
+        });
+    }
+
+    @DisplayName("앞/뒤 정렬 값이 주어지면 변경된 정렬값을 가진 객체를 생성해 반환한다.")
+    @Test
+    void updateSort() {
+        // Given
+        final PairRoom pairRoom = new PairRoom(
+                new Pair(new PairName("A"), new PairName("B")),
+                new AccessCode("ACCESS-CODE")
+        );
+        final Todo todo = new Todo(
+                1L,
+                pairRoom,
+                "content!",
+                1024,
+                false
+        );
+
+        final TodoSort frontSort = new TodoSort(6144);
+        final TodoSort backSort = new TodoSort(8192);
+
+        final int expect = 7168;
+
+        // When
+        final Todo updated = todo.updateSort(frontSort, backSort);
+
+        // Then
+        assertSoftly(softAssertions -> {
+            assertThat(updated).isNotNull();
+            assertThat(updated.getSort().getSort()).isEqualTo(expect);
         });
     }
 }

@@ -57,6 +57,17 @@ public class TodoService {
         todoRepository.save(updatedTodo);
     }
 
+    public void updateTodoSort(final Long targetTodoId, final Long frontTodoId, final Long backTodoId) {
+        final Todo targetTodo = todoRepository.findById(targetTodoId)
+                .orElseThrow(() -> new TodoNotFoundException("존재하지 않은 todo id입니다." + targetTodoId));
+        final Todo frontTodo = todoRepository.findById(frontTodoId)
+                .orElseThrow(() -> new TodoNotFoundException("존재하지 않은 todo id입니다." + targetTodoId));
+        final Todo backTodo = todoRepository.findById(backTodoId)
+                .orElseThrow(() -> new TodoNotFoundException("존재하지 않은 todo id입니다." + targetTodoId));
+        final Todo updatedTodo = targetTodo.updateSort(frontTodo.getSort(), backTodo.getSort());
+        todoRepository.save(updatedTodo);
+    }
+
     public void deleteTodo(final Long todoId) {
         todoRepository.deleteById(todoId);
     }

@@ -70,4 +70,14 @@ public class Todo {
                 this.getIsChecked().toggle()
         );
     }
+
+    public Todo updateSort(final TodoSort frontSort, final TodoSort backSort) {
+        return new Todo(
+                this.id,
+                this.getPairRoom(),
+                this.getContent(),
+                this.getSort().countBetweenSort(frontSort, backSort),
+                this.getIsChecked()
+        );
+    }
 }

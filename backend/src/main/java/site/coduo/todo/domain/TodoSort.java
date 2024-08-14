@@ -24,4 +24,9 @@ public class TodoSort {
     public TodoSort countNextSort() {
         return new TodoSort(sort + SORT_INTERVAL);
     }
+
+    public TodoSort countBetweenSort(final TodoSort frontSort, final TodoSort backSort) {
+        final int betweenSortValue = (frontSort.getSort() + backSort.getSort()) / 2;
+        return new TodoSort(betweenSortValue);
+    }
 }

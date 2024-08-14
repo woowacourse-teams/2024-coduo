@@ -233,4 +233,36 @@ class TodoServiceTest {
         // Then
         assertThat(all).hasSize(4);
     }
+
+    @DisplayName("현재 투두 아이디와 이동시킬 위치의 앞/뒤 투두 아이디를 입력하면 기존 투두의 정렬 값을 수정해 저장한다.")
+    @Test
+    void updateTodoSort() {
+        // Given
+        final PairRoom pairRoom = new PairRoom(
+                new Pair(new PairName("A"), new PairName("B")),
+                new AccessCode("ACCESS-CODE")
+        );
+        final Todo targetTodo = new Todo(1L, pairRoom, "투두1!!", 1024, false);
+        final Todo frontTodo = new Todo(2L, pairRoom, "투두2!!", 6144, false);
+        final Todo backTodo = new Todo(3L, pairRoom, "투두3!!", 8192, false);
+        todoRepository.save(targetTodo);
+        todoRepository.save(frontTodo);
+        todoRepository.save(backTodo);
+
+        final long targetTodoId = 1L;
+        final long frontTodoId = 2L;
+        final long backTodoId = 3L;
+
+        final int expect = 7168;
+
+        // When
+        todoService.updateTodoSort(targetTodoId, frontTodoId, backTodoId);
+
+        // Then
+        final Optional<Todo> findUpdatedTodo = todoRepository.findById(targetTodoId);
+        assertThat(findUpdatedTodo).isPresent();
+
+        final Todo updatedTodo = findUpdatedTodo.get();
+        assertThat(updatedTodo.getSort().getSort()).isEqualTo(expect);
+    }
 }
