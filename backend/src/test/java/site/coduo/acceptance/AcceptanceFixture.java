@@ -12,6 +12,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 
 import io.restassured.RestAssured;
 import site.coduo.pairroom.repository.PairRoomRepository;
+import site.coduo.referencelink.repository.CategoryRepository;
 import site.coduo.referencelink.repository.OpenGraphRepository;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 
@@ -26,6 +27,9 @@ abstract class AcceptanceFixture {
 
     @Autowired
     private OpenGraphRepository openGraphRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -42,6 +46,7 @@ abstract class AcceptanceFixture {
     void tearDown() {
         openGraphRepository.deleteAll();
         referenceLinkRepository.deleteAll();
+        categoryRepository.deleteAll();
         pairRoomRepository.deleteAll();
     }
 }
