@@ -4,6 +4,7 @@ import static site.coduo.member.controller.GithubOAuthController.ACCESS_TOKEN_SE
 
 import java.net.URI;
 import java.time.Duration;
+import java.util.Arrays;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -28,7 +29,7 @@ import site.coduo.member.service.dto.SignInServiceResponse;
 
 @Slf4j
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"https://coduo.site", "http://localhost:3000", "http://localhost:8080"})
+@CrossOrigin(origins = {"https://coduo.site", "http://localhost:3000", "http://localhost:8080" })
 @RestController
 public class AuthController {
 
@@ -78,6 +79,10 @@ public class AuthController {
         log.info("------로그인 시작------");
         log.info("로그인에서 엑세스 토큰: {}", accessToken);
         log.info("로그인 과정에서 쿠키: {}", request.getCookies().length);
+        Arrays.stream(request.getCookies())
+                .forEach(cookie -> log.info("쿠키 이름: {}, 값: {}", cookie.getName(),
+                        cookie.getAttribute(cookie.getName())));
+
         final SignInServiceResponse serviceResponse = authService.createSignInToken(accessToken);
         final ResponseCookie cookie = ResponseCookie.from(SIGN_IN_COOKIE_NAME)
                 .value(serviceResponse.token())
