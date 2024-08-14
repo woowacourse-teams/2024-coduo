@@ -40,12 +40,3 @@ management:
     web:
       exposure:
         include: prometheus
-
-oauth:
-  github:
-    client-id: Ov23liJSRfzhHmffyMid
-    client-secret: d99917ab71f11ecc996ee9660405a4d30cd00c02
-    redirect-uri: http://localhost:8080/api/github/callback
-
-jwt:
-  sign-key: a3b5c9f8176d4e2f8c3a9d1b5e7f6a8c9b2d4f7e3c1a8b6c9f5d2e1f8a4c7d9b6e2f3a8c9d7b1f4e5a2c3b6f8a9d4
