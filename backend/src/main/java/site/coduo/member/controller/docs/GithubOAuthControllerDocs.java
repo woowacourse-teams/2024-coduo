@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import site.coduo.common.controller.response.ApiErrorResponse;
+import site.coduo.member.controller.dto.oauth.GithubOAuthEndpoint;
 
 @Tag(name = "인증/인가 API")
 public interface GithubOAuthControllerDocs {
@@ -19,5 +20,5 @@ public interface GithubOAuthControllerDocs {
     @ApiResponse(responseCode = "401", description = "인증 실패",
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = ApiErrorResponse.class)))
-    ResponseEntity<Void> getGithubAuthCode(HttpSession session, String origin);
+    ResponseEntity<GithubOAuthEndpoint> getGithubAuthCode(HttpSession session);
 }
