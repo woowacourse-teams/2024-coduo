@@ -53,8 +53,8 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
     void read_all_reference_link_request() {
         // given
         final PairRoomCreateResponse pairRoom = createPairRoom(new PairRoomCreateRequest("레모네", "프람"));
-        createReferenceLink("http://www.some.url", pairRoom.accessCode());
-        createReferenceLink("http://www.some.url2", pairRoom.accessCode());
+        createReferenceLink("http://www.some1.url", pairRoom.accessCode(), "카테고리1");
+        createReferenceLink("http://www.some2.url", pairRoom.accessCode(), "카테고리2");
 
         // when & then
         RestAssured
@@ -76,7 +76,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
         // given
         final PairRoomCreateResponse pairRoom = createPairRoom(new PairRoomCreateRequest("잉크", "해시"));
         final String expectedUrl = "http://www.deleasfsdte.com";
-        createReferenceLink(expectedUrl, pairRoom.accessCode());
+        createReferenceLink(expectedUrl, pairRoom.accessCode(), "카테고리");
 
         // when & then
         RestAssured
@@ -96,9 +96,9 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
                 .body("[0].image", is(""));
     }
 
-    void createReferenceLink(final String url, String accessCodeText) {
+    void createReferenceLink(final String url, String accessCodeText, String categoryName) {
         final CategoryCreateResponse response = CategoryAcceptanceTest.createCategory(
-                accessCodeText, new CategoryCreateRequest("자바"));
+                accessCodeText, new CategoryCreateRequest(categoryName));
         final Map<String, Object> request = Map.of("url", url, "categoryId", response.id());
 
         RestAssured
@@ -116,7 +116,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
         // given
         final PairRoomCreateResponse pairRoom = createPairRoom(new PairRoomCreateRequest("레모네", "프람"));
 
-        createReferenceLink("http://www.delete.com", pairRoom.accessCode());
+        createReferenceLink("http://www.delete.com", pairRoom.accessCode(), "카테고리 이름");
 
         // when & then
         RestAssured
