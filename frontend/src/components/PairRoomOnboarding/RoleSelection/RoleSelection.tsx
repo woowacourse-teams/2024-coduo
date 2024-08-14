@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+
 import type { Role } from '@/pages/PairRoomOnboarding/PairRoomOnboarding.type';
 
 import Button from '@/components/common/Button/Button';
@@ -7,17 +9,39 @@ import InformationBox from '@/components/PairRoomOnboarding/InformationBox/Infor
 
 import { BUTTON_TEXT } from '@/constants/button';
 
-import * as S from './RoleSettingSection.styles';
+import * as S from './RoleSelection.styles';
 
 interface RoleSettingSectionProps {
-  driver: string;
-  navigator: string;
-  pairNames: string[];
-  onRoleSelect: (name: string, role: Role) => void;
-  onNext: () => void;
+  firstPair: string;
+  secondPair: string;
+  onNext: (driver: string, navigator: string) => void;
 }
 
-const RoleSettingSection = ({ driver, navigator, pairNames, onRoleSelect, onNext }: RoleSettingSectionProps) => {
+const RoleSelection = ({ firstPair, secondPair, onNext }: RoleSettingSectionProps) => {
+  const [driver, setDriver] = useState('');
+  const [navigator, setNavigator] = useState('');
+
+  const handleRole = (driver: string, navigator: string) => {
+    setDriver(driver);
+    setNavigator(navigator);
+  };
+
+  useEffect(() => {
+    if (firstPair !== '' && secondPair !== '') handleRole(firstPair, secondPair);
+  }, [firstPair, secondPair]);
+
+  const handleRoleSelect = (name: string, role: Role) => {
+    const otherPair = firstPair === name ? secondPair : firstPair;
+    switch (role) {
+      case 'DRIVER':
+        handleRole(name, otherPair);
+        return;
+      case 'NAVIGATOR':
+        handleRole(otherPair, name);
+        return;
+    }
+  };
+
   return (
     <S.Layout>
       <S.Container>
@@ -34,27 +58,27 @@ const RoleSettingSection = ({ driver, navigator, pairNames, onRoleSelect, onNext
             <S.DropdownLabel>드라이버</S.DropdownLabel>
             <Dropdown
               placeholder={'이름을 선택해주세요.'}
-              options={pairNames}
+              options={[firstPair, secondPair]}
               selected={driver}
-              onSelect={(name) => onRoleSelect(name, 'DRIVER')}
+              onSelect={(name) => handleRoleSelect(name, 'DRIVER')}
             />
           </S.DropdownWrapper>
           <S.DropdownWrapper>
             <S.DropdownLabel>내비게이터</S.DropdownLabel>
             <Dropdown
               placeholder={'이름을 선택해주세요.'}
-              options={pairNames}
+              options={[firstPair, secondPair]}
               selected={navigator}
-              onSelect={(name) => onRoleSelect(name, 'NAVIGATOR')}
+              onSelect={(name) => handleRoleSelect(name, 'NAVIGATOR')}
             />
           </S.DropdownWrapper>
         </S.DropdownContainer>
       </S.Container>
       <Modal.Footer position="CENTER">
-        <Button onClick={onNext}>{BUTTON_TEXT.NEXT}</Button>
+        <Button onClick={() => onNext(driver, navigator)}>{BUTTON_TEXT.NEXT}</Button>
       </Modal.Footer>
     </S.Layout>
   );
 };
 
-export default RoleSettingSection;
+export default RoleSelection;

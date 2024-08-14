@@ -9,7 +9,7 @@ import { validateTime } from '@/utils/PairRoomOnboarding/validate';
 
 import { BUTTON_TEXT } from '@/constants/button';
 
-import * as S from './TimerSettingSection.styles';
+import * as S from './TimerSelection.styles';
 
 const OPTIONS = [
   { label: '10분', value: '10' },
@@ -18,23 +18,22 @@ const OPTIONS = [
 ];
 
 interface TimerSettingSectionProps {
-  timer: string;
-  onTimer: (time: string) => void;
   onPrev: () => void;
-  onNext: () => void;
+  onNext: (timer: string) => void;
 }
 
-const TimerSettingSection = ({ timer, onTimer, onPrev, onNext }: TimerSettingSectionProps) => {
+const TimerSelection = ({ onPrev, onNext }: TimerSettingSectionProps) => {
+  const [timer, setTimer] = useState('');
   const [isSelf, setIsSelf] = useState(false);
 
-  const handleTimer = (option: string) => {
+  const handleOption = (option: string) => {
     if (isSelf) setIsSelf(false);
-    onTimer(option);
+    setTimer(option);
   };
 
   const handleIsSelf = () => {
     if (!isSelf) setIsSelf(true);
-    onTimer('');
+    setTimer('');
   };
 
   return (
@@ -55,7 +54,7 @@ const TimerSettingSection = ({ timer, onTimer, onPrev, onNext }: TimerSettingSec
               color="primary"
               size="md"
               filled={timer === option.value}
-              onClick={() => handleTimer(option.value)}
+              onClick={() => handleOption(option.value)}
             >
               {option.label}
             </Button>
@@ -73,7 +72,7 @@ const TimerSettingSection = ({ timer, onTimer, onPrev, onNext }: TimerSettingSec
                 status={!validateTime(timer) ? 'ERROR' : 'DEFAULT'}
                 message={!validateTime(timer) ? '0 이상의 숫자를 입력해 주세요.' : ''}
                 disabled={!isSelf}
-                onChange={(event) => onTimer(event.target.value)}
+                onChange={(event) => setTimer(event.target.value)}
               />
             )}
           </S.InputContainer>
@@ -81,7 +80,7 @@ const TimerSettingSection = ({ timer, onTimer, onPrev, onNext }: TimerSettingSec
       </S.Container>
       <Modal.Footer position="CENTER">
         <Button onClick={onPrev}>{BUTTON_TEXT.BACK}</Button>
-        <Button onClick={onNext} disabled={timer === ''}>
+        <Button onClick={() => onNext(timer)} disabled={timer === ''}>
           {BUTTON_TEXT.COMPLETE}
         </Button>
       </Modal.Footer>
@@ -89,4 +88,4 @@ const TimerSettingSection = ({ timer, onTimer, onPrev, onNext }: TimerSettingSec
   );
 };
 
-export default TimerSettingSection;
+export default TimerSelection;
