@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,6 @@ import site.coduo.pairroom.dto.TimerDurationCreateRequest;
 import site.coduo.pairroom.service.PairRoomService;
 
 @RequiredArgsConstructor
-@RequestMapping("/api")
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000", "https://coduo.site"})
 public class PairRoomController implements PairRoomDocs {
@@ -36,7 +34,8 @@ public class PairRoomController implements PairRoomDocs {
     public ResponseEntity<PairRoomCreateResponse> createPairRoom(
             @Valid @RequestBody final PairRoomCreateRequest request
     ) {
-        final PairRoomCreateResponse response = new PairRoomCreateResponse(pairRoomService.savePairNameAndAccessCode(request));
+        final PairRoomCreateResponse response = new PairRoomCreateResponse(
+                pairRoomService.savePairNameAndAccessCode(request));
 
         return ResponseEntity.created(URI.create("/"))
                 .body(response);

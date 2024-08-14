@@ -14,6 +14,7 @@ import site.coduo.member.exception.AuthorizationException;
 @Slf4j
 @RestControllerAdvice
 public class MemberErrorController {
+
     @ExceptionHandler(ServletRequestBindingException.class)
     public ResponseEntity<ApiErrorResponse> handleServletRequestBindingException(
             final ServletRequestBindingException e) {
