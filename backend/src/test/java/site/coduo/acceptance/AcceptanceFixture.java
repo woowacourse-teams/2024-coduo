@@ -1,8 +1,5 @@
 package site.coduo.acceptance;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +23,6 @@ abstract class AcceptanceFixture {
 
     @Autowired
     private OpenGraphRepository openGraphRepository;
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     @LocalServerPort
     private int port;
