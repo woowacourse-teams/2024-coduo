@@ -24,7 +24,7 @@ import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000", "http://3.35.178.58"})
+@CrossOrigin(origins = {"http://localhost:3000", "https://coduo.site"})
 public class ReferenceLinkController implements ReferenceLinkDocs {
 
     private final ReferenceLinkService referenceLinkService;
