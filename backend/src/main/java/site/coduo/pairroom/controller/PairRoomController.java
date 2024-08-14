@@ -30,13 +30,13 @@ import site.coduo.pairroom.service.PairRoomService;
 @CrossOrigin(origins = {"http://localhost:3000", "http://3.35.178.58"})
 public class PairRoomController implements PairRoomDocs {
 
-    private final PairRoomService service;
+    private final PairRoomService pairRoomService;
 
     @PostMapping("/pair-room")
     public ResponseEntity<PairRoomCreateResponse> createPairRoom(
             @Valid @RequestBody final PairRoomCreateRequest request
     ) {
-        final PairRoomCreateResponse response = new PairRoomCreateResponse(service.savePairNameAndAccessCode(request));
+        final PairRoomCreateResponse response = new PairRoomCreateResponse(pairRoomService.savePairNameAndAccessCode(request));
 
         return ResponseEntity.created(URI.create("/"))
                 .body(response);
@@ -47,7 +47,7 @@ public class PairRoomController implements PairRoomDocs {
             @PathVariable("accessCode") final String accessCode,
             @RequestBody final TimerDurationCreateRequest request
     ) {
-        service.saveTimerDuration(accessCode, request);
+        pairRoomService.saveTimerDuration(accessCode, request);
 
         return ResponseEntity.created(URI.create("/"))
                 .build();
@@ -58,7 +58,7 @@ public class PairRoomController implements PairRoomDocs {
             @Valid @PathVariable("accessCode") final PairRoomReadRequest request
     ) {
         final PairRoomReadResponse response = PairRoomReadResponse.from(
-                service.findByAccessCode(request.accessCode()));
+                pairRoomService.findByAccessCode(request.accessCode()));
 
         return ResponseEntity.ok(response);
     }
@@ -67,7 +67,7 @@ public class PairRoomController implements PairRoomDocs {
     public ResponseEntity<Void> deletePairRoom(
             @Valid @PathVariable("accessCode") final PairRoomDeleteRequest request
     ) {
-        service.deletePairRoom(request.accessCode());
+        pairRoomService.deletePairRoom(request.accessCode());
 
         return ResponseEntity.noContent()
                 .build();
