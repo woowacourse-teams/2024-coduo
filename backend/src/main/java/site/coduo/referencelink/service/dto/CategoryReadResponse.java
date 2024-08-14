@@ -5,7 +5,6 @@ import site.coduo.referencelink.repository.CategoryEntity;
 
 @Schema(description = "카테고리 조회 응답")
 public record CategoryReadResponse(
-
         @Schema(description = "카테고리 ID", example = "0")
         Long id,
 

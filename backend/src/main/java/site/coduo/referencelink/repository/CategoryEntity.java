@@ -14,6 +14,7 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.referencelink.domain.Category;
 
@@ -21,7 +22,7 @@ import site.coduo.referencelink.domain.Category;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "CATEGORY")
 @Entity
-public class CategoryEntity {
+public class CategoryEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

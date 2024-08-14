@@ -19,9 +19,9 @@ import site.coduo.referencelink.service.dto.CategoryReadResponse;
 import site.coduo.referencelink.service.dto.CategoryUpdateRequest;
 import site.coduo.referencelink.service.dto.CategoryUpdateResponse;
 
-@Service
 @Transactional
 @RequiredArgsConstructor
+@Service
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;

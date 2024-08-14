@@ -14,14 +14,13 @@ import site.coduo.referencelink.repository.OpenGraphEntity;
 import site.coduo.referencelink.repository.OpenGraphRepository;
 import site.coduo.referencelink.repository.ReferenceLinkEntity;
 
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class OpenGraphService {
 
     private final OpenGraphRepository openGraphRepository;
 
-    @Transactional
     public void createOpenGraphCommand(final ReferenceLinkEntity referenceLinkEntity) {
         final OpenGraph openGraph = getOpenGraph(referenceLinkEntity);
         final OpenGraphEntity openGraphEntity = new OpenGraphEntity(openGraph, referenceLinkEntity);
@@ -37,6 +36,7 @@ public class OpenGraphService {
         }
     }
 
+    @Transactional(readOnly = true)
     public OpenGraph findOpenGraphQuery(final Long id) {
         final Optional<OpenGraphEntity> openGraphEntity = openGraphRepository.findByReferenceLinkEntityId(id);
         if (openGraphEntity.isPresent()) {
@@ -46,7 +46,6 @@ public class OpenGraphService {
         return new OpenGraph();
     }
 
-    @Transactional
     public void deleteByReferenceLinkIdCommand(final long referenceLinkEntityId) {
         openGraphRepository.deleteByReferenceLinkEntityId(referenceLinkEntityId);
     }

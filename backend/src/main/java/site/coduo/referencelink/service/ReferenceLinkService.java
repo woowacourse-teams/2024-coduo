@@ -20,7 +20,7 @@ import site.coduo.referencelink.repository.ReferenceLinkRepository;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
 import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
 
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class ReferenceLinkService {
@@ -30,7 +30,6 @@ public class ReferenceLinkService {
     private final CategoryRepository categoryRepository;
     private final OpenGraphService openGraphService;
 
-    @Transactional
     public void createReferenceLinkCommand(final String accessCodeText, final ReferenceLinkCreateRequest request) {
         final AccessCode accessCode = new AccessCode(accessCodeText);
         final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(accessCode);
@@ -40,7 +39,6 @@ public class ReferenceLinkService {
         openGraphService.createOpenGraphCommand(saved);
     }
 
-    @Transactional
     public ReferenceLinkEntity saveReferenceLink(final ReferenceLinkCreateRequest request,
                                                  final PairRoom pairRoom,
                                                  final ReferenceLink referenceLink
@@ -53,6 +51,7 @@ public class ReferenceLinkService {
         return referenceLinkRepository.save(new ReferenceLinkEntity(referenceLink, categoryEntity, pairRoom));
     }
 
+    @Transactional(readOnly = true)
     public List<ReferenceLinkResponse> readAllReferenceLinkQuery(final String accessCodeText) {
         final List<ReferenceLinkEntity> referenceLinkEntities = referenceLinkRepository.findAll()
                 .stream()
@@ -64,6 +63,7 @@ public class ReferenceLinkService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<ReferenceLinkResponse> findReferenceLinksByCategory(
             final String accessCodeText,
             final String categoryName
@@ -79,6 +79,7 @@ public class ReferenceLinkService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<ReferenceLinkEntity> findReferenceLinksEntityByCategory(
             final String accessCodeText,
             final String categoryName
@@ -98,7 +99,6 @@ public class ReferenceLinkService {
         return new ReferenceLinkResponse(referenceLinkEntity, openGraph);
     }
 
-    @Transactional
     public void deleteReferenceLinkCommand(final long id) {
         openGraphService.deleteByReferenceLinkIdCommand(id);
         referenceLinkRepository.deleteById(id);
