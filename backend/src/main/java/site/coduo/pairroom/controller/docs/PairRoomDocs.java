@@ -11,14 +11,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import site.coduo.pairroom.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.dto.PairRoomCreateResponse;
 import site.coduo.pairroom.dto.PairRoomDeleteRequest;
-import site.coduo.pairroom.dto.PairRoomReadRequest;
-import site.coduo.pairroom.dto.PairRoomReadResponse;
 import site.coduo.pairroom.dto.TimerDurationCreateRequest;
-
 
 @Tag(name = "페어룸 API")
 public interface PairRoomDocs {
-
 
     ResponseEntity<PairRoomCreateResponse> createPairRoom(
             @Parameter(description = "페어 프로그래밍에 참여하는 페어 A의 이름, 페어 B의 이름", required = true)
