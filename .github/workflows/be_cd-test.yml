@@ -84,6 +84,12 @@ jobs:
           DB_PASSWORD=${{ secrets.DB_PASSWORD }}
           DDL_AUTO=${{ secrets.DDL_AUTO }}
 
+          # OAUTH & JWT
+          CLIENT_ID=${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}
+          CLIENT_REDIRECT_URI=${{ secrets.CLIENT_REDIRECT_URI }}
+          JWT_SIGN_KEY=${{ secrets.JWT_KEY}}
+
           # Server App
           SERVER_BINDING_PORT=${{ secrets.SERVER_BINDING_PORT }}
           SERVER_LOGS_PATH=${{ secrets.SERVER_LOGS_PATH }}
