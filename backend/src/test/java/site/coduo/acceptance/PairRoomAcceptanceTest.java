@@ -53,7 +53,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .body(request)
 
                 .when()
-                .post("/api/pair-room/" + pairRoomUrl.accessCode() + "/info")
+                .post("/api/pair-room/{accessCode}/info", pairRoomUrl.accessCode())
 
                 .then()
                 .log()
