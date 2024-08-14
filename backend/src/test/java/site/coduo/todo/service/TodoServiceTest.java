@@ -210,7 +210,7 @@ class TodoServiceTest {
         assertThat(findSavedTodo).isEmpty();
     }
 
-    @DisplayName("저장된 모든 투두를 반환한다.")
+    @DisplayName("저장된 모든 투두를 sort값을 기준으로 오름차순 정렬 후 반환한다.")
     @Test
     void getAll() {
         // Given
@@ -218,20 +218,27 @@ class TodoServiceTest {
                 new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode("ACCESS-CODE")
         );
-        final Todo todo1 = new Todo(1L, pairRoom, "투두1!!", 1024, false);
-        final Todo todo2 = new Todo(2L, pairRoom, "투두2!!", 2048, false);
+        final Todo todo1 = new Todo(1L, pairRoom, "투두1!!", 5555, false);
+        final Todo todo2 = new Todo(2L, pairRoom, "투두2!!", 1024, false);
         final Todo todo3 = new Todo(3L, pairRoom, "투두3!!", 3434, true);
-        final Todo todo4 = new Todo(4L, pairRoom, "투두4!!", 5555, false);
+        final Todo todo4 = new Todo(4L, pairRoom, "투두4!!", 2048, false);
         todoRepository.save(todo1);
         todoRepository.save(todo2);
         todoRepository.save(todo3);
         todoRepository.save(todo4);
 
+        final int expectSize = 4;
+        final List<Long> expectOrder = List.of(2L, 4L, 3L, 1L);
+
         // When
-        final List<Todo> all = todoService.getAll();
+        final List<Todo> all = todoService.getAllOrderBySort();
 
         // Then
-        assertThat(all).hasSize(4);
+        final List<Long> ids = all.stream().map(Todo::getId).toList();
+        assertSoftly(softAssertions -> {
+            softAssertions.assertThat(all).hasSize(expectSize);
+            softAssertions.assertThat(ids).isEqualTo(expectOrder);
+        });
     }
 
     @DisplayName("현재 투두 아이디와 이동시킬 위치의 앞/뒤 투두 아이디를 입력하면 기존 투두의 정렬 값을 수정해 저장한다.")

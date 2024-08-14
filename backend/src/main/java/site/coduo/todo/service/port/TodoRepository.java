@@ -8,7 +8,7 @@ import site.coduo.todo.domain.Todo;
 
 public interface TodoRepository {
 
-    List<Todo> findAll();
+    List<Todo> findAllByOrderBySortAsc();
 
     Optional<Todo> findById(Long id);
 

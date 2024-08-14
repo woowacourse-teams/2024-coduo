@@ -24,8 +24,8 @@ public class TodoService {
     private final PairRoomRepository pairRoomRepository;
     private final TodoRepository todoRepository;
 
-    public List<Todo> getAll() {
-        return todoRepository.findAll();
+    public List<Todo> getAllOrderBySort() {
+        return todoRepository.findAllByOrderBySortAsc();
     }
 
     public void createTodo(final Long pairRoomId, final String content) {

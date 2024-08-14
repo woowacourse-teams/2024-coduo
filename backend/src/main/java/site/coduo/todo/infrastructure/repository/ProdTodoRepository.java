@@ -17,8 +17,8 @@ public class ProdTodoRepository implements TodoRepository {
     private final TodoJpaRepository todoJpaRepository;
 
     @Override
-    public List<Todo> findAll() {
-        return todoJpaRepository.findAll()
+    public List<Todo> findAllByOrderBySortAsc() {
+        return todoJpaRepository.findAllByOrderBySortAsc()
                 .stream()
                 .map(TodoEntity::toDomain)
                 .toList();

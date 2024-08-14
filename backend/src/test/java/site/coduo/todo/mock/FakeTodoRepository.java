@@ -52,7 +52,9 @@ public class FakeTodoRepository implements TodoRepository {
     }
 
     @Override
-    public List<Todo> findAll() {
-        return new ArrayList<>(this.data);
+    public List<Todo> findAllByOrderBySortAsc() {
+        return data.stream()
+                .sorted(Comparator.comparingInt(todo -> todo.getSort().getSort()))
+                .toList();
     }
 }
