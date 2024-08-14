@@ -26,9 +26,10 @@ class TodoTest {
         );
         final String content = "content!";
         final int sort = 2048;
+        final boolean isChecked = false;
 
         // When
-        final Todo todo = new Todo(id, pairRoom, content, sort);
+        final Todo todo = new Todo(id, pairRoom, content, sort, isChecked);
 
         // Then
         assertSoftly(softAssertions -> {
@@ -37,6 +38,7 @@ class TodoTest {
             softAssertions.assertThat(todo.getPairRoom()).isEqualTo(pairRoom);
             softAssertions.assertThat(todo.getContent().getContent()).isEqualTo(content);
             softAssertions.assertThat(todo.getSort().getSort()).isEqualTo(sort);
+            softAssertions.assertThat(todo.getIsChecked().isChecked()).isEqualTo(isChecked);
         });
     }
 
@@ -48,9 +50,10 @@ class TodoTest {
         final PairRoom pairRoom = null;
         final String content = "content!";
         final int sort = 2048;
+        final boolean isChecked = false;
 
         // When & Then
-        assertThatThrownBy(() -> new Todo(id, pairRoom, content, sort))
+        assertThatThrownBy(() -> new Todo(id, pairRoom, content, sort, isChecked))
                 .isInstanceOf(InvalidTodoArgumentException.class)
                 .hasMessage("Pair Room 정보로 null을 입력할 수 없습니다.");
     }

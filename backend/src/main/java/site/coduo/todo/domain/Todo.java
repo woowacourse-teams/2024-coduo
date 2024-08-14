@@ -11,18 +11,21 @@ public class Todo {
     private final PairRoom pairRoom;
     private final TodoContent content;
     private final TodoSort sort;
+    private final TodoChecked isChecked;
 
     public Todo(
             final Long id,
             final PairRoom pairRoom,
             final String content,
-            final int sort
+            final int sort,
+            final boolean isChecked
     ) {
         this(
                 id,
                 pairRoom,
                 new TodoContent(content),
-                new TodoSort(sort)
+                new TodoSort(sort),
+                new TodoChecked(isChecked)
         );
     }
 
@@ -30,7 +33,8 @@ public class Todo {
             final Long id,
             final PairRoom pairRoom,
             final TodoContent content,
-            final TodoSort sort
+            final TodoSort sort,
+            final TodoChecked isChecked
     ) {
         validatePairRoom(pairRoom);
 
@@ -38,6 +42,7 @@ public class Todo {
         this.pairRoom = pairRoom;
         this.content = content;
         this.sort = sort;
+        this.isChecked = isChecked;
     }
 
     private void validatePairRoom(final PairRoom pairRoom) {

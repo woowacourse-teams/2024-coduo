@@ -36,30 +36,37 @@ public class TodoEntity extends BaseTimeEntity {
     @Column(name = "SORT", nullable = false)
     private int sort;
 
+    @Column(name = "IS_CHECKED", nullable = false)
+    private boolean isChecked;
+
     public TodoEntity(final Todo todo) {
         this(
                 todo.getPairRoom(),
                 todo.getContent().getContent(),
-                todo.getSort().getSort()
+                todo.getSort().getSort(),
+                todo.getIsChecked().isChecked()
         );
     }
 
     public TodoEntity(
             final PairRoom pairRoom,
             final String content,
-            final int sort
+            final int sort,
+            final boolean isChecked
     ) {
         this.pairRoom = pairRoom;
         this.content = content;
         this.sort = sort;
+        this.isChecked = isChecked;
     }
 
     public Todo toDomain() {
         return new Todo(
                 this.id,
                 this.pairRoom,
-                content,
-                sort
+                this.content,
+                this.sort,
+                this.isChecked
         );
     }
 }

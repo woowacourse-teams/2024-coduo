@@ -16,15 +16,18 @@ import site.coduo.todo.service.port.TodoRepository;
 @Service
 public class TodoService {
 
+    private static final int NO_SORT_VALUE = 0;
+    private static final boolean INITIAL_TODO_CHECKED = false;
+
     private final PairRoomRepository pairRoomRepository;
     private final TodoRepository todoRepository;
 
     public void createTodo(final Long pairRoomId, final String content) {
         final PairRoom pairRoom = pairRoomRepository.findById(pairRoomId)
                 .orElseThrow(() -> new PairRoomNotFoundException("해당 아이디의 페어룸은 존재하지 않습니다. - " + pairRoomId));
-        final TodoSort nextToLastSort = getLastTodoSort(pairRoom).orElseGet(() -> new TodoSort(0))
+        final TodoSort nextToLastSort = getLastTodoSort(pairRoom).orElseGet(() -> new TodoSort(NO_SORT_VALUE))
                 .countNextSort();
-        final Todo todo = new Todo(null, pairRoom, content, nextToLastSort.getSort());
+        final Todo todo = new Todo(null, pairRoom, content, nextToLastSort.getSort(), INITIAL_TODO_CHECKED);
 
         todoRepository.save(todo);
     }
