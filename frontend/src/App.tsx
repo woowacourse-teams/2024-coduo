@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'styled-components';
 
+import Callback from '@/pages/Callback/Callback';
 import PageNotFound from '@/pages/Error/PageNotFound';
 import HowToPair from '@/pages/HowToPair/HowToPair';
 import Layout from '@/pages/Layout';
@@ -42,6 +43,10 @@ const App = () => {
         {
           path: 'sign-up',
           element: <SignUp />,
+        },
+        {
+          path: 'callback',
+          element: <Callback />,
         },
       ],
     },

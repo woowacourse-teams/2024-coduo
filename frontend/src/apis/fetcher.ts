@@ -17,6 +17,7 @@ const fetcher = {
         method,
         headers: headers && headers,
         body: body && body,
+        credentials: 'include',
       });
 
       if (!response.ok) throw new Error(errorMessage);

@@ -4,9 +4,11 @@ import validatePairName from '@/validations/common/validatePairName';
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 
+import { addSignUpGithub } from '@/apis/oauth';
+
 import useInput from '@/hooks/common/useInput';
 
-import useSignUp from '@/queries/Member/Github/useSignUp';
+// import useSignUp from '@/queries/Member/Github/useSignUp';
 
 import * as S from './SignUp.styles';
 
@@ -22,10 +24,8 @@ const SignUp = () => {
     onUsernameChange(event, validatePairName(event.target.value));
   };
 
-  const { mutate } = useSignUp(username);
-
-  const handleSignUp = () => {
-    mutate();
+  const handleSignUp = async () => {
+    await addSignUpGithub(username);
   };
 
   return (
