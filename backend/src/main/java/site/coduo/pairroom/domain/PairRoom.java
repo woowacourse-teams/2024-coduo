@@ -1,7 +1,5 @@
 package site.coduo.pairroom.domain;
 
-import java.time.LocalTime;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -35,7 +33,7 @@ public class PairRoom extends BaseTimeEntity {
     private AccessCode accessCode;
 
     @Column(name = "TIMER_DURATION", nullable = true)
-    private LocalTime timerDuration;
+    private Long timerDuration;
 
     public PairRoom(final Pair pair, final AccessCode accessCode) {
         this.pair = pair;

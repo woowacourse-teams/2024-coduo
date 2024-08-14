@@ -1,6 +1,5 @@
 package site.coduo.pairroom.repository;
 
-import java.time.LocalTime;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,5 +22,5 @@ public interface PairRoomRepository extends JpaRepository<PairRoom, Long> {
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("UPDATE PairRoom pr SET pr.timerDuration = :newTimerDuration WHERE pr.id = :id")
-    int updateTimerDuration(@Param("id") Long id, @Param("newTimerDuration") LocalTime newTimerDuration);
+    int updateTimerDuration(@Param("id") long id, @Param("newTimerDuration") long newTimerDuration);
 }

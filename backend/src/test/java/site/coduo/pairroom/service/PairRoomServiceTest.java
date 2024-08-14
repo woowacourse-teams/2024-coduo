@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
-import java.time.LocalTime;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.DisplayName;
@@ -46,7 +45,7 @@ class PairRoomServiceTest {
         return Stream.of(
                 dynamicTest("타이머 시간을 저장한다", () -> {
                     // given
-                    final LocalTime expected = LocalTime.of(0, 10);
+                    final long expected = 600000;
 
                     // when
                     pairRoomService.saveTimerDuration(accessCode, new TimerDurationCreateRequest(expected));
@@ -57,7 +56,7 @@ class PairRoomServiceTest {
                 }),
                 dynamicTest("새로운 타이머 시간을 저장한다", () -> {
                     // given
-                    final LocalTime expected = LocalTime.of(0, 7);
+                    final long expected = 420000;
 
                     // when
                     pairRoomService.saveTimerDuration(accessCode, new TimerDurationCreateRequest(expected));
@@ -68,7 +67,7 @@ class PairRoomServiceTest {
                 }),
                 dynamicTest("페어룸을 반환한 후, 새로운 타이머 시간으로 변경되어 있는 것을 확인한다", () -> {
                     // given
-                    final LocalTime expected = LocalTime.of(0, 7);
+                    final long expected = 420000;
 
                     // when
                     pairRoomService.findByAccessCode(accessCode);

@@ -1,6 +1,5 @@
 package site.coduo.acceptance;
 
-import java.time.LocalTime;
 import java.util.Map;
 
 import org.junit.jupiter.api.DisplayName;
@@ -42,7 +41,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     void save_timer_duration() {
         // given
         final PairRoomCreateResponse pairRoomUrl = createPairRoom(new PairRoomCreateRequest("레디", "프람"));
-        final Map<String, Object> request = Map.of("timerDuration", LocalTime.of(0, 30));
+        final Map<String, Object> request = Map.of("timerDuration", 600000);
 
         // when & then
         RestAssured
