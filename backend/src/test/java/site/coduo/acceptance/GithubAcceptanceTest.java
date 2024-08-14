@@ -1,6 +1,7 @@
 package site.coduo.acceptance;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
 
 import java.util.Map;
 
@@ -66,9 +67,9 @@ class GithubAcceptanceTest extends AcceptanceFixture {
 
                 .then().log().all()
                 .assertThat()
-                .statusCode(org.springframework.http.HttpStatus.FOUND.value())
-                .header(HttpHeaders.LOCATION,
-                        "https://www.github.com/login/oauth/authorize?client_id=test&state=random%20number&redirect_uri=http://test.test");
+                .statusCode(HttpStatus.SC_OK)
+                .body("endpoint",
+                        is("https://www.github.com/login/oauth/authorize?client_id=test&state=random%20number&redirect_uri=http://test.test"));
     }
 
     @Test
@@ -83,7 +84,7 @@ class GithubAcceptanceTest extends AcceptanceFixture {
                 .get("/api/sign-in/oauth/github")
 
                 .then().log().all()
-                .statusCode(HttpStatus.SC_MOVED_TEMPORARILY)
+                .statusCode(HttpStatus.SC_OK)
                 .header(HttpHeaders.SET_COOKIE, containsString("JSESSIONID"));
     }
 
@@ -134,13 +135,14 @@ class GithubAcceptanceTest extends AcceptanceFixture {
                 .given()
                 .queryParams(query)
                 .sessionId("JSESSIONID", session)
+                .redirects()
+                .follow(false)
                 .log().all()
 
                 .when()
                 .get("/api/github/callback")
 
                 .then().log().all()
-                .statusCode(HttpStatus.SC_OK)
-                .cookie("coduo_whoami");
+                .statusCode(302);
     }
 }
