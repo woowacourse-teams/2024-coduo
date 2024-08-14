@@ -51,4 +51,8 @@ public class TodoService {
         final Todo updatedTodo = todo.toggleTodoChecked();
         todoRepository.save(updatedTodo);
     }
+
+    public void deleteTodo(final Long todoId) {
+        todoRepository.deleteById(todoId);
+    }
 }

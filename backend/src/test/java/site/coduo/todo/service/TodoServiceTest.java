@@ -183,4 +183,28 @@ class TodoServiceTest {
                 .isInstanceOf(TodoNotFoundException.class)
                 .hasMessage("존재하지 않은 todo id입니다." + todoId);
     }
+
+    @DisplayName("투두 id가 입력되면 해당 id의 투두를 삭제한다.")
+    @Test
+    void deleteTodo() {
+        // Given
+        final PairRoom pairRoom = new PairRoom(
+                new Pair(new PairName("A"), new PairName("B")),
+                new AccessCode("ACCESS-CODE")
+        );
+        final String content = "content!";
+        final int sort = 2048;
+        final boolean isChecked = false;
+        final Todo todo = new Todo(1L, pairRoom, content, sort, isChecked);
+        todoRepository.save(todo);
+
+        final Long todoId = 1L;
+
+        // When
+        todoService.deleteTodo(todoId);
+
+        // Then
+        final Optional<Todo> findSavedTodo = todoRepository.findById(todoId);
+        assertThat(findSavedTodo).isEmpty();
+    }
 }
