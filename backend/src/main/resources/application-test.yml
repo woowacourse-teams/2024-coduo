@@ -29,3 +29,11 @@ management:
     web:
       exposure:
         include: prometheus
+oauth:
+  github:
+    client-id: ${CLIENT_ID}
+    client-secret: ${CLIENT_SECRET}
+    redirect-uri: ${CLIENT_REDIECT_URI}
+
+jwt:
+  sign-key: ${JWT_KEY}
