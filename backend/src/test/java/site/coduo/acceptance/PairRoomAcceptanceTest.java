@@ -1,5 +1,8 @@
 package site.coduo.acceptance;
 
+import java.time.LocalTime;
+import java.util.Map;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -32,6 +35,30 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .log()
                 .all()
                 .statusCode(200);
+    }
+
+    @Test
+    @DisplayName("타이머 시간을 저장한다.")
+    void save_timer_duration() {
+        // given
+        final PairRoomCreateResponse pairRoomUrl = createPairRoom(new PairRoomCreateRequest("레디", "프람"));
+        final Map<String, Object> request = Map.of("timerDuration", LocalTime.of(0, 30));
+
+        // when & then
+        RestAssured
+                .given()
+                .log()
+                .all()
+                .contentType("application/json")
+                .body(request)
+
+                .when()
+                .post("/api/pair-room/" + pairRoomUrl.accessCode() + "/info")
+
+                .then()
+                .log()
+                .all()
+                .statusCode(201);
     }
 
     @Test

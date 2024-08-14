@@ -21,6 +21,7 @@ import site.coduo.pairroom.dto.PairRoomCreateResponse;
 import site.coduo.pairroom.dto.PairRoomDeleteRequest;
 import site.coduo.pairroom.dto.PairRoomReadRequest;
 import site.coduo.pairroom.dto.PairRoomReadResponse;
+import site.coduo.pairroom.dto.TimerDurationCreateRequest;
 import site.coduo.pairroom.service.PairRoomService;
 
 @RequiredArgsConstructor
@@ -35,10 +36,21 @@ public class PairRoomController implements PairRoomDocs {
     public ResponseEntity<PairRoomCreateResponse> createPairRoom(
             @Valid @RequestBody final PairRoomCreateRequest request
     ) {
-        final PairRoomCreateResponse response = new PairRoomCreateResponse(service.save(request));
+        final PairRoomCreateResponse response = new PairRoomCreateResponse(service.savePairNameAndAccessCode(request));
 
         return ResponseEntity.created(URI.create("/"))
                 .body(response);
+    }
+
+    @PostMapping("/pair-room/{accessCode}/info")
+    public ResponseEntity<Void> createTimerDuration(
+            @PathVariable("accessCode") final String accessCode,
+            @RequestBody final TimerDurationCreateRequest request
+    ) {
+        service.saveTimerDuration(accessCode, request);
+
+        return ResponseEntity.created(URI.create("/"))
+                .build();
     }
 
     @GetMapping("/pair-room/{accessCode}")
