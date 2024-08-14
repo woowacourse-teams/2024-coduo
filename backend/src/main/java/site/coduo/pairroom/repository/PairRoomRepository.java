@@ -21,7 +21,7 @@ public interface PairRoomRepository extends JpaRepository<PairRoom, Long> {
                 .orElseThrow(() -> new PairRoomNotFoundException("존재하지 않는 페어룸 접근 코드입니다."));
     }
 
-    @Modifying
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("UPDATE PairRoom pr SET pr.timerDuration = :newTimerDuration WHERE pr.id = :id")
     int updateTimerDuration(@Param("id") Long id, @Param("newTimerDuration") LocalTime newTimerDuration);
 }
