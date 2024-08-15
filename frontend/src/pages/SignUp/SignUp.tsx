@@ -5,7 +5,7 @@ import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 
 import useInput from '@/hooks/common/useInput';
-import useSignOutHandler from '@/hooks/member/useSignOutHandler';
+import useSignUpHandler from '@/hooks/member/useSignUpHandler';
 
 import * as S from './SignUp.styles';
 
@@ -17,7 +17,7 @@ const SignUp = () => {
     handleChange: onUsernameChange,
   } = useInput();
 
-  const { handleSignOut } = useSignOutHandler();
+  const { handleSignUp } = useSignUpHandler();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onUsernameChange(event, validatePairName(event.target.value));
@@ -38,7 +38,7 @@ const SignUp = () => {
         />
       </S.InputWrapper>
       <S.ButtonWrapper>
-        <Button size="lg" rounded={true} onClick={handleSignOut}>
+        <Button size="lg" rounded={true} onClick={() => handleSignUp(username)}>
           계정 만들기 🥳
         </Button>
       </S.ButtonWrapper>
