@@ -5,6 +5,8 @@ import { LogoIconWithTitle } from '@/assets';
 
 import Spinner from '@/components/common/Spinner/Spinner';
 
+import useUserStatusStore from '@/stores/userStatusStore';
+
 import { getSignInCallback } from '@/apis/oauth';
 
 import * as S from './Callback.styles';
@@ -12,13 +14,14 @@ import * as S from './Callback.styles';
 const Callback = () => {
   const navigate = useNavigate();
   const hasCalledBack = useRef(false);
-
+  const { setUserStatus } = useUserStatusStore();
   const handleCallBack = async () => {
     if (hasCalledBack.current) return;
     hasCalledBack.current = true;
 
     const response = await getSignInCallback();
     if (response.signedUp) {
+      setUserStatus('SIGNED_IN');
       navigate('/');
     } else {
       navigate('/sign-up');
