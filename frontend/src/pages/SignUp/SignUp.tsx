@@ -4,11 +4,8 @@ import validatePairName from '@/validations/common/validatePairName';
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 
-import { addSignUpGithub } from '@/apis/oauth';
-
 import useInput from '@/hooks/common/useInput';
-
-// import useSignUp from '@/queries/Member/Github/useSignUp';
+import useSignOutHandler from '@/hooks/member/useSignOutHandler';
 
 import * as S from './SignUp.styles';
 
@@ -20,12 +17,10 @@ const SignUp = () => {
     handleChange: onUsernameChange,
   } = useInput();
 
+  const { handleSignOut } = useSignOutHandler();
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onUsernameChange(event, validatePairName(event.target.value));
-  };
-
-  const handleSignUp = async () => {
-    await addSignUpGithub(username);
   };
 
   return (
@@ -43,7 +38,7 @@ const SignUp = () => {
         />
       </S.InputWrapper>
       <S.ButtonWrapper>
-        <Button size="lg" rounded={true} onClick={handleSignUp}>
+        <Button size="lg" rounded={true} onClick={handleSignOut}>
           계정 만들기 🥳
         </Button>
       </S.ButtonWrapper>
