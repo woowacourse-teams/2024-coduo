@@ -8,7 +8,7 @@ public record PairRoomReadResponse(
         @Schema(description = "페어룸 id") long id,
         @Schema(description = "첫 번째 페어의 이름") String firstPair,
         @Schema(description = "두 번째 페어의 이름") String secondPair,
-        @Schema(description = "타이머 시간") long timerDuration
+        @Schema(description = "타이머 시간") Long timerDuration
 ) {
 
     public static PairRoomReadResponse from(final PairRoom pairRoom) {
