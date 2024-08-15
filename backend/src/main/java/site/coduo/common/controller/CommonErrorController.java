@@ -15,9 +15,17 @@ public class CommonErrorController {
 
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<ApiErrorResponse> handleNoResourceFoundException(final NoResourceFoundException e) {
-        log.error(e.getMessage(), e);
+        log.warn(e.getMessage());
 
         return ResponseEntity.status(CommonApiError.DATA_NOT_FOUND_ERROR.getHttpStatus())
                 .body(new ApiErrorResponse(CommonApiError.DATA_NOT_FOUND_ERROR.getMessage()));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiErrorResponse> handleException(final Exception e) {
+        log.error(e.getMessage(), e);
+
+        return ResponseEntity.status(CommonApiError.SERVER_ERROR.getHttpStatus())
+                .body(new ApiErrorResponse(CommonApiError.SERVER_ERROR.getMessage()));
     }
 }
