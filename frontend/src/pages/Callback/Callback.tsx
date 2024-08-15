@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { LogoIconWithTitle } from '@/assets';
+
 import Spinner from '@/components/common/Spinner/Spinner';
 
 import { getSignInCallback } from '@/apis/oauth';
@@ -29,8 +31,9 @@ const Callback = () => {
 
   return (
     <S.Layout>
-      <S.LoginText>로그인 중입니다! 잠시만 기다려주세요 ☺️</S.LoginText>
-      <Spinner size="lg" />
+      <S.LogoIconWithTitle src={LogoIconWithTitle} alt="logo" />
+      <S.Title>로그인 중입니다! 잠시만 기다려주세요 ☺️</S.Title>
+      <Spinner size="md" />
     </S.Layout>
   );
 };
