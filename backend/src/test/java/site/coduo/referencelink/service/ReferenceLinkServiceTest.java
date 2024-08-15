@@ -26,9 +26,10 @@ import site.coduo.referencelink.repository.ReferenceLinkEntity;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
 import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
+import site.coduo.utils.CascadeCleaner;
 
 @SpringBootTest
-class ReferenceLinkServiceTest {
+class ReferenceLinkServiceTest extends CascadeCleaner {
 
     @Autowired
     private ReferenceLinkService referenceLinkService;
@@ -47,10 +48,7 @@ class ReferenceLinkServiceTest {
 
     @AfterEach
     void tearDown() {
-        openGraphRepository.deleteAll();
-        referenceLinkRepository.deleteAll();
-        categoryRepository.deleteAll();
-        pairRoomRepository.deleteAll();
+        deleteAllPairRoomCascade();
     }
 
     @Test
