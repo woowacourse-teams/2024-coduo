@@ -224,14 +224,13 @@ class TodoServiceTest {
                 new AccessCode("ACCESS-CODE")
         );
         pairRoomRepository.save(pairRoom);
-        final Todo todo1 = new Todo(1L, pairRoom, "투두1!!", 5555, false);
-        final Todo todo2 = new Todo(2L, pairRoom, "투두2!!", 1024, false);
-        final Todo todo3 = new Todo(3L, pairRoom, "투두3!!", 3434, true);
-        final Todo todo4 = new Todo(4L, pairRoom, "투두4!!", 2048, false);
-        todoRepository.save(todo1);
-        todoRepository.save(todo2);
-        todoRepository.save(todo3);
-        todoRepository.save(todo4);
+        final List<Todo> todos = List.of(
+                new Todo(1L, pairRoom, "투두1!!", 5555, false),
+                new Todo(2L, pairRoom, "투두2!!", 1024, false),
+                new Todo(3L, pairRoom, "투두3!!", 3434, true),
+                new Todo(4L, pairRoom, "투두4!!", 2048, false)
+        );
+        todoRepository.saveAll(todos);
 
         final Long pairRoomId = 1L;
 
@@ -247,6 +246,32 @@ class TodoServiceTest {
             softAssertions.assertThat(all).hasSize(expectSize);
             softAssertions.assertThat(ids).isEqualTo(expectOrder);
         });
+    }
+
+    @DisplayName("존재하지 않은 페어룸 아이디와 함께 투두 리스트 조회 요청을 하면 예외를 발생시킨다.")
+    @Test
+    void getAllOrderBySortWithNotExistPairRoomId() {
+        // Given
+        final PairRoom pairRoom = new PairRoom(
+                1L,
+                new Pair(new PairName("A"), new PairName("B")),
+                new AccessCode("ACCESS-CODE")
+        );
+        pairRoomRepository.save(pairRoom);
+        final List<Todo> todos = List.of(
+                new Todo(1L, pairRoom, "투두1!!", 5555, false),
+                new Todo(2L, pairRoom, "투두2!!", 1024, false),
+                new Todo(3L, pairRoom, "투두3!!", 3434, true),
+                new Todo(4L, pairRoom, "투두4!!", 2048, false)
+        );
+        todoRepository.saveAll(todos);
+
+        final Long pairRoomId = 1343L;
+
+        // When & Then
+        assertThatThrownBy(() -> todoService.getAllOrderBySort(pairRoomId))
+                .isInstanceOf(PairRoomNotFoundException.class)
+                .hasMessage("해당 아이디의 페어룸은 존재하지 않습니다. - " + pairRoomId);
     }
 
     @DisplayName("대상 투두 아이디와 변경할 순서를 입력받으면 위치를 변경시킨다.")
@@ -286,5 +311,33 @@ class TodoServiceTest {
                 Arguments.of(4, List.of(1L, 3L, 4L, 5L, 2L)),
                 Arguments.of(3, List.of(1L, 3L, 4L, 2L, 5L))
         );
+    }
+
+    @DisplayName("존재하지 않은 페어룸 아이디와 함께 투두 순서 변경 요청을 하면 예외를 발생시킨다.")
+    @Test
+    void updateTodoSortWithNotExistPairRoomId() {
+        // Given
+        final PairRoom pairRoom = new PairRoom(
+                1L,
+                new Pair(new PairName("A"), new PairName("B")),
+                new AccessCode("ACCESS-CODE")
+        );
+        pairRoomRepository.save(pairRoom);
+        final List<Todo> todos = List.of(
+                new Todo(1L, pairRoom, "content!", 1024, false),
+                new Todo(2L, pairRoom, "content!", 2048, false),
+                new Todo(3L, pairRoom, "content!", 3072, false),
+                new Todo(4L, pairRoom, "content!", 4000, false),
+                new Todo(5L, pairRoom, "content!", 4096, false)
+        );
+        todoRepository.saveAll(todos);
+
+        final long targetTodoId = 7L;
+        final int destinationSort = 3;
+
+        // When & Then
+        assertThatThrownBy(() -> todoService.updateTodoSort(targetTodoId, destinationSort))
+                .isInstanceOf(TodoNotFoundException.class)
+                .hasMessage("존재하지 않은 todo id입니다." + targetTodoId);
     }
 }
