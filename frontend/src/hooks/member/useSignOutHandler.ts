@@ -12,7 +12,7 @@ const useSignOutHandler = () => {
     await getSignOut();
     setUserStatus('SIGNED_OUT');
     document.cookie = 'whoami=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-    navigate('/landing');
+    navigate('/');
   };
 
   return { handleSignOut };

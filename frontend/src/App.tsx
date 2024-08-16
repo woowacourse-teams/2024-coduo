@@ -1,3 +1,4 @@
+// import { useEffect } from 'react';
 import { useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -25,14 +26,12 @@ const queryClient = new QueryClient();
 
 const App = () => {
   const { setUserStatus } = useUserStatusStore();
-
+  const checkUserStatus = async () => {
+    const response = await getIsUserLoggedIn();
+    setUserStatus(response.signedIn ? 'SIGNED_IN' : 'SIGNED_OUT');
+  };
   useEffect(() => {
     if (process.env.NODE_ENV === 'production') {
-      const checkUserStatus = async () => {
-        const response = await getIsUserLoggedIn();
-        setUserStatus(response.signedIn ? 'SIGNED_IN' : 'SIGNED_OUT');
-      };
-
       checkUserStatus();
     }
   }, []);
@@ -44,11 +43,11 @@ const App = () => {
       errorElement: <PageNotFound />,
       children: [
         {
-          path: 'landing',
+          path: '',
           element: <Landing />,
         },
         {
-          path: '',
+          path: 'main',
           element: <Main />,
         },
         {
