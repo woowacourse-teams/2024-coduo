@@ -13,7 +13,6 @@ spring:
     database: mysql
     hibernate:
       ddl-auto: ${DDL_AUTO}
-    show-sql: true
     database-platform: org.hibernate.dialect.MySQLDialect
 
 springdoc:
