@@ -45,7 +45,7 @@ public class OpenGraph {
                 .build();
     }
 
-    public static OpenGraph from(final Document document, String domain) {
+    public static OpenGraph from(final Document document, final String domain) {
         return OpenGraph.builder()
                 .headTitle(domain)
                 .openGraphTitle(findMetaTag(document, "title"))
@@ -54,7 +54,7 @@ public class OpenGraph {
                 .build();
     }
 
-    public static OpenGraph from(String domain) {
+    public static OpenGraph from(final String domain) {
         return OpenGraph.builder()
                 .headTitle(domain)
                 .openGraphTitle(DEFAULT_VALUE)

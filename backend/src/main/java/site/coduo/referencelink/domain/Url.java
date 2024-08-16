@@ -45,9 +45,9 @@ public class Url {
     }
 
     public String extractDomain() {
-        String regex = "^(?:https?://)?(?:www\\.)?([^:/\\s]+)";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(value);
+        final String regex = "^(?:https?://)?(?:www\\.)?([^:/\\s]+)";
+        final Pattern pattern = Pattern.compile(regex);
+        final Matcher matcher = pattern.matcher(value);
 
         if (matcher.find()) {
             return matcher.group(1);
