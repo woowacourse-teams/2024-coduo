@@ -21,7 +21,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(final CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedMethods("PATCH", "DELETE")
+                .allowedMethods("*")
                 .allowedOrigins("http://localhost:3000", "https://coduo.site")
                 .allowCredentials(true);
     }
