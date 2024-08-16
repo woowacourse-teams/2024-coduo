@@ -17,6 +17,7 @@ public class Url {
 
     private static final Pattern VALID_REGEX = Pattern.compile(
             "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#()?&//=]*)");
+    private static final String DOMAIN_REGEX = "^(?:https?://)?(?:www\\.)?([^:/\\s]+)";
 
     private final String value;
 
@@ -45,10 +46,8 @@ public class Url {
     }
 
     public String extractDomain() {
-        final String regex = "^(?:https?://)?(?:www\\.)?([^:/\\s]+)";
-        final Pattern pattern = Pattern.compile(regex);
+        final Pattern pattern = Pattern.compile(DOMAIN_REGEX);
         final Matcher matcher = pattern.matcher(value);
-
         if (matcher.find()) {
             return matcher.group(1);
         }
