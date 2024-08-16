@@ -24,8 +24,8 @@ public class MemberService {
     @Transactional
     public void createMember(final String username, final String accessToken) {
         final Bearer bearer = new Bearer(accessToken);
-        GithubUserResponse userResponse = githubClient.getUser(new GithubUserRequest(bearer));
-        Member member = userResponse.toDomain(bearer, username);
+        final GithubUserResponse userResponse = githubClient.getUser(new GithubUserRequest(bearer));
+        final Member member = userResponse.toDomain(bearer, username);
 
         memberRepository.save(member);
     }

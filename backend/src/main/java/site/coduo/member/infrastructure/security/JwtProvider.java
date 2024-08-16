@@ -5,6 +5,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
@@ -35,7 +36,7 @@ public class JwtProvider {
         try {
             verify(token);
             return true;
-        } catch (Exception e) {
+        } catch (final JwtException e) {
             return false;
         }
     }
