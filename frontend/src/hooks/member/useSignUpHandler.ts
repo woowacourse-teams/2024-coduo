@@ -11,7 +11,7 @@ const useSignUpHandler = () => {
   const handleSignUp = async (username: string) => {
     await addSignUp(username);
     setUserStatus('SIGNED_IN');
-    navigate('/');
+    navigate('/main');
   };
 
   return { handleSignUp };
