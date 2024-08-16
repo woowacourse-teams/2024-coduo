@@ -4,6 +4,7 @@ import java.net.URI;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import site.coduo.pairroomhistory.controller.docs.PairRoomHistoryDocs;
 import site.coduo.pairroomhistory.dto.PairRoomHistoryCreateRequest;
+import site.coduo.pairroomhistory.dto.PairRoomHistoryReadResponse;
 import site.coduo.pairroomhistory.service.PairRoomHistoryService;
 
 @RequiredArgsConstructor
@@ -32,5 +34,14 @@ public class PairRoomHistoryController implements PairRoomHistoryDocs {
 
         return ResponseEntity.created(URI.create("/"))
                 .build();
+    }
+
+    @GetMapping("/{accessCode}/history/latest")
+    public ResponseEntity<PairRoomHistoryReadResponse> getPairRoomHistory(
+            @PathVariable("accessCode") final String accessCode
+    ) {
+        final PairRoomHistoryReadResponse response = pairRoomHistoryService.readPairRoomHistory(accessCode);
+
+        return ResponseEntity.ok(response);
     }
 }
