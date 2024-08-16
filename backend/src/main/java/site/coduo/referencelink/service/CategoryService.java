@@ -40,24 +40,24 @@ public class CategoryService {
     }
 
     public CategoryCreateResponse createCategory(final String accessCode, final CategoryCreateRequest request) {
-        validateDuplicated(request.value());
         final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
+        validateDuplicated(request.value(), pairRoom);
         final CategoryEntity saved = categoryRepository.save(
                 new CategoryEntity(pairRoom, new Category(request.value())));
 
         return new CategoryCreateResponse(saved.getId(), saved.getCategoryName());
     }
 
-    private void validateDuplicated(final String value) {
-        if (categoryRepository.existsByCategoryName(value)) {
+    private void validateDuplicated(final String categoryName, final PairRoom pairRoom) {
+        if (categoryRepository.existsByCategoryNameAndPairRoom(categoryName, pairRoom)) {
             throw new InvalidCategoryException("중복된 이름의 카테고리가 이미 존재합니다.");
         }
     }
 
     public CategoryUpdateResponse updateCategoryName(final String accessCode,
                                                      final CategoryUpdateRequest request) {
-        validateDuplicated(request.updatedCategoryName());
         final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
+        validateDuplicated(request.updatedCategoryName(), pairRoom);
         final CategoryEntity category = categoryRepository.fetchByPairRoomAndCategoryName(pairRoom,
                 request.previousCategoryName());
         category.updateCategoryName(request.updatedCategoryName());
@@ -65,8 +65,8 @@ public class CategoryService {
     }
 
     public void deleteCategory(final String accessCode, final String categoryName) {
-        if (categoryRepository.existsByCategoryName(categoryName)) {
-            final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
+        final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
+        if (categoryRepository.existsByCategoryNameAndPairRoom(categoryName, pairRoom)) {
             final List<ReferenceLinkEntity> referenceLinks = referenceLinkService.findReferenceLinksEntityByCategory(
                     accessCode, categoryName);
             referenceLinks.forEach(ReferenceLinkEntity::updateCategoryToNull);
