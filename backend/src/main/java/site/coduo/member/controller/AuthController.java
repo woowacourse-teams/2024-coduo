@@ -4,11 +4,6 @@ import static site.coduo.member.controller.GithubOAuthController.ACCESS_TOKEN_SE
 
 import java.net.URI;
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.Iterator;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -33,7 +28,7 @@ import site.coduo.member.service.dto.SignInServiceResponse;
 @Slf4j
 @RequestMapping("/api")
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"https://coduo.site", "http://localhost:3000", "http://localhost:8080"})
+@CrossOrigin(origins = {"https://coduo.site", "http://localhost:3000"})
 @RestController
 public class AuthController {
 
@@ -59,15 +54,10 @@ public class AuthController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<Void> signUp(@RequestBody final SignUpRequest request,
-                                       final HttpServletRequest httpRequest,
                                        @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME, required = false) final String accessToken
     ) {
-        log.warn("-----회원가입 시작-----");
-        log.warn("회원 가입 쿠키 불러오나? -> {}", httpRequest.getCookies().length);
-        log.warn("회원 가입 엑세스 토큰 -> {}", accessToken);
         memberService.createMember(request.username(), accessToken);
 
-        log.warn("-----회원가입 종료-----");
         return ResponseEntity.status(HttpStatus.FOUND)
                 .header(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
                 .location(URI.create("/api/sign-in/callback"))
@@ -76,22 +66,8 @@ public class AuthController {
 
     @GetMapping("/sign-in/callback")
     public ResponseEntity<SignInWebResponse> signInCallback(
-            final HttpServletRequest request,
-            @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME, required = false) final String accessToken,
-            final HttpSession session
+            @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME, required = false) final String accessToken
     ) {
-
-        log.warn("------로그인 시작------");
-        log.warn("로그인에서 엑세스 토큰: {}", accessToken);
-        log.warn("로그인 과정에서 쿠키: {}", request.getCookies().length);
-        Arrays.stream(request.getCookies())
-                .forEach(cookie -> log.info("쿠키 이름: {}, 값: {}", cookie.getName(),
-                        cookie.getAttribute(cookie.getName())));
-        final Iterator<String> iterator = session.getAttributeNames().asIterator();
-        while (iterator.hasNext()) {
-            final String sessionName = iterator.next();
-            log.info("session 이름: {}, 값 {}", sessionName, session.getAttribute(sessionName));
-        }
         final SignInServiceResponse serviceResponse = authService.createSignInToken(accessToken);
         final ResponseCookie cookie = ResponseCookie.from(SIGN_IN_COOKIE_NAME)
                 .value(serviceResponse.token())
@@ -100,8 +76,6 @@ public class AuthController {
                 .domain(SERVICE_DOMAIN_NAME)
                 .path("/")
                 .build();
-
-        log.warn("------로그인 종료------");
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())

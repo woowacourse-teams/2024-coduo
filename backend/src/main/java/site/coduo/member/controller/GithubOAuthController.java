@@ -2,7 +2,6 @@ package site.coduo.member.controller;
 
 import java.net.URI;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.http.HttpHeaders;
@@ -28,7 +27,7 @@ import site.coduo.member.service.GithubOAuthService;
 @Slf4j
 @RequestMapping("/api")
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"https://coduo.site", "http://localhost:3000", "http://127.0.0.1:3000"})
+@CrossOrigin(origins = {"https://coduo.site", "http://localhost:3000"})
 @RestController
 public class GithubOAuthController {
 
@@ -42,13 +41,10 @@ public class GithubOAuthController {
 
     @GetMapping("/sign-in/oauth/github")
     public ResponseEntity<GithubOAuthEndpoint> getGithubAuthCode(final HttpSession session) {
-        log.warn("--- 프론트로 깃허브 URI 보내기 시작 ---");
         final GithubAuthQuery query = githubOAuthService.createAuthorizationContent();
         final GithubAuthUri githubAuthUri = new GithubAuthUri(query);
         session.setAttribute(STATE_SESSION_NAME, query.state());
         session.setMaxInactiveInterval(STATE_SESSION_EXPIRE_IN);
-        log.warn("생성한 state 값: {}", query.state());
-        log.warn("--- 프론트로 깃허브 URI 보내기 종료 ---");
         return ResponseEntity.ok()
                 .header(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
                 .body(new GithubOAuthEndpoint(githubAuthUri.toPlainText()));
@@ -57,13 +53,8 @@ public class GithubOAuthController {
     @GetMapping("/github/callback")
     public ResponseEntity<Void> getAccessToken(@ModelAttribute final GithubCallbackQuery query,
                                                @SessionAttribute(name = STATE_SESSION_NAME) final String state,
-                                               final HttpServletRequest request,
                                                final HttpSession session) {
 
-        log.warn("--- 깃허브에서 온 콜백 시작 ---");
-        log.warn("세션에 저장된 state: {}", state);
-        log.warn("깃허브에서 보내주는 state: {}", query.state());
-        log.warn("쿠키 오나요?!: {}", request.getCookies().length);
         State savedState = new State(state);
         savedState.validate(new State(query.state()));
         final TokenResponse tokenResponse = githubOAuthService.invokeOAuthCallback(query.code());
@@ -72,7 +63,6 @@ public class GithubOAuthController {
         session.setAttribute(ACCESS_TOKEN_SESSION_NAME, tokenResponse.accessToken());
         session.setMaxInactiveInterval(ACCESS_TOKEN_EXPIRE_IN);
 
-        log.warn("--- 깃허브에서 온 콜백 종료 ---");
         return ResponseEntity.status(HttpStatus.FOUND)
                 .header(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
                 .location(URI.create("https://coduo.site/callback"))

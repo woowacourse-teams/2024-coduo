@@ -26,11 +26,6 @@ public class MemberService {
         final Bearer bearer = new Bearer(accessToken);
         GithubUserResponse userResponse = githubClient.getUser(new GithubUserRequest(bearer));
         Member member = userResponse.toDomain(bearer, username);
-        log.warn("member access token: {}", member.getAccessToken());
-        log.warn("member username: {}", member.getUsername());
-        log.warn("member userId: {}", member.getUserId());
-        log.warn("member loginId: {}", member.getLoginId());
-        log.warn("member profile photo: {}", member.getProfileImage());
 
         memberRepository.save(member);
     }
