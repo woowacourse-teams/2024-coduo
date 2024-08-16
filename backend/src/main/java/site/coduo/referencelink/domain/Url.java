@@ -51,8 +51,7 @@ public class Url {
 
         if (matcher.find()) {
             return matcher.group(1);
-        } else {
-            return OpenGraph.DEFAULT_VALUE;
         }
+        return OpenGraph.DEFAULT_VALUE;
     }
 }
