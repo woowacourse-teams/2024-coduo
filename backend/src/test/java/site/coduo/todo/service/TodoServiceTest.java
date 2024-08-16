@@ -290,11 +290,13 @@ class TodoServiceTest {
                 new Todo(2L, pairRoom, "content!", 2048, false),
                 new Todo(3L, pairRoom, "content!", 3072, false),
                 new Todo(4L, pairRoom, "content!", 4000, false),
-                new Todo(5L, pairRoom, "content!", 4096, false)
+                new Todo(5L, pairRoom, "content!", 4096, false),
+                new Todo(6L, pairRoom, "content!", 5500, false),
+                new Todo(7L, pairRoom, "content!", 6000, false)
         );
         todoRepository.saveAll(todos);
 
-        final long targetTodoId = 2L;
+        final long targetTodoId = 4L;
 
         // When
         todoService.updateTodoSort(targetTodoId, destinationSort);
@@ -307,9 +309,10 @@ class TodoServiceTest {
 
     private static Stream<Arguments> destinationSortAndExpectOrder() {
         return Stream.of(
-                Arguments.of(0, List.of(2L, 1L, 3L, 4L, 5L)),
-                Arguments.of(4, List.of(1L, 3L, 4L, 5L, 2L)),
-                Arguments.of(3, List.of(1L, 3L, 4L, 2L, 5L))
+                Arguments.of(0, List.of(4L, 1L, 2L, 3L, 5L, 6L, 7L)),
+                Arguments.of(6, List.of(1L, 2L, 3L, 5L, 6L, 7L, 4L)),
+                Arguments.of(1, List.of(1L, 4L, 2L, 3L, 5L, 6L, 7L)),
+                Arguments.of(5, List.of(1L, 2L, 3L, 5L, 6L, 4L, 7L))
         );
     }
 
