@@ -7,6 +7,7 @@ import { ThemeProvider } from 'styled-components';
 import Callback from '@/pages/Callback/Callback';
 import PageNotFound from '@/pages/Error/PageNotFound';
 import HowToPair from '@/pages/HowToPair/HowToPair';
+import Landing from '@/pages/Landing/Landing';
 import Layout from '@/pages/Layout';
 import Main from '@/pages/Main/Main';
 import PairRoom from '@/pages/PairRoom/PairRoom';
@@ -26,12 +27,14 @@ const App = () => {
   const { setUserStatus } = useUserStatusStore();
 
   useEffect(() => {
-    const checkUserStatus = async () => {
-      const response = await getIsUserLoggedIn();
-      setUserStatus(response.signedIn ? 'SIGNED_IN' : 'SIGNED_OUT');
-    };
+    if (process.env.NODE_ENV === 'production') {
+      const checkUserStatus = async () => {
+        const response = await getIsUserLoggedIn();
+        setUserStatus(response.signedIn ? 'SIGNED_IN' : 'SIGNED_OUT');
+      };
 
-    checkUserStatus();
+      checkUserStatus();
+    }
   }, []);
 
   const router = createBrowserRouter([
@@ -40,6 +43,10 @@ const App = () => {
       element: <Layout />,
       errorElement: <PageNotFound />,
       children: [
+        {
+          path: 'landing',
+          element: <Landing />,
+        },
         {
           path: '',
           element: <Main />,
