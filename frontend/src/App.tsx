@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -12,12 +13,27 @@ import PairRoom from '@/pages/PairRoom/PairRoom';
 import PairRoomOnboarding from '@/pages/PairRoomOnboarding/PairRoomOnboarding';
 import SignUp from '@/pages/SignUp/SignUp';
 
+import useUserStatusStore from '@/stores/userStatusStore';
+
+import { getIsUserLoggedIn } from '@/apis/oauth';
+
 import GlobalStyles from './styles/Global.style';
 import { theme } from './styles/theme';
 
 const queryClient = new QueryClient();
 
 const App = () => {
+  const { setUserStatus } = useUserStatusStore();
+
+  useEffect(() => {
+    const checkUserStatus = async () => {
+      const response = await getIsUserLoggedIn();
+      setUserStatus(response.signedIn ? 'SIGNED_IN' : 'SIGNED_OUT');
+    };
+
+    checkUserStatus();
+  }, []);
+
   const router = createBrowserRouter([
     {
       path: '/',
