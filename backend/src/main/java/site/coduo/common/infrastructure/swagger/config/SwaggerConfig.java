@@ -32,14 +32,14 @@ public class SwaggerConfig {
         final SecurityScheme bearerAuth = new SecurityScheme()
                 .type(SecurityScheme.Type.HTTP)
                 .scheme("bearer")
-                .bearerFormat("Authorization")
+                .bearerFormat(HttpHeaders.AUTHORIZATION)
                 .in(SecurityScheme.In.HEADER)
                 .name(HttpHeaders.AUTHORIZATION);
 
-        return new Components().addSecuritySchemes("Authorization", bearerAuth);
+        return new Components().addSecuritySchemes(HttpHeaders.AUTHORIZATION, bearerAuth);
     }
 
     private SecurityRequirement securityRequirement() {
-        return new SecurityRequirement().addList("Authorization");
+        return new SecurityRequirement().addList(HttpHeaders.AUTHORIZATION);
     }
 }

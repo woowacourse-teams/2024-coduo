@@ -27,21 +27,22 @@ public class ReferenceLinkController implements ReferenceLinkDocs {
     private final ReferenceLinkService referenceLinkService;
 
     @PostMapping("/{accessCode}/reference-link")
-    public ResponseEntity<Void> createReferenceLink(
+    public ResponseEntity<ReferenceLinkResponse> createReferenceLink(
             @PathVariable("accessCode") final String accessCodeText,
             @Valid @RequestBody final ReferenceLinkCreateRequest request
     ) {
-        referenceLinkService.createReferenceLinkCommand(accessCodeText, request);
+        final ReferenceLinkResponse response = referenceLinkService.createReferenceLink(
+                accessCodeText, request);
 
         return ResponseEntity.created(URI.create("/"))
-                .build();
+                .body(response);
     }
 
     @GetMapping("/{accessCode}/reference-link")
     public ResponseEntity<List<ReferenceLinkResponse>> getReferenceLinks(
             @PathVariable("accessCode") final String accessCodeText
     ) {
-        final List<ReferenceLinkResponse> responses = referenceLinkService.readAllReferenceLinkQuery(accessCodeText);
+        final List<ReferenceLinkResponse> responses = referenceLinkService.readAllReferenceLink(accessCodeText);
 
         return ResponseEntity.ok(responses);
     }
@@ -62,7 +63,7 @@ public class ReferenceLinkController implements ReferenceLinkDocs {
             @PathVariable("accessCode") final String accessCodeText,
             @PathVariable("id") final long id
     ) {
-        referenceLinkService.deleteReferenceLinkCommand(id);
+        referenceLinkService.deleteReferenceLink(id);
 
         return ResponseEntity.noContent()
                 .build();

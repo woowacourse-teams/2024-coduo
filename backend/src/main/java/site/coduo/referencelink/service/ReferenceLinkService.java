@@ -30,13 +30,15 @@ public class ReferenceLinkService {
     private final CategoryRepository categoryRepository;
     private final OpenGraphService openGraphService;
 
-    public void createReferenceLinkCommand(final String accessCodeText, final ReferenceLinkCreateRequest request) {
+    public ReferenceLinkResponse createReferenceLink(final String accessCodeText,
+                                                     final ReferenceLinkCreateRequest request) {
         final AccessCode accessCode = new AccessCode(accessCodeText);
         final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(accessCode);
         final ReferenceLink referenceLink = new ReferenceLink(new Url(request.url()), accessCode);
 
-        final ReferenceLinkEntity saved = saveReferenceLink(request, pairRoom, referenceLink);
-        openGraphService.createOpenGraphCommand(saved);
+        final ReferenceLinkEntity referenceLinkEntity = saveReferenceLink(request, pairRoom, referenceLink);
+        final OpenGraph openGraph = openGraphService.createOpenGraph(referenceLinkEntity);
+        return new ReferenceLinkResponse(referenceLinkEntity, openGraph);
     }
 
     public ReferenceLinkEntity saveReferenceLink(final ReferenceLinkCreateRequest request,
@@ -52,7 +54,7 @@ public class ReferenceLinkService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReferenceLinkResponse> readAllReferenceLinkQuery(final String accessCodeText) {
+    public List<ReferenceLinkResponse> readAllReferenceLink(final String accessCodeText) {
         final List<ReferenceLinkEntity> referenceLinkEntities = referenceLinkRepository.findAll()
                 .stream()
                 .filter(link -> link.isSameAccessCode(new AccessCode(accessCodeText)))
@@ -95,12 +97,12 @@ public class ReferenceLinkService {
     }
 
     private ReferenceLinkResponse makeReferenceLinkResponse(final ReferenceLinkEntity referenceLinkEntity) {
-        final OpenGraph openGraph = openGraphService.findOpenGraphQuery(referenceLinkEntity.getId());
+        final OpenGraph openGraph = openGraphService.findOpenGraph(referenceLinkEntity.getId());
         return new ReferenceLinkResponse(referenceLinkEntity, openGraph);
     }
 
-    public void deleteReferenceLinkCommand(final long id) {
-        openGraphService.deleteByReferenceLinkIdCommand(id);
+    public void deleteReferenceLink(final long id) {
+        openGraphService.deleteByReferenceLinkId(id);
         referenceLinkRepository.deleteById(id);
     }
 }
