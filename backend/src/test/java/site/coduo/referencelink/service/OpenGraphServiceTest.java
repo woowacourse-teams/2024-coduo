@@ -73,7 +73,7 @@ class OpenGraphServiceTest {
         final ReferenceLinkEntity referenceLinkEntity = referenceLinkRepository.save(referenceLink);
 
         // when
-        openGraphService.createOpenGraphCommand(referenceLinkEntity);
+        openGraphService.createOpenGraph(referenceLinkEntity);
 
         // then
         assertThat(openGraphRepository.findAll())
@@ -84,7 +84,7 @@ class OpenGraphServiceTest {
     @Test
     void return_null_when_cannot_find_open_graph() {
         // given & when
-        final OpenGraph openGraph = openGraphService.findOpenGraphQuery(1L);
+        final OpenGraph openGraph = openGraphService.findOpenGraph(1L);
 
         // then
         assertAll(
@@ -115,10 +115,10 @@ class OpenGraphServiceTest {
                 pairRoom
         );
         final ReferenceLinkEntity referenceLinkEntity = referenceLinkRepository.save(referenceLink);
-        openGraphService.createOpenGraphCommand(referenceLinkEntity);
+        openGraphService.createOpenGraph(referenceLinkEntity);
 
         // when
-        openGraphService.deleteByReferenceLinkIdCommand(referenceLinkEntity.getId());
+        openGraphService.deleteByReferenceLinkId(referenceLinkEntity.getId());
 
         // then
         assertThat(openGraphRepository.findAll()).isEmpty();

@@ -22,10 +22,11 @@ public class OpenGraphService {
 
     private final OpenGraphRepository openGraphRepository;
 
-    public void createOpenGraphCommand(final ReferenceLinkEntity referenceLinkEntity) {
+    public OpenGraph createOpenGraph(final ReferenceLinkEntity referenceLinkEntity) {
         final OpenGraph openGraph = getOpenGraph(referenceLinkEntity);
         final OpenGraphEntity openGraphEntity = new OpenGraphEntity(openGraph, referenceLinkEntity);
-        openGraphRepository.save(openGraphEntity);
+        return openGraphRepository.save(openGraphEntity)
+                .toDomain();
     }
 
     private OpenGraph getOpenGraph(final ReferenceLinkEntity referenceLinkEntity) {
@@ -51,7 +52,7 @@ public class OpenGraphService {
     }
 
     @Transactional(readOnly = true)
-    public OpenGraph findOpenGraphQuery(final Long id) {
+    public OpenGraph findOpenGraph(final Long id) {
         final Optional<OpenGraphEntity> openGraphEntity = openGraphRepository.findByReferenceLinkEntityId(id);
         if (openGraphEntity.isPresent()) {
             return openGraphEntity.get().toDomain();
@@ -59,7 +60,7 @@ public class OpenGraphService {
         return new OpenGraph();
     }
 
-    public void deleteByReferenceLinkIdCommand(final long referenceLinkEntityId) {
+    public void deleteByReferenceLinkId(final long referenceLinkEntityId) {
         openGraphRepository.deleteByReferenceLinkEntityId(referenceLinkEntityId);
     }
 }
