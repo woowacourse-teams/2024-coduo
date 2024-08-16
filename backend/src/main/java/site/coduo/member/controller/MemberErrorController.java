@@ -3,7 +3,6 @@ package site.coduo.member.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +12,6 @@ import site.coduo.member.exception.AuthenticationException;
 import site.coduo.member.exception.AuthorizationException;
 
 @Slf4j
-@RequestMapping("/api")
 @RestControllerAdvice
 public class MemberErrorController {
 
