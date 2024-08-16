@@ -35,7 +35,7 @@ public class GithubOAuthController {
 
     private static final String STATE_SESSION_NAME = "state";
     private static final int STATE_SESSION_EXPIRE_IN = 30;
-    private static final int ACCESS_TOKEN_EXPIRE_IN = 300;
+    private static final int ACCESS_TOKEN_EXPIRE_IN = 600;
 
     private final GithubOAuthService githubOAuthService;
 

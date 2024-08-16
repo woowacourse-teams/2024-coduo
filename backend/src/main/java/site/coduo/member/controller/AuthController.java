@@ -3,12 +3,12 @@ package site.coduo.member.controller;
 import static site.coduo.member.controller.GithubOAuthController.ACCESS_TOKEN_SESSION_NAME;
 
 import java.net.URI;
-import java.time.Duration;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,8 +19,9 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import site.coduo.member.controller.dto.member.SignInWebResponse;
-import site.coduo.member.controller.dto.member.SignUpRequest;
+import site.coduo.member.controller.dto.auth.SignInCookie;
+import site.coduo.member.controller.dto.auth.SignInWebResponse;
+import site.coduo.member.controller.dto.auth.SignUpRequest;
 import site.coduo.member.service.AuthService;
 import site.coduo.member.service.MemberService;
 import site.coduo.member.service.dto.SignInServiceResponse;
@@ -32,22 +33,15 @@ import site.coduo.member.service.dto.SignInServiceResponse;
 @RestController
 public class AuthController {
 
-    private static final String SIGN_IN_COOKIE_NAME = "coduo_whoami";
-    private static final String SERVICE_DOMAIN_NAME = "coduo.site";
-
     private final AuthService authService;
     private final MemberService memberService;
 
     @GetMapping("/sign-out")
-    public ResponseEntity<Void> signOut() {
-        final ResponseCookie expireCookie = ResponseCookie.from(SIGN_IN_COOKIE_NAME)
-                .maxAge(Duration.ZERO)
-                .domain(SERVICE_DOMAIN_NAME)
-                .path("/")
-                .build();
+    public ResponseEntity<Void> signOut(@CookieValue(name = SignInCookie.SIGN_IN_COOKIE_NAME) String signInToken) {
+        final SignInCookie cookie = new SignInCookie(signInToken);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, expireCookie.toString())
+                .header(HttpHeaders.SET_COOKIE, cookie.expire().toString())
                 .header(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
                 .build();
     }
@@ -69,13 +63,7 @@ public class AuthController {
             @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME, required = false) final String accessToken
     ) {
         final SignInServiceResponse serviceResponse = authService.createSignInToken(accessToken);
-        final ResponseCookie cookie = ResponseCookie.from(SIGN_IN_COOKIE_NAME)
-                .value(serviceResponse.token())
-                .httpOnly(true)
-                .secure(true)
-                .domain(SERVICE_DOMAIN_NAME)
-                .path("/")
-                .build();
+        final ResponseCookie cookie = new SignInCookie(serviceResponse.token()).generate();
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
