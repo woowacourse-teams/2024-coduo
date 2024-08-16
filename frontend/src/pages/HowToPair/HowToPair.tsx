@@ -3,7 +3,9 @@ import * as S from './HowToPair.styles';
 const HowToPair = () => {
   return (
     <S.Layout>
-      <S.Title>페어 프로그래밍: What, Why, How</S.Title>
+      <S.Title>
+        <S.Title>페어 프로그래밍: What, Why, How</S.Title>
+      </S.Title>
 
       <S.Section>
         <S.SectionTitle>페어 프로그래밍이란?</S.SectionTitle>

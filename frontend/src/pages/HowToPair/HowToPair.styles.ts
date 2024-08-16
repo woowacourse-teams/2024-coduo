@@ -1,12 +1,16 @@
 import styled from 'styled-components';
 
+import { Wave } from '@/assets';
+
 export const Layout = styled.div`
   position: relative;
 
   padding: 4rem;
 
+  background: no-repeat url(${Wave});
   color: ${({ theme }) => theme.color.black[80]};
   line-height: 1.2;
+  background-size: contain;
 `;
 
 export const Title = styled.h1`
