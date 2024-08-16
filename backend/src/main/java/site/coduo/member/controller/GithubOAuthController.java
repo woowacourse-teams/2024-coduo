@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -25,7 +24,6 @@ import site.coduo.member.controller.dto.oauth.State;
 import site.coduo.member.service.GithubOAuthService;
 
 @Slf4j
-@RequestMapping("/api")
 @RequiredArgsConstructor
 @CrossOrigin(origins = {"https://coduo.site", "http://localhost:3000"})
 @RestController
@@ -43,8 +41,10 @@ public class GithubOAuthController {
     public ResponseEntity<GithubOAuthEndpoint> getGithubAuthCode(final HttpSession session) {
         final GithubAuthQuery query = githubOAuthService.createAuthorizationContent();
         final GithubAuthUri githubAuthUri = new GithubAuthUri(query);
+
         session.setAttribute(STATE_SESSION_NAME, query.state());
         session.setMaxInactiveInterval(STATE_SESSION_EXPIRE_IN);
+
         return ResponseEntity.ok()
                 .header(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
                 .body(new GithubOAuthEndpoint(githubAuthUri.toPlainText()));
