@@ -1,12 +1,16 @@
 package site.coduo.todo.domain;
 
+import java.util.List;
+
 import lombok.Getter;
 import site.coduo.todo.domain.exception.InvalidTodoSortException;
+import site.coduo.todo.domain.exception.InvalidUpdatedTodoSortException;
 
 @Getter
 public class TodoSort {
 
     private static final int SORT_INTERVAL = 1024;
+    private static final int FIRST_INDEX = 0;
 
     private final int sort;
 
@@ -25,8 +29,28 @@ public class TodoSort {
         return new TodoSort(sort + SORT_INTERVAL);
     }
 
-    public TodoSort countBetweenSort(final TodoSort frontSort, final TodoSort backSort) {
-        final int betweenSortValue = (frontSort.getSort() + backSort.getSort()) / 2;
-        return new TodoSort(betweenSortValue);
+    public TodoSort update(final List<TodoSort> todoSorts, final int destinationSort) {
+        validateUpdateSort(todoSorts.size(), destinationSort);
+
+        if (destinationSort == FIRST_INDEX) {
+            final int oldFirstItemSortValue = todoSorts.get(FIRST_INDEX).getSort();
+            return new TodoSort(oldFirstItemSortValue - SORT_INTERVAL);
+        }
+
+        final int lastItemIndex = todoSorts.size() - 1;
+        if (destinationSort == lastItemIndex) {
+            final int oldLastItemSortValue = todoSorts.get(lastItemIndex).getSort();
+            return new TodoSort(oldLastItemSortValue + SORT_INTERVAL);
+        }
+
+        final int frontItemSortValue = todoSorts.get(destinationSort).getSort();
+        final int backItemSortValue = todoSorts.get(destinationSort + 1).getSort();
+        return new TodoSort((frontItemSortValue + backItemSortValue) / 2);
+    }
+
+    private void validateUpdateSort(final int allTodoSize, final int destinationSort) {
+        if (destinationSort < FIRST_INDEX || destinationSort >= allTodoSize) {
+            throw new InvalidUpdatedTodoSortException("Todo 순서는 전체 Todo 범위를 벗어나는 위치일 수 없습니다. sort - " + destinationSort);
+        }
     }
 }

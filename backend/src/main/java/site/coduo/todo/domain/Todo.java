@@ -1,5 +1,7 @@
 package site.coduo.todo.domain;
 
+import java.util.List;
+
 import lombok.Getter;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.todo.domain.exception.InvalidTodoArgumentException;
@@ -71,12 +73,16 @@ public class Todo {
         );
     }
 
-    public Todo updateSort(final TodoSort frontSort, final TodoSort backSort) {
+    public Todo updateSort(final List<Todo> todos, final int destinationSort) {
+        final List<TodoSort> todoSorts = todos.stream()
+                .map(Todo::getSort)
+                .toList();
+
         return new Todo(
                 this.id,
                 this.getPairRoom(),
                 this.getContent(),
-                this.getSort().countBetweenSort(frontSort, backSort),
+                this.getSort().update(todoSorts, destinationSort),
                 this.getIsChecked()
         );
     }

@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
+import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -109,7 +111,7 @@ class TodoTest {
         });
     }
 
-    @DisplayName("앞/뒤 정렬 값이 주어지면 변경된 정렬값을 가진 객체를 생성해 반환한다.")
+    @DisplayName("전체 투두 아이템들과 변경할 순서 위치가 입력되면 변경된 순서의 투두를 반환한다.")
     @Test
     void updateSort() {
         // Given
@@ -121,17 +123,23 @@ class TodoTest {
                 1L,
                 pairRoom,
                 "content!",
-                1024,
+                2048,
                 false
         );
 
-        final TodoSort frontSort = new TodoSort(6144);
-        final TodoSort backSort = new TodoSort(8192);
+        final List<Todo> todos = List.of(
+                new Todo(1L, pairRoom, "content!", 1024, false),
+                new Todo(1L, pairRoom, "content!", 2048, false),
+                new Todo(1L, pairRoom, "content!", 3072, false),
+                new Todo(1L, pairRoom, "content!", 4000, false),
+                new Todo(1L, pairRoom, "content!", 4096, false)
+        );
+        final int destinationSort = 3;
 
-        final int expect = 7168;
+        final int expect = 4048;
 
         // When
-        final Todo updated = todo.updateSort(frontSort, backSort);
+        final Todo updated = todo.updateSort(todos, destinationSort);
 
         // Then
         assertSoftly(softAssertions -> {

@@ -6,10 +6,14 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
@@ -245,35 +249,42 @@ class TodoServiceTest {
         });
     }
 
-    @DisplayName("현재 투두 아이디와 이동시킬 위치의 앞/뒤 투두 아이디를 입력하면 기존 투두의 정렬 값을 수정해 저장한다.")
-    @Test
-    void updateTodoSort() {
+    @DisplayName("대상 투두 아이디와 변경할 순서를 입력받으면 위치를 변경시킨다.")
+    @MethodSource("destinationSortAndExpectOrder")
+    @ParameterizedTest
+    void updateTodoSort(final int destinationSort, final List<Long> expect) {
         // Given
         final PairRoom pairRoom = new PairRoom(
+                1L,
                 new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode("ACCESS-CODE")
         );
-        final Todo targetTodo = new Todo(1L, pairRoom, "투두1!!", 1024, false);
-        final Todo frontTodo = new Todo(2L, pairRoom, "투두2!!", 6144, false);
-        final Todo backTodo = new Todo(3L, pairRoom, "투두3!!", 8192, false);
-        todoRepository.save(targetTodo);
-        todoRepository.save(frontTodo);
-        todoRepository.save(backTodo);
+        pairRoomRepository.save(pairRoom);
+        final List<Todo> todos = List.of(
+                new Todo(1L, pairRoom, "content!", 1024, false),
+                new Todo(2L, pairRoom, "content!", 2048, false),
+                new Todo(3L, pairRoom, "content!", 3072, false),
+                new Todo(4L, pairRoom, "content!", 4000, false),
+                new Todo(5L, pairRoom, "content!", 4096, false)
+        );
+        todoRepository.saveAll(todos);
 
-        final long targetTodoId = 1L;
-        final long frontTodoId = 2L;
-        final long backTodoId = 3L;
-
-        final int expect = 7168;
+        final long targetTodoId = 2L;
 
         // When
-        todoService.updateTodoSort(targetTodoId, frontTodoId, backTodoId);
+        todoService.updateTodoSort(targetTodoId, destinationSort);
 
         // Then
-        final Optional<Todo> findUpdatedTodo = todoRepository.findById(targetTodoId);
-        assertThat(findUpdatedTodo).isPresent();
+        final List<Long> orders = todoRepository.findAllByPairRoomOrderBySortAsc(pairRoom)
+                .stream().map(Todo::getId).toList();
+        assertThat(orders).isEqualTo(expect);
+    }
 
-        final Todo updatedTodo = findUpdatedTodo.get();
-        assertThat(updatedTodo.getSort().getSort()).isEqualTo(expect);
+    private static Stream<Arguments> destinationSortAndExpectOrder() {
+        return Stream.of(
+                Arguments.of(0, List.of(2L, 1L, 3L, 4L, 5L)),
+                Arguments.of(4, List.of(1L, 3L, 4L, 5L, 2L)),
+                Arguments.of(3, List.of(1L, 3L, 4L, 2L, 5L))
+        );
     }
 }

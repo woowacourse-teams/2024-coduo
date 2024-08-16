@@ -58,4 +58,10 @@ public class FakeTodoRepository implements TodoRepository {
                 .sorted(Comparator.comparingInt(todo -> todo.getSort().getSort()))
                 .toList();
     }
+
+    public void saveAll(final List<Todo> todos) {
+        for (Todo todo : todos) {
+            save(todo);
+        }
+    }
 }
