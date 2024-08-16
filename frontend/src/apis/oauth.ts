@@ -17,7 +17,20 @@ export const getSignInGithub = async (): Promise<SignInGithubResponse> => {
   return await response.json();
 };
 
-export const addSignUpGithub = async (username: string): Promise<void> => {
+export interface IsUserLoggedInResponse {
+  signedIn: boolean;
+}
+
+export const getIsUserLoggedIn = async (): Promise<IsUserLoggedInResponse> => {
+  const response = await fetcher.get({
+    url: `${API_URL}/sign-in/check`,
+    errorMessage: ERROR_MESSAGES.CHECK_USER_LOGIN,
+  });
+
+  return await response.json();
+};
+
+export const addSignUp = async (username: string): Promise<void> => {
   const response = await fetcher.post({
     url: `${API_URL}/sign-up`,
     body: JSON.stringify({ username }),
