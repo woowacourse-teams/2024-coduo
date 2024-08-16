@@ -5,13 +5,7 @@ import { getPairRoom } from '@/apis/pairRoom';
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
 const useGetPairRoomInformation = (accessCode: string) => {
-  const {
-    data: pairNames,
-    isFetching,
-    isError,
-    refetch,
-    isSuccess,
-  } = useQuery({
+  const { data, isFetching, isError, refetch, isSuccess } = useQuery({
     queryKey: [QUERY_KEYS.GET_PAIR_ROOM],
     queryFn: () => getPairRoom(accessCode),
     retry: 0,
@@ -19,8 +13,9 @@ const useGetPairRoomInformation = (accessCode: string) => {
   });
 
   return {
-    firstPair: pairNames?.firstPair || '',
-    secondPair: pairNames?.secondPair || '',
+    firstPair: data?.firstPair || '',
+    secondPair: data?.secondPair || '',
+    timeDuration: data?.timerDuration || 0,
     isSuccess,
     isError,
     isFetching,

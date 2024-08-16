@@ -46,7 +46,7 @@ const PairRoomOnboarding = () => {
     setStep('TIMER');
   };
 
-  const handleTimerSelection = (timer: number) => {
+  const handleTimerSelection = (timer: string) => {
     handleAddTimer({ timer, accessCode: accessCode || '' });
   };
 

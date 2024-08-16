@@ -38,14 +38,14 @@ export const addPairNames = async ({ firstPair, secondPair }: AddPairNamesReques
 };
 
 interface UpdateTimerRequest {
-  timer: number;
+  timer: string;
   accessCode: string;
 }
 
 export const updateTimer = async ({ timer, accessCode }: UpdateTimerRequest) => {
   await fetcher.patch({
     url: `${API_URL}/pair-room/${accessCode}/timer`,
-    body: JSON.stringify({ timerDuration: timer }),
+    body: JSON.stringify({ timerDuration: Number(timer) * 60 * 1000 }),
     errorMessage: '',
   });
 };
