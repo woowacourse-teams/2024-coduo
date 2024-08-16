@@ -21,7 +21,7 @@ const Header = () => {
 
   return (
     <S.Layout>
-      <Link to="/">
+      <Link to="/landing">
         <S.Logo src={LogoIcon} alt="logo_icon_with_title" />
       </Link>
       <S.LinkContainer>
@@ -41,7 +41,7 @@ const Header = () => {
           <S.LoginText onClick={handleSignInGithub}>Github로 로그인</S.LoginText>
         )}
 
-        <Link to="/">
+        <Link to="/landing">
           <S.HomeLink>
             <LuHome size={theme.iconSize.sm} />
           </S.HomeLink>

@@ -1,8 +1,13 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { LogoIconWithTitle } from '@/assets';
 import validatePairName from '@/validations/common/validatePairName';
 
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
+
+import useUserStatusStore from '@/stores/userStatusStore';
 
 import useInput from '@/hooks/common/useInput';
 import useSignUpHandler from '@/hooks/member/useSignUpHandler';
@@ -10,6 +15,15 @@ import useSignUpHandler from '@/hooks/member/useSignUpHandler';
 import * as S from './SignUp.styles';
 
 const SignUp = () => {
+  const { userStatus } = useUserStatusStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userStatus === 'SIGNED_IN') {
+      navigate('/main', { replace: true });
+    }
+  }, [userStatus, navigate]);
+
   const {
     value: username,
     status: usernameStatus,
