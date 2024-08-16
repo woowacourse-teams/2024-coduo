@@ -8,7 +8,7 @@ import site.coduo.todo.domain.Todo;
 
 public interface TodoRepository {
 
-    List<Todo> findAllByOrderBySortAsc();
+    List<Todo> findAllByPairRoomOrderBySortAsc(final PairRoom pairRoom);
 
     Optional<Todo> findById(Long id);
 

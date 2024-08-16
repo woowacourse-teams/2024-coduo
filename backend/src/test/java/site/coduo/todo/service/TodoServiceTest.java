@@ -215,9 +215,11 @@ class TodoServiceTest {
     void getAll() {
         // Given
         final PairRoom pairRoom = new PairRoom(
+                1L,
                 new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode("ACCESS-CODE")
         );
+        pairRoomRepository.save(pairRoom);
         final Todo todo1 = new Todo(1L, pairRoom, "투두1!!", 5555, false);
         final Todo todo2 = new Todo(2L, pairRoom, "투두2!!", 1024, false);
         final Todo todo3 = new Todo(3L, pairRoom, "투두3!!", 3434, true);
@@ -227,11 +229,13 @@ class TodoServiceTest {
         todoRepository.save(todo3);
         todoRepository.save(todo4);
 
+        final Long pairRoomId = 1L;
+
         final int expectSize = 4;
         final List<Long> expectOrder = List.of(2L, 4L, 3L, 1L);
 
         // When
-        final List<Todo> all = todoService.getAllOrderBySort();
+        final List<Todo> all = todoService.getAllOrderBySort(pairRoomId);
 
         // Then
         final List<Long> ids = all.stream().map(Todo::getId).toList();

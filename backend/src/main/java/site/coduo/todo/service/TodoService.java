@@ -24,8 +24,10 @@ public class TodoService {
     private final PairRoomRepository pairRoomRepository;
     private final TodoRepository todoRepository;
 
-    public List<Todo> getAllOrderBySort() {
-        return todoRepository.findAllByOrderBySortAsc();
+    public List<Todo> getAllOrderBySort(final Long pairRoomId) {
+        final PairRoom pairRoom = pairRoomRepository.findById(pairRoomId)
+                .orElseThrow(() -> new PairRoomNotFoundException("해당 아이디의 페어룸은 존재하지 않습니다. - " + pairRoomId));
+        return todoRepository.findAllByPairRoomOrderBySortAsc(pairRoom);
     }
 
     public void createTodo(final Long pairRoomId, final String content) {

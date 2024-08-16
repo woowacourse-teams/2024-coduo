@@ -52,8 +52,9 @@ public class FakeTodoRepository implements TodoRepository {
     }
 
     @Override
-    public List<Todo> findAllByOrderBySortAsc() {
+    public List<Todo> findAllByPairRoomOrderBySortAsc(final PairRoom pairRoom) {
         return data.stream()
+                .filter(todo -> Objects.equals(todo.getPairRoom().getId(), pairRoom.getId()))
                 .sorted(Comparator.comparingInt(todo -> todo.getSort().getSort()))
                 .toList();
     }

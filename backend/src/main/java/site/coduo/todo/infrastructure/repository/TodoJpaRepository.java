@@ -9,7 +9,7 @@ import site.coduo.pairroom.domain.PairRoom;
 
 public interface TodoJpaRepository extends JpaRepository<TodoEntity, Long> {
 
-    List<TodoEntity> findAllByOrderBySortAsc();
+    List<TodoEntity> findAllByPairRoomOrderBySortAsc(PairRoom pairRoom);
 
     Optional<TodoEntity> findTopByPairRoomOrderBySortDesc(PairRoom pairRoom);
 }
