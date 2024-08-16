@@ -40,6 +40,7 @@ public class TodoEntity extends BaseTimeEntity {
 
     public TodoEntity(final Todo todo) {
         this(
+                todo.getId(),
                 todo.getPairRoom(),
                 todo.getContent().getContent(),
                 todo.getSort().getSort(),
@@ -48,11 +49,13 @@ public class TodoEntity extends BaseTimeEntity {
     }
 
     public TodoEntity(
+            final Long id,
             final PairRoom pairRoom,
             final String content,
             final int sort,
             final boolean isChecked
     ) {
+        this.id = id;
         this.pairRoom = pairRoom;
         this.content = content;
         this.sort = sort;
