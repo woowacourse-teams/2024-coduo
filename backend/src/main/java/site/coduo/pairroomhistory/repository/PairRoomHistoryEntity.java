@@ -9,11 +9,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroomhistory.domain.PairRoomHistory;
 
+@Getter
 @NoArgsConstructor
 @Table(name = "PAIR_ROOM_HISTORY")
 @Entity
@@ -38,14 +40,14 @@ public class PairRoomHistoryEntity extends BaseTimeEntity {
     private int timerRound;
 
     @Column(name = "TIMER_REMAINING_TIME", nullable = false)
-    private long timerRemainigTime;
+    private long timerRemainingTime;
 
     public PairRoomHistoryEntity(final PairRoomHistory pairRoomHistory) {
         this.pairRoom = pairRoomHistory.getPairRoom();
         this.driver = pairRoomHistory.getDriver();
         this.navigator = pairRoomHistory.getNavigator();
         this.timerRound = pairRoomHistory.getTimerRound();
-        this.timerRemainigTime = pairRoomHistory.getTimerRemainigTime();
+        this.timerRemainingTime = pairRoomHistory.getTimerRemainingTime();
     }
 
     public PairRoomHistory toDomain() {
@@ -54,7 +56,7 @@ public class PairRoomHistoryEntity extends BaseTimeEntity {
                 .driver(driver)
                 .navigator(navigator)
                 .timerRound(timerRound)
-                .timerRemainigTime(timerRemainigTime)
+                .timerRemainingTime(timerRemainingTime)
                 .build();
     }
 }
