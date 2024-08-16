@@ -1,16 +1,7 @@
-import { IoSettingsOutline } from 'react-icons/io5';
-
-import Button from '@/components/common/Button/Button';
-import Input from '@/components/common/Input/Input';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
+import TimerEditPanel from '@/components/PairRoom/TimerCard/TimerEditPanel/TimerEditPanel';
 
-import useToastStore from '@/stores/toastStore';
-
-import useInput from '@/hooks/common/useInput';
-
-import useAddTimer from '@/queries/PairRoomOnboarding/useAddTimer';
-
-import { theme } from '@/styles/theme';
+import useTimer from '@/hooks/PairRoom/useTimer';
 
 import * as S from './TimerCard.styles';
 
@@ -26,48 +17,18 @@ const formatTime = (time: number) => {
 };
 
 interface TimerCardProps {
-  accessCode: string;
   defaultTime: number;
-  timeLeft: number;
-  isActive: boolean;
-  onStart: () => void;
-  onPause: () => void;
+  onTimerStop: () => void;
 }
 
-const TimerCard = ({ accessCode, defaultTime, timeLeft, isActive, onStart, onPause }: TimerCardProps) => {
-  const { addToast } = useToastStore();
-
-  const { value, handleChange } = useInput();
-  const { handleAddTimer } = useAddTimer(() =>
-    addToast({ status: 'SUCCESS', message: '타이머 시간이 정상적으로 수정되었습니다.' }),
-  );
+const TimerCard = ({ defaultTime, onTimerStop }: TimerCardProps) => {
+  const { timeLeft, isActive, handleStart, handlePause } = useTimer(defaultTime, onTimerStop);
 
   const { minutes, seconds } = formatTime(timeLeft);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    handleAddTimer({ timer: value, accessCode });
-  };
-
   return (
     <PairRoomCard>
-      <S.PanelContainer>
-        <IoSettingsOutline size="2rem" color={theme.color.black[70]} />
-        <S.Panel>
-          <S.Title>타이머 시간 수정</S.Title>
-          <S.Form onSubmit={handleSubmit}>
-            <Input id="timer" value={value} placeholder="타이머 시간 (분)" onChange={handleChange} />
-            <S.ButtonContainer>
-              <Button type="button" color="secondary" size="sm" filled={false} rounded={true}>
-                취소
-              </Button>
-              <Button type="submit" color="secondary" size="sm" rounded={true}>
-                확인
-              </Button>
-            </S.ButtonContainer>
-          </S.Form>
-        </S.Panel>
-      </S.PanelContainer>
+      <TimerEditPanel isActive={isActive} />
       <S.Layout>
         <S.ProgressBar $progress={(timeLeft / defaultTime) * 100}>
           <S.Timer>
@@ -83,10 +44,10 @@ const TimerCard = ({ accessCode, defaultTime, timeLeft, isActive, onStart, onPau
           </S.Timer>
         </S.ProgressBar>
         <S.IconContainer>
-          <S.IconButton disabled={isActive} onClick={onStart}>
+          <S.IconButton disabled={isActive} onClick={handleStart}>
             <S.PlayIcon $isActive={!isActive} />
           </S.IconButton>
-          <S.IconButton disabled={!isActive} onClick={onPause}>
+          <S.IconButton disabled={!isActive} onClick={handlePause}>
             <S.PauseIcon $isActive={isActive} />
           </S.IconButton>
         </S.IconContainer>

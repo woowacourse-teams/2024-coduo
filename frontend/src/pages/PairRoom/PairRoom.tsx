@@ -7,8 +7,6 @@ import ReferenceCard from '@/components/PairRoom/ReferenceCard/ReferenceCard';
 import TimerCard from '@/components/PairRoom/TimerCard/TimerCard';
 import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
 
-import useTimer from '@/hooks/PairRoom/useTimer';
-
 import useGetPairRoomInformation from '@/queries/PairRoomOnboarding/useGetPairRoomInformation';
 
 import * as S from './PairRoom.styles';
@@ -30,21 +28,13 @@ const PairRoom = () => {
   };
 
   const { timeDuration } = useGetPairRoomInformation(accessCode || '');
-  const { timeLeft, isActive, handleStart, handlePause } = useTimer(timeDuration, handleSwap);
 
   return (
     <S.Layout>
       <PairListCard driver={driver} navigator={navigator} roomCode={accessCode || ''} onRoomDelete={() => {}} />
       <S.Container>
         <PairRoleCard driver={driver} navigator={navigator} />
-        <TimerCard
-          accessCode={accessCode || ''}
-          defaultTime={timeDuration}
-          timeLeft={timeLeft}
-          isActive={isActive}
-          onStart={handleStart}
-          onPause={handlePause}
-        />
+        <TimerCard defaultTime={timeDuration} onTimerStop={handleSwap} />
       </S.Container>
       <S.Container>
         <TodoListCard isOpen={!isCardOpen} toggleIsOpen={toggleIsCardOpen} />
