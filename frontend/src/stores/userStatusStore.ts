@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 
-type UserStatus = 'SIGNED_IN' | 'SIGNED_OUT' | 'SIGN_UP';
+import { getIsUserLoggedIn } from '@/apis/oauth';
 
-interface UserStatusStore {}
+type UserStatus = 'SIGNED_IN' | 'SIGNED_OUT' | 'SIGN_UP';
 
 interface UserStatusStore {
   userStatus: UserStatus;
@@ -17,5 +17,9 @@ const useUserStatusStore = create<UserStatusStore>((set) => ({
     }));
   },
 }));
+
+getIsUserLoggedIn().then((response) => {
+  useUserStatusStore.getState().setUserStatus(response.signedIn ? 'SIGNED_IN' : 'SIGNED_OUT');
+});
 
 export default useUserStatusStore;
