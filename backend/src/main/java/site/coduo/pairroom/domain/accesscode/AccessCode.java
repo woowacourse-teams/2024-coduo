@@ -1,6 +1,5 @@
 package site.coduo.pairroom.domain.accesscode;
 
-
 import static site.coduo.pairroom.domain.accesscode.AccessCodeStrategy.ACCESS_CODE_LENGTH;
 
 import java.util.Objects;
