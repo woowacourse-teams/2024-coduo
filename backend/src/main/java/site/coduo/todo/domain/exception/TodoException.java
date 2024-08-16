@@ -1,8 +1,6 @@
 package site.coduo.todo.domain.exception;
 
-import site.coduo.common.exception.CoduoException;
-
-public class TodoException extends CoduoException {
+public class TodoException extends RuntimeException {
 
     public TodoException(final String message) {
         super(message);

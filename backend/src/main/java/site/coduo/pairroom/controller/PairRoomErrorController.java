@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import site.coduo.common.controller.response.ApiErrorResponse;
 import site.coduo.pairroom.controller.error.PairRoomApiError;
 import site.coduo.pairroom.exception.InvalidNameFormatException;
+import site.coduo.pairroom.exception.PairRoomException;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
 
 @Slf4j
@@ -31,5 +32,13 @@ public class PairRoomErrorController {
 
         return ResponseEntity.status(PairRoomApiError.PAIR_ROOM_NOT_FOUND.getHttpStatus())
                 .body(new ApiErrorResponse(PairRoomApiError.PAIR_ROOM_NOT_FOUND.getMessage()));
+    }
+
+    @ExceptionHandler(PairRoomException.class)
+    public ResponseEntity<ApiErrorResponse> handlePairRoomException(final PairRoomException e) {
+        log.warn(e.getMessage());
+
+        return ResponseEntity.status(PairRoomApiError.INVALID_REQUEST.getHttpStatus())
+                .body(new ApiErrorResponse(PairRoomApiError.INVALID_REQUEST.getMessage()));
     }
 }
