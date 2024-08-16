@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +28,7 @@ import site.coduo.pairroom.service.PairRoomService;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin(origins = {"http://localhost:3000", "https://coduo.site" })
+@CrossOrigin(origins = {"http://localhost:3000", "https://coduo.site"})
 public class PairRoomController implements PairRoomDocs {
 
     private final PairRoomService pairRoomService;
@@ -43,7 +44,7 @@ public class PairRoomController implements PairRoomDocs {
                 .body(response);
     }
 
-    @PostMapping("/pair-room/{accessCode}/info")
+    @PatchMapping("/pair-room/{accessCode}/timer")
     public ResponseEntity<Void> createTimerDuration(
             @PathVariable("accessCode") final String accessCode,
             @RequestBody final TimerDurationCreateRequest request
