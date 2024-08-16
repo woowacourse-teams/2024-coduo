@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -25,17 +25,24 @@ const queryClient = new QueryClient();
 
 const App = () => {
   const { setUserStatus } = useUserStatusStore();
-
-  useEffect(() => {
-    if (process.env.NODE_ENV === 'production') {
-      const checkUserStatus = async () => {
-        const response = await getIsUserLoggedIn();
-        setUserStatus(response.signedIn ? 'SIGNED_IN' : 'SIGNED_OUT');
-      };
-
+  const checkUserStatus = async () => {
+    const response = await getIsUserLoggedIn();
+    setUserStatus(response.signedIn ? 'SIGNED_IN' : 'SIGNED_OUT');
+  };
+  window.onpageshow = function (event) {
+    if (
+      event.persisted ||
+      (window.performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming)?.type === 'back_forward'
+    ) {
       checkUserStatus();
     }
-  }, []);
+  };
+
+  // useEffect(() => {
+  //   if (process.env.NODE_ENV === 'production') {
+  //     checkUserStatus();
+  //   }
+  // }, []);
 
   const router = createBrowserRouter([
     {
@@ -44,11 +51,11 @@ const App = () => {
       errorElement: <PageNotFound />,
       children: [
         {
-          path: 'landing',
+          path: '',
           element: <Landing />,
         },
         {
-          path: '',
+          path: 'main',
           element: <Main />,
         },
         {

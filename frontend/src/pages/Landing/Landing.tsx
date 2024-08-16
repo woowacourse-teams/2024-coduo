@@ -18,7 +18,7 @@ const Landing = () => {
 
   useEffect(() => {
     if (userStatus === 'SIGNED_IN') {
-      navigate('/');
+      navigate('/main');
     }
   }, [userStatus]);
 
@@ -48,7 +48,7 @@ const Landing = () => {
               <img src={GithubLogoWhite} alt="github logo" />
               Github로 로그인
             </Button>
-            <Button size="xl" rounded={true} onClick={() => navigate('/')}>
+            <Button size="xl" rounded={true} onClick={() => navigate('/main')}>
               회원가입 없이 사용하기
             </Button>
           </>
