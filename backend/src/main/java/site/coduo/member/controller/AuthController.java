@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.coduo.member.controller.dto.auth.SignInCheckResponse;
 import site.coduo.member.controller.dto.auth.SignInCookie;
 import site.coduo.member.controller.dto.auth.SignInWebResponse;
 import site.coduo.member.controller.dto.auth.SignUpRequest;
@@ -69,5 +70,16 @@ public class AuthController {
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .header(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
                 .body(SignInWebResponse.of(serviceResponse));
+    }
+
+    @GetMapping("/sign-in/check")
+    public ResponseEntity<SignInCheckResponse> signInCheck(
+            @CookieValue(value = SignInCookie.SIGN_IN_COOKIE_NAME) final String signInToken
+    ) {
+        final boolean signedIn = authService.isSignedIn(signInToken);
+        final SignInCheckResponse response = new SignInCheckResponse(signedIn);
+
+        return ResponseEntity.ok()
+                .body(response);
     }
 }

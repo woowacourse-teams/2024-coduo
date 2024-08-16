@@ -1,7 +1,6 @@
 package site.coduo.member.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -45,8 +44,7 @@ class AuthServiceTest {
         final SignInServiceResponse signInToken = authService.createSignInToken(member.getAccessToken());
 
         // then
-        assertThatCode(() -> jwtProvider.verify(signInToken.token()))
-                .doesNotThrowAnyException();
+        assertThat(signInToken.signedIn()).isTrue();
     }
 
     @Test
@@ -87,5 +85,31 @@ class AuthServiceTest {
         assertThat(memberRepository.findById(member.getId()).orElseThrow())
                 .extracting("accessToken")
                 .isEqualTo("change");
+    }
+
+    @Test
+    @DisplayName("해당 토큰이 유효한지 확인한다.")
+    void return_true_when_token_is_valid() {
+        // given
+        final String token = jwtProvider.sign("hello, world");
+
+        // when
+        final boolean signedIn = authService.isSignedIn(token);
+
+        // then
+        assertThat(signedIn).isTrue();
+    }
+
+    @Test
+    @DisplayName("해당 토큰이 유효한지 확인한다. - 거짓")
+    void return_false_when_token_is_invalid() {
+        // given
+        final String invalidToken = "";
+
+        // when
+        final boolean signedIn = authService.isSignedIn(invalidToken);
+
+        // then
+        assertThat(signedIn).isFalse();
     }
 }

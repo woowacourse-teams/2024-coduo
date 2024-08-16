@@ -1,7 +1,6 @@
 package site.coduo.common.infrastructure.security;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,8 +28,7 @@ class JwtProviderTest {
         final String jwtToken = jwtProvider.sign(sub);
 
         // then
-        assertThatCode(() -> jwtProvider.verify(jwtToken))
-                .doesNotThrowAnyException();
+        assertThat(jwtProvider.isValid(jwtToken)).isTrue();
     }
 
     @Test

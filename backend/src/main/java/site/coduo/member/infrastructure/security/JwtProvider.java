@@ -22,13 +22,6 @@ public class JwtProvider {
                 .compact();
     }
 
-    public void verify(final String token) {
-        Jwts.parser()
-                .verifyWith(Keys.hmacShaKeyFor(key.getBytes()))
-                .build()
-                .parse(token);
-    }
-
     public String extractSubject(final String token) {
         return Jwts.parser()
                 .verifyWith(Keys.hmacShaKeyFor(key.getBytes()))
@@ -36,5 +29,21 @@ public class JwtProvider {
                 .parseSignedClaims(token)
                 .getPayload()
                 .getSubject();
+    }
+
+    public boolean isValid(final String token) {
+        try {
+            verify(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private void verify(final String token) {
+        Jwts.parser()
+                .verifyWith(Keys.hmacShaKeyFor(key.getBytes()))
+                .build()
+                .parse(token);
     }
 }
