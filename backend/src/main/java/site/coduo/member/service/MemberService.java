@@ -24,13 +24,8 @@ public class MemberService {
     @Transactional
     public void createMember(final String username, final String accessToken) {
         final Bearer bearer = new Bearer(accessToken);
-        GithubUserResponse userResponse = githubClient.getUser(new GithubUserRequest(bearer));
-        Member member = userResponse.toDomain(bearer, username);
-        log.warn("member access token: {}", member.getAccessToken());
-        log.warn("member username: {}", member.getUsername());
-        log.warn("member userId: {}", member.getUserId());
-        log.warn("member loginId: {}", member.getLoginId());
-        log.warn("member profile photo: {}", member.getProfileImage());
+        final GithubUserResponse userResponse = githubClient.getUser(new GithubUserRequest(bearer));
+        final Member member = userResponse.toDomain(bearer, username);
 
         memberRepository.save(member);
     }
