@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +27,6 @@ import site.coduo.member.service.dto.SignInServiceResponse;
 
 @Slf4j
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"https://coduo.site", "http://localhost:3000"})
 @RestController
 public class AuthController {
 
@@ -41,7 +39,6 @@ public class AuthController {
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.expire().toString())
-                .header(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
                 .build();
     }
 
@@ -52,7 +49,6 @@ public class AuthController {
         memberService.createMember(request.username(), accessToken);
 
         return ResponseEntity.status(HttpStatus.FOUND)
-                .header(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
                 .location(URI.create("/api/sign-in/callback"))
                 .build();
     }
@@ -66,7 +62,6 @@ public class AuthController {
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .header(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
                 .body(SignInWebResponse.of(serviceResponse));
     }
 

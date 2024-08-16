@@ -4,10 +4,8 @@ import java.net.URI;
 
 import jakarta.servlet.http.HttpSession;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +23,6 @@ import site.coduo.member.service.GithubOAuthService;
 
 @Slf4j
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"https://coduo.site", "http://localhost:3000"})
 @RestController
 public class GithubOAuthController {
 
@@ -46,7 +43,6 @@ public class GithubOAuthController {
         session.setMaxInactiveInterval(STATE_SESSION_EXPIRE_IN);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
                 .body(new GithubOAuthEndpoint(githubAuthUri.toPlainText()));
     }
 
@@ -64,7 +60,6 @@ public class GithubOAuthController {
         session.setMaxInactiveInterval(ACCESS_TOKEN_EXPIRE_IN);
 
         return ResponseEntity.status(HttpStatus.FOUND)
-                .header(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
                 .location(URI.create("https://coduo.site/callback"))
                 .build();
     }
