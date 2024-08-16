@@ -9,12 +9,15 @@ import Button from '@/components/common/Button/Button';
 
 import useUserStatusStore from '@/stores/userStatusStore';
 
+import usePreventBackNavigation from '@/hooks/common/usePreventBackNavigation';
 import useSignInHandler from '@/hooks/member/useSignInHandler';
 
 const Landing = () => {
   const { userStatus } = useUserStatusStore();
   const { handleSignInGithub } = useSignInHandler();
   const navigate = useNavigate();
+
+  usePreventBackNavigation();
 
   useEffect(() => {
     if (userStatus === 'SIGNED_IN') {

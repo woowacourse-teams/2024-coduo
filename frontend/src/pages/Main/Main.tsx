@@ -5,8 +5,11 @@ import PairRoomCreateModal from '@/components/Main/PairRoomCreateModal/PairRoomC
 import PairRoomEntryModal from '@/components/Main/PairRoomEntryModal/PairRoomEntryModal';
 
 import useModal from '@/hooks/common/useModal';
+import usePreventBackNavigation from '@/hooks/common/usePreventBackNavigation';
 
 const Main = () => {
+  usePreventBackNavigation();
+
   const {
     isModalOpen: isPairRoomCreateModalOpen,
     openModal: openPairRoomCreateModal,
