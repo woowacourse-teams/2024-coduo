@@ -10,7 +10,7 @@ interface AddTimerRequest {
 export const addTimer = async ({ timer, accessCode }: AddTimerRequest) => {
   await fetcher.post({
     url: `${API_URL}/pair-room/${accessCode}/info`,
-    body: JSON.stringify({ time_duration: timer }),
+    body: JSON.stringify({ time_duration: Number(timer) }),
     errorMessage: '',
   });
 };
