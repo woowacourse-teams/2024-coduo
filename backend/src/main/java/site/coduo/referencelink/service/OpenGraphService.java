@@ -40,7 +40,7 @@ public class OpenGraphService {
 
     private OpenGraph getOpenGraphFromDocument(final Document document, final Url url) {
         if (hasNoTitle(document)) {
-            return OpenGraph.from(document, url.extractDomain());
+            return OpenGraph.of(document, url.extractDomain());
         }
         return OpenGraph.from(document);
     }
