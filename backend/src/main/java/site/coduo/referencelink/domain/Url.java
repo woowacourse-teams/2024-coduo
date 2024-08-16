@@ -40,7 +40,7 @@ public class Url {
         try {
             return Jsoup.connect(value).get();
         } catch (final IOException e) {
-            throw new DocumentAccessException("URL에 대한 Documnet를 불러올 수 없습니다.");
+            throw new DocumentAccessException("URL에 대한 Document를 불러올 수 없습니다.");
         }
     }
 
