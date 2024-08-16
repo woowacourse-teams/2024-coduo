@@ -23,8 +23,8 @@ export interface IsUserLoggedInResponse {
 
 export const getIsUserLoggedIn = async (): Promise<IsUserLoggedInResponse> => {
   const response = await fetcher.get({
-    url: `${API_URL}/sign-in/oauth/github`,
-    errorMessage: ERROR_MESSAGES.SIGN_IN,
+    url: `${API_URL}/sign-in/check`,
+    errorMessage: ERROR_MESSAGES.CHECK_USER_LOGIN,
   });
 
   return await response.json();

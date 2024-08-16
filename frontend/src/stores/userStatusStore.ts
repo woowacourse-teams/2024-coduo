@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 import { getIsUserLoggedIn } from '@/apis/oauth';
 
-type UserStatus = 'SIGNED_IN' | 'SIGNED_OUT' | 'SIGN_UP';
+type UserStatus = 'SIGNED_IN' | 'SIGNED_OUT';
 
 interface UserStatusStore {
   userStatus: UserStatus;
