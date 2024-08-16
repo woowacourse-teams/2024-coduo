@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import site.coduo.referencelink.controller.docs.CategoryDocs;
 import site.coduo.referencelink.service.CategoryService;
 import site.coduo.referencelink.service.dto.CategoryCreateRequest;
 import site.coduo.referencelink.service.dto.CategoryCreateResponse;
@@ -27,8 +28,8 @@ import site.coduo.referencelink.service.dto.CategoryUpdateResponse;
 @RequestMapping("/api")
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:3000", "https://coduo.site" })
-public class CategoryController {
+@CrossOrigin(origins = {"http://localhost:3000", "https://coduo.site"})
+public class CategoryController implements CategoryDocs {
 
     private final CategoryService categoryService;
 

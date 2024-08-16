@@ -19,7 +19,7 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> 
 
     List<CategoryEntity> findAllByPairRoom(PairRoom pairRoom);
 
-    boolean existsByCategoryName(String categoryName);
+    boolean existsByCategoryNameAndPairRoom(String categoryName, PairRoom pairRoom);
 
     void deleteCategoryByPairRoomAndCategoryName(PairRoom pairRoom, String categoryName);
 }
