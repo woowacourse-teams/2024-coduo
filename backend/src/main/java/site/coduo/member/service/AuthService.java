@@ -32,4 +32,8 @@ public class AuthService {
 
         return new SignInServiceResponse(memberRepository.existsByUserId(userResponse.userId()), signInToken);
     }
+
+    public boolean isSignedIn(final String signInToken) {
+        return jwtProvider.isValid(signInToken);
+    }
 }

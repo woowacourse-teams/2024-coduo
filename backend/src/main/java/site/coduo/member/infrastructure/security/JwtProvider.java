@@ -5,6 +5,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
@@ -22,13 +23,6 @@ public class JwtProvider {
                 .compact();
     }
 
-    public void verify(final String token) {
-        Jwts.parser()
-                .verifyWith(Keys.hmacShaKeyFor(key.getBytes()))
-                .build()
-                .parse(token);
-    }
-
     public String extractSubject(final String token) {
         return Jwts.parser()
                 .verifyWith(Keys.hmacShaKeyFor(key.getBytes()))
@@ -36,5 +30,21 @@ public class JwtProvider {
                 .parseSignedClaims(token)
                 .getPayload()
                 .getSubject();
+    }
+
+    public boolean isValid(final String token) {
+        try {
+            verify(token);
+            return true;
+        } catch (final JwtException e) {
+            return false;
+        }
+    }
+
+    private void verify(final String token) {
+        Jwts.parser()
+                .verifyWith(Keys.hmacShaKeyFor(key.getBytes()))
+                .build()
+                .parse(token);
     }
 }

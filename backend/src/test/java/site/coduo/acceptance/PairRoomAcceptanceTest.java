@@ -40,7 +40,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .body(request)
 
                 .when()
-                .post("/api/pair-room/{accessCode}/info", accessCode)
+                .patch("/api/pair-room/{accessCode}/timer", accessCode)
 
                 .then()
                 .log()
@@ -87,7 +87,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .body(request)
 
                 .when()
-                .post("/api/pair-room/{accessCode}/info", pairRoomUrl.accessCode())
+                .patch("/api/pair-room/{accessCode}/timer", pairRoomUrl.accessCode())
 
                 .then()
                 .log()
