@@ -12,35 +12,35 @@ import { BUTTON_TEXT } from '@/constants/button';
 import * as S from './TimerSelection.styles';
 
 const OPTIONS = [
-  { label: '10분', value: '10' },
-  { label: '15분', value: '15' },
-  { label: '30분', value: '30' },
+  { label: '10분', value: 10 * 60 * 1000 },
+  { label: '15분', value: 15 * 60 * 1000 },
+  { label: '30분', value: 30 * 60 * 1000 },
 ];
 
 interface TimerSettingSectionProps {
   onPrev: () => void;
-  onNext: (timer: string) => void;
+  onNext: (timer: number) => void;
 }
 
 const TimerSelection = ({ onPrev, onNext }: TimerSettingSectionProps) => {
-  const [timer, setTimer] = useState('');
+  const [timer, setTimer] = useState(0);
   const [isCustom, setIsCustom] = useState(false);
 
   const handleIsCustomTime = () => {
     if (!isCustom) setIsCustom(true);
-    setTimer('');
+    setTimer(0);
   };
 
-  const handleOptionTime = (option: string) => {
+  const handleOptionTime = (option: number) => {
     if (isCustom) setIsCustom(false);
     setTimer(option);
   };
 
   const handleCustomTime = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTimer(event.target.value);
+    setTimer(Number(event.target.value) * 60 * 1000);
   };
 
-  const isNextDisabled = timer === '' || (isCustom && !validateTime(timer));
+  const isNextDisabled = timer === 0 || (isCustom && !validateTime(timer));
 
   return (
     <S.Layout>

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getPairNames } from '@/apis/pairName';
+import { getPairRoom } from '@/apis/pairRoom';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
@@ -12,8 +12,8 @@ const useGetPairRoomInformation = (accessCode: string) => {
     refetch,
     isSuccess,
   } = useQuery({
-    queryKey: [QUERY_KEYS.GET_PAIR_NAMES],
-    queryFn: () => getPairNames(accessCode),
+    queryKey: [QUERY_KEYS.GET_PAIR_ROOM],
+    queryFn: () => getPairRoom(accessCode),
     retry: 0,
     enabled: !!accessCode,
   });

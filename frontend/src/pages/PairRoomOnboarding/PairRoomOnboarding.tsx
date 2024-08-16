@@ -9,7 +9,7 @@ import TimerSelection from '@/components/PairRoomOnboarding/TimerSelection/Timer
 
 import useModal from '@/hooks/common/useModal';
 
-import useAddPairRoomInformation from '@/queries/PairRoomOnboarding/useAddPairRoomInformation';
+import useAddTimer from '@/queries/PairRoomOnboarding/useAddTimer';
 import useGetPairRoomInformation from '@/queries/PairRoomOnboarding/useGetPairRoomInformation';
 
 import * as S from './PairRoomOnboarding.styles';
@@ -31,7 +31,7 @@ const PairRoomOnboarding = () => {
     navigate(`/room/${accessCode}`, { state: { driver, navigator } });
   };
 
-  const { handleAddTimer, isPending } = useAddPairRoomInformation(handleSuccess);
+  const { handleAddTimer, isPending } = useAddTimer(handleSuccess);
 
   const handleBack = () => {
     if (step === 'TIMER') {
@@ -46,7 +46,7 @@ const PairRoomOnboarding = () => {
     setStep('TIMER');
   };
 
-  const handleTimerSelection = (timer: string) => {
+  const handleTimerSelection = (timer: number) => {
     handleAddTimer({ timer, accessCode: accessCode || '' });
   };
 
