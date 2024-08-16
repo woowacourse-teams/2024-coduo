@@ -80,6 +80,25 @@ class AuthAcceptanceTest extends AcceptanceFixture {
                 .statusCode(HttpStatus.SC_OK);
     }
 
+    @Test
+    @DisplayName("회원의 로그인 상태를 확인한다.")
+    void check_member_login_state() {
+        // given
+        final String loginToken = login();
+
+        // when & then
+        RestAssured
+                .given()
+                .cookie("coduo_whoami", loginToken)
+
+                .when()
+                .get("/api/sign-in/check")
+
+                .then().log().all()
+                .statusCode(HttpStatus.SC_OK)
+                .body("signedIn", is(true));
+    }
+
     String login() {
         final String sessionId = GithubAcceptanceTest.createAccessTokenThenReturnSessionId();
         final Member member = createMember();

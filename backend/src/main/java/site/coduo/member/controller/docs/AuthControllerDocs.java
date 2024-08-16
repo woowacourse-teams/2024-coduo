@@ -10,8 +10,8 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import site.coduo.common.controller.response.ApiErrorResponse;
-import site.coduo.member.controller.dto.member.SignInWebResponse;
-import site.coduo.member.controller.dto.member.SignUpRequest;
+import site.coduo.member.controller.dto.auth.SignInWebResponse;
+import site.coduo.member.controller.dto.auth.SignUpRequest;
 
 @Tag(name = "인증/인가 API")
 public interface AuthControllerDocs {
