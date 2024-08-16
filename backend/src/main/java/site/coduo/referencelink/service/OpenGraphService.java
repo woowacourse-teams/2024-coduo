@@ -22,10 +22,11 @@ public class OpenGraphService {
 
     private final OpenGraphRepository openGraphRepository;
 
-    public OpenGraphEntity createOpenGraph(final ReferenceLinkEntity referenceLinkEntity) {
+    public OpenGraph createOpenGraph(final ReferenceLinkEntity referenceLinkEntity) {
         final OpenGraph openGraph = getOpenGraph(referenceLinkEntity);
         final OpenGraphEntity openGraphEntity = new OpenGraphEntity(openGraph, referenceLinkEntity);
-        return openGraphRepository.save(openGraphEntity);
+        return openGraphRepository.save(openGraphEntity)
+                .toDomain();
     }
 
     private OpenGraph getOpenGraph(final ReferenceLinkEntity referenceLinkEntity) {

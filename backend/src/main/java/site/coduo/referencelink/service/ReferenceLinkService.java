@@ -15,7 +15,6 @@ import site.coduo.referencelink.domain.ReferenceLink;
 import site.coduo.referencelink.domain.Url;
 import site.coduo.referencelink.repository.CategoryEntity;
 import site.coduo.referencelink.repository.CategoryRepository;
-import site.coduo.referencelink.repository.OpenGraphEntity;
 import site.coduo.referencelink.repository.ReferenceLinkEntity;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
@@ -38,8 +37,8 @@ public class ReferenceLinkService {
         final ReferenceLink referenceLink = new ReferenceLink(new Url(request.url()), accessCode);
 
         final ReferenceLinkEntity referenceLinkEntity = saveReferenceLink(request, pairRoom, referenceLink);
-        final OpenGraphEntity openGraphEntity = openGraphService.createOpenGraph(referenceLinkEntity);
-        return new ReferenceLinkResponse(referenceLinkEntity, openGraphEntity.toDomain());
+        final OpenGraph openGraph = openGraphService.createOpenGraph(referenceLinkEntity);
+        return new ReferenceLinkResponse(referenceLinkEntity, openGraph);
     }
 
     public ReferenceLinkEntity saveReferenceLink(final ReferenceLinkCreateRequest request,
