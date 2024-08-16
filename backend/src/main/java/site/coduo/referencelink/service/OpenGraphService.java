@@ -3,6 +3,7 @@ package site.coduo.referencelink.service;
 import java.util.Optional;
 
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,12 +29,25 @@ public class OpenGraphService {
     }
 
     private OpenGraph getOpenGraph(final ReferenceLinkEntity referenceLinkEntity) {
+        final Url url = new Url(referenceLinkEntity.getUrl());
         try {
-            final Document document = new Url(referenceLinkEntity.getUrl()).getDocument();
-            return OpenGraph.from(document);
+            final Document document = url.getDocument();
+            return getOpenGraphFromDocument(document, url);
         } catch (final DocumentAccessException e) {
-            return new OpenGraph();
+            return OpenGraph.from(url.extractDomain());
         }
+    }
+
+    private OpenGraph getOpenGraphFromDocument(final Document document, final Url url) {
+        if (hasNoTitle(document)) {
+            return OpenGraph.from(document, url.extractDomain());
+        }
+        return OpenGraph.from(document);
+    }
+
+    private boolean hasNoTitle(final Document document) {
+        final Element element = document.selectFirst(String.format(OpenGraph.OPEN_GRAPH_META_TAG_SELECTOR, "title"));
+        return document.title().isEmpty() && element == null;
     }
 
     @Transactional(readOnly = true)
@@ -42,7 +56,6 @@ public class OpenGraphService {
         if (openGraphEntity.isPresent()) {
             return openGraphEntity.get().toDomain();
         }
-
         return new OpenGraph();
     }
 

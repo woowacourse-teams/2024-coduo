@@ -2,6 +2,7 @@ package site.coduo.referencelink.domain;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
@@ -39,7 +40,19 @@ public class Url {
         try {
             return Jsoup.connect(value).get();
         } catch (final IOException e) {
-            throw new DocumentAccessException("URL에 대한 EDocumnet를 불러올 수 없습니다.");
+            throw new DocumentAccessException("URL에 대한 Documnet를 불러올 수 없습니다.");
+        }
+    }
+
+    public String extractDomain() {
+        String regex = "^(?:https?://)?(?:www\\.)?([^:/\\s]+)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(value);
+
+        if (matcher.find()) {
+            return matcher.group(1);
+        } else {
+            return OpenGraph.DEFAULT_VALUE;
         }
     }
 }
