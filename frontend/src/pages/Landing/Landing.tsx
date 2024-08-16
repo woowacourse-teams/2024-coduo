@@ -20,7 +20,7 @@ const Landing = () => {
     if (userStatus === 'SIGNED_IN') {
       navigate('/');
     }
-  }, [userStatus, navigate]);
+  }, [userStatus]);
 
   return (
     <S.Layout>
