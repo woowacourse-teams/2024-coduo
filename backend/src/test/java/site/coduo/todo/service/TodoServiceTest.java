@@ -47,9 +47,10 @@ class TodoServiceTest {
     @Test
     void createTodo() {
         // Given
+        final String pairRoomAccessCode = "ACCESS-CODE";
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
-                new AccessCode("ACCESS-CODE")
+                new AccessCode(pairRoomAccessCode)
         );
         pairRoomRepository.save(pairRoom);
 
@@ -57,7 +58,7 @@ class TodoServiceTest {
         final String content = "켈리 치킨 사주기이이이이이";
 
         // When
-        todoService.createTodo(pairRoomId, content);
+        todoService.createTodo(pairRoomAccessCode, content);
 
         // Then
         final Optional<Todo> findSavedTodo = todoRepository.findById(1L);
@@ -71,7 +72,7 @@ class TodoServiceTest {
         });
     }
 
-    @DisplayName("존재하지 않는 페어룸 아이디를 입력하면 예외를 발생시킨다.")
+    @DisplayName("존재하지 않는 페어룸 코드를 입력하면 예외를 발생시킨다.")
     @Test
     void createPairRoomWithNotFoundPairRoomId() {
         // Given
@@ -81,13 +82,13 @@ class TodoServiceTest {
         );
         pairRoomRepository.save(pairRoom);
 
-        final Long pairRoomId = 1221L;
+        final String pariRoomAccessCode = "code";
         final String content = "켈리 치킨 사주기이이이이이";
 
         // When & Then
-        assertThatThrownBy(() -> todoService.createTodo(pairRoomId, content))
+        assertThatThrownBy(() -> todoService.createTodo(pariRoomAccessCode, content))
                 .isInstanceOf(PairRoomNotFoundException.class)
-                .hasMessage("해당 아이디의 페어룸은 존재하지 않습니다. - " + pairRoomId);
+                .hasMessage("해당 Access Code의 페어룸은 존재하지 않습니다. - " + pariRoomAccessCode);
     }
 
     @DisplayName("투두 id와 새로운 투두 내용이 입력되면 해당 투두를 저장소에서 가져와 내용을 변경한뒤 저장한다.")
@@ -218,10 +219,11 @@ class TodoServiceTest {
     @Test
     void getAll() {
         // Given
+        final String pairRoomAccessCode = "ACCESS-CODE";
         final PairRoom pairRoom = new PairRoom(
                 1L,
                 new Pair(new PairName("A"), new PairName("B")),
-                new AccessCode("ACCESS-CODE")
+                new AccessCode(pairRoomAccessCode)
         );
         pairRoomRepository.save(pairRoom);
         final List<Todo> todos = List.of(
@@ -238,7 +240,7 @@ class TodoServiceTest {
         final List<Long> expectOrder = List.of(2L, 4L, 3L, 1L);
 
         // When
-        final List<Todo> all = todoService.getAllOrderBySort(pairRoomId);
+        final List<Todo> all = todoService.getAllOrderBySort(pairRoomAccessCode);
 
         // Then
         final List<Long> ids = all.stream().map(Todo::getId).toList();
@@ -255,7 +257,7 @@ class TodoServiceTest {
         final PairRoom pairRoom = new PairRoom(
                 1L,
                 new Pair(new PairName("A"), new PairName("B")),
-                new AccessCode("ACCESS-CODE")
+                new AccessCode("ACCESS CODE")
         );
         pairRoomRepository.save(pairRoom);
         final List<Todo> todos = List.of(
@@ -266,12 +268,12 @@ class TodoServiceTest {
         );
         todoRepository.saveAll(todos);
 
-        final Long pairRoomId = 1343L;
+        final String pairRoomAccessCode = "CODE";
 
         // When & Then
-        assertThatThrownBy(() -> todoService.getAllOrderBySort(pairRoomId))
+        assertThatThrownBy(() -> todoService.getAllOrderBySort(pairRoomAccessCode))
                 .isInstanceOf(PairRoomNotFoundException.class)
-                .hasMessage("해당 아이디의 페어룸은 존재하지 않습니다. - " + pairRoomId);
+                .hasMessage("해당 Access Code의 페어룸은 존재하지 않습니다. - " + pairRoomAccessCode);
     }
 
     @DisplayName("대상 투두 아이디와 변경할 순서를 입력받으면 위치를 변경시킨다.")

@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.service.port.PairRoomRepository;
 
 public class FakePairRoomRepository implements PairRoomRepository {
@@ -29,6 +30,12 @@ public class FakePairRoomRepository implements PairRoomRepository {
     @Override
     public Optional<PairRoom> findById(final Long id) {
         return data.stream()
-                .filter(pairRoom -> pairRoom.getId().equals(id)).findFirst();
+                .filter(pairRoom -> pairRoom.getId().equals(id)).findAny();
+    }
+
+    @Override
+    public Optional<PairRoom> findByAccessCode(final AccessCode accessCode) {
+        return data.stream()
+                .filter(pairRoom -> pairRoom.getAccessCode().equals(accessCode)).findAny();
     }
 }

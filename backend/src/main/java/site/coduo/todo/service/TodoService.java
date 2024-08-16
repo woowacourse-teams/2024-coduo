@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.service.port.PairRoomRepository;
 import site.coduo.todo.domain.Todo;
@@ -24,15 +25,15 @@ public class TodoService {
     private final PairRoomRepository pairRoomRepository;
     private final TodoRepository todoRepository;
 
-    public List<Todo> getAllOrderBySort(final Long pairRoomId) {
-        final PairRoom pairRoom = pairRoomRepository.findById(pairRoomId)
-                .orElseThrow(() -> new PairRoomNotFoundException("해당 아이디의 페어룸은 존재하지 않습니다. - " + pairRoomId));
+    public List<Todo> getAllOrderBySort(final String accessCode) {
+        final PairRoom pairRoom = pairRoomRepository.findByAccessCode(new AccessCode(accessCode))
+                .orElseThrow(() -> new PairRoomNotFoundException("해당 Access Code의 페어룸은 존재하지 않습니다. - " + accessCode));
         return todoRepository.findAllByPairRoomOrderBySortAsc(pairRoom);
     }
 
-    public void createTodo(final Long pairRoomId, final String content) {
-        final PairRoom pairRoom = pairRoomRepository.findById(pairRoomId)
-                .orElseThrow(() -> new PairRoomNotFoundException("해당 아이디의 페어룸은 존재하지 않습니다. - " + pairRoomId));
+    public void createTodo(final String accessCode, final String content) {
+        final PairRoom pairRoom = pairRoomRepository.findByAccessCode(new AccessCode(accessCode))
+                .orElseThrow(() -> new PairRoomNotFoundException("해당 Access Code의 페어룸은 존재하지 않습니다. - " + accessCode));
         final TodoSort nextToLastSort = getLastTodoSort(pairRoom).orElseGet(() -> new TodoSort(NO_SORT_VALUE))
                 .countNextSort();
         final Todo todo = new Todo(null, pairRoom, content, nextToLastSort.getSort(), INITIAL_TODO_CHECKED);
