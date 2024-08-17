@@ -1,6 +1,7 @@
 package site.coduo.pairroomhistory.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.pairroom.domain.PairRoom;
@@ -8,10 +9,11 @@ import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.pairroomhistory.domain.PairRoomHistory;
 import site.coduo.pairroomhistory.dto.PairRoomHistoryCreateRequest;
 import site.coduo.pairroomhistory.dto.PairRoomHistoryReadResponse;
-import site.coduo.pairroomhistory.exception.PairRoomHistoryNotFoundException;
+import site.coduo.pairroomhistory.dto.PairRoomHistoryUpdateRequest;
 import site.coduo.pairroomhistory.repository.PairRoomHistoryEntity;
 import site.coduo.pairroomhistory.repository.PairRoomHistoryRepository;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class PairRoomHistoryService {
@@ -32,18 +34,17 @@ public class PairRoomHistoryService {
         pairRoomHistoryRepository.save(new PairRoomHistoryEntity(pairRoomHistory));
     }
 
-    public PairRoomHistoryReadResponse readPairRoomHistory(final String accessCode) {
+    public PairRoomHistoryReadResponse readLatestPairRoomHistory(final String accessCode) {
         final PairRoom pairRoom = pairRoomService.findByAccessCode(accessCode);
         final PairRoomHistoryEntity pairRoomHistoryEntity =
-                pairRoomHistoryRepository.findTopByPairRoomIdOrderByCreatedAtDesc(pairRoom.getId())
-                        .orElseThrow(() -> new PairRoomHistoryNotFoundException("해당 페어룸의 히스토리가 존재하지 않습니다."));
+                pairRoomHistoryRepository.fetchTopByPairRoomIdOrderByCreatedAtDesc(pairRoom.getId());
 
-        return new PairRoomHistoryReadResponse(
-                pairRoomHistoryEntity.getId(),
-                pairRoomHistoryEntity.getDriver(),
-                pairRoomHistoryEntity.getNavigator(),
-                pairRoomHistoryEntity.getTimerRound(),
-                pairRoomHistoryEntity.getTimerRemainingTime()
-        );
+        return PairRoomHistoryReadResponse.of(pairRoomHistoryEntity.getId(), pairRoomHistoryEntity.toDomain());
+    }
+
+    public void updateTimerRemainingTimeHistory(final String accessCode, final PairRoomHistoryUpdateRequest request) {
+        final PairRoom pairRoom = pairRoomService.findByAccessCode(accessCode);
+        pairRoomHistoryRepository
+                .updateByPairRoomIdLatestTimerRemainingTime(pairRoom.getId(), request.timerRemainingTime());
     }
 }

@@ -4,6 +4,7 @@ import java.net.URI;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import site.coduo.pairroomhistory.controller.docs.PairRoomHistoryDocs;
 import site.coduo.pairroomhistory.dto.PairRoomHistoryCreateRequest;
 import site.coduo.pairroomhistory.dto.PairRoomHistoryReadResponse;
+import site.coduo.pairroomhistory.dto.PairRoomHistoryUpdateRequest;
 import site.coduo.pairroomhistory.service.PairRoomHistoryService;
 
 @RequiredArgsConstructor
@@ -32,11 +34,22 @@ public class PairRoomHistoryController implements PairRoomHistoryDocs {
                 .build();
     }
 
+    @PatchMapping("/{accessCode}/history/latest/timer-remaining-time")
+    public ResponseEntity<Void> updateTimerRemainingTime(
+            @PathVariable("accessCode") final String accessCode,
+            @RequestBody final PairRoomHistoryUpdateRequest request
+    ) {
+        pairRoomHistoryService.updateTimerRemainingTimeHistory(accessCode, request);
+
+        return ResponseEntity.ok()
+                .build();
+    }
+
     @GetMapping("/{accessCode}/history/latest")
     public ResponseEntity<PairRoomHistoryReadResponse> getPairRoomHistory(
             @PathVariable("accessCode") final String accessCode
     ) {
-        final PairRoomHistoryReadResponse response = pairRoomHistoryService.readPairRoomHistory(accessCode);
+        final PairRoomHistoryReadResponse response = pairRoomHistoryService.readLatestPairRoomHistory(accessCode);
 
         return ResponseEntity.ok(response);
     }

@@ -1,5 +1,7 @@
 package site.coduo.pairroomhistory.repository;
 
+import java.util.Objects;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -58,5 +60,22 @@ public class PairRoomHistoryEntity extends BaseTimeEntity {
                 .timerRound(timerRound)
                 .timerRemainingTime(timerRemainingTime)
                 .build();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final PairRoomHistoryEntity that = (PairRoomHistoryEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

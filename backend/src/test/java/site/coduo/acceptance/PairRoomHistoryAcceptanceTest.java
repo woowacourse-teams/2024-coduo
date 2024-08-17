@@ -8,6 +8,7 @@ import io.restassured.RestAssured;
 import site.coduo.pairroom.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.dto.PairRoomCreateResponse;
 import site.coduo.pairroomhistory.dto.PairRoomHistoryCreateRequest;
+import site.coduo.pairroomhistory.dto.PairRoomHistoryUpdateRequest;
 
 class PairRoomHistoryAcceptanceTest extends AcceptanceFixture {
 
@@ -80,6 +81,33 @@ class PairRoomHistoryAcceptanceTest extends AcceptanceFixture {
 
                 .when()
                 .get("/api/{accessCode}/history/latest", pairRoomCreateResponse.accessCode())
+
+                .then()
+                .statusCode(200);
+    }
+
+    @Test
+    @DisplayName("페어룸의 타이머 남은 시간을 업데이트 한다.")
+    void update_timer_remaining_time() {
+        // given
+        final PairRoomCreateResponse pairRoomCreateResponse = createPairRoom(new PairRoomCreateRequest("잉크", "파슬리"));
+        savePairRoomHistory(
+                pairRoomCreateResponse.accessCode(),
+                new PairRoomHistoryCreateRequest("잉크", "파슬리", 0, 600000)
+        );
+        savePairRoomHistory(
+                pairRoomCreateResponse.accessCode(),
+                new PairRoomHistoryCreateRequest("파슬리", "잉크", 1, 300000)
+        );
+
+        // when & then
+        RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(new PairRoomHistoryUpdateRequest(100000))
+
+                .when()
+                .patch("/api/{accessCode}/history/timer-remaining-time", pairRoomCreateResponse.accessCode())
 
                 .then()
                 .statusCode(200);
