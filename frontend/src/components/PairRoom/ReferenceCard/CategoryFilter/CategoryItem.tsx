@@ -1,6 +1,7 @@
+import { CheckBoxChecked, CheckBoxUnchecked } from '@/assets';
+
 import * as S from './CategoryFilter.styles';
 
-import { CheckBoxChecked, CheckBoxUnchecked } from '@/assets';
 
 interface CategoryItemProps {
   isChecked: boolean;
