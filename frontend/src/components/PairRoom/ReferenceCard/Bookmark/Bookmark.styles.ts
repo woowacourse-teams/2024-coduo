@@ -81,23 +81,34 @@ export const Content = styled.p`
 `;
 
 export const DeleteButton = styled(MdClose)`
-  position: absolute;
-  top: 1.2rem;
-  right: 1.2rem;
-  z-index: 3;
-
   width: 2rem;
   height: 2rem;
   padding: 0.3rem;
   border-radius: 100%;
 
-  background-color: ${({ theme }) => theme.color.black[80]};
-  opacity: 0.5;
-  color: ${({ theme }) => theme.color.black[50]};
+  background-color: ${({ theme }) => theme.color.black[90]};
+  opacity: 0.6;
+  color: ${({ theme }) => theme.color.black[20]};
 
   cursor: pointer;
 
   &:hover {
     opacity: 1;
+  }
+`;
+
+export const Header = styled.div<{ $isCategory: string }>`
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: row-reverse;
+
+  justify-content: space-between;
+  position: absolute;
+  top: 1.2rem;
+  width: 100%;
+
+  button {
+    width: fit-content;
+    padding: 0 1rem;
   }
 `;
