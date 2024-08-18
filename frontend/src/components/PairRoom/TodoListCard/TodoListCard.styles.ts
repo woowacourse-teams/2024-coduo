@@ -8,12 +8,16 @@ export const Layout = styled.div`
   min-width: 49rem;
 `;
 
-export const Body = styled.div`
+export const Body = styled.div<{ $isOpen: boolean }>`
+  height: ${({ $isOpen }) => ($isOpen ? 'calc(100vh - 25rem)' : '0')};
+  overflow: hidden;
+
   display: flex;
   flex-direction: column;
+  transition: all 0.3s;
 
-  height: calc(100vh - 25rem);
-  min-height: 42rem;
+  /* height: calc(100vh - 25rem); */
+  /* min-height: 42rem; */
 
   border-top: 1px solid ${({ theme }) => theme.color.black[30]};
 `;

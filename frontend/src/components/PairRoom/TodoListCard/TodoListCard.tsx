@@ -45,37 +45,31 @@ const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
           isOpen={isOpen}
           toggleIsOpen={toggleIsOpen}
         />
-        {isOpen && (
-          <S.Body>
-            <TodoList todos={todos} handleTodos={handleTodos} />
-            <S.Footer>
-              {isFooterOpen ? (
-                <S.Form onSubmit={addTodo}>
-                  <Input $css={S.inputStyles} value={value} onChange={handleChange} />
-                  <S.ButtonContainer>
-                    <Button
-                      type="button"
-                      size="sm"
-                      filled={false}
-                      rounded={true}
-                      onClick={() => setIsFooterOpen(false)}
-                    >
-                      취소
-                    </Button>
-                    <Button type="submit" size="sm" rounded={true} disabled={value === ''}>
-                      확인
-                    </Button>
-                  </S.ButtonContainer>
-                </S.Form>
-              ) : (
-                <S.FooterButton onClick={() => setIsFooterOpen(true)}>
-                  <LuPlus />
-                  투두 추가하기
-                </S.FooterButton>
-              )}
-            </S.Footer>
-          </S.Body>
-        )}
+        {/* {isO pen && ( */}
+        <S.Body $isOpen={isOpen}>
+          <TodoList todos={todos} handleTodos={handleTodos} />
+          <S.Footer>
+            {isFooterOpen ? (
+              <S.Form onSubmit={addTodo}>
+                <Input $css={S.inputStyles} value={value} onChange={handleChange} />
+                <S.ButtonContainer>
+                  <Button type="button" size="sm" filled={false} rounded={true} onClick={() => setIsFooterOpen(false)}>
+                    취소
+                  </Button>
+                  <Button type="submit" size="sm" rounded={true} disabled={value === ''}>
+                    확인
+                  </Button>
+                </S.ButtonContainer>
+              </S.Form>
+            ) : (
+              <S.FooterButton onClick={() => setIsFooterOpen(true)}>
+                <LuPlus />
+                투두 추가하기
+              </S.FooterButton>
+            )}
+          </S.Footer>
+        </S.Body>
+        {/* )} */}
       </PairRoomCard>
     </S.Layout>
   );
