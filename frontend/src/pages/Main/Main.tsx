@@ -5,8 +5,11 @@ import PairRoomCreateModal from '@/components/Main/PairRoomCreateModal/PairRoomC
 import PairRoomEntryModal from '@/components/Main/PairRoomEntryModal/PairRoomEntryModal';
 
 import useModal from '@/hooks/common/useModal';
+import usePreventBackNavigation from '@/hooks/common/usePreventBackNavigation';
 
 const Main = () => {
+  usePreventBackNavigation();
+
   const {
     isModalOpen: isPairRoomCreateModalOpen,
     openModal: openPairRoomCreateModal,
@@ -39,16 +42,19 @@ const Main = () => {
         </S.Info>
       </S.TextContainer>
       <S.ButtonContainer>
-        <Button size="xl" rounded={true} onClick={openPairRoomCreateModal}>
-          방 만들기
-        </Button>
-        <Button size="xl" filled={false} rounded={true} onClick={openPairRoomEntryModal}>
-          방 들어가기
-        </Button>
+        <>
+          <Button size="xl" rounded={true} onClick={openPairRoomCreateModal}>
+            방 만들기
+          </Button>
+          <Button size="xl" filled={false} rounded={true} onClick={openPairRoomEntryModal}>
+            방 들어가기
+          </Button>
+        </>
       </S.ButtonContainer>
       <PairRoomCreateModal isOpen={isPairRoomCreateModalOpen} closeModal={closePairRoomCreateModal} />
       <PairRoomEntryModal isOpen={isPairRoomEntryModalOpen} closeModal={closePairRoomEntryModal} />
     </S.Layout>
   );
 };
+
 export default Main;

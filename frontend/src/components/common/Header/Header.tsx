@@ -5,12 +5,20 @@ import { LuHome } from 'react-icons/lu';
 
 import { LogoIcon } from '@/assets';
 
+import useUserStatusStore from '@/stores/userStatusStore';
+
+import useSignInHandler from '@/hooks/member/useSignInHandler';
+import useSignOutHandler from '@/hooks/member/useSignOutHandler';
+
 import { theme } from '@/styles/theme';
 
 import * as S from './Header.styles';
 
-
 const Header = () => {
+  const { userStatus } = useUserStatusStore();
+  const { handleSignOut } = useSignOutHandler();
+  const { handleSignInGithub } = useSignInHandler();
+
   return (
     <S.Layout>
       <Link to="/">
@@ -27,6 +35,12 @@ const Header = () => {
             </S.HowToPairIconLink>
           </Link>
         </S.HowToPairLinkContainer>
+        {userStatus === 'SIGNED_IN' ? (
+          <S.LoginText onClick={handleSignOut}>로그아웃</S.LoginText>
+        ) : (
+          <S.LoginText onClick={handleSignInGithub}>Github로 로그인</S.LoginText>
+        )}
+
         <Link to="/">
           <S.HomeLink>
             <LuHome size={theme.iconSize.sm} />

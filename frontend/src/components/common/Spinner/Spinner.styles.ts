@@ -26,9 +26,7 @@ export const Spinner = styled.div<{ $size: SpinnerSize }>`
 
   position: relative;
 
-  width: 100%;
   min-width: ${({ $size }) => spinnerSizes[$size]};
-  height: 100%;
   min-height: ${({ $size }) => spinnerSizes[$size]};
 `;
 
