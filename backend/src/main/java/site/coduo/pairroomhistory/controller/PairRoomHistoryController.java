@@ -2,6 +2,8 @@ package site.coduo.pairroomhistory.controller;
 
 import java.net.URI;
 
+import jakarta.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,7 +28,7 @@ public class PairRoomHistoryController implements PairRoomHistoryDocs {
     @PostMapping("/{accessCode}/history")
     public ResponseEntity<Void> createPairRoomHistory(
             @PathVariable("accessCode") final String accessCode,
-            @RequestBody final PairRoomHistoryCreateRequest request
+            @Valid @RequestBody final PairRoomHistoryCreateRequest request
     ) {
         pairRoomHistoryService.createPairRoomHistory(accessCode, request);
 
@@ -37,7 +39,7 @@ public class PairRoomHistoryController implements PairRoomHistoryDocs {
     @PatchMapping("/{accessCode}/history/latest/timer-remaining-time")
     public ResponseEntity<Void> updateTimerRemainingTime(
             @PathVariable("accessCode") final String accessCode,
-            @RequestBody final PairRoomHistoryUpdateRequest request
+            @Valid @RequestBody final PairRoomHistoryUpdateRequest request
     ) {
         pairRoomHistoryService.updateTimerRemainingTimeHistory(accessCode, request);
 
