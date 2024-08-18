@@ -23,9 +23,10 @@ import site.coduo.referencelink.repository.CategoryRepository;
 import site.coduo.referencelink.repository.OpenGraphRepository;
 import site.coduo.referencelink.repository.ReferenceLinkEntity;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
+import site.coduo.utils.CascadeCleaner;
 
 @SpringBootTest
-class OpenGraphServiceTest {
+class OpenGraphServiceTest extends CascadeCleaner {
 
     private static final String DEFAULT_OPEN_GRAPH_VALUE = "";
 
@@ -46,10 +47,7 @@ class OpenGraphServiceTest {
 
     @AfterEach
     void tearDown() {
-        openGraphRepository.deleteAll();
-        referenceLinkRepository.deleteAll();
-        categoryRepository.deleteAll();
-        pairRoomRepository.deleteAll();
+        deleteAllPairRoomCascade();
     }
 
     @Test
