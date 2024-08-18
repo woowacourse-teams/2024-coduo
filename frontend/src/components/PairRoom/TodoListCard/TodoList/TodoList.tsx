@@ -1,18 +1,20 @@
 import TodoItem from '@/components/PairRoom/TodoListCard/TodoItem/TodoItem';
 
+import { Todo } from '@/apis/todo';
+
 import useDragAndDrop from '@/hooks/common/useDragAndDrop';
 
 import * as S from './TodoList.styles';
 
 interface TodoListProps {
-  todos: string[];
-  handleTodos: (newTodos: string[]) => void;
+  todos: Todo[];
+  handleOrder: (todoId: number, order: number) => void;
 }
 
-const TodoList = ({ todos, handleTodos }: TodoListProps) => {
+const TodoList = ({ todos, handleOrder }: TodoListProps) => {
   const { dragItem, dragOverItem, dragOverPosition, handleDragStart, handleDragEnter, handleDrop } = useDragAndDrop(
     todos,
-    handleTodos,
+    handleOrder,
   );
 
   return (
@@ -20,9 +22,9 @@ const TodoList = ({ todos, handleTodos }: TodoListProps) => {
       {todos.length > 0 ? (
         todos.map((todo, idx) => (
           <TodoItem
-            key={idx}
-            id={idx}
-            content={todo}
+            key={todo.id}
+            id={todo.id}
+            content={todo.content}
             dragOverPosition={dragOverPosition}
             isDraggedOver={dragItem !== dragOverItem && dragOverItem === idx}
             onDragStart={handleDragStart}

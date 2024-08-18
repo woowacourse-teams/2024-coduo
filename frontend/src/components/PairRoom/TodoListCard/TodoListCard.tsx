@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { IoIosCheckbox } from 'react-icons/io';
 import { LuPlus } from 'react-icons/lu';
@@ -10,6 +11,8 @@ import TodoList from '@/components/PairRoom/TodoListCard/TodoList/TodoList';
 
 import useInput from '@/hooks/common/useInput';
 
+import useTodos from '@/queries/PairRoom/useTodos';
+
 import { theme } from '@/styles/theme';
 
 import * as S from './TodoListCard.styles';
@@ -20,17 +23,18 @@ interface TodoListCardProps {
 }
 
 const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
-  const [todos, setTodos] = useState<string[]>([]);
+  const { accessCode } = useParams();
+
   const [isFooterOpen, setIsFooterOpen] = useState(false);
 
-  const { value, handleChange, resetValue } = useInput();
+  const { todos, handleAddTodos, handleUpdateOrder } = useTodos(accessCode || '');
 
-  const handleTodos = (newTodos: string[]) => setTodos(newTodos);
+  const { value, handleChange, resetValue } = useInput();
 
   const addTodo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setTodos((prev) => [...prev, value]);
+    handleAddTodos(value);
 
     resetValue();
     setIsFooterOpen(false);
@@ -47,7 +51,7 @@ const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
         />
         {isOpen && (
           <S.Body>
-            <TodoList todos={todos} handleTodos={handleTodos} />
+            <TodoList todos={todos} handleOrder={handleUpdateOrder} />
             <S.Footer>
               {isFooterOpen ? (
                 <S.Form onSubmit={addTodo}>

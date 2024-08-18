@@ -1,8 +1,10 @@
 import { useState } from 'react';
 
+import { Todo } from '@/apis/todo';
+
 export type DragPosition = 'ABOVE' | 'BELOW';
 
-const useDragAndDrop = (list: string[], handleList: (newList: string[]) => void) => {
+const useDragAndDrop = (list: Todo[], handleOrder: (todoId: number, order: number) => void) => {
   const [dragItem, setDragItem] = useState<number | null>(null);
   const [dragOverItem, setDragOverItem] = useState<number | null>(null);
   const [dragOverPosition, setDragOverPosition] = useState<DragPosition | null>(null);
@@ -22,17 +24,11 @@ const useDragAndDrop = (list: string[], handleList: (newList: string[]) => void)
 
     if (dragItem === null || dragOverItem === null || dragOverPosition === null || dragItem === dragOverItem) return;
 
-    const newList = [...list];
-    const draggedItem = newList[dragItem];
-
-    newList.splice(dragItem, 1);
-    newList.splice(dragOverPosition === 'ABOVE' ? dragOverItem : dragOverItem + 1, 0, draggedItem);
+    handleOrder(list[dragItem].id, list[dragOverPosition === 'ABOVE' ? dragOverItem : dragOverItem + 1].sort);
 
     setDragItem(null);
     setDragOverItem(null);
     setDragOverPosition(null);
-
-    handleList(newList);
   };
 
   return { dragItem, dragOverItem, dragOverPosition, handleDragStart, handleDragEnter, handleDrop };
