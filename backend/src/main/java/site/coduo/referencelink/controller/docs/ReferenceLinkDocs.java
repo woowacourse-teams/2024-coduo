@@ -21,7 +21,7 @@ public interface ReferenceLinkDocs {
     @Operation(summary = "레퍼런스 링크를 생성한다.")
     @ApiResponse(responseCode = "201", description = "레퍼런스 링크 생성 성공", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     @ApiResponse(responseCode = "4xx", description = "레퍼런스 링크 생성 실패", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class)))
-    ResponseEntity<Void> createReferenceLink(
+    ResponseEntity<ReferenceLinkResponse> createReferenceLink(
             String accessCode,
             @Parameter(description = "레퍼런스 링크 생성 요청", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE), required = true) ReferenceLinkCreateRequest request
     );

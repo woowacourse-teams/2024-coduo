@@ -36,8 +36,9 @@ public class CategoryController {
     }
 
     @PostMapping("/{accessCode}/category")
-    public ResponseEntity<CategoryCreateResponse> createCategory(@PathVariable("accessCode") String accessCode,
-                                                                 @RequestBody @Valid CategoryCreateRequest request
+    public ResponseEntity<CategoryCreateResponse> createCategory(
+            @PathVariable("accessCode") String accessCode,
+            @Valid @RequestBody CategoryCreateRequest request
     ) {
         final CategoryCreateResponse response = categoryService.createCategory(accessCode, request);
 
@@ -46,8 +47,9 @@ public class CategoryController {
     }
 
     @PatchMapping("/{accessCode}/category")
-    public ResponseEntity<CategoryUpdateResponse> updateCategory(@PathVariable("accessCode") String accessCode,
-                                                                 @RequestBody CategoryUpdateRequest categoryUpdateRequest
+    public ResponseEntity<CategoryUpdateResponse> updateCategory(
+            @PathVariable("accessCode") String accessCode,
+            @Valid @RequestBody CategoryUpdateRequest categoryUpdateRequest
     ) {
         final CategoryUpdateResponse response = categoryService.updateCategoryName(accessCode,
                 categoryUpdateRequest);
@@ -56,8 +58,9 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{accessCode}/category/{categoryName}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable("accessCode") String accessCode,
-                                               @PathVariable("categoryName") String categoryName
+    public ResponseEntity<Void> deleteCategory(
+            @PathVariable("accessCode") String accessCode,
+            @PathVariable("categoryName") String categoryName
     ) {
         categoryService.deleteCategory(accessCode, categoryName);
 

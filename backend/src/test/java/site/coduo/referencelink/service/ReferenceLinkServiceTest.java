@@ -60,7 +60,7 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
         final ReferenceLinkCreateRequest request = new ReferenceLinkCreateRequest("https://www.naver.com", null);
 
         // when
-        referenceLinkService.createReferenceLinkCommand(pairRoom.getAccessCodeText(), request);
+        referenceLinkService.createReferenceLink(pairRoom.getAccessCodeText(), request);
 
         // then
         assertAll(
@@ -68,7 +68,7 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
                 () -> assertThat(openGraphRepository.findAll()).hasSize(1),
                 () -> {
                     final ReferenceLinkResponse referenceLinkResponses =
-                            referenceLinkService.readAllReferenceLinkQuery(pairRoom.getAccessCodeText()).get(0);
+                            referenceLinkService.readAllReferenceLink(pairRoom.getAccessCodeText()).get(0);
                     assertThat(referenceLinkResponses.url()).isEqualTo(request.url());
                     assertThat(referenceLinkResponses.headTitle()).isEqualTo("NAVER");
                     assertThat(referenceLinkResponses.openGraphTitle()).isEqualTo("네이버");
@@ -92,7 +92,7 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
                 new ReferenceLinkEntity(new ReferenceLink(new Url("http://url3.com"), accessCode), category, pairRoom));
 
         // when
-        final List<ReferenceLinkResponse> responses = referenceLinkService.readAllReferenceLinkQuery(
+        final List<ReferenceLinkResponse> responses = referenceLinkService.readAllReferenceLink(
                 accessCode.getValue());
 
         // then
@@ -111,7 +111,7 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
                 new ReferenceLinkEntity(new ReferenceLink(new Url("http://url1.com"), code), category, pairRoom));
 
         // when
-        referenceLinkService.deleteReferenceLinkCommand(link.getId());
+        referenceLinkService.deleteReferenceLink(link.getId());
 
         // then
         assertAll(
