@@ -107,7 +107,7 @@ class PairRoomHistoryAcceptanceTest extends AcceptanceFixture {
                 .body(new PairRoomHistoryUpdateRequest(100000))
 
                 .when()
-                .patch("/api/{accessCode}/history/timer-remaining-time", pairRoomCreateResponse.accessCode())
+                .patch("/api/{accessCode}/history/latest/timer-remaining-time", pairRoomCreateResponse.accessCode())
 
                 .then()
                 .statusCode(200);
