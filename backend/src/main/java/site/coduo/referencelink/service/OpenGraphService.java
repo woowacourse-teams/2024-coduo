@@ -1,6 +1,9 @@
 package site.coduo.referencelink.service;
 
+import java.util.Optional;
+
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,37 +15,52 @@ import site.coduo.referencelink.repository.OpenGraphEntity;
 import site.coduo.referencelink.repository.OpenGraphRepository;
 import site.coduo.referencelink.repository.ReferenceLinkEntity;
 
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class OpenGraphService {
 
     private final OpenGraphRepository openGraphRepository;
 
-    @Transactional
-    public void createOpenGraphCommand(final ReferenceLinkEntity referenceLinkEntity) {
+    public OpenGraph createOpenGraph(final ReferenceLinkEntity referenceLinkEntity) {
         final OpenGraph openGraph = getOpenGraph(referenceLinkEntity);
         final OpenGraphEntity openGraphEntity = new OpenGraphEntity(openGraph, referenceLinkEntity);
-        openGraphRepository.save(openGraphEntity);
+        return openGraphRepository.save(openGraphEntity)
+                .toDomain();
     }
 
     private OpenGraph getOpenGraph(final ReferenceLinkEntity referenceLinkEntity) {
+        final Url url = new Url(referenceLinkEntity.getUrl());
         try {
-            final Document document = new Url(referenceLinkEntity.getUrl()).getDocument();
-            return OpenGraph.from(document);
+            final Document document = url.getDocument();
+            return getOpenGraphFromDocument(document, url);
         } catch (final DocumentAccessException e) {
-            return new OpenGraph();
+            return OpenGraph.from(url.extractDomain());
         }
     }
 
-    public OpenGraph findOpenGraphQuery(final Long id) {
-        return openGraphRepository.findById(id)
-                .map(OpenGraphEntity::toDomain)
-                .orElse(new OpenGraph());
+    private OpenGraph getOpenGraphFromDocument(final Document document, final Url url) {
+        if (hasNoTitle(document)) {
+            return OpenGraph.of(document, url.extractDomain());
+        }
+        return OpenGraph.from(document);
     }
 
-    @Transactional
-    public void deleteByReferenceLinkIdCommand(final long referenceLinkEntityId) {
+    private boolean hasNoTitle(final Document document) {
+        final Element element = document.selectFirst(String.format(OpenGraph.OPEN_GRAPH_META_TAG_SELECTOR, "title"));
+        return document.title().isEmpty() && element == null;
+    }
+
+    @Transactional(readOnly = true)
+    public OpenGraph findOpenGraph(final Long id) {
+        final Optional<OpenGraphEntity> openGraphEntity = openGraphRepository.findByReferenceLinkEntityId(id);
+        if (openGraphEntity.isPresent()) {
+            return openGraphEntity.get().toDomain();
+        }
+        return new OpenGraph();
+    }
+
+    public void deleteByReferenceLinkId(final long referenceLinkEntityId) {
         openGraphRepository.deleteByReferenceLinkEntityId(referenceLinkEntityId);
     }
 }

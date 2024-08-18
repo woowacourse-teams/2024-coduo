@@ -14,9 +14,12 @@ import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomRepository;
+import site.coduo.referencelink.domain.Category;
 import site.coduo.referencelink.domain.OpenGraph;
 import site.coduo.referencelink.domain.ReferenceLink;
 import site.coduo.referencelink.domain.Url;
+import site.coduo.referencelink.repository.CategoryEntity;
+import site.coduo.referencelink.repository.CategoryRepository;
 import site.coduo.referencelink.repository.OpenGraphRepository;
 import site.coduo.referencelink.repository.ReferenceLinkEntity;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
@@ -38,10 +41,14 @@ class OpenGraphServiceTest {
     @Autowired
     private ReferenceLinkRepository referenceLinkRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     @AfterEach
     void tearDown() {
         openGraphRepository.deleteAll();
         referenceLinkRepository.deleteAll();
+        categoryRepository.deleteAll();
         pairRoomRepository.deleteAll();
     }
 
@@ -57,14 +64,16 @@ class OpenGraphServiceTest {
                         )
                         , new AccessCode("123456"))
         );
+        final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoom, new Category("스프링")));
         final ReferenceLinkEntity referenceLink = new ReferenceLinkEntity(
-                new ReferenceLink(new Url("https://www.naver.com"),
-                        new AccessCode("123456")), pairRoom
+                new ReferenceLink(new Url("https://www.naver.com"), new AccessCode("123456")),
+                category,
+                pairRoom
         );
         final ReferenceLinkEntity referenceLinkEntity = referenceLinkRepository.save(referenceLink);
 
         // when
-        openGraphService.createOpenGraphCommand(referenceLinkEntity);
+        openGraphService.createOpenGraph(referenceLinkEntity);
 
         // then
         assertThat(openGraphRepository.findAll())
@@ -75,7 +84,7 @@ class OpenGraphServiceTest {
     @Test
     void return_null_when_cannot_find_open_graph() {
         // given & when
-        final OpenGraph openGraph = openGraphService.findOpenGraphQuery(1L);
+        final OpenGraph openGraph = openGraphService.findOpenGraph(1L);
 
         // then
         assertAll(
@@ -98,15 +107,18 @@ class OpenGraphServiceTest {
                         )
                         , new AccessCode("123456"))
         );
+
+        final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoom, new Category("스프링")));
         final ReferenceLinkEntity referenceLink = new ReferenceLinkEntity(
-                new ReferenceLink(new Url("https://www.naver.com"),
-                        new AccessCode("123456")), pairRoom
+                new ReferenceLink(new Url("https://www.naver.com"), new AccessCode("123456")),
+                category,
+                pairRoom
         );
         final ReferenceLinkEntity referenceLinkEntity = referenceLinkRepository.save(referenceLink);
-        openGraphService.createOpenGraphCommand(referenceLinkEntity);
+        openGraphService.createOpenGraph(referenceLinkEntity);
 
         // when
-        openGraphService.deleteByReferenceLinkIdCommand(referenceLinkEntity.getId());
+        openGraphService.deleteByReferenceLinkId(referenceLinkEntity.getId());
 
         // then
         assertThat(openGraphRepository.findAll()).isEmpty();

@@ -1,44 +1,49 @@
 package site.coduo.pairroom.controller.docs;
 
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import site.coduo.common.controller.response.ApiErrorResponse;
 import site.coduo.pairroom.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.dto.PairRoomCreateResponse;
 import site.coduo.pairroom.dto.PairRoomDeleteRequest;
 import site.coduo.pairroom.dto.PairRoomReadRequest;
 import site.coduo.pairroom.dto.PairRoomReadResponse;
+import site.coduo.pairroom.dto.TimerDurationCreateRequest;
 
 @Tag(name = "페어룸 API")
 public interface PairRoomDocs {
 
     @Operation(summary = "페어룸을 조회한다.")
-    @ApiResponse(responseCode = "200", description = "페어룸 조회 성공",
-            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = PairRoomReadResponse.class)))
-    @ApiResponse(responseCode = "404", description = "페어룸 조회 실패 - 페어룸 접근 코드가 존재하지 않음",
-            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = ApiErrorResponse.class)))
+    @ApiResponse(responseCode = "200", description = "페어룸 조회 성공")
     ResponseEntity<PairRoomReadResponse> getPairRoom(
-            @Parameter(description = "페어룸 접근 코드", required = true) PairRoomReadRequest accessCode);
+            @Parameter(description = "페어룸 접근 코드", required = true)
+            PairRoomReadRequest request
+    );
 
     @Operation(summary = "페어룸을 생성한다.")
-    @ApiResponse(responseCode = "201", description = "페어룸 생성 성공",
-            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = PairRoomCreateResponse.class)))
+    @ApiResponse(responseCode = "201", description = "타이머 시간 저장 성공")
     ResponseEntity<PairRoomCreateResponse> createPairRoom(
             @Parameter(description = "페어 프로그래밍에 참여하는 페어 A의 이름, 페어 B의 이름", required = true)
-            PairRoomCreateRequest pairRoomCreateRequest);
+            PairRoomCreateRequest pairRoomCreateRequest
+    );
+
+    @Operation(summary = "타이머 시간을 저장한다.")
+    @ApiResponse(responseCode = "201", description = "타이머 시간 저장 성공")
+    ResponseEntity<Void> createTimerDuration(
+            @Parameter(description = "페어룸 접근 코드", required = true)
+            String accessCode,
+
+            @Parameter(description = "타이머 시간 저장 요청 바디", required = true)
+            TimerDurationCreateRequest request
+    );
 
     @Operation(summary = "페어룸을 삭제한다.")
     @ApiResponse(responseCode = "204", description = "페어룸 삭제 성공")
     @ApiResponse(responseCode = "404", description = "페어룸 삭제 실패")
-    ResponseEntity<Void> deletePairRoom(@Parameter(description = "페어룸 접근 코드") PairRoomDeleteRequest request);
+    ResponseEntity<Void> deletePairRoom(
+            @Parameter(description = "페어룸 접근 코드", required = true) PairRoomDeleteRequest request
+    );
 }

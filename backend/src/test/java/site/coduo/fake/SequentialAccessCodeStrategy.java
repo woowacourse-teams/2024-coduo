@@ -4,8 +4,8 @@ import java.util.List;
 
 import site.coduo.pairroom.domain.accesscode.AccessCodeStrategy;
 
-public class FakeAccessCodeStrategy implements AccessCodeStrategy {
-    
+public class SequentialAccessCodeStrategy implements AccessCodeStrategy {
+
     private static final List<String> SEQUENCE = List.of("1", "2", "3", "4", "5");
 
     private static int INDEX = 0;

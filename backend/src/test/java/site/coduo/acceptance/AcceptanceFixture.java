@@ -1,22 +1,27 @@
 package site.coduo.acceptance;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.context.annotation.Import;
 
 import io.restassured.RestAssured;
+import site.coduo.config.TestConfig;
+import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
+import site.coduo.referencelink.repository.CategoryRepository;
 import site.coduo.referencelink.repository.OpenGraphRepository;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@Import(TestConfig.class)
 abstract class AcceptanceFixture {
+
+    @Autowired
+    protected MemberRepository memberRepository;
 
     @Autowired
     private ReferenceLinkRepository referenceLinkRepository;
@@ -27,8 +32,8 @@ abstract class AcceptanceFixture {
     @Autowired
     private OpenGraphRepository openGraphRepository;
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @LocalServerPort
     private int port;
@@ -40,8 +45,10 @@ abstract class AcceptanceFixture {
 
     @AfterEach
     void tearDown() {
+        memberRepository.deleteAll();
         openGraphRepository.deleteAll();
         referenceLinkRepository.deleteAll();
+        categoryRepository.deleteAll();
         pairRoomRepository.deleteAll();
     }
 }
