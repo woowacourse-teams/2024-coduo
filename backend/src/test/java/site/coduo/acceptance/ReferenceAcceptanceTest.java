@@ -71,7 +71,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
     }
 
     @Test
-    @DisplayName("오픈그래프 정보가 없는 레퍼런스 링크를 조회하면 모든 오픈그래프 필드가 기본 값 상태로 반환된다.")
+    @DisplayName("오픈그래프 정보가 없는 레퍼런스 링크를 조회하면 도메인만 넣어 반환한다.")
     void read_reference_link_without_open_graph() {
         // given
         final PairRoomCreateResponse pairRoom = createPairRoom(new PairRoomCreateRequest("잉크", "해시"));
@@ -90,7 +90,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
                 .assertThat()
                 .statusCode(HttpStatus.OK.value())
                 .body("[0].url", is(expectedUrl))
-                .body("[0].headTitle", is(""))
+                .body("[0].headTitle", is("deleasfsdte.com"))
                 .body("[0].openGraphTitle", is(""))
                 .body("[0].description", is(""))
                 .body("[0].image", is(""));

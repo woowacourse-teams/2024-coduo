@@ -2,6 +2,7 @@ package site.coduo.referencelink.domain;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
@@ -16,6 +17,7 @@ public class Url {
 
     private static final Pattern VALID_REGEX = Pattern.compile(
             "https?:\\/\\/(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#()?&//=]*)");
+    private static final String DOMAIN_REGEX = "^(?:https?://)?(?:www\\.)?([^:/\\s]+)";
 
     private final String value;
 
@@ -39,7 +41,16 @@ public class Url {
         try {
             return Jsoup.connect(value).get();
         } catch (final IOException e) {
-            throw new DocumentAccessException("URL에 대한 EDocumnet를 불러올 수 없습니다.");
+            throw new DocumentAccessException("URL에 대한 Document를 불러올 수 없습니다.");
         }
+    }
+
+    public String extractDomain() {
+        final Pattern pattern = Pattern.compile(DOMAIN_REGEX);
+        final Matcher matcher = pattern.matcher(value);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return OpenGraph.DEFAULT_VALUE;
     }
 }
