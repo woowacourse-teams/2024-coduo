@@ -41,7 +41,7 @@ public class PairRoomController implements PairRoomDocs {
     }
 
     @PatchMapping("/pair-room/{accessCode}/timer")
-    public ResponseEntity<Void> createTimerDuration(
+    public ResponseEntity<Void> updateTimerDuration(
             @PathVariable("accessCode") final String accessCode,
             @Valid @RequestBody final TimerDurationCreateRequest request
     ) {
