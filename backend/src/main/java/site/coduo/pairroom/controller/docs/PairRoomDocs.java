@@ -24,7 +24,7 @@ public interface PairRoomDocs {
     );
 
     @Operation(summary = "페어룸을 생성한다.")
-    @ApiResponse(responseCode = "201", description = "타이머 시간 저장 성공")
+    @ApiResponse(responseCode = "201", description = "페어룸 저장 성공")
     ResponseEntity<PairRoomCreateResponse> createPairRoom(
             @Parameter(description = "페어 프로그래밍에 참여하는 페어 A의 이름, 페어 B의 이름", required = true)
             PairRoomCreateRequest pairRoomCreateRequest

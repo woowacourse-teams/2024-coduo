@@ -40,10 +40,10 @@ public class PairRoomController implements PairRoomDocs {
                 .body(response);
     }
 
-    @PatchMapping("/pair-room/{accessCode}/status")
-    public ResponseEntity<Void> updatePairRoomStatus(
-            @Valid @PathVariable("accessCode") final String accessCode,
-            @Valid @RequestBody final PairRoomStatusUpdateRequest request
+    @PatchMapping("/pair-room/{accessCode}/timer")
+    public ResponseEntity<Void> updateTimerDuration(
+            @PathVariable("accessCode") final String accessCode,
+            @Valid @RequestBody final TimerDurationCreateRequest request
     ) {
         pairRoomService.updatePairRoomStatus(accessCode, request.status());
 

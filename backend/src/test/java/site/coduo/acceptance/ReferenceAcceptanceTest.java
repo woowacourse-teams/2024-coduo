@@ -93,7 +93,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
                 .assertThat()
                 .statusCode(HttpStatus.OK.value())
                 .body("[0].url", is(expectedUrl))
-                .body("[0].headTitle", is("deleasfsdte.com"))
+                .body("[0].headTitle", is("www.deleasfsdte.com"))
                 .body("[0].openGraphTitle", is(""))
                 .body("[0].description", is(""))
                 .body("[0].image", is(""));

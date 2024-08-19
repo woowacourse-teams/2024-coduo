@@ -104,7 +104,7 @@ class AuthServiceTest {
     @DisplayName("해당 토큰이 유효한지 확인한다. - 거짓")
     void return_false_when_token_is_invalid() {
         // given
-        final String invalidToken = "";
+        final String invalidToken = "hello, world";
 
         // when
         final boolean signedIn = authService.isSignedIn(invalidToken);

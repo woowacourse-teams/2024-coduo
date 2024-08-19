@@ -3,6 +3,9 @@ package site.coduo.referencelink.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +21,6 @@ import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.Category;
 import site.coduo.referencelink.domain.OpenGraph;
 import site.coduo.referencelink.domain.ReferenceLink;
-import site.coduo.referencelink.domain.Url;
 import site.coduo.referencelink.repository.CategoryEntity;
 import site.coduo.referencelink.repository.CategoryRepository;
 import site.coduo.referencelink.repository.OpenGraphRepository;
@@ -53,7 +55,7 @@ class OpenGraphServiceTest extends CascadeCleaner {
 
     @Test
     @DisplayName("오픈그래프를 생성 후 저장한다.")
-    void create_open_graph() {
+    void create_open_graph() throws MalformedURLException {
         //given
         final PairRoom pairRoom = pairRoomRepository.save(
                 new PairRoom(
@@ -65,15 +67,16 @@ class OpenGraphServiceTest extends CascadeCleaner {
                         new AccessCode("123456"))
         );
         final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoom, new Category("스프링")));
+        final URL url = new URL("https://www.naver.com");
         final ReferenceLinkEntity referenceLink = new ReferenceLinkEntity(
-                new ReferenceLink(new Url("https://www.naver.com"), new AccessCode("123456")),
+                new ReferenceLink(url, new AccessCode("123456")),
                 category,
                 pairRoom
         );
         final ReferenceLinkEntity referenceLinkEntity = referenceLinkRepository.save(referenceLink);
 
         // when
-        openGraphService.createOpenGraph(referenceLinkEntity);
+        openGraphService.createOpenGraph(referenceLinkEntity, url);
 
         // then
         assertThat(openGraphRepository.findAll())
@@ -97,7 +100,7 @@ class OpenGraphServiceTest extends CascadeCleaner {
 
     @DisplayName("레퍼런스링크 id로 오픈그래프를 삭제한다.")
     @Test
-    void delete_open_graph_by_reference_link_id() {
+    void delete_open_graph_by_reference_link_id() throws MalformedURLException {
         // given
         final PairRoom pairRoom = pairRoomRepository.save(
                 new PairRoom(
@@ -110,13 +113,14 @@ class OpenGraphServiceTest extends CascadeCleaner {
         );
 
         final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoom, new Category("스프링")));
+        final URL url = new URL("https://www.naver.com");
         final ReferenceLinkEntity referenceLink = new ReferenceLinkEntity(
-                new ReferenceLink(new Url("https://www.naver.com"), new AccessCode("123456")),
+                new ReferenceLink(url, new AccessCode("123456")),
                 category,
                 pairRoom
         );
         final ReferenceLinkEntity referenceLinkEntity = referenceLinkRepository.save(referenceLink);
-        openGraphService.createOpenGraph(referenceLinkEntity);
+        openGraphService.createOpenGraph(referenceLinkEntity, url);
 
         // when
         openGraphService.deleteByReferenceLinkId(referenceLinkEntity.getId());
