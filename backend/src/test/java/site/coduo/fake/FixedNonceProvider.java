@@ -1,8 +1,8 @@
 package site.coduo.fake;
 
-import site.coduo.member.infrastructure.security.NanceProvider;
+import site.coduo.member.infrastructure.security.NonceProvider;
 
-public class FixedNanceProvider implements NanceProvider {
+public class FixedNonceProvider implements NonceProvider {
     public static final String FIXED_VALUE = "random number";
 
     @Override
