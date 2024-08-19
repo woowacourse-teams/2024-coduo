@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 
-export const useScrollAnimation = () => {
+interface IntersectionObserverOptions {
+  root?: Element | null;
+  rootMargin?: string;
+  threshold?: number | number[];
+}
+
+export const useScrollAnimation = (options: IntersectionObserverOptions = {}) => {
   const [isInViewport, setIsInViewport] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
@@ -19,15 +25,16 @@ export const useScrollAnimation = () => {
       });
     };
 
-    const options = { root: null, rootMargin: '0px 0px 0px 0px', threshold: 0 };
+    const defaultOptions = { root: null, rootMargin: '0px 0px 0px 0px', threshold: 0 };
+    const observerOptions = { ...defaultOptions, ...options };
 
-    const observer = new IntersectionObserver(callback, options);
+    const observer = new IntersectionObserver(callback, observerOptions);
     observer.observe(ref.current);
 
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [options]);
 
   return { isInViewport, hasAnimated, ref };
 };
