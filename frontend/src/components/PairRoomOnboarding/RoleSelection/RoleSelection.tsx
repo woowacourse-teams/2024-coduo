@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import type { Role } from '@/pages/PairRoomOnboarding/PairRoomOnboarding.type';
 
@@ -18,15 +18,8 @@ interface RoleSettingSectionProps {
 }
 
 const RoleSelection = ({ firstPair, secondPair, onNext }: RoleSettingSectionProps) => {
-  const [driver, setDriver] = useState('');
-  const [navigator, setNavigator] = useState('');
-
-  useEffect(() => {
-    if (firstPair && secondPair) {
-      setDriver(firstPair);
-      setNavigator(secondPair);
-    }
-  }, [firstPair, secondPair]);
+  const [driver, setDriver] = useState(firstPair);
+  const [navigator, setNavigator] = useState(secondPair);
 
   const handleRole = (pairName: string, role: Role) => {
     const otherPair = firstPair === pairName ? secondPair : firstPair;
