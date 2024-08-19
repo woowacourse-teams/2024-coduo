@@ -15,11 +15,15 @@ import site.coduo.fake.FakeGithubApiClient;
 import site.coduo.fake.FakeGithubOAuthClient;
 import site.coduo.member.domain.Member;
 import site.coduo.member.domain.repository.MemberRepository;
+import site.coduo.member.infrastructure.security.JwtProvider;
 
 class AuthAcceptanceTest extends AcceptanceFixture {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private JwtProvider jwtProvider;
 
     @Test
     @DisplayName("로그인 검증 & 로그인 토큰을 발급한다.")
@@ -66,7 +70,7 @@ class AuthAcceptanceTest extends AcceptanceFixture {
     @DisplayName("로그아웃 요청을 하면 JWT 쿠키가 삭제된다.")
     void remove_jwt_cookie_when_accept_logout_request() {
         // given
-        final String loginToken = login();
+        final String loginToken = jwtProvider.sign(FakeGithubOAuthClient.OAUTH_CLIENT_ID);
 
         // when & then
         RestAssured
@@ -84,12 +88,12 @@ class AuthAcceptanceTest extends AcceptanceFixture {
     @DisplayName("회원의 로그인 상태를 확인한다.")
     void check_member_login_state() {
         // given
-        final String loginToken = login();
+        final String signInToken = jwtProvider.sign(FakeGithubOAuthClient.OAUTH_CLIENT_ID);
 
         // when & then
         RestAssured
                 .given()
-                .cookie("coduo_whoami", loginToken)
+                .cookie("coduo_whoami", signInToken)
 
                 .when()
                 .get("/api/sign-in/check")
@@ -97,33 +101,6 @@ class AuthAcceptanceTest extends AcceptanceFixture {
                 .then().log().all()
                 .statusCode(HttpStatus.SC_OK)
                 .body("signedIn", is(true));
-    }
-
-    String login() {
-        final String sessionId = GithubAcceptanceTest.createAccessTokenThenReturnSessionId();
-        final Member member = createMember();
-
-        memberRepository.save(member);
-
-        return RestAssured
-                .given()
-                .cookie("JSESSIONID", sessionId)
-
-                .when()
-                .get("/api/sign-in/callback")
-
-                .thenReturn()
-                .cookie("coudo_whoami");
-    }
-
-    private Member createMember() {
-        return Member.builder()
-                .username("test user")
-                .userId(FakeGithubApiClient.USER_ID)
-                .loginId(FakeGithubApiClient.LOGIN_ID)
-                .accessToken(FakeGithubOAuthClient.ACCESS_TOKEN.getCredential())
-                .profileImage(FakeGithubApiClient.PROFILE_IMAGE)
-                .build();
     }
 
     @Test
@@ -146,4 +123,15 @@ class AuthAcceptanceTest extends AcceptanceFixture {
                 .then().log().all()
                 .statusCode(HttpStatus.SC_MOVED_TEMPORARILY);
     }
+
+    private Member createMember() {
+        return Member.builder()
+                .username("test user")
+                .userId(FakeGithubApiClient.USER_ID)
+                .loginId(FakeGithubApiClient.LOGIN_ID)
+                .accessToken(FakeGithubOAuthClient.ACCESS_TOKEN.getCredential())
+                .profileImage(FakeGithubApiClient.PROFILE_IMAGE)
+                .build();
+    }
+
 }

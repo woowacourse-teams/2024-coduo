@@ -69,7 +69,7 @@ class GithubAcceptanceTest extends AcceptanceFixture {
                 .assertThat()
                 .statusCode(HttpStatus.SC_OK)
                 .body("endpoint",
-                        is("https://www.github.com/login/oauth/authorize?client_id=test&state=random%20number&redirect_uri=http://test.test"));
+                        is("https://www.github.com/login/oauth/authorize?client_id=test&state=randomNumber&redirect_uri=http://test.test"));
     }
 
     @Test
