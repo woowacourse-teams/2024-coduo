@@ -1,7 +1,7 @@
 package site.coduo.todo.domain;
 
 import lombok.Getter;
-import site.coduo.todo.domain.exception.InvalidTodoContentException;
+import site.coduo.todo.exception.InvalidTodoContentException;
 
 @Getter
 public class TodoContent {

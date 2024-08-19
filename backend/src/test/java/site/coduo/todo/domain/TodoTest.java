@@ -13,7 +13,7 @@ import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
-import site.coduo.todo.domain.exception.InvalidTodoArgumentException;
+import site.coduo.todo.exception.InvalidTodoArgumentException;
 
 @DisplayName("Todo 도메인 테스트")
 class TodoTest {
