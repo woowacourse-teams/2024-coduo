@@ -8,7 +8,6 @@ interface IntersectionObserverOptions {
 
 export const useScrollAnimation = (options: IntersectionObserverOptions = {}) => {
   const [isInViewport, setIsInViewport] = useState(false);
-  const [hasAnimated, setHasAnimated] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -18,7 +17,6 @@ export const useScrollAnimation = (options: IntersectionObserverOptions = {}) =>
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           setIsInViewport(true);
-          setHasAnimated(true);
         } else {
           setIsInViewport(false);
         }
@@ -34,5 +32,5 @@ export const useScrollAnimation = (options: IntersectionObserverOptions = {}) =>
     };
   }, [options]);
 
-  return { isInViewport, hasAnimated, ref };
+  return { isInViewport, ref };
 };

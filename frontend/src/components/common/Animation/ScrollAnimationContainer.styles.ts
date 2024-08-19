@@ -12,7 +12,7 @@ const frameInAnimation = keyframes`
   }
 `;
 
-export const Container = styled.div<{ $hasAnimated: boolean }>`
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
