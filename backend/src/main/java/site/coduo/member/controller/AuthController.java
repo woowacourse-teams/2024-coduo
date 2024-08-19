@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import site.coduo.member.controller.dto.auth.SignInCheckResponse;
-import site.coduo.member.controller.dto.auth.SignInCookie;
-import site.coduo.member.controller.dto.auth.SignInWebResponse;
-import site.coduo.member.controller.dto.auth.SignUpRequest;
 import site.coduo.member.service.AuthService;
 import site.coduo.member.service.MemberService;
 import site.coduo.member.service.dto.SignInServiceResponse;
+import site.coduo.member.service.dto.auth.SignInCheckResponse;
+import site.coduo.member.service.dto.auth.SignInCookie;
+import site.coduo.member.service.dto.auth.SignInWebResponse;
+import site.coduo.member.service.dto.auth.SignUpRequest;
 
 @Slf4j
 @RequiredArgsConstructor

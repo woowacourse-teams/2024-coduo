@@ -12,7 +12,7 @@ import site.coduo.config.TestConfig;
 import site.coduo.fake.FakeGithubOAuthClient;
 import site.coduo.fake.FixedNanceProvider;
 import site.coduo.member.client.dto.TokenResponse;
-import site.coduo.member.controller.dto.oauth.GithubAuthQuery;
+import site.coduo.member.service.dto.oauth.GithubAuthQuery;
 
 @SpringBootTest
 @Import(TestConfig.class)

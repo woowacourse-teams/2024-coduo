@@ -12,8 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-import site.coduo.member.controller.dto.oauth.State;
 import site.coduo.member.exception.AuthenticationException;
+import site.coduo.member.service.dto.oauth.State;
 
 public class StateSessionFilter implements SessionFilter {
 

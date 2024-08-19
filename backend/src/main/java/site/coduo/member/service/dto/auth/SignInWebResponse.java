@@ -1,4 +1,4 @@
-package site.coduo.member.controller.dto.auth;
+package site.coduo.member.service.dto.auth;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import site.coduo.member.service.dto.SignInServiceResponse;

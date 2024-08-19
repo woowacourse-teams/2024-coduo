@@ -1,4 +1,4 @@
-package site.coduo.member.controller.dto.auth;
+package site.coduo.member.service.dto.auth;
 
 import static site.coduo.common.config.filter.SignInCookieFilter.SIGN_IN_COOKIE_NAME;
 

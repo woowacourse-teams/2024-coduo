@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 import site.coduo.member.client.GithubOAuthClient;
 import site.coduo.member.client.dto.TokenRequest;
 import site.coduo.member.client.dto.TokenResponse;
-import site.coduo.member.controller.dto.oauth.GithubAuthQuery;
 import site.coduo.member.infrastructure.security.NanceProvider;
+import site.coduo.member.service.dto.oauth.GithubAuthQuery;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
