@@ -12,8 +12,8 @@ import InformationBox from '@/components/PairRoomOnboarding/InformationBox/Infor
 import useInput from '@/hooks/common/useInput';
 import useModal from '@/hooks/common/useModal';
 
-import useGetBranches from '@/queries/github/useGetBranches';
-import useGetRepositories from '@/queries/github/useGetRepositories';
+import useGetBranches from '@/queries/PairRoomOnboarding/useGetBranches';
+import useGetRepositories from '@/queries/PairRoomOnboarding/useGetRepositories';
 
 import { theme } from '@/styles/theme';
 
