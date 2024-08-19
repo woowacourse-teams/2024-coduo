@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 
 import { FaFilter } from 'react-icons/fa';
 import { IoIosLink } from 'react-icons/io';
@@ -34,11 +33,8 @@ interface ReferenceCardProps {
 
 const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps) => {
   const { categories, categoryRecord, isCategoryExist } = useGetCategories(accessCode);
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const category = queryParams.get('category') || '전체';
 
-  const [selectedCategory, setSelectedCategory] = useState(category);
+  const [selectedCategory, setSelectedCategory] = useState('전체');
   const handleSelectCategory = (category: string) => {
     setSelectedCategory(category);
   };

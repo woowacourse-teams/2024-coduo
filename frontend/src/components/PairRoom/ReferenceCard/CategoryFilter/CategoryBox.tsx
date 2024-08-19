@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import Input from '@/components/common/Input/Input';
 import { Message } from '@/components/common/Input/Input.styles';
@@ -37,8 +37,6 @@ const CategoryBox = ({ category, isChecked, handleSelectCategory }: CategoryProp
 
     setIsEditing(false);
     handleSelectCategory('전체');
-    navigate(`/room/${accessCode}?category=전체`, { state: { driver: '11', navigator: '22' } });
-    //TODO:  방 정보 기능 구현 시 state 삭제
   };
 
   const handleCancel = () => {
@@ -65,15 +63,17 @@ const CategoryBox = ({ category, isChecked, handleSelectCategory }: CategoryProp
 
   const handleEdit = () => setIsEditing(true);
 
-  const deleteCategory = () => deleteCategoryMutation({ categoryName: category, accessCode });
-
-  const navigate = useNavigate();
+  const deleteCategory = () => {
+    deleteCategoryMutation({ categoryName: category, accessCode });
+    if (!isChecked) return;
+    handleSelectCategory('전체');
+  };
 
   return (
     <>
       <S.CategoryBox
         onClick={() => {
-          navigate(`/room/${accessCode}?category=${category}`, { state: { driver: '11', navigator: '22' } });
+          handleSelectCategory(category);
         }}
         //TODO:  방 정보 기능 구현 시 state 삭제
       >
