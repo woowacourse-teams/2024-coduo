@@ -20,7 +20,7 @@ const ProgressBar = ({ step }: ProgressBarProps) => (
           </Button>
           <S.ButtonLabel>{option.label}</S.ButtonLabel>
         </S.ButtonWrapper>
-        {idx === 0 && <S.ProgressLine $isRoleSelected={true} />}
+        {idx === 0 && <S.ProgressLine />}
       </S.ButtonContainer>
     ))}
   </S.Layout>

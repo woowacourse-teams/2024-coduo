@@ -28,16 +28,16 @@ const RoleSelection = ({ firstPair, secondPair, onNext }: RoleSettingSectionProp
     }
   }, [firstPair, secondPair]);
 
-  const handleRole = (name: string, role: Role) => {
-    const otherPair = firstPair === name ? secondPair : firstPair;
+  const handleRole = (pairName: string, role: Role) => {
+    const otherPair = firstPair === pairName ? secondPair : firstPair;
     switch (role) {
       case 'DRIVER':
-        setDriver(name);
+        setDriver(pairName);
         setNavigator(otherPair);
         return;
       case 'NAVIGATOR':
         setDriver(otherPair);
-        setNavigator(name);
+        setNavigator(pairName);
         return;
     }
   };

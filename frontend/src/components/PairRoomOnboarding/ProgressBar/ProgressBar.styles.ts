@@ -44,7 +44,7 @@ export const ButtonLabel = styled.p`
   text-align: center;
 `;
 
-export const ProgressLine = styled.div<{ $isRoleSelected: boolean }>`
+export const ProgressLine = styled.div`
   width: 20rem;
   height: 3.5rem;
   border-top: 0.15rem dashed ${({ theme }) => theme.color.primary[500]};
