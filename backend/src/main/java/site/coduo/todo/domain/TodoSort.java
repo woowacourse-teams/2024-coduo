@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Objects;
 
 import lombok.Getter;
-import site.coduo.todo.domain.exception.InvalidTodoSortException;
-import site.coduo.todo.domain.exception.InvalidUpdatedTodoSortException;
+import site.coduo.todo.exception.InvalidTodoSortException;
+import site.coduo.todo.exception.InvalidUpdatedTodoSortException;
 
 @Getter
 public class TodoSort {

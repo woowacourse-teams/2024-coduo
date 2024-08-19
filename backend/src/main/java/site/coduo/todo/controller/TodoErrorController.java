@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import lombok.extern.slf4j.Slf4j;
 import site.coduo.common.controller.response.ApiErrorResponse;
 import site.coduo.todo.controller.error.TodoApiError;
-import site.coduo.todo.domain.exception.TodoException;
+import site.coduo.todo.exception.TodoException;
 
 @Slf4j
 @RestControllerAdvice
