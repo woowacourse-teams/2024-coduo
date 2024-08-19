@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-interface IntersectionObserverOptions {
+export interface IntersectionObserverOptions {
   root?: Element | null;
   rootMargin?: string;
   threshold?: number | number[];

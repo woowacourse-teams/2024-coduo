@@ -1,18 +1,30 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
-const frameInAnimation = keyframes`
+interface FrameInAnimationProps {
+  $animationDirection: 'left' | 'right' | 'top' | 'bottom';
+}
+
+const frameInAnimation = (direction: 'left' | 'right' | 'top' | 'bottom') => keyframes`
   0% {
     opacity: 0;
-    transform: translateY(100%);
+    transform: ${
+      direction === 'left'
+        ? 'translateX(100%)'
+        : direction === 'right'
+          ? 'translateX(-100%)'
+          : direction === 'top'
+            ? 'translateY(100%)'
+            : 'translateY(-100%)'
+    };
   }
 
   100%{
     opacity: 1;
-    transform: translateY(0%);
+    transform: translateX(0%) translateY(0%);
   }
 `;
 
-export const Container = styled.div`
+export const Container = styled.div<FrameInAnimationProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -24,6 +36,9 @@ export const Container = styled.div`
   &.frame-in {
     visibility: visible;
 
-    animation: ${frameInAnimation} 1s forwards;
+    animation: ${(props) => css`
+        ${frameInAnimation(props.$animationDirection)}
+      `}
+      1.2s forwards;
   }
 `;
