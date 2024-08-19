@@ -1,5 +1,7 @@
 import fetcher from '@/apis/fetcher';
 
+import { ERROR_MESSAGES } from '@/constants/message';
+
 const API_URL = process.env.REACT_APP_API_URL;
 
 export interface Todo {
@@ -12,7 +14,7 @@ export interface Todo {
 export const getTodos = async (accessCode: string): Promise<Todo[]> => {
   const response = await fetcher.get({
     url: `${API_URL}/api/${accessCode}/todos`,
-    errorMessage: '',
+    errorMessage: ERROR_MESSAGES.GET_TODOS,
   });
 
   return await response.json();
@@ -27,7 +29,7 @@ export const addTodos = async ({ content, accessCode }: AddTodosRequest) => {
   await fetcher.post({
     url: `${API_URL}/api/${accessCode}/todos`,
     body: JSON.stringify({ content }),
-    errorMessage: '',
+    errorMessage: ERROR_MESSAGES.ADD_TODO,
   });
 };
 
@@ -40,7 +42,7 @@ export const updateContents = async ({ todoId, contents }: UpdateContentsRequest
   await fetcher.patch({
     url: `${API_URL}/api/todos/${todoId}/contents`,
     body: JSON.stringify({ contents }),
-    errorMessage: '',
+    errorMessage: ERROR_MESSAGES.UPDATE_TODO,
   });
 };
 
@@ -53,7 +55,7 @@ export const updateOrder = async ({ todoId, order }: UpdateOrderRequest) => {
   await fetcher.patch({
     url: `${API_URL}/api/todos/${todoId}/order`,
     body: JSON.stringify({ order }),
-    errorMessage: '',
+    errorMessage: ERROR_MESSAGES.UPDATE_TODO,
   });
 };
 
@@ -64,7 +66,7 @@ interface UpdateCheckedRequest {
 export const updateChecked = async ({ todoId }: UpdateCheckedRequest) => {
   await fetcher.patch({
     url: `${API_URL}/api/todos/${todoId}/checked`,
-    errorMessage: '',
+    errorMessage: ERROR_MESSAGES.UPDATE_TODO,
   });
 };
 
@@ -75,6 +77,6 @@ interface DeleteTodoRequest {
 export const deleteTodo = async ({ todoId }: DeleteTodoRequest) => {
   await fetcher.delete({
     url: `${API_URL}/api/todos/${todoId}`,
-    errorMessage: '',
+    errorMessage: ERROR_MESSAGES.DELETE_TODO,
   });
 };
