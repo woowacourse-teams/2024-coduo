@@ -1,5 +1,7 @@
 package site.coduo.referencelink.domain;
 
+import java.net.URL;
+
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
@@ -45,18 +47,18 @@ public class OpenGraph {
                 .build();
     }
 
-    public static OpenGraph of(final Document document, final String domain) {
+    public static OpenGraph of(final Document document, final URL url) {
         return OpenGraph.builder()
-                .headTitle(domain)
+                .headTitle(url.getHost())
                 .openGraphTitle(findMetaTag(document, "title"))
                 .description(findMetaTag(document, "description"))
                 .image(findMetaTag(document, "image"))
                 .build();
     }
 
-    public static OpenGraph from(final String domain) {
+    public static OpenGraph from(final URL url) {
         return OpenGraph.builder()
-                .headTitle(domain)
+                .headTitle(url.getHost())
                 .openGraphTitle(DEFAULT_VALUE)
                 .description(DEFAULT_VALUE)
                 .image(DEFAULT_VALUE)
