@@ -1,9 +1,10 @@
+import { AiFillDelete } from 'react-icons/ai';
 import styled from 'styled-components';
 
 export const Layout = styled.div<{ $isDraggedOver: boolean }>`
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 1.2rem;
 
   padding: 1.6rem;
   border-radius: 1rem;
@@ -21,8 +22,21 @@ export const Layout = styled.div<{ $isDraggedOver: boolean }>`
   }
 `;
 
-export const Divider = styled.div`
-  height: 0.3rem;
+export const TodoContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+`;
 
-  background: ${({ theme }) => theme.color.black[30]};
+export const DeleteIcon = styled(AiFillDelete)`
+  width: ${({ theme }) => theme.fontSize.lg};
+  height: ${({ theme }) => theme.fontSize.lg};
+
+  color: ${({ theme }) => theme.color.secondary[500]};
+
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: ${({ theme }) => theme.color.secondary[600]};
+  }
 `;

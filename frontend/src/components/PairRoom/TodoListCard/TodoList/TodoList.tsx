@@ -1,18 +1,18 @@
-import TodoItem from '@/components/PairRoom/TodoListCard/TodoItem/TodoItem';
+import { useParams } from 'react-router-dom';
 
-import { Todo } from '@/apis/todo';
+import TodoItem from '@/components/PairRoom/TodoListCard/TodoItem/TodoItem';
 
 import useDragAndDrop from '@/hooks/common/useDragAndDrop';
 
+import useTodos from '@/queries/PairRoom/useTodos';
+
 import * as S from './TodoList.styles';
 
-interface TodoListProps {
-  todos: Todo[];
-  handleOrder: (todoId: number, order: number) => void;
-}
+const TodoList = () => {
+  const { accessCode } = useParams();
 
-const TodoList = ({ todos, handleOrder }: TodoListProps) => {
-  const { dragOverItem, handleDragStart, handleDragEnter, handleDrop } = useDragAndDrop(todos, handleOrder);
+  const { todos, handleUpdateOrder } = useTodos(accessCode || '');
+  const { dragOverItem, handleDragStart, handleDragEnter, handleDrop } = useDragAndDrop(todos, handleUpdateOrder);
 
   return (
     <S.Layout>
@@ -20,8 +20,7 @@ const TodoList = ({ todos, handleOrder }: TodoListProps) => {
         todos.map((todo) => (
           <TodoItem
             key={todo.id}
-            id={todo.id}
-            content={todo.content}
+            todo={todo}
             isDraggedOver={dragOverItem?.id === todo.id}
             onDragStart={handleDragStart}
             onDragEnter={handleDragEnter}

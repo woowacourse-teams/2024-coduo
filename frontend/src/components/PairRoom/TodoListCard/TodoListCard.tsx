@@ -27,11 +27,11 @@ const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
 
   const [isFooterOpen, setIsFooterOpen] = useState(false);
 
-  const { todos, handleAddTodos, handleUpdateOrder } = useTodos(accessCode || '');
+  const { handleAddTodos } = useTodos(accessCode || '');
 
   const { value, handleChange, resetValue } = useInput();
 
-  const addTodo = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     handleAddTodos(value);
@@ -51,10 +51,10 @@ const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
         />
         {isOpen && (
           <S.Body>
-            <TodoList todos={todos} handleOrder={handleUpdateOrder} />
+            <TodoList />
             <S.Footer>
               {isFooterOpen ? (
-                <S.Form onSubmit={addTodo}>
+                <S.Form onSubmit={handleSubmit}>
                   <Input $css={S.inputStyles} value={value} onChange={handleChange} />
                   <S.ButtonContainer>
                     <Button

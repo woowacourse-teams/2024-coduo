@@ -2,7 +2,7 @@ import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 
 import useToastStore from '@/stores/toastStore';
 
-import { getTodos, addTodos, updateOrder } from '@/apis/todo';
+import { getTodos, addTodos, updateOrder, updateChecked, updateContents, deleteTodo } from '@/apis/todo';
 
 const useTodos = (accessCode: string) => {
   const queryClient = useQueryClient();
@@ -20,16 +20,44 @@ const useTodos = (accessCode: string) => {
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });
 
+  const { mutate: updateContentsMutation } = useMutation({
+    mutationFn: updateContents,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['getTodos'] }),
+    onError: (error) => addToast({ status: 'ERROR', message: error.message }),
+  });
+
   const { mutate: updateOrderMutation } = useMutation({
     mutationFn: updateOrder,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['getTodos'] }),
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });
 
-  const handleAddTodos = (content: string) => addTodosMutation({ content, accessCode });
-  const handleUpdateOrder = (todoId: number, order: number) => updateOrderMutation({ todoId, order });
+  const { mutate: updateCheckedMutation } = useMutation({
+    mutationFn: updateChecked,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['getTodos'] }),
+    onError: (error) => addToast({ status: 'ERROR', message: error.message }),
+  });
 
-  return { todos: data || [], handleAddTodos, handleUpdateOrder };
+  const { mutate: deleteTodoMutation } = useMutation({
+    mutationFn: deleteTodo,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['getTodos'] }),
+    onError: (error) => addToast({ status: 'ERROR', message: error.message }),
+  });
+
+  const handleAddTodos = (content: string) => addTodosMutation({ content, accessCode });
+  const handleUpdateContents = (todoId: number, contents: string) => updateContentsMutation({ todoId, contents });
+  const handleUpdateOrder = (todoId: number, order: number) => updateOrderMutation({ todoId, order });
+  const handleUpdateChecked = (todoId: number) => updateCheckedMutation({ todoId });
+  const handleDeleteTodo = (todoId: number) => deleteTodoMutation({ todoId });
+
+  return {
+    todos: data || [],
+    handleAddTodos,
+    handleUpdateContents,
+    handleUpdateOrder,
+    handleUpdateChecked,
+    handleDeleteTodo,
+  };
 };
 
 export default useTodos;
