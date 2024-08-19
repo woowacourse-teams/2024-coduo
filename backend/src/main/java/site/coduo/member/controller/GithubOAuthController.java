@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.member.client.dto.TokenResponse;
+import site.coduo.member.controller.docs.GithubOAuthControllerDocs;
 import site.coduo.member.service.GithubOAuthService;
 import site.coduo.member.service.dto.oauth.GithubAuthQuery;
 import site.coduo.member.service.dto.oauth.GithubAuthUri;
@@ -26,7 +27,7 @@ import site.coduo.member.service.dto.oauth.GithubOAuthEndpoint;
 
 @RequiredArgsConstructor
 @RestController
-public class GithubOAuthController {
+public class GithubOAuthController implements GithubOAuthControllerDocs {
 
     private final GithubOAuthService githubOAuthService;
 

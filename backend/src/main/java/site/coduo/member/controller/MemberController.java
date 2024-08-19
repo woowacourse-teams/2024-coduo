@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import site.coduo.member.controller.docs.MemberControllerDocs;
 import site.coduo.member.service.MemberService;
 import site.coduo.member.service.dto.member.MemberReadResponse;
 
 @RequiredArgsConstructor
 @RestController
-public class MemberController {
+public class MemberController implements MemberControllerDocs {
 
     private final MemberService memberService;
 
