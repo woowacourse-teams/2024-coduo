@@ -4,8 +4,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-import jakarta.validation.constraints.NotBlank;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,10 +44,10 @@ public class ReferenceLinkService {
         return new ReferenceLinkResponse(referenceLinkEntity, openGraph);
     }
 
-    private URL makeUrl(final @NotBlank(message = "빈 url은 허용하지 않습니다.") String requestUrl) {
+    private URL makeUrl(final String requestUrl) {
         try {
             return new URL(requestUrl);
-        } catch (MalformedURLException e) {
+        } catch (final MalformedURLException e) {
             throw new InvalidUrlFormatException("링크 형식이 맞지 않습니다.");
         }
     }
