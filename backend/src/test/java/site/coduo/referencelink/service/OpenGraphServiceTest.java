@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.Category;
@@ -59,8 +60,9 @@ class OpenGraphServiceTest extends CascadeCleaner {
                         new Pair(
                                 new PairName("잉크"),
                                 new PairName("레모네")
-                        )
-                        , new AccessCode("123456"))
+                        ),
+                        PairRoomStatus.ONBOARDING,
+                        new AccessCode("123456"))
         );
         final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoom, new Category("스프링")));
         final ReferenceLinkEntity referenceLink = new ReferenceLinkEntity(
@@ -102,8 +104,9 @@ class OpenGraphServiceTest extends CascadeCleaner {
                         new Pair(
                                 new PairName("잉크"),
                                 new PairName("레모네")
-                        )
-                        , new AccessCode("123456"))
+                        ),
+                        PairRoomStatus.ONBOARDING,
+                        new AccessCode("123456"))
         );
 
         final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoom, new Category("스프링")));

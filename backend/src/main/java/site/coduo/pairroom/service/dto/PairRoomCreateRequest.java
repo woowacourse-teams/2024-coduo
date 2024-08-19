@@ -1,4 +1,4 @@
-package site.coduo.pairroom.dto;
+package site.coduo.pairroom.service.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
@@ -12,6 +12,10 @@ public record PairRoomCreateRequest(
 
         @Schema(description = "두 번째 페어의 이름")
         @NotBlank
-        String secondPair
+        String secondPair,
+
+        @Schema(description = "페어룸의 상태")
+        @NotBlank
+        String status
 ) {
 }

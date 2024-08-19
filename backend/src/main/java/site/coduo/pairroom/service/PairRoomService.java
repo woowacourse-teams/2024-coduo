@@ -9,12 +9,12 @@ import lombok.RequiredArgsConstructor;
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.domain.accesscode.AccessCodeFactory;
 import site.coduo.pairroom.domain.accesscode.UUIDAccessCodeStrategy;
-import site.coduo.pairroom.dto.PairRoomCreateRequest;
-import site.coduo.pairroom.dto.TimerDurationCreateRequest;
-import site.coduo.pairroom.exception.InvalidTimerDurationException;
+import site.coduo.pairroom.exception.InvalidAccessCodeException;
+import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.repository.PairRoomRepository;
 
 @RequiredArgsConstructor
@@ -27,27 +27,28 @@ public class PairRoomService {
     private final PairRoomRepository pairRoomRepository;
 
     @Transactional
-    public String savePairNameAndAccessCode(final PairRoomCreateRequest request) {
+    public String save(final PairRoomCreateRequest request) {
         final Pair pair = new Pair(new PairName(request.firstPair()), new PairName(request.secondPair()));
+        final PairRoomStatus status = PairRoomStatus.findByName(request.status());
         final List<AccessCode> accessCodes = pairRoomRepository.findAll()
                 .stream()
                 .map(PairRoom::getAccessCode)
                 .toList();
-
         final AccessCodeFactory accessCodeFactory = new AccessCodeFactory(new UUIDAccessCodeStrategy());
-        final PairRoom pairRoom = new PairRoom(pair, accessCodeFactory.generateWithoutDuplication(accessCodes));
+
+        final PairRoom pairRoom = new PairRoom(pair, status, accessCodeFactory.generate(accessCodes));
 
         pairRoomRepository.save(pairRoom);
 
         return pairRoom.getAccessCodeText();
     }
 
-    @Transactional
-    public void saveTimerDuration(final String accessCode, final TimerDurationCreateRequest request) {
-        final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
+    public void updatePairRoomStatus(final String accessCode, final String statusName) {
+        final PairRoomStatus status = PairRoomStatus.findByName(statusName);
+        final int updatedCount = pairRoomRepository.updateStatusByAccessCode(new AccessCode(accessCode), status);
 
-        if (pairRoomRepository.updateTimerDuration(pairRoom.getId(), request.timerDuration()) != UPDATED_ROW_COUNT) {
-            throw new InvalidTimerDurationException("타이머 시간을 저장하는데 실패했습니다.");
+        if (updatedCount != UPDATED_ROW_COUNT) {
+            throw new InvalidAccessCodeException("accessCode가 존재하지 않거나 중복되어 페어룸 상태 변경에 실패했습니다.");
         }
     }
 

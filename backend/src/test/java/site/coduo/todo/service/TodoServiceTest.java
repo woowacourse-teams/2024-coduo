@@ -18,6 +18,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.mock.FakePairRoomRepository;
@@ -36,11 +37,11 @@ class TodoServiceTest {
     void setUp() {
         final FakePairRoomRepository fakePairRoomRepository = new FakePairRoomRepository();
         final FakeTodoRepository fakeTodoRepository = new FakeTodoRepository();
-        final TodoService todoService = new TodoService(fakePairRoomRepository, fakeTodoRepository);
+        final TodoService fakeTodoService = new TodoService(fakePairRoomRepository, fakeTodoRepository);
 
         this.pairRoomRepository = fakePairRoomRepository;
         this.todoRepository = fakeTodoRepository;
-        this.todoService = todoService;
+        this.todoService = fakeTodoService;
     }
 
     @DisplayName("페어룸 아이디, 투두 내용을 입력받으면 Todo 객체를 생성해 저장한다.")
@@ -50,6 +51,7 @@ class TodoServiceTest {
         final String pairRoomAccessCode = "ACCESS-CODE";
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
+                PairRoomStatus.ONBOARDING,
                 new AccessCode(pairRoomAccessCode)
         );
         pairRoomRepository.save(pairRoom);
@@ -78,6 +80,7 @@ class TodoServiceTest {
         // Given
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
+                PairRoomStatus.ONBOARDING,
                 new AccessCode("ACCESS-CODE")
         );
         pairRoomRepository.save(pairRoom);
@@ -97,6 +100,7 @@ class TodoServiceTest {
         // Given
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
+                PairRoomStatus.ONBOARDING,
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -125,6 +129,7 @@ class TodoServiceTest {
         // Given
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
+                PairRoomStatus.ONBOARDING,
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -148,6 +153,7 @@ class TodoServiceTest {
         // Given
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
+                PairRoomStatus.ONBOARDING,
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -175,6 +181,7 @@ class TodoServiceTest {
         // Given
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
+                PairRoomStatus.ONBOARDING,
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -197,6 +204,7 @@ class TodoServiceTest {
         // Given
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
+                PairRoomStatus.ONBOARDING,
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -222,6 +230,7 @@ class TodoServiceTest {
         final String pairRoomAccessCode = "ACCESS-CODE";
         final PairRoom pairRoom = new PairRoom(
                 1L,
+                PairRoomStatus.ONBOARDING,
                 new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode(pairRoomAccessCode)
         );
@@ -233,8 +242,6 @@ class TodoServiceTest {
                 new Todo(4L, pairRoom, "투두4!!", 2048, false)
         );
         todoRepository.saveAll(todos);
-
-        final Long pairRoomId = 1L;
 
         final int expectSize = 4;
         final List<Long> expectOrder = List.of(2L, 4L, 3L, 1L);
@@ -256,6 +263,7 @@ class TodoServiceTest {
         // Given
         final PairRoom pairRoom = new PairRoom(
                 1L,
+                PairRoomStatus.ONBOARDING,
                 new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode("ACCESS CODE")
         );
@@ -283,6 +291,7 @@ class TodoServiceTest {
         // Given
         final PairRoom pairRoom = new PairRoom(
                 1L,
+                PairRoomStatus.ONBOARDING,
                 new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode("ACCESS-CODE")
         );
@@ -324,6 +333,7 @@ class TodoServiceTest {
         // Given
         final PairRoom pairRoom = new PairRoom(
                 1L,
+                PairRoomStatus.ONBOARDING,
                 new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode("ACCESS-CODE")
         );

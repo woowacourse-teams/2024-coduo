@@ -11,7 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import site.coduo.pairroom.dto.PairRoomCreateRequest;
+import site.coduo.pairroom.domain.PairRoomStatus;
+import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.pairroomhistory.dto.PairRoomHistoryCreateRequest;
 import site.coduo.pairroomhistory.dto.PairRoomHistoryReadResponse;
@@ -36,7 +37,8 @@ class PairRoomHistoryServiceTest extends CascadeCleaner {
     @DisplayName("페어룸 히스토리를 저장한다.")
     void create_pair_room_history() {
         // given
-        final String accessCode = pairRoomService.savePairNameAndAccessCode(new PairRoomCreateRequest("켈리", "레모네"));
+    final String accessCode = pairRoomService
+            .save(new PairRoomCreateRequest("켈리", "레모네", PairRoomStatus.ONBOARDING.name()));
         final PairRoomHistoryCreateRequest request = new PairRoomHistoryCreateRequest(
                 "켈리",
                 "레모네",
@@ -54,7 +56,7 @@ class PairRoomHistoryServiceTest extends CascadeCleaner {
     void get_latest_pair_room_history() {
         // given
         final String accessCode = pairRoomService
-                .savePairNameAndAccessCode(new PairRoomCreateRequest("잉크", "레디"));
+                .save(new PairRoomCreateRequest("잉크", "레디", PairRoomStatus.ONBOARDING.name()));
         final PairRoomHistoryCreateRequest request = new PairRoomHistoryCreateRequest(
                 "잉크",
                 "레디",

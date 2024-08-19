@@ -6,8 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.restassured.RestAssured;
-import site.coduo.pairroom.dto.PairRoomCreateRequest;
-import site.coduo.pairroom.dto.PairRoomCreateResponse;
+import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
+import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
 import site.coduo.referencelink.service.dto.CategoryCreateRequest;
 import site.coduo.referencelink.service.dto.CategoryCreateResponse;
 
@@ -34,7 +34,7 @@ class CategoryAcceptanceTest extends AcceptanceFixture {
     void show_category() {
         //given
         final PairRoomCreateResponse pairRoomUrl = PairRoomAcceptanceTest.createPairRoom(
-                new PairRoomCreateRequest("레디", "프람"));
+                new PairRoomCreateRequest("레디", "프람", "ONBOARDING"));
 
         createCategory(pairRoomUrl.accessCode(), new CategoryCreateRequest("새로운 카테고리"));
 

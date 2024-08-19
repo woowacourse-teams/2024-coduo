@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.pairroom.controller.docs.PairRoomDocs;
-import site.coduo.pairroom.dto.PairRoomCreateRequest;
-import site.coduo.pairroom.dto.PairRoomCreateResponse;
-import site.coduo.pairroom.dto.PairRoomDeleteRequest;
-import site.coduo.pairroom.dto.PairRoomReadRequest;
-import site.coduo.pairroom.dto.PairRoomReadResponse;
-import site.coduo.pairroom.dto.TimerDurationCreateRequest;
+import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
+import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
+import site.coduo.pairroom.service.dto.PairRoomDeleteRequest;
+import site.coduo.pairroom.service.dto.PairRoomReadRequest;
+import site.coduo.pairroom.service.dto.PairRoomReadResponse;
 import site.coduo.pairroom.service.PairRoomService;
+import site.coduo.pairroom.service.dto.PairRoomStatusUpdateRequest;
 
 @RequiredArgsConstructor
 @RestController
@@ -34,20 +34,20 @@ public class PairRoomController implements PairRoomDocs {
             @Valid @RequestBody final PairRoomCreateRequest request
     ) {
         final PairRoomCreateResponse response = new PairRoomCreateResponse(
-                pairRoomService.savePairNameAndAccessCode(request));
+                pairRoomService.save(request));
 
         return ResponseEntity.created(URI.create("/"))
                 .body(response);
     }
 
-    @PatchMapping("/pair-room/{accessCode}/timer")
-    public ResponseEntity<Void> createTimerDuration(
-            @PathVariable("accessCode") final String accessCode,
-            @Valid @RequestBody final TimerDurationCreateRequest request
+    @PatchMapping("/pair-room/{accessCode}/status")
+    public ResponseEntity<Void> updatePairRoomStatus(
+            @Valid @PathVariable("accessCode") final String accessCode,
+            @Valid @RequestBody final PairRoomStatusUpdateRequest request
     ) {
-        pairRoomService.saveTimerDuration(accessCode, request);
+        pairRoomService.updatePairRoomStatus(accessCode, request.status());
 
-        return ResponseEntity.created(URI.create("/"))
+        return ResponseEntity.noContent()
                 .build();
     }
 

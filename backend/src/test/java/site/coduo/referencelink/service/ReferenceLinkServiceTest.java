@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.Category;
@@ -56,7 +57,8 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
     void save_reference_link_and_open_graph() {
         // given
         final Pair pair = new Pair(new PairName("first"), new PairName("second"));
-        final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(pair, new AccessCode("code`")));
+        final PairRoom pairRoom = pairRoomRepository
+                .save(new PairRoom(pair, PairRoomStatus.ONBOARDING, new AccessCode("code`")));
         final ReferenceLinkCreateRequest request = new ReferenceLinkCreateRequest("https://www.naver.com", null);
 
         // when
@@ -81,7 +83,8 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
     void search_all_reference_link() {
         // given
         final Pair pair = new Pair(new PairName("first"), new PairName("second"));
-        final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(pair, new AccessCode("code")));
+        final PairRoom pairRoom = pairRoomRepository
+                .save(new PairRoom(pair, PairRoomStatus.ONBOARDING, new AccessCode("code")));
         final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoom, new Category("자바")));
         final AccessCode accessCode = pairRoom.getAccessCode();
         referenceLinkRepository.save(
@@ -105,7 +108,7 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
         // given
         final Pair pair = new Pair(new PairName("first"), new PairName("second"));
         AccessCode code = new AccessCode("hello");
-        final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(pair, code));
+        final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(pair, PairRoomStatus.ONBOARDING, code));
         final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoom, new Category("리액트")));
         final ReferenceLinkEntity link = referenceLinkRepository.save(
                 new ReferenceLinkEntity(new ReferenceLink(new Url("http://url1.com"), code), category, pairRoom));

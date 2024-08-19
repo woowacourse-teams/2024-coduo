@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
 
@@ -21,6 +22,6 @@ public interface PairRoomRepository extends JpaRepository<PairRoom, Long> {
     }
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
-    @Query("UPDATE PairRoom pr SET pr.timerDuration = :newTimerDuration WHERE pr.id = :id")
-    int updateTimerDuration(@Param("id") long id, @Param("newTimerDuration") long newTimerDuration);
+    @Query("UPDATE PairRoom pr SET pr.status = :newStatus WHERE pr.accessCode = :accessCode")
+    int updateStatusByAccessCode(@Param("accessCode") AccessCode accessCode, @Param("newStatus") PairRoomStatus newStatus);
 }

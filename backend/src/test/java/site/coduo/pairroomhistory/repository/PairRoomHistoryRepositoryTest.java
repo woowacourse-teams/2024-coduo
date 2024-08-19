@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroomhistory.domain.PairRoomHistory;
@@ -37,7 +38,7 @@ class PairRoomHistoryRepositoryTest {
     void inquiry_recent_history() {
         // given
         final PairRoom pairRoom = new PairRoom(new Pair(new PairName("레머네"), new PairName("프람")),
-                new AccessCode("hello1"));
+                PairRoomStatus.ONBOARDING, new AccessCode("hello1"));
         pairRoomRepository.save(pairRoom);
 
         final PairRoomHistory history1 = PairRoomHistory.builder()
@@ -76,7 +77,7 @@ class PairRoomHistoryRepositoryTest {
     void update_timer_remaining_time() {
         // given
         final PairRoom pairRoom = new PairRoom(new Pair(new PairName("솔라"), new PairName("네오")),
-                new AccessCode("hello2"));
+                PairRoomStatus.ONBOARDING, new AccessCode("hello2"));
         pairRoomRepository.save(pairRoom);
 
         final PairRoomHistory history = PairRoomHistory.builder()
