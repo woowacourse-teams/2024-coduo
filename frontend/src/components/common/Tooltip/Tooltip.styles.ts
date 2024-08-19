@@ -8,7 +8,7 @@ const fadeIn = keyframes`
     opacity: 0;
   }
   100% {
-    opacity: 0.8;
+    opacity: 0.9;
   }
 `;
 
@@ -71,8 +71,10 @@ export const Content = styled.div<{ $color: string; $direction: Direction }>`
   position: absolute;
   z-index: 100;
 
+  text-align: center;
+
   width: fit-content;
-  min-width: 17rem;
+  min-width: 20rem;
   padding: 1rem;
   border-radius: 0.5rem;
 
@@ -89,6 +91,7 @@ export const Content = styled.div<{ $color: string; $direction: Direction }>`
 
   box-shadow: 0 0.2rem 0.4rem rgb(0 0 0 / 30%);
   line-height: 150%;
+  word-break: keep-all;
   ${({ $color, $direction }) => directionStyle($direction, $color)};
 `;
 

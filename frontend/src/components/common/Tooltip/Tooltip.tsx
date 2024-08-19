@@ -2,16 +2,18 @@ import { ReactNode } from 'react';
 
 import { Direction } from '@/components/common/Tooltip/Tooltip.type';
 
+import { theme } from '@/styles/theme';
+
 import * as S from './Tooltip.styles';
 
 interface ToolTipProps {
   message: string;
-  children: ReactNode;
+  children?: ReactNode;
   direction: Direction;
-  color: string;
+  color?: string;
 }
 
-const Tooltip = ({ children, message, direction, color }: ToolTipProps) => {
+const Tooltip = ({ children, message, direction, color = theme.color.primary[800] }: ToolTipProps) => {
   return (
     <S.Box>
       {children}
