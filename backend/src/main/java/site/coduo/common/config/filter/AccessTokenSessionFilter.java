@@ -30,9 +30,9 @@ public class AccessTokenSessionFilter implements SessionFilter {
     }
 
     @Override
-    public String getStoreSession(final HttpServletRequest request, final String sessionName) {
+    public String getStoreSession(final HttpServletRequest request) {
         final HttpSession session = request.getSession();
-        final String sessionState = (String) session.getAttribute(sessionName);
+        final String sessionState = (String) session.getAttribute(ACCESS_TOKEN_SESSION_NAME);
         if (Objects.isNull(sessionState)) {
             throw new AuthenticationException("세션에서 Access token의 정보를 찾을 수 없습니다.");
         }
@@ -40,13 +40,7 @@ public class AccessTokenSessionFilter implements SessionFilter {
     }
 
     @Override
-    public String getRequestSession(final HttpServletRequest request, final String sessionName) {
-        return "";
-    }
-
-    @Override
-    public void removeSession(final HttpServletRequest request, final HttpServletResponse response,
-                              final String sessionName) {
+    public void removeSession(final HttpServletRequest request, final HttpServletResponse response) {
         final String setCookie = response.getHeader(HttpHeaders.SET_COOKIE);
         final HttpSession session = request.getSession();
         if (hasSignInCookie(setCookie)) {
@@ -60,7 +54,7 @@ public class AccessTokenSessionFilter implements SessionFilter {
     }
 
     @Override
-    public void validate(final String storeSession, final String requestSession) {
+    public void validate(final HttpServletRequest request, final String storeSession) {
         if (storeSession.isBlank()) {
             throw new AuthenticationException("세션의 Access token이 비어있습니다.");
         }

@@ -28,9 +28,9 @@ public class StateSessionFilter implements SessionFilter {
     }
 
     @Override
-    public String getStoreSession(final HttpServletRequest request, final String sessionName) {
+    public String getStoreSession(final HttpServletRequest request) {
         final HttpSession session = request.getSession();
-        final String sessionState = (String) session.getAttribute(sessionName);
+        final String sessionState = (String) session.getAttribute(STATE_SESSION_NAME);
         if (Objects.isNull(sessionState)) {
             throw new AuthenticationException("세션에서 state 정보를 찾을 수 없습니다.");
         }
@@ -38,7 +38,19 @@ public class StateSessionFilter implements SessionFilter {
     }
 
     @Override
-    public String getRequestSession(final HttpServletRequest request, final String sessionName) {
+    public void removeSession(final HttpServletRequest request, final HttpServletResponse response) {
+        final HttpSession session = request.getSession();
+        session.removeAttribute(STATE_SESSION_NAME);
+    }
+
+    @Override
+    public void validate(final HttpServletRequest request, final String storeSession) {
+        final State storedState = new State(storeSession);
+        final State requestedState = new State(getRequestSession(request, STATE_SESSION_NAME));
+        storedState.validate(requestedState);
+    }
+
+    private String getRequestSession(final HttpServletRequest request, final String sessionName) {
         final String query = request.getQueryString();
 
         return Arrays.stream(query.split("&"))
@@ -46,19 +58,5 @@ public class StateSessionFilter implements SessionFilter {
                 .map(stateQuery -> stateQuery.split("=")[1])
                 .findAny()
                 .orElseThrow(() -> new AuthenticationException("Http 요청 Query String에서 state를 찾을 수 없습니다."));
-    }
-
-    @Override
-    public void removeSession(final HttpServletRequest request, final HttpServletResponse response,
-                              final String sessionName) {
-        final HttpSession session = request.getSession();
-        session.removeAttribute(STATE_SESSION_NAME);
-    }
-
-    @Override
-    public void validate(final String storeSession, final String requestSession) {
-        final State storedState = new State(storeSession);
-        final State requestedState = new State(requestSession);
-        storedState.validate(requestedState);
     }
 }

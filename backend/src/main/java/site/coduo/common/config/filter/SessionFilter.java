@@ -7,17 +7,14 @@ import jakarta.servlet.http.HttpServletResponse;
 public interface SessionFilter extends Filter {
 
     default void template(HttpServletRequest request, HttpServletResponse response, String sessionName) {
-        final String storeSession = getStoreSession(request, sessionName);
-        final String requestSession = getRequestSession(request, sessionName);
-        validate(storeSession, requestSession);
-        removeSession(request, response, sessionName);
+        final String storeSession = getStoreSession(request);
+        validate(request, storeSession);
+        removeSession(request, response);
     }
 
-    String getStoreSession(HttpServletRequest request, String sessionName);
+    String getStoreSession(HttpServletRequest request);
 
-    String getRequestSession(HttpServletRequest request, String sessionName);
+    void removeSession(HttpServletRequest request, HttpServletResponse response);
 
-    void removeSession(HttpServletRequest request, HttpServletResponse response, String sessionName);
-
-    void validate(String storeSession, String requestSession);
+    void validate(HttpServletRequest request, String storeSession);
 }
