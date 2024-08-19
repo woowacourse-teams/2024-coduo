@@ -1,5 +1,7 @@
 package site.coduo.referencelink.service;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -12,7 +14,7 @@ import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.Category;
 import site.coduo.referencelink.domain.OpenGraph;
 import site.coduo.referencelink.domain.ReferenceLink;
-import site.coduo.referencelink.domain.Url;
+import site.coduo.referencelink.exception.InvalidUrlFormatException;
 import site.coduo.referencelink.repository.CategoryEntity;
 import site.coduo.referencelink.repository.CategoryRepository;
 import site.coduo.referencelink.repository.ReferenceLinkEntity;
@@ -34,11 +36,20 @@ public class ReferenceLinkService {
                                                      final ReferenceLinkCreateRequest request) {
         final AccessCode accessCode = new AccessCode(accessCodeText);
         final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(accessCode);
-        final ReferenceLink referenceLink = new ReferenceLink(new Url(request.url()), accessCode);
+        final URL url = makeUrl(request.url());
+        final ReferenceLink referenceLink = new ReferenceLink(url, accessCode);
 
         final ReferenceLinkEntity referenceLinkEntity = saveReferenceLink(request, pairRoom, referenceLink);
-        final OpenGraph openGraph = openGraphService.createOpenGraph(referenceLinkEntity);
+        final OpenGraph openGraph = openGraphService.createOpenGraph(referenceLinkEntity, url);
         return new ReferenceLinkResponse(referenceLinkEntity, openGraph);
+    }
+
+    private URL makeUrl(final String requestUrl) {
+        try {
+            return new URL(requestUrl);
+        } catch (final MalformedURLException e) {
+            throw new InvalidUrlFormatException("링크 형식이 맞지 않습니다.");
+        }
     }
 
     public ReferenceLinkEntity saveReferenceLink(final ReferenceLinkCreateRequest request,
