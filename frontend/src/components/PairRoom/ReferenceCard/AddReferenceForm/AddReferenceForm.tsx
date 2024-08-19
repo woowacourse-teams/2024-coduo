@@ -8,8 +8,9 @@ import Input from '@/components/common/Input/Input';
 
 import useInput from '@/hooks/common/useInput';
 
-import * as S from './AddReferenceForm.styles';
 import { BUTTON_TEXT } from '@/constants/button';
+
+import * as S from './AddReferenceForm.styles';
 
 interface ReferenceFormProps {
   handleAddReferenceLink: (value: string, category: string | null) => void;
@@ -34,45 +35,41 @@ const AddReferenceForm = ({ categories, handleAddReferenceLink }: ReferenceFormP
 
   const newCategories = [...categories, '카테고리 없음'];
 
-  return (
-    <>
-      {isFooterOpen ? (
-        <S.ReferenceFormContainer>
-          <Dropdown
-            height=""
-            width="17rem"
-            options={newCategories}
-            defaultOption="카테고리 없음"
-            placeholder="카테고리를 선택해주세요."
-            onSelect={(option) => handleCategory(option)}
-            direction="upper"
-          />
-          <S.Form onSubmit={handleSubmit}>
-            <Input
-              $css={S.inputStyles}
-              placeholder="링크를 입력해주세요."
-              value={value}
-              status={status}
-              message={message}
-              onChange={handleChange}
-            />
-            <S.ButtonContainer>
-              <Button type="button" size="sm" filled={false} rounded={true} onClick={() => setIsFooterOpen(false)}>
-                {BUTTON_TEXT.CANCEL}
-              </Button>
-              <Button type="submit" size="sm" rounded={true} disabled={value === '' || status !== 'DEFAULT'}>
-                {BUTTON_TEXT.CONFIRM}
-              </Button>
-            </S.ButtonContainer>
-          </S.Form>
-        </S.ReferenceFormContainer>
-      ) : (
-        <S.FooterButton onClick={() => setIsFooterOpen(true)}>
-          <LuPlus />
-          링크 추가하기
-        </S.FooterButton>
-      )}
-    </>
+  return isFooterOpen ? (
+    <S.ReferenceFormContainer>
+      <Dropdown
+        height=""
+        width="17rem"
+        options={newCategories}
+        defaultOption="카테고리 없음"
+        placeholder="카테고리를 선택해주세요."
+        onSelect={(option) => handleCategory(option)}
+        direction="upper"
+      />
+      <S.Form onSubmit={handleSubmit}>
+        <Input
+          $css={S.inputStyles}
+          placeholder="링크를 입력해주세요."
+          value={value}
+          status={status}
+          message={message}
+          onChange={handleChange}
+        />
+        <S.ButtonContainer>
+          <Button type="button" size="sm" filled={false} rounded={true} onClick={() => setIsFooterOpen(false)}>
+            {BUTTON_TEXT.CANCEL}
+          </Button>
+          <Button type="submit" size="sm" rounded={true} disabled={value === '' || status !== 'DEFAULT'}>
+            {BUTTON_TEXT.CONFIRM}
+          </Button>
+        </S.ButtonContainer>
+      </S.Form>
+    </S.ReferenceFormContainer>
+  ) : (
+    <S.FooterButton onClick={() => setIsFooterOpen(true)}>
+      <LuPlus />
+      링크 추가하기
+    </S.FooterButton>
   );
 };
 
