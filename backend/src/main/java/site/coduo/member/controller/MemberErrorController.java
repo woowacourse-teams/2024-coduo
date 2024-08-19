@@ -1,5 +1,7 @@
 package site.coduo.member.controller;
 
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,6 +15,7 @@ import site.coduo.member.exception.AuthorizationException;
 
 @Slf4j
 @RestControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class MemberErrorController {
 
     @ExceptionHandler(ServletRequestBindingException.class)

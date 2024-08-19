@@ -1,5 +1,7 @@
 package site.coduo.referencelink.controller;
 
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -12,6 +14,7 @@ import site.coduo.referencelink.exception.ReferenceLinkException;
 
 @Slf4j
 @RestControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class ReferenceLinkErrorController {
 
     @ExceptionHandler(InvalidUrlFormatException.class)

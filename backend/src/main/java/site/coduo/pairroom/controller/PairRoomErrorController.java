@@ -2,6 +2,8 @@ package site.coduo.pairroom.controller;
 
 import java.util.InvalidPropertiesFormatException;
 
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -15,6 +17,7 @@ import site.coduo.pairroom.exception.PairRoomNotFoundException;
 
 @Slf4j
 @RestControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class PairRoomErrorController {
 
     @ExceptionHandler(InvalidNameFormatException.class)
