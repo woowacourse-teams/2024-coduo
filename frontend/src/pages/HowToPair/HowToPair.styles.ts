@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import { Wave } from '@/assets';
 
 export const Layout = styled.div`
