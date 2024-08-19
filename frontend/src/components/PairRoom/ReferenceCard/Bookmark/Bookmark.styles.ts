@@ -81,10 +81,14 @@ export const Content = styled.p`
 `;
 
 export const DeleteButton = styled(MdClose)`
+  position: absolute;
   width: 2rem;
   height: 2rem;
   padding: 0.3rem;
   border-radius: 100%;
+
+  right: 1rem;
+  top: 1rem;
 
   background-color: ${({ theme }) => theme.color.black[90]};
   opacity: 0.6;
@@ -100,7 +104,6 @@ export const DeleteButton = styled(MdClose)`
 export const Header = styled.div<{ $isCategory: string }>`
   padding: 0 1rem;
   display: flex;
-  flex-direction: row-reverse;
 
   justify-content: space-between;
   position: absolute;
