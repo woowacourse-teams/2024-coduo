@@ -71,11 +71,13 @@ export const DropdownContainer = styled.div<{ $direction: Direction }>`
 `;
 
 export const ItemList = styled.ul<{ $width: string; $height: string; $direction: Direction }>`
+  display: flex;
+  flex-direction: ${({ $direction }) => ($direction === 'lower' ? 'column' : 'column-reverse')};
   overflow-y: auto;
-  position: absolute;
-  bottom: ${({ $direction }) => ($direction === 'lower' ? '' : '5rem')};
 
+  position: absolute;
   top: ${({ $direction }) => ($direction === 'lower' ? '5rem' : '')};
+  bottom: ${({ $direction }) => ($direction === 'lower' ? '' : '5rem')};
   left: 0;
   z-index: 1000;
 
@@ -87,8 +89,6 @@ export const ItemList = styled.ul<{ $width: string; $height: string; $direction:
   box-shadow:
     0 0 2px grey,
     1px 1px 3px lightgrey;
-  display: flex;
-  flex-direction: ${({ $direction }) => ($direction === 'lower' ? 'column' : 'column-reverse')};
 `;
 
 export const Item = styled(Button)`

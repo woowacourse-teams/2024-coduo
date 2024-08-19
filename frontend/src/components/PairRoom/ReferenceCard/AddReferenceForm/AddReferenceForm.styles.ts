@@ -39,8 +39,9 @@ export const FooterButton = styled.button`
 
 export const ReferenceFormContainer = styled.div`
   display: flex;
+  align-items: center;
+
   width: 100%;
   height: 6rem;
-  align-items: center;
   padding-left: 1rem;
 `;
