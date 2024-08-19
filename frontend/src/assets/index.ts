@@ -1,4 +1,6 @@
 import AlarmSound from '@/assets/audio/alarm_sound.mp3';
+import Driver from '@/assets/images/characters/driver.png';
+import Navigator from '@/assets/images/characters/navigator.png';
 import GithubLogoWhite from '@/assets/images/github-mark-white.png';
 import GithubLogo from '@/assets/images/github-mark.png';
 import LogoIcon from '@/assets/images/logo_icon.svg';
@@ -6,4 +8,4 @@ import LogoIconWithTitle from '@/assets/images/logo_icon_with_title.svg';
 import LogoTitle from '@/assets/images/logo_title.svg';
 import Wave from '@/assets/images/wave.svg';
 
-export { GithubLogo, GithubLogoWhite, LogoIcon, LogoIconWithTitle, LogoTitle, Wave, AlarmSound };
+export { GithubLogo, GithubLogoWhite, LogoIcon, LogoIconWithTitle, LogoTitle, Wave, AlarmSound, Driver, Navigator };
