@@ -6,11 +6,9 @@ import org.springframework.context.annotation.Primary;
 
 import site.coduo.fake.FakeGithubApiClient;
 import site.coduo.fake.FakeGithubOAuthClient;
-import site.coduo.fake.FakeJwtProvider;
 import site.coduo.fake.FixedNanceProvider;
 import site.coduo.member.client.GithubApiClient;
 import site.coduo.member.client.GithubOAuthClient;
-import site.coduo.member.infrastructure.security.JwtProvider;
 import site.coduo.member.infrastructure.security.NanceProvider;
 
 @TestConfiguration
@@ -32,11 +30,5 @@ public class TestConfig {
     @Primary
     public GithubApiClient fakeGithubApiClient() {
         return new FakeGithubApiClient();
-    }
-
-    @Bean
-    @Primary
-    public JwtProvider fakeJwtProvider() {
-        return new FakeJwtProvider();
     }
 }

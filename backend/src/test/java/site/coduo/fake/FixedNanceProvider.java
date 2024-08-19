@@ -3,7 +3,7 @@ package site.coduo.fake;
 import site.coduo.member.infrastructure.security.NanceProvider;
 
 public class FixedNanceProvider implements NanceProvider {
-    public static final String FIXED_VALUE = "random number";
+    public static final String FIXED_VALUE = "randomNumber";
 
     @Override
     public String generate() {
