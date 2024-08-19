@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 
-import site.coduo.todo.domain.exception.InvalidTodoContentException;
+import site.coduo.todo.exception.InvalidTodoContentException;
 
 @DisplayName("TodoContent 도메인 테스트")
 class TodoContentTest {

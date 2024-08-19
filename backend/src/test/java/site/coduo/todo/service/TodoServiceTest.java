@@ -22,7 +22,7 @@ import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.mock.FakePairRoomRepository;
 import site.coduo.todo.domain.Todo;
-import site.coduo.todo.domain.exception.TodoNotFoundException;
+import site.coduo.todo.exception.TodoNotFoundException;
 import site.coduo.todo.mock.FakeTodoRepository;
 
 @DisplayName("TodoService 테스트")

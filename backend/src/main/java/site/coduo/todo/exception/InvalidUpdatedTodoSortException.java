@@ -1,4 +1,4 @@
-package site.coduo.todo.domain.exception;
+package site.coduo.todo.exception;
 
 public class InvalidUpdatedTodoSortException extends TodoException {
 

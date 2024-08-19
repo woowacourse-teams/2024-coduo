@@ -12,7 +12,7 @@ import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.service.port.PairRoomRepository;
 import site.coduo.todo.domain.Todo;
 import site.coduo.todo.domain.TodoSort;
-import site.coduo.todo.domain.exception.TodoNotFoundException;
+import site.coduo.todo.exception.TodoNotFoundException;
 import site.coduo.todo.service.port.TodoRepository;
 
 @RequiredArgsConstructor
