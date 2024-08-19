@@ -1,18 +1,14 @@
-import { GithubLogoWhite } from '@/assets';
-
 import * as S from '@/pages/Main/Main.styles';
 
 import Button from '@/components/common/Button/Button';
 import PairRoomCreateModal from '@/components/Main/PairRoomCreateModal/PairRoomCreateModal';
 import PairRoomEntryModal from '@/components/Main/PairRoomEntryModal/PairRoomEntryModal';
 
-import useUserStatusStore from '@/stores/userStatusStore';
-
 import useModal from '@/hooks/common/useModal';
-import useSignInHandler from '@/hooks/member/useSignInHandler';
+import usePreventBackNavigation from '@/hooks/common/usePreventBackNavigation';
 
 const Main = () => {
-  const { userStatus } = useUserStatusStore();
+  usePreventBackNavigation();
 
   const {
     isModalOpen: isPairRoomCreateModalOpen,
@@ -25,8 +21,6 @@ const Main = () => {
     openModal: openPairRoomEntryModal,
     closeModal: closePairRoomEntryModal,
   } = useModal();
-
-  const { handleSignInGithub } = useSignInHandler();
 
   return (
     <S.Layout>
@@ -56,16 +50,11 @@ const Main = () => {
             방 들어가기
           </Button>
         </>
-        {userStatus === 'SIGNED_OUT' && (
-          <Button css={S.GithubLoginButton} size="xl" filled={false} rounded={true} onClick={handleSignInGithub}>
-            <img src={GithubLogoWhite} alt="github logo" />
-            Github로 로그인
-          </Button>
-        )}
       </S.ButtonContainer>
       <PairRoomCreateModal isOpen={isPairRoomCreateModalOpen} closeModal={closePairRoomCreateModal} />
       <PairRoomEntryModal isOpen={isPairRoomEntryModalOpen} closeModal={closePairRoomEntryModal} />
     </S.Layout>
   );
 };
+
 export default Main;

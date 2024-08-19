@@ -2,19 +2,18 @@ import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 
 import useToastStore from '@/stores/toastStore';
 
-import { getReferenceLinks, addReferenceLink, deleteReferenceLink } from '@/apis/referenceLink';
+import { getReferenceLinks, addReferenceLink, deleteReferenceLink } from '@/apis/referenceLink/referenceLink';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-
-const useReferenceLinks = (accessCode: string) => {
+const useReferenceLinks = (accessCode: string, currentCategory: string) => {
   const queryClient = useQueryClient();
 
   const { addToast } = useToastStore();
 
   const { data: referenceLinks } = useQuery({
-    queryKey: [QUERY_KEYS.GET_REFERENCE_LINKS],
-    queryFn: () => getReferenceLinks({ accessCode }),
+    queryKey: [QUERY_KEYS.GET_REFERENCE_LINKS, currentCategory],
+    queryFn: () => getReferenceLinks({ accessCode, currentCategory }),
   });
 
   const { mutate: addReferenceLinkMutation } = useMutation({
@@ -29,7 +28,8 @@ const useReferenceLinks = (accessCode: string) => {
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });
 
-  const handleAddReferenceLink = (url: string) => addReferenceLinkMutation({ url, accessCode });
+  const handleAddReferenceLink = (url: string, category: string | null) =>
+    addReferenceLinkMutation({ url, accessCode, category });
   const handleDeleteReferenceLink = (id: number) => deleteReferenceLinkMutation({ id, accessCode });
 
   return {

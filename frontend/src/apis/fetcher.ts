@@ -3,7 +3,8 @@ import * as Sentry from '@sentry/react';
 interface RequestProps {
   url: string;
   method: 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'PUT';
-  errorMessage: string;
+  errorMessage?: string;
+  //TODO: errorMessage 제거
   body?: string;
   headers?: Record<string, string>;
 }
@@ -11,7 +12,7 @@ interface RequestProps {
 type FetchProps = Omit<RequestProps, 'method'>;
 
 const fetcher = {
-  async request({ url, method, errorMessage, body, headers }: RequestProps): Promise<Response> {
+  async request({ url, method, body, headers, errorMessage }: RequestProps): Promise<Response> {
     try {
       const response = await fetch(url, {
         method,
@@ -20,10 +21,15 @@ const fetcher = {
         credentials: 'include',
       });
 
-      if (!response.ok) throw new Error(errorMessage);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || errorMessage);
+      }
+
       return response;
     } catch (error) {
-      if (!(error instanceof Error)) throw new Error(errorMessage);
+      if (!(error instanceof Error)) (error as { message: string }).message;
+
       Sentry.captureException(error);
       throw error;
     }
@@ -40,10 +46,14 @@ const fetcher = {
     });
   },
   delete(props: FetchProps) {
-    return this.request({ ...props, method: 'DELETE' });
+    return this.request({ ...props, method: 'DELETE', headers: { 'Content-Type': 'application/json' } });
   },
   patch(props: FetchProps) {
-    return this.request({ ...props, method: 'PATCH' });
+    return this.request({
+      ...props,
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+    });
   },
   put(props: FetchProps) {
     return this.request({ ...props, method: 'PUT' });

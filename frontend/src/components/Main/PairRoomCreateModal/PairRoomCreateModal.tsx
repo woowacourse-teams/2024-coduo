@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Modal } from '@/components/common/Modal';
 import Spinner from '@/components/common/Spinner/Spinner';
 
-import useAddPairRoom from '@/queries/PairRoom/useAddPairRoom';
+import useAddPairRoom from '@/queries/Main/useAddPairRoom';
 
 import CreatePairRoom from './PairRoomCreate/PairRoomCreate';
 import CompleteCreatePairRoom from './PairRoomCreateComplete/PairRoomCreateComplete';

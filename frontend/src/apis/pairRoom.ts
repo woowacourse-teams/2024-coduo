@@ -4,16 +4,17 @@ import { ERROR_MESSAGES } from '@/constants/message';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-interface GetPairNamesResponse {
+export interface PairRoom {
   id: number;
   firstPair: string;
   secondPair: string;
+  timerDuration: number | null;
 }
 
-export const getPairNames = async (accessCode: string): Promise<GetPairNamesResponse> => {
+export const getPairRoom = async (accessCode: string): Promise<PairRoom> => {
   const response = await fetcher.get({
     url: `${API_URL}/pair-room/${accessCode}`,
-    errorMessage: ERROR_MESSAGES.GET_PAIR_NAMES,
+    errorMessage: ERROR_MESSAGES.GET_PAIR_ROOM,
   });
 
   return await response.json();
@@ -34,4 +35,17 @@ export const addPairNames = async ({ firstPair, secondPair }: AddPairNamesReques
   const { accessCode } = await response.json();
 
   return accessCode;
+};
+
+interface UpdateTimerRequest {
+  timer: string;
+  accessCode: string;
+}
+
+export const updateTimer = async ({ timer, accessCode }: UpdateTimerRequest) => {
+  await fetcher.patch({
+    url: `${API_URL}/pair-room/${accessCode}/timer`,
+    body: JSON.stringify({ timerDuration: Number(timer) * 60 * 1000 }),
+    errorMessage: '',
+  });
 };

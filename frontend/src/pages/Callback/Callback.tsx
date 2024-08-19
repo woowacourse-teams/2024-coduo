@@ -22,7 +22,7 @@ const Callback = () => {
     const response = await getSignInCallback();
     if (response.signedUp) {
       setUserStatus('SIGNED_IN');
-      navigate('/');
+      navigate('/main');
     } else {
       navigate('/sign-up');
     }

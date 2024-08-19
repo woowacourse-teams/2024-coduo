@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import useToastStore from '@/stores/toastStore';
 
-import { addPairNames } from '@/apis/pairName';
+import { addPairNames } from '@/apis/pairRoom';
 
 const useAddPairRoom = (onSuccess: () => void) => {
   const { addToast } = useToastStore();
