@@ -3,4 +3,6 @@ export const BUTTON_TEXT = {
   BACK: '이전',
   NEXT: '다음',
   COMPLETE: '완료',
+  CANCEL: '취소',
+  CONFIRM: '확인',
 };

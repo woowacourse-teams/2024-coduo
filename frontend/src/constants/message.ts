@@ -4,6 +4,8 @@ export const ERROR_MESSAGES = {
   DELETE_REFERENCE_LINKS: '레퍼런스 링크 삭제에 실패했습니다.',
   GET_PAIR_ROOM: '페어룸 정보를 불러오지 못했습니다.',
   ADD_PAIR_NAMES: '페어룸 생성에 실패했습니다.',
+  GET_CATEGORIES: '카테고리 정보를 가져오지 못했어요🥲',
+  ADD_CATEGORY: '카테고리를 추가하지 못했어요🥲',
   SIGN_IN: '로그인에 실패했습니다.',
   SIGN_UP: '회원가입에 실패했습니다.',
   SIGN_OUT: '로그아웃에 실패했습니다.',
