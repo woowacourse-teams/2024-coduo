@@ -1,16 +1,17 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { GithubLogoWhite } from '@/assets';
-
 import * as S from '@/pages/Landing/Landing.styles';
 
 import Button from '@/components/common/Button/Button';
+import ToolTipQuestionBox from '@/components/common/Tooltip/ToolTipQuestionBox';
 
 import useUserStatusStore from '@/stores/userStatusStore';
 
 import usePreventBackNavigation from '@/hooks/common/usePreventBackNavigation';
 import useSignInHandler from '@/hooks/member/useSignInHandler';
+
+import { GithubLogoWhite } from '@/assets';
 
 const Landing = () => {
   const { userStatus } = useUserStatusStore();
@@ -27,6 +28,10 @@ const Landing = () => {
 
   return (
     <S.Layout>
+      <ToolTipQuestionBox
+        message="코딩해듀오는 페어프로그래밍을 통해 더 나은 결과를 만들어내는 것을 목표로 합니다."
+        direction="top"
+      />
       <S.TextContainer>
         <S.TitleContainer>
           <S.SubTitle>

@@ -10,6 +10,7 @@ export const Layout = styled.div<{ $isOpen: boolean }>`
   padding: 2rem;
 
   font-size: ${({ theme }) => theme.fontSize.lg};
+
   cursor: pointer;
 `;
 
