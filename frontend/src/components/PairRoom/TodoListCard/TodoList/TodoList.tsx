@@ -12,21 +12,17 @@ interface TodoListProps {
 }
 
 const TodoList = ({ todos, handleOrder }: TodoListProps) => {
-  const { dragItem, dragOverItem, dragOverPosition, handleDragStart, handleDragEnter, handleDrop } = useDragAndDrop(
-    todos,
-    handleOrder,
-  );
+  const { dragOverItem, handleDragStart, handleDragEnter, handleDrop } = useDragAndDrop(todos, handleOrder);
 
   return (
     <S.Layout>
       {todos.length > 0 ? (
-        todos.map((todo, idx) => (
+        todos.map((todo) => (
           <TodoItem
             key={todo.id}
             id={todo.id}
             content={todo.content}
-            dragOverPosition={dragOverPosition}
-            isDraggedOver={dragItem !== dragOverItem && dragOverItem === idx}
+            isDraggedOver={dragOverItem?.id === todo.id}
             onDragStart={handleDragStart}
             onDragEnter={handleDragEnter}
             onDrop={handleDrop}

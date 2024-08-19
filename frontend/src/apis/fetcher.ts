@@ -42,7 +42,7 @@ const fetcher = {
     return this.request({ ...props, method: 'DELETE' });
   },
   patch(props: FetchProps) {
-    return this.request({ ...props, method: 'PATCH' });
+    return this.request({ ...props, method: 'PATCH', headers: { 'Content-Type': 'application/json' } });
   },
   put(props: FetchProps) {
     return this.request({ ...props, method: 'PUT' });

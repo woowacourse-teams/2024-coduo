@@ -6,12 +6,12 @@ export interface Todo {
   id: number;
   content: string;
   isChecked: boolean;
-  sort: number;
+  order: number;
 }
 
 export const getTodos = async (accessCode: string): Promise<Todo[]> => {
   const response = await fetcher.get({
-    url: `${API_URL}/${accessCode}/todos`,
+    url: `${API_URL}/api/${accessCode}/todos`,
     errorMessage: '',
   });
 
@@ -25,7 +25,7 @@ interface AddTodosRequest {
 
 export const addTodos = async ({ content, accessCode }: AddTodosRequest) => {
   await fetcher.post({
-    url: `${API_URL}/${accessCode}/reference-link`,
+    url: `${API_URL}/api/${accessCode}/todos`,
     body: JSON.stringify({ content }),
     errorMessage: '',
   });
@@ -37,8 +37,8 @@ interface UpdateOrderRequest {
 }
 
 export const updateOrder = async ({ todoId, order }: UpdateOrderRequest) => {
-  await fetcher.post({
-    url: `${API_URL}/todos/${todoId}/order`,
+  await fetcher.patch({
+    url: `${API_URL}/api/todos/${todoId}/order`,
     body: JSON.stringify({ order }),
     errorMessage: '',
   });

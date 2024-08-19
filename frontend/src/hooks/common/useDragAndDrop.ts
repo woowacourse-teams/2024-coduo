@@ -5,33 +5,25 @@ import { Todo } from '@/apis/todo';
 export type DragPosition = 'ABOVE' | 'BELOW';
 
 const useDragAndDrop = (list: Todo[], handleOrder: (todoId: number, order: number) => void) => {
-  const [dragItem, setDragItem] = useState<number | null>(null);
-  const [dragOverItem, setDragOverItem] = useState<number | null>(null);
-  const [dragOverPosition, setDragOverPosition] = useState<DragPosition | null>(null);
+  const [dragItem, setDragItem] = useState<Todo | null>(null);
+  const [dragOverItem, setDragOverItem] = useState<Todo | null>(null);
 
-  const handleDragStart = (position: number) => setDragItem(position);
+  const handleDragStart = (id: number) => setDragItem(list.find((item) => item.id === id) || null);
 
-  const handleDragEnter = (event: React.DragEvent<HTMLDivElement>, position: number) => {
-    const targetRect = event.currentTarget.getBoundingClientRect();
-    const mouseY = event.clientY;
-
-    setDragOverItem(position);
-    setDragOverPosition(mouseY < targetRect.y + targetRect.height / 2 ? 'ABOVE' : 'BELOW');
-  };
+  const handleDragEnter = (id: number) => setDragOverItem(list.find((item) => item.id === id) || null);
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
 
-    if (dragItem === null || dragOverItem === null || dragOverPosition === null || dragItem === dragOverItem) return;
+    if (!dragItem || !dragOverItem || dragItem.id === dragOverItem.id) return;
 
-    handleOrder(list[dragItem].id, list[dragOverPosition === 'ABOVE' ? dragOverItem : dragOverItem + 1].sort);
+    handleOrder(dragItem.id, dragOverItem.order);
 
     setDragItem(null);
     setDragOverItem(null);
-    setDragOverPosition(null);
   };
 
-  return { dragItem, dragOverItem, dragOverPosition, handleDragStart, handleDragEnter, handleDrop };
+  return { dragItem, dragOverItem, handleDragStart, handleDragEnter, handleDrop };
 };
 
 export default useDragAndDrop;
