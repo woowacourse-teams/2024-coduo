@@ -7,11 +7,9 @@ import ReferenceCard from '@/components/PairRoom/ReferenceCard/ReferenceCard';
 import TimerCard from '@/components/PairRoom/TimerCard/TimerCard';
 import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
 
-import useTimer from '@/hooks/PairRoom/useTimer';
+import useGetPairRoomInformation from '@/queries/PairRoomOnboarding/useGetPairRoomInformation';
 
 import * as S from './PairRoom.styles';
-
-const DEFAULT_MINUTES = 10;
 
 const PairRoom = () => {
   const { state } = useLocation();
@@ -24,27 +22,19 @@ const PairRoom = () => {
 
   const toggleIsCardOpen = () => setIsCardOpen((prev) => !prev);
 
-  const time = DEFAULT_MINUTES * 60 * 1000;
-
   const handleSwap = () => {
     setDriver(navigator);
     setNavigator(driver);
   };
 
-  const { timeLeft, isActive, handleStart, handlePause } = useTimer(time, handleSwap);
+  const { timeDuration } = useGetPairRoomInformation(accessCode || '');
 
   return (
     <S.Layout>
       <PairListCard driver={driver} navigator={navigator} roomCode={accessCode || ''} onRoomDelete={() => {}} />
       <S.Container>
         <PairRoleCard driver={driver} navigator={navigator} />
-        <TimerCard
-          defaultTime={time}
-          timeLeft={timeLeft}
-          isActive={isActive}
-          onStart={handleStart}
-          onPause={handlePause}
-        />
+        <TimerCard defaultTime={timeDuration} onTimerStop={handleSwap} />
       </S.Container>
       <S.Container>
         <TodoListCard isOpen={!isCardOpen} toggleIsOpen={toggleIsCardOpen} />
