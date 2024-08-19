@@ -18,7 +18,7 @@ import site.coduo.referencelink.exception.ReferenceLinkException;
 public class ReferenceLinkErrorController {
 
     @ExceptionHandler(InvalidUrlFormatException.class)
-    public ResponseEntity<ApiErrorResponse> handleInvalidUrlFormatException(InvalidUrlFormatException e) {
+    public ResponseEntity<ApiErrorResponse> handleInvalidUrlFormatException(final InvalidUrlFormatException e) {
         log.warn(e.getMessage());
 
         return ResponseEntity.status(ReferenceLinkApiError.INVALID_URL_FORMAT.getHttpStatus())
