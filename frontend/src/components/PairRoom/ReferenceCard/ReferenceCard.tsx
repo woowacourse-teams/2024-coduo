@@ -111,7 +111,7 @@ const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps)
                 width: 100%;
               `}
             />
-            <Button size="sm" disabled={status === 'ERROR'}>
+            <Button size="sm" disabled={status === 'ERROR' || value === ''}>
               추가
             </Button>
           </S.AddNewCategoryInputBox>
