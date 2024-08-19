@@ -38,12 +38,21 @@ export const Layout = styled.div<{ $isBottom: boolean }>`
   bottom: 2rem;
   z-index: 10;
 
+  padding: 1.5rem;
+  border-radius: 3rem;
+
+  background-color: ${({ theme }) => theme.color.black[20]};
   opacity: 0.7;
   font-size: 2rem;
 
-  animation: ${bounce} 2s infinite;
+  animation: ${bounce} 1.5s infinite;
+  transition: opacity 0.2s ease-in-out;
 
   cursor: pointer;
+
+  &:hover {
+    opacity: 1;
+  }
 `;
 
 export const ScrollIcon = styled(RiArrowDownDoubleLine)<{ $isBottom: boolean }>`
