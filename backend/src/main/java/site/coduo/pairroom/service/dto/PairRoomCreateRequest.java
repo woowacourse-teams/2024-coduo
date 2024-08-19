@@ -14,7 +14,7 @@ public record PairRoomCreateRequest(
         @NotBlank
         String secondPair,
 
-        @Schema(description = "페어룸의 상태")
+        @Schema(description = "페어룸의 상태", example = "ONBOARDING")
         @NotBlank
         String status
 ) {
