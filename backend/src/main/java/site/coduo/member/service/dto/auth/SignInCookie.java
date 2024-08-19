@@ -1,4 +1,4 @@
-package site.coduo.member.controller.dto.auth;
+package site.coduo.member.service.dto.auth;
 
 import java.time.Duration;
 

@@ -27,7 +27,6 @@ public class AuthService {
 
         memberRepository.findByUserId(userResponse.userId())
                 .ifPresent(member -> new MemberUpdate(member).update(accessToken));
-
         final String signInToken = jwtProvider.sign(userResponse.userId());
 
         return new SignInServiceResponse(memberRepository.existsByUserId(userResponse.userId()), signInToken);
