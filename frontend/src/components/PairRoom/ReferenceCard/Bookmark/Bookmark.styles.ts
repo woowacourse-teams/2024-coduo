@@ -101,7 +101,7 @@ export const DeleteButton = styled(MdClose)`
   }
 `;
 
-export const Header = styled.div<{ $isCategory: string }>`
+export const Header = styled.div`
   padding: 0 1rem;
   display: flex;
 

@@ -9,6 +9,7 @@ import Input from '@/components/common/Input/Input';
 import useInput from '@/hooks/common/useInput';
 
 import * as S from './AddReferenceForm.styles';
+import { BUTTON_TEXT } from '@/constants/button';
 
 interface ReferenceFormProps {
   handleAddReferenceLink: (value: string, category: string | null) => void;
@@ -30,7 +31,6 @@ const AddReferenceForm = ({ categories, handleAddReferenceLink }: ReferenceFormP
   const handleCategory = (option: string | null) => {
     setCurrentCategory(option);
   };
-  //categories 에 '카테고리 없음' 추가하기
 
   const newCategories = [...categories, '카테고리 없음'];
 
@@ -58,10 +58,10 @@ const AddReferenceForm = ({ categories, handleAddReferenceLink }: ReferenceFormP
             />
             <S.ButtonContainer>
               <Button type="button" size="sm" filled={false} rounded={true} onClick={() => setIsFooterOpen(false)}>
-                취소
+                {BUTTON_TEXT.CANCEL}
               </Button>
               <Button type="submit" size="sm" rounded={true} disabled={value === '' || status !== 'DEFAULT'}>
-                확인
+                {BUTTON_TEXT.CONFIRM}
               </Button>
             </S.ButtonContainer>
           </S.Form>

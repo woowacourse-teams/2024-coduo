@@ -45,7 +45,6 @@ const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
           isOpen={isOpen}
           toggleIsOpen={toggleIsOpen}
         />
-        {/* {isO pen && ( */}
         <S.Body $isOpen={isOpen}>
           <TodoList todos={todos} handleTodos={handleTodos} />
           <S.Footer>
@@ -69,7 +68,6 @@ const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
             )}
           </S.Footer>
         </S.Body>
-        {/* )} */}
       </PairRoomCard>
     </S.Layout>
   );
