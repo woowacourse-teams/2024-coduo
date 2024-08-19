@@ -4,12 +4,12 @@ import { ERROR_MESSAGES } from '@/constants/message';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-interface CategoriesResponse {
+interface GetCategoriesResponse {
   value: string;
   id: string;
 }
 
-export const getCategories = async (accessCode: string): Promise<CategoriesResponse[]> => {
+export const getCategories = async (accessCode: string): Promise<GetCategoriesResponse[]> => {
   const response = await fetcher.get({
     url: `${API_URL}/${accessCode}/category`,
     errorMessage: ERROR_MESSAGES.GET_CATEGORIES,
@@ -18,11 +18,11 @@ export const getCategories = async (accessCode: string): Promise<CategoriesRespo
   return await response.json();
 };
 
-interface AddCategoryResponse {
+interface AddCategoryRequest {
   accessCode: string;
   category: string;
 }
-export const addCategory = async ({ accessCode, category }: AddCategoryResponse) => {
+export const addCategory = async ({ category, accessCode }: AddCategoryRequest) => {
   const response = await fetcher.post({
     url: `${API_URL}/${accessCode}/category`,
     body: JSON.stringify({ value: category }),
@@ -32,18 +32,18 @@ export const addCategory = async ({ accessCode, category }: AddCategoryResponse)
   return await response.json();
 };
 
-interface DeleteCategoryResponse {
+interface DeleteCategoryRequest {
   accessCode: string;
   categoryName: string;
 }
 
-export const deleteCategory = async ({ categoryName, accessCode }: DeleteCategoryResponse) => {
+export const deleteCategory = async ({ categoryName, accessCode }: DeleteCategoryRequest) => {
   await fetcher.delete({
     url: `${API_URL}/${accessCode}/category/${categoryName}`,
   });
 };
 
-interface UpdateCategoryResponse {
+interface UpdateCategoryRequest {
   accessCode: string;
   previousCategoryName: string;
   updatedCategoryName: string;
@@ -53,7 +53,7 @@ export const updateCategory = async ({
   previousCategoryName,
   updatedCategoryName,
   accessCode,
-}: UpdateCategoryResponse) => {
+}: UpdateCategoryRequest) => {
   await fetcher.patch({
     url: `${API_URL}/${accessCode}/category`,
     body: JSON.stringify({ previousCategoryName, updatedCategoryName }),

@@ -90,7 +90,7 @@ const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps)
           onSubmit={(event) => {
             event.preventDefault();
             if (status === 'ERROR') return;
-            addCategory({ accessCode, category: value });
+            addCategory({ category: value, accessCode });
             resetValue();
           }}
         >

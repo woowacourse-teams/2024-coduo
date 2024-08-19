@@ -8,6 +8,7 @@ export const Form = styled.form`
   width: 75%;
   padding: 0 2rem;
 `;
+
 export const ButtonContainer = styled.div`
   display: flex;
   gap: 0.6rem;

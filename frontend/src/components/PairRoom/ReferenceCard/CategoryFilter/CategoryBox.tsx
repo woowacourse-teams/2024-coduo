@@ -15,13 +15,13 @@ import useUpdateCategory from '@/queries/PairRoom/category/useUpdateCategory';
 
 import * as S from './CategoryFilter.styles';
 
-interface CategoryProps {
+interface CategoryBoxProps {
   category: string;
   isChecked: boolean;
   handleSelectCategory: (category: string) => void;
 }
 
-const CategoryBox = ({ category, isChecked, handleSelectCategory }: CategoryProps) => {
+const CategoryBox = ({ category, isChecked, handleSelectCategory }: CategoryBoxProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const { value, handleChange, resetValue, message, status } = useInput(category);
   const { accessCode } = useParams() as { accessCode: string };
