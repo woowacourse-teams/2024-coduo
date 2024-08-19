@@ -24,9 +24,7 @@ export const useScrollAnimation = (options: IntersectionObserverOptions = {}) =>
         }
       });
     };
-
-    const defaultOptions = { root: null, rootMargin: '0px 0px 0px 0px', threshold: 0 };
-    const observerOptions = { ...defaultOptions, ...options };
+    const observerOptions = { ...options };
 
     const observer = new IntersectionObserver(callback, observerOptions);
     observer.observe(ref.current);
