@@ -20,6 +20,7 @@ const useCopyClipBoard = (): [boolean, onCopyFn] => {
     }
   };
 
-  return [isCopy, onCopy];};
+  return [isCopy, onCopy];
+};
 
 export default useCopyClipBoard;

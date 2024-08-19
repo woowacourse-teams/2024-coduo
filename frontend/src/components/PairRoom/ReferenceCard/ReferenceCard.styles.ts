@@ -1,65 +1,61 @@
-import styled, { css } from 'styled-components';
-
-export const inputStyles = css`
-  height: 4rem;
-`;
+import styled from 'styled-components';
 
 export const Layout = styled.div`
   min-width: 49rem;
   max-height: calc(100vh - 23rem);
 `;
 
-export const Body = styled.div`
+export const Body = styled.div<{ $isOpen: boolean }>`
   display: flex;
+  overflow: hidden;
+
   flex-direction: column;
+  transition: all 0.3s;
 
-  height: calc(100vh - 25rem);
-  min-height: 42rem;
-
+  height: ${({ $isOpen }) => ($isOpen ? 'calc(100vh - 25rem)' : '0')};
+  /* min-height: 42rem; */
   border-top: 1px solid ${({ theme }) => theme.color.black[30]};
-`;
-
-export const Form = styled.form`
-  display: flex;
-  align-items: center;
-  gap: 4rem;
-
-  width: 100%;
-  padding: 0 2rem;
-`;
-
-export const ButtonContainer = styled.div`
-  display: flex;
-  gap: 0.6rem;
 `;
 
 export const Footer = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
 
   width: 100%;
-  height: 6rem;
+  /* height: 12rem; */
   min-height: 6rem;
+  gap: 1rem;
 
   border-top: 1px solid ${({ theme }) => theme.color.black[30]};
 `;
 
-export const FooterButton = styled.button`
+export const CategoryBox = styled.div`
   display: flex;
-  align-items: center;
   gap: 1rem;
+`;
 
+export const CategoryModalHeader = styled.div`
+  display: flex;
+  font-size: ${({ theme }) => theme.fontSize.lg};
+  color: ${({ theme }) => theme.color.black[80]};
+  gap: 1rem;
+  align-items: center;
+`;
+
+export const AddNewCategoryBox = styled.form`
   width: 100%;
-  height: 6rem;
-  padding: 2rem;
-  border-radius: 0 0 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-top: 1px solid ${({ theme }) => theme.color.black[40]};
+  padding-top: 2rem;
+  justify-content: space-between;
+  height: 7rem;
+`;
 
-  color: ${({ theme }) => theme.color.black[70]};
-  font-size: ${({ theme }) => theme.fontSize.base};
-
-  transition: all 0.2s ease 0s;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.color.black[20]};
-  }
+export const AddNewCategoryInputBox = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
 `;

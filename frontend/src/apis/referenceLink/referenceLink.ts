@@ -11,15 +11,20 @@ export interface Link {
   openGraphTitle: string;
   description: string;
   image: string;
+  categoryName: string;
 }
 
 interface GetReferenceLinksRequest {
   accessCode: string;
+  currentCategory: string;
 }
 
-export const getReferenceLinks = async ({ accessCode }: GetReferenceLinksRequest): Promise<Link[]> => {
+export const getReferenceLinks = async ({ accessCode, currentCategory }: GetReferenceLinksRequest): Promise<Link[]> => {
+  const categoryName = encodeURIComponent(currentCategory);
+  const categoryParamsUrl = currentCategory === '전체' ? `` : `?categoryName=${categoryName}`;
+
   const response = await fetcher.get({
-    url: `${API_URL}/${accessCode}/reference-link`,
+    url: `${API_URL}/${accessCode}/reference-link${categoryParamsUrl}`,
     errorMessage: ERROR_MESSAGES.GET_REFERENCE_LINKS,
   });
 
@@ -29,12 +34,13 @@ export const getReferenceLinks = async ({ accessCode }: GetReferenceLinksRequest
 interface AddReferenceLinkRequest {
   url: string;
   accessCode: string;
+  category: string | null;
 }
 
-export const addReferenceLink = async ({ url, accessCode }: AddReferenceLinkRequest) => {
+export const addReferenceLink = async ({ url, accessCode, category }: AddReferenceLinkRequest) => {
   await fetcher.post({
     url: `${API_URL}/${accessCode}/reference-link`,
-    body: JSON.stringify({ url }),
+    body: JSON.stringify({ url, categoryName: category }),
     errorMessage: ERROR_MESSAGES.ADD_REFERENCE_LINKS,
   });
 };
