@@ -12,7 +12,7 @@ interface RequestProps {
 type FetchProps = Omit<RequestProps, 'method'>;
 
 const fetcher = {
-  async request({ url, method, body, headers }: RequestProps): Promise<Response> {
+  async request({ url, method, body, headers, errorMessage }: RequestProps): Promise<Response> {
     try {
       const response = await fetch(url, {
         method,
@@ -23,7 +23,7 @@ const fetcher = {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || '알 수 없는 오류가 발생했습니다.');
+        throw new Error(errorData.message || errorMessage);
       }
 
       return response;
