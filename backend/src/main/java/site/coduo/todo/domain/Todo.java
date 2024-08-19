@@ -4,7 +4,7 @@ import java.util.List;
 
 import lombok.Getter;
 import site.coduo.pairroom.domain.PairRoom;
-import site.coduo.todo.domain.exception.InvalidTodoArgumentException;
+import site.coduo.todo.exception.InvalidTodoArgumentException;
 
 @Getter
 public class Todo {

@@ -11,8 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import site.coduo.todo.domain.exception.InvalidTodoSortException;
-import site.coduo.todo.domain.exception.InvalidUpdatedTodoSortException;
+import site.coduo.todo.exception.InvalidTodoSortException;
+import site.coduo.todo.exception.InvalidUpdatedTodoSortException;
 
 @DisplayName("TodoSort 도메인 테스트")
 class TodoSortTest {
