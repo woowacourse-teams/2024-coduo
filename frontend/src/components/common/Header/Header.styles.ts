@@ -10,7 +10,8 @@ export const Layout = styled.div`
 
   border-bottom: 0.3rem solid ${({ theme }) => theme.color.black[30]};
 
-  a {
+  a,
+  p {
     transition: all 0.1s;
 
     cursor: pointer;
@@ -54,6 +55,21 @@ export const HowToPairLinkContainer = styled.div`
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     font-size: 0;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+export const LoginText = styled.p`
+  color: ${({ theme }) => theme.color.black[80]};
+  font-size: ${({ theme }) => theme.fontSize.base};
+
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
   }
 `;
 

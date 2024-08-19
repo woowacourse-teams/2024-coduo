@@ -30,6 +30,7 @@ const PairRoomCreate = ({ closeModal, createPairRoom }: PairRoomCreateProps) => 
 
   return (
     <>
+      <Modal.Header title="페어룸 만들기" subTitle="여러분의 이름(또는 닉네임)을 알려 주세요!" />
       <Modal.Body>
         <S.InputLayout>
           <Input

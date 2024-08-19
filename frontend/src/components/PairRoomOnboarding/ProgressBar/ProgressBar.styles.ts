@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const Layout = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
 
@@ -22,6 +21,12 @@ export const Layout = styled.div`
   }
 `;
 
+export const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const ButtonWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -39,11 +44,8 @@ export const ButtonLabel = styled.p`
   text-align: center;
 `;
 
-export const ProgressLine = styled.div<{ $isRoleSelected: boolean }>`
-  width: 30%;
+export const ProgressLine = styled.div`
+  width: 20rem;
   height: 3.5rem;
-  border-top: 0.15rem dashed
-    ${({ $isRoleSelected, theme }) => ($isRoleSelected ? theme.color.primary[500] : theme.color.black[40])};
-
-  transition: all 0.3s ease-in-out;
+  border-top: 0.15rem dashed ${({ theme }) => theme.color.primary[500]};
 `;

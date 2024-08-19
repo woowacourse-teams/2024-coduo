@@ -27,6 +27,7 @@ export const List = styled.ul`
 `;
 
 export const EmptyLayout = styled.div`
+  height: 0;
   flex-grow: 1;
 
   padding: 2rem;
