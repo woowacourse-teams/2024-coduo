@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Import;
 
 import site.coduo.config.TestConfig;
 import site.coduo.fake.FakeGithubOAuthClient;
-import site.coduo.fake.FixedNanceProvider;
+import site.coduo.fake.FixedNonceProvider;
 import site.coduo.member.client.dto.TokenResponse;
 import site.coduo.member.service.dto.oauth.GithubAuthQuery;
 
@@ -28,7 +28,7 @@ class GithubOAuthServiceTest {
         final GithubAuthQuery expect = new GithubAuthQuery(
                 FakeGithubOAuthClient.OAUTH_CLIENT_ID,
                 FakeGithubOAuthClient.OAUTH_REDIRECT_URI,
-                FixedNanceProvider.FIXED_VALUE
+                FixedNonceProvider.FIXED_VALUE
         );
 
         // when

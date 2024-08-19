@@ -6,18 +6,18 @@ import org.springframework.context.annotation.Primary;
 
 import site.coduo.fake.FakeGithubApiClient;
 import site.coduo.fake.FakeGithubOAuthClient;
-import site.coduo.fake.FixedNanceProvider;
+import site.coduo.fake.FixedNonceProvider;
 import site.coduo.member.client.GithubApiClient;
 import site.coduo.member.client.GithubOAuthClient;
-import site.coduo.member.infrastructure.security.NanceProvider;
+import site.coduo.member.infrastructure.security.NonceProvider;
 
 @TestConfiguration
 public class TestConfig {
 
     @Bean
     @Primary
-    public NanceProvider fakeNanceFactory() {
-        return new FixedNanceProvider();
+    public NonceProvider fakeNonceFactory() {
+        return new FixedNonceProvider();
     }
 
     @Bean

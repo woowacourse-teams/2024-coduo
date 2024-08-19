@@ -1,6 +1,6 @@
 package site.coduo.member.infrastructure.security;
 
-public interface NanceProvider {
+public interface NonceProvider {
 
     String generate();
 }
