@@ -12,6 +12,8 @@ import useAddTimer from '@/queries/PairRoomOnboarding/useAddTimer';
 
 import { validateTime } from '@/utils/PairRoomOnboarding/validate';
 
+import { BUTTON_TEXT } from '@/constants/button';
+
 import * as S from './TimerEditPanel.styles';
 
 interface TimerEditPanelProps {
@@ -25,7 +27,7 @@ const TimerEditPanel = ({ isActive }: TimerEditPanelProps) => {
   const { isModalOpen: isPanelOpen, openModal: openPanel, closeModal: closePanel } = useModal();
   const { value, handleChange, resetValue } = useInput();
   const { handleAddTimer } = useAddTimer(() =>
-    addToast({ status: 'SUCCESS', message: '타이머 시간이 정상적으로 수정되었습니다.' }),
+    addToast({ status: 'SUCCESS', message: '타이머 시간이 변경되었습니다.' }),
   );
 
   const handleButtonClick = () => {
@@ -54,15 +56,15 @@ const TimerEditPanel = ({ isActive }: TimerEditPanelProps) => {
       <S.Icon onClick={handleButtonClick} />
       {isPanelOpen && (
         <S.Panel>
-          <S.Title>타이머 시간 수정</S.Title>
+          <S.Title>타이머 시간 변경</S.Title>
           <S.Form onSubmit={handleSubmit}>
             <Input id="timer" value={value} placeholder="타이머 시간 (분)" onChange={handleChange} />
             <S.ButtonContainer>
               <Button type="button" color="secondary" size="sm" filled={false} rounded={true} onClick={closePanel}>
-                취소
+                {BUTTON_TEXT.CLOSE}
               </Button>
               <Button type="submit" color="secondary" size="sm" rounded={true} disabled={isButtonDisabled}>
-                확인
+                {BUTTON_TEXT.COMPLETE}
               </Button>
             </S.ButtonContainer>
           </S.Form>
