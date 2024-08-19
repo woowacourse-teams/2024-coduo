@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.coduo.member.client.dto.TokenResponse;
-import site.coduo.member.controller.dto.oauth.GithubAuthQuery;
-import site.coduo.member.controller.dto.oauth.GithubAuthUri;
-import site.coduo.member.controller.dto.oauth.GithubCallbackQuery;
-import site.coduo.member.controller.dto.oauth.GithubOAuthEndpoint;
-import site.coduo.member.controller.dto.oauth.State;
 import site.coduo.member.service.GithubOAuthService;
+import site.coduo.member.service.dto.oauth.GithubAuthQuery;
+import site.coduo.member.service.dto.oauth.GithubAuthUri;
+import site.coduo.member.service.dto.oauth.GithubCallbackQuery;
+import site.coduo.member.service.dto.oauth.GithubOAuthEndpoint;
+import site.coduo.member.service.dto.oauth.State;
 
 @Slf4j
 @RequiredArgsConstructor
