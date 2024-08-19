@@ -25,7 +25,7 @@ public class AccessTokenSessionFilter implements SessionFilter {
     @Override
     public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
             throws IOException, ServletException {
-        template((HttpServletRequest) request, (HttpServletResponse) response, ACCESS_TOKEN_SESSION_NAME);
+        template((HttpServletRequest) request, (HttpServletResponse) response);
         chain.doFilter(request, response);
     }
 

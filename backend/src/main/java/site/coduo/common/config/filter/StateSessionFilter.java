@@ -23,7 +23,7 @@ public class StateSessionFilter implements SessionFilter {
     @Override
     public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
             throws ServletException, IOException {
-        template((HttpServletRequest) request, (HttpServletResponse) response, STATE_SESSION_NAME);
+        template((HttpServletRequest) request, (HttpServletResponse) response);
         chain.doFilter(request, response);
     }
 
@@ -46,15 +46,15 @@ public class StateSessionFilter implements SessionFilter {
     @Override
     public void validate(final HttpServletRequest request, final String storeSession) {
         final State storedState = new State(storeSession);
-        final State requestedState = new State(getRequestSession(request, STATE_SESSION_NAME));
+        final State requestedState = new State(getRequestSession(request));
         storedState.validate(requestedState);
     }
 
-    private String getRequestSession(final HttpServletRequest request, final String sessionName) {
+    private String getRequestSession(final HttpServletRequest request) {
         final String query = request.getQueryString();
 
         return Arrays.stream(query.split("&"))
-                .filter(queryKey -> queryKey.startsWith(sessionName))
+                .filter(queryKey -> queryKey.startsWith(STATE_SESSION_NAME))
                 .map(stateQuery -> stateQuery.split("=")[1])
                 .findAny()
                 .orElseThrow(() -> new AuthenticationException("Http 요청 Query String에서 state를 찾을 수 없습니다."));
