@@ -13,6 +13,7 @@ import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 
+@Transactional
 @SpringBootTest
 class PairRoomServiceTest {
 
