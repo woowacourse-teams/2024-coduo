@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import site.coduo.pairroom.exception.PairRoomStatusNotFoundException;
+import site.coduo.pairroom.exception.InvalidPairRoomStatusException;
 
 class PairRoomStatusTest {
 
@@ -31,6 +31,6 @@ class PairRoomStatusTest {
 
         // when & then
         assertThatThrownBy(() -> PairRoomStatus.findByName(pairRoomStatusName))
-                .isInstanceOf(PairRoomStatusNotFoundException.class);
+                .isInstanceOf(InvalidPairRoomStatusException.class);
     }
 }

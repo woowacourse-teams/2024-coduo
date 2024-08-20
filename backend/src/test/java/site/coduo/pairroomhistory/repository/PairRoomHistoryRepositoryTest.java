@@ -16,6 +16,7 @@ import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroomhistory.domain.PairRoomHistory;
+import site.coduo.pairroomhistory.domain.Timer;
 
 @Transactional
 @SpringBootTest
@@ -44,6 +45,7 @@ class PairRoomHistoryRepositoryTest {
         );
         pairRoomRepository.save(pairRoom);
         final PairRoomHistory latestHistory = saveTwoHistoryAndReturnLastOne(pairRoom);
+        final Timer latestTimer = latestHistory.getTimer();
 
         // when
         final PairRoomHistoryEntity actual = pairRoomHistoryRepository
@@ -52,8 +54,8 @@ class PairRoomHistoryRepositoryTest {
         // then
         assertThat(actual)
                 .extracting("driver", "navigator", "timerRound", "timerDuration", "timerRemainingTime")
-                .contains(latestHistory.getDriver(), latestHistory.getNavigator(), latestHistory.getTimerRound(),
-                        latestHistory.getTimerDuration(), latestHistory.getTimerRemainingTime());
+                .contains(latestHistory.getDriver(), latestHistory.getNavigator(), latestTimer.getTimerRound(),
+                        latestTimer.getTimerDuration(), latestTimer.getTimerRemainingTime());
     }
 
     private PairRoomHistory saveTwoHistoryAndReturnLastOne(final PairRoom pairRoom) {
@@ -61,15 +63,13 @@ class PairRoomHistoryRepositoryTest {
                 .pairRoom(pairRoom)
                 .driver("레머네")
                 .navigator("프람")
-                .timerRound(900000)
-                .timerRemainingTime(1000)
+                .timer(new Timer(1, 1000, 1000))
                 .build();
         final PairRoomHistory secondHistory = PairRoomHistory.builder()
                 .pairRoom(pairRoom)
                 .driver("프람")
                 .navigator("레머네")
-                .timerRound(900000)
-                .timerRemainingTime(1000)
+                .timer(new Timer(2, 1000, 1000))
                 .build();
         pairRoomHistoryRepository.save(new PairRoomHistoryEntity(firstHistory));
         pairRoomHistoryRepository.save(new PairRoomHistoryEntity(secondHistory));

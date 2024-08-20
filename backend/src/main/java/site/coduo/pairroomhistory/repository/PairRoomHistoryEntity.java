@@ -11,14 +11,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroomhistory.domain.PairRoomHistory;
+import site.coduo.pairroomhistory.domain.Timer;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "PAIR_ROOM_HISTORY")
 @Entity
 public class PairRoomHistoryEntity extends BaseTimeEntity {
@@ -38,7 +40,6 @@ public class PairRoomHistoryEntity extends BaseTimeEntity {
     @Column(name = "NAVIGATOR", nullable = false)
     private String navigator;
 
-    // todo: 여기 세개 타이머로 묶기
     @Column(name = "TIMER_ROUND", nullable = false)
     private int timerRound;
 
@@ -49,12 +50,14 @@ public class PairRoomHistoryEntity extends BaseTimeEntity {
     private long timerRemainingTime;
 
     public PairRoomHistoryEntity(final PairRoomHistory pairRoomHistory) {
+        final Timer timer = pairRoomHistory.getTimer();
+
         this.pairRoom = pairRoomHistory.getPairRoom();
         this.driver = pairRoomHistory.getDriver();
         this.navigator = pairRoomHistory.getNavigator();
-        this.timerRound = pairRoomHistory.getTimerRound();
-        this.timerDuration = pairRoomHistory.getTimerDuration();
-        this.timerRemainingTime = pairRoomHistory.getTimerRemainingTime();
+        this.timerRound = timer.getTimerRound();
+        this.timerDuration = timer.getTimerDuration();
+        this.timerRemainingTime = timer.getTimerRemainingTime();
     }
 
     public void updateTimerRemainingTime(final long timerRemainingTime) {
@@ -66,9 +69,7 @@ public class PairRoomHistoryEntity extends BaseTimeEntity {
                 .pairRoom(pairRoom)
                 .driver(driver)
                 .navigator(navigator)
-                .timerRound(timerRound)
-                .timerDuration(timerDuration)
-                .timerRemainingTime(timerRemainingTime)
+                .timer(new Timer(timerRound, timerDuration, timerRemainingTime))
                 .build();
     }
 

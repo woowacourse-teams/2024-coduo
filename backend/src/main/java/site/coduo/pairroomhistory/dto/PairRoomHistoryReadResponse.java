@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import site.coduo.pairroomhistory.domain.PairRoomHistory;
+import site.coduo.pairroomhistory.domain.Timer;
 
 @Schema(description = "페어룸 히스토리 조회 응답 바디")
 public record PairRoomHistoryReadResponse(
@@ -34,13 +35,14 @@ public record PairRoomHistoryReadResponse(
 ) {
 
     public static PairRoomHistoryReadResponse of(final long id, final PairRoomHistory pairRoomHistory) {
+        final Timer timer = pairRoomHistory.getTimer();
         return new PairRoomHistoryReadResponse(
                 id,
                 pairRoomHistory.getDriver(),
                 pairRoomHistory.getNavigator(),
-                pairRoomHistory.getTimerRound(),
-                pairRoomHistory.getTimerDuration(),
-                pairRoomHistory.getTimerRemainingTime()
+                timer.getTimerRound(),
+                timer.getTimerDuration(),
+                timer.getTimerRemainingTime()
         );
     }
 }

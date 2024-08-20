@@ -12,25 +12,19 @@ public class PairRoomHistory {
     private final PairRoom pairRoom;
     private final String driver;
     private final String navigator;
-    private final int timerRound;
-    private final long timerDuration;
-    private final long timerRemainingTime;
+    private final Timer timer;
 
     @Builder
     private PairRoomHistory(
             final PairRoom pairRoom,
             final String driver,
             final String navigator,
-            final int timerRound,
-            final long timerDuration,
-            final long timerRemainingTime
+            final Timer timer
     ) {
         this.pairRoom = pairRoom;
         this.driver = driver;
         this.navigator = navigator;
-        this.timerRound = timerRound;
-        this.timerDuration = timerDuration;
-        this.timerRemainingTime = timerRemainingTime;
+        this.timer = timer;
     }
 
     @Override
@@ -47,6 +41,6 @@ public class PairRoomHistory {
 
     @Override
     public int hashCode() {
-        return Objects.hash(pairRoom, driver, navigator, timerRound, timerDuration, timerRemainingTime);
+        return Objects.hash(pairRoom, driver, navigator, timer);
     }
 }
