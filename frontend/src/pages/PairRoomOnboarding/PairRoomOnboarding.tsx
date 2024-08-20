@@ -7,6 +7,8 @@ import PairNameInput from '@/components/PairRoomOnboarding/PairNameInput/PairNam
 import PairRoleInput from '@/components/PairRoomOnboarding/PairRoleInput/PairRoleInput';
 import TimerInput from '@/components/PairRoomOnboarding/TimerInput/TimerInput';
 
+import usePairNameInputs from '@/hooks/Main/usePairNameInputs';
+
 import { BUTTON_TEXT } from '@/constants/button';
 
 import * as S from './PairRoomOnboarding.styles';
@@ -14,64 +16,55 @@ import * as S from './PairRoomOnboarding.styles';
 const PairRoomOnboarding = () => {
   // const [index, setIndex] = useState(0);
 
-  const [firstPair, setFirstPair] = useState('');
-  const [secondPair, setSecondPair] = useState('');
+  const { firstPairName, secondPairName, handleFirstPairName, handleSecondPairName } = usePairNameInputs();
 
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
 
-  const handleFirstPair = (firstPair: string) => setFirstPair(firstPair);
-  const handleSecondPair = (secondPair: string) => setSecondPair(secondPair);
-
-  // const handleSuccess = () => {
-  //   navigate(`/room/${accessCode}`, { state: { driver, navigator } });
-  // };
-
-  // const { handleAddTimer, isPending } = useAddTimer(handleSuccess);
-
-  const handleRole = (pairName: string, role: Role) => {
-    const otherPair = firstPair === pairName ? secondPair : firstPair;
-    switch (role) {
-      case 'DRIVER':
-        setDriver(pairName);
-        setNavigator(otherPair);
-        return;
-      case 'NAVIGATOR':
-        setDriver(otherPair);
-        setNavigator(pairName);
-        return;
+  const handleFirstPair = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (firstPairName.value === driver || firstPairName.value === navigator) {
+      setDriver('');
+      setNavigator('');
     }
+
+    handleFirstPairName(event);
   };
 
-  console.log(driver, navigator);
+  const handleSecondPair = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (secondPairName.value === driver || secondPairName.value === navigator) {
+      setDriver('');
+      setNavigator('');
+    }
 
-  // const handleRole = (driver: string, navigator: string) => {
-  //   setDriver(driver);
-  //   setNavigator(navigator);
-  // };
+    handleSecondPairName(event);
+  };
 
-  // const handleTimerSelection = (timer: string) => {
-  //   handleAddTimer({ timer, accessCode: accessCode || '' });
-  // };
+  const handleRole = (pairName: string, role: Role) => {
+    const otherPair = firstPairName.value === pairName ? secondPairName.value : firstPairName.value;
 
-  // if (isFetching || isPending) {
-  //   return (
-  //     <S.Layout>
-  //       <Spinner />
-  //     </S.Layout>
-  //   );
-  // }
+    if (role === 'DRIVER') {
+      setDriver(pairName);
+      setNavigator(otherPair);
+    } else {
+      setDriver(otherPair);
+      setNavigator(pairName);
+    }
+  };
 
   return (
     <S.Layout>
       <S.Container>
         <S.Title>그냥 시작하기</S.Title>
-        {/* <ProgressBar step={step} /> */}
         {/* {step === 'MISSION' && <StartMission handleStartMission={handleStartMission} />} */}
-        <PairNameInput onFirstPair={handleFirstPair} onSecondPair={handleSecondPair} />
+        <PairNameInput
+          firstPairName={firstPairName}
+          secondPairName={secondPairName}
+          onFirstPair={handleFirstPair}
+          onSecondPair={handleSecondPair}
+        />
         <PairRoleInput
-          firstPair={firstPair}
-          secondPair={secondPair}
+          firstPair={firstPairName.value}
+          secondPair={secondPairName.value}
           driver={driver}
           navigator={navigator}
           onRole={handleRole}

@@ -33,7 +33,7 @@ const PairRoleInput = ({ firstPair, secondPair, driver, navigator, onRole }: Pai
           <Dropdown
             placeholder={'이름을 선택해주세요.'}
             options={[firstPair, secondPair]}
-            selected={driver}
+            selectedOption={driver}
             onSelect={(name) => onRole(name, 'DRIVER')}
           />
         </S.DropdownWrapper>
@@ -42,7 +42,7 @@ const PairRoleInput = ({ firstPair, secondPair, driver, navigator, onRole }: Pai
           <Dropdown
             placeholder={'이름을 선택해주세요.'}
             options={[firstPair, secondPair]}
-            selected={navigator}
+            selectedOption={navigator}
             onSelect={(name) => onRole(name, 'NAVIGATOR')}
           />
         </S.DropdownWrapper>

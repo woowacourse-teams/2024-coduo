@@ -4,37 +4,30 @@ import useInput from '@/hooks/common/useInput';
 
 const usePairNameInputs = () => {
   const {
-    value: firstPair,
-    status: firstPairStatus,
-    message: firstPairMessage,
-    handleChange: onFirstPairChange,
-    resetValue: resetFirstPair,
+    value: firstPairName,
+    status: firstPairNameStatus,
+    message: firstPairNameMessage,
+    handleChange: onFirstPairNameChange,
   } = useInput();
 
   const {
-    value: secondPair,
-    status: secondPairStatus,
-    message: secondPairMessage,
-    handleChange: onSecondPairChange,
-    resetValue: resetSecondPair,
+    value: secondPairName,
+    status: secondPairNameStatus,
+    message: secondPairNameMessage,
+    handleChange: onSecondPairNameChange,
   } = useInput();
 
-  const resetPairName = () => {
-    resetFirstPair();
-    resetSecondPair();
-  };
+  const handleFirstPairName = (event: React.ChangeEvent<HTMLInputElement>) =>
+    onFirstPairNameChange(event, validatePairName(event.target.value, secondPairName));
 
-  const handleFirstPair = (event: React.ChangeEvent<HTMLInputElement>) =>
-    onFirstPairChange(event, validatePairName(event.target.value, secondPair));
-  const handleSecondPair = (event: React.ChangeEvent<HTMLInputElement>) =>
-    onSecondPairChange(event, validatePairName(event.target.value, firstPair));
+  const handleSecondPairName = (event: React.ChangeEvent<HTMLInputElement>) =>
+    onSecondPairNameChange(event, validatePairName(event.target.value, firstPairName));
 
   return {
-    firstPair: { value: firstPair, status: firstPairStatus, message: firstPairMessage },
-    secondPair: { value: secondPair, status: secondPairStatus, message: secondPairMessage },
-    handleFirstPair,
-    handleSecondPair,
-    resetPairName,
+    firstPairName: { value: firstPairName, status: firstPairNameStatus, message: firstPairNameMessage },
+    secondPairName: { value: secondPairName, status: secondPairNameStatus, message: secondPairNameMessage },
+    handleFirstPairName,
+    handleSecondPairName,
   };
 };
 export default usePairNameInputs;

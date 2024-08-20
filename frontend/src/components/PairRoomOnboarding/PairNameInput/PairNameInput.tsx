@@ -1,17 +1,17 @@
 import Input from '@/components/common/Input/Input';
 
-import usePairNameInputs from '@/hooks/Main/usePairNameInputs';
+import { InputType } from '@/hooks/common/useInput';
 
 import * as S from './PairNameInput.styles';
 
 interface PairNameInputProps {
-  onFirstPair: (firstPair: string) => void;
-  onSecondPair: (secondPair: string) => void;
+  firstPairName: InputType;
+  secondPairName: InputType;
+  onFirstPair: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSecondPair: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const PairNameInput = ({ onFirstPair, onSecondPair }: PairNameInputProps) => {
-  const { firstPair, secondPair, handleFirstPair, handleSecondPair } = usePairNameInputs();
-
+const PairNameInput = ({ firstPairName, secondPairName, onFirstPair, onSecondPair }: PairNameInputProps) => {
   return (
     <S.Layout>
       <S.TitleContainer>
@@ -22,22 +22,20 @@ const PairNameInput = ({ onFirstPair, onSecondPair }: PairNameInputProps) => {
         <Input
           placeholder="이름을 입력해주세요"
           label="나의 이름은 무엇인가요?"
-          value={firstPair.value}
-          status={firstPair.status}
-          message={firstPair.message}
-          onChange={(event) => handleFirstPair(event)}
-          onBlur={() => onFirstPair(firstPair.value)}
+          value={firstPairName.value}
+          status={firstPairName.status}
+          message={firstPairName.message}
+          onChange={onFirstPair}
         />
       </S.InputContainer>
       <S.InputContainer>
         <Input
           placeholder="이름을 입력해주세요"
           label="함께할 페어의 이름은 무엇인가요?"
-          value={secondPair.value}
-          status={secondPair.status}
-          message={secondPair.message}
-          onChange={(event) => handleSecondPair(event)}
-          onBlur={() => onSecondPair(secondPair.value)}
+          value={secondPairName.value}
+          status={secondPairName.status}
+          message={secondPairName.message}
+          onChange={onSecondPair}
         />
       </S.InputContainer>
     </S.Layout>
