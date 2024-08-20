@@ -1,50 +1,43 @@
-import { useState } from 'react';
-
+import Button from '@/components/common/Button/Button';
 import { Modal } from '@/components/common/Modal';
-import Spinner from '@/components/common/Spinner/Spinner';
 
-import useAddPairRoom from '@/queries/Main/useAddPairRoom';
-
-import CreatePairRoom from './PairRoomCreate/PairRoomCreate';
-import CompleteCreatePairRoom from './PairRoomCreateComplete/PairRoomCreateComplete';
+import * as S from './PairRoomCreateModal.styles';
 
 interface PairRoomCreateModalProps {
   isOpen: boolean;
   closeModal: () => void;
 }
 
-type Status = 'CREATE' | 'COMPLETE';
-
 const PairRoomCreateModal = ({ isOpen, closeModal }: PairRoomCreateModalProps) => {
-  const [status, setStatus] = useState<Status>('CREATE');
+  // const handleSuccess = () => setStatus('COMPLETE');
 
-  const handleSuccess = () => setStatus('COMPLETE');
+  // const { addPairRoom, accessCode, isPending } = useAddPairRoom(handleSuccess);
 
-  const handleClose = () => {
-    setStatus('CREATE');
-    closeModal();
-  };
+  // const createPairRoom = (firstPair: string, secondPair: string) => addPairRoom({ firstPair, secondPair });
 
-  const { addPairRoom, accessCode, isPending } = useAddPairRoom(handleSuccess);
-
-  const createPairRoom = (firstPair: string, secondPair: string) => addPairRoom({ firstPair, secondPair });
+  // if (isPending)
+  //   return (
+  //     <Modal isOpen={isOpen} close={handleClose} size="60rem">
+  //       <Modal.CloseButton close={handleClose} />
+  //       <Modal.Header title="잠시만 기다려주세요..." subTitle="페어룸 생성 중입니다!" />
+  //       <Modal.Body>
+  //         <Spinner />
+  //       </Modal.Body>
+  //     </Modal>
+  //   );
 
   return (
-    <Modal isOpen={isOpen} close={handleClose} size="60rem">
-      <Modal.CloseButton close={handleClose} />
-      {isPending ? (
-        <>
-          <Modal.Header title="잠시만 기다려주세요..." subTitle="페어룸 생성 중입니다!" />
-          <Modal.Body>
-            <Spinner />
-          </Modal.Body>
-        </>
-      ) : (
-        <>
-          {status === 'CREATE' && <CreatePairRoom closeModal={handleClose} createPairRoom={createPairRoom} />}
-          {status === 'COMPLETE' && <CompleteCreatePairRoom accessCode={accessCode} closeModal={handleClose} />}
-        </>
-      )}
+    <Modal isOpen={isOpen} close={closeModal} size="60rem">
+      <Modal.CloseButton close={closeModal} />
+      <Modal.Header title="페어룸 선택" subTitle="어떤 방식으로 페어룸을 만들까요?" />
+      <S.Layout>
+        <Button css={S.buttonStyles} color="secondary" filled={false}>
+          그냥 시작할래요
+        </Button>
+        <Button css={S.buttonStyles} color="secondary">
+          미션과 함께 시작할래요
+        </Button>
+      </S.Layout>
     </Modal>
   );
 };

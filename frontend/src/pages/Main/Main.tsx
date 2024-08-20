@@ -22,6 +22,8 @@ const Main = () => {
     closeModal: closePairRoomEntryModal,
   } = useModal();
 
+  console.log(isPairRoomCreateModalOpen);
+
   return (
     <S.Layout>
       <S.TextContainer>
@@ -42,16 +44,14 @@ const Main = () => {
         </S.Info>
       </S.TextContainer>
       <S.ButtonContainer>
-        <>
-          <Button size="xl" rounded={true} onClick={openPairRoomCreateModal}>
-            방 만들기
-          </Button>
-          <Button size="xl" filled={false} rounded={true} onClick={openPairRoomEntryModal}>
-            방 들어가기
-          </Button>
-        </>
+        <Button size="xl" rounded={true} onClick={openPairRoomCreateModal}>
+          방 만들기
+        </Button>
+        <Button size="xl" filled={false} rounded={true} onClick={openPairRoomEntryModal}>
+          방 들어가기
+        </Button>
       </S.ButtonContainer>
-      <PairRoomCreateModal isOpen={isPairRoomCreateModalOpen} closeModal={closePairRoomCreateModal} />
+      <PairRoomCreateModal isOpen={true} closeModal={closePairRoomCreateModal} />
       <PairRoomEntryModal isOpen={isPairRoomEntryModalOpen} closeModal={closePairRoomEntryModal} />
     </S.Layout>
   );

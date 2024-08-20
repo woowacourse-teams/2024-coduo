@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const InputLayout = styled.div`
   display: flex;
@@ -47,4 +47,21 @@ export const ModalBodyWrapper = styled.div`
 
   width: 100%;
   height: 100%;
+`;
+
+export const Layout = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+
+  width: 100%;
+  margin-top: 2.5rem;
+`;
+
+export const buttonStyles = css`
+  width: 30rem;
+  height: 6rem;
+
+  font-size: ${({ theme }) => theme.fontSize.lg};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
