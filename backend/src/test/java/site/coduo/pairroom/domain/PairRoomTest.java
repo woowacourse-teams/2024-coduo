@@ -19,7 +19,7 @@ class PairRoomTest {
         final PairRoomStatus pairRoomStatus = PairRoomStatus.ONBOARDING;
 
         // when & then
-        assertThatCode(() -> new PairRoom(pair, pairRoomStatus, new AccessCode("code")))
+        assertThatCode(() -> new PairRoom(pair, pairRoomStatus, ACCESS_CODE))
                 .doesNotThrowAnyException();
     }
 }
