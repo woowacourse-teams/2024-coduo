@@ -10,9 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 
 import site.coduo.config.TestConfig;
-import site.coduo.fake.FakeJwtProvider;
 import site.coduo.member.domain.Member;
 import site.coduo.member.domain.repository.MemberRepository;
+import site.coduo.member.infrastructure.security.JwtProvider;
 import site.coduo.member.service.dto.member.MemberReadResponse;
 
 @SpringBootTest
@@ -21,6 +21,9 @@ class MemberServiceTest {
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private JwtProvider jwtProvider;
 
     @Autowired
     private MemberRepository memberRepository;
@@ -49,17 +52,17 @@ class MemberServiceTest {
     void search_username_by_login_token() {
         // given
         final Member member = Member.builder()
-                .userId(FakeJwtProvider.MEMBER_SUBJECT)
+                .userId("userid")
                 .accessToken("access")
                 .loginId("login")
                 .username("username")
                 .profileImage("some image")
                 .build();
-
+        final String sign = jwtProvider.sign(member.getUserId());
         memberRepository.save(member);
 
         // when
-        final MemberReadResponse response = memberService.findMemberByCredential("token");
+        final MemberReadResponse response = memberService.findMemberByCredential(sign);
 
         // then
         assertThat(response.username()).isEqualTo(member.getUsername());

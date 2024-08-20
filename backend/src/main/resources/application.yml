@@ -1,41 +1,4 @@
 spring:
-  datasource:
-    url: jdbc:h2:mem:database
+  profiles:
+    active: local
 
-  jpa:
-    database: h2
-    database-platform: org.hibernate.dialect.H2Dialect
-    properties:
-      hibernate:
-        storage_engine: innodb
-        format_sql: true
-        use_sql_comments: true
-    hibernate:
-      ddl-auto: create
-    open-in-view: false
-    show_sql: true
-
-  h2:
-    console:
-      enabled: true
-
-springdoc:
-  swagger-ui:
-    persist-authorization: true
-    default-models-expand-depth: -1
-    path: /api/docs
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: prometheus
-
-oauth:
-  github:
-    client-id: Ov23liJSRfzhHmffyMid
-    client-secret: 5a1043e7504ce5e7a24e9dd632bb078fb0d0919d
-    redirect-uri: https://coduo.site/api/oauth/github/callback
-
-jwt:
-  sign-key: a3b5c9f8176d4e2f8c3a9d1b5e7f6a8c9b2d4f7e3c1a8b6c9f5d2e1f8a4c7d9b6e2f3a8c9d7b1f4e5a2c3b6f8a9d4

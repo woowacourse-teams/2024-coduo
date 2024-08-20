@@ -1,5 +1,11 @@
 package site.coduo.member.controller;
 
+
+import static site.coduo.common.config.filter.AccessTokenSessionFilter.ACCESS_TOKEN_EXPIRE_IN_SECOND;
+import static site.coduo.common.config.filter.AccessTokenSessionFilter.ACCESS_TOKEN_SESSION_NAME;
+import static site.coduo.common.config.filter.StateSessionFilter.STATE_SESSION_EXPIRE_IN_SECOND;
+import static site.coduo.common.config.filter.StateSessionFilter.STATE_SESSION_NAME;
+
 import java.net.URI;
 
 import jakarta.servlet.http.HttpSession;
@@ -9,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.member.client.dto.TokenResponse;
@@ -19,17 +24,10 @@ import site.coduo.member.service.dto.oauth.GithubAuthQuery;
 import site.coduo.member.service.dto.oauth.GithubAuthUri;
 import site.coduo.member.service.dto.oauth.GithubCallbackQuery;
 import site.coduo.member.service.dto.oauth.GithubOAuthEndpoint;
-import site.coduo.member.service.dto.oauth.State;
 
 @RequiredArgsConstructor
 @RestController
 public class GithubOAuthController implements GithubOAuthControllerDocs {
-
-    public static final String ACCESS_TOKEN_SESSION_NAME = "access token";
-
-    private static final String STATE_SESSION_NAME = "state";
-    private static final int STATE_SESSION_EXPIRE_IN = 30;
-    private static final int ACCESS_TOKEN_EXPIRE_IN = 600;
 
     private final GithubOAuthService githubOAuthService;
 
@@ -39,7 +37,7 @@ public class GithubOAuthController implements GithubOAuthControllerDocs {
         final GithubAuthUri githubAuthUri = new GithubAuthUri(query);
 
         session.setAttribute(STATE_SESSION_NAME, query.state());
-        session.setMaxInactiveInterval(STATE_SESSION_EXPIRE_IN);
+        session.setMaxInactiveInterval(STATE_SESSION_EXPIRE_IN_SECOND);
 
         return ResponseEntity.ok()
                 .body(new GithubOAuthEndpoint(githubAuthUri.toPlainText()));
@@ -47,16 +45,11 @@ public class GithubOAuthController implements GithubOAuthControllerDocs {
 
     @GetMapping("/github/callback")
     public ResponseEntity<Void> getAccessToken(@ModelAttribute final GithubCallbackQuery query,
-                                               @SessionAttribute(name = STATE_SESSION_NAME) final String state,
                                                final HttpSession session) {
-
-        State savedState = new State(state);
-        savedState.validate(new State(query.state()));
         final TokenResponse tokenResponse = githubOAuthService.invokeOAuthCallback(query.code());
 
-        session.removeAttribute(STATE_SESSION_NAME);
         session.setAttribute(ACCESS_TOKEN_SESSION_NAME, tokenResponse.accessToken());
-        session.setMaxInactiveInterval(ACCESS_TOKEN_EXPIRE_IN);
+        session.setMaxInactiveInterval(ACCESS_TOKEN_EXPIRE_IN_SECOND);
 
         return ResponseEntity.status(HttpStatus.FOUND)
                 .location(URI.create("https://coduo.site/callback"))

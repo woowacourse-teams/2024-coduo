@@ -1,6 +1,7 @@
 package site.coduo.member.controller;
 
-import static site.coduo.member.controller.GithubOAuthController.ACCESS_TOKEN_SESSION_NAME;
+import static site.coduo.common.config.filter.AccessTokenSessionFilter.ACCESS_TOKEN_SESSION_NAME;
+import static site.coduo.common.config.filter.SignInCookieFilter.SIGN_IN_COOKIE_NAME;
 
 import java.net.URI;
 
@@ -33,7 +34,7 @@ public class AuthController implements AuthControllerDocs {
     private final MemberService memberService;
 
     @GetMapping("/sign-out")
-    public ResponseEntity<Void> signOut(@CookieValue(name = SignInCookie.SIGN_IN_COOKIE_NAME) String signInToken) {
+    public ResponseEntity<Void> signOut(@CookieValue(name = SIGN_IN_COOKIE_NAME) final String signInToken) {
         final SignInCookie cookie = new SignInCookie(signInToken);
 
         return ResponseEntity.ok()
@@ -43,7 +44,7 @@ public class AuthController implements AuthControllerDocs {
 
     @PostMapping("/sign-up")
     public ResponseEntity<Void> signUp(@RequestBody final SignUpRequest request,
-                                       @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME, required = false) final String accessToken
+                                       @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME) final String accessToken
     ) {
         memberService.createMember(request.username(), accessToken);
 
@@ -54,7 +55,7 @@ public class AuthController implements AuthControllerDocs {
 
     @GetMapping("/sign-in/callback")
     public ResponseEntity<SignInWebResponse> signInCallback(
-            @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME, required = false) final String accessToken
+            @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME) final String accessToken
     ) {
         final SignInServiceResponse serviceResponse = authService.createSignInToken(accessToken);
         final ResponseCookie cookie = new SignInCookie(serviceResponse.token()).generate();
@@ -66,7 +67,7 @@ public class AuthController implements AuthControllerDocs {
 
     @GetMapping("/sign-in/check")
     public ResponseEntity<SignInCheckResponse> signInCheck(
-            @CookieValue(value = SignInCookie.SIGN_IN_COOKIE_NAME) final String signInToken
+            @CookieValue(name = SIGN_IN_COOKIE_NAME) final String signInToken
     ) {
         final boolean signedIn = authService.isSignedIn(signInToken);
         final SignInCheckResponse response = new SignInCheckResponse(signedIn);
