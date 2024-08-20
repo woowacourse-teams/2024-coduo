@@ -5,7 +5,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UUIDNanceProvider implements NanceProvider {
+public class UUIDNonceProvider implements NonceProvider {
 
     @Override
     public String generate() {

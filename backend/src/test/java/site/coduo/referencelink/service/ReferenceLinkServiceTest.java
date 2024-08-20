@@ -3,6 +3,8 @@ package site.coduo.referencelink.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -18,7 +20,6 @@ import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.Category;
 import site.coduo.referencelink.domain.ReferenceLink;
-import site.coduo.referencelink.domain.Url;
 import site.coduo.referencelink.repository.CategoryEntity;
 import site.coduo.referencelink.repository.CategoryRepository;
 import site.coduo.referencelink.repository.OpenGraphRepository;
@@ -78,18 +79,18 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
 
     @Test
     @DisplayName("모든 레퍼런스 링크를 조회한다.")
-    void search_all_reference_link() {
+    void search_all_reference_link() throws MalformedURLException {
         // given
         final Pair pair = new Pair(new PairName("first"), new PairName("second"));
         final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(pair, new AccessCode("code")));
         final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoom, new Category("자바")));
         final AccessCode accessCode = pairRoom.getAccessCode();
         referenceLinkRepository.save(
-                new ReferenceLinkEntity(new ReferenceLink(new Url("http://url1.com"), accessCode), category, pairRoom));
+                new ReferenceLinkEntity(new ReferenceLink(new URL("http://url1.com"), accessCode), category, pairRoom));
         referenceLinkRepository.save(
-                new ReferenceLinkEntity(new ReferenceLink(new Url("http://url2.com"), accessCode), category, pairRoom));
+                new ReferenceLinkEntity(new ReferenceLink(new URL("http://url2.com"), accessCode), category, pairRoom));
         referenceLinkRepository.save(
-                new ReferenceLinkEntity(new ReferenceLink(new Url("http://url3.com"), accessCode), category, pairRoom));
+                new ReferenceLinkEntity(new ReferenceLink(new URL("http://url3.com"), accessCode), category, pairRoom));
 
         // when
         final List<ReferenceLinkResponse> responses = referenceLinkService.readAllReferenceLink(
@@ -101,14 +102,14 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
 
     @Test
     @DisplayName("레퍼런스 링크와 오픈그래프를 삭제한다.")
-    void delete_reference_link_and_open_graph() {
+    void delete_reference_link_and_open_graph() throws MalformedURLException {
         // given
         final Pair pair = new Pair(new PairName("first"), new PairName("second"));
         AccessCode code = new AccessCode("hello");
         final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(pair, code));
         final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoom, new Category("리액트")));
         final ReferenceLinkEntity link = referenceLinkRepository.save(
-                new ReferenceLinkEntity(new ReferenceLink(new Url("http://url1.com"), code), category, pairRoom));
+                new ReferenceLinkEntity(new ReferenceLink(new URL("http://url1.com"), code), category, pairRoom));
 
         // when
         referenceLinkService.deleteReferenceLink(link.getId());

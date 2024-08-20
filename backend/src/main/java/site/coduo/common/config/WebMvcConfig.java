@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Configuration
-public class WebConfig implements WebMvcConfigurer {
+public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void configurePathMatch(final PathMatchConfigurer configurer) {
@@ -22,7 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(final CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedMethods("*")
-                .allowedOrigins("http://localhost:3000", "https://coduo.site")
+                .allowedOrigins("http://localhost:3000", "https://coduo.site", "http://coduo.site:443")
                 .allowCredentials(true);
     }
 }

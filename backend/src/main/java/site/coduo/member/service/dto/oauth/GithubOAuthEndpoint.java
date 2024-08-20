@@ -1,4 +1,4 @@
-package site.coduo.member.controller.dto.oauth;
+package site.coduo.member.service.dto.oauth;
 
 public record GithubOAuthEndpoint(String endpoint) {
 }

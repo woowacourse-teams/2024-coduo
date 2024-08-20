@@ -10,18 +10,13 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import site.coduo.common.controller.response.ApiErrorResponse;
-import site.coduo.member.controller.dto.auth.SignInWebResponse;
-import site.coduo.member.controller.dto.auth.SignUpRequest;
+import site.coduo.member.service.dto.auth.SignInWebResponse;
+import site.coduo.member.service.dto.auth.SignUpRequest;
 
 @Tag(name = "인증/인가 API")
 public interface AuthControllerDocs {
 
-    @Operation(summary = "로그아웃을 요청한다.")
-    @ApiResponse(responseCode = "200", description = "로그인 쿠키 삭제")
-    @ApiResponse(responseCode = "403", description = "인가 실패",
-            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                    schema = @Schema(implementation = ApiErrorResponse.class)))
-    ResponseEntity<Void> signOut();
+    ResponseEntity<Void> signOut(String signInToken);
 
     @Operation(summary = "회원가입 요청한다.",
             requestBody = @RequestBody(
@@ -38,4 +33,6 @@ public interface AuthControllerDocs {
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = ApiErrorResponse.class)))
     ResponseEntity<Void> signUp(SignUpRequest request, String accessToken);
+
+
 }
