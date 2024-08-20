@@ -1,7 +1,7 @@
+import { AiFillQuestionCircle } from 'react-icons/ai';
 import styled, { css, keyframes } from 'styled-components';
 
 import { Direction } from '@/components/common/Tooltip/Tooltip.type';
-import { AiFillQuestionCircle } from 'react-icons/ai';
 
 const fadeIn = keyframes`
   0% {
@@ -15,6 +15,7 @@ const fadeIn = keyframes`
 export const Box = styled.div`
   position: relative;
   top: 0.1rem;
+
   width: fit-content;
   height: fit-content;
 
@@ -66,12 +67,9 @@ const directionStyle = ($direction: Direction, $color: string) => {
 export const Content = styled.div<{ $color: string; $direction: Direction }>`
   display: none;
 
-  cursor: help;
-
   position: absolute;
+  left: 50%;
   z-index: 100;
-
-  text-align: center;
 
   width: fit-content;
   min-width: 20rem;
@@ -79,19 +77,22 @@ export const Content = styled.div<{ $color: string; $direction: Direction }>`
   border-radius: 0.5rem;
 
   background-color: ${({ $color }) => $color};
+  box-shadow: 0 0.2rem 0.4rem rgb(0 0 0 / 30%);
   color: white;
   font-size: ${({ theme }) => theme.fontSize.sm};
+  line-height: 150%;
+  text-align: center;
+  word-break: keep-all;
 
   animation: ${fadeIn} 0.3s ease-in-out forwards;
   transform: translate(-50%);
 
-  left: 50%;
   content: attr(aria-label);
+
   text-transform: none;
 
-  box-shadow: 0 0.2rem 0.4rem rgb(0 0 0 / 30%);
-  line-height: 150%;
-  word-break: keep-all;
+  cursor: help;
+
   ${({ $color, $direction }) => directionStyle($direction, $color)};
 `;
 
