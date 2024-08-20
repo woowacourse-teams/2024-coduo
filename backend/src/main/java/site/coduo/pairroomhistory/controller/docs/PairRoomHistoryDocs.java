@@ -27,7 +27,7 @@ public interface PairRoomHistoryDocs {
     );
 
     @Operation(summary = "최신 페어룸 히스토리의 타이머 남은 시간을 업데이트한다.")
-    @ApiResponse(responseCode = "200", description = "페어룸 히스토리 타이머 남은 시간 업데이트 성공", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+    @ApiResponse(responseCode = "204", description = "페어룸 히스토리 타이머 남은 시간 업데이트 성공", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     @ApiResponse(responseCode = "4xx", description = "페어룸 히스토리 타이머 남은 시간 업데이트 실패", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class)))
     ResponseEntity<Void> updateTimerRemainingTime(
             String accessCode,
