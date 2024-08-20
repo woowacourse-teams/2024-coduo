@@ -13,29 +13,25 @@ import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.domain.accesscode.AccessCodeFactory;
 import site.coduo.pairroom.domain.accesscode.UUIDAccessCodeStrategy;
-import site.coduo.pairroom.exception.InvalidAccessCodeException;
-import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.repository.PairRoomRepository;
+import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
 public class PairRoomService {
 
-    private static final int UPDATED_ROW_COUNT = 1;
-
     private final PairRoomRepository pairRoomRepository;
 
     @Transactional
     public String save(final PairRoomCreateRequest request) {
-        final Pair pair = new Pair(new PairName(request.firstPair()), new PairName(request.secondPair()));
         final PairRoomStatus status = PairRoomStatus.findByName(request.status());
+        final Pair pair = new Pair(new PairName(request.firstPair()), new PairName(request.secondPair()));
         final List<AccessCode> accessCodes = pairRoomRepository.findAll()
                 .stream()
                 .map(PairRoom::getAccessCode)
                 .toList();
         final AccessCodeFactory accessCodeFactory = new AccessCodeFactory(new UUIDAccessCodeStrategy());
-
         final PairRoom pairRoom = new PairRoom(pair, status, accessCodeFactory.generate(accessCodes));
 
         pairRoomRepository.save(pairRoom);
@@ -46,11 +42,9 @@ public class PairRoomService {
     @Transactional
     public void updatePairRoomStatus(final String accessCode, final String statusName) {
         final PairRoomStatus status = PairRoomStatus.findByName(statusName);
-        final int updatedCount = pairRoomRepository.updateStatusByAccessCode(new AccessCode(accessCode), status);
-
-        if (updatedCount != UPDATED_ROW_COUNT) {
-            throw new InvalidAccessCodeException("accessCode가 존재하지 않거나 중복되어 페어룸 상태 변경에 실패했습니다.");
-        }
+        final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
+        final PairRoom updatedPairRoom = pairRoom.updateStatus(status);
+        pairRoomRepository.save(updatedPairRoom);
     }
 
     public PairRoom findByAccessCode(final String accessCode) {

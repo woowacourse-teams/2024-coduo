@@ -53,6 +53,10 @@ public class PairRoom extends BaseTimeEntity {
         this.accessCode = accessCode;
     }
 
+    public PairRoom updateStatus(final PairRoomStatus status) {
+        return new PairRoom(this.id, status, this.pair, this.accessCode);
+    }
+
     public String getAccessCodeText() {
         return accessCode.getValue();
     }
