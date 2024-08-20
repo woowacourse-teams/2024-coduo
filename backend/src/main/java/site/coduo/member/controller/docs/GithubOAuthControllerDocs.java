@@ -41,7 +41,5 @@ public interface GithubOAuthControllerDocs {
                     name = "JSESSIONID",
                     description = "OAuth 인가 과정에서 사용자 세션을 유지하기 위한 쿠키",
                     schema = @Schema(type = "string")
-            )
-            String state,
-            @Parameter(hidden = true) HttpSession session);
+            ) HttpSession session);
 }
