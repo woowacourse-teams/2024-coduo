@@ -43,8 +43,7 @@ public class PairRoomService {
     public void updatePairRoomStatus(final String accessCode, final String statusName) {
         final PairRoomStatus status = PairRoomStatus.findByName(statusName);
         final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
-        final PairRoom updatedPairRoom = pairRoom.updateStatus(status);
-        pairRoomRepository.save(updatedPairRoom);
+        pairRoom.updateStatus(status);
     }
 
     public PairRoom findByAccessCode(final String accessCode) {
