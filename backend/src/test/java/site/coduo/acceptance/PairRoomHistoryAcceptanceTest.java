@@ -8,8 +8,8 @@ import io.restassured.RestAssured;
 import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
-import site.coduo.pairroomhistory.dto.PairRoomHistoryCreateRequest;
-import site.coduo.pairroomhistory.dto.PairRoomHistoryUpdateRequest;
+import site.coduo.pairroomhistory.service.dto.PairRoomHistoryCreateRequest;
+import site.coduo.pairroomhistory.service.dto.PairRoomHistoryUpdateRequest;
 
 class PairRoomHistoryAcceptanceTest extends AcceptanceFixture {
 

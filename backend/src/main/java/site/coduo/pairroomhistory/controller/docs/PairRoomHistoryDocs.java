@@ -10,9 +10,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import site.coduo.common.controller.response.ApiErrorResponse;
-import site.coduo.pairroomhistory.dto.PairRoomHistoryCreateRequest;
-import site.coduo.pairroomhistory.dto.PairRoomHistoryReadResponse;
-import site.coduo.pairroomhistory.dto.PairRoomHistoryUpdateRequest;
+import site.coduo.pairroomhistory.service.dto.PairRoomHistoryCreateRequest;
+import site.coduo.pairroomhistory.service.dto.PairRoomHistoryReadResponse;
+import site.coduo.pairroomhistory.service.dto.PairRoomHistoryUpdateRequest;
 
 @Tag(name = "페어룸 히스토리 API")
 public interface PairRoomHistoryDocs {

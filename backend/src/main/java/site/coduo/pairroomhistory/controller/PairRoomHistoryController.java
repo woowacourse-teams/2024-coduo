@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.pairroomhistory.controller.docs.PairRoomHistoryDocs;
-import site.coduo.pairroomhistory.dto.PairRoomHistoryCreateRequest;
-import site.coduo.pairroomhistory.dto.PairRoomHistoryReadResponse;
-import site.coduo.pairroomhistory.dto.PairRoomHistoryUpdateRequest;
+import site.coduo.pairroomhistory.service.dto.PairRoomHistoryCreateRequest;
+import site.coduo.pairroomhistory.service.dto.PairRoomHistoryReadResponse;
+import site.coduo.pairroomhistory.service.dto.PairRoomHistoryUpdateRequest;
 import site.coduo.pairroomhistory.service.PairRoomHistoryService;
 
 @RequiredArgsConstructor

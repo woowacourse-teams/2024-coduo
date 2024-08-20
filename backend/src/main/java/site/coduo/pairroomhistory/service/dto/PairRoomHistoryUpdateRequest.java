@@ -1,4 +1,4 @@
-package site.coduo.pairroomhistory.dto;
+package site.coduo.pairroomhistory.service.dto;
 
 import jakarta.validation.constraints.NotNull;
 

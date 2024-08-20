@@ -14,8 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.PairRoomService;
-import site.coduo.pairroomhistory.dto.PairRoomHistoryCreateRequest;
-import site.coduo.pairroomhistory.dto.PairRoomHistoryReadResponse;
+import site.coduo.pairroomhistory.service.dto.PairRoomHistoryCreateRequest;
+import site.coduo.pairroomhistory.service.dto.PairRoomHistoryReadResponse;
 import site.coduo.utils.CascadeCleaner;
 
 @Transactional

@@ -8,9 +8,9 @@ import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.pairroomhistory.domain.PairRoomHistory;
 import site.coduo.pairroomhistory.domain.Timer;
-import site.coduo.pairroomhistory.dto.PairRoomHistoryCreateRequest;
-import site.coduo.pairroomhistory.dto.PairRoomHistoryReadResponse;
-import site.coduo.pairroomhistory.dto.PairRoomHistoryUpdateRequest;
+import site.coduo.pairroomhistory.service.dto.PairRoomHistoryCreateRequest;
+import site.coduo.pairroomhistory.service.dto.PairRoomHistoryReadResponse;
+import site.coduo.pairroomhistory.service.dto.PairRoomHistoryUpdateRequest;
 import site.coduo.pairroomhistory.repository.PairRoomHistoryEntity;
 import site.coduo.pairroomhistory.repository.PairRoomHistoryRepository;
 
