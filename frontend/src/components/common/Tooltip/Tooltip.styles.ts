@@ -1,20 +1,20 @@
-import { HiQuestionMarkCircle } from 'react-icons/hi';
 import styled, { css, keyframes } from 'styled-components';
 
 import { Direction } from '@/components/common/Tooltip/Tooltip.type';
+import { AiFillQuestionCircle } from 'react-icons/ai';
 
 const fadeIn = keyframes`
   0% {
     opacity: 0;
   }
   100% {
-    opacity: 0.9;
+    opacity: 0.8;
   }
 `;
 
 export const Box = styled.div`
   position: relative;
-
+  top: 0.1rem;
   width: fit-content;
   height: fit-content;
 
@@ -95,7 +95,7 @@ export const Content = styled.div<{ $color: string; $direction: Direction }>`
   ${({ $color, $direction }) => directionStyle($direction, $color)};
 `;
 
-export const QuestionIcon = styled(HiQuestionMarkCircle)<{ $color: string }>`
+export const QuestionIcon = styled(AiFillQuestionCircle)<{ $color: string }>`
   width: 2rem;
   height: 2rem;
 
