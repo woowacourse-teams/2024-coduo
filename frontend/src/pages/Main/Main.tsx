@@ -51,7 +51,7 @@ const Main = () => {
           방 들어가기
         </Button>
       </S.ButtonContainer>
-      <PairRoomCreateModal isOpen={true} closeModal={closePairRoomCreateModal} />
+      <PairRoomCreateModal isOpen={isPairRoomCreateModalOpen} closeModal={closePairRoomCreateModal} />
       <PairRoomEntryModal isOpen={isPairRoomEntryModalOpen} closeModal={closePairRoomEntryModal} />
     </S.Layout>
   );
