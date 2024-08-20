@@ -6,8 +6,8 @@ import Button from '@/components/common/Button/Button';
 import { InputStatus } from '@/components/common/Input/Input.type';
 import { Modal } from '@/components/common/Modal';
 import Spinner from '@/components/common/Spinner/Spinner';
-import MissionRepository from '@/components/PairRoom/StartMission/MissionRepository';
 import InformationBox from '@/components/PairRoomOnboarding/InformationBox/InformationBox';
+import MissionRepository from '@/components/PairRoomOnboarding/StartMission/MissionRepository';
 
 import useInput from '@/hooks/common/useInput';
 import useModal from '@/hooks/common/useModal';
