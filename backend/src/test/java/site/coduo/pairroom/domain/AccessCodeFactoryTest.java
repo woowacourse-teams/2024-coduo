@@ -24,7 +24,7 @@ class AccessCodeFactoryTest {
                 new AccessCode("FAKE_4"));
 
         // when
-        final AccessCode accessCode = sut.generateWithoutDuplication(accessCodes);
+        final AccessCode accessCode = sut.generate(accessCodes);
 
         // then
         assertThat(accessCode).isEqualTo(new AccessCode("FAKE_5"));
