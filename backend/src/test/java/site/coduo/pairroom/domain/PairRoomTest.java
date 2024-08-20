@@ -2,10 +2,10 @@ package site.coduo.pairroom.domain;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 
+import static site.coduo.fixture.AccessCodeFixture.ACCESS_CODE;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import site.coduo.pairroom.domain.accesscode.AccessCode;
 
 class PairRoomTest {
 
@@ -18,7 +18,7 @@ class PairRoomTest {
         final Pair pair = new Pair(new PairName(firstName), new PairName(secondName));
 
         // when & then
-        assertThatCode(() -> new PairRoom(pair, new AccessCode("code")))
+        assertThatCode(() -> new PairRoom(pair, ACCESS_CODE))
                 .doesNotThrowAnyException();
     }
 }
