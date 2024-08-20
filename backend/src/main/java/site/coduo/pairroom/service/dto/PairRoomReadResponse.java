@@ -14,7 +14,7 @@ public record PairRoomReadResponse(
         @Schema(description = "두 번째 페어의 이름", example = "파슬리")
         String secondPair,
 
-        @Schema(description = "페어룸의 상태", example = "ONBOARDING")
+        @Schema(description = "페어룸의 상태", example = "IN_PROGRESS")
         String status
 ) {
 

@@ -3,9 +3,6 @@ package site.coduo.pairroomhistory.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import site.coduo.pairroomhistory.exception.PairRoomHistoryNotFoundException;
 
@@ -19,15 +16,4 @@ public interface PairRoomHistoryRepository extends JpaRepository<PairRoomHistory
     Optional<PairRoomHistoryEntity> findTopByPairRoomIdOrderByCreatedAtDesc(long pairRoomId);
 
     boolean existsByPairRoomId(long pairRoomId);
-
-    default void updateByPairRoomIdLatestTimerRemainingTime(long pairRoomId, long timerRemainingTime) {
-        PairRoomHistoryEntity pairRoomHistoryEntity = fetchTopByPairRoomIdOrderByCreatedAtDesc(pairRoomId);
-        updateByIdTimerRemainingTime(pairRoomHistoryEntity.getId(), timerRemainingTime);
-    }
-
-    // todo: 이거 더티체킹으로 바꾸기
-    @Modifying(clearAutomatically = true, flushAutomatically = true)
-    @Query("UPDATE PairRoomHistoryEntity prh SET prh.timerRemainingTime = :timerRemainingTime " +
-           "WHERE prh.id = :id")
-    void updateByIdTimerRemainingTime(@Param("id") long id, @Param("timerRemainingTime") long timerRemainingTime);
 }

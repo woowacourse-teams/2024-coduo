@@ -13,7 +13,7 @@ import site.coduo.pairroomhistory.dto.PairRoomHistoryUpdateRequest;
 import site.coduo.pairroomhistory.repository.PairRoomHistoryEntity;
 import site.coduo.pairroomhistory.repository.PairRoomHistoryRepository;
 
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Service
 public class PairRoomHistoryService {
@@ -23,6 +23,7 @@ public class PairRoomHistoryService {
     private final PairRoomHistoryRepository pairRoomHistoryRepository;
     private final PairRoomService pairRoomService;
 
+    @Transactional
     public void createPairRoomHistory(final String accessCode, final PairRoomHistoryCreateRequest request) {
         final PairRoom pairRoom = pairRoomService.findByAccessCode(accessCode);
         final int timerRound = calculateTimerRound(pairRoom.getId());
@@ -53,9 +54,11 @@ public class PairRoomHistoryService {
         return PairRoomHistoryReadResponse.of(pairRoomHistoryEntity.getId(), pairRoomHistoryEntity.toDomain());
     }
 
+    @Transactional
     public void updateTimerRemainingTimeHistory(final String accessCode, final PairRoomHistoryUpdateRequest request) {
         final PairRoom pairRoom = pairRoomService.findByAccessCode(accessCode);
-        pairRoomHistoryRepository
-                .updateByPairRoomIdLatestTimerRemainingTime(pairRoom.getId(), request.timerRemainingTime());
+        final PairRoomHistoryEntity pairRoomHistoryEntity = pairRoomHistoryRepository
+                .fetchTopByPairRoomIdOrderByCreatedAtDesc(pairRoom.getId());
+        pairRoomHistoryEntity.updateTimerRemainingTime(request.timerRemainingTime());
     }
 }

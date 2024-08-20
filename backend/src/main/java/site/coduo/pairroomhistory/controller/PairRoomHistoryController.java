@@ -43,7 +43,7 @@ public class PairRoomHistoryController implements PairRoomHistoryDocs {
     ) {
         pairRoomHistoryService.updateTimerRemainingTimeHistory(accessCode, request);
 
-        return ResponseEntity.ok()
+        return ResponseEntity.noContent()
                 .build();
     }
 

@@ -51,7 +51,7 @@ class TodoServiceTest {
         final String pairRoomAccessCode = "ACCESS-CODE";
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
-                PairRoomStatus.ONBOARDING,
+                PairRoomStatus.IN_PROGRESS,
                 new AccessCode(pairRoomAccessCode)
         );
         pairRoomRepository.save(pairRoom);
@@ -80,7 +80,7 @@ class TodoServiceTest {
         // Given
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
-                PairRoomStatus.ONBOARDING,
+                PairRoomStatus.IN_PROGRESS,
                 new AccessCode("ACCESS-CODE")
         );
         pairRoomRepository.save(pairRoom);
@@ -100,7 +100,7 @@ class TodoServiceTest {
         // Given
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
-                PairRoomStatus.ONBOARDING,
+                PairRoomStatus.IN_PROGRESS,
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -129,7 +129,7 @@ class TodoServiceTest {
         // Given
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
-                PairRoomStatus.ONBOARDING,
+                PairRoomStatus.IN_PROGRESS,
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -153,7 +153,7 @@ class TodoServiceTest {
         // Given
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
-                PairRoomStatus.ONBOARDING,
+                PairRoomStatus.IN_PROGRESS,
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -181,7 +181,7 @@ class TodoServiceTest {
         // Given
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
-                PairRoomStatus.ONBOARDING,
+                PairRoomStatus.IN_PROGRESS,
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -204,7 +204,7 @@ class TodoServiceTest {
         // Given
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
-                PairRoomStatus.ONBOARDING,
+                PairRoomStatus.IN_PROGRESS,
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -230,7 +230,7 @@ class TodoServiceTest {
         final String pairRoomAccessCode = "ACCESS-CODE";
         final PairRoom pairRoom = new PairRoom(
                 1L,
-                PairRoomStatus.ONBOARDING,
+                PairRoomStatus.IN_PROGRESS,
                 new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode(pairRoomAccessCode)
         );
@@ -263,7 +263,7 @@ class TodoServiceTest {
         // Given
         final PairRoom pairRoom = new PairRoom(
                 1L,
-                PairRoomStatus.ONBOARDING,
+                PairRoomStatus.IN_PROGRESS,
                 new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode("ACCESS CODE")
         );
@@ -291,7 +291,7 @@ class TodoServiceTest {
         // Given
         final PairRoom pairRoom = new PairRoom(
                 1L,
-                PairRoomStatus.ONBOARDING,
+                PairRoomStatus.IN_PROGRESS,
                 new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode("ACCESS-CODE")
         );
@@ -333,7 +333,7 @@ class TodoServiceTest {
         // Given
         final PairRoom pairRoom = new PairRoom(
                 1L,
-                PairRoomStatus.ONBOARDING,
+                PairRoomStatus.IN_PROGRESS,
                 new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode("ACCESS-CODE")
         );

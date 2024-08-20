@@ -63,7 +63,7 @@ class OpenGraphServiceTest extends CascadeCleaner {
                                 new PairName("잉크"),
                                 new PairName("레모네")
                         ),
-                        PairRoomStatus.ONBOARDING,
+                        PairRoomStatus.IN_PROGRESS,
                         new AccessCode("123456"))
         );
         final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoom, new Category("스프링")));
@@ -108,7 +108,7 @@ class OpenGraphServiceTest extends CascadeCleaner {
                                 new PairName("잉크"),
                                 new PairName("레모네")
                         ),
-                        PairRoomStatus.ONBOARDING,
+                        PairRoomStatus.IN_PROGRESS,
                         new AccessCode("123456"))
         );
 

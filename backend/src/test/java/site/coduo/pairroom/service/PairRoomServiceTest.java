@@ -37,7 +37,7 @@ class PairRoomServiceTest {
     void update_pair_room_status() {
         // given
         final PairRoomCreateRequest request =
-                new PairRoomCreateRequest("레디", "프람", PairRoomStatus.ONBOARDING.name());
+                new PairRoomCreateRequest("레디", "프람", PairRoomStatus.IN_PROGRESS.name());
         final String accessCode = pairRoomService.save(request);
 
         // when

@@ -38,6 +38,7 @@ public class PairRoomHistoryEntity extends BaseTimeEntity {
     @Column(name = "NAVIGATOR", nullable = false)
     private String navigator;
 
+    // todo: 여기 세개 타이머로 묶기
     @Column(name = "TIMER_ROUND", nullable = false)
     private int timerRound;
 
@@ -54,6 +55,10 @@ public class PairRoomHistoryEntity extends BaseTimeEntity {
         this.timerRound = pairRoomHistory.getTimerRound();
         this.timerDuration = pairRoomHistory.getTimerDuration();
         this.timerRemainingTime = pairRoomHistory.getTimerRemainingTime();
+    }
+
+    public void updateTimerRemainingTime(final long timerRemainingTime) {
+        this.timerRemainingTime = timerRemainingTime;
     }
 
     public PairRoomHistory toDomain() {

@@ -38,7 +38,7 @@ class PairRoomHistoryServiceTest extends CascadeCleaner {
     void create_pair_room_history() {
         // given
     final String accessCode = pairRoomService
-            .save(new PairRoomCreateRequest("켈리", "레모네", PairRoomStatus.ONBOARDING.name()));
+            .save(new PairRoomCreateRequest("켈리", "레모네", PairRoomStatus.IN_PROGRESS.name()));
         final PairRoomHistoryCreateRequest request = new PairRoomHistoryCreateRequest(
                 "켈리",
                 "레모네",
@@ -56,7 +56,7 @@ class PairRoomHistoryServiceTest extends CascadeCleaner {
     void get_latest_pair_room_history() {
         // given
         final String accessCode = pairRoomService
-                .save(new PairRoomCreateRequest("잉크", "레디", PairRoomStatus.ONBOARDING.name()));
+                .save(new PairRoomCreateRequest("잉크", "레디", PairRoomStatus.IN_PROGRESS.name()));
         final PairRoomHistoryCreateRequest request = new PairRoomHistoryCreateRequest(
                 "잉크",
                 "레디",

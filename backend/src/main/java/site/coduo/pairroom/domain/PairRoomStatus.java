@@ -11,7 +11,6 @@ import site.coduo.pairroom.exception.PairRoomStatusNotFoundException;
 @Getter
 public enum PairRoomStatus {
 
-    ONBOARDING,
     IN_PROGRESS,
     COMPLETED;
 

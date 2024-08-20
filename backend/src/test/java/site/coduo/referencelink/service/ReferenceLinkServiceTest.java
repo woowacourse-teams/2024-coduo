@@ -59,7 +59,7 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
         // given
         final Pair pair = new Pair(new PairName("first"), new PairName("second"));
         final PairRoom pairRoom = pairRoomRepository
-                .save(new PairRoom(pair, PairRoomStatus.ONBOARDING, new AccessCode("code`")));
+                .save(new PairRoom(pair, PairRoomStatus.IN_PROGRESS, new AccessCode("code`")));
         final ReferenceLinkCreateRequest request = new ReferenceLinkCreateRequest("https://www.naver.com", null);
 
         // when
@@ -85,7 +85,7 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
         // given
         final Pair pair = new Pair(new PairName("first"), new PairName("second"));
         final PairRoom pairRoom = pairRoomRepository
-                .save(new PairRoom(pair, PairRoomStatus.ONBOARDING, new AccessCode("code")));
+                .save(new PairRoom(pair, PairRoomStatus.IN_PROGRESS, new AccessCode("code")));
         final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoom, new Category("자바")));
         final AccessCode accessCode = pairRoom.getAccessCode();
         referenceLinkRepository.save(
@@ -109,7 +109,7 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
         // given
         final Pair pair = new Pair(new PairName("first"), new PairName("second"));
         AccessCode code = new AccessCode("hello");
-        final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(pair, PairRoomStatus.ONBOARDING, code));
+        final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(pair, PairRoomStatus.IN_PROGRESS, code));
         final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoom, new Category("리액트")));
         final ReferenceLinkEntity link = referenceLinkRepository.save(
                 new ReferenceLinkEntity(new ReferenceLink(new URL("http://url1.com"), code), category, pairRoom));

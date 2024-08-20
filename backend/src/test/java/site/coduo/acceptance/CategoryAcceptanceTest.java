@@ -35,7 +35,7 @@ class CategoryAcceptanceTest extends AcceptanceFixture {
     void show_category() {
         //given
         final PairRoomCreateResponse pairRoomUrl = PairRoomAcceptanceTest.createPairRoom(
-                new PairRoomCreateRequest("레디", "프람", PairRoomStatus.ONBOARDING.name()));
+                new PairRoomCreateRequest("레디", "프람", PairRoomStatus.IN_PROGRESS.name()));
 
         createCategory(pairRoomUrl.accessCode(), new CategoryCreateRequest("새로운 카테고리"));
 
