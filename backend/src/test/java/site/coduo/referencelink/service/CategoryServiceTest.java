@@ -160,7 +160,6 @@ class CategoryServiceTest extends CascadeCleaner {
     void remove_category_and_update_reference_category_value() throws MalformedURLException {
         final Category category = new Category("자바");
         final PairRoom pairRoom = pairRoomRepository.save(INK_REDDDY_ROOM);
-        pairRoomRepository.save(pairRoom);
 
         final CategoryEntity savedCategory = categoryRepository.save(new CategoryEntity(pairRoom, category));
         final ReferenceLink referenceLink = new ReferenceLink(new URL("https://google.com"), ACCESS_CODE);
