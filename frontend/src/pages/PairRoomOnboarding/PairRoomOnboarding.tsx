@@ -8,18 +8,27 @@ import PairRoleInput from '@/components/PairRoomOnboarding/PairRoleInput/PairRol
 import TimerInput from '@/components/PairRoomOnboarding/TimerInput/TimerInput';
 
 import usePairNameInputs from '@/hooks/Main/usePairNameInputs';
+import useAutoMoveIndex from '@/hooks/PairRoomOnboarding/useAutoMoveIndex';
 
 import { BUTTON_TEXT } from '@/constants/button';
 
 import * as S from './PairRoomOnboarding.styles';
 
 const PairRoomOnboarding = () => {
-  // const [index, setIndex] = useState(0);
+  const [driver, setDriver] = useState('');
+  const [navigator, setNavigator] = useState('');
 
   const { firstPairName, secondPairName, handleFirstPairName, handleSecondPairName } = usePairNameInputs();
 
-  const [driver, setDriver] = useState('');
-  const [navigator, setNavigator] = useState('');
+  const validationList = [
+    firstPairName.value !== '' &&
+      secondPairName.value !== '' &&
+      firstPairName.status !== 'ERROR' &&
+      secondPairName.status !== 'ERROR',
+    driver !== '' && navigator !== '',
+  ];
+
+  const { moveIndex } = useAutoMoveIndex(0, validationList);
 
   const handleFirstPair = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (firstPairName.value === driver || firstPairName.value === navigator) {
@@ -62,14 +71,16 @@ const PairRoomOnboarding = () => {
           onFirstPair={handleFirstPair}
           onSecondPair={handleSecondPair}
         />
-        <PairRoleInput
-          firstPair={firstPairName.value}
-          secondPair={secondPairName.value}
-          driver={driver}
-          navigator={navigator}
-          onRole={handleRole}
-        />
-        <TimerInput />
+        {moveIndex >= 1 && (
+          <PairRoleInput
+            firstPair={firstPairName.value}
+            secondPair={secondPairName.value}
+            driver={driver}
+            navigator={navigator}
+            onRole={handleRole}
+          />
+        )}
+        {moveIndex >= 2 && <TimerInput />}
         <S.ButtonWrapper>
           <Button>{BUTTON_TEXT.COMPLETE}</Button>
         </S.ButtonWrapper>
