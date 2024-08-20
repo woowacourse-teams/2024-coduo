@@ -3,7 +3,8 @@ package site.coduo.member.controller.docs;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,10 +15,18 @@ import site.coduo.member.service.dto.member.MemberReadResponse;
 @Tag(name = "회원 API")
 public interface MemberControllerDocs {
 
-    @Operation(summary = "회원이름 조회 요청한다.")
-    @ApiResponse(responseCode = "200", description = "회원 정보를 조회한다.")
-    @ApiResponse(responseCode = "403", description = "인가 실패",
+    @ApiResponse(responseCode = "200", description = "회원 등록 정보를 조회한다.",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = MemberReadResponse.class)))
+    @ApiResponse(responseCode = "401", description = "인증 실패",
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = ApiErrorResponse.class)))
-    ResponseEntity<MemberReadResponse> getMember(String signInToken);
+    ResponseEntity<MemberReadResponse> getMember(
+            @Parameter(
+                    in = ParameterIn.COOKIE,
+                    name = "coduo_whoami",
+                    description = "사용자가 인증에 성공하면 서버에서 발급하는 쿠키",
+                    schema = @Schema(type = "string")
+            )
+            String token);
 }
