@@ -9,11 +9,11 @@ import * as S from './Tooltip.styles';
 interface ToolTipProps {
   message: string;
   children?: ReactNode;
-  direction: Direction;
+  direction?: Direction;
   color?: string;
 }
 
-const Tooltip = ({ children, message, direction, color = theme.color.primary[800] }: ToolTipProps) => {
+const Tooltip = ({ children, message, direction = 'bottom', color = theme.color.primary[800] }: ToolTipProps) => {
   return (
     <S.Box>
       {children}

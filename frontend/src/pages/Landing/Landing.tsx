@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { GithubLogoWhite } from '@/assets';
+
 import * as S from '@/pages/Landing/Landing.styles';
 
 import Button from '@/components/common/Button/Button';
@@ -10,7 +12,6 @@ import useUserStatusStore from '@/stores/userStatusStore';
 import usePreventBackNavigation from '@/hooks/common/usePreventBackNavigation';
 import useSignInHandler from '@/hooks/member/useSignInHandler';
 
-import { GithubLogoWhite } from '@/assets';
 
 const Landing = () => {
   const { userStatus } = useUserStatusStore();
