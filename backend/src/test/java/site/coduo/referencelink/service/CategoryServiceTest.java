@@ -5,8 +5,8 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import static site.coduo.fixture.AccessCodeFixture.ACCESS_CODE;
-import static site.coduo.fixture.AccessCodeFixture.ALPHABET_ACCESS_CODE;
-import static site.coduo.fixture.AccessCodeFixture.NUMBER_ACCESS_CODE;
+import static site.coduo.fixture.PairRoomFixture.FRAM_LEMONE_ROOM;
+import static site.coduo.fixture.PairRoomFixture.INK_REDDDY_ROOM;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -18,8 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import site.coduo.pairroom.domain.Pair;
-import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.Category;
@@ -60,14 +58,7 @@ class CategoryServiceTest extends CascadeCleaner {
     @DisplayName("페어룸 생성 후 카테고리를 저장한다.")
     void save_category() {
         //given
-        final PairRoom pairRoom = pairRoomRepository.save(
-                new PairRoom(
-                        new Pair(
-                                new PairName("잉크"),
-                                new PairName("레디")
-                        )
-                        , ACCESS_CODE)
-        );
+        final PairRoom pairRoom = pairRoomRepository.save(INK_REDDDY_ROOM);
         pairRoomRepository.save(pairRoom);
 
         //when
@@ -87,15 +78,9 @@ class CategoryServiceTest extends CascadeCleaner {
     @DisplayName("카테고리를 수정한다.")
     void update_category() {
         //given
-        final PairRoom pairRoom = pairRoomRepository.save(
-                new PairRoom(
-                        new Pair(
-                                new PairName("잉크"),
-                                new PairName("레디")
-                        )
-                        , ACCESS_CODE)
-        );
+        final PairRoom pairRoom = pairRoomRepository.save(INK_REDDDY_ROOM);
         pairRoomRepository.save(pairRoom);
+
         final String categoryName = "자바";
         final CategoryCreateResponse createdCategory = categoryService.createCategory(ACCESS_CODE.getValue(),
                 new CategoryCreateRequest(categoryName));
@@ -118,15 +103,7 @@ class CategoryServiceTest extends CascadeCleaner {
     @DisplayName("페어룸에 중복된 카테고리가 있는 경우 저장에 실패한다.")
     void fail_save_category() {
         //given
-        final PairRoom pairRoom = pairRoomRepository.save(
-                new PairRoom(
-                        new Pair(
-                                new PairName("잉크"),
-                                new PairName("레디")
-                        )
-                        , ACCESS_CODE)
-        );
-
+        final PairRoom pairRoom = pairRoomRepository.save(INK_REDDDY_ROOM);
         pairRoomRepository.save(pairRoom);
 
         final CategoryCreateRequest categoryCreateRequest = new CategoryCreateRequest("자바");
@@ -141,32 +118,18 @@ class CategoryServiceTest extends CascadeCleaner {
     @DisplayName("페어룸이 다른 경우 중복된 카테고리 저장이 가능하다.")
     void success_save_category() {
         //given
-        final PairRoom numberAccessCodePairRoom = pairRoomRepository.save(
-                new PairRoom(
-                        new Pair(
-                                new PairName("잉크"),
-                                new PairName("레디")
-                        )
-                        , NUMBER_ACCESS_CODE)
-        );
-        final PairRoom alphabetAccessCodePairRoom = pairRoomRepository.save(
-                new PairRoom(
-                        new Pair(
-                                new PairName("프람"),
-                                new PairName("레모네")
-                        )
-                        , ALPHABET_ACCESS_CODE)
-        );
+        final PairRoom pairRoom1 = pairRoomRepository.save(INK_REDDDY_ROOM);
+        final PairRoom pairRoom2 = pairRoomRepository.save(FRAM_LEMONE_ROOM);
 
-        pairRoomRepository.save(numberAccessCodePairRoom);
-        pairRoomRepository.save(alphabetAccessCodePairRoom);
+        pairRoomRepository.save(pairRoom1);
+        pairRoomRepository.save(pairRoom2);
 
         //when & then
         final CategoryCreateRequest categoryCreateRequest = new CategoryCreateRequest("자바");
 
-        assertThatCode(() -> categoryService.createCategory(NUMBER_ACCESS_CODE.getValue(),
+        assertThatCode(() -> categoryService.createCategory(pairRoom1.getAccessCode().getValue(),
                 categoryCreateRequest)).doesNotThrowAnyException();
-        assertThatCode(() -> categoryService.createCategory(ALPHABET_ACCESS_CODE.getValue(),
+        assertThatCode(() -> categoryService.createCategory(pairRoom2.getAccessCode().getValue(),
                 categoryCreateRequest)).doesNotThrowAnyException();
     }
 
@@ -174,15 +137,7 @@ class CategoryServiceTest extends CascadeCleaner {
     @DisplayName("카테고리를 삭제한다.")
     void delete_category() {
         //given
-        final PairRoom pairRoom = pairRoomRepository.save(
-                new PairRoom(
-                        new Pair(
-                                new PairName("잉크"),
-                                new PairName("레디")
-                        )
-                        , ACCESS_CODE)
-        );
-
+        final PairRoom pairRoom = pairRoomRepository.save(INK_REDDDY_ROOM);
         pairRoomRepository.save(pairRoom);
 
         //when
@@ -204,15 +159,9 @@ class CategoryServiceTest extends CascadeCleaner {
     @DisplayName("카테고리가 삭제되면 해당 카테고리로 분류되어 있던 링크의 카테고리는 null이 된다.")
     void remove_category_and_update_reference_category_value() throws MalformedURLException {
         final Category category = new Category("자바");
-        final PairRoom pairRoom = pairRoomRepository.save(
-                new PairRoom(
-                        new Pair(
-                                new PairName("잉크"),
-                                new PairName("레디")
-                        )
-                        , ACCESS_CODE)
-        );
+        final PairRoom pairRoom = pairRoomRepository.save(INK_REDDDY_ROOM);
         pairRoomRepository.save(pairRoom);
+
         final CategoryEntity savedCategory = categoryRepository.save(new CategoryEntity(pairRoom, category));
         final ReferenceLink referenceLink = new ReferenceLink(new URL("https://google.com"), ACCESS_CODE);
 

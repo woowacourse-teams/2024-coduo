@@ -3,6 +3,8 @@ package site.coduo.referencelink.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import static site.coduo.fixture.PairRoomFixture.KELY_LEMONE_ROOM;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -12,8 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import site.coduo.pairroom.domain.Pair;
-import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomRepository;
@@ -56,14 +56,7 @@ class OpenGraphServiceTest extends CascadeCleaner {
     @DisplayName("오픈그래프를 생성 후 저장한다.")
     void create_open_graph() throws MalformedURLException {
         //given
-        final PairRoom pairRoom = pairRoomRepository.save(
-                new PairRoom(
-                        new Pair(
-                                new PairName("잉크"),
-                                new PairName("레모네")
-                        )
-                        , new AccessCode("123456"))
-        );
+        final PairRoom pairRoom = pairRoomRepository.save(KELY_LEMONE_ROOM);
         final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoom, new Category("스프링")));
         final URL url = new URL("https://www.naver.com");
         final ReferenceLinkEntity referenceLink = new ReferenceLinkEntity(
@@ -100,14 +93,7 @@ class OpenGraphServiceTest extends CascadeCleaner {
     @Test
     void delete_open_graph_by_reference_link_id() throws MalformedURLException {
         // given
-        final PairRoom pairRoom = pairRoomRepository.save(
-                new PairRoom(
-                        new Pair(
-                                new PairName("잉크"),
-                                new PairName("레모네")
-                        )
-                        , new AccessCode("123456"))
-        );
+        final PairRoom pairRoom = pairRoomRepository.save(KELY_LEMONE_ROOM);
 
         final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoom, new Category("스프링")));
         final URL url = new URL("https://www.naver.com");
