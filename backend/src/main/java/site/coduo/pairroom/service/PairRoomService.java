@@ -43,6 +43,7 @@ public class PairRoomService {
         return pairRoom.getAccessCodeText();
     }
 
+    @Transactional
     public void updatePairRoomStatus(final String accessCode, final String statusName) {
         final PairRoomStatus status = PairRoomStatus.findByName(statusName);
         final int updatedCount = pairRoomRepository.updateStatusByAccessCode(new AccessCode(accessCode), status);
