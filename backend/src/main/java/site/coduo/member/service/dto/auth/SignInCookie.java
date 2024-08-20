@@ -1,4 +1,6 @@
-package site.coduo.member.controller.dto.auth;
+package site.coduo.member.service.dto.auth;
+
+import static site.coduo.common.config.filter.SignInCookieFilter.SIGN_IN_COOKIE_NAME;
 
 import java.time.Duration;
 
@@ -6,7 +8,6 @@ import org.springframework.http.ResponseCookie;
 
 public record SignInCookie(String credential) {
 
-    public static final String SIGN_IN_COOKIE_NAME = "coduo_whoami";
     private static final String SERVICE_DOMAIN_NAME = "coduo.site";
 
     public ResponseCookie generate() {
