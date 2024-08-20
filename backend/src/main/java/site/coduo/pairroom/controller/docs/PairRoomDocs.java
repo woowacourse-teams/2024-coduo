@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
-import site.coduo.pairroom.service.dto.PairRoomDeleteRequest;
 import site.coduo.pairroom.service.dto.PairRoomReadRequest;
 import site.coduo.pairroom.service.dto.PairRoomReadResponse;
 import site.coduo.pairroom.service.dto.PairRoomStatusUpdateRequest;
@@ -37,12 +36,5 @@ public interface PairRoomDocs {
             String accessCode,
             @Parameter(description = "변경할 페어룸 상태", required = true)
             PairRoomStatusUpdateRequest request
-    );
-
-    @Operation(summary = "페어룸을 삭제한다.")
-    @ApiResponse(responseCode = "204", description = "페어룸 삭제 성공")
-    @ApiResponse(responseCode = "404", description = "페어룸 삭제 실패")
-    ResponseEntity<Void> deletePairRoom(
-            @Parameter(description = "페어룸 접근 코드", required = true) PairRoomDeleteRequest request
     );
 }

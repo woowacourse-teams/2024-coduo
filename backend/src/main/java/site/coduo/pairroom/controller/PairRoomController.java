@@ -5,7 +5,6 @@ import java.net.URI;
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,12 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.pairroom.controller.docs.PairRoomDocs;
+import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
-import site.coduo.pairroom.service.dto.PairRoomDeleteRequest;
 import site.coduo.pairroom.service.dto.PairRoomReadRequest;
 import site.coduo.pairroom.service.dto.PairRoomReadResponse;
-import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.pairroom.service.dto.PairRoomStatusUpdateRequest;
 
 @RequiredArgsConstructor
@@ -42,8 +40,8 @@ public class PairRoomController implements PairRoomDocs {
 
     @PatchMapping("/pair-room/{accessCode}/status")
     public ResponseEntity<Void> updatePairRoomStatus(
-        @PathVariable("accessCode") final String accessCode,
-        @Valid @RequestBody final PairRoomStatusUpdateRequest request
+            @PathVariable("accessCode") final String accessCode,
+            @Valid @RequestBody final PairRoomStatusUpdateRequest request
     ) {
         pairRoomService.updatePairRoomStatus(accessCode, request.status());
 
@@ -59,15 +57,5 @@ public class PairRoomController implements PairRoomDocs {
                 pairRoomService.findByAccessCode(request.accessCode()));
 
         return ResponseEntity.ok(response);
-    }
-
-    @DeleteMapping("/pair-room/{accessCode}")
-    public ResponseEntity<Void> deletePairRoom(
-            @Valid @PathVariable("accessCode") final PairRoomDeleteRequest request
-    ) {
-        pairRoomService.deletePairRoom(request.accessCode());
-
-        return ResponseEntity.noContent()
-                .build();
     }
 }
