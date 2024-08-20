@@ -15,11 +15,11 @@ public record PairRoomHistoryCreateRequest(
         @NotBlank
         String navigator,
 
-        @Schema(description = "타이머가 몇 번 반복되었는지 나타내는 타이머 라운드", example = "1")
+        @Schema(description = "타이머 시간. 시간은 millisecond 기준이다.", example = "100000")
         @NotNull
-        int timerRound,
+        long timerDuration,
 
-        @Schema(description = "타이머가 종료되기까지 남은 시간. 시간은 millisecond 기준으로 저장한다.", example = "60000")
+        @Schema(description = "타이머가 종료되기까지 남은 시간. 시간은 millisecond 기준이다.", example = "60000")
         @NotNull
         long timerRemainingTime
 ) {

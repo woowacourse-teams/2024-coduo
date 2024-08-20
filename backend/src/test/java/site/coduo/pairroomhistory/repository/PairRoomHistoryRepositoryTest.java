@@ -45,7 +45,7 @@ class PairRoomHistoryRepositoryTest {
                 .pairRoom(pairRoom)
                 .driver("레머네")
                 .navigator("프람")
-                .timerRound(1)
+                .timerRound(900000)
                 .timerRemainingTime(1000)
                 .build();
 
@@ -53,7 +53,7 @@ class PairRoomHistoryRepositoryTest {
                 .pairRoom(pairRoom)
                 .driver("프람")
                 .navigator("레머네")
-                .timerRound(2)
+                .timerRound(900000)
                 .timerRemainingTime(1000)
                 .build();
 
@@ -84,7 +84,7 @@ class PairRoomHistoryRepositoryTest {
                 .pairRoom(pairRoom)
                 .driver("솔라")
                 .navigator("네오")
-                .timerRound(1)
+                .timerRound(900000)
                 .timerRemainingTime(1000)
                 .build();
         PairRoomHistoryEntity pairRoomHistoryEntity = pairRoomHistoryRepository.save(new PairRoomHistoryEntity(history));

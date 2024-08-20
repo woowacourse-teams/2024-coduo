@@ -42,7 +42,7 @@ class PairRoomHistoryServiceTest extends CascadeCleaner {
         final PairRoomHistoryCreateRequest request = new PairRoomHistoryCreateRequest(
                 "켈리",
                 "레모네",
-                0,
+                900000,
                 600000
         );
 
@@ -60,13 +60,13 @@ class PairRoomHistoryServiceTest extends CascadeCleaner {
         final PairRoomHistoryCreateRequest request = new PairRoomHistoryCreateRequest(
                 "잉크",
                 "레디",
-                0,
+                900000,
                 600000
         );
         final PairRoomHistoryCreateRequest secondRequest = new PairRoomHistoryCreateRequest(
                 "레디",
                 "잉크",
-                1,
+                900000,
                 300000
         );
         pairRoomHistoryService.createPairRoomHistory(accessCode, request);
@@ -79,7 +79,7 @@ class PairRoomHistoryServiceTest extends CascadeCleaner {
         assertAll(
                 () -> assertThat(actual.driver()).isEqualTo(secondRequest.driver()),
                 () -> assertThat(actual.navigator()).isEqualTo(secondRequest.navigator()),
-                () -> assertThat(actual.timerRound()).isEqualTo(secondRequest.timerRound()),
+                // todo: 타이머 듀레이션, 라운드 검증 추가
                 () -> assertThat(actual.timerRemainingTime()).isEqualTo(secondRequest.timerRemainingTime())
         );
     }

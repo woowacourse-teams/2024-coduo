@@ -50,7 +50,7 @@ class PairRoomHistoryAcceptanceTest extends AcceptanceFixture {
         final PairRoomHistoryCreateRequest request = new PairRoomHistoryCreateRequest(
                 "해시",
                 "파란",
-                123,
+                900000,
                 600000
         );
 
@@ -75,7 +75,7 @@ class PairRoomHistoryAcceptanceTest extends AcceptanceFixture {
                 createPairRoom(new PairRoomCreateRequest("켈리", "파란", PairRoomStatus.ONBOARDING.name()));
         savePairRoomHistory(
                 pairRoomCreateResponse.accessCode(),
-                new PairRoomHistoryCreateRequest("켈리", "파란", 0, 600000)
+                new PairRoomHistoryCreateRequest("켈리", "파란", 900000, 600000)
         );
 
         // when & then
@@ -94,14 +94,14 @@ class PairRoomHistoryAcceptanceTest extends AcceptanceFixture {
     void update_timer_remaining_time() {
         // given
         final PairRoomCreateResponse pairRoomCreateResponse =
-                createPairRoom(new PairRoomCreateRequest("잉크", "파슬리",PairRoomStatus.ONBOARDING.name()));
+                createPairRoom(new PairRoomCreateRequest("잉크", "파슬리", PairRoomStatus.ONBOARDING.name()));
         savePairRoomHistory(
                 pairRoomCreateResponse.accessCode(),
-                new PairRoomHistoryCreateRequest("잉크", "파슬리", 0, 600000)
+                new PairRoomHistoryCreateRequest("잉크", "파슬리", 900000, 600000)
         );
         savePairRoomHistory(
                 pairRoomCreateResponse.accessCode(),
-                new PairRoomHistoryCreateRequest("파슬리", "잉크", 1, 300000)
+                new PairRoomHistoryCreateRequest("파슬리", "잉크", 900000, 300000)
         );
 
         // when & then

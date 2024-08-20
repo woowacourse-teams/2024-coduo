@@ -41,6 +41,9 @@ public class PairRoomHistoryEntity extends BaseTimeEntity {
     @Column(name = "TIMER_ROUND", nullable = false)
     private int timerRound;
 
+    @Column(name = "TIMER_DURATION", nullable = false)
+    private long timerDuration;
+
     @Column(name = "TIMER_REMAINING_TIME", nullable = false)
     private long timerRemainingTime;
 
@@ -49,6 +52,7 @@ public class PairRoomHistoryEntity extends BaseTimeEntity {
         this.driver = pairRoomHistory.getDriver();
         this.navigator = pairRoomHistory.getNavigator();
         this.timerRound = pairRoomHistory.getTimerRound();
+        this.timerDuration = pairRoomHistory.getTimerDuration();
         this.timerRemainingTime = pairRoomHistory.getTimerRemainingTime();
     }
 
@@ -58,6 +62,7 @@ public class PairRoomHistoryEntity extends BaseTimeEntity {
                 .driver(driver)
                 .navigator(navigator)
                 .timerRound(timerRound)
+                .timerDuration(timerDuration)
                 .timerRemainingTime(timerRemainingTime)
                 .build();
     }
