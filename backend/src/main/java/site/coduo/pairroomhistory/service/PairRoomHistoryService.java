@@ -5,7 +5,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.pairroom.domain.PairRoom;
-import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.pairroomhistory.domain.PairRoomHistory;
 import site.coduo.pairroomhistory.dto.PairRoomHistoryCreateRequest;
@@ -26,8 +25,7 @@ public class PairRoomHistoryService {
 
     public void createPairRoomHistory(final String accessCode, final PairRoomHistoryCreateRequest request) {
         final PairRoom pairRoom = pairRoomService.findByAccessCode(accessCode);
-        final int timerRound = calculateTimerRound(pairRoom);
-
+        final int timerRound = calculateTimerRound(pairRoom.getId());
         final PairRoomHistory pairRoomHistory = PairRoomHistory.builder()
                 .pairRoom(pairRoom)
                 .driver(request.driver())
@@ -39,13 +37,13 @@ public class PairRoomHistoryService {
         pairRoomHistoryRepository.save(new PairRoomHistoryEntity(pairRoomHistory));
     }
 
-    private int calculateTimerRound(final PairRoom pairRoom) {
-        if (pairRoom.getStatus().equals(PairRoomStatus.ONBOARDING)) {
-            return FIRST_ROUND;
+    private int calculateTimerRound(final long pairRoomId) {
+        if (pairRoomHistoryRepository.existsByPairRoomId(pairRoomId)) {
+            final PairRoomHistory latestPairRoomHistory =
+                    pairRoomHistoryRepository.fetchTopByPairRoomIdOrderByCreatedAtDesc(pairRoomId).toDomain();
+            return latestPairRoomHistory.getTimerRound() + 1;
         }
-        final PairRoomHistory latestPairRoomHistory =
-                pairRoomHistoryRepository.fetchTopByPairRoomIdOrderByCreatedAtDesc(pairRoom.getId()).toDomain();
-        return latestPairRoomHistory.getTimerRound() + 1;
+        return FIRST_ROUND;
     }
 
     public PairRoomHistoryReadResponse readLatestPairRoomHistory(final String accessCode) {

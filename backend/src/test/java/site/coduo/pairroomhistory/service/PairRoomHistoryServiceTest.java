@@ -71,6 +71,7 @@ class PairRoomHistoryServiceTest extends CascadeCleaner {
         );
         pairRoomHistoryService.createPairRoomHistory(accessCode, request);
         pairRoomHistoryService.createPairRoomHistory(accessCode, secondRequest);
+        final int timerRound = 2;
 
         // when
         final PairRoomHistoryReadResponse actual = pairRoomHistoryService.readLatestPairRoomHistory(accessCode);
@@ -79,7 +80,8 @@ class PairRoomHistoryServiceTest extends CascadeCleaner {
         assertAll(
                 () -> assertThat(actual.driver()).isEqualTo(secondRequest.driver()),
                 () -> assertThat(actual.navigator()).isEqualTo(secondRequest.navigator()),
-                // todo: 타이머 듀레이션, 라운드 검증 추가
+                () -> assertThat(actual.timerRound()).isEqualTo(timerRound),
+                () -> assertThat(actual.timerDuration()).isEqualTo(secondRequest.timerDuration()),
                 () -> assertThat(actual.timerRemainingTime()).isEqualTo(secondRequest.timerRemainingTime())
         );
     }

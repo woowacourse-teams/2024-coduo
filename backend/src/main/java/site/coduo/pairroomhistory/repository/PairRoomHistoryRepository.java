@@ -18,11 +18,14 @@ public interface PairRoomHistoryRepository extends JpaRepository<PairRoomHistory
 
     Optional<PairRoomHistoryEntity> findTopByPairRoomIdOrderByCreatedAtDesc(long pairRoomId);
 
+    boolean existsByPairRoomId(long pairRoomId);
+
     default void updateByPairRoomIdLatestTimerRemainingTime(long pairRoomId, long timerRemainingTime) {
         PairRoomHistoryEntity pairRoomHistoryEntity = fetchTopByPairRoomIdOrderByCreatedAtDesc(pairRoomId);
         updateByIdTimerRemainingTime(pairRoomHistoryEntity.getId(), timerRemainingTime);
     }
 
+    // todo: 이거 더티체킹으로 바꾸기
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("UPDATE PairRoomHistoryEntity prh SET prh.timerRemainingTime = :timerRemainingTime " +
            "WHERE prh.id = :id")
