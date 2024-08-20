@@ -16,9 +16,10 @@ class PairRoomTest {
         final String firstName = "first";
         final String secondName = "second";
         final Pair pair = new Pair(new PairName(firstName), new PairName(secondName));
+        final PairRoomStatus pairRoomStatus = PairRoomStatus.ONBOARDING;
 
         // when & then
-        assertThatCode(() -> new PairRoom(pair, ACCESS_CODE))
+        assertThatCode(() -> new PairRoom(pair, pairRoomStatus, new AccessCode("code")))
                 .doesNotThrowAnyException();
     }
 }

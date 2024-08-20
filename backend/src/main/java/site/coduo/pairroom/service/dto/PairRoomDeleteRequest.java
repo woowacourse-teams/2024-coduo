@@ -1,4 +1,4 @@
-package site.coduo.pairroom.dto;
+package site.coduo.pairroom.service.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
