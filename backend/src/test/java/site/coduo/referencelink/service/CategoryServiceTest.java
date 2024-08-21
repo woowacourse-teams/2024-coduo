@@ -64,10 +64,10 @@ class CategoryServiceTest extends CascadeCleaner {
         //when
         final CategoryCreateResponse createdCategory = categoryService.createCategory(ACCESS_CODE.getValue(),
                 new CategoryCreateRequest("자바"));
-        final List<CategoryReadResponse> categories = categoryService.findAllByPairRoomAccessCode(
-                ACCESS_CODE.getValue());
 
         //then
+        final List<CategoryReadResponse> categories = categoryService.findAllByPairRoomAccessCode(
+                ACCESS_CODE.getValue());
         assertThat(categories.stream().anyMatch(
                 category -> category.id().equals(createdCategory.id()) &&
                             category.value().equals(createdCategory.value())))
@@ -92,7 +92,6 @@ class CategoryServiceTest extends CascadeCleaner {
         //then
         final List<CategoryReadResponse> categories = categoryService.findAllByPairRoomAccessCode(
                 ACCESS_CODE.getValue());
-        //then
         assertThat(categories.stream().anyMatch(
                 category -> category.id().equals(createdCategory.id()) &&
                             category.value().equals(updatedCategory.updatedCategoryName())))
@@ -124,11 +123,10 @@ class CategoryServiceTest extends CascadeCleaner {
         pairRoomRepository.save(pairRoom1);
         pairRoomRepository.save(pairRoom2);
 
-        //when & then
         final CategoryCreateRequest categoryCreateRequest = new CategoryCreateRequest("자바");
+        categoryService.createCategory(pairRoom1.getAccessCode().getValue(), categoryCreateRequest);
 
-        assertThatCode(() -> categoryService.createCategory(pairRoom1.getAccessCode().getValue(),
-                categoryCreateRequest)).doesNotThrowAnyException();
+        //when & then
         assertThatCode(() -> categoryService.createCategory(pairRoom2.getAccessCode().getValue(),
                 categoryCreateRequest)).doesNotThrowAnyException();
     }
@@ -164,18 +162,15 @@ class CategoryServiceTest extends CascadeCleaner {
         final CategoryEntity savedCategory = categoryRepository.save(new CategoryEntity(pairRoom, category));
         final ReferenceLink referenceLink = new ReferenceLink(new URL("https://google.com"), ACCESS_CODE);
 
-        final ReferenceLinkEntity savedReferenceLink = referenceLinkRepository.save(
+        final ReferenceLinkEntity beforeDeleteCategory = referenceLinkRepository.save(
                 new ReferenceLinkEntity(referenceLink, savedCategory, pairRoom));
 
         //when
-        final ReferenceLinkEntity beforeDeleteCategory = referenceLinkRepository.findById(savedReferenceLink.getId())
-                .orElseThrow();
         categoryService.deleteCategory(ACCESS_CODE.getValue(), category.getValue());
 
         //then
-        final ReferenceLinkEntity afterDeleteCategory = referenceLinkRepository.findById(savedReferenceLink.getId())
+        final ReferenceLinkEntity afterDeleteCategory = referenceLinkRepository.findById(beforeDeleteCategory.getId())
                 .orElseThrow();
-
         assertThat(beforeDeleteCategory.getCategoryEntity()).isEqualTo(savedCategory);
         assertThat(afterDeleteCategory.getCategoryEntity()).isNull();
     }
