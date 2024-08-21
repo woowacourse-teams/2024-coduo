@@ -1,12 +1,16 @@
 import Button from '@/components/common/Button/Button';
 
-import { OPTIONS } from '@/constants/PairRoomOnboarding/step';
-
 import * as S from './ProgressBar.styles';
 
 interface ProgressBarProps {
   step: string;
 }
+
+const OPTIONS = [
+  { id: '1', label: '' },
+  { id: '1', label: '' },
+];
+//TODO: 추후에 제거 혹은 리팩토링
 
 const ProgressBar = ({ step }: ProgressBarProps) => (
   <S.Layout>
