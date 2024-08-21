@@ -38,7 +38,7 @@ export const Section = styled.section<{ $textAlign?: 'left' | 'center' | 'right'
   display: flex;
   flex-direction: row;
 
-  width: 90%;
+  width: 100%;
   border-radius: 1rem;
 
   text-align: ${({ $textAlign = 'left' }) => $textAlign};
