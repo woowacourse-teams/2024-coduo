@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { LogoIconWithTitle } from '@/assets';
-import validatePairName from '@/validations/common/validatePairName';
+import { validatePairName } from '@/validations/validatePairName';
 
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';

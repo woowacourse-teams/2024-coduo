@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
+import { validateTimerDuration } from '@/validations/validateTimerDuration';
+
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import InformationBox from '@/components/PairRoomOnboarding/InformationBox/InformationBox';
-
-import { validateTime } from '@/utils/PairRoomOnboarding/validate';
 
 import * as S from './TimerDurationInput.styles';
 
@@ -71,8 +71,8 @@ const TimerDurationInput = ({ timerDuration, onTimerDuration }: TimerDurationInp
               $css={S.inputStyles}
               value={timerDuration}
               placeholder="타이머 시간 (분)"
-              status={!validateTime(timerDuration) ? 'ERROR' : 'DEFAULT'}
-              message={!validateTime(timerDuration) ? '0 이상의 숫자를 입력해 주세요.' : ''}
+              status={!validateTimerDuration(timerDuration) ? 'ERROR' : 'DEFAULT'}
+              message={!validateTimerDuration(timerDuration) ? '0 이상의 숫자를 입력해 주세요.' : ''}
               disabled={!isCustom}
               onChange={handleCustomTime}
             />

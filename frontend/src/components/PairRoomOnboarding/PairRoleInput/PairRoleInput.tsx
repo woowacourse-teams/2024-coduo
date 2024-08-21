@@ -1,7 +1,7 @@
-import type { Role } from '@/pages/PairRoomOnboarding/PairRoomOnboarding.type';
-
 import Dropdown from '@/components/common/Dropdown/Dropdown/Dropdown';
 import InformationBox from '@/components/PairRoomOnboarding/InformationBox/InformationBox';
+
+import type { Role } from '@/hooks/PairRoomOnboarding/usePairRoomInformation';
 
 import * as S from './PairRoleInput.styles';
 
