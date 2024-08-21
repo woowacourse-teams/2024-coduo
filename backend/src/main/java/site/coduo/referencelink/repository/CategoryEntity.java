@@ -60,4 +60,13 @@ public class CategoryEntity extends BaseTimeEntity {
     public int hashCode() {
         return Objects.hashCode(getId());
     }
+
+    @Override
+    public String toString() {
+        return "CategoryEntity{" +
+               "id=" + id +
+               ", categoryName='" + categoryName + '\'' +
+               ", pairRoom=" + pairRoom +
+               '}';
+    }
 }
