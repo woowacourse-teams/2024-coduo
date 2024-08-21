@@ -23,16 +23,15 @@ interface Repository {
 }
 
 const MissionSelectInput = ({ onCreateBranch }: MissionSelectInputProps) => {
-  const { repositories, isFetching } = useGetRepositories();
-
-  const [currentRepo, setCurrentRepo] = useState('');
-
-  const handleSelectMission = (currentRepo: string) => {
-    setCurrentRepo(currentRepo);
-    openModal();
-  };
+  const [currentRepository, setCurrentRepository] = useState('');
 
   const { isModalOpen, closeModal, openModal } = useModal();
+  const { repositories, isFetching } = useGetRepositories();
+
+  const handleSelectRepository = (currentRepository: string) => {
+    setCurrentRepository(currentRepository);
+    openModal();
+  };
 
   return (
     <S.Layout>
@@ -46,9 +45,9 @@ const MissionSelectInput = ({ onCreateBranch }: MissionSelectInputProps) => {
           description="미션을 선택하고 해당 미션 레포지토리에 원하는 이름으로 브랜치를 생성하세요. 생성된 브랜치로 이동하여 미션 코드를 관리할 수 있습니다."
         />
       </S.HeaderContainer>
-      <S.Repositories>
+      <S.RepositoryContainer>
         {isFetching ? (
-          <Spinner />
+          <Spinner size="sm" />
         ) : (
           repositories.map((repository: Repository) => {
             return (
@@ -56,17 +55,17 @@ const MissionSelectInput = ({ onCreateBranch }: MissionSelectInputProps) => {
                 key={repository.id}
                 name={repository.name}
                 id={repository.id}
-                onSelect={handleSelectMission}
+                onSelect={handleSelectRepository}
               />
             );
           })
         )}
-      </S.Repositories>
+      </S.RepositoryContainer>
       <CreateBranchModal
-        currentRepo={currentRepo}
-        onComplete={(branchName: string) => onCreateBranch(currentRepo, branchName)}
         isOpen={isModalOpen}
         close={closeModal}
+        currentRepository={currentRepository}
+        onComplete={(branchName: string) => onCreateBranch(currentRepository, branchName)}
       />
     </S.Layout>
   );

@@ -30,9 +30,11 @@ export const HeaderContainer = styled.div`
   gap: 2rem;
 `;
 
-export const Repositories = styled.div`
+export const RepositoryContainer = styled.div`
   display: flex;
-  gap: 2rem;
+  flex-wrap: wrap;
+
+  gap: 3rem;
 
   width: 100%;
 `;
