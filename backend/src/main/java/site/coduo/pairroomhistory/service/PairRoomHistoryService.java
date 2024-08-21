@@ -8,11 +8,10 @@ import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.pairroomhistory.domain.PairRoomHistory;
 import site.coduo.pairroomhistory.domain.Timer;
-import site.coduo.pairroomhistory.service.dto.PairRoomHistoryCreateRequest;
-import site.coduo.pairroomhistory.service.dto.PairRoomHistoryReadResponse;
-import site.coduo.pairroomhistory.service.dto.PairRoomHistoryUpdateRequest;
 import site.coduo.pairroomhistory.repository.PairRoomHistoryEntity;
 import site.coduo.pairroomhistory.repository.PairRoomHistoryRepository;
+import site.coduo.pairroomhistory.service.dto.PairRoomHistoryCreateRequest;
+import site.coduo.pairroomhistory.service.dto.PairRoomHistoryReadResponse;
 
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -53,15 +52,28 @@ public class PairRoomHistoryService {
     }
 
     @Transactional
-    public void updateTimerRemainingTimeHistory(final String accessCode, final PairRoomHistoryUpdateRequest request) {
+    public void updateTimerRemainingTime(final String accessCode, final long newTimerRemainingTime) {
         final PairRoom pairRoom = pairRoomService.findByAccessCode(accessCode);
         final PairRoomHistoryEntity pairRoomHistoryEntity = pairRoomHistoryRepository
                 .fetchTopByPairRoomIdOrderByCreatedAtDesc(pairRoom.getId());
         final Timer newTimer = new Timer(
                 pairRoomHistoryEntity.getTimerRound(),
                 pairRoomHistoryEntity.getTimerDuration(),
-                request.timerRemainingTime()
+                newTimerRemainingTime
         );
         pairRoomHistoryEntity.updateTimerRemainingTime(newTimer.getTimerRemainingTime());
+    }
+
+    @Transactional
+    public void updateTimerDuration(final String accessCode, final long newTimerDuration) {
+        final PairRoom pairRoom = pairRoomService.findByAccessCode(accessCode);
+        final PairRoomHistoryEntity pairRoomHistoryEntity = pairRoomHistoryRepository
+                .fetchTopByPairRoomIdOrderByCreatedAtDesc(pairRoom.getId());
+        final Timer newTimer = new Timer(
+                pairRoomHistoryEntity.getTimerRound(),
+                newTimerDuration,
+                pairRoomHistoryEntity.getTimerRemainingTime()
+        );
+        pairRoomHistoryEntity.updateTimerDuration(newTimer.getTimerDuration());
     }
 }

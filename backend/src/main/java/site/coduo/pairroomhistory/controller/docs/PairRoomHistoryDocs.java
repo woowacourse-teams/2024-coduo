@@ -12,7 +12,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import site.coduo.common.controller.response.ApiErrorResponse;
 import site.coduo.pairroomhistory.service.dto.PairRoomHistoryCreateRequest;
 import site.coduo.pairroomhistory.service.dto.PairRoomHistoryReadResponse;
-import site.coduo.pairroomhistory.service.dto.PairRoomHistoryUpdateRequest;
+import site.coduo.pairroomhistory.service.dto.PairRoomHistoryTimerDurationUpdateRequest;
+import site.coduo.pairroomhistory.service.dto.PairRoomHistoryTimerRemainingTimeUpdateRequest;
 
 @Tag(name = "페어룸 히스토리 API")
 public interface PairRoomHistoryDocs {
@@ -32,7 +33,16 @@ public interface PairRoomHistoryDocs {
     ResponseEntity<Void> updateTimerRemainingTime(
             String accessCode,
             @Parameter(description = "페어룸 히스토리 타이머 남은 시간 업데이트 요청", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE), required = true)
-            PairRoomHistoryUpdateRequest request
+            PairRoomHistoryTimerRemainingTimeUpdateRequest request
+    );
+
+    @Operation(summary = "최신 페어룸 히스토리의 타이머 시간을 업데이트한다.")
+    @ApiResponse(responseCode = "204", description = "페어룸 히스토리 타이머 시간 업데이트 성공", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+    @ApiResponse(responseCode = "4xx", description = "페어룸 히스토리 타이머 시간 업데이트 실패", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class)))
+    ResponseEntity<Void> updateTimerDuration(
+            String accessCode,
+            @Parameter(description = "페어룸 히스토리 시간 업데이트 요청", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE), required = true)
+            PairRoomHistoryTimerDurationUpdateRequest request
     );
 
     @Operation(summary = "최신 페어룸 히스토리를 조회한다.")

@@ -51,8 +51,8 @@ class PairRoomHistoryServiceTest extends CascadeCleaner {
                 .doesNotThrowAnyException();
     }
 
-    @DisplayName("페어룸 히스토리 중 가장 최근 히스토리를 반환한다.")
     @Test
+    @DisplayName("페어룸 히스토리 중 가장 최근 히스토리를 반환한다.")
     void get_latest_pair_room_history() {
         // given
         final String accessCode = pairRoomService
@@ -84,5 +84,51 @@ class PairRoomHistoryServiceTest extends CascadeCleaner {
                 () -> assertThat(actual.timerDuration()).isEqualTo(secondRequest.timerDuration()),
                 () -> assertThat(actual.timerRemainingTime()).isEqualTo(secondRequest.timerRemainingTime())
         );
+    }
+
+    @Test
+    @DisplayName("페어룸 히스토리의 타이머 남은 시간을 업데이트 한다.")
+    void update_timer_remaining_time() {
+        // given
+        final String accessCode = pairRoomService
+                .save(new PairRoomCreateRequest("잉크", "레디", PairRoomStatus.IN_PROGRESS.name()));
+        final PairRoomHistoryCreateRequest request = new PairRoomHistoryCreateRequest(
+                "잉크",
+                "레디",
+                900000,
+                600000
+        );
+        pairRoomHistoryService.createPairRoomHistory(accessCode, request);
+        final long newTimerRemainingTime = 300000;
+
+        // when
+        pairRoomHistoryService.updateTimerRemainingTime(accessCode, newTimerRemainingTime);
+        final PairRoomHistoryReadResponse actual = pairRoomHistoryService.readLatestPairRoomHistory(accessCode);
+
+        // then
+        assertThat(actual.timerRemainingTime()).isEqualTo(newTimerRemainingTime);
+    }
+
+    @Test
+    @DisplayName("페어룸 히스토리의 타이머 시간을 업데이트 한다.")
+    void update_timer_duration() {
+        // given
+        final String accessCode = pairRoomService
+                .save(new PairRoomCreateRequest("잉크", "레디", PairRoomStatus.IN_PROGRESS.name()));
+        final PairRoomHistoryCreateRequest request = new PairRoomHistoryCreateRequest(
+                "잉크",
+                "레디",
+                900000,
+                600000
+        );
+        pairRoomHistoryService.createPairRoomHistory(accessCode, request);
+        final long newTimerDuration = 9500000;
+
+        // when
+        pairRoomHistoryService.updateTimerDuration(accessCode, newTimerDuration);
+        final PairRoomHistoryReadResponse actual = pairRoomHistoryService.readLatestPairRoomHistory(accessCode);
+
+        // then
+        assertThat(actual.timerDuration()).isEqualTo(newTimerDuration);
     }
 }

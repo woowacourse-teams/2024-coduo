@@ -64,6 +64,10 @@ public class PairRoomHistoryEntity extends BaseTimeEntity {
         this.timerRemainingTime = timerRemainingTime;
     }
 
+    public void updateTimerDuration(final long timerDuration) {
+        this.timerDuration = timerDuration;
+    }
+
     public PairRoomHistory toDomain() {
         return PairRoomHistory.builder()
                 .pairRoom(pairRoom)

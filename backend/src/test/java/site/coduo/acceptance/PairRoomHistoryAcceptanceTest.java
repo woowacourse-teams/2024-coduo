@@ -9,7 +9,8 @@ import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
 import site.coduo.pairroomhistory.service.dto.PairRoomHistoryCreateRequest;
-import site.coduo.pairroomhistory.service.dto.PairRoomHistoryUpdateRequest;
+import site.coduo.pairroomhistory.service.dto.PairRoomHistoryTimerDurationUpdateRequest;
+import site.coduo.pairroomhistory.service.dto.PairRoomHistoryTimerRemainingTimeUpdateRequest;
 
 class PairRoomHistoryAcceptanceTest extends AcceptanceFixture {
 
@@ -135,7 +136,7 @@ class PairRoomHistoryAcceptanceTest extends AcceptanceFixture {
         RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(new PairRoomHistoryUpdateRequest(newTimerRemainingTime))
+                .body(new PairRoomHistoryTimerRemainingTimeUpdateRequest(newTimerRemainingTime))
 
                 .when()
                 .patch("/api/{accessCode}/history/latest/timer-remaining-time", accessCode)
@@ -143,4 +144,47 @@ class PairRoomHistoryAcceptanceTest extends AcceptanceFixture {
                 .then()
                 .statusCode(204);
     }
+
+    @Test
+    @DisplayName("페어룸의 타이머 시간을 업데이트 한다.")
+    void update_timer_duration() {
+        // given
+        final String accessCode = createPairRoom(new PairRoomCreateRequest(
+                "해시",
+                "파슬리",
+                PairRoomStatus.IN_PROGRESS.name())
+        );
+        savePairRoomHistory(
+                accessCode,
+                new PairRoomHistoryCreateRequest(
+                        "해시",
+                        "파슬리",
+                        90000,
+                        60000
+                )
+        );
+        savePairRoomHistory(
+                accessCode,
+                new PairRoomHistoryCreateRequest(
+                        "파슬리",
+                        "해시",
+                        90000,
+                        30000
+                )
+        );
+        final long newTimerDuration = 1235000;
+
+        // when & then
+        RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(new PairRoomHistoryTimerDurationUpdateRequest(newTimerDuration))
+
+                .when()
+                .patch("/api/{accessCode}/history/latest/timer-duration", accessCode)
+
+                .then()
+                .statusCode(204);
+    }
+
 }
