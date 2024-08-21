@@ -2,8 +2,20 @@ import { RiArrowDropDownLine } from 'react-icons/ri';
 import styled from 'styled-components';
 
 import Button from '@/components/common/Button/Button';
+import { Direction } from '@/components/common/Dropdown/Dropdown/Dropdown';
 
-export const Layout = styled.div<{ $width: string }>`
+const getDirection = {
+  lower: {
+    open: 180,
+    close: 0,
+  },
+  upper: {
+    open: 0,
+    close: 180,
+  },
+};
+
+export const Layout = styled.div<{ $width: string; $height: string }>`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -19,7 +31,7 @@ export const Layout = styled.div<{ $width: string }>`
     align-items: center;
 
     width: 100%;
-    height: 4.8rem;
+    height: ${({ $height }) => $height};
     padding: 1rem;
     padding-left: 1.7rem;
     border-radius: 0.8rem;
@@ -48,16 +60,24 @@ export const OpenButton = styled(Button)<{ $isSelected: boolean; $isOpen: boolea
   color: ${({ $isSelected, theme }) => ($isSelected ? theme.color.primary[700] : theme.color.black[50])};
 `;
 
-export const Icon = styled(RiArrowDropDownLine)<{ $isOpen: boolean }>`
-  transform: rotate(${({ $isOpen }) => ($isOpen ? 180 : 0)}deg);
+export const Icon = styled(RiArrowDropDownLine)<{ $isOpen: boolean; $direction: Direction }>`
+  transform: rotate(${({ $isOpen, $direction }) => getDirection[$direction][$isOpen ? 'open' : 'close']}deg);
   transition: transform 0.2s ease-in-out;
 `;
 
-export const ItemList = styled.ul<{ $width: string }>`
+export const DropdownContainer = styled.div<{ $direction: Direction }>`
+  display: flex;
+  flex-direction: ${({ $direction }) => ($direction === 'lower' ? 'column' : 'column-reverse')};
+`;
+
+export const ItemList = styled.ul<{ $width: string; $height: string; $direction: Direction }>`
+  display: flex;
+  flex-direction: ${({ $direction }) => ($direction === 'lower' ? 'column' : 'column-reverse')};
   overflow-y: auto;
 
   position: absolute;
-  top: calc(100% + 1rem);
+  top: ${({ $direction }) => ($direction === 'lower' ? '5rem' : '')};
+  bottom: ${({ $direction }) => ($direction === 'lower' ? '' : '5rem')};
   left: 0;
   z-index: 1000;
 

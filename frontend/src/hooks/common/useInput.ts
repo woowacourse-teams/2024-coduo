@@ -21,7 +21,11 @@ const useInput = (initialValue: string = '') => {
     setValue(event.target.value);
   };
 
-  const resetValue = () => setValue(initialValue);
+  const resetValue = () => {
+    setValue(initialValue);
+    setStatus('DEFAULT');
+    setMessage('');
+  };
 
   return { value, status, message, handleChange, resetValue } as const;
 };

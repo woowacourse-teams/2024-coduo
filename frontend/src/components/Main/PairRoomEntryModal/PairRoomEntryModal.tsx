@@ -8,7 +8,7 @@ import useToastStore from '@/stores/toastStore';
 
 import useInput from '@/hooks/common/useInput';
 
-import useGetPairRoomInformation from '@/queries/PairRoom/useGetPairRoomInformation';
+import useGetPairRoomInformation from '@/queries/PairRoomOnboarding/useGetPairRoomInformation';
 
 import { BUTTON_TEXT } from '@/constants/button';
 

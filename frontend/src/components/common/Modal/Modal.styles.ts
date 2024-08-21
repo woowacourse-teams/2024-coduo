@@ -80,12 +80,12 @@ const positionMapper = {
   BOTTOM: css`
     max-height: 90vh;
     margin: 0;
-    border-radius: 4rem 4rem 0 0;
+    border-radius: 2rem 2rem 0 0;
   `,
   CENTER: css`
     max-height: 70vh;
     margin: 0 3rem;
-    border-radius: 4rem;
+    border-radius: 2rem;
   `,
 };
 

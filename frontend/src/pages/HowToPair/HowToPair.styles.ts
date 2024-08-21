@@ -1,66 +1,101 @@
 import styled from 'styled-components';
 
+import { Wave } from '@/assets';
+
 export const Layout = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16rem;
+  overflow-x: hidden;
+
   position: relative;
 
-  padding: 4rem;
+  padding: 16rem 4rem;
 
   color: ${({ theme }) => theme.color.black[80]};
   line-height: 1.2;
+
+  &::before,
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+
+    width: 100%;
+    height: 100%;
+
+    background: url(${Wave}) repeat-y;
+    opacity: 0.5;
+    content: '';
+    background-size: cover;
+  }
 `;
 
-export const Title = styled.h1`
-  padding: 1rem 0;
+export const Section = styled.section<{ $textAlign?: 'left' | 'center' | 'right' }>`
+  display: flex;
+  flex-direction: row;
 
-  color: ${({ theme }) => theme.color.primary[800]};
-  font-size: ${({ theme }) => theme.fontSize.h2};
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  width: 100%;
+  border-radius: 1rem;
+
+  text-align: ${({ $textAlign = 'left' }) => $textAlign};
 `;
 
-export const Section = styled.section`
-  padding: 1.2rem 2rem;
+export const TextBoxContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 5rem;
+
+  & > * {
+    flex-basis: 0;
+
+    flex-grow: 1;
+  }
+`;
+
+export const TextBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  padding: 2rem 4rem;
+  border-radius: 3rem;
+
+  background-color: #ffeeb4;
+`;
+
+export const SectionText = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  width: 100%;
 `;
 
 export const SectionTitle = styled.h2`
-  color: ${({ theme }) => theme.color.primary[700]};
-  font-size: ${({ theme }) => theme.fontSize.h3};
-  font-weight: ${({ theme }) => theme.fontWeight.semibold};
+  margin: 5rem 0;
+
+  color: ${({ theme }) => theme.color.primary[800]};
+  font-size: ${({ theme }) => theme.fontSize.h1};
+  font-weight: ${({ theme }) => theme.fontWeight.extraBold};
 `;
 
 export const Paragraph = styled.p`
   margin: 1rem 0;
 
-  color: ${({ theme }) => theme.color.primary[800]};
-  font-size: ${({ theme }) => theme.fontSize.base};
+  color: ${({ theme }) => theme.color.black[80]};
+  font-size: ${({ theme }) => theme.fontSize.h6};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
   line-height: 2;
-`;
-
-export const List = styled.ul`
-  padding: 2rem 0;
-
-  font-size: ${({ theme }) => theme.fontSize.base};
-  list-style-type: none;
-`;
-
-export const ListItem = styled.li`
-  position: relative;
-
-  margin-bottom: 0.5rem;
-  padding-left: 1.5rem;
-
-  &::before {
-    content: '•';
-
-    position: absolute;
-    left: 0;
-
-    color: ${({ theme }) => theme.color.primary[800]};
-  }
 `;
 
 export const Strong = styled.strong`
   color: ${({ theme }) => theme.color.primary[700]};
-  font-weight: ${({ theme }) => theme.fontWeight.bold};
+  font-size: ${({ theme }) => theme.fontSize.h4};
+  font-weight: ${({ theme }) => theme.fontWeight.extraBold};
 `;
 
 export const Conclusion = styled.p`
@@ -69,7 +104,18 @@ export const Conclusion = styled.p`
 
   color: ${({ theme }) => theme.color.primary[800]};
   font-style: italic;
-  font-size: ${({ theme }) => theme.fontSize.base};
+  font-size: ${({ theme }) => theme.fontSize.h5};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
+  line-height: 1.5;
+  text-align: center;
+`;
 
-  border-left: 4px solid ${({ theme }) => theme.color.primary[300]};
+export const Character = styled.img<{ $right?: string; $bottom?: string; $left?: string }>`
+  position: relative;
+  right: ${({ $right }) => $right};
+  bottom: ${({ $bottom }) => $bottom};
+  left: ${({ $left }) => $left};
+
+  width: 36rem;
+  height: 36rem;
 `;

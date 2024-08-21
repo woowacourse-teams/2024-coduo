@@ -29,6 +29,7 @@ export const List = styled.ul`
 export const EmptyLayout = styled.div`
   flex-grow: 1;
 
+  height: 0;
   padding: 2rem;
 
   color: ${({ theme }) => theme.color.black[60]};
