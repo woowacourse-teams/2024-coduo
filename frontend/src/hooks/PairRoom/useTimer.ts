@@ -4,6 +4,7 @@ import { AlarmSound } from '@/assets';
 
 import useNotification from '@/hooks/common/useNotification';
 
+
 const useTimer = (defaultTime: number, onStop: () => void) => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const alarmAudio = useRef(new Audio(AlarmSound));
@@ -13,7 +14,6 @@ const useTimer = (defaultTime: number, onStop: () => void) => {
   const [startTime, setStartTime] = useState<number | null>(null);
 
   const { fireNotification } = useNotification();
-
   const initializeTimer = () => {
     setTimeLeft(defaultTime);
     setStartTime(null);
