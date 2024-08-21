@@ -6,12 +6,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import site.coduo.pairroom.dto.PairRoomCreateRequest;
-import site.coduo.pairroom.dto.PairRoomCreateResponse;
-import site.coduo.pairroom.dto.PairRoomDeleteRequest;
-import site.coduo.pairroom.dto.PairRoomReadRequest;
-import site.coduo.pairroom.dto.PairRoomReadResponse;
-import site.coduo.pairroom.dto.TimerDurationCreateRequest;
+import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
+import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
+import site.coduo.pairroom.service.dto.PairRoomReadRequest;
+import site.coduo.pairroom.service.dto.PairRoomReadResponse;
+import site.coduo.pairroom.service.dto.PairRoomStatusUpdateRequest;
 
 @Tag(name = "페어룸 API")
 public interface PairRoomDocs {
@@ -30,20 +29,12 @@ public interface PairRoomDocs {
             PairRoomCreateRequest pairRoomCreateRequest
     );
 
-    @Operation(summary = "타이머 시간을 저장한다.")
-    @ApiResponse(responseCode = "201", description = "타이머 시간 저장 성공")
-    ResponseEntity<Void> updateTimerDuration(
+    @Operation(summary = "페어룸의 상태를 변경한다.")
+    @ApiResponse(responseCode = "204", description = "페어룸 상태 변경 성공")
+    ResponseEntity<Void> updatePairRoomStatus(
             @Parameter(description = "페어룸 접근 코드", required = true)
             String accessCode,
-
-            @Parameter(description = "타이머 시간 저장 요청 바디", required = true)
-            TimerDurationCreateRequest request
-    );
-
-    @Operation(summary = "페어룸을 삭제한다.")
-    @ApiResponse(responseCode = "204", description = "페어룸 삭제 성공")
-    @ApiResponse(responseCode = "404", description = "페어룸 삭제 실패")
-    ResponseEntity<Void> deletePairRoom(
-            @Parameter(description = "페어룸 접근 코드", required = true) PairRoomDeleteRequest request
+            @Parameter(description = "변경할 페어룸 상태", required = true)
+            PairRoomStatusUpdateRequest request
     );
 }

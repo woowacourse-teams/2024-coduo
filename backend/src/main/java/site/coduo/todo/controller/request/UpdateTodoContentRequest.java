@@ -1,4 +1,6 @@
 package site.coduo.todo.controller.request;
 
-public record UpdateTodoContentRequest(String content) {
+import jakarta.validation.Valid;
+
+public record UpdateTodoContentRequest(@Valid String content) {
 }

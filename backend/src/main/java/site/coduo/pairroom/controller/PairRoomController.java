@@ -5,7 +5,6 @@ import java.net.URI;
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,13 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.pairroom.controller.docs.PairRoomDocs;
-import site.coduo.pairroom.dto.PairRoomCreateRequest;
-import site.coduo.pairroom.dto.PairRoomCreateResponse;
-import site.coduo.pairroom.dto.PairRoomDeleteRequest;
-import site.coduo.pairroom.dto.PairRoomReadRequest;
-import site.coduo.pairroom.dto.PairRoomReadResponse;
-import site.coduo.pairroom.dto.TimerDurationCreateRequest;
 import site.coduo.pairroom.service.PairRoomService;
+import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
+import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
+import site.coduo.pairroom.service.dto.PairRoomReadRequest;
+import site.coduo.pairroom.service.dto.PairRoomReadResponse;
+import site.coduo.pairroom.service.dto.PairRoomStatusUpdateRequest;
 
 @RequiredArgsConstructor
 @RestController
@@ -34,20 +32,20 @@ public class PairRoomController implements PairRoomDocs {
             @Valid @RequestBody final PairRoomCreateRequest request
     ) {
         final PairRoomCreateResponse response = new PairRoomCreateResponse(
-                pairRoomService.savePairNameAndAccessCode(request));
+                pairRoomService.save(request));
 
         return ResponseEntity.created(URI.create("/"))
                 .body(response);
     }
 
-    @PatchMapping("/pair-room/{accessCode}/timer")
-    public ResponseEntity<Void> updateTimerDuration(
+    @PatchMapping("/pair-room/{accessCode}/status")
+    public ResponseEntity<Void> updatePairRoomStatus(
             @PathVariable("accessCode") final String accessCode,
-            @Valid @RequestBody final TimerDurationCreateRequest request
+            @Valid @RequestBody final PairRoomStatusUpdateRequest request
     ) {
-        pairRoomService.saveTimerDuration(accessCode, request);
+        pairRoomService.updatePairRoomStatus(accessCode, request.status());
 
-        return ResponseEntity.created(URI.create("/"))
+        return ResponseEntity.noContent()
                 .build();
     }
 
@@ -59,15 +57,5 @@ public class PairRoomController implements PairRoomDocs {
                 pairRoomService.findByAccessCode(request.accessCode()));
 
         return ResponseEntity.ok(response);
-    }
-
-    @DeleteMapping("/pair-room/{accessCode}")
-    public ResponseEntity<Void> deletePairRoom(
-            @Valid @PathVariable("accessCode") final PairRoomDeleteRequest request
-    ) {
-        pairRoomService.deletePairRoom(request.accessCode());
-
-        return ResponseEntity.noContent()
-                .build();
     }
 }

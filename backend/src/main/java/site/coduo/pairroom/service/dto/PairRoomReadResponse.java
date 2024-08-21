@@ -1,4 +1,4 @@
-package site.coduo.pairroom.dto;
+package site.coduo.pairroom.service.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import site.coduo.pairroom.domain.PairRoom;
@@ -14,8 +14,8 @@ public record PairRoomReadResponse(
         @Schema(description = "두 번째 페어의 이름", example = "파슬리")
         String secondPair,
 
-        @Schema(description = "타이머 시간. millisecond 기준으로 저장한다. 만약 타이머 시간이 저장되지 않았다면 null이 반환된다.", example = "60000")
-        Long timerDuration
+        @Schema(description = "페어룸의 상태", example = "IN_PROGRESS")
+        String status
 ) {
 
     public static PairRoomReadResponse from(final PairRoom pairRoom) {
@@ -23,7 +23,7 @@ public record PairRoomReadResponse(
                 pairRoom.getId(),
                 pairRoom.getPair().getFirstPair().getValue(),
                 pairRoom.getPair().getSecondPair().getValue(),
-                pairRoom.getTimerDuration()
+                pairRoom.getStatus().name()
         );
     }
 }

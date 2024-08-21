@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 
 @SpringBootTest
@@ -27,7 +28,7 @@ class PairRoomRepositoryTest {
     void search_persistence_by_access_code_exists_case() {
         // given
         final Pair pair = new Pair(new PairName("hello"), new PairName("world"));
-        final PairRoom pairRoom = new PairRoom(pair, new AccessCode("code"));
+        final PairRoom pairRoom = new PairRoom(pair, PairRoomStatus.IN_PROGRESS, new AccessCode("code"));
         pairRoomRepository.save(pairRoom);
 
         // when
@@ -42,7 +43,7 @@ class PairRoomRepositoryTest {
     void search_persistence_by_access_code_not_exists_case() {
         // given
         final Pair pair = new Pair(new PairName("hello"), new PairName("world"));
-        final PairRoom pairRoom = new PairRoom(pair, new AccessCode("code"));
+        final PairRoom pairRoom = new PairRoom(pair, PairRoomStatus.IN_PROGRESS, new AccessCode("code"));
 
         // when
         final Optional<PairRoom> persistence = pairRoomRepository.findByAccessCode(pairRoom.getAccessCode());

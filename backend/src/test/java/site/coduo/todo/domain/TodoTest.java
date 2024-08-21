@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.todo.exception.InvalidTodoArgumentException;
 
@@ -25,6 +26,7 @@ class TodoTest {
         final Long id = 1L;
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
+                PairRoomStatus.IN_PROGRESS,
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -68,6 +70,7 @@ class TodoTest {
         final Long id = 1L;
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
+                PairRoomStatus.IN_PROGRESS,
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -94,6 +97,7 @@ class TodoTest {
         final Long id = 1L;
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
+                PairRoomStatus.IN_PROGRESS,
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -117,6 +121,7 @@ class TodoTest {
         // Given
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
+                PairRoomStatus.IN_PROGRESS,
                 new AccessCode("ACCESS-CODE")
         );
         final Todo todo = new Todo(

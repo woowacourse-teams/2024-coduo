@@ -8,8 +8,10 @@ import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.restassured.RestAssured;
-import site.coduo.pairroom.dto.PairRoomCreateRequest;
-import site.coduo.pairroom.dto.PairRoomCreateResponse;
+import io.restassured.http.ContentType;
+import site.coduo.pairroom.domain.PairRoomStatus;
+import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
+import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
 
 @Transactional
 class PairRoomAcceptanceTest extends AcceptanceFixture {
@@ -29,31 +31,12 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .as(PairRoomCreateResponse.class);
     }
 
-    static void createTimerDuration(final String accessCode, final long timerDuration) {
-        final Map<String, Object> request = Map.of("timerDuration", timerDuration);
-
-        RestAssured
-                .given()
-                .log()
-                .all()
-                .contentType("application/json")
-                .body(request)
-
-                .when()
-                .patch("/api/pair-room/{accessCode}/timer", accessCode)
-
-                .then()
-                .log()
-                .all()
-                .statusCode(201);
-    }
-
     @Test
     @DisplayName("페어룸 요청 시 정보를 반환한다.")
     void show_pair_room() {
         //given
-        final PairRoomCreateResponse pairRoomUrl = createPairRoom(new PairRoomCreateRequest("레디", "프람"));
-        createTimerDuration(pairRoomUrl.accessCode(), 600000);
+        final PairRoomCreateResponse pairRoomUrl =
+                createPairRoom(new PairRoomCreateRequest("레디", "프람", "IN_PROGRESS"));
 
         //when & then
         RestAssured
@@ -72,67 +55,27 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     }
 
     @Test
-    @DisplayName("타이머 시간을 저장한다.")
-    void save_timer_duration() {
-        // given
-        final PairRoomCreateResponse pairRoomUrl = createPairRoom(new PairRoomCreateRequest("레디", "프람"));
-        final Map<String, Object> request = Map.of("timerDuration", 600000);
+    @DisplayName("페어룸의 상태를 변경한다.")
+    void update_pair_room_status() {
+        //given
+        final PairRoomCreateResponse accessCode =
+                createPairRoom(new PairRoomCreateRequest("레디", "프람", "IN_PROGRESS"));
+        final Map<String, String> status = Map.of("status", PairRoomStatus.IN_PROGRESS.name());
 
         // when & then
         RestAssured
                 .given()
                 .log()
                 .all()
-                .contentType("application/json")
-                .body(request)
+                .contentType(ContentType.JSON)
+                .body(status)
 
                 .when()
-                .patch("/api/pair-room/{accessCode}/timer", pairRoomUrl.accessCode())
-
-                .then()
-                .log()
-                .all()
-                .statusCode(201);
-    }
-
-    @Test
-    @DisplayName("페어룸을 삭제한다.")
-    void delete_pair_room() {
-        //given
-        final PairRoomCreateResponse pairRoomUrl = createPairRoom(new PairRoomCreateRequest("레디", "프람"));
-
-        //when & then
-        RestAssured
-                .given()
-                .log()
-                .all()
-                .contentType("application/json")
-
-                .when()
-                .delete("/api/pair-room/" + pairRoomUrl.accessCode())
+                .patch("/api/pair-room/{accessCode}/status", accessCode.accessCode())
 
                 .then()
                 .log()
                 .all()
                 .statusCode(204);
-    }
-
-    @Test
-    @DisplayName("존재하지 않은 accessCode로 페어룸 삭제시 실패한다.")
-    void fail_delete_pair_room() {
-        //when & then
-        RestAssured
-                .given()
-                .log()
-                .all()
-                .contentType("application/json")
-
-                .when()
-                .delete("/api/pair-room/" + "zzzzzz")
-
-                .then()
-                .log()
-                .all()
-                .statusCode(404);
     }
 }
