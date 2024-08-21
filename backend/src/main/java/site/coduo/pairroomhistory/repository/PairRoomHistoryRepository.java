@@ -8,7 +8,7 @@ import site.coduo.pairroomhistory.exception.PairRoomHistoryNotFoundException;
 
 public interface PairRoomHistoryRepository extends JpaRepository<PairRoomHistoryEntity, Long> {
 
-    default PairRoomHistoryEntity fetchTopByPairRoomIdOrderByCreatedAtDesc(long pairRoomId) {
+    default PairRoomHistoryEntity fetchLatestHistoryByPairRoomId(long pairRoomId) {
         return findTopByPairRoomIdOrderByCreatedAtDesc(pairRoomId)
                 .orElseThrow(() -> new PairRoomHistoryNotFoundException("해당 페어룸의 히스토리가 존재하지 않습니다."));
     }

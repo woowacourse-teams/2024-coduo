@@ -20,6 +20,10 @@ public class Timer {
         this.timerRemainingTime = timerRemainingTime;
     }
 
+    public Timer(long timerDuration, long timerRemainingTime) {
+        this(FIRST_ROUND, timerDuration, timerRemainingTime);
+    }
+
     private void validateTime(long timerDuration, long timerRemainingTime) {
         if (timerDuration < 0 || timerRemainingTime < 0) {
             throw new InvalidTimerException("타이머 시간과 남은 시간은 0 이상이어야 합니다.");
@@ -28,10 +32,6 @@ public class Timer {
         if (timerDuration < timerRemainingTime) {
             throw new InvalidTimerException("타이머 시간은 남은 시간보다 작을 수 없습니다.");
         }
-    }
-
-    public static Timer of(long timerDuration, long timerRemainingTime) {
-        return new Timer(FIRST_ROUND, timerDuration, timerRemainingTime);
     }
 
     public Timer increaseTimerRound() {

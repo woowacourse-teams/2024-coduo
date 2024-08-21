@@ -49,7 +49,7 @@ class PairRoomHistoryRepositoryTest {
 
         // when
         final PairRoomHistoryEntity actual = pairRoomHistoryRepository
-                .fetchTopByPairRoomIdOrderByCreatedAtDesc(pairRoom.getId());
+                .fetchLatestHistoryByPairRoomId(pairRoom.getId());
 
         // then
         assertThat(actual)

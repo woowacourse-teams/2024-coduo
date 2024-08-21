@@ -37,17 +37,17 @@ public class PairRoomHistoryService {
     private Timer setUpTimer(final long pairRoomId, final long timerDuration, final long timerRemainingTime) {
         if (pairRoomHistoryRepository.existsByPairRoomId(pairRoomId)) {
             final int latestTimerRound =
-                    pairRoomHistoryRepository.fetchTopByPairRoomIdOrderByCreatedAtDesc(pairRoomId).getTimerRound();
+                    pairRoomHistoryRepository.fetchLatestHistoryByPairRoomId(pairRoomId).getTimerRound();
             final Timer timer = new Timer(latestTimerRound, timerDuration, timerRemainingTime);
             return timer.increaseTimerRound();
         }
-        return Timer.of(timerDuration, timerRemainingTime);
+        return new Timer(timerDuration, timerRemainingTime);
     }
 
     public PairRoomHistoryReadResponse readLatestPairRoomHistory(final String accessCode) {
         final PairRoom pairRoom = pairRoomService.findByAccessCode(accessCode);
         final PairRoomHistoryEntity pairRoomHistoryEntity =
-                pairRoomHistoryRepository.fetchTopByPairRoomIdOrderByCreatedAtDesc(pairRoom.getId());
+                pairRoomHistoryRepository.fetchLatestHistoryByPairRoomId(pairRoom.getId());
         return PairRoomHistoryReadResponse.of(pairRoomHistoryEntity.getId(), pairRoomHistoryEntity.toDomain());
     }
 
@@ -55,7 +55,7 @@ public class PairRoomHistoryService {
     public void updateTimerRemainingTime(final String accessCode, final long newTimerRemainingTime) {
         final PairRoom pairRoom = pairRoomService.findByAccessCode(accessCode);
         final PairRoomHistoryEntity pairRoomHistoryEntity = pairRoomHistoryRepository
-                .fetchTopByPairRoomIdOrderByCreatedAtDesc(pairRoom.getId());
+                .fetchLatestHistoryByPairRoomId(pairRoom.getId());
         final Timer newTimer = new Timer(
                 pairRoomHistoryEntity.getTimerRound(),
                 pairRoomHistoryEntity.getTimerDuration(),
@@ -68,7 +68,7 @@ public class PairRoomHistoryService {
     public void updateTimerDuration(final String accessCode, final long newTimerDuration) {
         final PairRoom pairRoom = pairRoomService.findByAccessCode(accessCode);
         final PairRoomHistoryEntity pairRoomHistoryEntity = pairRoomHistoryRepository
-                .fetchTopByPairRoomIdOrderByCreatedAtDesc(pairRoom.getId());
+                .fetchLatestHistoryByPairRoomId(pairRoom.getId());
         final Timer newTimer = new Timer(
                 pairRoomHistoryEntity.getTimerRound(),
                 newTimerDuration,
