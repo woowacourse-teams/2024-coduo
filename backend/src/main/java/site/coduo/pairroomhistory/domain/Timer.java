@@ -6,7 +6,7 @@ import site.coduo.pairroomhistory.exception.InvalidTimerException;
 @Getter
 public class Timer {
 
-    public static final int FIRST_ROUND = 1;
+    private static final int FIRST_ROUND = 1;
 
     private final int timerRound;
     private final long timerDuration;
