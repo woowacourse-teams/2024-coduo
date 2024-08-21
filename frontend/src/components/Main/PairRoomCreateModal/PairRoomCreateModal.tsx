@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import Button from '@/components/common/Button/Button';
 import { Modal } from '@/components/common/Modal';
 
@@ -31,12 +33,16 @@ const PairRoomCreateModal = ({ isOpen, closeModal }: PairRoomCreateModalProps) =
       <Modal.CloseButton close={closeModal} />
       <Modal.Header title="페어룸 선택" subTitle="어떤 방식으로 페어룸을 만들까요?" />
       <S.Layout>
-        <Button css={S.buttonStyles} color="secondary" filled={false}>
-          그냥 시작할래요
-        </Button>
-        <Button css={S.buttonStyles} color="secondary">
-          미션과 함께 시작할래요
-        </Button>
+        <Link to="/onboarding?mission=false">
+          <Button css={S.buttonStyles} color="secondary" filled={false}>
+            그냥 시작할래요
+          </Button>
+        </Link>
+        <Link to="/onboarding?mission=true">
+          <Button css={S.buttonStyles} color="secondary">
+            미션과 함께 시작할래요
+          </Button>
+        </Link>
       </S.Layout>
     </Modal>
   );

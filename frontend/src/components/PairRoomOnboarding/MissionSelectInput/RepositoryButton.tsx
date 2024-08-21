@@ -1,14 +1,14 @@
 import Button from '@/components/common/Button/Button';
 
-import * as S from './StartMission.styles';
+import * as S from './MissionSelectInput.styles';
 
-interface MissionRepository {
+interface RepositoryButtonProps {
   name: string;
   id: string;
   handleSelectMission: (currentRepo: string) => void;
 }
 
-const MissionRepository = ({ name, id, handleSelectMission }: MissionRepository) => {
+const RepositoryButton = ({ name, id, handleSelectMission }: RepositoryButtonProps) => {
   return (
     <Button
       filled={false}
@@ -25,4 +25,4 @@ const MissionRepository = ({ name, id, handleSelectMission }: MissionRepository)
   );
 };
 
-export default MissionRepository;
+export default RepositoryButton;

@@ -50,8 +50,9 @@ export const ModalBodyWrapper = styled.div`
 `;
 
 export const Layout = styled.div`
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
   gap: 2rem;
 
   width: 100%;
@@ -59,7 +60,7 @@ export const Layout = styled.div`
 `;
 
 export const buttonStyles = css`
-  width: 30rem;
+  width: 100%;
   height: 6rem;
 
   font-size: ${({ theme }) => theme.fontSize.lg};

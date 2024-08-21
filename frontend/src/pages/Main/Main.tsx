@@ -22,8 +22,6 @@ const Main = () => {
     closeModal: closePairRoomEntryModal,
   } = useModal();
 
-  console.log(isPairRoomCreateModalOpen);
-
   return (
     <S.Layout>
       <S.TextContainer>
