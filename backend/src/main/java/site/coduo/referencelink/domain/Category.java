@@ -23,7 +23,7 @@ public class Category {
         }
 
         if (value.trim().length() > CATEGORY_NAME_MAX_LENGTH) {
-            throw new InvalidCategoryException(String.format("카테고리 길이는 %d자 이하여야 합니다."));
+            throw new InvalidCategoryException(String.format("카테고리 길이는 %d자 이하여야 합니다.", CATEGORY_NAME_MAX_LENGTH));
         }
     }
 
