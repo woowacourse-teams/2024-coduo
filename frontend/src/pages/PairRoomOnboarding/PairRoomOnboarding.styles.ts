@@ -19,12 +19,18 @@ export const Title = styled.h2`
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 12rem;
+  gap: 5rem;
 
   width: 60%;
   padding: 4rem 4rem 12rem;
 
   background-color: ${({ theme }) => theme.color.black[10]};
+`;
+
+export const InputContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8rem;
 `;
 
 export const ButtonWrapper = styled.div`

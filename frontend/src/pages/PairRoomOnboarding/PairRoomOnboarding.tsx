@@ -15,6 +15,7 @@ import { BUTTON_TEXT } from '@/constants/button';
 import * as S from './PairRoomOnboarding.styles';
 
 const PairRoomOnboarding = () => {
+  const [isTyping, setIsTyping] = useState(false);
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
   const [timerDuration, setTimerDuration] = useState('');
@@ -23,8 +24,7 @@ const PairRoomOnboarding = () => {
     usePairNameInputs();
 
   const validationList = [isPairNameValid, driver !== '' && navigator !== '', timerDuration !== ''];
-
-  const { moveIndex } = useAutoMoveIndex(0, validationList);
+  const { moveIndex } = useAutoMoveIndex(0, validationList, isTyping);
 
   const handleFirstPair = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (firstPairName.value === driver || firstPairName.value === navigator) {
@@ -44,8 +44,6 @@ const PairRoomOnboarding = () => {
     handleSecondPairName(event);
   };
 
-  const handleTimerDuration = (timerDuration: string) => setTimerDuration(timerDuration);
-
   const handleRole = (pairName: string, role: Role) => {
     const otherPair = firstPairName.value === pairName ? secondPairName.value : firstPairName.value;
 
@@ -58,31 +56,35 @@ const PairRoomOnboarding = () => {
     }
   };
 
+  const handleTimerDuration = (timerDuration: string) => setTimerDuration(timerDuration);
+
   return (
     <S.Layout>
       <S.Container>
         <S.Title>그냥 시작하기</S.Title>
-        <PairNameInput
-          firstPairName={firstPairName}
-          secondPairName={secondPairName}
-          onFirstPair={handleFirstPair}
-          onSecondPair={handleSecondPair}
-        />
-        {moveIndex >= 1 && (
-          <PairRoleInput
-            firstPair={firstPairName.value}
-            secondPair={secondPairName.value}
-            driver={driver}
-            navigator={navigator}
-            onRole={handleRole}
+        <S.InputContainer>
+          <PairNameInput
+            firstPairName={firstPairName}
+            secondPairName={secondPairName}
+            onFirstPair={handleFirstPair}
+            onSecondPair={handleSecondPair}
+            onFocus={() => setIsTyping(true)}
+            onBlur={() => setIsTyping(false)}
           />
-        )}
-        {moveIndex >= 2 && <TimerDurationInput timerDuration={timerDuration} onTimerDuration={handleTimerDuration} />}
-        {moveIndex >= 3 && (
+          {moveIndex >= 1 && (
+            <PairRoleInput
+              firstPair={firstPairName.value}
+              secondPair={secondPairName.value}
+              driver={driver}
+              navigator={navigator}
+              onRole={handleRole}
+            />
+          )}
+          {moveIndex >= 2 && <TimerDurationInput timerDuration={timerDuration} onTimerDuration={handleTimerDuration} />}
           <S.ButtonWrapper>
             <Button disabled={validationList.some((valid) => !valid)}>{BUTTON_TEXT.COMPLETE}</Button>
           </S.ButtonWrapper>
-        )}
+        </S.InputContainer>
       </S.Container>
     </S.Layout>
   );

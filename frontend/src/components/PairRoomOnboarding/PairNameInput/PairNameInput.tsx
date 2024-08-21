@@ -9,9 +9,18 @@ interface PairNameInputProps {
   secondPairName: InputType;
   onFirstPair: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSecondPair: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onFocus: () => void;
+  onBlur: () => void;
 }
 
-const PairNameInput = ({ firstPairName, secondPairName, onFirstPair, onSecondPair }: PairNameInputProps) => {
+const PairNameInput = ({
+  firstPairName,
+  secondPairName,
+  onFirstPair,
+  onSecondPair,
+  onFocus,
+  onBlur,
+}: PairNameInputProps) => {
   return (
     <S.Layout>
       <S.TitleContainer>
@@ -26,6 +35,8 @@ const PairNameInput = ({ firstPairName, secondPairName, onFirstPair, onSecondPai
           status={firstPairName.status}
           message={firstPairName.message}
           onChange={onFirstPair}
+          onFocus={onFocus}
+          onBlur={onBlur}
         />
       </S.InputContainer>
       <S.InputContainer>
@@ -36,6 +47,8 @@ const PairNameInput = ({ firstPairName, secondPairName, onFirstPair, onSecondPai
           status={secondPairName.status}
           message={secondPairName.message}
           onChange={onSecondPair}
+          onFocus={onFocus}
+          onBlur={onBlur}
         />
       </S.InputContainer>
     </S.Layout>
