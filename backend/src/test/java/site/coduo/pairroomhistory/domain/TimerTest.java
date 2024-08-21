@@ -26,8 +26,8 @@ class TimerTest {
     @DisplayName("타이머 시간이 음수일 경우 예외가 발생한다.")
     void throw_exception_when_time_is_negative() {
         // given
-        long timerDuration = -1;
-        long timerRemainingTime = 0;
+        final long timerDuration = -1;
+        final long timerRemainingTime = 0;
 
         // when, then
         assertThatThrownBy(() -> Timer.of(timerDuration, timerRemainingTime))
@@ -38,8 +38,8 @@ class TimerTest {
     @DisplayName("타이머 총 시간보다 남은 시간이 더 클 경우 예외가 발생한다.")
     void throw_exception_when_remaining_time_is_greater_than_duration() {
         // given
-        long timerDuration = 10;
-        long timerRemainingTime = 11;
+        final long timerDuration = 10;
+        final long timerRemainingTime = 11;
 
         // when, then
         assertThatThrownBy(() -> Timer.of(timerDuration, timerRemainingTime))
