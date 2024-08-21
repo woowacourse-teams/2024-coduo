@@ -64,7 +64,7 @@ class CategoryAcceptanceTest extends AcceptanceFixture {
     void update_category() {
         //given
         final PairRoomCreateResponse pairRoomUrl = PairRoomAcceptanceTest.createPairRoom(
-                new PairRoomCreateRequest("레디", "프람", "ONBOARDING"));
+                new PairRoomCreateRequest("레디", "프람", PairRoomStatus.IN_PROGRESS.name()));
 
         createCategory(pairRoomUrl.accessCode(), new CategoryCreateRequest("이전 카테고리"));
 
@@ -97,7 +97,7 @@ class CategoryAcceptanceTest extends AcceptanceFixture {
     void delete_category() {
         //given
         final PairRoomCreateResponse pairRoomUrl = PairRoomAcceptanceTest.createPairRoom(
-                new PairRoomCreateRequest("레디", "프람", "ONBOARDING"));
+                new PairRoomCreateRequest("레디", "프람", PairRoomStatus.IN_PROGRESS.name()));
 
         final String categoryName = "자바";
         createCategory(pairRoomUrl.accessCode(), new CategoryCreateRequest(categoryName));
