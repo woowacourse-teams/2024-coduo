@@ -3,6 +3,8 @@ package site.coduo.todo.controller;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -35,12 +37,13 @@ public class TodoController implements TodoDocs {
     }
 
     @PostMapping("/{accessCode}/todos")
-    public void createTodo(@PathVariable final String accessCode, @RequestBody final CreateTodoRequest request) {
+    public void createTodo(@PathVariable final String accessCode, @RequestBody @Valid final CreateTodoRequest request) {
         todoService.createTodo(accessCode, request.content());
     }
 
     @PatchMapping("/todos/{todoId}/contents")
-    public void updateContent(@PathVariable final long todoId, @RequestBody final UpdateTodoContentRequest request) {
+    public void updateContent(@PathVariable final long todoId,
+                              @RequestBody @Valid final UpdateTodoContentRequest request) {
         todoService.updateTodoContent(todoId, request.content());
     }
 
