@@ -32,31 +32,23 @@ export const GithubLoginButton = css`
 
 export const Layout = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  gap: 12rem;
+  overflow: hidden;
 
-  min-height: calc(100vh - 7rem);
+  height: calc(100vh - 7rem);
+  padding: 10rem;
   padding: 0 10.8vw;
 
   background: no-repeat url(${Wave});
   background-size: contain;
 `;
 
-export const TextContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 6rem;
-`;
-
-export const TitleContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
-
 export const SubTitle = styled.h2`
-  color: ${({ theme }) => theme.color.primary[800]};
-  font-size: ${({ theme }) => theme.fontSize.h2};
+  color: ${({ theme }) => theme.color.primary[700]};
+  font-size: ${({ theme }) => theme.fontSize.h3};
   font-weight: ${({ theme }) => theme.fontWeight.light};
   line-height: 1.3;
 
@@ -75,15 +67,12 @@ export const Title = styled.h1`
   }
 `;
 
-export const Info = styled.p`
-  opacity: 0.5;
-  color: ${({ theme }) => theme.color.primary[700]};
-  font-size: ${({ theme }) => theme.fontSize.h6};
-  line-height: 1.5;
+export const Logo = styled.img`
+  width: 50rem;
 `;
 
 export const ButtonContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 4rem;
 `;

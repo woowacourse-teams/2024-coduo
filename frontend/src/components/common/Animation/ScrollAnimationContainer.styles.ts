@@ -2,6 +2,8 @@ import styled, { css, keyframes } from 'styled-components';
 
 interface FrameInAnimationProps {
   $animationDirection: 'left' | 'right' | 'top' | 'bottom';
+  $animationDuration: number;
+  $animationDelay: number;
 }
 
 const frameInAnimation = (direction: 'left' | 'right' | 'top' | 'bottom') => keyframes`
@@ -26,12 +28,14 @@ const frameInAnimation = (direction: 'left' | 'right' | 'top' | 'bottom') => key
 
 export const Container = styled.div<FrameInAnimationProps>`
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   visibility: hidden;
 
-  width: 100%;
+  width: fit-content;
+  height: fit-content;
+
+  opacity: 0;
 
   &.frame-in {
     visibility: visible;
@@ -39,6 +43,7 @@ export const Container = styled.div<FrameInAnimationProps>`
     animation: ${(props) => css`
         ${frameInAnimation(props.$animationDirection)}
       `}
-      1.2s forwards;
+      ${(props) => props.$animationDuration}s forwards;
+    animation-delay: ${(props) => props.$animationDelay}s;
   }
 `;
