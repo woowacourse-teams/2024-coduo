@@ -28,10 +28,6 @@ public class Timer {
         if (timerDuration < 0 || timerRemainingTime < 0) {
             throw new InvalidTimerException("타이머 시간과 남은 시간은 0 이상이어야 합니다.");
         }
-
-        if (timerDuration < timerRemainingTime) {
-            throw new InvalidTimerException("타이머 시간은 남은 시간보다 작을 수 없습니다.");
-        }
     }
 
     public Timer increaseTimerRound() {
