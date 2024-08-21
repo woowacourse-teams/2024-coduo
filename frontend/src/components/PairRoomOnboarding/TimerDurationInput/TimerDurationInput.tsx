@@ -6,7 +6,7 @@ import InformationBox from '@/components/PairRoomOnboarding/InformationBox/Infor
 
 import { validateTime } from '@/utils/PairRoomOnboarding/validate';
 
-import * as S from './TimerInput.styles';
+import * as S from './TimerDurationInput.styles';
 
 const OPTIONS = [
   { label: '10분', value: '10' },
@@ -14,22 +14,26 @@ const OPTIONS = [
   { label: '30분', value: '30' },
 ];
 
-const TimerInput = () => {
-  const [timer, setTimer] = useState('');
+interface TimerDurationInputProps {
+  timerDuration: string;
+  onTimerDuration: (timerDuration: string) => void;
+}
+
+const TimerDurationInput = ({ timerDuration, onTimerDuration }: TimerDurationInputProps) => {
   const [isCustom, setIsCustom] = useState(false);
 
   const handleIsCustomTime = () => {
     if (!isCustom) setIsCustom(true);
-    setTimer('');
+    onTimerDuration('');
   };
 
   const handleOptionTime = (option: string) => {
     if (isCustom) setIsCustom(false);
-    setTimer(option);
+    onTimerDuration(option);
   };
 
   const handleCustomTime = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTimer(event.target.value);
+    onTimerDuration(event.target.value);
   };
 
   return (
@@ -51,7 +55,7 @@ const TimerInput = () => {
             key={option.value}
             color="primary"
             size="md"
-            filled={timer === option.value}
+            filled={timerDuration === option.value}
             onClick={() => handleOptionTime(option.value)}
           >
             {option.label}
@@ -65,10 +69,10 @@ const TimerInput = () => {
             <Input
               width="16rem"
               $css={S.inputStyles}
-              value={timer}
+              value={timerDuration}
               placeholder="타이머 시간 (분)"
-              status={!validateTime(timer) ? 'ERROR' : 'DEFAULT'}
-              message={!validateTime(timer) ? '0 이상의 숫자를 입력해 주세요.' : ''}
+              status={!validateTime(timerDuration) ? 'ERROR' : 'DEFAULT'}
+              message={!validateTime(timerDuration) ? '0 이상의 숫자를 입력해 주세요.' : ''}
               disabled={!isCustom}
               onChange={handleCustomTime}
             />
@@ -79,4 +83,4 @@ const TimerInput = () => {
   );
 };
 
-export default TimerInput;
+export default TimerDurationInput;

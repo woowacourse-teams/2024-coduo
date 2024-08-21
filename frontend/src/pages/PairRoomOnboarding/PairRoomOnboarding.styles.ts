@@ -19,10 +19,10 @@ export const Title = styled.h2`
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5rem;
+  gap: 12rem;
 
   width: 60%;
-  padding: 4rem;
+  padding: 4rem 4rem 12rem;
 
   background-color: ${({ theme }) => theme.color.black[10]};
 `;

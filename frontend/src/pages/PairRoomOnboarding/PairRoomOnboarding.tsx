@@ -5,7 +5,7 @@ import { Role } from '@/pages/PairRoomOnboarding/PairRoomOnboarding.type';
 import Button from '@/components/common/Button/Button';
 import PairNameInput from '@/components/PairRoomOnboarding/PairNameInput/PairNameInput';
 import PairRoleInput from '@/components/PairRoomOnboarding/PairRoleInput/PairRoleInput';
-import TimerInput from '@/components/PairRoomOnboarding/TimerInput/TimerInput';
+import TimerDurationInput from '@/components/PairRoomOnboarding/TimerDurationInput/TimerDurationInput';
 
 import usePairNameInputs from '@/hooks/Main/usePairNameInputs';
 import useAutoMoveIndex from '@/hooks/PairRoomOnboarding/useAutoMoveIndex';
@@ -17,16 +17,12 @@ import * as S from './PairRoomOnboarding.styles';
 const PairRoomOnboarding = () => {
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
+  const [timerDuration, setTimerDuration] = useState('');
 
-  const { firstPairName, secondPairName, handleFirstPairName, handleSecondPairName } = usePairNameInputs();
+  const { firstPairName, secondPairName, isPairNameValid, handleFirstPairName, handleSecondPairName } =
+    usePairNameInputs();
 
-  const validationList = [
-    firstPairName.value !== '' &&
-      secondPairName.value !== '' &&
-      firstPairName.status !== 'ERROR' &&
-      secondPairName.status !== 'ERROR',
-    driver !== '' && navigator !== '',
-  ];
+  const validationList = [isPairNameValid, driver !== '' && navigator !== '', timerDuration !== ''];
 
   const { moveIndex } = useAutoMoveIndex(0, validationList);
 
@@ -48,6 +44,8 @@ const PairRoomOnboarding = () => {
     handleSecondPairName(event);
   };
 
+  const handleTimerDuration = (timerDuration: string) => setTimerDuration(timerDuration);
+
   const handleRole = (pairName: string, role: Role) => {
     const otherPair = firstPairName.value === pairName ? secondPairName.value : firstPairName.value;
 
@@ -64,7 +62,6 @@ const PairRoomOnboarding = () => {
     <S.Layout>
       <S.Container>
         <S.Title>그냥 시작하기</S.Title>
-        {/* {step === 'MISSION' && <StartMission handleStartMission={handleStartMission} />} */}
         <PairNameInput
           firstPairName={firstPairName}
           secondPairName={secondPairName}
@@ -80,10 +77,12 @@ const PairRoomOnboarding = () => {
             onRole={handleRole}
           />
         )}
-        {moveIndex >= 2 && <TimerInput />}
-        <S.ButtonWrapper>
-          <Button>{BUTTON_TEXT.COMPLETE}</Button>
-        </S.ButtonWrapper>
+        {moveIndex >= 2 && <TimerDurationInput timerDuration={timerDuration} onTimerDuration={handleTimerDuration} />}
+        {moveIndex >= 3 && (
+          <S.ButtonWrapper>
+            <Button disabled={validationList.some((valid) => !valid)}>{BUTTON_TEXT.COMPLETE}</Button>
+          </S.ButtonWrapper>
+        )}
       </S.Container>
     </S.Layout>
   );

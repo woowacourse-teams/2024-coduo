@@ -23,9 +23,16 @@ const usePairNameInputs = () => {
   const handleSecondPairName = (event: React.ChangeEvent<HTMLInputElement>) =>
     onSecondPairNameChange(event, validatePairName(event.target.value, firstPairName));
 
+  const isPairNameValid =
+    firstPairName !== '' &&
+    secondPairName !== '' &&
+    firstPairNameStatus !== 'ERROR' &&
+    secondPairNameStatus !== 'ERROR';
+
   return {
     firstPairName: { value: firstPairName, status: firstPairNameStatus, message: firstPairNameMessage },
     secondPairName: { value: secondPairName, status: secondPairNameStatus, message: secondPairNameMessage },
+    isPairNameValid,
     handleFirstPairName,
     handleSecondPairName,
   };
