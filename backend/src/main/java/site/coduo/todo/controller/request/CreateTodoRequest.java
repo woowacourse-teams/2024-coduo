@@ -1,4 +1,6 @@
 package site.coduo.todo.controller.request;
 
-public record CreateTodoRequest(String content) {
+import jakarta.validation.constraints.NotBlank;
+
+public record CreateTodoRequest(@NotBlank String content) {
 }

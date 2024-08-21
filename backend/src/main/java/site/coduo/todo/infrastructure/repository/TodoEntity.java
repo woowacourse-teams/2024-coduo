@@ -18,7 +18,7 @@ import site.coduo.todo.domain.Todo;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "todo")
+@Table(name = "TODO")
 @Entity
 public class TodoEntity extends BaseTimeEntity {
 
