@@ -2,12 +2,6 @@ import { useState } from 'react';
 
 import type { InputStatus } from '@/components/common/Input/Input.type';
 
-export interface InputType {
-  value: string;
-  status: InputStatus;
-  message: string;
-}
-
 const useInput = (initialValue: string = '') => {
   const [value, setValue] = useState(initialValue);
   const [status, setStatus] = useState<InputStatus>('DEFAULT');

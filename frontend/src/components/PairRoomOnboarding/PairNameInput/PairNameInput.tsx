@@ -1,6 +1,5 @@
 import Input from '@/components/common/Input/Input';
-
-import { InputType } from '@/hooks/common/useInput';
+import { InputType } from '@/components/common/Input/Input.type';
 
 import * as S from './PairNameInput.styles';
 
