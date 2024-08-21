@@ -18,7 +18,7 @@ class TimerTest {
         long timerRemainingTime = 10;
 
         // when & then
-        assertThatCode(() -> Timer.of(timerDuration, timerRemainingTime))
+        assertThatCode(() -> new Timer(timerDuration, timerRemainingTime))
                 .doesNotThrowAnyException();
     }
 
@@ -30,7 +30,7 @@ class TimerTest {
         final long timerRemainingTime = 0;
 
         // when, then
-        assertThatThrownBy(() -> Timer.of(timerDuration, timerRemainingTime))
+        assertThatThrownBy(() -> new Timer(timerDuration, timerRemainingTime))
                 .isInstanceOf(InvalidTimerException.class);
     }
 
@@ -42,7 +42,7 @@ class TimerTest {
         final long timerRemainingTime = 11;
 
         // when, then
-        assertThatThrownBy(() -> Timer.of(timerDuration, timerRemainingTime))
+        assertThatThrownBy(() -> new Timer(timerDuration, timerRemainingTime))
                 .isInstanceOf(InvalidTimerException.class);
     }
 }
