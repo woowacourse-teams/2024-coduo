@@ -49,10 +49,4 @@ public class PairRoomService {
     public PairRoom findByAccessCode(final String accessCode) {
         return pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
     }
-
-    @Transactional
-    public void deletePairRoom(final String accessCode) {
-        final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
-        pairRoomRepository.delete(pairRoom);
-    }
 }

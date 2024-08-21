@@ -16,7 +16,7 @@ class PairRoomTest {
         final String firstName = "first";
         final String secondName = "second";
         final Pair pair = new Pair(new PairName(firstName), new PairName(secondName));
-        final PairRoomStatus pairRoomStatus = PairRoomStatus.ONBOARDING;
+        final PairRoomStatus pairRoomStatus = PairRoomStatus.IN_PROGRESS;
 
         // when & then
         assertThatCode(() -> new PairRoom(pair, pairRoomStatus, ACCESS_CODE))
