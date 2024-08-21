@@ -1,74 +1,92 @@
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
+import Button from '@/components/common/Button/Button';
 import Spinner from '@/components/common/Spinner/Spinner';
-import HowToPairModal from '@/components/PairRoomOnboarding/HowToPairModal/HowToPairModal';
-import ProgressBar from '@/components/PairRoomOnboarding/ProgressBar/ProgressBar';
-import RoleSelection from '@/components/PairRoomOnboarding/RoleSelection/RoleSelection';
-import TimerSelection from '@/components/PairRoomOnboarding/TimerSelection/TimerSelection';
+import MissionSelectInput from '@/components/PairRoomOnboarding/MissionSelectInput/MissionSelectInput';
+import PairNameInput from '@/components/PairRoomOnboarding/PairNameInput/PairNameInput';
+import PairRoleInput from '@/components/PairRoomOnboarding/PairRoleInput/PairRoleInput';
+import TimerDurationInput from '@/components/PairRoomOnboarding/TimerDurationInput/TimerDurationInput';
 
-import useModal from '@/hooks/common/useModal';
+import useAutoMoveIndex from '@/hooks/PairRoomOnboarding/useAutoMoveIndex';
+import usePairRoomInformation from '@/hooks/PairRoomOnboarding/usePairRoomInformation';
 
-import useAddTimer from '@/queries/PairRoomOnboarding/useAddTimer';
-import useGetPairRoomInformation from '@/queries/PairRoomOnboarding/useGetPairRoomInformation';
+import useAddPairRoom from '@/queries/Main/useAddPairRoom';
+import useCreateBranch from '@/queries/PairRoomOnboarding/useCreateBranch';
+
+import { BUTTON_TEXT } from '@/constants/button';
 
 import * as S from './PairRoomOnboarding.styles';
-import type { Step } from './PairRoomOnboarding.type';
 
 const PairRoomOnboarding = () => {
-  const [step, setStep] = useState<Step>('ROLE');
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const mission = searchParams.get('mission');
 
-  const [driver, setDriver] = useState('');
-  const [navigator, setNavigator] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
 
-  const navigate = useNavigate();
-  const { accessCode } = useParams();
+  const {
+    firstPairName,
+    secondPairName,
+    driver,
+    navigator,
+    timerDuration,
+    isPairNameValid,
+    isPairRoleValid,
+    isTimerDurationValid,
+    handleFirstPairName,
+    handleSecondPairName,
+    handlePairRole,
+    handleTimerDuration,
+  } = usePairRoomInformation();
 
-  const { firstPair, secondPair, isFetching } = useGetPairRoomInformation(accessCode || '');
-  const { isModalOpen: isHowToPairModalOpen, closeModal: closeHowToPairModal } = useModal(false);
+  const { handleCreateBranch } = useCreateBranch();
+  const { handleAddPairRoom, isPending } = useAddPairRoom();
 
-  const handleSuccess = () => {
-    navigate(`/room/${accessCode}`, { state: { driver, navigator } });
-  };
+  const handleSuccess = () =>
+    handleAddPairRoom(firstPairName.value, secondPairName.value, driver, navigator, timerDuration);
 
-  const { handleAddTimer, isPending } = useAddTimer(handleSuccess);
+  const validationList = [isPairNameValid, isPairRoleValid, isTimerDurationValid];
 
-  const handleBack = () => {
-    if (step === 'TIMER') {
-      setStep('ROLE');
-    }
-  };
-
-  const handleRoleSelection = (driver: string, navigator: string) => {
-    setDriver(driver);
-    setNavigator(navigator);
-
-    setStep('TIMER');
-  };
-
-  const handleTimerSelection = (timer: string) => {
-    handleAddTimer({ timer, accessCode: accessCode || '' });
-  };
-
-  if (isFetching || isPending) {
-    return (
-      <S.Layout>
-        <Spinner />
-      </S.Layout>
-    );
-  }
+  const { moveIndex } = useAutoMoveIndex(0, validationList, isTyping);
 
   return (
     <S.Layout>
       <S.Container>
-        <ProgressBar step={step} />
-        {/* {step === 'MISSION' && <StartMission handleStartMission={handleStartMission} />} */}
-        {step === 'ROLE' && (
-          <RoleSelection firstPair={firstPair} secondPair={secondPair} onNext={handleRoleSelection} />
+        <S.Title>{mission === 'true' ? '미션과 함께 시작하기' : '그냥 시작하기'}</S.Title>
+        {mission === 'true' && <MissionSelectInput onCreateBranch={handleCreateBranch} />}
+        {isPending ? (
+          <Spinner />
+        ) : (
+          <S.InputContainer>
+            <PairNameInput
+              firstPairName={firstPairName}
+              secondPairName={secondPairName}
+              onFirstPair={handleFirstPairName}
+              onSecondPair={handleSecondPairName}
+              onFocus={() => setIsTyping(true)}
+              onBlur={() => setIsTyping(false)}
+            />
+            {moveIndex >= 1 && (
+              <PairRoleInput
+                firstPair={firstPairName.value}
+                secondPair={secondPairName.value}
+                driver={driver}
+                navigator={navigator}
+                onRole={handlePairRole}
+              />
+            )}
+            {moveIndex >= 2 && (
+              <TimerDurationInput timerDuration={timerDuration} onTimerDuration={handleTimerDuration} />
+            )}
+            <S.ButtonWrapper>
+              <Button disabled={validationList.some((valid) => !valid)} onClick={handleSuccess}>
+                {BUTTON_TEXT.COMPLETE}
+              </Button>
+            </S.ButtonWrapper>
+          </S.InputContainer>
         )}
-        {step === 'TIMER' && <TimerSelection onPrev={handleBack} onNext={handleTimerSelection} />}
       </S.Container>
-      <HowToPairModal isOpen={isHowToPairModalOpen} closeModal={closeHowToPairModal} />
     </S.Layout>
   );
 };

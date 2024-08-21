@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { LogoIconWithTitle } from '@/assets';
-import validatePairName from '@/validations/common/validatePairName';
+import { validateName } from '@/validations/validatePairName';
 
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
@@ -34,7 +34,7 @@ const SignUp = () => {
   const { handleSignUp } = useSignUpHandler();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onUsernameChange(event, validatePairName(event.target.value));
+    onUsernameChange(event, validateName(event.target.value));
   };
 
   return (

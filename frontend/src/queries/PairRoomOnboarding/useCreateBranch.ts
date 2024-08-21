@@ -4,13 +4,13 @@ import useToastStore from '@/stores/toastStore';
 
 import { createBranch, getSHAforMain } from '@/apis/github';
 
-const useCreateBranch = (onSuccess: () => void) => {
+const useCreateBranch = () => {
   const { addToast } = useToastStore();
+
   const { mutate, isSuccess } = useMutation({
     mutationFn: createBranch,
     onSuccess: () => {
-      addToast({ status: 'SUCCESS', message: '미션 시작~' });
-      onSuccess();
+      addToast({ status: 'SUCCESS', message: '브랜치 생성에 성공했습니다.' });
     },
     onError: () => {
       addToast({ status: 'ERROR', message: '브랜치 생성에 실패했습니다.' });
@@ -18,14 +18,15 @@ const useCreateBranch = (onSuccess: () => void) => {
     },
   });
 
-  const handleStartMission = async (currentRepo: string, userId: string) => {
-    const sha = await getSHAforMain(currentRepo);
-    if (sha && currentRepo != '') {
-      mutate({ repositoryName: currentRepo, branchName: userId, sha });
+  const handleCreateBranch = async (currentRepository: string, branchName: string) => {
+    const sha = await getSHAforMain(currentRepository);
+
+    if (sha && currentRepository != '') {
+      mutate({ repositoryName: currentRepository, branchName, sha });
     }
   };
 
-  return { handleStartMission, isSuccess };
+  return { handleCreateBranch, isSuccess };
 };
 
 export default useCreateBranch;

@@ -1,5 +1,7 @@
 import { useParams } from 'react-router-dom';
 
+import { validateTimerDuration } from '@/validations/validateTimerDuration';
+
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 
@@ -9,8 +11,6 @@ import useInput from '@/hooks/common/useInput';
 import useModal from '@/hooks/common/useModal';
 
 import useAddTimer from '@/queries/PairRoomOnboarding/useAddTimer';
-
-import { validateTime } from '@/utils/PairRoomOnboarding/validate';
 
 import { BUTTON_TEXT } from '@/constants/button';
 
@@ -49,7 +49,7 @@ const TimerEditPanel = ({ isActive }: TimerEditPanelProps) => {
     closePanel();
   };
 
-  const isButtonDisabled = value === '' || !validateTime(value);
+  const isButtonDisabled = value === '' || !validateTimerDuration(value);
 
   return (
     <S.Layout>

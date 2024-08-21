@@ -45,7 +45,7 @@ const inputStatusMessageCss = {
 export const Layout = styled.div<LayoutProps>`
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
+  gap: 0.8rem;
 
   width: ${({ $width }) => $width};
 `;
