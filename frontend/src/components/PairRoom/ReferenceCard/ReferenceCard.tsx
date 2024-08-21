@@ -102,10 +102,10 @@ const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps)
               onChange={(event) => handleChange(event, validateCategoryName(event.target.value))}
               status={status}
               $css={css`
-                font-size: ${({ theme }) => theme.fontSize.md};
-                width: 75%;
-                border: none;
                 width: 100%;
+                border: none;
+
+                font-size: ${({ theme }) => theme.fontSize.md};
               `}
             />
             <Button size="sm" disabled={status === 'ERROR' || value === ''}>
@@ -139,8 +139,8 @@ const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps)
                   rounded={true}
                   size="sm"
                   css={css`
-                    min-width: 6rem;
                     width: fit-content;
+                    min-width: 6rem;
                     padding: 0 1rem;
                   `}
                 >
@@ -158,6 +158,7 @@ const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps)
                 css={css`
                   display: flex;
                   gap: 0.5rem;
+
                   width: fit-content;
                   padding: 0 1rem;
                 `}
