@@ -27,7 +27,7 @@ public class TodoController implements TodoDocs {
     private final TodoService todoService;
 
     @GetMapping("/{accessCode}/todos")
-    public List<GetTodoResponse> getTodos(@PathVariable String accessCode) {
+    public List<GetTodoResponse> getTodos(@PathVariable final String accessCode) {
         final List<Todo> allTodos = todoService.getAllOrderBySort(accessCode);
         return IntStream.range(0, allTodos.size())
                 .mapToObj(index -> GetTodoResponse.from(allTodos.get(index), index))
@@ -35,27 +35,27 @@ public class TodoController implements TodoDocs {
     }
 
     @PostMapping("/{accessCode}/todos")
-    public void createTodo(@PathVariable String accessCode, @RequestBody CreateTodoRequest request) {
+    public void createTodo(@PathVariable final String accessCode, @RequestBody final CreateTodoRequest request) {
         todoService.createTodo(accessCode, request.content());
     }
 
     @PatchMapping("/todos/{todoId}/contents")
-    public void updateContent(@PathVariable Long todoId, @RequestBody UpdateTodoContentRequest request) {
+    public void updateContent(@PathVariable final long todoId, @RequestBody final UpdateTodoContentRequest request) {
         todoService.updateTodoContent(todoId, request.content());
     }
 
     @PatchMapping("/todos/{todoId}/checked")
-    public void toggleTodoChecked(@PathVariable Long todoId) {
+    public void toggleTodoChecked(@PathVariable final long todoId) {
         todoService.toggleTodoChecked(todoId);
     }
 
     @PatchMapping("/todos/{todoId}/order")
-    public void updateTodoOrder(@PathVariable Long todoId, @RequestBody UpdateTodoOrderRequest request) {
+    public void updateTodoOrder(@PathVariable final long todoId, @RequestBody UpdateTodoOrderRequest request) {
         todoService.updateTodoSort(todoId, request.order());
     }
 
     @DeleteMapping("/todos/{todoId}")
-    public void deleteTodo(@PathVariable Long todoId) {
+    public void deleteTodo(@PathVariable final long todoId) {
         todoService.deleteTodo(todoId);
     }
 }
