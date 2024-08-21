@@ -106,10 +106,11 @@ class CategoryServiceTest extends CascadeCleaner {
         pairRoomRepository.save(pairRoom);
 
         final CategoryCreateRequest categoryCreateRequest = new CategoryCreateRequest("자바");
-        categoryService.createCategory(ACCESS_CODE.getValue(), categoryCreateRequest);
+        final String accessCode = ACCESS_CODE.getValue();
+        categoryService.createCategory(accessCode, categoryCreateRequest);
 
         //when & then
-        assertThatThrownBy(() -> categoryService.createCategory(ACCESS_CODE.getValue(), categoryCreateRequest))
+        assertThatThrownBy(() -> categoryService.createCategory(accessCode, categoryCreateRequest))
                 .isInstanceOf(InvalidCategoryException.class);
     }
 
