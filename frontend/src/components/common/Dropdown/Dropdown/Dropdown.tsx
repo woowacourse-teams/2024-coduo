@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 
 import * as S from '@/components/common/Dropdown/Dropdown/Dropdown.styles';
 import HiddenDropdown from '@/components/common/Dropdown/HiddenDropdown/HiddenDropdown';
@@ -12,60 +12,53 @@ export type Direction = 'lower' | 'upper';
 interface DropdownProps {
   placeholder: string;
   options: string[];
-  onSelect: (option: string) => void;
-  defaultOption?: string;
-  selected?: string;
-  direction?: Direction;
+  selectedOption?: string;
   width?: string;
   height?: string;
+  direction?: Direction;
+  onSelect: (option: string) => void;
 }
 
 const Dropdown = ({
   placeholder,
   options,
-  onSelect,
-  defaultOption,
-  selected,
-  direction = 'lower',
-  height = '4.8rem',
+  selectedOption = '',
   width = '100%',
+  height = '4.8rem',
+  direction = 'lower',
+  onSelect,
 }: DropdownProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(defaultOption || '');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (selected !== undefined) {
-      setSelectedOption(selected);
-    }
-  }, [selected]);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useClickOutside(dropdownRef, () => setIsOpen(false));
 
   const handleSelect = (option: string) => {
-    setSelectedOption(option);
     onSelect(option);
     setIsOpen(false);
   };
 
-  useClickOutside(dropdownRef, () => setIsOpen(false));
+  const toggleDropdown = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    setIsOpen((prev) => !prev);
+  };
 
   return (
     <S.Layout $width={width} ref={dropdownRef} $height={height}>
       <HiddenDropdown options={options} selectedOption={selectedOption} handleSelect={handleSelect} />
       <S.DropdownContainer $direction={direction}>
         <S.OpenButton
+          role="listbox"
           filled={false}
           $isSelected={!!selectedOption}
           $isOpen={isOpen}
-          role="listbox"
-          onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-            event.stopPropagation();
-            setIsOpen(!isOpen);
-          }}
+          onClick={toggleDropdown}
         >
           {selectedOption || placeholder}
           <S.Icon $isOpen={isOpen} size={theme.iconSize.md} $direction={direction} />
         </S.OpenButton>
-        {isOpen && (
+        {!options.every((option) => option === '') && isOpen && (
           <S.ItemList $width={width} $height={height} $direction={direction}>
             {options.map((option, index) => (
               <li key={`${option}_${index}`}>

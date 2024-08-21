@@ -1,5 +1,3 @@
-import type { Step } from '@/pages/PairRoomOnboarding/PairRoomOnboarding.type';
-
 import Button from '@/components/common/Button/Button';
 
 import { OPTIONS } from '@/constants/PairRoomOnboarding/step';
@@ -7,7 +5,7 @@ import { OPTIONS } from '@/constants/PairRoomOnboarding/step';
 import * as S from './ProgressBar.styles';
 
 interface ProgressBarProps {
-  step: Step;
+  step: string;
 }
 
 const ProgressBar = ({ step }: ProgressBarProps) => (

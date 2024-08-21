@@ -11,11 +11,12 @@ const HiddenDropdown = ({ options, selectedOption, handleSelect }: HiddenDropdow
       value={selectedOption || ''}
       onChange={(event: React.ChangeEvent<HTMLSelectElement>) => handleSelect(event.target.value)}
     >
-      {options.map((option) => (
-        <option key={option} value={option}>
-          {option}
-        </option>
-      ))}
+      {!options.every((option) => option === '') &&
+        options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
     </select>
   );
 };

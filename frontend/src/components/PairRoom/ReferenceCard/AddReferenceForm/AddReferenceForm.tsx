@@ -41,7 +41,7 @@ const AddReferenceForm = ({ categories, handleAddReferenceLink }: ReferenceFormP
         height=""
         width="17rem"
         options={newCategories}
-        defaultOption="카테고리 없음"
+        selectedOption={currentCategory || '카테고리 없음'}
         placeholder="카테고리를 선택해주세요."
         onSelect={(option) => handleCategory(option)}
         direction="upper"
