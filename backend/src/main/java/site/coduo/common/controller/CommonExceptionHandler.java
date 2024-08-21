@@ -16,7 +16,7 @@ import site.coduo.common.controller.response.ApiErrorResponse;
 
 @Slf4j
 @RestControllerAdvice
-public class CommonErrorController extends ResponseEntityExceptionHandler {
+public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleNoResourceFoundException(final NoResourceFoundException ex,
