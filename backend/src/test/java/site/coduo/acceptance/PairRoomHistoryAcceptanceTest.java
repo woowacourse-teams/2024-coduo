@@ -129,12 +129,13 @@ class PairRoomHistoryAcceptanceTest extends AcceptanceFixture {
                         30000
                 )
         );
+        final long newTimerRemainingTime = 1000;
 
         // when & then
         RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(new PairRoomHistoryUpdateRequest(100000))
+                .body(new PairRoomHistoryUpdateRequest(newTimerRemainingTime))
 
                 .when()
                 .patch("/api/{accessCode}/history/latest/timer-remaining-time", accessCode)
