@@ -18,15 +18,6 @@ import site.coduo.member.exception.AuthorizationException;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class MemberErrorController {
 
-    @ExceptionHandler(ServletRequestBindingException.class)
-    public ResponseEntity<ApiErrorResponse> handleServletRequestBindingException(
-            final ServletRequestBindingException e) {
-        log.warn(e.getMessage());
-
-        return ResponseEntity.status(MemberApiError.AUTHENTICATION_ERROR.getHttpStatus())
-                .body(new ApiErrorResponse(MemberApiError.AUTHENTICATION_ERROR.getMessage()));
-    }
-
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ApiErrorResponse> handleAuthenticationException(final AuthenticationException e) {
         log.warn("인증 예외: {}", e.getMessage());
