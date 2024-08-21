@@ -6,12 +6,11 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import lombok.Getter;
-import site.coduo.pairroom.exception.PairRoomStatusNotFoundException;
+import site.coduo.pairroom.exception.InvalidPairRoomStatusException;
 
 @Getter
 public enum PairRoomStatus {
 
-    ONBOARDING,
     IN_PROGRESS,
     COMPLETED;
 
@@ -22,6 +21,6 @@ public enum PairRoomStatus {
         if (STATUS.containsKey(value)) {
             return STATUS.get(value);
         }
-        throw new PairRoomStatusNotFoundException("페어룸 상태가 존재하지 않습니다.");
+        throw new InvalidPairRoomStatusException("페어룸 상태가 존재하지 않습니다.");
     }
 }

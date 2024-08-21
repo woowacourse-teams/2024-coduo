@@ -16,7 +16,7 @@ public class PairRoomFixture {
                     new PairName("잉크"),
                     new PairName("레디")
             ),
-            PairRoomStatus.ONBOARDING,
+            PairRoomStatus.IN_PROGRESS,
             ACCESS_CODE);
 
     public static final PairRoom FRAM_LEMONE_ROOM = new PairRoom(
@@ -24,7 +24,7 @@ public class PairRoomFixture {
                     new PairName("프람"),
                     new PairName("레모네")
             ),
-            PairRoomStatus.ONBOARDING,
+            PairRoomStatus.IN_PROGRESS,
             ALPHABET_ACCESS_CODE);
 
     public static final PairRoom KELY_LEMONE_ROOM = new PairRoom(
@@ -32,7 +32,7 @@ public class PairRoomFixture {
                     new PairName("켈리"),
                     new PairName("레모네")
             ),
-            PairRoomStatus.ONBOARDING,
+            PairRoomStatus.IN_PROGRESS,
             NUMBER_ACCESS_CODE
     );
 }

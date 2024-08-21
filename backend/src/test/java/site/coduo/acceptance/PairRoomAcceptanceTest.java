@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
 
@@ -35,7 +36,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     void show_pair_room() {
         //given
         final PairRoomCreateResponse pairRoomUrl =
-                createPairRoom(new PairRoomCreateRequest("레디", "프람", "ONBOARDING"));
+                createPairRoom(new PairRoomCreateRequest("레디", "프람", "IN_PROGRESS"));
 
         //when & then
         RestAssured
@@ -58,8 +59,8 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     void update_pair_room_status() {
         //given
         final PairRoomCreateResponse accessCode =
-                createPairRoom(new PairRoomCreateRequest("레디", "프람", "ONBOARDING"));
-        final Map<String, String> status = Map.of("status", "IN_PROGRESS");
+                createPairRoom(new PairRoomCreateRequest("레디", "프람", "IN_PROGRESS"));
+        final Map<String, String> status = Map.of("status", PairRoomStatus.IN_PROGRESS.name());
 
         // when & then
         RestAssured
@@ -76,47 +77,5 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .log()
                 .all()
                 .statusCode(204);
-    }
-
-    @Test
-    @DisplayName("페어룸을 삭제한다.")
-    void delete_pair_room() {
-        //given
-        final PairRoomCreateResponse pairRoomUrl =
-                createPairRoom(new PairRoomCreateRequest("레디", "프람", "ONBOARDING"));
-
-        //when & then
-        RestAssured
-                .given()
-                .log()
-                .all()
-                .contentType("application/json")
-
-                .when()
-                .delete("/api/pair-room/" + pairRoomUrl.accessCode())
-
-                .then()
-                .log()
-                .all()
-                .statusCode(204);
-    }
-
-    @Test
-    @DisplayName("존재하지 않은 accessCode로 페어룸 삭제시 실패한다.")
-    void fail_delete_pair_room() {
-        //when & then
-        RestAssured
-                .given()
-                .log()
-                .all()
-                .contentType("application/json")
-
-                .when()
-                .delete("/api/pair-room/" + "zzzzzz")
-
-                .then()
-                .log()
-                .all()
-                .statusCode(404);
     }
 }

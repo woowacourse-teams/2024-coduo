@@ -26,7 +26,7 @@ class TodoTest {
         final Long id = 1L;
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
-                PairRoomStatus.ONBOARDING,
+                PairRoomStatus.IN_PROGRESS,
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -70,7 +70,7 @@ class TodoTest {
         final Long id = 1L;
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
-                PairRoomStatus.ONBOARDING,
+                PairRoomStatus.IN_PROGRESS,
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -97,7 +97,7 @@ class TodoTest {
         final Long id = 1L;
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
-                PairRoomStatus.ONBOARDING,
+                PairRoomStatus.IN_PROGRESS,
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -121,7 +121,7 @@ class TodoTest {
         // Given
         final PairRoom pairRoom = new PairRoom(
                 new Pair(new PairName("A"), new PairName("B")),
-                PairRoomStatus.ONBOARDING,
+                PairRoomStatus.IN_PROGRESS,
                 new AccessCode("ACCESS-CODE")
         );
         final Todo todo = new Todo(

@@ -95,7 +95,6 @@ class OpenGraphServiceTest extends CascadeCleaner {
     void delete_open_graph_by_reference_link_id() throws MalformedURLException {
         // given
         final PairRoom pairRoom = pairRoomRepository.save(FRAM_LEMONE_ROOM);
-
         final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoom, new Category("스프링")));
         final URL url = new URL("https://www.naver.com");
         final ReferenceLinkEntity referenceLink = new ReferenceLinkEntity(
