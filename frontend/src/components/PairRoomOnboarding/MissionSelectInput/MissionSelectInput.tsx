@@ -3,7 +3,7 @@ import { useState } from 'react';
 import Spinner from '@/components/common/Spinner/Spinner';
 import CreateBranchModal from '@/components/PairRoomOnboarding/CreateBranchModal/CreateBranchModal';
 import InformationBox from '@/components/PairRoomOnboarding/InformationBox/InformationBox';
-import RepositoryButton from '@/components/PairRoomOnboarding/MissionSelectInput/RepositoryButton';
+import RepositoryButton from '@/components/PairRoomOnboarding/RepositoryButton/RepositoryButton';
 
 import useModal from '@/hooks/common/useModal';
 
@@ -43,7 +43,7 @@ const MissionSelectInput = ({ onCreateBranch }: MissionSelectInputProps) => {
         </S.TitleContainer>
         <InformationBox
           title="미션을 선택하면 어떻게 되나요?"
-          description="미션을 선택하고 미션 시작 버튼을 누르면 해당 레포지토리에 깃허브 아이디 이름으로 브랜치가 생성됩니다. 생성된 브랜치로 PR 을 보내보세요!"
+          description="미션을 선택하고 해당 미션 레포지토리에 원하는 이름으로 브랜치를 생성하세요. 생성된 브랜치로 이동하여 미션 코드를 관리할 수 있습니다."
         />
       </S.HeaderContainer>
       <S.Repositories>
@@ -56,7 +56,7 @@ const MissionSelectInput = ({ onCreateBranch }: MissionSelectInputProps) => {
                 key={repository.id}
                 name={repository.name}
                 id={repository.id}
-                handleSelectMission={handleSelectMission}
+                onSelect={handleSelectMission}
               />
             );
           })
