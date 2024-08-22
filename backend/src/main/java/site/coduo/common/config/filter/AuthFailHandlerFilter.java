@@ -29,7 +29,7 @@ public class AuthFailHandlerFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(request, response);
         } catch (final AuthenticationException e) {
-            log.info(e.getMessage());
+            log.warn(e.getMessage());
 
             response.setStatus(MemberApiError.AUTHENTICATION_ERROR.getHttpStatus().value());
             response.setContentType("application/json;charset=utf-8");
