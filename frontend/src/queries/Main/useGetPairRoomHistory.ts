@@ -8,7 +8,6 @@ const useGetPairRoomHistory = (accessCode: string) => {
   const { data, isFetching } = useQuery({
     queryKey: [QUERY_KEYS.GET_PAIR_ROOM_HISTORY],
     queryFn: () => getPairRoomHistory(accessCode),
-    refetchOnWindowFocus: false,
     enabled: !!accessCode,
     refetchOnWindowFocus: false,
   });
