@@ -1,0 +1,63 @@
+name: Coduo Frontend CI
+
+on:
+  pull_request:
+    branches: [FE/dev]
+
+jobs:
+  test-and-lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./frontend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.4.1"
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Clear test cache
+        run: yarn jest --clearCache
+
+      - name: Run tests
+        run: yarn test
+
+      - name: Run lint
+        run: yarn lint
+
+      - name: Run lint:css
+        run: yarn lint:css
+
+      - name: Run build
+        run: yarn build
+
+  publish-storybook:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
+    needs: test-and-lint
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22.4.1"
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Publish storybook
+        run: npx chromatic --project-token=${{ secrets.CHROMATIC_PROJECT_TOKEN }} --storybook-config-dir=.storybook
