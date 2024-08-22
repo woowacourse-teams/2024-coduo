@@ -14,4 +14,5 @@ export const ERROR_MESSAGES = {
   SIGN_UP: '회원가입에 실패했습니다.',
   SIGN_OUT: '로그아웃에 실패했습니다.',
   CHECK_USER_LOGIN: '유저 로그인 여부를 확인하지 못했습니다.',
+  GET_MEMBER: '유저 정보를 가져오지 못했습니다.',
 };
