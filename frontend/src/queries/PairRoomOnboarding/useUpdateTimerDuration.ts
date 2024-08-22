@@ -15,7 +15,7 @@ const useUpdateTimerDuration = (onSuccess: () => void) => {
     mutationFn: updateTimerDuration,
     onSuccess: () => {
       onSuccess();
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_PAIR_ROOM] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_PAIR_ROOM_HISTORY] });
     },
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });

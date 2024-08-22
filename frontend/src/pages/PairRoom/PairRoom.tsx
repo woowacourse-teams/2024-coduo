@@ -8,6 +8,7 @@ import ReferenceCard from '@/components/PairRoom/ReferenceCard/ReferenceCard';
 import TimerCard from '@/components/PairRoom/TimerCard/TimerCard';
 import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
 
+import useAddPairRoomHistory from '@/queries/Main/useAddPairRoomHistory';
 import useGetPairRoomHistory from '@/queries/Main/useGetPairRoomHistory';
 import useUpdateRemainingTime from '@/queries/PairRoomOnboarding/useUpdateRemainingTime';
 
@@ -27,8 +28,7 @@ const PairRoom = () => {
     isFetching,
   } = useGetPairRoomHistory(accessCode || '');
 
-  console.log(timerRemainingTime);
-
+  const { handleAddPairRoomHistory } = useAddPairRoomHistory(accessCode || '');
   const { handleUpdateRemainingTime } = useUpdateRemainingTime(accessCode || '');
 
   useEffect(() => {
@@ -40,6 +40,8 @@ const PairRoom = () => {
   const toggleIsCardOpen = () => setIsCardOpen((prev) => !prev);
 
   const handleSwap = () => {
+    handleAddPairRoomHistory(navigator, driver, timerDuration, timerDuration);
+
     setDriver(navigator);
     setNavigator(driver);
   };
