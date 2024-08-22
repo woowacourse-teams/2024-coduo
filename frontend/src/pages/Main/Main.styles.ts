@@ -1,7 +1,5 @@
 import styled, { css } from 'styled-components';
 
-import { Wave } from '@/assets';
-
 export const GithubLoginButton = css`
   justify-content: space-evenly;
 
@@ -34,12 +32,12 @@ export const Layout = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  overflow: hidden;
+
+  position: relative;
 
   min-height: calc(100vh - 7rem);
   padding: 0 10.8vw;
-
-  background: no-repeat url(${Wave});
-  background-size: contain;
 `;
 
 export const TextContainer = styled.div`

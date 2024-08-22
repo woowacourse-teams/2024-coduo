@@ -15,7 +15,6 @@ const useGetPairRoomInformation = (accessCode: string) => {
   return {
     firstPair: data?.firstPair || '',
     secondPair: data?.secondPair || '',
-    timeDuration: data?.timerDuration || 0,
     isSuccess,
     isError,
     isFetching,

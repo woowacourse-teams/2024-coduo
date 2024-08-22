@@ -1,25 +1,36 @@
-import { useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
+import Spinner from '@/components/common/Spinner/Spinner';
 import PairListCard from '@/components/PairRoom/PairListCard/PairListCard';
 import PairRoleCard from '@/components/PairRoom/PairRoleCard/PairRoleCard';
 import ReferenceCard from '@/components/PairRoom/ReferenceCard/ReferenceCard';
 import TimerCard from '@/components/PairRoom/TimerCard/TimerCard';
 import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
 
-import useGetPairRoomInformation from '@/queries/PairRoomOnboarding/useGetPairRoomInformation';
+import useGetPairRoomHistory from '@/queries/Main/useGetPairRoomHistory';
 
 import * as S from './PairRoom.styles';
 
 const PairRoom = () => {
-  const { state } = useLocation();
   const { accessCode } = useParams();
 
-  const [driver, setDriver] = useState(state.driver || '');
-  const [navigator, setNavigator] = useState(state.navigator || '');
+  const [driver, setDriver] = useState('');
+  const [navigator, setNavigator] = useState('');
+
+  const {
+    driver: latestDriver,
+    navigator: latestNavigator,
+    timerDuration,
+    isFetching,
+  } = useGetPairRoomHistory(accessCode || '');
+
+  useEffect(() => {
+    setDriver(latestDriver);
+    setNavigator(latestNavigator);
+  }, [latestDriver, latestNavigator]);
 
   const [isCardOpen, setIsCardOpen] = useState(false);
-
   const toggleIsCardOpen = () => setIsCardOpen((prev) => !prev);
 
   const handleSwap = () => {
@@ -27,14 +38,20 @@ const PairRoom = () => {
     setNavigator(driver);
   };
 
-  const { timeDuration } = useGetPairRoomInformation(accessCode || '');
+  if (isFetching) {
+    return (
+      <S.Layout>
+        <Spinner />
+      </S.Layout>
+    );
+  }
 
   return (
     <S.Layout>
       <PairListCard driver={driver} navigator={navigator} roomCode={accessCode || ''} onRoomDelete={() => {}} />
       <S.Container>
         <PairRoleCard driver={driver} navigator={navigator} />
-        <TimerCard defaultTime={timeDuration} onTimerStop={handleSwap} />
+        <TimerCard defaultTime={timerDuration} onTimerStop={handleSwap} />
       </S.Container>
       <S.Container>
         <TodoListCard isOpen={!isCardOpen} toggleIsOpen={toggleIsCardOpen} />

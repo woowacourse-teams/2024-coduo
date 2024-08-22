@@ -13,6 +13,7 @@ const color = {
   },
   secondary: {
     100: '#FFF8DC',
+    150: '#FFF3CB',
     200: '#FFEEBA',
     300: '#FFE296',
     400: '#FFD67D',

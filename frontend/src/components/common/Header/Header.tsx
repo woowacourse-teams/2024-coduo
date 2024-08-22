@@ -1,11 +1,13 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { HiQuestionMarkCircle } from 'react-icons/hi';
-import { LuHome } from 'react-icons/lu';
 
 import { LogoIcon } from '@/assets';
 
 import useUserStatusStore from '@/stores/userStatusStore';
+
+import { getMember } from '@/apis/member';
 
 import useSignInHandler from '@/hooks/member/useSignInHandler';
 import useSignOutHandler from '@/hooks/member/useSignOutHandler';
@@ -18,6 +20,15 @@ const Header = () => {
   const { userStatus } = useUserStatusStore();
   const { handleSignOut } = useSignOutHandler();
   const { handleSignInGithub } = useSignInHandler();
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    if (userStatus === 'SIGNED_IN') {
+      getMember()
+        .then((data) => setUsername(data.username))
+        .catch(console.error);
+    }
+  }, [userStatus]);
 
   return (
     <S.Layout>
@@ -36,16 +47,13 @@ const Header = () => {
           </Link>
         </S.HowToPairLinkContainer>
         {userStatus === 'SIGNED_IN' ? (
-          <S.LoginText onClick={handleSignOut}>로그아웃</S.LoginText>
+          <>
+            <S.LoginText onClick={handleSignOut}>로그아웃</S.LoginText>
+            <S.Username>{username}</S.Username>
+          </>
         ) : (
           <S.LoginText onClick={handleSignInGithub}>Github로 로그인</S.LoginText>
         )}
-
-        <Link to="/">
-          <S.HomeLink>
-            <LuHome size={theme.iconSize.sm} />
-          </S.HomeLink>
-        </Link>
       </S.LinkContainer>
     </S.Layout>
   );

@@ -1,19 +1,53 @@
+import { useNavigate } from 'react-router-dom';
+
 import { useMutation } from '@tanstack/react-query';
 
 import useToastStore from '@/stores/toastStore';
 
-import { addPairNames } from '@/apis/pairRoom';
+import { addPairRoom, addPairRoomHistory } from '@/apis/pairRoom';
 
-const useAddPairRoom = (onSuccess: () => void) => {
+const useAddPairRoom = () => {
+  const navigate = useNavigate();
+
   const { addToast } = useToastStore();
 
-  const { mutate, isPending, data } = useMutation({
-    mutationFn: addPairNames,
-    onSuccess: onSuccess,
+  const addPairRoomMutation = useMutation({
+    mutationFn: addPairRoom,
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });
 
-  return { addPairRoom: mutate, accessCode: data, isPending };
+  const addPairRoomHistoryMutation = useMutation({
+    mutationFn: addPairRoomHistory,
+    onError: (error) => addToast({ status: 'ERROR', message: error.message }),
+  });
+
+  const handleAddPairRoom = async (
+    firstPair: string,
+    secondPair: string,
+    driver: string,
+    navigator: string,
+    timerDuration: string,
+  ) => {
+    try {
+      const accessCode = await addPairRoomMutation.mutateAsync({ firstPair, secondPair });
+
+      console.log(accessCode);
+
+      await addPairRoomHistoryMutation.mutateAsync({
+        driver,
+        navigator,
+        timerDuration: Number(timerDuration) * 60 * 1000,
+        timerRemainingTime: Number(timerDuration) * 60 * 1000,
+        accessCode,
+      });
+
+      navigate(`/room/${accessCode}`);
+    } catch (error) {
+      if (error instanceof Error) addToast({ status: 'ERROR', message: error.message });
+    }
+  };
+
+  return { handleAddPairRoom, isPending: addPairRoomMutation.isPending || addPairRoomHistoryMutation.isPending };
 };
 
 export default useAddPairRoom;
