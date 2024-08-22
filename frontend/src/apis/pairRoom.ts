@@ -88,10 +88,16 @@ export const updateTimerDuration = async ({ timerDuration, accessCode }: UpdateT
     body: JSON.stringify({ timerDuration: Number(timerDuration) * 60 * 1000 }),
     errorMessage: '',
   });
+
+  await fetcher.patch({
+    url: `${API_URL}/${accessCode}/history/latest/timer-remaining-time`,
+    body: JSON.stringify({ timerRemainingTime: Number(timerDuration) * 60 * 1000 }),
+    errorMessage: '',
+  });
 };
 
 interface UpdateRemainingTimeRequest {
-  remainingTime: string;
+  remainingTime: number;
   accessCode: string;
 }
 

@@ -4,18 +4,18 @@ import { AlarmSound } from '@/assets';
 
 import useNotification from '@/hooks/common/useNotification';
 
-const useTimer = (defaultTime: number, onStop: () => void) => {
+const useTimer = (defaultTime: number, defaultTimeleft: number, onStop: () => void) => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const alarmAudio = useRef(new Audio(AlarmSound));
 
-  const [timeLeft, setTimeLeft] = useState(defaultTime);
+  const [timeLeft, setTimeLeft] = useState(defaultTimeleft);
   const [isActive, setIsActive] = useState(false);
   const [startTime, setStartTime] = useState<number | null>(null);
 
   const { fireNotification } = useNotification();
 
   const initializeTimer = () => {
-    setTimeLeft(defaultTime);
+    setTimeLeft(defaultTimeleft);
     setStartTime(null);
     setIsActive(false);
   };

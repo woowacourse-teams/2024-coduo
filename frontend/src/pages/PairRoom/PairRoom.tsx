@@ -9,6 +9,7 @@ import TimerCard from '@/components/PairRoom/TimerCard/TimerCard';
 import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
 
 import useGetPairRoomHistory from '@/queries/Main/useGetPairRoomHistory';
+import useUpdateRemainingTime from '@/queries/PairRoomOnboarding/useUpdateRemainingTime';
 
 import * as S from './PairRoom.styles';
 
@@ -22,8 +23,13 @@ const PairRoom = () => {
     driver: latestDriver,
     navigator: latestNavigator,
     timerDuration,
+    timerRemainingTime,
     isFetching,
   } = useGetPairRoomHistory(accessCode || '');
+
+  console.log(timerRemainingTime);
+
+  const { handleUpdateRemainingTime } = useUpdateRemainingTime(accessCode || '');
 
   useEffect(() => {
     setDriver(latestDriver);
@@ -51,7 +57,12 @@ const PairRoom = () => {
       <PairListCard driver={driver} navigator={navigator} roomCode={accessCode || ''} onRoomDelete={() => {}} />
       <S.Container>
         <PairRoleCard driver={driver} navigator={navigator} />
-        <TimerCard defaultTime={timerDuration} onTimerStop={handleSwap} />
+        <TimerCard
+          defaultTime={timerDuration}
+          defaultTimeleft={timerRemainingTime}
+          onTimerStop={handleSwap}
+          onUpdateTimeLeft={handleUpdateRemainingTime}
+        />
       </S.Container>
       <S.Container>
         <TodoListCard isOpen={!isCardOpen} toggleIsOpen={toggleIsCardOpen} />
