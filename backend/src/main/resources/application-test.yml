@@ -26,6 +26,11 @@ management:
     web:
       exposure:
         include: prometheus
+server:
+  tomcat:
+    mbeanregistry:
+      enabled: true
+
 oauth:
   github:
     client-id: ${CLIENT_ID}

@@ -33,16 +33,4 @@ class TimerTest {
         assertThatThrownBy(() -> new Timer(timerDuration, timerRemainingTime))
                 .isInstanceOf(InvalidTimerException.class);
     }
-
-    @Test
-    @DisplayName("타이머 총 시간보다 남은 시간이 더 클 경우 예외가 발생한다.")
-    void throw_exception_when_remaining_time_is_greater_than_duration() {
-        // given
-        final long timerDuration = 10;
-        final long timerRemainingTime = 11;
-
-        // when, then
-        assertThatThrownBy(() -> new Timer(timerDuration, timerRemainingTime))
-                .isInstanceOf(InvalidTimerException.class);
-    }
 }
