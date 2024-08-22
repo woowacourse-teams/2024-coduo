@@ -19,10 +19,11 @@ import site.coduo.common.controller.response.ApiErrorResponse;
 public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
-    protected ResponseEntity<Object> handleNoResourceFoundException(final NoResourceFoundException ex,
-                                                                    final HttpHeaders headers,
-                                                                    final HttpStatusCode status,
-                                                                    final WebRequest request
+    protected ResponseEntity<Object> handleNoResourceFoundException(
+            final NoResourceFoundException ex,
+            final HttpHeaders headers,
+            final HttpStatusCode status,
+            final WebRequest request
     ) {
         log.warn(ex.getMessage());
 
@@ -31,10 +32,11 @@ public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex,
-                                                                  final HttpHeaders headers,
-                                                                  final HttpStatusCode status,
-                                                                  final WebRequest request
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            final MethodArgumentNotValidException ex,
+            final HttpHeaders headers,
+            final HttpStatusCode status,
+            final WebRequest request
     ) {
         log.warn(ex.getMessage());
 
