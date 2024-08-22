@@ -1,22 +1,22 @@
 import { useEffect, useState } from 'react';
 
-const useTitle = (minutes?: string, seconds?: string) => {
-  const [title, setTitle] = useState('');
+const useTitleTime = (minutes?: string, seconds?: string) => {
+  const [titleTime, setTitleTime] = useState('');
 
   const updateTitle = () => {
     const htmlTitle = document.querySelector('title');
-    if (htmlTitle) htmlTitle.innerHTML = `${title} 코딩해듀오`;
+    if (htmlTitle) htmlTitle.innerHTML = `${titleTime} 코딩해듀오`;
   };
 
   const handleTitle = (title: string) => {
-    setTitle(`${title} -`);
+    setTitleTime(`${title} -`);
   };
 
-  useEffect(updateTitle, [title]);
+  useEffect(updateTitle, [titleTime]);
   useEffect(() => {
-    if (!minutes || !seconds) return setTitle('');
+    if (!minutes || !seconds) return setTitleTime('');
     handleTitle(`${minutes}:${seconds}`);
   }, [minutes, seconds]);
 };
 
-export default useTitle;
+export default useTitleTime;

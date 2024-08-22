@@ -2,7 +2,7 @@ import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import TimerEditPanel from '@/components/PairRoom/TimerCard/TimerEditPanel/TimerEditPanel';
 
 import useTimer from '@/hooks/PairRoom/useTimer';
-import useTitle from '@/hooks/title/useTitle';
+import useTitleTime from '@/hooks/title/useTitleTime';
 
 import { formatTime } from '@/utils/Timer/formatTime';
 
@@ -16,7 +16,7 @@ interface TimerCardProps {
 const TimerCard = ({ defaultTime, onTimerStop }: TimerCardProps) => {
   const { timeLeft, isActive, handleStart, handlePause } = useTimer(defaultTime, onTimerStop);
   const { minutes, seconds } = formatTime(timeLeft);
-  useTitle(minutes, seconds);
+  useTitleTime(minutes, seconds);
 
   return (
     <PairRoomCard>
