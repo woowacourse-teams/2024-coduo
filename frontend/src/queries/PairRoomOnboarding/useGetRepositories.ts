@@ -12,6 +12,7 @@ const useGetRepositories = () => {
   } = useQuery({
     queryKey: [QUERY_KEYS.GET_REPOSITORIES],
     queryFn: () => getRepositories(),
+    refetchOnWindowFocus: false,
   });
 
   return { repositories, isFetching, error };

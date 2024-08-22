@@ -7,6 +7,7 @@ export const buttonStyles = css`
   color: ${({ theme }) => theme.color.black[10]};
   font-size: ${({ theme }) => theme.fontSize.md};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
+  text-align: right;
 
   &:hover {
     border: 0;

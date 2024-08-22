@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import styled, { css } from 'styled-components';
 
 export const Layout = styled.div`
@@ -9,19 +11,33 @@ export const Layout = styled.div`
 export const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
 `;
 
-export const Title = styled.div`
+export const TitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+`;
+
+export const Title = styled.h3`
   color: ${({ theme }) => theme.color.primary[700]};
-  font-size: ${({ theme }) => theme.fontSize.h5};
+  font-size: ${({ theme }) => theme.fontSize.h3};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
 
-export const SubTitle = styled.div`
+export const SubTitle = styled.p`
   color: ${({ theme }) => theme.color.primary[600]};
-  font-size: ${({ theme }) => theme.fontSize.lg};
-  font-weight: ${({ theme }) => theme.fontWeight.normal};
+  font-size: ${({ theme }) => theme.fontSize.h6};
+`;
+
+export const RepositoryLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  color: ${({ theme }) => theme.color.black[60]};
+  font-size: ${({ theme }) => theme.fontSize.md};
 `;
 
 export const HeaderContainer = styled.div`

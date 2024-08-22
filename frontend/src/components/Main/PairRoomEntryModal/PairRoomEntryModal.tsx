@@ -32,7 +32,7 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
     }
 
     if (!isFetching && isSuccess) {
-      navigate(`/room/${value}/onboarding`);
+      navigate(`/room/${value}`);
     }
   };
 

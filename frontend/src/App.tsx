@@ -64,10 +64,6 @@ const App = () => {
           element: <PairRoom />,
         },
         {
-          path: 'room/:accessCode/onboarding',
-          element: <PairRoomOnboarding />,
-        },
-        {
           path: 'sign-up',
           element: <SignUp />,
         },
