@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { GithubLogoWhite, LogoIconWithTitle } from '@/assets';
+
 import * as S from '@/pages/Landing/Landing.styles';
 
 import { ScrollAnimationContainer } from '@/components/common/Animation/ScrollAnimationContainer';
@@ -12,7 +14,6 @@ import usePreventBackNavigation from '@/hooks/common/usePreventBackNavigation';
 import useSignInHandler from '@/hooks/member/useSignInHandler';
 import useTitleTime from '@/hooks/title/useTitleTime';
 
-import { GithubLogoWhite, LogoIconWithTitle } from '@/assets';
 
 const Landing = () => {
   const { userStatus } = useUserStatusStore();
