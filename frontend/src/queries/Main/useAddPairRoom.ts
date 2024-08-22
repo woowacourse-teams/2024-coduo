@@ -31,8 +31,6 @@ const useAddPairRoom = () => {
     try {
       const accessCode = await addPairRoomMutation.mutateAsync({ firstPair, secondPair });
 
-      console.log(accessCode);
-
       await addPairRoomHistoryMutation.mutateAsync({
         driver,
         navigator,

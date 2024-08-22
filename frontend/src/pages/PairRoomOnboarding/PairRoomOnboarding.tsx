@@ -49,8 +49,6 @@ const PairRoomOnboarding = () => {
 
   const { moveIndex } = useAutoMoveIndex(0, validationList, isTyping);
 
-  console.log(isCreateBranchSuccess);
-
   return (
     <S.Layout>
       <S.Container>
