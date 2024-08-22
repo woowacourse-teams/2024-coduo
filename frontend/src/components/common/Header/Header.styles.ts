@@ -37,15 +37,6 @@ export const LinkContainer = styled.div`
   gap: 3rem;
 `;
 
-export const HomeLink = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: ${({ theme }) => theme.iconSize.md};
-  height: ${({ theme }) => theme.iconSize.md};
-`;
-
 export const HowToPairLinkContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -90,4 +81,9 @@ export const HowToPairIconLink = styled.div`
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     display: block;
   }
+`;
+
+export const Username = styled.p`
+  color: ${({ theme }) => theme.color.black[80]};
+  font-size: ${({ theme }) => theme.fontSize.base};
 `;

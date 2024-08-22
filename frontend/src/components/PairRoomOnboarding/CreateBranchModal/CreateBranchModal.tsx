@@ -1,4 +1,5 @@
 import { BsArrowReturnRight } from 'react-icons/bs';
+import { IoHomeSharp } from 'react-icons/io5';
 
 import Button from '@/components/common/Button/Button';
 import { InputStatus } from '@/components/common/Input/Input.type';
@@ -15,27 +16,41 @@ import * as S from './CreateBranchModal.styles';
 interface CreateBranchModalProps {
   isOpen: boolean;
   close: () => void;
-  currentRepo: string;
+  currentRepository: string;
   onComplete: (branchName: string) => void;
 }
 
-const CreateBranchModal = ({ isOpen, close, currentRepo, onComplete }: CreateBranchModalProps) => {
-  const { value, message, handleChange, status } = useInput();
+const CreateBranchModal = ({ isOpen, close, currentRepository, onComplete }: CreateBranchModalProps) => {
+  const { value, status, message, handleChange, resetValue } = useInput();
 
-  const { isAlreadyCreated } = useGetBranches(currentRepo);
+  const { isAlreadyCreated } = useGetBranches(currentRepository);
 
   const validateBranchName = (name: string) => {
     if (isAlreadyCreated(name)) return { status: 'ERROR' as InputStatus, message: '중복된 브랜치 이름 입니다.' };
     return { status: 'DEFAULT' as InputStatus, message: '' };
   };
 
+  const handleClose = () => {
+    resetValue();
+    close();
+  };
+
   return (
-    <Modal isOpen={isOpen} close={close} size="sm">
-      <Modal.CloseButton close={close} />
-      <Modal.Header title="미션 시작하기" subTitle="브랜치를 생성하여 미션을 시작해주세요."></Modal.Header>
+    <Modal isOpen={isOpen} close={handleClose} size="sm">
+      <Modal.CloseButton close={handleClose} />
+      <S.TitleContainer>
+        <S.TitleWrapper>
+          <S.Title>{currentRepository}</S.Title>
+          <S.RepositoryLink to={`https://github.com/coduo-missions/${currentRepository}`} target="_blank">
+            <IoHomeSharp />
+            미션 내용 확인하기
+          </S.RepositoryLink>
+        </S.TitleWrapper>
+        <S.SubTitle>브랜치를 생성하여 미션을 시작해주세요.</S.SubTitle>
+      </S.TitleContainer>
       <Modal.Body>
         <S.ModalContainer>
-          <S.MissionRepository>{currentRepo}</S.MissionRepository>
+          <S.MissionRepository>{currentRepository}</S.MissionRepository>
           <S.MissionBranchBox>
             <BsArrowReturnRight size={'3rem'} color={theme.color.black[70]} />
             <S.MissionBranch

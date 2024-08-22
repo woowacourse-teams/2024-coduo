@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { IoIosCheckbox } from 'react-icons/io';
 import { LuPlus } from 'react-icons/lu';
@@ -11,6 +12,8 @@ import TodoList from '@/components/PairRoom/TodoListCard/TodoList/TodoList';
 
 import useInput from '@/hooks/common/useInput';
 
+import useTodos from '@/queries/PairRoom/useTodos';
+
 import { theme } from '@/styles/theme';
 
 import * as S from './TodoListCard.styles';
@@ -21,17 +24,18 @@ interface TodoListCardProps {
 }
 
 const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
-  const [todos, setTodos] = useState<string[]>([]);
+  const { accessCode } = useParams();
+
   const [isFooterOpen, setIsFooterOpen] = useState(false);
+
+  const { handleAddTodos } = useTodos(accessCode || '');
 
   const { value, handleChange, resetValue } = useInput();
 
-  const handleTodos = (newTodos: string[]) => setTodos(newTodos);
-
-  const addTodo = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    setTodos((prev) => [...prev, value]);
+    handleAddTodos(value);
 
     resetValue();
     setIsFooterOpen(false);
@@ -50,13 +54,19 @@ const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
           toggleIsOpen={toggleIsOpen}
         />
         <S.Body $isOpen={isOpen}>
-          <TodoList todos={todos} handleTodos={handleTodos} />
+          <TodoList />
           <S.Footer>
             {isFooterOpen ? (
-              <S.Form onSubmit={addTodo}>
+              <S.Form onSubmit={handleSubmit}>
                 <Input $css={S.inputStyles} value={value} onChange={handleChange} />
                 <S.ButtonContainer>
-                  <Button type="button" size="sm" filled={false} rounded={true} onClick={() => setIsFooterOpen(false)}>
+                  <Button
+                    type="button"
+                    size="sm"
+                    filled={false}
+                    rounded={true}
+                    onClick={() => setIsFooterOpen(false)}
+                  >
                     취소
                   </Button>
                   <Button type="submit" size="sm" rounded={true} disabled={value === ''}>

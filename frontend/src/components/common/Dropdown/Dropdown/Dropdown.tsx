@@ -58,7 +58,7 @@ const Dropdown = ({
           {selectedOption || placeholder}
           <S.Icon $isOpen={isOpen} size={theme.iconSize.md} $direction={direction} />
         </S.OpenButton>
-        {!options.every((option) => option === '') && isOpen && (
+        {!options.some((option) => option === '') && isOpen && (
           <S.ItemList $width={width} $height={height} $direction={direction}>
             {options.map((option, index) => (
               <li key={`${option}_${index}`}>

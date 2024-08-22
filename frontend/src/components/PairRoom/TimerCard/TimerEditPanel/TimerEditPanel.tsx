@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { validateTimerDuration } from '@/validations/validateTimerDuration';
@@ -7,6 +8,7 @@ import Input from '@/components/common/Input/Input';
 
 import useToastStore from '@/stores/toastStore';
 
+import useClickOutside from '@/hooks/common/useClickOutside';
 import useInput from '@/hooks/common/useInput';
 import useModal from '@/hooks/common/useModal';
 
@@ -21,6 +23,7 @@ interface TimerEditPanelProps {
 }
 
 const TimerEditPanel = ({ isActive }: TimerEditPanelProps) => {
+  const panelRef = useRef<HTMLDivElement>(null);
   const { accessCode } = useParams();
   const { addToast } = useToastStore();
 
@@ -49,13 +52,15 @@ const TimerEditPanel = ({ isActive }: TimerEditPanelProps) => {
     closePanel();
   };
 
+  useClickOutside(panelRef, () => closePanel());
+
   const isButtonDisabled = value === '' || !validateTimerDuration(value);
 
   return (
     <S.Layout>
       <S.Icon onClick={handleButtonClick} />
       {isPanelOpen && (
-        <S.Panel>
+        <S.Panel ref={panelRef}>
           <S.Title>타이머 시간 변경</S.Title>
           <S.Form onSubmit={handleSubmit}>
             <Input id="timer" value={value} placeholder="타이머 시간 (분)" onChange={handleChange} />

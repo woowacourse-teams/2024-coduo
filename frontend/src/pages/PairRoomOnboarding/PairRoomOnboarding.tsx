@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import Button from '@/components/common/Button/Button';
-import Spinner from '@/components/common/Spinner/Spinner';
 import MissionSelectInput from '@/components/PairRoomOnboarding/MissionSelectInput/MissionSelectInput';
 import PairNameInput from '@/components/PairRoomOnboarding/PairNameInput/PairNameInput';
 import PairRoleInput from '@/components/PairRoomOnboarding/PairRoleInput/PairRoleInput';
@@ -40,8 +39,8 @@ const PairRoomOnboarding = () => {
     handleTimerDuration,
   } = usePairRoomInformation();
 
-  const { handleCreateBranch } = useCreateBranch();
-  const { handleAddPairRoom, isPending } = useAddPairRoom();
+  const { handleCreateBranch, isSuccess: isCreateBranchSuccess } = useCreateBranch();
+  const { handleAddPairRoom } = useAddPairRoom();
 
   const handleSuccess = () =>
     handleAddPairRoom(firstPairName.value, secondPairName.value, driver, navigator, timerDuration);
@@ -54,10 +53,8 @@ const PairRoomOnboarding = () => {
     <S.Layout>
       <S.Container>
         <S.Title>{mission === 'true' ? '미션과 함께 시작하기' : '그냥 시작하기'}</S.Title>
-        {mission === 'true' && <MissionSelectInput onCreateBranch={handleCreateBranch} />}
-        {isPending ? (
-          <Spinner />
-        ) : (
+        {mission === 'true' && !isCreateBranchSuccess && <MissionSelectInput onCreateBranch={handleCreateBranch} />}
+        {((mission === 'true' && isCreateBranchSuccess) || mission === 'false') && (
           <S.InputContainer>
             <PairNameInput
               firstPairName={firstPairName}

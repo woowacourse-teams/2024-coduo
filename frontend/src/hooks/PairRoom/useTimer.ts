@@ -13,7 +13,7 @@ const useTimer = (defaultTime: number, defaultTimeleft: number, onStop: () => vo
   const [startTime, setStartTime] = useState<number | null>(null);
 
   const { fireNotification } = useNotification();
-
+  
   const initializeTimer = () => {
     setTimeLeft(defaultTimeleft);
     setStartTime(null);

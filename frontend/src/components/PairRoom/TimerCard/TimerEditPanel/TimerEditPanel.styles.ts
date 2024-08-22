@@ -10,7 +10,6 @@ export const Layout = styled.div`
   position: absolute;
   top: 1.5rem;
   right: 1.5rem;
-  z-index: 1;
 `;
 
 export const Icon = styled(IoSettingsOutline)`
