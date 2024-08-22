@@ -77,15 +77,28 @@ export const addPairRoomHistory = async ({
   });
 };
 
-interface UpdateTimerRequest {
-  timer: string;
+interface UpdateTimerDurationRequest {
+  timerDuration: string;
   accessCode: string;
 }
 
-export const updateTimer = async ({ timer, accessCode }: UpdateTimerRequest) => {
+export const updateTimerDuration = async ({ timerDuration, accessCode }: UpdateTimerDurationRequest) => {
   await fetcher.patch({
-    url: `${API_URL}/pair-room/${accessCode}/timer`,
-    body: JSON.stringify({ timerDuration: Number(timer) * 60 * 1000 }),
+    url: `${API_URL}/${accessCode}/history/latest/timer-duration`,
+    body: JSON.stringify({ timerDuration: Number(timerDuration) * 60 * 1000 }),
+    errorMessage: '',
+  });
+};
+
+interface UpdateRemainingTimeRequest {
+  remainingTime: string;
+  accessCode: string;
+}
+
+export const updateRemainingTime = async ({ remainingTime, accessCode }: UpdateRemainingTimeRequest) => {
+  await fetcher.patch({
+    url: `${API_URL}/${accessCode}/history/latest/timer-remaining-time`,
+    body: JSON.stringify({ timerRemainingTime: remainingTime }),
     errorMessage: '',
   });
 };

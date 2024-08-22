@@ -2,17 +2,17 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import useToastStore from '@/stores/toastStore';
 
-import { updateTimer } from '@/apis/pairRoom';
+import { updateTimerDuration } from '@/apis/pairRoom';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-const useAddTimer = (onSuccess: () => void) => {
+const useUpdateTimerDuration = (onSuccess: () => void) => {
   const queryClient = useQueryClient();
 
   const { addToast } = useToastStore();
 
   const { mutate, isPending } = useMutation({
-    mutationFn: updateTimer,
+    mutationFn: updateTimerDuration,
     onSuccess: () => {
       onSuccess();
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_PAIR_ROOM] });
@@ -20,7 +20,10 @@ const useAddTimer = (onSuccess: () => void) => {
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });
 
-  return { handleAddTimer: mutate, isPending };
+  const handleUpdateTimerDuration = (timerDuration: string, accessCode: string) =>
+    mutate({ timerDuration, accessCode });
+
+  return { handleUpdateTimerDuration, isPending };
 };
 
-export default useAddTimer;
+export default useUpdateTimerDuration;
