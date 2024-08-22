@@ -17,8 +17,6 @@ import site.coduo.member.infrastructure.security.JwtProvider;
 @Configuration
 public class FilterConfig {
 
-    private final JwtProvider jwtProvider; //TODO 인스턴스 변수 없애고 사옹하는 메서드에서 파라미터로 받자.
-
     @Bean
     public FilterRegistrationBean<StateSessionFilter> stateSessionFilter() {
         final FilterRegistrationBean<StateSessionFilter> bean = new FilterRegistrationBean<>();
@@ -38,7 +36,7 @@ public class FilterConfig {
     }
 
     @Bean
-    public FilterRegistrationBean<SignInCookieFilter> signInCookieFilter() {
+    public FilterRegistrationBean<SignInCookieFilter> signInCookieFilter(final JwtProvider jwtProvider) {
         final FilterRegistrationBean<SignInCookieFilter> bean = new FilterRegistrationBean<>();
         bean.setFilter(new SignInCookieFilter(jwtProvider));
         bean.addUrlPatterns("/api/sign-out", "/api/sign-in/check", "/api/member");
