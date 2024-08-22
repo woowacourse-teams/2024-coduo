@@ -1,3 +1,5 @@
+import { useRef, useEffect } from 'react';
+
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import TimerEditPanel from '@/components/PairRoom/TimerCard/TimerEditPanel/TimerEditPanel';
 
@@ -10,11 +12,39 @@ import * as S from './TimerCard.styles';
 
 interface TimerCardProps {
   defaultTime: number;
+  defaultTimeleft: number;
   onTimerStop: () => void;
+  onUpdateTimeLeft: (remainingTime: number) => void;
 }
 
-const TimerCard = ({ defaultTime, onTimerStop }: TimerCardProps) => {
-  const { timeLeft, isActive, handleStart, handlePause } = useTimer(defaultTime, onTimerStop);
+const TimerCard = ({ defaultTime, defaultTimeleft, onTimerStop, onUpdateTimeLeft }: TimerCardProps) => {
+  const { timeLeft, isActive, handleStart, handlePause } = useTimer(defaultTime, defaultTimeleft, onTimerStop);
+
+  const timeLeftRef = useRef(timeLeft);
+  timeLeftRef.current = timeLeft;
+
+  useEffect(() => {
+    const handleBeforeMove = (event: BeforeUnloadEvent) => {
+      onUpdateTimeLeft(timeLeftRef.current);
+      handlePause();
+      event.preventDefault();
+    };
+
+    window.addEventListener('beforeunload', handleBeforeMove);
+    window.addEventListener('popstate', handleBeforeMove);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeMove);
+      window.removeEventListener('popstate', handleBeforeMove);
+    };
+  }, []);
+
+  // useBeforeUnload((event) => {
+  //   onUpdateTimeLeft(timeLeftRef.current);
+  //   handlePause();
+  //   event.preventDefault();
+  // });
+
   const { minutes, seconds } = formatTime(timeLeft);
   useTitleTime(minutes, seconds);
 

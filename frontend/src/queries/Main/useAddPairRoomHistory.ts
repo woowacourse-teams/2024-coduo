@@ -4,12 +4,11 @@ import useToastStore from '@/stores/toastStore';
 
 import { addPairRoomHistory } from '@/apis/pairRoom';
 
-const useAddPairRoomHistory = (onSuccess: () => void) => {
+const useAddPairRoomHistory = (accessCode: string) => {
   const { addToast } = useToastStore();
 
-  const { mutate, isPending, data } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: addPairRoomHistory,
-    onSuccess: onSuccess,
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });
 
@@ -18,10 +17,9 @@ const useAddPairRoomHistory = (onSuccess: () => void) => {
     navigator: string,
     timerDuration: number,
     timerRemainingTime: number,
-    accessCode: string,
   ) => mutate({ driver, navigator, timerDuration, timerRemainingTime, accessCode });
 
-  return { handleAddPairRoomHistory, accessCode: data, isPending };
+  return { handleAddPairRoomHistory };
 };
 
 export default useAddPairRoomHistory;
