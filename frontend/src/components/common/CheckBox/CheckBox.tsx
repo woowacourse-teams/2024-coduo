@@ -1,18 +1,17 @@
-import { useState } from 'react';
-
 import { MdCheck } from 'react-icons/md';
 
 import { theme } from '@/styles/theme';
 
 import * as S from './CheckBox.styles';
 
-const CheckBox = () => {
-  const [isChecked, setIsChecked] = useState(false);
+interface CheckBoxProps {
+  isChecked: boolean;
+  onClick: () => void;
+}
 
-  const toggleIsChecked = () => setIsChecked((prev) => !prev);
-
+const CheckBox = ({ isChecked, onClick }: CheckBoxProps) => {
   return (
-    <S.Layout onClick={toggleIsChecked}>
+    <S.Layout onClick={onClick}>
       <S.Input type="checkbox" checked={isChecked} readOnly />
       <S.CheckMark $isChecked={isChecked}>
         {isChecked && <MdCheck size="1.8rem" color={theme.color.black[10]} />}
