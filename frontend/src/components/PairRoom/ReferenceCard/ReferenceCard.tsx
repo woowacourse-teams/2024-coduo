@@ -50,7 +50,7 @@ const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps)
   const { addCategory } = useAddCategory();
 
   const validateCategoryName = (category: string): { status: InputStatus; message: string } => {
-    if (category.length >= 8)
+    if (category.length > 8)
       return {
         status: 'ERROR',
         message: '8자 이하로 입력해주세요',
