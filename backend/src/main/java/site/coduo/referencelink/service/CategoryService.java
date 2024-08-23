@@ -1,6 +1,7 @@
 package site.coduo.referencelink.service;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,11 +58,18 @@ public class CategoryService {
     public CategoryUpdateResponse updateCategoryName(final String accessCode,
                                                      final CategoryUpdateRequest request) {
         final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
+        validateNotChanged(request);
         validateDuplicated(request.updatedCategoryName(), pairRoom);
         final CategoryEntity category = categoryRepository.fetchByPairRoomAndCategoryName(pairRoom,
                 request.previousCategoryName());
         category.updateCategoryName(request.updatedCategoryName());
         return new CategoryUpdateResponse(category.getCategoryName());
+    }
+
+    private void validateNotChanged(final CategoryUpdateRequest request) {
+        if (Objects.equals(request.previousCategoryName(), request.updatedCategoryName())) {
+            throw new InvalidCategoryException("변경하고자 하는 카테고리가 동일합니다.");
+        }
     }
 
     public void deleteCategory(final String accessCode, final String categoryName) {
