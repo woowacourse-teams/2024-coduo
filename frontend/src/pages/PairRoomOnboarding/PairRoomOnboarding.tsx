@@ -76,11 +76,13 @@ const PairRoomOnboarding = () => {
             {moveIndex >= 2 && (
               <TimerDurationInput timerDuration={timerDuration} onTimerDuration={handleTimerDuration} />
             )}
-            <S.ButtonWrapper>
-              <Button disabled={validationList.some((valid) => !valid)} onClick={handleSuccess}>
-                {BUTTON_TEXT.COMPLETE}
-              </Button>
-            </S.ButtonWrapper>
+            {moveIndex >= 3 && (
+              <S.ButtonWrapper>
+                <Button disabled={validationList.some((valid) => !valid)} onClick={handleSuccess}>
+                  {BUTTON_TEXT.COMPLETE}
+                </Button>
+              </S.ButtonWrapper>
+            )}
           </S.InputContainer>
         )}
       </S.Container>
