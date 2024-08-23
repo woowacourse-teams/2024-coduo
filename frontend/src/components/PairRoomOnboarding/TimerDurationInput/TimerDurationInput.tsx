@@ -72,7 +72,7 @@ const TimerDurationInput = ({ timerDuration, onTimerDuration }: TimerDurationInp
               value={timerDuration}
               placeholder="타이머 시간 (분)"
               status={!validateTimerDuration(timerDuration) ? 'ERROR' : 'DEFAULT'}
-              message={!validateTimerDuration(timerDuration) ? '0 이상의 숫자를 입력해 주세요.' : ''}
+              message={!validateTimerDuration(timerDuration) ? '1 이상 99 이하의 숫자를 입력해 주세요.' : ''}
               disabled={!isCustom}
               onChange={handleCustomTime}
             />
