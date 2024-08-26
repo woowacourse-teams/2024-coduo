@@ -1,13 +1,15 @@
 import styled, { css, keyframes } from 'styled-components';
 
 const gradientAnimation = keyframes`
-  0% {
+  0%{
     background-position: 0% 50%;
   }
-
-  100% {
-    background-position: 200% 50%;
+  50%{
+    background-position: 100% 50%;
   }
+  100% {
+    background-position: 0% 50%;
+    }
 `;
 
 export const GithubLoginButton = css`
@@ -51,16 +53,15 @@ export const Layout = styled.div`
   padding: 0 10.8vw;
 
   background: linear-gradient(
-    45deg,
+    -45deg,
     rgb(152 251 152 / 50%),
     rgb(0 224 200 / 50%),
     rgb(152 251 152 / 50%),
     rgb(0 224 200 / 50%)
   );
 
-  animation: ${gradientAnimation} 10s linear infinite;
-  background-size: 200% 200%;
-
+  animation: ${gradientAnimation} 10s ease infinite;
+  background-size: 400% 400%;
   @media (width <= 768px) {
     padding: 1rem;
   }
