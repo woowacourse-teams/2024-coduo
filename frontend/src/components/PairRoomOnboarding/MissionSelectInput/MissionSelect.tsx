@@ -7,13 +7,14 @@ import RepositoryButton from '@/components/PairRoomOnboarding/RepositoryButton/R
 
 import useModal from '@/hooks/common/useModal';
 
+import useCreateBranch from '@/queries/PairRoomOnboarding/useCreateBranch';
 import useGetRepositories from '@/queries/PairRoomOnboarding/useGetRepositories';
 
-import * as S from './MissionSelectInput.styles';
+import * as S from './MissionSelect.styles';
 
-interface MissionSelectInputProps {
-  onCreateBranch: (currentRepository: string, branchName: string) => void;
-}
+// interface MissionSelectInputProps {
+//   onCreateBranch: (currentRepository: string, branchName: string) => void;
+// }
 
 interface Repository {
   archive_url: string;
@@ -22,11 +23,13 @@ interface Repository {
   id: string;
 }
 
-const MissionSelectInput = ({ onCreateBranch }: MissionSelectInputProps) => {
+const MissionSelect = () => {
   const [currentRepository, setCurrentRepository] = useState('');
 
   const { isModalOpen, closeModal, openModal } = useModal();
   const { repositories, isFetching } = useGetRepositories();
+
+  const { handleCreateBranch } = useCreateBranch();
 
   const handleSelectRepository = (currentRepository: string) => {
     setCurrentRepository(currentRepository);
@@ -45,6 +48,8 @@ const MissionSelectInput = ({ onCreateBranch }: MissionSelectInputProps) => {
           description="미션을 선택하고 해당 미션 레포지토리에 원하는 이름으로 브랜치를 생성하세요. 생성된 브랜치로 이동하여 미션 코드를 관리할 수 있습니다."
         />
       </S.HeaderContainer>
+      {/* TODO: 타이틀, 서브타이틀, 인포박스 각 온보딩 설명마다 Header 에 프롭스 넘겨주는걸로 추상화를 할 지 고민해보자. */}
+
       <S.RepositoryContainer>
         {isFetching ? (
           <Spinner size="sm" />
@@ -61,14 +66,15 @@ const MissionSelectInput = ({ onCreateBranch }: MissionSelectInputProps) => {
           })
         )}
       </S.RepositoryContainer>
+
       <CreateBranchModal
         isOpen={isModalOpen}
         close={closeModal}
         currentRepository={currentRepository}
-        onComplete={(branchName: string) => onCreateBranch(currentRepository, branchName)}
+        onComplete={(branchName: string) => handleCreateBranch(currentRepository, branchName)}
       />
     </S.Layout>
   );
 };
 
-export default MissionSelectInput;
+export default MissionSelect;
