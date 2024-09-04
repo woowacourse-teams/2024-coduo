@@ -14,7 +14,7 @@ import site.coduo.todo.exception.TodoException;
 @Slf4j
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class TodoErrorController {
+public class TodoExceptionHandler {
 
     @ExceptionHandler(TodoException.class)
     public ResponseEntity<ApiErrorResponse> handleTodoException(final TodoException e) {

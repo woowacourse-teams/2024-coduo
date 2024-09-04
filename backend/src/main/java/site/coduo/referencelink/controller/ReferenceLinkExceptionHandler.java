@@ -15,7 +15,7 @@ import site.coduo.referencelink.exception.ReferenceLinkException;
 @Slf4j
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class ReferenceLinkErrorController {
+public class ReferenceLinkExceptionHandler {
 
     @ExceptionHandler(InvalidUrlFormatException.class)
     public ResponseEntity<ApiErrorResponse> handleInvalidUrlFormatException(final InvalidUrlFormatException e) {

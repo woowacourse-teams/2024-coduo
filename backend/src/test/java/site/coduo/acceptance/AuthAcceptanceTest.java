@@ -124,6 +124,20 @@ class AuthAcceptanceTest extends AcceptanceFixture {
                 .statusCode(HttpStatus.SC_MOVED_TEMPORARILY);
     }
 
+    @Test
+    @DisplayName("액세스 토큰이 없을 때 예외를 던진다.")
+    void no_access_token() {
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+
+                .when()
+                .post("/api/sign-up")
+
+                .then().log().all()
+                .statusCode(HttpStatus.SC_UNAUTHORIZED);
+    }
+
     private Member createMember() {
         return Member.builder()
                 .username("test user")
