@@ -1,7 +1,0 @@
-node_modules
-.env.*
-*storybook.log
-
-nginx.conf
-.dockerignore
-
