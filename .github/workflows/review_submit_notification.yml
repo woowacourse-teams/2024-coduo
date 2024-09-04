@@ -19,7 +19,7 @@ jobs:
       - name: Read Thead JSON and Set Env Variables
         run: |
           TARGET_URL=${{ github.event.pull_request.html_url }}
-          JSON_CONTENT=$(cat .github/logs/thread_fe.json)
+          JSON_CONTENT=$(cat .github/logs/thread_be.json)
           TARGET_OBJECT=$(echo "$JSON_CONTENT" | jq --arg url "$TARGET_URL" '.[] | select(.pr_url == $url)')
 
           PR_URL=$(echo "$TARGET_OBJECT" | jq -r '.pr_url')
@@ -50,7 +50,7 @@ jobs:
       - name: Send Slack notification
         uses: slackapi/slack-github-action@v1.22.0
         with:
-          channel-id: ${{secrets.SLACK_FE_REVIEW_CHANNEL}}
+          channel-id: ${{secrets.SLACK_BE_REVIEW_CHANNEL}}
           payload: |
             {
               "text": "리뷰가 도착했어요✉️",

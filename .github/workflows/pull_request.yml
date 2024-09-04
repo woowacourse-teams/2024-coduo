@@ -43,7 +43,7 @@ jobs:
         id: pull_request_notify
         uses: slackapi/slack-github-action@v1.26.0
         with:
-          channel-id: ${{secrets.SLACK_FE_REVIEW_CHANNEL}}
+          channel-id: ${{secrets.SLACK_BE_REVIEW_CHANNEL}}
           payload: |
             {
               "text": "⌛PR왔다 리뷰해라⌛",
@@ -74,19 +74,19 @@ jobs:
           mkdir -p .github/logs
           cd .github/logs
 
-          if [ -f thread_fe.json ]; then
-            jq --argjson new "$NEW_THREAD_JSON" '. += [$new]' thread_fe.json > thread_fe.tmp.json
-            mv thread_fe.tmp.json thread_fe.json
+          if [ -f thread_be.json ]; then
+            jq --argjson new "$NEW_THREAD_JSON" '. += [$new]' thread_be.json > thread_be.tmp.json
+            mv thread_be.tmp.json thread_be.json
           else
-            echo "[$NEW_THREAD_JSON]" > thread_fe.json
+            echo "[$NEW_THREAD_JSON]" > thread_be.json
           fi
 
-      - name: Commit updated thread_fe.json
+      - name: Commit updated thread_be.json
         run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Actions"
-          git add .github/logs/thread_fe.json
-          git commit -m "Update thread_fe.json with new thread data"
+          git add .github/logs/thread_be.json
+          git commit -m "Update thread_be.json with new thread data"
           git push origin ${{ vars.SLACK_BRANCH }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
