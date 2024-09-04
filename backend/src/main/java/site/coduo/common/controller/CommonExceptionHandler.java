@@ -20,12 +20,12 @@ public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleNoResourceFoundException(
-            final NoResourceFoundException ex,
+            final NoResourceFoundException e,
             final HttpHeaders headers,
             final HttpStatusCode status,
             final WebRequest request
     ) {
-        log.warn(ex.getMessage());
+        log.warn(e.getMessage());
 
         return ResponseEntity.status(CommonApiError.DATA_NOT_FOUND_ERROR.getHttpStatus())
                 .body(new ApiErrorResponse(CommonApiError.DATA_NOT_FOUND_ERROR.getMessage()));
@@ -33,12 +33,12 @@ public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
-            final MethodArgumentNotValidException ex,
+            final MethodArgumentNotValidException e,
             final HttpHeaders headers,
             final HttpStatusCode status,
             final WebRequest request
     ) {
-        log.warn(ex.getMessage());
+        log.warn(e.getMessage());
 
         return ResponseEntity.status(CommonApiError.INVALID_ARGUMENT_ERROR.getHttpStatus())
                 .body(new ApiErrorResponse(CommonApiError.INVALID_ARGUMENT_ERROR.getMessage()));
