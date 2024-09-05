@@ -12,7 +12,7 @@ import io.restassured.RestAssured;
 import site.coduo.config.TestConfig;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
-import site.coduo.pairroomhistory.repository.PairRoomHistoryRepository;
+import site.coduo.timer.repository.TimerRepository;
 import site.coduo.referencelink.repository.CategoryRepository;
 import site.coduo.referencelink.repository.OpenGraphRepository;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
@@ -37,7 +37,7 @@ abstract class AcceptanceFixture {
     private CategoryRepository categoryRepository;
 
     @Autowired
-    private PairRoomHistoryRepository pairRoomHistoryRepository;
+    private TimerRepository timerRepository;
 
     @LocalServerPort
     private int port;
@@ -49,7 +49,7 @@ abstract class AcceptanceFixture {
 
     @AfterEach
     void tearDown() {
-        pairRoomHistoryRepository.deleteAll();
+        timerRepository.deleteAll();
         memberRepository.deleteAll();
         openGraphRepository.deleteAll();
         referenceLinkRepository.deleteAll();
