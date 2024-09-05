@@ -78,9 +78,6 @@ class PairRoomHistoryServiceTest extends CascadeCleaner {
 
         // then
         assertAll(
-                () -> assertThat(actual.driver()).isEqualTo(secondRequest.driver()),
-                () -> assertThat(actual.navigator()).isEqualTo(secondRequest.navigator()),
-                () -> assertThat(actual.timerRound()).isEqualTo(timerRound),
                 () -> assertThat(actual.timerDuration()).isEqualTo(secondRequest.timerDuration()),
                 () -> assertThat(actual.timerRemainingTime()).isEqualTo(secondRequest.timerRemainingTime())
         );

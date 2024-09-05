@@ -17,11 +17,10 @@ import lombok.NoArgsConstructor;
 import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroomhistory.domain.PairRoomHistory;
-import site.coduo.pairroomhistory.domain.Timer;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "PAIR_ROOM_HISTORY")
+@Table(name = "TIMER")
 @Entity
 public class PairRoomHistoryEntity extends BaseTimeEntity {
 
@@ -34,15 +33,6 @@ public class PairRoomHistoryEntity extends BaseTimeEntity {
     @JoinColumn(name = "PAIR_ROOM_ID", nullable = false)
     private PairRoom pairRoom;
 
-    @Column(name = "DRIVER", nullable = false)
-    private String driver;
-
-    @Column(name = "NAVIGATOR", nullable = false)
-    private String navigator;
-
-    @Column(name = "TIMER_ROUND", nullable = false)
-    private int timerRound;
-
     @Column(name = "TIMER_DURATION", nullable = false)
     private long timerDuration;
 
@@ -50,14 +40,10 @@ public class PairRoomHistoryEntity extends BaseTimeEntity {
     private long timerRemainingTime;
 
     public PairRoomHistoryEntity(final PairRoomHistory pairRoomHistory) {
-        final Timer timer = pairRoomHistory.getTimer();
 
         this.pairRoom = pairRoomHistory.getPairRoom();
-        this.driver = pairRoomHistory.getDriver();
-        this.navigator = pairRoomHistory.getNavigator();
-        this.timerRound = timer.getTimerRound();
-        this.timerDuration = timer.getTimerDuration();
-        this.timerRemainingTime = timer.getTimerRemainingTime();
+        this.timerDuration = pairRoomHistory.getTimerDuration();
+        this.timerRemainingTime = pairRoomHistory.getTimerRemainingTime();
     }
 
     public void updateTimerRemainingTime(final long timerRemainingTime) {
@@ -69,12 +55,7 @@ public class PairRoomHistoryEntity extends BaseTimeEntity {
     }
 
     public PairRoomHistory toDomain() {
-        return PairRoomHistory.builder()
-                .pairRoom(pairRoom)
-                .driver(driver)
-                .navigator(navigator)
-                .timer(new Timer(timerRound, timerDuration, timerRemainingTime))
-                .build();
+        return new PairRoomHistory(pairRoom, timerDuration, timerRemainingTime);
     }
 
     @Override
