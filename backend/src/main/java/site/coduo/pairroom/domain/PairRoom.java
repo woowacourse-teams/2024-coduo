@@ -8,9 +8,9 @@ import site.coduo.pairroom.domain.accesscode.AccessCode;
 @Getter
 public class PairRoom {
 
-    private PairRoomStatus status;
-    private Pair pair;
-    private AccessCode accessCode;
+    private final PairRoomStatus status;
+    private final Pair pair;
+    private final AccessCode accessCode;
 
     public PairRoom(final Pair pair, final PairRoomStatus status, final AccessCode accessCode) {
         this.status = status;
@@ -22,12 +22,12 @@ public class PairRoom {
         return accessCode.getValue();
     }
 
-    public String getFirstPairName() {
-        return pair.getFirstPairName();
+    public String getNavigatorName() {
+        return pair.getNavigatorName();
     }
 
-    public String getSecondPairName() {
-        return pair.getSecondPairName();
+    public String getDriverName() {
+        return pair.getDriverName();
     }
 
     @Override

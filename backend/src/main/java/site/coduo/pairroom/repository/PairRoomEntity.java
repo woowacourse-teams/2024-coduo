@@ -48,7 +48,7 @@ public class PairRoomEntity extends BaseTimeEntity {
 
     @Builder
     private PairRoomEntity(final Long id, final PairRoomStatus status, final String navigator, final String driver,
-                          final String accessCode) {
+                           final String accessCode) {
         this.id = id;
         this.status = status;
         this.navigator = navigator;
@@ -56,21 +56,21 @@ public class PairRoomEntity extends BaseTimeEntity {
         this.accessCode = accessCode;
     }
 
+    public static PairRoomEntity from(final PairRoom pairRoom) {
+        return new PairRoomEntity(
+                null,
+                pairRoom.getStatus(),
+                pairRoom.getNavigatorName(),
+                pairRoom.getDriverName(),
+                pairRoom.getAccessCodeText()
+        );
+    }
+
     public PairRoom toDomain() {
         return new PairRoom(
                 new Pair(new PairName(navigator), new PairName(driver)),
                 status,
                 new AccessCode(accessCode)
-        );
-    }
-
-    public static PairRoomEntity from(final PairRoom pairRoom) {
-        return new PairRoomEntity(
-                null,
-                pairRoom.getStatus(),
-                pairRoom.getFirstPairName(),
-                pairRoom.getSecondPairName(),
-                pairRoom.getAccessCodeText()
         );
     }
 
