@@ -10,8 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import site.coduo.pairroom.domain.Pair;
+import site.coduo.pairroom.domain.PairName;
+import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
+import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
+import site.coduo.pairroom.repository.PairRoomEntity;
+import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.timer.repository.TimerRepository;
 
@@ -23,6 +29,8 @@ class PairRoomServiceTest {
     private PairRoomService pairRoomService;
     @Autowired
     private TimerRepository timerRepository;
+    @Autowired
+    private PairRoomRepository pairRoomRepository;
 
     @Test
     @DisplayName("페어룸을 생성한다.")
@@ -82,5 +90,23 @@ class PairRoomServiceTest {
         // then
         assertThat(PairRoomStatus.findByName(pairRoomService.findByAccessCode(accessCode).status()))
                 .isEqualTo(PairRoomStatus.COMPLETED);
+    }
+
+    @Test
+    @DisplayName("페어 역할을 변경한다.")
+    void change_pair_room() {
+        // given
+        final PairRoomEntity entity = PairRoomEntity.from(
+                new PairRoom(new Pair(new PairName("fram"), new PairName("lemonL")),
+                        PairRoomStatus.IN_PROGRESS, new AccessCode("1234")));
+        pairRoomRepository.save(entity);
+
+        // when
+        pairRoomService.updateNavigatorWithDriver(entity.getAccessCode());
+
+        // then
+        assertThat(entity)
+                .extracting("navigator", "driver")
+                .contains("lemonL", "fram");
     }
 }

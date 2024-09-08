@@ -14,7 +14,7 @@ import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
 
 @Transactional
-class PairRoomEntityAcceptanceTest extends AcceptanceFixture {
+class PairRoomAcceptanceTest extends AcceptanceFixture {
 
     static PairRoomCreateResponse createPairRoom(final PairRoomCreateRequest pairRoom) {
         return RestAssured
@@ -76,6 +76,26 @@ class PairRoomEntityAcceptanceTest extends AcceptanceFixture {
                 .then()
                 .log()
                 .all()
+                .statusCode(204);
+    }
+
+    @Test
+    @DisplayName("페어룸의 드라이버와 내비게이터를 변경한다.")
+    void update_driver_navigator() {
+        // given
+        final PairRoomCreateResponse accessCode =
+                createPairRoom(new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "IN_PROGRESS"));
+
+        // when & then
+        RestAssured
+                .given()
+                .log()
+                .all()
+
+                .when()
+                .patch("/api/pair-room/{access-code}/pair-swap", accessCode.accessCode())
+
+                .then()
                 .statusCode(204);
     }
 }

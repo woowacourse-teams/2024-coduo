@@ -9,10 +9,10 @@ public record PairRoomReadResponse(
         long id,
 
         @Schema(description = "첫 번째 페어의 이름", example = "해시")
-        String firstPair,
+        String navigator,
 
         @Schema(description = "두 번째 페어의 이름", example = "파슬리")
-        String secondPair,
+        String driver,
 
         @Schema(description = "페어룸의 상태", example = "IN_PROGRESS")
         String status

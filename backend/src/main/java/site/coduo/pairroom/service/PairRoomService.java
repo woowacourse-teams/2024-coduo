@@ -48,6 +48,11 @@ public class PairRoomService {
         return pairRoom.getAccessCodeText();
     }
 
+    public void updateNavigatorWithDriver(final String accessCode) {
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
+        pairRoomEntity.swapNavigatorWithDriver();
+    }
+
     @Transactional
     public void updatePairRoomStatus(final String accessCode, final String statusName) {
         final PairRoomStatus status = PairRoomStatus.findByName(statusName);

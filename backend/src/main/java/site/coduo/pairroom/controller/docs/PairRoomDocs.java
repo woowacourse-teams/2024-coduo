@@ -34,6 +34,13 @@ public interface PairRoomDocs {
             PairRoomCreateRequest pairRoomCreateRequest
     );
 
+    @Operation(summary = "드라이버 네비게이터 역할을 바꾼다.")
+    @ApiResponse(responseCode = "204", description = "페어룸 역할 스왑 성공")
+    ResponseEntity<Void> updatePairRole(
+            @Parameter(description = "페어룸 접근 코드")
+            String accessCode
+    );
+
     @Operation(summary = "페어룸의 상태를 변경한다.")
     @ApiResponse(responseCode = "204", description = "페어룸 상태 변경 성공")
     ResponseEntity<Void> updatePairRoomStatus(

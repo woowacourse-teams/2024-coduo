@@ -78,6 +78,12 @@ public class PairRoomEntity extends BaseTimeEntity {
         this.status = status;
     }
 
+    public void swapNavigatorWithDriver() {
+        final String temp = this.navigator;
+        this.navigator = this.driver;
+        this.driver = temp;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

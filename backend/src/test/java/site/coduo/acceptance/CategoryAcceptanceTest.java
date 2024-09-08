@@ -38,7 +38,7 @@ class CategoryAcceptanceTest extends AcceptanceFixture {
     @DisplayName("카테고리 요청 시 정보를 반환한다.")
     void show_category() {
         //given
-        final PairRoomCreateResponse pairRoomUrl = PairRoomEntityAcceptanceTest.createPairRoom(
+        final PairRoomCreateResponse pairRoomUrl = PairRoomAcceptanceTest.createPairRoom(
                 new PairRoomCreateRequest("레디", "프람", 10000L, 10000L,
                         PairRoomStatus.IN_PROGRESS.name()));
 
@@ -64,7 +64,7 @@ class CategoryAcceptanceTest extends AcceptanceFixture {
     @DisplayName("카테고리를 업데이트 한다.")
     void update_category() {
         //given
-        final PairRoomCreateResponse pairRoomUrl = PairRoomEntityAcceptanceTest.createPairRoom(
+        final PairRoomCreateResponse pairRoomUrl = PairRoomAcceptanceTest.createPairRoom(
                 new PairRoomCreateRequest("레디", "프람", 10000L, 10000L,
                         PairRoomStatus.IN_PROGRESS.name()));
 
@@ -98,7 +98,7 @@ class CategoryAcceptanceTest extends AcceptanceFixture {
     @DisplayName("카테고리 삭제에 성공한다.")
     void delete_category() {
         //given
-        final PairRoomCreateResponse pairRoomUrl = PairRoomEntityAcceptanceTest.createPairRoom(
+        final PairRoomCreateResponse pairRoomUrl = PairRoomAcceptanceTest.createPairRoom(
                 new PairRoomCreateRequest("레디", "프람", 10000L, 10000L,
                         PairRoomStatus.IN_PROGRESS.name()));
 
