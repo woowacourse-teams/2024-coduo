@@ -9,7 +9,6 @@ import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.timer.domain.Timer;
 import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
-import site.coduo.timer.service.dto.TimerCreateRequest;
 import site.coduo.timer.service.dto.TimerReadResponse;
 
 @Transactional(readOnly = true)
@@ -19,14 +18,6 @@ public class TimerService {
 
     private final TimerRepository timerRepository;
     private final PairRoomRepository pairRoomRepository;
-
-    @Transactional
-    public void createTimer(final String accessCode, final TimerCreateRequest request) {
-        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
-
-        final Timer timer = new Timer(pairRoomEntity.toDomain(), request.duration(), request.remainingTime());
-        timerRepository.save(new TimerEntity(timer, pairRoomEntity));
-    }
 
     public TimerReadResponse readTimer(final String accessCode) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
