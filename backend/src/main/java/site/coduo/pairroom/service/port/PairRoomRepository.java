@@ -7,8 +7,6 @@ import site.coduo.pairroom.domain.accesscode.AccessCode;
 
 public interface PairRoomRepository {
 
-    Optional<PairRoom> findById(Long id);
-
     Optional<PairRoom> findByAccessCode(AccessCode accessCode);
 
     PairRoom save(PairRoom pairRoom);

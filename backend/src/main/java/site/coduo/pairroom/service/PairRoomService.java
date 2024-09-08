@@ -15,6 +15,7 @@ import site.coduo.pairroom.domain.accesscode.AccessCodeFactory;
 import site.coduo.pairroom.domain.accesscode.UUIDAccessCodeStrategy;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
+import site.coduo.pairroom.service.dto.PairRoomReadResponse;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -29,12 +30,14 @@ public class PairRoomService {
         final Pair pair = new Pair(new PairName(request.firstPair()), new PairName(request.secondPair()));
         final List<AccessCode> accessCodes = pairRoomRepository.findAll()
                 .stream()
-                .map(PairRoom::getAccessCode)
+                .map(site.coduo.pairroom.repository.PairRoomEntity::getAccessCode)
+                .map(AccessCode::new)
                 .toList();
+
         final AccessCodeFactory accessCodeFactory = new AccessCodeFactory(new UUIDAccessCodeStrategy());
         final PairRoom pairRoom = new PairRoom(pair, status, accessCodeFactory.generate(accessCodes));
 
-        pairRoomRepository.save(pairRoom);
+        pairRoomRepository.save(site.coduo.pairroom.repository.PairRoomEntity.from(pairRoom));
 
         return pairRoom.getAccessCodeText();
     }
@@ -42,11 +45,11 @@ public class PairRoomService {
     @Transactional
     public void updatePairRoomStatus(final String accessCode, final String statusName) {
         final PairRoomStatus status = PairRoomStatus.findByName(statusName);
-        final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
-        pairRoom.updateStatus(status);
+        final site.coduo.pairroom.repository.PairRoomEntity entity = pairRoomRepository.fetchByAccessCode(accessCode);
+        entity.updateStatus(status);
     }
 
-    public PairRoom findByAccessCode(final String accessCode) {
-        return pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
+    public PairRoomReadResponse findByAccessCode(final String accessCode) {
+        return PairRoomReadResponse.from(pairRoomRepository.fetchByAccessCode(accessCode));
     }
 }

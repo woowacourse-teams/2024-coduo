@@ -14,6 +14,7 @@ import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
+import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.timer.domain.Timer;
 
@@ -42,13 +43,15 @@ class TimerRepositoryTest {
                 PairRoomStatus.IN_PROGRESS,
                 new AccessCode("hello1")
         );
-        pairRoomRepository.save(pairRoom);
+        final PairRoomEntity entity = site.coduo.pairroom.repository.PairRoomEntity.from(
+                pairRoom);
+        pairRoomRepository.save(entity);
         final Timer timer = new Timer(pairRoom, 1111, 234);
-        timerRepository.save(new TimerEntity(timer));
+        timerRepository.save(new TimerEntity(timer, entity));
 
         // when
         final TimerEntity actual = timerRepository
-                .fetchTimerByPairRoomId(pairRoom.getId());
+                .fetchTimerByPairRoomId(entity.getId());
 
         // then
         assertThat(actual)

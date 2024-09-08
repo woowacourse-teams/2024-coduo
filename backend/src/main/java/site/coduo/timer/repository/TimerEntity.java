@@ -15,7 +15,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
-import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.timer.domain.Timer;
 
 @Getter
@@ -31,7 +31,7 @@ public class TimerEntity extends BaseTimeEntity {
 
     @OneToOne
     @JoinColumn(name = "PAIR_ROOM_ID", nullable = false)
-    private PairRoom pairRoom;
+    private PairRoomEntity pairRoomEntity;
 
     @Column(name = "DURATION", nullable = false)
     private long duration;
@@ -39,9 +39,8 @@ public class TimerEntity extends BaseTimeEntity {
     @Column(name = "REMAINING_TIME", nullable = false)
     private long remainingTime;
 
-    public TimerEntity(final Timer timer) {
-
-        this.pairRoom = timer.getPairRoom();
+    public TimerEntity(final Timer timer, final PairRoomEntity pairRoomEntity) {
+        this.pairRoomEntity = pairRoomEntity;
         this.duration = timer.getDuration();
         this.remainingTime = timer.getRemainingTime();
     }
@@ -55,7 +54,7 @@ public class TimerEntity extends BaseTimeEntity {
     }
 
     public Timer toDomain() {
-        return new Timer(pairRoom, duration, remainingTime);
+        return new Timer(pairRoomEntity.toDomain(), duration, remainingTime);
     }
 
     @Override

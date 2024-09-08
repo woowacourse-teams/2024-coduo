@@ -41,9 +41,10 @@ class PairRoomServiceTest {
         final String accessCode = pairRoomService.save(request);
 
         // when
-        pairRoomService.updatePairRoomStatus(accessCode, PairRoomStatus.IN_PROGRESS.name());
+        pairRoomService.updatePairRoomStatus(accessCode, PairRoomStatus.COMPLETED.name());
 
         // then
-        assertThat(pairRoomService.findByAccessCode(accessCode).getStatus()).isEqualTo(PairRoomStatus.IN_PROGRESS);
+        assertThat(PairRoomStatus.findByName(pairRoomService.findByAccessCode(accessCode).status()))
+                .isEqualTo(PairRoomStatus.COMPLETED);
     }
 }

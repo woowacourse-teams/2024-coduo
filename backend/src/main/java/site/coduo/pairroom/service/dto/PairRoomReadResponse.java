@@ -1,7 +1,7 @@
 package site.coduo.pairroom.service.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.repository.PairRoomEntity;
 
 @Schema(description = "페어룸 조회 응답 바디")
 public record PairRoomReadResponse(
@@ -18,12 +18,12 @@ public record PairRoomReadResponse(
         String status
 ) {
 
-    public static PairRoomReadResponse from(final PairRoom pairRoom) {
+    public static PairRoomReadResponse from(final PairRoomEntity entity) {
         return new PairRoomReadResponse(
-                pairRoom.getId(),
-                pairRoom.getPair().getFirstPair().getValue(),
-                pairRoom.getPair().getSecondPair().getValue(),
-                pairRoom.getStatus().name()
+                entity.getId(),
+                entity.getNavigator(),
+                entity.getDriver(),
+                entity.getStatus().name()
         );
     }
 }

@@ -68,7 +68,6 @@ class TodoServiceTest {
 
         final Todo savedTodo = findSavedTodo.get();
         assertSoftly(softAssertions -> {
-            softAssertions.assertThat(savedTodo.getPairRoom().getId()).isEqualTo(pairRoomId);
             softAssertions.assertThat(savedTodo.getContent().getContent()).isEqualTo(content);
             softAssertions.assertThat(savedTodo.getIsChecked().isChecked()).isFalse();
         });
@@ -229,9 +228,8 @@ class TodoServiceTest {
         // Given
         final String pairRoomAccessCode = "ACCESS-CODE";
         final PairRoom pairRoom = new PairRoom(
-                1L,
-                PairRoomStatus.IN_PROGRESS,
                 new Pair(new PairName("A"), new PairName("B")),
+                PairRoomStatus.IN_PROGRESS,
                 new AccessCode(pairRoomAccessCode)
         );
         pairRoomRepository.save(pairRoom);
@@ -261,12 +259,15 @@ class TodoServiceTest {
     @Test
     void getAllOrderBySortWithNotExistPairRoomId() {
         // Given
-        final PairRoom pairRoom = new PairRoom(
-                1L,
-                PairRoomStatus.IN_PROGRESS,
-                new Pair(new PairName("A"), new PairName("B")),
-                new AccessCode("ACCESS CODE")
-        );
+        final PairRoom pairRoom = site.coduo.pairroom.repository.PairRoomEntity.builder()
+                .id(1L)
+                .status(PairRoomStatus.IN_PROGRESS)
+                .navigator("A")
+                .driver("B")
+                .accessCode("ACCESS-CODE")
+                .build()
+                .toDomain();
+
         pairRoomRepository.save(pairRoom);
         final List<Todo> todos = List.of(
                 new Todo(1L, pairRoom, "투두1!!", 5555, false),
@@ -289,12 +290,15 @@ class TodoServiceTest {
     @ParameterizedTest
     void updateTodoSort(final int destinationSort, final List<Long> expect) {
         // Given
-        final PairRoom pairRoom = new PairRoom(
-                1L,
-                PairRoomStatus.IN_PROGRESS,
-                new Pair(new PairName("A"), new PairName("B")),
-                new AccessCode("ACCESS-CODE")
-        );
+        final PairRoom pairRoom = site.coduo.pairroom.repository.PairRoomEntity.builder()
+                .id(1L)
+                .status(PairRoomStatus.IN_PROGRESS)
+                .navigator("A")
+                .driver("B")
+                .accessCode("ACCESS-CODE")
+                .build()
+                .toDomain();
+
         pairRoomRepository.save(pairRoom);
         final List<Todo> todos = List.of(
                 new Todo(1L, pairRoom, "content!", 1024, false),
@@ -331,12 +335,15 @@ class TodoServiceTest {
     @Test
     void updateTodoSortWithNotExistPairRoomId() {
         // Given
-        final PairRoom pairRoom = new PairRoom(
-                1L,
-                PairRoomStatus.IN_PROGRESS,
-                new Pair(new PairName("A"), new PairName("B")),
-                new AccessCode("ACCESS-CODE")
-        );
+        final PairRoom pairRoom = site.coduo.pairroom.repository.PairRoomEntity.builder()
+                .id(1L)
+                .status(PairRoomStatus.IN_PROGRESS)
+                .navigator("A")
+                .driver("B")
+                .accessCode("ACCESS-CODE")
+                .build()
+                .toDomain();
+
         pairRoomRepository.save(pairRoom);
         final List<Todo> todos = List.of(
                 new Todo(1L, pairRoom, "content!", 1024, false),

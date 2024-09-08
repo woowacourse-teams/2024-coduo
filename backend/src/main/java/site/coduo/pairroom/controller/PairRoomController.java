@@ -53,8 +53,7 @@ public class PairRoomController implements PairRoomDocs {
     public ResponseEntity<PairRoomReadResponse> getPairRoom(
             @Valid @PathVariable("accessCode") final PairRoomReadRequest request
     ) {
-        final PairRoomReadResponse response = PairRoomReadResponse.from(
-                pairRoomService.findByAccessCode(request.accessCode()));
+        final PairRoomReadResponse response = pairRoomService.findByAccessCode(request.accessCode());
 
         return ResponseEntity.ok(response);
     }

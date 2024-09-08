@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import site.coduo.pairroom.exception.InvalidPairRoomStatusException;
 
-class PairRoomStatusTest {
+class PairRoomEntityStatusTest {
 
     @Test
     @DisplayName("페어룸 상태 이름으로 페어룸 상태 enum을 찾아 반환한다.")

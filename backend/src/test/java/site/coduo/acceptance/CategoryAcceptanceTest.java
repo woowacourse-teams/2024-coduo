@@ -38,7 +38,7 @@ class CategoryAcceptanceTest extends AcceptanceFixture {
     @DisplayName("카테고리 요청 시 정보를 반환한다.")
     void show_category() {
         //given
-        final PairRoomCreateResponse pairRoomUrl = PairRoomAcceptanceTest.createPairRoom(
+        final PairRoomCreateResponse pairRoomUrl = PairRoomEntityAcceptanceTest.createPairRoom(
                 new PairRoomCreateRequest("레디", "프람", PairRoomStatus.IN_PROGRESS.name()));
 
         createCategory(pairRoomUrl.accessCode(), new CategoryCreateRequest("새로운 카테고리"));
@@ -63,7 +63,7 @@ class CategoryAcceptanceTest extends AcceptanceFixture {
     @DisplayName("카테고리를 업데이트 한다.")
     void update_category() {
         //given
-        final PairRoomCreateResponse pairRoomUrl = PairRoomAcceptanceTest.createPairRoom(
+        final PairRoomCreateResponse pairRoomUrl = PairRoomEntityAcceptanceTest.createPairRoom(
                 new PairRoomCreateRequest("레디", "프람", PairRoomStatus.IN_PROGRESS.name()));
 
         createCategory(pairRoomUrl.accessCode(), new CategoryCreateRequest("이전 카테고리"));
@@ -96,7 +96,7 @@ class CategoryAcceptanceTest extends AcceptanceFixture {
     @DisplayName("카테고리 삭제에 성공한다.")
     void delete_category() {
         //given
-        final PairRoomCreateResponse pairRoomUrl = PairRoomAcceptanceTest.createPairRoom(
+        final PairRoomCreateResponse pairRoomUrl = PairRoomEntityAcceptanceTest.createPairRoom(
                 new PairRoomCreateRequest("레디", "프람", PairRoomStatus.IN_PROGRESS.name()));
 
         final String categoryName = "자바";

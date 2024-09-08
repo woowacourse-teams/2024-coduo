@@ -18,7 +18,7 @@ import site.coduo.pairroom.domain.accesscode.AccessCode;
 
 @SpringBootTest
 @Transactional
-class PairRoomRepositoryTest {
+class PairRoomEntityRepositoryTest {
 
     @Autowired
     private PairRoomRepository pairRoomRepository;
@@ -29,13 +29,16 @@ class PairRoomRepositoryTest {
         // given
         final Pair pair = new Pair(new PairName("hello"), new PairName("world"));
         final PairRoom pairRoom = new PairRoom(pair, PairRoomStatus.IN_PROGRESS, new AccessCode("code"));
-        pairRoomRepository.save(pairRoom);
+        final PairRoomEntity entity = PairRoomEntity.from(
+                pairRoom);
+        pairRoomRepository.save(entity);
 
         // when
-        final Optional<PairRoom> persistence = pairRoomRepository.findByAccessCode(pairRoom.getAccessCode());
+        final Optional<PairRoomEntity> persistence = pairRoomRepository.findByAccessCode(
+                pairRoom.getAccessCodeText());
 
         // then
-        assertThat(persistence).hasValue(pairRoom);
+        assertThat(persistence).hasValue(entity);
     }
 
     @Test
@@ -46,9 +49,28 @@ class PairRoomRepositoryTest {
         final PairRoom pairRoom = new PairRoom(pair, PairRoomStatus.IN_PROGRESS, new AccessCode("code"));
 
         // when
-        final Optional<PairRoom> persistence = pairRoomRepository.findByAccessCode(pairRoom.getAccessCode());
+        final Optional<PairRoomEntity> persistence = pairRoomRepository.findByAccessCode(
+                pairRoom.getAccessCodeText());
 
         // then
         assertThat(persistence).isEmpty();
+    }
+
+    @Test
+    @DisplayName("엑세스 코드 도메인을 바탕으로 영속성을 조회한다.- 영속성 존재 O")
+    void search_persistence_by_access_code_domain_exists_case() {
+        // given
+        final Pair pair = new Pair(new PairName("hello"), new PairName("world"));
+        final AccessCode code = new AccessCode("code");
+        final PairRoom pairRoom = new PairRoom(pair, PairRoomStatus.IN_PROGRESS, code);
+        pairRoomRepository.save(PairRoomEntity.from(pairRoom));
+
+        // when
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(code);
+
+        // then
+        assertThat(pairRoomEntity)
+                .extracting("accessCode")
+                .isEqualTo(code.getValue());
     }
 }

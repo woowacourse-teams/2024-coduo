@@ -7,7 +7,7 @@ import static site.coduo.fixture.AccessCodeFixture.ACCESS_CODE;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-class PairRoomTest {
+class PairRoomEntityTest {
 
     @Test
     @DisplayName("페어룸을 생성한다.")

@@ -2,7 +2,7 @@ package site.coduo.acceptance;
 
 import static org.hamcrest.Matchers.is;
 
-import static site.coduo.acceptance.PairRoomAcceptanceTest.createPairRoom;
+import static site.coduo.acceptance.PairRoomEntityAcceptanceTest.createPairRoom;
 
 import java.util.Map;
 

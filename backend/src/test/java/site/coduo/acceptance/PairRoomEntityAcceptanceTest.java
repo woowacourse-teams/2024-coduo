@@ -14,7 +14,7 @@ import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
 
 @Transactional
-class PairRoomAcceptanceTest extends AcceptanceFixture {
+class PairRoomEntityAcceptanceTest extends AcceptanceFixture {
 
     static PairRoomCreateResponse createPairRoom(final PairRoomCreateRequest pairRoom) {
         return RestAssured
