@@ -47,7 +47,7 @@ const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
           <S.Footer>
             {isFooterOpen ? (
               <S.Form onSubmit={handleSubmit}>
-                <Input $css={S.inputStyles} value={value} onChange={handleChange} />
+                <Input $css={S.inputStyles} value={value} onChange={handleChange} maxLength={100} />
                 <S.ButtonContainer>
                   <Button type="button" size="sm" filled={false} rounded={true} onClick={() => setIsFooterOpen(false)}>
                     취소
