@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import TimerEditPanel from '@/components/PairRoom/TimerCard/TimerEditPanel/TimerEditPanel';
@@ -17,27 +17,27 @@ interface TimerCardProps {
   onUpdateTimeLeft: (remainingTime: number) => void;
 }
 
-const TimerCard = ({ defaultTime, defaultTimeleft, onTimerStop, onUpdateTimeLeft }: TimerCardProps) => {
+const TimerCard = ({ defaultTime, defaultTimeleft, onTimerStop }: TimerCardProps) => {
   const { timeLeft, isActive, handleStart, handlePause } = useTimer(defaultTime, defaultTimeleft, onTimerStop);
 
   const timeLeftRef = useRef(timeLeft);
   timeLeftRef.current = timeLeft;
 
-  useEffect(() => {
-    const handleBeforeMove = (event: BeforeUnloadEvent) => {
-      onUpdateTimeLeft(timeLeftRef.current);
-      handlePause();
-      event.preventDefault();
-    };
+  // useEffect(() => {
+  //   const handleBeforeMove = (event: BeforeUnloadEvent) => {
+  //     onUpdateTimeLeft(timeLeftRef.current);
+  //     handlePause();
+  //     event.preventDefault();
+  //   };
 
-    window.addEventListener('beforeunload', handleBeforeMove);
-    window.addEventListener('popstate', handleBeforeMove);
+  //   window.addEventListener('beforeunload', handleBeforeMove);
+  //   window.addEventListener('popstate', handleBeforeMove);
 
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeMove);
-      window.removeEventListener('popstate', handleBeforeMove);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener('beforeunload', handleBeforeMove);
+  //     window.removeEventListener('popstate', handleBeforeMove);
+  //   };
+  // }, []);
 
   // useBeforeUnload((event) => {
   //   onUpdateTimeLeft(timeLeftRef.current);

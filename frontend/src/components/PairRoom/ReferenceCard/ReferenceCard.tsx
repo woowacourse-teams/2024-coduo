@@ -9,7 +9,7 @@ import Input from '@/components/common/Input/Input';
 import { Message } from '@/components/common/Input/Input.styles';
 import { InputStatus } from '@/components/common/Input/Input.type';
 import { Modal } from '@/components/common/Modal';
-import ToolTipQuestionBox from '@/components/common/Tooltip/ToolTipQuestionBox';
+import ToolTipQuestionBox from '@/components/common/ToolTipQuestionBox/ToolTipQuestionBox';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import AddReferenceForm from '@/components/PairRoom/ReferenceCard/AddReferenceForm/AddReferenceForm';
 import CategoryFilter from '@/components/PairRoom/ReferenceCard/CategoryFilter/CategoryFilter';
@@ -123,7 +123,7 @@ const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps)
             title="링크"
             secondIcon={
               <ToolTipQuestionBox
-                direction={isOpen ? 'bottom' : 'top'}
+                boxDirection={isOpen ? 'bottom' : 'top'}
                 message="페어프로그래밍 도중 도움이 되었던 레퍼런스 링크들을 저장해보세요 ☺️"
               />
             }
