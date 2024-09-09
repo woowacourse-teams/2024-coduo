@@ -98,4 +98,25 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .then()
                 .statusCode(204);
     }
+
+    @Test
+    @DisplayName("페어룸에 접속하여 SSE connection을 생성한다.")
+    void create_sse_connection() {
+        // given
+        final PairRoomCreateRequest request = new PairRoomCreateRequest("프람", "레모네", 10000L,
+                10000L, PairRoomStatus.IN_PROGRESS.name());
+        final String accessCode = createPairRoom(request).accessCode();
+
+        // when & then
+        RestAssured
+                .given()
+
+                .when()
+                .log().all()
+                .post("/api/pair-room/{accessCode}/connect", accessCode)
+
+                .then()
+                .log().all()
+                .statusCode(200);
+    }
 }

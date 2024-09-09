@@ -6,12 +6,14 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import site.coduo.fake.CallOnceScheduler;
+import site.coduo.fake.FakeEmitterManager;
 import site.coduo.fake.FakeGithubApiClient;
 import site.coduo.fake.FakeGithubOAuthClient;
 import site.coduo.fake.FixedNonceProvider;
 import site.coduo.member.client.GithubApiClient;
 import site.coduo.member.client.GithubOAuthClient;
 import site.coduo.member.infrastructure.security.NonceProvider;
+import site.coduo.pairroom.domain.PairRoomEmitterManager;
 import site.coduo.timer.domain.FixedDelayScheduler;
 
 @TestConfiguration
@@ -37,13 +39,19 @@ public class TestConfig {
 
     @Bean
     @Primary
-    public ThreadPoolTaskScheduler threadPoolTaskScheduler() {
+    public ThreadPoolTaskScheduler testThreadPoolTaskScheduler() {
         return new ThreadPoolTaskScheduler();
     }
 
     @Bean
     @Primary
     public FixedDelayScheduler fakeDelayScheduler() {
-        return new CallOnceScheduler(threadPoolTaskScheduler());
+        return new CallOnceScheduler(testThreadPoolTaskScheduler());
+    }
+
+    @Bean
+    @Primary
+    public PairRoomEmitterManager fakeEmitterManager() {
+        return new FakeEmitterManager();
     }
 }
