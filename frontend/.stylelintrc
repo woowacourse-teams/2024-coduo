@@ -81,6 +81,7 @@
           "text-align",
           "text-indent",
           "text-overflow",
+          "text-decoration",
           "vertical-align",
           "white-space",
           "word-break"

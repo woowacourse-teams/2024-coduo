@@ -17,16 +17,14 @@ export const CheckMark = styled.div<{ $isChecked: boolean }>`
 
   width: 2rem;
   height: 2rem;
-  border: 1px solid ${({ theme }) => theme.color.secondary[500]};
+  border: 1px solid ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[60] : theme.color.secondary[500])};
   border-radius: 4px;
 
-  background-color: ${({ theme, $isChecked }) =>
-    $isChecked ? theme.color.secondary[500] : theme.color.secondary[200]};
+  background-color: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[50] : theme.color.secondary[200])};
 
   transition: all 0.2s ease 0s;
 
   &:hover {
-    background-color: ${({ theme, $isChecked }) =>
-      $isChecked ? theme.color.secondary[600] : theme.color.secondary[300]};
+    background-color: ${({ theme, $isChecked }) => ($isChecked ? theme.color.black[60] : theme.color.secondary[300])};
   }
 `;

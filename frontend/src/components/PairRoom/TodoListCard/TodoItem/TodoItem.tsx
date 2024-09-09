@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import CheckBox from '@/components/common/CheckBox/CheckBox';
@@ -19,12 +20,16 @@ interface TodoItemProps {
 const TodoItem = ({ todo, isDraggedOver, onDragStart, onDragEnter, onDrop }: TodoItemProps) => {
   const { accessCode } = useParams();
 
+  const [isIconHovered, setIsIconHovered] = useState(false);
+
   const { handleUpdateChecked, handleDeleteTodo } = useTodos(accessCode || '');
 
   const { id, isChecked, content } = todo;
 
   return (
     <S.Layout
+      $isChecked={isChecked}
+      $isIconHovered={isIconHovered}
       $isDraggedOver={isDraggedOver}
       draggable
       onDragStart={() => onDragStart(id)}
@@ -32,11 +37,16 @@ const TodoItem = ({ todo, isDraggedOver, onDragStart, onDragEnter, onDrop }: Tod
       onDragOver={(event) => event.preventDefault()}
       onDragEnd={onDrop}
     >
-      <S.TodoContainer>
+      <S.TodoContainer $isChecked={isChecked}>
         <CheckBox isChecked={isChecked} onClick={() => handleUpdateChecked(id)} />
         <p>{content}</p>
       </S.TodoContainer>
-      <S.DeleteIcon onClick={() => handleDeleteTodo(id)} />
+      <S.DeleteIcon
+        $isChecked={isChecked}
+        onMouseEnter={() => setIsIconHovered(true)}
+        onMouseLeave={() => setIsIconHovered(false)}
+        onClick={() => handleDeleteTodo(id)}
+      />
     </S.Layout>
   );
 };
