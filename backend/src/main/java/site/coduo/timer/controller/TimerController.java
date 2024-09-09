@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +22,22 @@ import site.coduo.timer.service.dto.TimerRemainingTimeUpdateRequest;
 public class TimerController implements TimerDocs {
 
     private final TimerService timerService;
+
+    @PostMapping("/{accessCode}/timer/start")
+    public ResponseEntity<Void> createTimerStart(@PathVariable("accessCode") final String accessCode) {
+        timerService.startTimer(accessCode);
+
+        return ResponseEntity.noContent()
+                .build();
+    }
+
+    @PostMapping("/{accessCode}/timer/stop")
+    public ResponseEntity<Void> createTimerStop(@PathVariable("accessCode") final String accessCode) {
+        timerService.stopTimer(accessCode);
+
+        return ResponseEntity.noContent()
+                .build();
+    }
 
     @PatchMapping("/{accessCode}/timer/remaining-time")
     public ResponseEntity<Void> updateTimerRemainingTime(

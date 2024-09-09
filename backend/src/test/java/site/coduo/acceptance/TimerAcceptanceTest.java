@@ -104,4 +104,52 @@ class TimerAcceptanceTest extends AcceptanceFixture {
                 .then()
                 .statusCode(204);
     }
+
+    @Test
+    @DisplayName("타이머를 시작한다.")
+    void start_timer() {
+        // given
+        final String accessCode = createPairRoom(new PairRoomCreateRequest("fram", "lemone", 10000L, 10000L,
+                PairRoomStatus.IN_PROGRESS.name()));
+
+        // when & then
+        RestAssured
+                .given()
+
+                .when()
+                .post("/api/{accessCode}/timer/start", accessCode)
+
+                .then()
+                .statusCode(204);
+    }
+
+    private static void timerStart(final String accessCode) {
+        RestAssured
+                .given()
+
+                .when()
+                .post("/api/{accessCode}/timer/start", accessCode)
+
+                .then()
+                .statusCode(204);
+    }
+
+    @Test
+    @DisplayName("타이머를 종료한다.")
+    void stop_timer() {
+        // given
+        final String accessCode = createPairRoom(new PairRoomCreateRequest("fram", "lemone", 10000L, 10000L,
+                PairRoomStatus.IN_PROGRESS.name()));
+        timerStart(accessCode);
+
+        // when & then
+        RestAssured
+                .given()
+
+                .when()
+                .post("/api/{access-code}/timer/stop", accessCode)
+
+                .then()
+                .statusCode(204);
+    }
 }
