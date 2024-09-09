@@ -49,15 +49,13 @@ public class TimerService {
     public void startTimer(final String accessCode) {
         PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
         Timer timer = timerRepository.fetchTimerByPairRoomId(pairRoomEntity.getId()).toDomain();
-
-        scheduler.start(timer);
+        scheduler.start(accessCode);
     }
 
     public void stopTimer(final String accessCode) {
         PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
         Timer timer = timerRepository.fetchTimerByPairRoomId(pairRoomEntity.getId()).toDomain();
 
-        scheduler.stop(timer);
-
+        scheduler.stop();
     }
 }

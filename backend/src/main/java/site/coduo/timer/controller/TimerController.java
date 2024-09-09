@@ -25,6 +25,7 @@ public class TimerController implements TimerDocs {
 
     @PostMapping("/{accessCode}/timer/start")
     public ResponseEntity<Void> createTimerStart(@PathVariable("accessCode") final String accessCode) {
+        //
         timerService.startTimer(accessCode);
 
         return ResponseEntity.noContent()

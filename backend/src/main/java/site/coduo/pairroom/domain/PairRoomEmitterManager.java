@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import site.coduo.pairroom.domain.accesscode.AccessCode;
+import site.coduo.pairroom.exception.NotFoundSseConnectionException;
 import site.coduo.pairroom.exception.SseConnectionFailureException;
 import site.coduo.pairroom.infrastructure.SseEmitters;
 
@@ -17,8 +18,7 @@ public class PairRoomEmitterManager {
 
     private final Map<AccessCode, SseEmitters> pairRoomEmitters = new ConcurrentHashMap<>();
 
-    public SseEmitter add(final String identifier) {
-        final AccessCode accessCode = new AccessCode(identifier);
+    public SseEmitter add(final AccessCode accessCode) {
         final SseEmitters emitters = pairRoomEmitters.getOrDefault(accessCode, new SseEmitters());
         final SseEmitter emitter = new SseEmitter(Duration.ofMinutes(10).toMillis());
         sentDummy(emitter);
@@ -27,7 +27,15 @@ public class PairRoomEmitterManager {
         return emitter;
     }
 
-    private void sentDummy(final SseEmitter emitter)  {
+    public void sendTimeDuration(final AccessCode accessCode, final long remainingTime) {
+        if (!pairRoomEmitters.containsKey(accessCode)) {
+            throw new NotFoundSseConnectionException("accessCode에 대한 SSE connection이 존재하지 않습니다.");
+        }
+        SseEmitters emitters = pairRoomEmitters.get(accessCode);
+        emitters.notify("remain time", String.valueOf(remainingTime));
+    }
+
+    private void sentDummy(final SseEmitter emitter) {
         try {
             emitter.send(SseEmitter.event()
                     .name("connect")

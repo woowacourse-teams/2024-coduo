@@ -25,4 +25,17 @@ public class SseEmitters {
         emitter.onCompletion(() -> emitters.remove(emitter));
         emitter.onTimeout(emitter::complete);
     }
+
+    public void notify(final String name, final String message) {
+        emitters.forEach(emitter -> {
+            try {
+                emitter.send(SseEmitter
+                        .event()
+                        .name(name)
+                        .data(message));
+            } catch (IOException e) {
+                throw new SseConnectionFailureException("SSE 통신에 실패했습니다.");
+            }
+        });
+    }
 }
