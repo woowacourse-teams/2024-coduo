@@ -5,6 +5,8 @@ import CheckBox from '@/components/common/CheckBox/CheckBox';
 
 import { Todo } from '@/apis/todo';
 
+import useCopyClipBoard from '@/hooks/common/useCopyClipboard';
+
 import useTodos from '@/queries/PairRoom/useTodos';
 
 import * as S from './TodoItem.styles';
@@ -21,6 +23,7 @@ const TodoItem = ({ todo, isDraggedOver, onDragStart, onDragEnter, onDrop }: Tod
   const { accessCode } = useParams();
 
   const [isIconHovered, setIsIconHovered] = useState(false);
+  const [, onCopy] = useCopyClipBoard();
 
   const { handleUpdateChecked, handleDeleteTodo } = useTodos(accessCode || '');
 
@@ -41,12 +44,20 @@ const TodoItem = ({ todo, isDraggedOver, onDragStart, onDragEnter, onDrop }: Tod
         <CheckBox isChecked={isChecked} onClick={() => handleUpdateChecked(id)} />
         <p>{content}</p>
       </S.TodoContainer>
-      <S.DeleteIcon
-        $isChecked={isChecked}
-        onMouseEnter={() => setIsIconHovered(true)}
-        onMouseLeave={() => setIsIconHovered(false)}
-        onClick={() => handleDeleteTodo(id)}
-      />
+      <S.IconContainer>
+        <S.CopyIcon
+          $isChecked={isChecked}
+          onMouseEnter={() => setIsIconHovered(true)}
+          onMouseLeave={() => setIsIconHovered(false)}
+          onClick={() => onCopy(content)}
+        />
+        <S.DeleteIcon
+          $isChecked={isChecked}
+          onMouseEnter={() => setIsIconHovered(true)}
+          onMouseLeave={() => setIsIconHovered(false)}
+          onClick={() => handleDeleteTodo(id)}
+        />
+      </S.IconContainer>
     </S.Layout>
   );
 };
