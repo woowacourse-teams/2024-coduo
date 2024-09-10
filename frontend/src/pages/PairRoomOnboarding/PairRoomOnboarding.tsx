@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import Button from '@/components/common/Button/Button';
@@ -7,6 +6,7 @@ import PairNameInput from '@/components/PairRoomOnboarding/PairNameInput/PairNam
 import PairRoleInput from '@/components/PairRoomOnboarding/PairRoleInput/PairRoleInput';
 import TimerDurationInput from '@/components/PairRoomOnboarding/TimerDurationInput/TimerDurationInput';
 
+import useDebounce from '@/hooks/common/useDebounce';
 import useAutoMoveIndex from '@/hooks/PairRoomOnboarding/useAutoMoveIndex';
 import usePairRoomInformation from '@/hooks/PairRoomOnboarding/usePairRoomInformation';
 
@@ -21,8 +21,6 @@ const PairRoomOnboarding = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const mission = searchParams.get('mission');
-
-  const [isTyping, setIsTyping] = useState(false);
 
   const {
     firstPairName,
@@ -45,9 +43,9 @@ const PairRoomOnboarding = () => {
   const handleSuccess = () =>
     handleAddPairRoom(firstPairName.value, secondPairName.value, driver, navigator, timerDuration);
 
-  const validationList = [isPairNameValid, isPairRoleValid, isTimerDurationValid];
+  const validationList = [useDebounce(isPairNameValid, 500), isPairRoleValid, isTimerDurationValid];
 
-  const { moveIndex } = useAutoMoveIndex(0, validationList, isTyping);
+  const { moveIndex } = useAutoMoveIndex(0, validationList);
 
   return (
     <S.Layout>
@@ -61,8 +59,6 @@ const PairRoomOnboarding = () => {
               secondPairName={secondPairName}
               onFirstPair={handleFirstPairName}
               onSecondPair={handleSecondPairName}
-              onFocus={() => setIsTyping(true)}
-              onBlur={() => setIsTyping(false)}
             />
             {moveIndex >= 1 && (
               <PairRoleInput
