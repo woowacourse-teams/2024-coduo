@@ -67,7 +67,7 @@ const TimerDurationInput = ({ timerDuration, onTimerDuration }: TimerDurationInp
           </Button>
           {isCustom && (
             <Input
-              width="16rem"
+              width="28rem"
               $css={S.inputStyles}
               value={timerDuration}
               placeholder="타이머 시간 (분)"
