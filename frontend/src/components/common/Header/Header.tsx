@@ -17,10 +17,11 @@ import { theme } from '@/styles/theme';
 import * as S from './Header.styles';
 
 const Header = () => {
-  const { userStatus } = useUserStatusStore();
-  const { handleSignOut } = useSignOutHandler();
-  const { handleSignInGithub } = useSignInHandler();
   const [username, setUsername] = useState('');
+
+  const { userStatus } = useUserStatusStore();
+  const { handleSignInGithub } = useSignInHandler();
+  const { handleSignOut } = useSignOutHandler();
 
   useEffect(() => {
     if (userStatus === 'SIGNED_IN') {

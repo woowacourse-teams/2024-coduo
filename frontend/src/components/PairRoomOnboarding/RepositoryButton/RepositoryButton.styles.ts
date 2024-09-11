@@ -1,7 +1,11 @@
+import { Link } from 'react-router-dom';
+
 import styled, { css } from 'styled-components';
 
 export const buttonStyles = css`
+  width: 28rem;
   border: 0;
+  border-radius: 5px 0 0 5px;
 
   background: ${({ theme }) => theme.color.black[80]};
   color: ${({ theme }) => theme.color.black[10]};
@@ -12,12 +16,17 @@ export const buttonStyles = css`
   &:hover {
     border: 0;
 
-    background: ${({ theme }) => theme.color.black[70]};
+    background: ${({ theme }) => theme.color.black[75]};
     color: ${({ theme }) => theme.color.black[10]};
   }
 `;
 
 export const Layout = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const InfoContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -35,4 +44,22 @@ export const GithubLogo = styled.img`
 
   width: 5rem;
   object-fit: cover;
+`;
+
+export const RepositoryLink = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 3.4rem;
+  height: 4rem;
+  border-radius: 0 5px 5px 0;
+
+  background: ${({ theme }) => theme.color.black[60]};
+
+  transition: background 0.2s;
+
+  &:hover {
+    background: ${({ theme }) => theme.color.black[65]};
+  }
 `;
