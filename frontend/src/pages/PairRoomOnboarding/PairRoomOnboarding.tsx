@@ -1,19 +1,9 @@
 import { useLocation } from 'react-router-dom';
 
-import Button from '@/components/common/Button/Button';
 import MissionSettingSection from '@/components/PairRoomOnboarding/MissionSettingSection/MissionSettingSection';
-import PairNameInput from '@/components/PairRoomOnboarding/PairNameInput/PairNameInput';
-import PairRoleInput from '@/components/PairRoomOnboarding/PairRoleInput/PairRoleInput';
-import TimerDurationInput from '@/components/PairRoomOnboarding/TimerDurationInput/TimerDurationInput';
+import PairRoomSettingSection from '@/components/PairRoomOnboarding/PairRoomSettingSection/PairRoomSettingSection';
 
-import useDebounce from '@/hooks/common/useDebounce';
-import useAutoMoveIndex from '@/hooks/PairRoomOnboarding/useAutoMoveIndex';
-import usePairRoomInformation from '@/hooks/PairRoomOnboarding/usePairRoomInformation';
-
-import useAddPairRoom from '@/queries/Main/useAddPairRoom';
 import useCreateBranch from '@/queries/PairRoomOnboarding/useCreateBranch';
-
-import { BUTTON_TEXT } from '@/constants/button';
 
 import * as S from './PairRoomOnboarding.styles';
 
@@ -22,65 +12,14 @@ const PairRoomOnboarding = () => {
   const searchParams = new URLSearchParams(location.search);
   const mission = searchParams.get('mission');
 
-  const {
-    firstPairName,
-    secondPairName,
-    driver,
-    navigator,
-    timerDuration,
-    isPairNameValid,
-    isPairRoleValid,
-    isTimerDurationValid,
-    handleFirstPairName,
-    handleSecondPairName,
-    handlePairRole,
-    handleTimerDuration,
-  } = usePairRoomInformation();
-
-  const { handleCreateBranch, isSuccess: isCreateBranchSuccess } = useCreateBranch();
-  const { handleAddPairRoom } = useAddPairRoom();
-
-  const handleSuccess = () =>
-    handleAddPairRoom(firstPairName.value, secondPairName.value, driver, navigator, timerDuration);
-
-  const validationList = [useDebounce(isPairNameValid, 500), isPairRoleValid, isTimerDurationValid];
-
-  const { moveIndex } = useAutoMoveIndex(0, validationList);
+  const { handleCreateBranch, isSuccess } = useCreateBranch();
 
   return (
     <S.Layout>
       <S.Container>
         <S.Title>{mission === 'true' ? '미션과 함께 시작하기' : '그냥 시작하기'}</S.Title>
-        {mission === 'true' && !isCreateBranchSuccess && <MissionSettingSection onCreateBranch={handleCreateBranch} />}
-        {((mission === 'true' && isCreateBranchSuccess) || mission === 'false') && (
-          <S.InputContainer>
-            <PairNameInput
-              firstPairName={firstPairName}
-              secondPairName={secondPairName}
-              onFirstPair={handleFirstPairName}
-              onSecondPair={handleSecondPairName}
-            />
-            {moveIndex >= 1 && (
-              <PairRoleInput
-                firstPair={firstPairName.value}
-                secondPair={secondPairName.value}
-                driver={driver}
-                navigator={navigator}
-                onRole={handlePairRole}
-              />
-            )}
-            {moveIndex >= 2 && (
-              <TimerDurationInput timerDuration={timerDuration} onTimerDuration={handleTimerDuration} />
-            )}
-            {moveIndex >= 3 && (
-              <S.ButtonWrapper>
-                <Button disabled={validationList.some((valid) => !valid)} onClick={handleSuccess}>
-                  {BUTTON_TEXT.COMPLETE}
-                </Button>
-              </S.ButtonWrapper>
-            )}
-          </S.InputContainer>
-        )}
+        {mission === 'true' && !isSuccess && <MissionSettingSection onCreateBranch={handleCreateBranch} />}
+        {((mission === 'true' && isSuccess) || mission === 'false') && <PairRoomSettingSection />}
       </S.Container>
     </S.Layout>
   );

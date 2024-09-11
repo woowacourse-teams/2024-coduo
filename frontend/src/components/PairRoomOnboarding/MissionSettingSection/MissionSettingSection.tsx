@@ -22,7 +22,7 @@ const MissionSettingSection = ({ onCreateBranch }: MissionSettingSectionProps) =
     handleBranchName,
   } = usePairRoomMission();
 
-  const { moveIndex } = useAutoMoveIndex(0, [isValidRepositoryName, useDebounce(isValidBranchName, 0.5)]);
+  const { moveIndex } = useAutoMoveIndex(0, [isValidRepositoryName, useDebounce(isValidBranchName, 500)]);
 
   return (
     <S.Layout>
