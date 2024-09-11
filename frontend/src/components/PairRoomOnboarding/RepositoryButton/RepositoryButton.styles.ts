@@ -51,7 +51,7 @@ export const RepositoryLink = styled(Link)`
   justify-content: center;
   align-items: center;
 
-  width: 3.4rem;
+  width: 3.5rem;
   height: 4rem;
   border-radius: 0 5px 5px 0;
 

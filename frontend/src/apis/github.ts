@@ -42,9 +42,9 @@ export const createBranch = async ({ repositoryName, branchName, sha }: CreateBr
 
 interface Repository {
   archive_url: string;
+  id: string;
   name: string;
   description: string;
-  id: string;
 }
 
 export const getRepositories = async (): Promise<Repository[] | undefined> => {
@@ -63,13 +63,18 @@ export const getRepositories = async (): Promise<Repository[] | undefined> => {
   }
 };
 
-export const getBranches = async (repositoryName: string) => {
+interface Branch {
+  name: string;
+}
+
+export const getBranches = async (repositoryName: string): Promise<Branch[] | undefined> => {
   try {
     const response = await octokit.request(`GET /repos/${CODUO_ORGANIZATION}/${repositoryName}/branches`, {
       headers: {
         'X-GitHub-Api-Version': '2022-11-28',
       },
     });
+
     return response.data;
   } catch (error) {
     if (error instanceof Error) throw new Error(error.message);

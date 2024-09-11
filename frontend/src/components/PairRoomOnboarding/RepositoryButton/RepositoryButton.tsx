@@ -9,12 +9,12 @@ import { theme } from '@/styles/theme';
 import * as S from './RepositoryButton.styles';
 
 interface RepositoryButtonProps {
-  name: string;
   id: string;
+  name: string;
   onSelect: (currentRepo: string) => void;
 }
 
-const RepositoryButton = ({ name, id, onSelect }: RepositoryButtonProps) => {
+const RepositoryButton = ({ id, name, onSelect }: RepositoryButtonProps) => {
   return (
     <S.Layout>
       <Button
