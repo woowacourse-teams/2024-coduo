@@ -17,9 +17,8 @@ public class SchedulerRegistry {
         registry = new ConcurrentHashMap<>();
     }
 
-    public int add(final String key, final ScheduledFuture<?> future) {
+    public void register(final String key, final ScheduledFuture<?> future) {
         registry.put(key, future);
-        return registry.size();
     }
 
     public void release(final String key) {
@@ -30,7 +29,7 @@ public class SchedulerRegistry {
         registry.remove(key);
     }
 
-    public boolean hasKey(final String key) {
+    public boolean has(final String key) {
         return registry.containsKey(key);
     }
 }
