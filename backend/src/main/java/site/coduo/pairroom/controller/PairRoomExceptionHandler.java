@@ -21,7 +21,7 @@ import site.coduo.pairroom.exception.InvalidPairRoomStatusException;
 @Slf4j
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class PairRoomErrorController {
+public class PairRoomExceptionHandler {
 
     @ExceptionHandler(DuplicatePairNameException.class)
     public ResponseEntity<ApiErrorResponse> handleDuplicatePairNameException(final DuplicatePairNameException e) {
