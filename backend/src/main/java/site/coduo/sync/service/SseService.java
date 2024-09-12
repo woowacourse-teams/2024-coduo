@@ -9,12 +9,9 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class SseService {
 
-    private final SseEmitterRegistry emitterRegistry;
+    private final EventStreamsRegistry eventStreamsRegistry;
 
     public SseEmitter connect(final String key) {
-        SseEmitter emitter = new SseEmitter();
-        emitterRegistry.add(key, emitter);
-
-        return emitter;
+        return eventStreamsRegistry.register(key);
     }
 }
