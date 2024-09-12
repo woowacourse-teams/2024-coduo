@@ -1,4 +1,4 @@
-package site.coduo.timer.config;
+package site.coduo.sync.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

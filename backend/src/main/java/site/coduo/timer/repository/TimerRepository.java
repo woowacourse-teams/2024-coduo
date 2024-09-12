@@ -14,4 +14,11 @@ public interface TimerRepository extends JpaRepository<TimerEntity, Long> {
     }
 
     Optional<TimerEntity> findByPairRoomEntityId(long pairRoomId);
+
+    default TimerEntity fetchTimerByAccessCode(final String accessCode) {
+        return findByPairRoomEntityAccessCode(accessCode)
+                .orElseThrow(() -> new TimerNotFoundException("해당 타이머를 찾을 수 없습니다."));
+    }
+
+    Optional<TimerEntity> findByPairRoomEntityAccessCode(String accessCode);
 }

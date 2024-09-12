@@ -4,7 +4,6 @@ import java.net.URI;
 
 import jakarta.validation.Valid;
 
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -12,10 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import lombok.RequiredArgsConstructor;
-import site.coduo.common.service.SseService;
 import site.coduo.pairroom.controller.docs.PairRoomDocs;
 import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
@@ -29,14 +26,6 @@ import site.coduo.pairroom.service.dto.PairRoomStatusUpdateRequest;
 public class PairRoomController implements PairRoomDocs {
 
     private final PairRoomService pairRoomService;
-    private final SseService sseService;
-
-    @PostMapping(value = "/pair-room/{accessCode}/connect", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public ResponseEntity<SseEmitter> createConnection(@PathVariable("accessCode") final String accessCode) {
-        final SseEmitter emitter = sseService.createConnection(accessCode);
-
-        return ResponseEntity.ok(emitter);
-    }
 
     @PostMapping("/pair-room")
     public ResponseEntity<PairRoomCreateResponse> createPairRoom(

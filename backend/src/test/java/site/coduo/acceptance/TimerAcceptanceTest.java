@@ -30,6 +30,18 @@ class TimerAcceptanceTest extends AcceptanceFixture {
         return response.accessCode();
     }
 
+    private static void timerStart(final String accessCode) {
+        SseAcceptanceTest.createConnect(accessCode);
+        RestAssured
+                .given()
+
+                .when()
+                .patch("/api/{accessCode}/timer/start", accessCode)
+
+                .then()
+                .statusCode(204);
+    }
+
     @Test
     @DisplayName("타이머를 조회한다.")
     void get_timer() {
@@ -111,24 +123,14 @@ class TimerAcceptanceTest extends AcceptanceFixture {
         // given
         final String accessCode = createPairRoom(new PairRoomCreateRequest("fram", "lemone", 10000L, 10000L,
                 PairRoomStatus.IN_PROGRESS.name()));
+        SseAcceptanceTest.createConnect(accessCode);
 
         // when & then
         RestAssured
                 .given()
 
                 .when()
-                .post("/api/{accessCode}/timer/start", accessCode)
-
-                .then()
-                .statusCode(204);
-    }
-
-    private static void timerStart(final String accessCode) {
-        RestAssured
-                .given()
-
-                .when()
-                .post("/api/{accessCode}/timer/start", accessCode)
+                .patch("/api/{accessCode}/timer/start", accessCode)
 
                 .then()
                 .statusCode(204);
@@ -147,7 +149,7 @@ class TimerAcceptanceTest extends AcceptanceFixture {
                 .given()
 
                 .when()
-                .post("/api/{access-code}/timer/stop", accessCode)
+                .patch("/api/{accessCode}/timer/stop", accessCode)
 
                 .then()
                 .statusCode(204);
