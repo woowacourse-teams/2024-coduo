@@ -1,0 +1,66 @@
+package site.coduo.sync.service;
+
+import java.io.IOException;
+import java.time.Duration;
+import java.util.Objects;
+
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+
+import lombok.extern.slf4j.Slf4j;
+import site.coduo.sync.exception.SseConnectionFailureException;
+
+@Slf4j
+public class SseEventStream implements EventStream {
+
+    private final SseEmitter sseEmitter;
+
+    public SseEventStream(Duration timeout) {
+        this.sseEmitter = new SseEmitter(timeout.toMillis());
+    }
+
+    public SseEventStream(final SseEmitter sseEmitter) {
+        this.sseEmitter = sseEmitter;
+    }
+
+    @Override
+    public SseEmitter connect() {
+        try {
+            sseEmitter.send(SseEmitter.event()
+                    .id("connect")
+                    .data("OK"));
+        } catch (IOException e) {
+            throw new SseConnectionFailureException("SSE 연결이 실패했습니다.");
+        }
+        return sseEmitter;
+    }
+
+    @Override
+    public void flush(final String name, final String message) {
+        try {
+            sseEmitter.send(
+                    SseEmitter.event()
+                            .name(name)
+                            .data(message)
+            );
+        } catch (IOException e) {
+            throw new SseConnectionFailureException("SSE 통신에 실패했습니다.");
+        }
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final SseEventStream that = (SseEventStream) o;
+        return Objects.equals(sseEmitter, that.sseEmitter);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sseEmitter);
+    }
+}
