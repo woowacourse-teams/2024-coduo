@@ -16,7 +16,7 @@ import site.coduo.pairroomhistory.exception.PairRoomHistoryNotFoundException;
 @Slf4j
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class PairRoomHistoryErrorController {
+public class PairRoomHistoryExceptionHandler {
 
     @ExceptionHandler(PairRoomHistoryNotFoundException.class)
     public ResponseEntity<ApiErrorResponse> handlePairRoomNotFoundException(final PairRoomHistoryNotFoundException e) {

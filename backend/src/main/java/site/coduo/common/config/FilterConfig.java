@@ -4,8 +4,11 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.RequiredArgsConstructor;
 import site.coduo.common.config.filter.AccessTokenSessionFilter;
+import site.coduo.common.config.filter.AuthFailHandlerFilter;
 import site.coduo.common.config.filter.SignInCookieFilter;
 import site.coduo.common.config.filter.StateSessionFilter;
 import site.coduo.member.infrastructure.security.JwtProvider;
@@ -13,8 +16,6 @@ import site.coduo.member.infrastructure.security.JwtProvider;
 @RequiredArgsConstructor
 @Configuration
 public class FilterConfig {
-
-    private final JwtProvider jwtProvider;
 
     @Bean
     public FilterRegistrationBean<StateSessionFilter> stateSessionFilter() {
@@ -35,11 +36,19 @@ public class FilterConfig {
     }
 
     @Bean
-    public FilterRegistrationBean<SignInCookieFilter> signInCookieFilter() {
+    public FilterRegistrationBean<SignInCookieFilter> signInCookieFilter(final JwtProvider jwtProvider) {
         final FilterRegistrationBean<SignInCookieFilter> bean = new FilterRegistrationBean<>();
         bean.setFilter(new SignInCookieFilter(jwtProvider));
         bean.addUrlPatterns("/api/sign-out", "/api/sign-in/check", "/api/member");
         bean.setOrder(1);
+        return bean;
+    }
+
+    @Bean
+    public FilterRegistrationBean<AuthFailHandlerFilter> authFailHandlerFilter(final ObjectMapper objectMapper) {
+        final FilterRegistrationBean<AuthFailHandlerFilter> bean = new FilterRegistrationBean<>();
+        bean.setFilter(new AuthFailHandlerFilter(objectMapper));
+        bean.setOrder(0);
         return bean;
     }
 }
