@@ -62,6 +62,7 @@ export const Layout = styled.div`
 
   animation: ${gradientAnimation} 10s ease infinite;
   background-size: 400% 400%;
+
   @media (width <= 768px) {
     padding: 1rem;
   }
