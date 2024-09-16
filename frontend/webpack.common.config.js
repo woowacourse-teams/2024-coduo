@@ -19,19 +19,6 @@ const config = {
         exclude: /node_modules/,
         use: ['ts-loader'],
       },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.(png|svg|jpg|gif|mp3)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]',
-          },
-        },
-      },
     ],
   },
   plugins: [
