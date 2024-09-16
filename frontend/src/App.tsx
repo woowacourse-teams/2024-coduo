@@ -1,8 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, Suspense, lazy } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'styled-components';
+
+const PairRoom = lazy(() => import('@/pages/PairRoom/PairRoom'));
+const PairRoomOnboarding = lazy(() => import('@/pages/PairRoomOnboarding/PairRoomOnboarding'));
 
 import Callback from '@/pages/Callback/Callback';
 import PageNotFound from '@/pages/Error/PageNotFound';
@@ -10,9 +13,9 @@ import HowToPair from '@/pages/HowToPair/HowToPair';
 import Landing from '@/pages/Landing/Landing';
 import Layout from '@/pages/Layout';
 import Main from '@/pages/Main/Main';
-import PairRoom from '@/pages/PairRoom/PairRoom';
-import PairRoomOnboarding from '@/pages/PairRoomOnboarding/PairRoomOnboarding';
 import SignUp from '@/pages/SignUp/SignUp';
+
+import PageFallback from '@/components/common/Fallback/PageFallback/PageFallback';
 
 import useUserStatusStore from '@/stores/userStatusStore';
 
@@ -79,7 +82,9 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        <RouterProvider router={router} />
+        <Suspense fallback={<PageFallback />}>
+          <RouterProvider router={router} />
+        </Suspense>
       </ThemeProvider>
     </QueryClientProvider>
   );
