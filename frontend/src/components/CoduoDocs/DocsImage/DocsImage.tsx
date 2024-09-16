@@ -1,21 +1,21 @@
 import * as S from './DocsImage.styles';
 
 interface DocsImageProps {
-  information: string;
+  information?: string;
   src: string;
+  webpSrc: string;
+  alt: string;
 }
 
-const DocsImage = ({ information, src }: DocsImageProps) => {
+const DocsImage = ({ information, src, alt, webpSrc, children }: React.PropsWithChildren<DocsImageProps>) => {
   return (
     <S.Container>
-      <S.Contents>{information}</S.Contents>
-      {/* <picture> */}
-      {/* <source
-          srcSet={`${heroImageWpSmall} 500w, ${heroImageWpMedium} 1000w,${heroImageWpLarge} 2000vw`}
-          type="image/webp"
-        /> */}
-      <S.Image src={src} alt="이미지" />
-      {/* </picture> */}
+      {information && <S.Contents>{information}</S.Contents>}
+      {children}
+      <picture>
+        <source srcSet={`${webpSrc}`} type="image/webp" />
+        <img src={src} alt={alt} />
+      </picture>
     </S.Container>
   );
 };
