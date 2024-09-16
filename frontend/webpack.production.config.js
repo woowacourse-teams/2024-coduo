@@ -3,7 +3,6 @@ import common from './webpack.common.config.js';
 import { sentryWebpackPlugin } from '@sentry/webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
-import BundleAnalyzerPlugin from 'webpack-bundle-analyzer';
 import dotenv from 'dotenv';
 import webpack from 'webpack';
 import pkg from './package.json' with { type: 'json' };
