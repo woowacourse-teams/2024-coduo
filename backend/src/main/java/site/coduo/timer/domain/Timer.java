@@ -6,7 +6,6 @@ import java.util.concurrent.atomic.AtomicLong;
 import lombok.Getter;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.timer.exception.InvalidTimerException;
-import site.coduo.timer.exception.NegativeTimeException;
 
 @Getter
 public class Timer {
@@ -33,8 +32,8 @@ public class Timer {
     }
 
     public void decreaseRemainingTime(final long decrease) {
-        if (remainingTime.get() - decrease < 0) {
-            throw new NegativeTimeException("타이머의 잔여 시간은 음수일 수 없습니다.");
+        if (remainingTime.get() == 0L) {
+            return;
         }
         remainingTime.set(remainingTime.get() - decrease);
     }
