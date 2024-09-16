@@ -12,7 +12,7 @@ export const SubTitle = styled.p`
   font-weight: ${({ theme }) => theme.fontWeight.semibold};
 `;
 
-export const Contents = styled.p`
+export const Content = styled.p`
   color: ${({ theme }) => theme.color.black[90]};
   font-size: ${({ theme }) => theme.fontSize.lg};
 `;
