@@ -43,6 +43,10 @@ public class SchedulerService {
         final ScheduledFuture<?> schedule = taskScheduler.schedule(() -> {
             timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
             sseService.broadcast(key, "remaining-time", String.valueOf(timer.getRemainingTime()));
+            if (timer.getRemainingTime() == 0) {
+                stop(key);
+                timestampRegistry.release(key);
+            }
         }, trigger);
         schedulerRegistry.register(key, schedule);
     }

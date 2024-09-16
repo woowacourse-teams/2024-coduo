@@ -23,7 +23,7 @@ public class TimestampRegistry {
 
     public void release(final String key) {
         if (!registry.containsKey(key)) {
-            throw new NotFoundTimeStampException("키에 해당하는 스케줄러 결과가 존재하지 않습니다.");
+            throw new NotFoundTimeStampException("키에 해당하는 타임 스탬프 결과가 존재하지 않습니다.");
         }
         registry.remove(key);
     }
@@ -34,7 +34,7 @@ public class TimestampRegistry {
 
     public Timer get(final String key) {
         if (!registry.containsKey(key)) {
-            throw new NotFoundTimeStampException("키에 해당하는 스케줄러 결과가 존재하지 않습니다.");
+            throw new NotFoundTimeStampException("키에 해당하는 타임 스탬프 결과가 존재하지 않습니다.");
         }
         return registry.get(key);
     }
