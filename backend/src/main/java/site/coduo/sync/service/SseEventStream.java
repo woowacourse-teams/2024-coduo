@@ -3,6 +3,7 @@ package site.coduo.sync.service;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -12,6 +13,7 @@ import site.coduo.sync.exception.SseConnectionFailureException;
 @Slf4j
 public class SseEventStream implements EventStream {
 
+    private final AtomicLong id = new AtomicLong(0);
     private final SseEmitter sseEmitter;
 
     public SseEventStream(Duration timeout) {
@@ -24,9 +26,11 @@ public class SseEventStream implements EventStream {
 
     @Override
     public SseEmitter connect() {
+        final String eventId = String.valueOf(id.incrementAndGet());
         try {
             sseEmitter.send(SseEmitter.event()
-                    .id("connect")
+                    .id(eventId)
+                    .name("connect")
                     .data("OK"));
         } catch (IOException e) {
             throw new SseConnectionFailureException("SSE 연결이 실패했습니다.");
@@ -36,11 +40,12 @@ public class SseEventStream implements EventStream {
 
     @Override
     public void flush(final String name, final String message) {
+        final String eventId = String.valueOf(id.incrementAndGet());
         try {
-            sseEmitter.send(
-                    SseEmitter.event()
-                            .name(name)
-                            .data(message)
+            sseEmitter.send(SseEmitter.event()
+                    .id(eventId)
+                    .name(name)
+                    .data(message)
             );
         } catch (IOException e) {
             throw new SseConnectionFailureException("SSE 통신에 실패했습니다.");

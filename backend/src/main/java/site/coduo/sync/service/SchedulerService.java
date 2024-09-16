@@ -22,30 +22,29 @@ public class SchedulerService {
     private final ThreadPoolTaskScheduler taskScheduler;
     private final SchedulerRegistry schedulerRegistry;
     private final TimestampRegistry timestampRegistry;
-    private final EventStreamsRegistry eventStreamsRegistry;
     private final TimerRepository timerRepository;
+    private final SseService sseService;
 
     public void start(final String key) {
-        final Trigger trigger = new PeriodicTrigger(DELAY_SECOND);
-        final EventStreams emitters = eventStreamsRegistry.findEventStreams(key);
         if (!schedulerRegistry.has(key) && !timestampRegistry.has(key)) {
             final Timer timer = timerRepository.fetchTimerByAccessCode(key).toDomain();
-            final ScheduledFuture<?> schedule = taskScheduler.schedule(() -> {
-                timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
-                emitters.broadcast("remaining-time", String.valueOf(timer.getRemainingTime()));
-            }, trigger);
-            schedulerRegistry.register(key, schedule);
+            scheduling(key, timer);
             timestampRegistry.register(key, timer);
             return;
         }
         if (!schedulerRegistry.has(key) && timestampRegistry.has(key)) {
             final Timer timer = timestampRegistry.get(key);
-            final ScheduledFuture<?> schedule = taskScheduler.schedule(() -> {
-                timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
-                emitters.broadcast("remaining-time", String.valueOf(timer.getRemainingTime()));
-            }, trigger);
-            schedulerRegistry.register(key, schedule);
+            scheduling(key, timer);
         }
+    }
+
+    private void scheduling(final String key, final Timer timer) {
+        final Trigger trigger = new PeriodicTrigger(DELAY_SECOND);
+        final ScheduledFuture<?> schedule = taskScheduler.schedule(() -> {
+            timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
+            sseService.broadcast(key, "remaining-time", String.valueOf(timer.getRemainingTime()));
+        }, trigger);
+        schedulerRegistry.register(key, schedule);
     }
 
     public void stop(final String key) {
