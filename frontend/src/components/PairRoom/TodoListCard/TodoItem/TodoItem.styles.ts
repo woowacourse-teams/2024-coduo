@@ -5,6 +5,7 @@ export const Layout = styled.div<{ $isChecked: boolean; $isIconHovered: boolean;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1.2rem;
 
   padding: 1.6rem;
   border-radius: 1rem;
@@ -36,6 +37,7 @@ export const TodoContainer = styled.div<{ $isChecked: boolean }>`
 
   p {
     text-decoration: ${({ $isChecked }) => $isChecked && 'line-through'};
+    word-break: break-all;
 
     transition: text-decoration 0.2s ease;
   }
