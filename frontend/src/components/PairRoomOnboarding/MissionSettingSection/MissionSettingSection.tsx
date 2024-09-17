@@ -16,13 +16,13 @@ const MissionSettingSection = ({ onCreateBranch }: MissionSettingSectionProps) =
   const {
     repositoryName,
     branchName,
-    isValidRepositoryName,
+    isRepositorySelected,
     isValidBranchName,
     handleRepositoryName,
     handleBranchName,
   } = usePairRoomMission();
 
-  const { moveIndex } = useAutoMoveIndex(0, [isValidRepositoryName, useDebounce(isValidBranchName, 500)]);
+  const { moveIndex } = useAutoMoveIndex(0, [isRepositorySelected, useDebounce(isValidBranchName, 500)]);
 
   return (
     <S.Layout>

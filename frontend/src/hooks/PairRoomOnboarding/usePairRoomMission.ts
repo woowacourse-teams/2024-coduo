@@ -9,7 +9,7 @@ const usePairRoomMission = () => {
 
   const { value, status, message, handleChange, resetValue } = useInput();
 
-  const isValidRepositoryName = repositoryName !== '';
+  const isRepositorySelected = repositoryName !== '';
   const isValidBranchName = status === 'DEFAULT' && value !== '';
 
   const handleRepositoryName = (name: string) => {
@@ -17,13 +17,13 @@ const usePairRoomMission = () => {
     resetValue();
   };
 
-  const handleBranchName = (event: React.ChangeEvent<HTMLInputElement>, branches: string[]) =>
-    handleChange(event, validateBranchName(event.target.value, branches));
+  const handleBranchName = (event: React.ChangeEvent<HTMLInputElement>, existingBranches: string[]) =>
+    handleChange(event, validateBranchName(event.target.value, existingBranches));
 
   return {
     repositoryName,
     branchName: { value, status, message },
-    isValidRepositoryName,
+    isRepositorySelected,
     isValidBranchName,
     handleRepositoryName,
     handleBranchName,
