@@ -26,16 +26,24 @@ public class SchedulerService {
     private final SseService sseService;
 
     public void start(final String key) {
-        if (!schedulerRegistry.has(key) && !timestampRegistry.has(key)) {
+        if (isInitial(key)) {
             final Timer timer = timerRepository.fetchTimerByAccessCode(key).toDomain();
             scheduling(key, timer);
             timestampRegistry.register(key, timer);
             return;
         }
-        if (!schedulerRegistry.has(key) && timestampRegistry.has(key)) {
+        if (isResume(key)) {
             final Timer timer = timestampRegistry.get(key);
             scheduling(key, timer);
         }
+    }
+
+    private boolean isInitial(final String key) {
+        return !schedulerRegistry.has(key) && !timestampRegistry.has(key);
+    }
+
+    private boolean isResume(final String key) {
+        return !schedulerRegistry.has(key) && timestampRegistry.has(key);
     }
 
     private void scheduling(final String key, final Timer timer) {
