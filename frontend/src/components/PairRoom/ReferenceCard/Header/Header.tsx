@@ -24,25 +24,23 @@ const Header = ({ isOpen, selectedCategory, toggleIsOpen, onButtonClick }: React
           <IoIosArrowDown size={theme.fontSize.h6} color={theme.color.primary[600]} />
         )}
         <p>링크</p>
-      </S.Container>
-      <S.Container>
         <ToolTipQuestionBox
           message="페어 프로그래밍을 진행하면서 도움이 되었던 레퍼런스 링크를 저장해 보세요."
           color={theme.color.black[50]}
-          boxDirection="left"
+          boxDirection="right"
         />
-        <Button
-          css={S.buttonStyles}
-          size="sm"
-          rounded={true}
-          onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-            event.stopPropagation();
-            onButtonClick();
-          }}
-        >
-          {selectedCategory}
-        </Button>
       </S.Container>
+      <Button
+        css={S.buttonStyles}
+        size="sm"
+        rounded={true}
+        onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+          event.stopPropagation();
+          onButtonClick();
+        }}
+      >
+        {selectedCategory}
+      </Button>
     </S.Layout>
   );
 };
