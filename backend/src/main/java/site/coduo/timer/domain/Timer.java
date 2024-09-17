@@ -35,6 +35,10 @@ public class Timer {
         if (remainingTime.get() == 0L) {
             return;
         }
+        if (remainingTime.get() < decrease) {
+            remainingTime.set(0);
+            return;
+        }
         remainingTime.set(remainingTime.get() - decrease);
     }
 

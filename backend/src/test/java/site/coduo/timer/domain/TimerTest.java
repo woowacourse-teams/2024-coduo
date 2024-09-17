@@ -13,7 +13,6 @@ import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.timer.exception.InvalidTimerException;
-import site.coduo.timer.exception.NegativeTimeException;
 
 class TimerTest {
 
@@ -58,15 +57,17 @@ class TimerTest {
     }
 
     @Test
-    @DisplayName("타이머 시간을 음수로 감소 시킬 경우 예외를 발생시킨다.")
-    void throw_exception_when_timer_remaining_time_decrease_to_negative_value() {
+    @DisplayName("타이머 시간보다 감소시키려는 시간이 더 크면 0으로 설정한다.")
+    void when_timer_remaining_time_negative_value_then_set_zero() {
         // given
         final PairRoom pairRoom = createPairRoom("fram", "lemone");
         final Timer timer = new Timer(pairRoom.getAccessCode(), 10000L, 10000L);
 
-        // when & then
-        assertThatThrownBy(() -> timer.decreaseRemainingTime(10001))
-                .isInstanceOf(NegativeTimeException.class);
+        // when
+        timer.decreaseRemainingTime(10001L);
+
+        // then
+        assertThat(timer.getRemainingTime()).isZero();
     }
 
     private PairRoom createPairRoom(final String navigator, final String driver) {
