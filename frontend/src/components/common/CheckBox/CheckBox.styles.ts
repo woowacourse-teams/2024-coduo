@@ -22,7 +22,7 @@ export const CheckMark = styled.div<{ $isChecked: boolean }>`
 
   background-color: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[50] : theme.color.secondary[200])};
 
-  transition: all 0.2s ease 0s;
+  transition: all 0.1s ease 0s;
 
   &:hover {
     background-color: ${({ theme, $isChecked }) => ($isChecked ? theme.color.black[60] : theme.color.secondary[300])};

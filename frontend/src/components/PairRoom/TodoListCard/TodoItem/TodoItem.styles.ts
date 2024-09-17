@@ -20,7 +20,7 @@ export const Layout = styled.div<{ $isChecked: boolean; $isIconHovered: boolean;
         : theme.color.secondary[100]};
   font-size: ${({ theme }) => theme.fontSize.md};
 
-  transition: background 0.2s ease;
+  transition: background 0.1s ease;
 
   cursor: pointer;
 
@@ -39,7 +39,7 @@ export const TodoContainer = styled.div<{ $isChecked: boolean }>`
     text-decoration: ${({ $isChecked }) => $isChecked && 'line-through'};
     word-break: break-all;
 
-    transition: text-decoration 0.2s ease;
+    transition: text-decoration 0.1s ease;
   }
 `;
 
@@ -55,7 +55,7 @@ export const CopyIcon = styled(AiFillCopy)<{ $isChecked: boolean }>`
 
   color: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[50] : theme.color.secondary[500])};
 
-  transition: color 0.2s ease;
+  transition: color 0.1s ease;
 
   &:hover {
     color: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[60] : theme.color.secondary[600])};
@@ -68,7 +68,7 @@ export const DeleteIcon = styled(AiFillDelete)<{ $isChecked: boolean }>`
 
   color: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[50] : theme.color.secondary[500])};
 
-  transition: color 0.2s ease;
+  transition: color 0.1s ease;
 
   &:hover {
     color: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[60] : theme.color.secondary[600])};
