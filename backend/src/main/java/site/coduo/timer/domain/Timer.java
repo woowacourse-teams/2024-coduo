@@ -4,19 +4,19 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
 import lombok.Getter;
-import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.timer.exception.InvalidTimerException;
 
 @Getter
 public class Timer {
 
-    private final PairRoom pairRoom;
+    private final AccessCode accessCode;
     private final long duration;
     private final AtomicLong remainingTime;
 
-    public Timer(final PairRoom pairRoom, final long duration, final long timerRemainingTime) {
+    public Timer(final AccessCode accessCode, final long duration, final long timerRemainingTime) {
         validateTime(duration, timerRemainingTime);
-        this.pairRoom = pairRoom;
+        this.accessCode = accessCode;
         this.duration = duration;
         this.remainingTime = new AtomicLong(timerRemainingTime);
     }
@@ -46,13 +46,13 @@ public class Timer {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final Timer that = (Timer) o;
-        return duration == that.duration && remainingTime == that.remainingTime
-                && Objects.equals(pairRoom, that.pairRoom);
+        final Timer timer = (Timer) o;
+        return duration == timer.duration && Objects.equals(accessCode, timer.accessCode)
+                && Objects.equals(remainingTime, timer.remainingTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pairRoom, duration, remainingTime);
+        return Objects.hash(accessCode, duration, remainingTime);
     }
 }

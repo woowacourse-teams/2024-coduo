@@ -26,7 +26,7 @@ class TimerTest {
         final long timerRemainingTime = 10;
 
         // when & then
-        assertThatCode(() -> new Timer(pairRoom, timerDuration, timerRemainingTime))
+        assertThatCode(() -> new Timer(pairRoom.getAccessCode(), timerDuration, timerRemainingTime))
                 .doesNotThrowAnyException();
     }
 
@@ -39,7 +39,7 @@ class TimerTest {
         final long timerRemainingTime = 0;
 
         // when, then
-        assertThatThrownBy(() -> new Timer(pairRoom, timerDuration, timerRemainingTime))
+        assertThatThrownBy(() -> new Timer(pairRoom.getAccessCode(), timerDuration, timerRemainingTime))
                 .isInstanceOf(InvalidTimerException.class);
     }
 
@@ -48,7 +48,7 @@ class TimerTest {
     void decrease_timer_remaining_time_by_specific_value() {
         // given
         final PairRoom pairRoom = createPairRoom("fram", "lemone");
-        final Timer timer = new Timer(pairRoom, 10000L, 10000L);
+        final Timer timer = new Timer(pairRoom.getAccessCode(), 10000L, 10000L);
 
         // when
         timer.decreaseRemainingTime(1000L);
@@ -62,7 +62,7 @@ class TimerTest {
     void throw_exception_when_timer_remaining_time_decrease_to_negative_value() {
         // given
         final PairRoom pairRoom = createPairRoom("fram", "lemone");
-        final Timer timer = new Timer(pairRoom, 10000L, 10000L);
+        final Timer timer = new Timer(pairRoom.getAccessCode(), 10000L, 10000L);
 
         // when & then
         assertThatThrownBy(() -> timer.decreaseRemainingTime(10001))

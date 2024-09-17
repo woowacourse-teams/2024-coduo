@@ -43,7 +43,7 @@ public class PairRoomService {
         final PairRoom pairRoom = new PairRoom(pair, status, accessCodeFactory.generate(accessCodes));
 
         final PairRoomEntity pairRoomEntity = pairRoomRepository.save(PairRoomEntity.from(pairRoom));
-        final Timer timer = new Timer(pairRoom, request.timerDuration(), request.timerRemainingTime());
+        final Timer timer = new Timer(pairRoom.getAccessCode(), request.timerDuration(), request.timerRemainingTime());
         timerRepository.save(new TimerEntity(timer, pairRoomEntity));
         return pairRoom.getAccessCodeText();
     }

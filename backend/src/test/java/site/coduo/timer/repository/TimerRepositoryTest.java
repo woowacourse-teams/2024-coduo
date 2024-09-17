@@ -46,7 +46,7 @@ class TimerRepositoryTest {
         final PairRoomEntity entity = site.coduo.pairroom.repository.PairRoomEntity.from(
                 pairRoom);
         pairRoomRepository.save(entity);
-        final Timer timer = new Timer(pairRoom, 1111, 234);
+        final Timer timer = new Timer(pairRoom.getAccessCode(), 1111, 234);
         timerRepository.save(new TimerEntity(timer, entity));
 
         // when

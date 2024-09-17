@@ -15,6 +15,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
+import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.timer.domain.Timer;
 
@@ -54,7 +55,7 @@ public class TimerEntity extends BaseTimeEntity {
     }
 
     public Timer toDomain() {
-        return new Timer(pairRoomEntity.toDomain(), duration, remainingTime);
+        return new Timer(new AccessCode(pairRoomEntity.getAccessCode()), duration, remainingTime);
     }
 
     @Override
