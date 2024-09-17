@@ -17,8 +17,18 @@ import site.coduo.timer.service.dto.TimerRemainingTimeUpdateRequest;
 @Tag(name = "타이머 API")
 public interface TimerDocs {
 
+    @Operation(summary = "타이머를 시작한다.")
+    @ApiResponse(responseCode = "204", description = "타이머 시작 성공")
+    @ApiResponse(responseCode = "4xx", description = "페어룸 시작 실패", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class)))
+    ResponseEntity<Void> createTimerStart(String accessCode);
+
+    @Operation(summary = "타이머를 중지한다.")
+    @ApiResponse(responseCode = "204", description = "타이머 즁자 성공")
+    @ApiResponse(responseCode = "4xx", description = "페어룸 중지 실패", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class)))
+    ResponseEntity<Void> createTimerStop(String accessCode);
+
     @Operation(summary = "타이머 남은 시간을 업데이트한다.")
-    @ApiResponse(responseCode = "204", description = "페어룸 히스토리 타이머 남은 시간 업데이트 성공", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+    @ApiResponse(responseCode = "204", description = "페어룸 히스토리 타이머 남은 시간 업데이트 성공")
     @ApiResponse(responseCode = "4xx", description = "페어룸 히스토리 타이머 남은 시간 업데이트 실패", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class)))
     ResponseEntity<Void> updateTimerRemainingTime(
             String accessCode,

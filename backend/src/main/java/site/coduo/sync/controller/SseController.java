@@ -7,11 +7,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import lombok.RequiredArgsConstructor;
+import site.coduo.sync.controller.docs.SseDocs;
 import site.coduo.sync.service.SseService;
 
 @RequiredArgsConstructor
 @RestController
-public class SseController {
+public class SseController implements SseDocs {
 
     private final SseService sseService;
 
