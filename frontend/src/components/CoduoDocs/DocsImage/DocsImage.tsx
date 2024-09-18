@@ -5,12 +5,13 @@ interface DocsImageProps {
   src: string;
   webpSrc: string;
   alt: string;
+  id?: string;
 }
 
-const DocsImage = ({ information, src, alt, webpSrc, children }: React.PropsWithChildren<DocsImageProps>) => {
+const DocsImage = ({ information, src, alt, webpSrc, id, children }: React.PropsWithChildren<DocsImageProps>) => {
   return (
     <S.Container>
-      {information && <S.Contents>{information}</S.Contents>}
+      {information && <S.Contents id={id}>{information}</S.Contents>}
       {children}
       <picture>
         <source srcSet={`${webpSrc}`} type="image/webp" />

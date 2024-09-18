@@ -29,6 +29,10 @@ import startWithMissionWebp from '@/assets/images/docs/start-with-mission.webp';
 
 export const START_CONTENT = [
   {
+    id: 'start-coduo',
+    subtitle: '코딩해듀오 시작하기',
+  },
+  {
     id: 'start-with-mission',
     subtitle: '미션과 함께 시작하기',
   },
