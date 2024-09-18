@@ -6,7 +6,7 @@ export const Title = styled.p`
   font-weight: ${({ theme }) => theme.fontWeight.semibold};
 `;
 
-export const SubTitle = styled.p`
+export const Subtitle = styled.p`
   color: ${({ theme }) => theme.color.black[90]};
   font-size: ${({ theme }) => theme.fontSize.h4};
   font-weight: ${({ theme }) => theme.fontWeight.semibold};

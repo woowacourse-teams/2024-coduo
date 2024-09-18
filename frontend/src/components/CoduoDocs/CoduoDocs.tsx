@@ -2,6 +2,7 @@ import DocsImage from '@/components/CoduoDocs/DocsImage/DocsImage';
 import ContentBox from '@/components/CoduoDocs/FloatingSidebar/ContentBox';
 import FloatingSidebar from '@/components/CoduoDocs/FloatingSidebar/FloatingSIdebar';
 import Quote from '@/components/CoduoDocs/Quote/Quote';
+import SourceCode from '@/components/CoduoDocs/SourceCode/SourceCode';
 
 import useHashScroll from '@/hooks/Scroll/useHashScroll';
 
@@ -46,7 +47,7 @@ const CoduoDocs = () => {
 
         <S.ImageContainer aria-labelledby={START_CONTENT[1].id}>
           <S.ParagraphContainer>
-            <S.SubTitle id={START_CONTENT[1].id}>미션과 함께 시작하기</S.SubTitle>
+            <S.Subtitle id={START_CONTENT[1].id}>미션과 함께 시작하기</S.Subtitle>
             <Quote
               href="https://github.com/coduo-missions"
               linkText="미션 리포지토리로 이동"
@@ -105,12 +106,21 @@ const CoduoDocs = () => {
             <Quote text="Github 리포지토리 주소와 아래 명령어를 통해 자신의 컴퓨터에 미션 코드를 불러오세요." />
           </DocsImage>
           <Quote text="터미널을 열어 미션을 진행하고 싶은 폴더 위치에서 아래의 명령어를 실행해주세요." />
-          TODO: 여기에 명령어 입력 및 복사할 수 있는 컴포넌트 구현해서 넣기
+          <SourceCode
+            code={`git clone https://github.com/{생성한 브랜치 이름}/{리포지토리 이름}.git 
+ex) git clone https://github.com/honggildong/java-guessing-number.git`}
+          ></SourceCode>
+          <SourceCode
+            code="// clone한 폴더로 이동하는 방법
+cd {리포지토리 이름}
+ex) cd java-guessing-number"
+          ></SourceCode>
+          <S.Content>이제 가저온 프로젝트를 본인이 사용하는 통합 개발 환경(IDE)으로 열어 미션을 진행합니다.</S.Content>
         </S.ImageContainer>
 
         <S.ImageContainer aria-labelledby={START_CONTENT[2].id}>
           <S.ParagraphContainer>
-            <S.SubTitle id={START_CONTENT[2].id}>자유롭게 시작하기</S.SubTitle>
+            <S.Subtitle id={START_CONTENT[2].id}>자유롭게 시작하기</S.Subtitle>
             <DocsImage
               information="1. '그냥 시작할래요' 버튼을 누르면 미션 없이 자유롭게 시작할 수 있습니다."
               src={DOCS_IMAGES.startFree}
@@ -159,8 +169,8 @@ const CoduoDocs = () => {
 
         <S.ParagraphContainer>
           <S.Title>페어 프로그래밍에 대해</S.Title>
-          <S.SubTitle id={ABOUT_PAIR_PROGRAMMING[0].id}>페어프로그래밍이란?</S.SubTitle>
-          <S.SubTitle id={ABOUT_PAIR_PROGRAMMING[1].id}>페어룸 이란?</S.SubTitle>
+          <S.Subtitle id={ABOUT_PAIR_PROGRAMMING[0].id}>페어프로그래밍이란?</S.Subtitle>
+          <S.Subtitle id={ABOUT_PAIR_PROGRAMMING[1].id}>페어룸 이란?</S.Subtitle>
         </S.ParagraphContainer>
       </S.Layout>
     </>
