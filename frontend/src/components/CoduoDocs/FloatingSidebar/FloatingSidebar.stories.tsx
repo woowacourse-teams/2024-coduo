@@ -17,7 +17,7 @@ type Story = StoryObj<typeof FloatingSidebar>;
 export const Default: Story = {
   render: () => (
     <FloatingSidebar>
-      <ContentBox title="시작하기" contents={START_CONTENT} />
+      <ContentBox title="시작하기" contents={START_CONTENT} activeSection="input-name" />
     </FloatingSidebar>
   ),
 };
