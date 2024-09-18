@@ -15,6 +15,7 @@ export const SubTitle = styled.p`
 export const Content = styled.p`
   color: ${({ theme }) => theme.color.black[90]};
   font-size: ${({ theme }) => theme.fontSize.lg};
+  line-height: 1.7;
 `;
 
 export const Sentence = styled.div`
@@ -23,13 +24,13 @@ export const Sentence = styled.div`
   gap: 0.8rem;
 `;
 
-export const ParagraphContainer = styled.span`
+export const ParagraphContainer = styled.section`
   display: flex;
   flex-direction: column;
   gap: 1.7rem;
 `;
 
-export const ImageContainer = styled.div`
+export const ImageContainer = styled.section`
   display: flex;
   flex-direction: column;
   gap: 5rem;

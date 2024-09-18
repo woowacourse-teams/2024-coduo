@@ -2,17 +2,18 @@ import * as S from './Quote.styles';
 
 interface QuoteProps {
   text: string;
-  to?: string;
+  href?: string;
   linkText?: string;
+  isNewBrowserOpen?: boolean;
 }
 
-const Quote = ({ text, to, linkText }: QuoteProps) => {
+const Quote = ({ text, href, linkText, isNewBrowserOpen = false }: QuoteProps) => {
   return (
     <S.Container>
       <S.QuoteBar>|</S.QuoteBar>
       <S.Content>{text}</S.Content>
-      {to && linkText && (
-        <S.TextLink to={to} target="_blank">
+      {href && linkText && (
+        <S.TextLink href={href} target={isNewBrowserOpen ? '_blank' : ''}>
           {linkText}
         </S.TextLink>
       )}

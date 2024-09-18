@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -22,7 +20,7 @@ export const Content = styled.p`
   font-weight: ${({ theme }) => theme.fontWeight.extraLight};
 `;
 
-export const TextLink = styled(Link)`
+export const TextLink = styled.a`
   color: ${({ theme }) => theme.color.primary[700]};
   font-size: ${({ theme }) => theme.fontSize.base};
   font-weight: ${({ theme }) => theme.fontWeight.semibold};
