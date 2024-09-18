@@ -15,7 +15,7 @@ const DocsImage = ({ information, src, alt, webpSrc, id, children }: React.Props
       {children}
       <picture>
         <source srcSet={`${webpSrc}`} type="image/webp" />
-        <img src={src} alt={alt} />
+        <img src={src} alt={alt} loading="lazy" />
       </picture>
     </S.Container>
   );
