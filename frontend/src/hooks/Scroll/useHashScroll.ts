@@ -1,55 +1,63 @@
-import { useEffect, useState, useRef } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const useHashScroll = () => {
   const location = useLocation();
-  const navigate = useNavigate();
-  const [activeSection, setActiveSection] = useState(location.hash.replace('#', ''));
-  const isScrollingRef = useRef(false);
+  const currentHash = location.hash.replace('#', '');
+  const [activeSection, setActiveSection] = useState(currentHash);
+  const isProcessingRef = useRef(false);
 
-  const handleActiveSection = (activeSection: string) => {
-    setActiveSection(activeSection);
-  };
+  const handleActiveSection = (section: string) => setActiveSection(section);
 
+  /**
+   * 스크롤 이벤트를 감지하여 현재 뷰포트에 보이는 섹션의 id 값에 따라 activeSection 업데이트
+   * - 요소가 뷰포트에 진입하는 순간 활성화
+   * - 요소가 뷰포트 상단에서 보이기 시작하는 순간부터 하단에 도달하기 직전까지의 모든 위치를 포함
+   * - isProcessingRef 를 통해 진행중일때 불필요한 계산을 하지 않도록 함.
+   */
   useEffect(() => {
-    if (!activeSection) return;
+    const handleScroll = () => {
+      if (isProcessingRef.current) return;
 
-    const element = document.getElementById(activeSection);
-    if (element) {
-      isScrollingRef.current = true;
-      element.scrollIntoView({ behavior: 'smooth' });
-      setTimeout(() => {
-        isScrollingRef.current = false;
-      }, 1000);
-    } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }, [location, activeSection]);
+      requestAnimationFrame(() => {
+        const sections = Array.from(document.querySelectorAll<HTMLElement>('section[id], div[id], p[id]'));
+        const viewportHeight = window.innerHeight;
 
-  useEffect(() => {
-    const handleIntersection = (entries: IntersectionObserverEntry[]) => {
-      if (isScrollingRef.current) return;
+        const visibleSection = sections.find((section) => {
+          const rect = section.getBoundingClientRect();
+          return rect.top >= 0 && rect.top <= viewportHeight;
+        });
 
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const id = entry.target.id;
-          setActiveSection(id);
+        if (visibleSection && visibleSection.id !== activeSection) {
+          handleActiveSection(visibleSection.id);
         }
+
+        isProcessingRef.current = false;
       });
+
+      isProcessingRef.current = true;
     };
 
-    const observer = new IntersectionObserver(handleIntersection);
-
-    document.querySelectorAll('section[id], div[id]').forEach((section) => {
-      observer.observe(section);
-    });
+    window.addEventListener('scroll', handleScroll);
 
     return () => {
-      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
     };
-  }, [navigate, location.hash]);
+  }, [activeSection]);
 
-  return { activeSection, handleActiveSection };
+  /**
+   * url 의 해시값을 기반으로 스크롤 이동
+   */
+  useEffect(() => {
+    if (location.hash) {
+      const element = document.getElementById(currentHash);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [location]);
+
+  return { activeSection };
 };
 
 export default useHashScroll;
