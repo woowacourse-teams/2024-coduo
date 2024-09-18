@@ -2,7 +2,7 @@
 
 import { useNavigate } from 'react-router-dom';
 
-import { Content } from '@/components/CoduoDocs/Docs/Docs.type';
+import { Content } from '@/components/CoduoDocs/CoduoDocs.type';
 
 import * as S from './FloatingSidebar.styles';
 

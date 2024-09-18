@@ -14,7 +14,7 @@ import PairRoom from '@/pages/PairRoom/PairRoom';
 import PairRoomOnboarding from '@/pages/PairRoomOnboarding/PairRoomOnboarding';
 import SignUp from '@/pages/SignUp/SignUp';
 
-import Docs from '@/components/CoduoDocs/Docs/Docs';
+import Docs from '@/components/CoduoDocs/CoduoDocs';
 
 import useUserStatusStore from '@/stores/userStatusStore';
 

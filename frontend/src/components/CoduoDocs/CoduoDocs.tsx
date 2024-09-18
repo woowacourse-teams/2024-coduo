@@ -7,9 +7,9 @@ import useHashScroll from '@/hooks/Scroll/useHashScroll';
 
 import { ABOUT_PAIR_PROGRAMMING, DOCS_IMAGES, START_CONTENT } from '@/constants/coduoDocs';
 
-import * as S from './Docs.styles';
+import * as S from './CoduoDocs.styles';
 
-const Docs = () => {
+const CoduoDocs = () => {
   const { activeSection } = useHashScroll();
 
   return (
@@ -167,4 +167,4 @@ const Docs = () => {
   );
 };
 
-export default Docs;
+export default CoduoDocs;
