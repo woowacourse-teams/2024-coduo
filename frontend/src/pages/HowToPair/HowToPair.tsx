@@ -25,10 +25,7 @@ const HowToPair = () => {
         </S.Section>
       </ScrollAnimationContainer>
 
-      <ScrollAnimationContainer
-        animationDirection="right"
-        intersectionObserverOptions={{ rootMargin: '0px 0px -50% 0px' }}
-      >
+      <ScrollAnimationContainer animationDirection="right">
         <S.TextBoxContainer>
           <S.TextBox>
             <S.Paragraph>
@@ -47,10 +44,7 @@ const HowToPair = () => {
         </S.TextBoxContainer>
       </ScrollAnimationContainer>
 
-      <ScrollAnimationContainer
-        animationDirection="left"
-        intersectionObserverOptions={{ rootMargin: '0px 0px -50% 0px' }}
-      >
+      <ScrollAnimationContainer animationDirection="left">
         <S.Section $textAlign="right">
           <S.Character src={Navigator} />
           <S.SectionText>
@@ -63,10 +57,7 @@ const HowToPair = () => {
         </S.Section>
       </ScrollAnimationContainer>
 
-      <ScrollAnimationContainer
-        animationDirection="right"
-        intersectionObserverOptions={{ rootMargin: '0px 0px -50% 0px' }}
-      >
+      <ScrollAnimationContainer animationDirection="right">
         <S.Section>
           <S.SectionText>
             <S.SectionTitle>페어 프로그래밍의 방법</S.SectionTitle>
@@ -79,10 +70,7 @@ const HowToPair = () => {
         </S.Section>
       </ScrollAnimationContainer>
 
-      <ScrollAnimationContainer
-        animationDirection="top"
-        intersectionObserverOptions={{ rootMargin: '0px 0px -10% 0px' }}
-      >
+      <ScrollAnimationContainer animationDirection="top">
         <S.Conclusion>
           페어 프로그래밍은 단순히 코드를 함께 작성하는 것을 넘어,
           <br /> 협업을 통해 더 나은 코드를 만들어 나가는 과정입니다.
