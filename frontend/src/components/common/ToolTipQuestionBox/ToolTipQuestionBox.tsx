@@ -3,21 +3,23 @@ import { Direction } from '@/components/common/Tooltip/Tooltip.type';
 
 import { theme } from '@/styles/theme';
 
-import * as S from './Tooltip.styles';
+import * as S from './ToolTipQuestionBox.styles';
 
 interface ToolTipQuestionBoxProps {
   message: string;
-  direction?: Direction;
   color?: string;
+  boxColor?: string;
+  boxDirection?: Direction;
 }
 
 const ToolTipQuestionBox = ({
-  direction = 'bottom',
   color = theme.color.primary[800],
+  boxColor = theme.color.primary[800],
+  boxDirection = 'bottom',
   ...props
 }: ToolTipQuestionBoxProps) => {
   return (
-    <Tooltip direction={direction} color={color} {...props}>
+    <Tooltip direction={boxDirection} color={boxColor} {...props}>
       <S.QuestionIcon $color={color} />
     </Tooltip>
   );

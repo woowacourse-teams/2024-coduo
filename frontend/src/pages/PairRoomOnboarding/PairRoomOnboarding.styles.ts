@@ -22,6 +22,7 @@ export const Container = styled.div`
   gap: 5rem;
 
   width: 60%;
+  min-width: 76.8rem;
   padding: 4rem 4rem 12rem;
 
   background-color: ${({ theme }) => theme.color.black[10]};
