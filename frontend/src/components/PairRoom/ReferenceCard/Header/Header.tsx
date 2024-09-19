@@ -37,6 +37,7 @@ const Header = ({ isOpen, selectedCategory, toggleIsOpen, onButtonClick }: React
         onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
           event.stopPropagation();
           onButtonClick();
+          toggleIsOpen();
         }}
       >
         {selectedCategory}
