@@ -8,7 +8,7 @@ export const Layout = styled.div`
   height: 7rem;
   padding: 0 5rem;
 
-  border-bottom: 0.3rem solid ${({ theme }) => theme.color.black[30]};
+  border-bottom: 0.1rem solid ${({ theme }) => theme.color.black[30]};
 
   a,
   p {

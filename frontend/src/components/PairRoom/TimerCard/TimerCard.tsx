@@ -39,12 +39,6 @@ const TimerCard = ({ defaultTime, defaultTimeleft, onTimerStop, onUpdateTimeLeft
     };
   }, []);
 
-  // useBeforeUnload((event) => {
-  //   onUpdateTimeLeft(timeLeftRef.current);
-  //   handlePause();
-  //   event.preventDefault();
-  // });
-
   const { minutes, seconds } = formatTime(timeLeft);
   useTitleTime(minutes, seconds);
 

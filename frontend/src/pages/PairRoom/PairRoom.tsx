@@ -51,8 +51,6 @@ const PairRoom = () => {
 
   const [isCardOpen, setIsCardOpen] = useState(false);
 
-  const toggleIsCardOpen = () => setIsCardOpen((prev) => !prev);
-
   const handleSwap = () => {
     handleAddPairRoomHistory(navigator, driver, timerDuration, timerDuration);
 
@@ -73,8 +71,8 @@ const PairRoom = () => {
         />
       </S.Container>
       <S.Container>
-        <TodoListCard isOpen={!isCardOpen} toggleIsOpen={toggleIsCardOpen} />
-        <ReferenceCard accessCode={accessCode || ''} isOpen={isCardOpen} toggleIsOpen={toggleIsCardOpen} />
+        <TodoListCard isOpen={!isCardOpen} toggleIsOpen={() => setIsCardOpen(false)} />
+        <ReferenceCard accessCode={accessCode || ''} isOpen={isCardOpen} toggleIsOpen={() => setIsCardOpen(true)} />
       </S.Container>
     </S.Layout>
   );

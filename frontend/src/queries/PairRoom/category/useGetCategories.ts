@@ -13,16 +13,15 @@ const useGetCategories = (accessCode: string) => {
 
   const categories = data ? data.map((prop) => prop.value) : [];
 
-  const isCategoryExist = (categoryName: string) =>
-    categories.filter((category) => categoryName === category).length > 0;
+  const isCategoryExist = (category: string) => categories.includes(category);
 
   return {
-    isCategoryExist,
     categories,
     categoryRecord: data || [],
     isSuccess,
     isError,
     isFetching,
+    isCategoryExist,
   };
 };
 
