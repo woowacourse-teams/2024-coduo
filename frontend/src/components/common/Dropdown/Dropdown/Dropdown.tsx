@@ -17,6 +17,7 @@ interface DropdownProps {
   height?: string;
   direction?: Direction;
   onSelect: (option: string) => void;
+  children?: React.ReactNode;
 }
 
 const Dropdown = ({
@@ -27,6 +28,7 @@ const Dropdown = ({
   height = '4.8rem',
   direction = 'lower',
   onSelect,
+  children,
 }: DropdownProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -48,18 +50,23 @@ const Dropdown = ({
     <S.Layout $width={width} ref={dropdownRef} $height={height}>
       <HiddenDropdown options={options} selectedOption={selectedOption} handleSelect={handleSelect} />
       <S.DropdownContainer $direction={direction}>
-        <S.OpenButton
-          role="listbox"
-          filled={false}
-          $isSelected={!!selectedOption}
-          $isOpen={isOpen}
-          onClick={toggleDropdown}
-        >
-          {selectedOption || placeholder}
-          <S.Icon $isOpen={isOpen} size={theme.iconSize.md} $direction={direction} />
-        </S.OpenButton>
+        {children && isOpen ? (
+          children
+        ) : (
+          <S.OpenButton
+            role="listbox"
+            filled={false}
+            $isSelected={!!selectedOption}
+            $isOpen={isOpen}
+            onClick={toggleDropdown}
+          >
+            {selectedOption || placeholder}
+            <S.Icon $isOpen={isOpen} size={theme.iconSize.md} $direction={direction} />
+          </S.OpenButton>
+        )}
+
         {!options.some((option) => option === '') && isOpen && (
-          <S.ItemList $width={width} $height={height} $direction={direction}>
+          <S.ItemList $height={height} $direction={direction}>
             {options.map((option, index) => (
               <li key={`${option}_${index}`}>
                 <S.Item
