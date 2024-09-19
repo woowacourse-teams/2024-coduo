@@ -19,4 +19,8 @@ public class SseService {
         final EventStreams emitters = eventStreamsRegistry.findEventStreams(key);
         emitters.broadcast(event, data);
     }
+
+    public boolean hasEmptyConnection(final String key) {
+        return eventStreamsRegistry.hasEmptyConnection(key);
+    }
 }

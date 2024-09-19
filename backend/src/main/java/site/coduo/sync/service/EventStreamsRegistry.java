@@ -1,6 +1,5 @@
 package site.coduo.sync.service;
 
-import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -15,14 +14,14 @@ public class EventStreamsRegistry {
     private final Map<String, EventStreams> registry;
 
     public EventStreamsRegistry() {
-        registry = new ConcurrentHashMap<>();
+        this.registry = new ConcurrentHashMap<>();
     }
 
     public SseEmitter register(final String name) {
         final EventStreams eventStreams = registry.getOrDefault(name, new EventStreams());
-        registry.put(name, eventStreams);
-        final EventStream eventStream = new SseEventStream(Duration.ofMinutes(10));
+        final EventStream eventStream = new SseEventStream();
         eventStreams.add(eventStream);
+        registry.put(name, eventStreams);
         return eventStreams.publish(eventStream);
     }
 
@@ -31,5 +30,12 @@ public class EventStreamsRegistry {
             throw new NotFoundSseConnectionException("존재하지 않는 SSE 커넥션입니다.");
         }
         return registry.get(key);
+    }
+
+    public boolean hasEmptyConnection(final String key) {
+        if (!registry.containsKey(key)) {
+            throw new NotFoundSseConnectionException("SSE 커넥션을 찾을 수 없습니다.");
+        }
+        return registry.get(key).isEmpty();
     }
 }

@@ -1,22 +1,24 @@
 package site.coduo.sync.service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import lombok.extern.slf4j.Slf4j;
 import site.coduo.sync.exception.SseConnectionDuplicationException;
 
+@Slf4j
 public class EventStreams {
 
-    private final List<EventStream> streams = Collections.synchronizedList(new ArrayList<>());
+    private final List<EventStream> streams = new CopyOnWriteArrayList<>();
 
     public SseEmitter publish(final EventStream eventStream) {
-        final SseEmitter emitter = eventStream.connect();
-        emitter.onTimeout(emitter::complete);
-        emitter.onCompletion(() -> streams.remove(eventStream));
-        return emitter;
+        final SseEmitter sseEmitter = eventStream.connect();
+        sseEmitter.onTimeout(sseEmitter::complete);
+        sseEmitter.onCompletion(() -> streams.remove(eventStream));
+        sseEmitter.onError(error -> streams.remove(eventStream));
+        return sseEmitter;
     }
 
     public void add(final EventStream eventStream) {
@@ -28,5 +30,9 @@ public class EventStreams {
 
     public void broadcast(final String name, final String message) {
         streams.forEach(eventStream -> eventStream.flush(name, message));
+    }
+
+    public boolean isEmpty() {
+        return streams.isEmpty();
     }
 }

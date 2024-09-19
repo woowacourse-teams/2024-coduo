@@ -7,16 +7,24 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import site.coduo.sync.exception.SseConnectionFailureException;
 
 @Slf4j
+@Getter
 public class SseEventStream implements EventStream {
+
+    private static final long INFINITE_TIME_OUT = -1;
 
     private final AtomicLong id = new AtomicLong(0);
     private final SseEmitter sseEmitter;
 
-    public SseEventStream(Duration timeout) {
+    public SseEventStream() {
+        this.sseEmitter = new SseEmitter(INFINITE_TIME_OUT);
+    }
+
+    public SseEventStream(final Duration timeout) {
         this.sseEmitter = new SseEmitter(timeout.toMillis());
     }
 
@@ -32,7 +40,7 @@ public class SseEventStream implements EventStream {
                     .id(eventId)
                     .name("connect")
                     .data("OK"));
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new SseConnectionFailureException("SSE 연결이 실패했습니다.");
         }
         return sseEmitter;

@@ -25,7 +25,7 @@ class EventStreamsTest {
     void publish_new_event_stream_connection() {
         // given
         final EventStreams eventStreams = new EventStreams();
-        final EventStream eventStream = new SseEventStream(Duration.ZERO);
+        final SseEventStream eventStream = new SseEventStream(Duration.ZERO);
 
         // when
         final SseEmitter publish = eventStreams.publish(eventStream);
@@ -84,5 +84,32 @@ class EventStreamsTest {
                 .send(any(SseEventBuilder.class));
         verify(emitter3, times(1))
                 .send(any(SseEventBuilder.class));
+    }
+
+    @Test
+    @DisplayName("등록된 에미터가 비었지 확인한다. - 참")
+    void check_emitters_empty_true_case() {
+        // given
+        final EventStreams eventStreams = new EventStreams();
+
+        // when
+        final boolean empty = eventStreams.isEmpty();
+
+        // then
+        assertThat(empty).isTrue();
+    }
+
+    @Test
+    @DisplayName("등록된 에미터가 비었지 확인한다. - 거짓")
+    void check_emitters_empty_false_case() {
+        // given
+        final EventStreams eventStreams = new EventStreams();
+        eventStreams.add(new SseEventStream());
+
+        // when
+        final boolean empty = eventStreams.isEmpty();
+
+        // then
+        assertThat(empty).isFalse();
     }
 }

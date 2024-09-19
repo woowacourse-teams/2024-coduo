@@ -50,11 +50,11 @@ public class SchedulerService {
         final Trigger trigger = new PeriodicTrigger(DELAY_SECOND);
         final ScheduledFuture<?> schedule = taskScheduler.schedule(() -> {
             timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
-            sseService.broadcast(key, "remaining-time", String.valueOf(timer.getRemainingTime()));
-            if (timer.getRemainingTime() == 0) {
-                stop(key);
+            if (timer.getRemainingTime() == 0 || sseService.hasEmptyConnection(key)) {
+                schedulerRegistry.release(key);
                 timestampRegistry.release(key);
             }
+            sseService.broadcast(key, "remaining-time", String.valueOf(timer.getRemainingTime()));
         }, trigger);
         schedulerRegistry.register(key, schedule);
     }
