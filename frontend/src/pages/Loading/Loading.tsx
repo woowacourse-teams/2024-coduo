@@ -1,8 +1,8 @@
 import Spinner from '@/components/common/Spinner/Spinner';
 
-import * as S from './PageFallback.styles';
+import * as S from './Loading.styles';
 
-const PageFallback = () => {
+const Loading = () => {
   return (
     <S.Layout>
       <S.Title>페이지를 불러오는 중입니다. 잠시만 기다려주세요 ☺️</S.Title>
@@ -11,4 +11,4 @@ const PageFallback = () => {
   );
 };
 
-export default PageFallback;
+export default Loading;

@@ -12,10 +12,9 @@ import PageNotFound from '@/pages/Error/PageNotFound';
 import HowToPair from '@/pages/HowToPair/HowToPair';
 import Landing from '@/pages/Landing/Landing';
 import Layout from '@/pages/Layout';
+import Loading from '@/pages/Loading/Loading';
 import Main from '@/pages/Main/Main';
 import SignUp from '@/pages/SignUp/SignUp';
-
-import PageFallback from '@/components/common/Fallback/PageFallback/PageFallback';
 
 import useUserStatusStore from '@/stores/userStatusStore';
 
@@ -82,7 +81,7 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        <Suspense fallback={<PageFallback />}>
+        <Suspense fallback={<Loading />}>
           <RouterProvider router={router} />
         </Suspense>
       </ThemeProvider>
