@@ -15,17 +15,14 @@ public class ProdPairRoomRepository implements site.coduo.pairroom.service.port.
     private final PairRoomRepository pairRoomJpaRepository;
 
     @Override
-    public Optional<PairRoom> findById(final Long id) {
-        return pairRoomJpaRepository.findById(id);
-    }
-
-    @Override
     public Optional<PairRoom> findByAccessCode(final AccessCode accessCode) {
-        return pairRoomJpaRepository.findByAccessCode(accessCode);
+        return Optional.of(pairRoomJpaRepository.findByAccessCode(accessCode.getValue())
+                .orElseThrow().toDomain());
     }
 
     @Override
     public PairRoom save(final PairRoom pairRoom) {
-        return pairRoomJpaRepository.save(pairRoom);
+        return pairRoomJpaRepository.save(site.coduo.pairroom.repository.PairRoomEntity.from(pairRoom))
+                .toDomain();
     }
 }
