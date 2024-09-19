@@ -14,7 +14,7 @@ public class SchedulerRegistry {
     private final Map<String, ScheduledFuture<?>> registry;
 
     public SchedulerRegistry() {
-        registry = new ConcurrentHashMap<>();
+        this.registry = new ConcurrentHashMap<>();
     }
 
     public void register(final String key, final ScheduledFuture<?> future) {

@@ -14,7 +14,7 @@ public class EventStreamsRegistry {
     private final Map<String, EventStreams> registry;
 
     public EventStreamsRegistry() {
-        registry = new ConcurrentHashMap<>();
+        this.registry = new ConcurrentHashMap<>();
     }
 
     public SseEmitter register(final String name) {

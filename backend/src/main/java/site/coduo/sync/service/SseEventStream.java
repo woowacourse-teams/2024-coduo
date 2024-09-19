@@ -24,7 +24,7 @@ public class SseEventStream implements EventStream {
         this.sseEmitter = new SseEmitter(INFINITE_TIME_OUT);
     }
 
-    public SseEventStream(Duration timeout) {
+    public SseEventStream(final Duration timeout) {
         this.sseEmitter = new SseEmitter(timeout.toMillis());
     }
 
@@ -40,7 +40,7 @@ public class SseEventStream implements EventStream {
                     .id(eventId)
                     .name("connect")
                     .data("OK"));
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new SseConnectionFailureException("SSE 연결이 실패했습니다.");
         }
         return sseEmitter;
