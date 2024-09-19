@@ -43,7 +43,11 @@ const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps)
           <S.Body $isOpen={isOpen}>
             <ReferenceList referenceLinks={referenceLinks} onDeleteReferenceLink={handleDeleteReferenceLink} />
             <S.Footer>
-              <AddReferenceForm categories={categories} handleAddReferenceLink={handleAddReferenceLink} />
+              <AddReferenceForm
+                accessCode={accessCode}
+                categories={categories}
+                handleAddReferenceLink={handleAddReferenceLink}
+              />
             </S.Footer>
           </S.Body>
         </PairRoomCard>

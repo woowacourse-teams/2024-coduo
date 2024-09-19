@@ -12,7 +12,7 @@ export const Layout = styled.div<{ $columns: number }>`
 `;
 
 export const List = styled.ul<{ $columns: number }>`
-  gap: 5rem 0;
+  gap: 3rem 0;
 
   width: 100%;
   padding: 0;
@@ -22,7 +22,7 @@ export const List = styled.ul<{ $columns: number }>`
       ? css`
           display: flex;
           flex-wrap: wrap;
-          gap: 5rem 3rem;
+          gap: 3rem;
         `
       : css`
           display: grid;

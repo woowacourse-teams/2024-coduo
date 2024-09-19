@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components';
 
 export const inputStyles = css`
   width: 100%;
-  border: none;
 
   font-size: ${({ theme }) => theme.fontSize.md};
 `;
@@ -30,7 +29,6 @@ export const AddNewCategoryBox = styled.form`
   width: 100%;
   height: 7rem;
   padding-top: 2rem;
-  border-top: 1px solid ${({ theme }) => theme.color.black[40]};
 `;
 
 export const AddNewCategoryInputBox = styled.div`

@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { LuPlus } from 'react-icons/lu';
 
 import Button from '@/components/common/Button/Button';
-import Dropdown from '@/components/common/Dropdown/Dropdown/Dropdown';
 import Input from '@/components/common/Input/Input';
+import CategoryDropdown from '@/components/PairRoom/ReferenceCard/AddReferenceForm/CategoryDropdown';
 
 import useInput from '@/hooks/common/useInput';
 
@@ -13,10 +13,13 @@ import * as S from './AddReferenceForm.styles';
 interface ReferenceFormProps {
   handleAddReferenceLink: (value: string, category: string | null) => void;
   categories: string[];
+  accessCode: string;
 }
-const AddReferenceForm = ({ categories, handleAddReferenceLink }: ReferenceFormProps) => {
+const AddReferenceForm = ({ accessCode, categories, handleAddReferenceLink }: ReferenceFormProps) => {
   const { value, status, message, handleChange, resetValue } = useInput();
   const [currentCategory, setCurrentCategory] = useState<string | null>(null);
+
+  const handleCurrentCategory = (category: string | null) => setCurrentCategory(category);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -26,11 +29,7 @@ const AddReferenceForm = ({ categories, handleAddReferenceLink }: ReferenceFormP
 
     resetValue();
   };
-  const handleCategory = (option: string | null) => {
-    setCurrentCategory(option);
-  };
 
-  const newCategories = [...categories, '카테고리 없음'];
   const handleLinkFormat = (link: string): string => {
     if (!link) {
       return '';
@@ -51,17 +50,15 @@ const AddReferenceForm = ({ categories, handleAddReferenceLink }: ReferenceFormP
 
     return `https://${trimmedLink}`;
   };
+
   return (
     <S.Layout>
-      <Dropdown
-        width="17rem"
-        height="4rem"
-        direction="upper"
-        placeholder="카테고리를 선택해주세요."
-        options={newCategories}
-        selectedOption={currentCategory || '카테고리 없음'}
-        onSelect={(option) => handleCategory(option)}
-      />
+      <CategoryDropdown
+        currentCategory={currentCategory}
+        categories={categories}
+        handleCurrentCategory={handleCurrentCategory}
+        accessCode={accessCode}
+      ></CategoryDropdown>
       <S.Form onSubmit={handleSubmit}>
         <Input
           $css={S.inputStyles}

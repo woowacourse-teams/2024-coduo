@@ -1,7 +1,5 @@
 import { FaFilter } from 'react-icons/fa';
 
-import { validateCategory } from '@/validations/validateCategory';
-
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import { Message } from '@/components/common/Input/Input.styles';
@@ -14,6 +12,8 @@ import useInput from '@/hooks/common/useInput';
 import useAddCategory from '@/queries/PairRoom/category/useAddCategory';
 
 import * as S from './CategoryModal.styles';
+
+import { validateCategory } from '@/validations/validateCategory';
 
 interface CategoryModalProps {
   accessCode: string;
