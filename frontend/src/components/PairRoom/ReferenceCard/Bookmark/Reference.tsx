@@ -1,19 +1,19 @@
 import { Link } from 'react-router-dom';
 
-import * as S from './Bookmark.styles';
+import * as S from './Reference.styles';
 
-interface BookmarkProps {
+interface ReferenceProps {
   url: string;
   image?: string;
   title: string;
   description: string;
-  onDeleteBookmark: () => void;
+  onDeleteReference: () => void;
 }
 
-const Bookmark = ({ url, image, title, description, onDeleteBookmark }: BookmarkProps) => {
+const Reference = ({ url, image, title, description, onDeleteReference }: ReferenceProps) => {
   return (
     <S.Layout>
-      <S.DeleteButton onClick={onDeleteBookmark} />
+      <S.DeleteButton onClick={onDeleteReference} />
       {image ? (
         <S.Image alt="link" src={image} />
       ) : (
@@ -33,4 +33,4 @@ const Bookmark = ({ url, image, title, description, onDeleteBookmark }: Bookmark
   );
 };
 
-export default Bookmark;
+export default Reference;

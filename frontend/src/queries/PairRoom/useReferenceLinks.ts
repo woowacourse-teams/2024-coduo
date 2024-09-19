@@ -15,6 +15,7 @@ const useReferenceLinks = (accessCode: string, currentCategory: string) => {
     queryKey: [QUERY_KEYS.GET_REFERENCE_LINKS, currentCategory],
     queryFn: () => getReferenceLinks({ accessCode, currentCategory }),
   });
+  //TODO: 캐싱
 
   const { mutate: addReferenceLinkMutation } = useMutation({
     mutationFn: addReferenceLink,
