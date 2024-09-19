@@ -128,6 +128,45 @@ class TodoSortTest {
         });
     }
 
+    @DisplayName("현재 정렬값이 포함되어 있지 않은 리스트를 입력하면 예외를 발생시킨다.")
+    @Test
+    void updateWithoutCurrentSort() {
+        // Given
+        final TodoSort targetSort = new TodoSort(2048);
+        final int destinationSort = 3;
+        final List<TodoSort> todoSorts = List.of(
+                new TodoSort(1024),
+                new TodoSort(3072),
+                new TodoSort(4000),
+                new TodoSort(4096)
+        );
+
+        // When & Then
+        assertThatThrownBy(() -> targetSort.update(todoSorts, destinationSort))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("입력된 투두 정렬에 현재 정렬값이 포함되어 있지 않습니다.");
+    }
+
+    @DisplayName("현재 위치로 정렬 순서를 변경하려고 하면 예외를 발생시킨다.")
+    @Test
+    void updateCurrentSort() {
+        // Given
+        final TodoSort targetSort = new TodoSort(2048);
+        final int destinationSort = 1;
+        final List<TodoSort> todoSorts = List.of(
+                new TodoSort(1024),
+                new TodoSort(2048),
+                new TodoSort(3072),
+                new TodoSort(4000),
+                new TodoSort(4096)
+        );
+
+        // When & Then
+        assertThatThrownBy(() -> targetSort.update(todoSorts, destinationSort))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("현재 위치로는 이동할 수 없습니다.");
+    }
+
     @DisplayName("전체 투두 아이템 범위를 벗어나는 위치로 이동하려하면 예외를 발생시킨다.")
     @ValueSource(ints = {-1, 6})
     @ParameterizedTest
