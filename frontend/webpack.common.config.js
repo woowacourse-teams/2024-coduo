@@ -15,6 +15,10 @@ const config = {
   module: {
     rules: [
       {
+        test: /\.(png|svg|jpg|gif|mp3)$/,
+        type: 'asset/resource',
+      },
+      {
         test: /\.(ts|js)x?$/,
         exclude: /node_modules/,
         use: ['ts-loader'],

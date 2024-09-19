@@ -22,15 +22,6 @@ export default merge(common, {
   module: {
     rules: [
       {
-        test: /\.(png|svg|jpg|gif|mp3)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]',
-          },
-        },
-      },
-      {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
