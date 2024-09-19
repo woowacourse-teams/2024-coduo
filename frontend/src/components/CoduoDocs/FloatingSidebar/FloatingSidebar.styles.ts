@@ -12,8 +12,6 @@ export const Layout = styled.div`
   left: 4%;
 
   padding: 2.6rem;
-  border: 1px solid ${({ theme }) => theme.color.black[40]};
-  border-radius: 20px;
 
   background-color: ${({ theme }) => theme.color.black[10]};
 
@@ -58,28 +56,28 @@ export const ContentList = styled.ul`
 export const ContentItem = styled(Link)<{ $isActive: boolean }>`
   position: relative;
 
-  color: ${({ theme }) => theme.color.black[60]};
-  font-size: ${({ theme }) => theme.fontSize.h6};
+  color: ${({ $isActive, theme }) => ($isActive ? theme.color.black[90] : theme.color.black[60])};
+  font-size: ${({ theme }) => theme.fontSize.lg};
   text-decoration: none;
 
-  ${({ $isActive, theme }) =>
-    $isActive &&
-    `
-    color: ${theme.color.black[90]};
-    
-    &::before {
-      position: absolute;
-      top: 0;
-      left: -1rem;
-      width: 3px;
-      height: 100%;
-      background-color: ${theme.color.secondary[500]};
-      content: '';
-    }
-  `}
+  transition: all 0.2s;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: -2rem;
+
+    width: 3px;
+    height: 145%;
+
+    background-color: ${({ $isActive, theme }) => ($isActive ? theme.color.secondary[500] : theme.color.black[30])};
+
+    transition: all 0.2s;
+    content: '';
+  }
 
   @media (width <= 1400px) {
-    font-size: ${({ theme }) => theme.fontSize.lg};
+    font-size: ${({ theme }) => theme.fontSize.md};
   }
 `;
 
