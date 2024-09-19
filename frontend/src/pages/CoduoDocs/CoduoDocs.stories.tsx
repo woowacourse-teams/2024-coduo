@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import CoduoDocs from '@/components/CoduoDocs/CoduoDocs';
+import CoduoDocs from '@/pages/CoduoDocs/CoduoDocs';
 
 const meta = {
   title: 'component/CoduoDocs/CoduoDocs',

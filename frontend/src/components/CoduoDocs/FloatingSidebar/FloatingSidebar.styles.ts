@@ -5,13 +5,11 @@ import styled from 'styled-components';
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2.2rem;
+  gap: 2.3rem;
 
   position: fixed;
   top: 15rem;
   left: 4%;
-
-  padding: 2.6rem;
 
   background-color: ${({ theme }) => theme.color.black[10]};
 

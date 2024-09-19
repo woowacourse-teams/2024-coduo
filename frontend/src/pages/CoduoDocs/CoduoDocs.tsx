@@ -1,10 +1,10 @@
 import DocsImage from '@/components/CoduoDocs/DocsImage/DocsImage';
 import ContentBox from '@/components/CoduoDocs/FloatingSidebar/ContentBox';
-import FloatingSidebar from '@/components/CoduoDocs/FloatingSidebar/FloatingSIdebar';
+import FloatingSidebar from '@/components/CoduoDocs/FloatingSidebar/FloatingSidebar';
 import Quote from '@/components/CoduoDocs/Quote/Quote';
 import SourceCode from '@/components/CoduoDocs/SourceCode/SourceCode';
 
-import useHashScroll from '@/hooks/Scroll/useHashScroll';
+import useHashScroll from '@/hooks/common/useHashScroll';
 
 import { ABOUT_PAIR_PROGRAMMING, DOCS_IMAGES, START_CONTENT } from '@/constants/coduoDocs';
 
@@ -68,23 +68,23 @@ const CoduoDocs = () => {
             webpSrc={DOCS_IMAGES.selectMissionWebp}
           />
           <DocsImage
-            information="3. branch 생성하기"
+            information="3. 브랜치 생성하기"
             src={DOCS_IMAGES.createBranch}
             alt="create-branch"
             webpSrc={DOCS_IMAGES.createBranchWebp}
           >
             <Quote
-              text="미션 리포지토리에 생성할 branch 이름을 적고, ‘브랜치 생성하기’ 버튼을 눌러주세요. branch 이름은 자신의
+              text="미션 리포지토리에 생성할 브랜치 이름을 적고, ‘브랜치 생성하기’ 버튼을 눌러주세요. 브랜치 이름은 자신의
               깃허브 ID 로 작성해주세요."
             />
           </DocsImage>
           <DocsImage
-            information="4. 생성한 branch 확인하기"
+            information="4. 생성한 브랜치 확인하기"
             src={DOCS_IMAGES.checkBranchCreated}
             alt="check-branch-created"
             webpSrc={DOCS_IMAGES.checkBranchCreatedWebp}
           >
-            <Quote text="미션 리포지토리에서 자신의 branch가 생성되었는지 확인해주세요" />
+            <Quote text="미션 리포지토리에서 자신의 브랜치가 생성되었는지 확인해주세요" />
           </DocsImage>
           <DocsImage
             information="5. fork 하기"

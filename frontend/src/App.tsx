@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'styled-components';
 
 import Callback from '@/pages/Callback/Callback';
+import Docs from '@/pages/CoduoDocs/CoduoDocs';
 import PageNotFound from '@/pages/Error/PageNotFound';
 import HowToPair from '@/pages/HowToPair/HowToPair';
 import Landing from '@/pages/Landing/Landing';
@@ -13,8 +14,6 @@ import Main from '@/pages/Main/Main';
 import PairRoom from '@/pages/PairRoom/PairRoom';
 import PairRoomOnboarding from '@/pages/PairRoomOnboarding/PairRoomOnboarding';
 import SignUp from '@/pages/SignUp/SignUp';
-
-import Docs from '@/components/CoduoDocs/CoduoDocs';
 
 import useUserStatusStore from '@/stores/userStatusStore';
 

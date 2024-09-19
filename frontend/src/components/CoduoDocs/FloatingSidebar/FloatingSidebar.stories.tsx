@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import ContentBox from '@/components/CoduoDocs/FloatingSidebar/ContentBox';
-import FloatingSidebar from '@/components/CoduoDocs/FloatingSidebar/FloatingSIdebar';
+import FloatingSidebar from '@/components/CoduoDocs/FloatingSidebar/FloatingSidebar';
 
 import { START_CONTENT } from '@/constants/coduoDocs';
 

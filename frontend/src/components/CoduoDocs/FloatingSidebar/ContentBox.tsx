@@ -1,8 +1,6 @@
-// import { useLocation } from 'react-router-dom';
-
 import { useNavigate } from 'react-router-dom';
 
-import { Content } from '@/components/CoduoDocs/CoduoDocs.type';
+import { Content } from '@/pages/CoduoDocs/CoduoDocs.type';
 
 import * as S from './FloatingSidebar.styles';
 
