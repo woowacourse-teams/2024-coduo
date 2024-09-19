@@ -39,7 +39,7 @@ const useAddPairRoom = () => {
         accessCode,
       });
 
-      navigate(`/room/${accessCode}`);
+      navigate(`/pair-room/${accessCode}`);
     } catch (error) {
       if (error instanceof Error) addToast({ status: 'ERROR', message: error.message });
     }
