@@ -15,22 +15,18 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.(ts|js)x?$/,
-        exclude: /node_modules/,
-        use: ['ts-loader'],
-      },
-      {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
       {
+
         test: /\.(png|svg|jpg|gif|mp3|webp)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]',
-          },
-        },
+        type: 'asset/resource',
+      },
+      {
+        test: /\.(ts|js)x?$/,
+        exclude: /node_modules/,
+        use: ['ts-loader'],
       },
     ],
   },

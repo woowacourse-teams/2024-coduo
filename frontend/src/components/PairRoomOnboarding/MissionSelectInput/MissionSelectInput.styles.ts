@@ -33,7 +33,6 @@ export const HeaderContainer = styled.div`
 export const RepositoryContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-
   gap: 3rem;
 
   width: 100%;
