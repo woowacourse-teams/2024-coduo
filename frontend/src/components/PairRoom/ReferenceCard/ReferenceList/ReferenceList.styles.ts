@@ -14,7 +14,6 @@ export const Layout = styled.div`
 export const List = styled.ul`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-
   gap: 3rem;
 
   li {

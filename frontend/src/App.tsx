@@ -8,6 +8,7 @@ const PairRoom = lazy(() => import('@/pages/PairRoom/PairRoom'));
 const PairRoomOnboarding = lazy(() => import('@/pages/PairRoomOnboarding/PairRoomOnboarding'));
 
 import Callback from '@/pages/Callback/Callback';
+import Docs from '@/pages/CoduoDocs/CoduoDocs';
 import PageNotFound from '@/pages/Error/PageNotFound';
 import HowToPair from '@/pages/HowToPair/HowToPair';
 import Landing from '@/pages/Landing/Landing';
@@ -68,6 +69,10 @@ const App = () => {
         {
           path: 'sign-up',
           element: <SignUp />,
+        },
+        {
+          path: 'coduo-docs',
+          element: <Docs />,
         },
         {
           path: 'callback',
