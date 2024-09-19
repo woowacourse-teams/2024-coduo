@@ -43,7 +43,7 @@ export const CategoryInput = styled.input`
 
 export const CategoryBox = styled.div`
   display: flex;
-  gap: 2.5rem;
+  gap: 1rem;
 
   width: 100%;
 
@@ -53,7 +53,7 @@ export const CategoryBox = styled.div`
 export const CategoryIconsBox = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.2rem;
 `;
 
 export const IconsButton = styled.button`
