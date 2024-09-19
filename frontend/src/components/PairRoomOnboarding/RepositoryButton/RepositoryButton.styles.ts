@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 export const buttonStyles = css`
-  width: 28rem;
+  width: 30rem;
   border: 0;
-  border-radius: 5px 0 0 5px;
+  border-radius: 5px;
 
   background: ${({ theme }) => theme.color.black[80]};
   color: ${({ theme }) => theme.color.black[10]};
@@ -23,7 +23,9 @@ export const buttonStyles = css`
 
 export const Layout = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.6rem;
 `;
 
 export const InfoContainer = styled.div`
@@ -48,18 +50,13 @@ export const GithubLogo = styled.img`
 
 export const RepositoryLink = styled(Link)`
   display: flex;
-  justify-content: center;
   align-items: center;
 
-  width: 3.5rem;
-  height: 4rem;
-  border-radius: 0 5px 5px 0;
-
-  background: ${({ theme }) => theme.color.black[60]};
-
-  transition: background 0.2s;
+  color: ${({ theme }) => theme.color.black[60]};
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  text-decoration: underline;
 
   &:hover {
-    background: ${({ theme }) => theme.color.black[65]};
+    color: ${({ theme }) => theme.color.black[65]};
   }
 `;

@@ -4,8 +4,6 @@ import { GithubLogoWhite } from '@/assets';
 
 import Button from '@/components/common/Button/Button';
 
-import { theme } from '@/styles/theme';
-
 import * as S from './RepositoryButton.styles';
 
 interface RepositoryButtonProps {
@@ -31,7 +29,8 @@ const RepositoryButton = ({ id, name, onSelect }: RepositoryButtonProps) => {
         </S.InfoContainer>
       </Button>
       <S.RepositoryLink to={`https://github.com/coduo-missions/${name}`} target="_blank">
-        <IoIosArrowForward size={theme.fontSize.base} color={theme.color.black[20]} />
+        레포지토리로 이동하기
+        <IoIosArrowForward />
       </S.RepositoryLink>
     </S.Layout>
   );

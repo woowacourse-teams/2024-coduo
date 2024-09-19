@@ -38,7 +38,7 @@ export const RepositoryNameBox = styled.div`
 
   position: relative;
 
-  width: 31.5rem;
+  width: 30rem;
   height: 4rem;
   padding: 0 1.5rem;
   border-radius: 0.5rem;
