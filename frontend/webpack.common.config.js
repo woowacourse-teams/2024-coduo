@@ -19,7 +19,8 @@ const config = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(png|svg|jpg|gif|mp3)$/,
+
+        test: /\.(png|svg|jpg|gif|mp3|webp)$/,
         type: 'asset/resource',
       },
       {
