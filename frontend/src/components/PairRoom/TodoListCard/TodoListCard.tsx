@@ -1,4 +1,3 @@
-import { useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { LuPlus } from 'react-icons/lu';
@@ -9,7 +8,6 @@ import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import Header from '@/components/PairRoom/TodoListCard/Header/Header';
 import TodoList from '@/components/PairRoom/TodoListCard/TodoList/TodoList';
 
-import useClickOutside from '@/hooks/common/useClickOutside';
 import useInput from '@/hooks/common/useInput';
 
 import useTodos from '@/queries/PairRoom/useTodos';
@@ -23,10 +21,6 @@ interface TodoListCardProps {
 
 const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
   const { accessCode } = useParams();
-  const [isFooterOpen, setIsFooterOpen] = useState(false);
-  const footerRef = useRef<HTMLDivElement>(null);
-
-  useClickOutside(footerRef, () => setIsFooterOpen(false));
 
   const { value, handleChange, resetValue } = useInput();
   const { handleAddTodos } = useTodos(accessCode || '');
@@ -43,25 +37,19 @@ const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
         <Header isOpen={isOpen} toggleIsOpen={toggleIsOpen} />
         <S.Body $isOpen={isOpen}>
           <TodoList />
-          <S.Footer ref={footerRef}>
-            {isFooterOpen ? (
-              <S.Form onSubmit={handleSubmit}>
-                <Input $css={S.inputStyles} value={value} onChange={handleChange} maxLength={100} />
-                <S.ButtonContainer>
-                  <Button type="button" size="sm" filled={false} rounded={true} onClick={() => setIsFooterOpen(false)}>
-                    취소
-                  </Button>
-                  <Button type="submit" size="sm" rounded={true} disabled={value === ''}>
-                    확인
-                  </Button>
-                </S.ButtonContainer>
-              </S.Form>
-            ) : (
-              <S.FooterButton onClick={() => setIsFooterOpen(true)}>
-                <LuPlus />
-                투두 추가하기
-              </S.FooterButton>
-            )}
+          <S.Footer>
+            <S.Form onSubmit={handleSubmit}>
+              <Input
+                $css={S.inputStyles}
+                value={value}
+                onChange={handleChange}
+                maxLength={100}
+                placeholder="할 일의 내용을 입력해 주세요."
+              />
+              <Button css={S.buttonStyles} type="submit" size="sm" rounded={true} disabled={value === ''}>
+                <LuPlus size="1.6rem" />
+              </Button>
+            </S.Form>
           </S.Footer>
         </S.Body>
       </PairRoomCard>

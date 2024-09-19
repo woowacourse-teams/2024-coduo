@@ -2,6 +2,13 @@ import styled, { css } from 'styled-components';
 
 export const inputStyles = css`
   height: 4rem;
+  border-radius: 0.6rem;
+`;
+
+export const buttonStyles = css`
+  width: 4.4rem;
+  height: 4rem;
+  border-radius: 0.6rem;
 `;
 
 export const Layout = styled.div`
@@ -36,16 +43,10 @@ export const Footer = styled.div`
 export const Form = styled.form`
   display: flex;
   align-items: center;
-  gap: 4rem;
+  gap: 0.6rem;
 
   width: 100%;
   padding: 0 2rem;
-`;
-
-export const ButtonContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1em;
 `;
 
 export const FooterButton = styled.button`
