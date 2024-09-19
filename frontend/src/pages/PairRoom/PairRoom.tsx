@@ -21,8 +21,9 @@ const PairRoom = () => {
 
   useEffect(() => {
     const checkPairRoomExists = async () => {
+      if (!accessCode) return navigate('/404');
       try {
-        await getPairRoom(accessCode || '');
+        await getPairRoom(accessCode);
       } catch (error) {
         navigate('/404');
       }
