@@ -9,23 +9,23 @@ const HowToPair = () => {
   return (
     <S.Layout>
       <ScrollIcon />
-      <ScrollAnimationContainer animationDirection="bottom">
+      <ScrollAnimationContainer animationDirection="bottom" animationDuration={1}>
         <S.Section $textAlign="center">
           <S.SectionText>
             <S.SectionTitle>페어 프로그래밍이란?</S.SectionTitle>
             <S.Paragraph>
-              페어 프로그래밍(Pair Programming)은 두 명의 프로그래머가 한 컴퓨터에서 함께 작업하며 소프트웨어 코드를
-              작성하는 협업 방식입니다.
+              <S.Highlighted>페어 프로그래밍(Pair Programming)</S.Highlighted>은 두 명의 프로그래머가 한 컴퓨터에서 함께
+              작업하며 소프트웨어 코드를 작성하는 협업 방식입니다.
             </S.Paragraph>
             <S.Paragraph>
-              페어 프로그래밍에서는 두 사람이 각각 &apos;드라이버&apos;(Driver)와 &apos;내비게이터&apos;(Navigator)
-              역할을 번갈아 가며 수행합니다:
+              페어 프로그래밍에서는 두 사람이 각각 <S.Highlighted>&apos;드라이버&apos;(Driver)</S.Highlighted> 와
+              <S.Highlighted> &apos;내비게이터&apos;(Navigator)</S.Highlighted> 역할을 번갈아 가며 수행합니다:
             </S.Paragraph>
           </S.SectionText>
         </S.Section>
       </ScrollAnimationContainer>
 
-      <ScrollAnimationContainer animationDirection="right">
+      <ScrollAnimationContainer animationDirection="right" animationDuration={1}>
         <S.TextBoxContainer>
           <S.TextBox>
             <S.Paragraph>
@@ -44,33 +44,37 @@ const HowToPair = () => {
         </S.TextBoxContainer>
       </ScrollAnimationContainer>
 
-      <ScrollAnimationContainer animationDirection="left">
+      <ScrollAnimationContainer animationDirection="left" animationDuration={1}>
         <S.Section $textAlign="right">
           <S.Character src={Navigator} />
           <S.SectionText>
             <S.SectionTitle>왜 페어 프로그래밍을 해야 할까요?</S.SectionTitle>
             <S.Paragraph>
-              서로의 대화를 통해 자연스럽게 코드 리뷰가 이루어져, 오류를 조기에 발견하고 수정할 수 있습니다. <br />
-              또한 서로 다른 시각에서 문제를 바라보며 더 창의적이고 효율적인 해결책을 찾을 수 있습니다.
+              서로의 대화를 통해 자연스럽게 코드 리뷰가 이루어져,
+              <S.Highlighted>오류를 조기에 발견하고 수정할 수 있습니다.</S.Highlighted>
+              <br />
+              또한 <S.Highlighted>서로 다른 시각에서 문제를 바라보며</S.Highlighted> 더 창의적이고 효율적인 해결책을
+              찾을 수 있습니다.
             </S.Paragraph>
           </S.SectionText>
         </S.Section>
       </ScrollAnimationContainer>
 
-      <ScrollAnimationContainer animationDirection="right">
+      <ScrollAnimationContainer animationDirection="right" animationDuration={1}>
         <S.Section>
           <S.SectionText>
             <S.SectionTitle>페어 프로그래밍의 방법</S.SectionTitle>
             <S.Paragraph>
-              서로 일정한 시간 간격으로 역할을 교환하며 지속적인 대화를 통해 코드의 질을 향상시킵니다. <br /> 또한
-              주기적으로 작업 과정을 되돌아보고 개선점을 논의하여 다음 세션에서 더 나은 협업을 할 수 있도록 합니다.
+              서로 일정한 시간 간격으로 역할을 교환하며 <S.Highlighted>지속적인 대화</S.Highlighted>를 통해 코드의 질을
+              향상시킵니다. <br /> 또한 주기적으로 작업 과정을 되돌아보고 개선점을 논의하여 다음 세션에서{' '}
+              <S.Highlighted>더 나은 협업</S.Highlighted>을 할 수 있도록 합니다.
             </S.Paragraph>
           </S.SectionText>
           <S.Character src={Driver} />
         </S.Section>
       </ScrollAnimationContainer>
 
-      <ScrollAnimationContainer animationDirection="top">
+      <ScrollAnimationContainer animationDirection="top" animationDuration={1}>
         <S.Conclusion>
           페어 프로그래밍은 단순히 코드를 함께 작성하는 것을 넘어,
           <br /> 협업을 통해 더 나은 코드를 만들어 나가는 과정입니다.
