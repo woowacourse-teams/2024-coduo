@@ -1,4 +1,4 @@
-package site.coduo.todo.infrastructure.repository;
+package site.coduo.todo.repository;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

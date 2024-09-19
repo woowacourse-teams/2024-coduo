@@ -1,4 +1,4 @@
-package site.coduo.todo.infrastructure.repository;
+package site.coduo.todo.repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import site.coduo.pairroom.domain.PairRoom;
 
-public interface TodoJpaRepository extends JpaRepository<TodoEntity, Long> {
+public interface TodoRepository extends JpaRepository<TodoEntity, Long> {
 
     List<TodoEntity> findAllByPairRoomOrderBySortAsc(PairRoom pairRoom);
 

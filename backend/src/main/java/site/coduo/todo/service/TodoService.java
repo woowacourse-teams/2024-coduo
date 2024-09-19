@@ -9,11 +9,12 @@ import lombok.RequiredArgsConstructor;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
-import site.coduo.pairroom.service.port.PairRoomRepository;
+import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.todo.domain.Todo;
 import site.coduo.todo.domain.TodoSort;
 import site.coduo.todo.exception.TodoNotFoundException;
-import site.coduo.todo.service.port.TodoRepository;
+import site.coduo.todo.repository.TodoEntity;
+import site.coduo.todo.repository.TodoRepository;
 
 @RequiredArgsConstructor
 @Service
@@ -28,7 +29,10 @@ public class TodoService {
     public List<Todo> getAllOrderBySort(final String accessCode) {
         final PairRoom pairRoom = pairRoomRepository.findByAccessCode(new AccessCode(accessCode))
                 .orElseThrow(() -> new PairRoomNotFoundException("해당 Access Code의 페어룸은 존재하지 않습니다. - " + accessCode));
-        return todoRepository.findAllByPairRoomOrderBySortAsc(pairRoom);
+        return todoRepository.findAllByPairRoomOrderBySortAsc(pairRoom)
+                .stream()
+                .map(TodoEntity::toDomain)
+                .toList();
     }
 
     public void createTodo(final String accessCode, final String content) {
@@ -37,35 +41,46 @@ public class TodoService {
         final TodoSort nextToLastSort = getLastTodoSort(pairRoom).orElseGet(() -> new TodoSort(NO_SORT_VALUE))
                 .countNextSort();
         final Todo todo = new Todo(null, pairRoom, content, nextToLastSort.getSort(), INITIAL_TODO_CHECKED);
+        final TodoEntity todoEntity = new TodoEntity(todo);
 
-        todoRepository.save(todo);
+        todoRepository.save(todoEntity);
     }
 
     private Optional<TodoSort> getLastTodoSort(final PairRoom pairRoom) {
         return todoRepository.findTopByPairRoomOrderBySortDesc(pairRoom)
+                .map(TodoEntity::toDomain)
                 .map(Todo::getSort);
     }
 
     public void updateTodoContent(final Long todoId, final String content) {
         final Todo todo = todoRepository.findById(todoId)
+                .map(TodoEntity::toDomain)
                 .orElseThrow(() -> new TodoNotFoundException("존재하지 않은 todo id입니다." + todoId));
         final Todo updatedTodo = todo.updateContent(content);
-        todoRepository.save(updatedTodo);
+        final TodoEntity updatedTodoEntity = new TodoEntity(updatedTodo);
+        todoRepository.save(updatedTodoEntity);
     }
 
     public void toggleTodoChecked(final Long todoId) {
         final Todo todo = todoRepository.findById(todoId)
+                .map(TodoEntity::toDomain)
                 .orElseThrow(() -> new TodoNotFoundException("존재하지 않은 todo id입니다." + todoId));
         final Todo updatedTodo = todo.toggleTodoChecked();
-        todoRepository.save(updatedTodo);
+        final TodoEntity updatedTodoEntity = new TodoEntity(updatedTodo);
+        todoRepository.save(updatedTodoEntity);
     }
 
     public void updateTodoSort(final Long targetTodoId, final int destinationSort) {
         final Todo targetTodo = todoRepository.findById(targetTodoId)
+                .map(TodoEntity::toDomain)
                 .orElseThrow(() -> new TodoNotFoundException("존재하지 않은 todo id입니다." + targetTodoId));
-        final List<Todo> allByPairRoom = todoRepository.findAllByPairRoomOrderBySortAsc(targetTodo.getPairRoom());
+        final List<Todo> allByPairRoom = todoRepository.findAllByPairRoomOrderBySortAsc(targetTodo.getPairRoom())
+                .stream()
+                .map(TodoEntity::toDomain)
+                .toList();
         final Todo updated = targetTodo.updateSort(allByPairRoom, destinationSort);
-        todoRepository.save(updated);
+        final TodoEntity updatedTodoEntity = new TodoEntity(updated);
+        todoRepository.save(updatedTodoEntity);
     }
 
     public void deleteTodo(final Long todoId) {
