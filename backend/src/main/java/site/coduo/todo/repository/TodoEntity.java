@@ -33,7 +33,7 @@ public class TodoEntity extends BaseTimeEntity {
     private String content;
 
     @Column(name = "SORT", nullable = false)
-    private int sort;
+    private double sort;
 
     @Column(name = "IS_CHECKED", nullable = false)
     private boolean isChecked;
@@ -52,7 +52,7 @@ public class TodoEntity extends BaseTimeEntity {
             final Long id,
             final PairRoom pairRoom,
             final String content,
-            final int sort,
+            final double sort,
             final boolean isChecked
     ) {
         this.id = id;

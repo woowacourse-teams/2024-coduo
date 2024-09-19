@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import site.coduo.todo.exception.InvalidTodoSortException;
 import site.coduo.todo.exception.InvalidUpdatedTodoSortException;
 
 @DisplayName("TodoSort 도메인 테스트")
@@ -38,7 +37,7 @@ class TodoSortTest {
     void countNextSort() {
         // Given
         final TodoSort todoSort = new TodoSort(1024);
-        final int expect = 2048;
+        final int expect = 4096;
 
         // When
         final TodoSort nextSort = todoSort.countNextSort();
@@ -48,18 +47,6 @@ class TodoSortTest {
             assertThat(nextSort).isNotNull();
             assertThat(nextSort.getSort()).isEqualTo(expect);
         });
-    }
-
-    @DisplayName("음수값을 입력하면 예외를 발생시킨다.")
-    @Test
-    void createTodoSortWithNegative() {
-        // Given
-        final int input = -1;
-
-        // When & Then
-        assertThatThrownBy(() -> new TodoSort(input))
-                .isInstanceOf(InvalidTodoSortException.class)
-                .hasMessage("todoSort는 음수가 될 수 없습니다.");
     }
 
     @DisplayName("첫 번째 위치로 이동할경우 기존 첫 번째 아이템의 정렬값에서 아이템 간격 만큼을 뺀 값으로 정렬값을 변경한다.")
@@ -76,7 +63,7 @@ class TodoSortTest {
         );
         final int destinationSort = 0;
 
-        final int expect = 0;
+        final int expect = -2048;
 
         // When
         final TodoSort updatedSort = targetSort.update(todoSorts, destinationSort);
@@ -102,7 +89,7 @@ class TodoSortTest {
         );
         final int destinationSort = 3;
 
-        final int expect = 5120;
+        final int expect = 7168;
 
         // When
         final TodoSort updatedSort = targetSort.update(todoSorts, destinationSort);

@@ -19,7 +19,7 @@ public class Todo {
             final Long id,
             final PairRoom pairRoom,
             final String content,
-            final int sort,
+            final double sort,
             final boolean isChecked
     ) {
         this(

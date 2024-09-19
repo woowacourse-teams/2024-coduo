@@ -4,26 +4,18 @@ import java.util.List;
 import java.util.Objects;
 
 import lombok.Getter;
-import site.coduo.todo.exception.InvalidTodoSortException;
 import site.coduo.todo.exception.InvalidUpdatedTodoSortException;
 
 @Getter
 public class TodoSort {
 
-    private static final int SORT_INTERVAL = 1024;
+    private static final int SORT_INTERVAL = 3072;
     private static final int FIRST_INDEX = 0;
 
-    private final int sort;
+    private final double sort;
 
-    public TodoSort(final int sort) {
-        validateSort(sort);
+    public TodoSort(final double sort) {
         this.sort = sort;
-    }
-
-    private void validateSort(final int sort) {
-        if (sort < 0) {
-            throw new InvalidTodoSortException("todoSort는 음수가 될 수 없습니다.");
-        }
     }
 
     public TodoSort countNextSort() {
@@ -34,29 +26,30 @@ public class TodoSort {
         validateUpdateSort(todoSorts.size(), destinationOrder);
 
         if (destinationOrder == FIRST_INDEX) {
-            final int oldFirstItemSortValue = todoSorts.get(FIRST_INDEX).getSort();
+            final double oldFirstItemSortValue = todoSorts.get(FIRST_INDEX).getSort();
             return new TodoSort(oldFirstItemSortValue - SORT_INTERVAL);
         }
 
         final int lastItemIndex = todoSorts.size() - 1;
         if (destinationOrder == lastItemIndex) {
-            final int oldLastItemSortValue = todoSorts.get(lastItemIndex).getSort();
+            final double oldLastItemSortValue = todoSorts.get(lastItemIndex).getSort();
             return new TodoSort(oldLastItemSortValue + SORT_INTERVAL);
         }
 
         final int currentOrder = todoSorts.indexOf(this);
         if (destinationOrder < currentOrder) {
-            final int newSortValue = (todoSorts.get(destinationOrder - 1).sort + todoSorts.get(destinationOrder).sort) / 2;
+            final double newSortValue = (todoSorts.get(destinationOrder - 1).sort + todoSorts.get(destinationOrder).sort) / 2;
             return new TodoSort(newSortValue);
         }
 
-        final int newSortValue = (todoSorts.get(destinationOrder).sort + todoSorts.get(destinationOrder + 1).sort) / 2;
+        final double newSortValue = (todoSorts.get(destinationOrder).sort + todoSorts.get(destinationOrder + 1).sort) / 2;
         return new TodoSort(newSortValue);
     }
 
     private void validateUpdateSort(final int allTodoSize, final int destinationSort) {
         if (destinationSort < FIRST_INDEX || destinationSort >= allTodoSize) {
-            throw new InvalidUpdatedTodoSortException("Todo 순서는 전체 Todo 범위를 벗어나는 위치일 수 없습니다. sort - " + destinationSort);
+            throw new InvalidUpdatedTodoSortException(
+                    "Todo 순서는 전체 Todo 범위를 벗어나는 위치일 수 없습니다. sort - " + destinationSort);
         }
     }
 
