@@ -40,7 +40,7 @@ public class PairRoomService {
                 .toList();
 
         final AccessCodeFactory accessCodeFactory = new AccessCodeFactory(new UUIDAccessCodeStrategy());
-        final PairRoom pairRoom = new PairRoom(pair, status, accessCodeFactory.generate(accessCodes));
+        final PairRoom pairRoom = new PairRoom(status, pair, accessCodeFactory.generate(accessCodes));
 
         final PairRoomEntity pairRoomEntity = pairRoomRepository.save(PairRoomEntity.from(pairRoom));
         final Timer timer = new Timer(pairRoom.getAccessCode(), request.timerDuration(), request.timerRemainingTime());
@@ -48,6 +48,7 @@ public class PairRoomService {
         return pairRoom.getAccessCodeText();
     }
 
+    @Transactional
     public void updateNavigatorWithDriver(final String accessCode) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
         pairRoomEntity.swapNavigatorWithDriver();
@@ -61,6 +62,7 @@ public class PairRoomService {
     }
 
     public PairRoomReadResponse findByAccessCode(final String accessCode) {
-        return PairRoomReadResponse.from(pairRoomRepository.fetchByAccessCode(accessCode));
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
+        return PairRoomReadResponse.of(pairRoomEntity.toDomain(), pairRoomEntity.getId());
     }
 }
