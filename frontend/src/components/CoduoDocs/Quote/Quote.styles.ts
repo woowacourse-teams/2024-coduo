@@ -3,9 +3,9 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   align-items: center;
-  text-decoration: none;
-
   gap: 0.8rem;
+
+  text-decoration: none;
 `;
 
 export const QuoteBar = styled.span`
@@ -24,7 +24,6 @@ export const TextLink = styled.a`
   color: ${({ theme }) => theme.color.primary[700]};
   font-size: ${({ theme }) => theme.fontSize.base};
   font-weight: ${({ theme }) => theme.fontWeight.semibold};
-
   text-decoration: underline;
 
   transition: color 0.2s ease;
