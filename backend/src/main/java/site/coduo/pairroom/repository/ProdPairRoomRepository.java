@@ -14,7 +14,6 @@ public class ProdPairRoomRepository implements site.coduo.pairroom.service.port.
 
     private final PairRoomRepository pairRoomJpaRepository;
 
-    // todo: 나중에 백엔드 회의 소집~~
     @Override
     public Optional<PairRoom> findByAccessCode(final AccessCode accessCode) {
         return Optional.of(pairRoomJpaRepository.findByAccessCode(accessCode.getValue())

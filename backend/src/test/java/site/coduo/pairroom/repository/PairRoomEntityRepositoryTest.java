@@ -28,7 +28,7 @@ class PairRoomEntityRepositoryTest {
     void search_persistence_by_access_code_exists_case() {
         // given
         final Pair pair = new Pair(new PairName("hello"), new PairName("world"));
-        final PairRoom pairRoom = new PairRoom(pair, PairRoomStatus.IN_PROGRESS, new AccessCode("code"));
+        final PairRoom pairRoom = new PairRoom(PairRoomStatus.IN_PROGRESS, pair, new AccessCode("code"));
         final PairRoomEntity entity = PairRoomEntity.from(
                 pairRoom);
         pairRoomRepository.save(entity);
@@ -46,7 +46,7 @@ class PairRoomEntityRepositoryTest {
     void search_persistence_by_access_code_not_exists_case() {
         // given
         final Pair pair = new Pair(new PairName("hello"), new PairName("world"));
-        final PairRoom pairRoom = new PairRoom(pair, PairRoomStatus.IN_PROGRESS, new AccessCode("code"));
+        final PairRoom pairRoom = new PairRoom(PairRoomStatus.IN_PROGRESS, pair, new AccessCode("code"));
 
         // when
         final Optional<PairRoomEntity> persistence = pairRoomRepository.findByAccessCode(
@@ -62,7 +62,7 @@ class PairRoomEntityRepositoryTest {
         // given
         final Pair pair = new Pair(new PairName("hello"), new PairName("world"));
         final AccessCode code = new AccessCode("code");
-        final PairRoom pairRoom = new PairRoom(pair, PairRoomStatus.IN_PROGRESS, code);
+        final PairRoom pairRoom = new PairRoom(PairRoomStatus.IN_PROGRESS, pair, code);
         pairRoomRepository.save(PairRoomEntity.from(pairRoom));
 
         // when

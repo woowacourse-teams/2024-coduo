@@ -68,8 +68,8 @@ public class PairRoomEntity extends BaseTimeEntity {
 
     public PairRoom toDomain() {
         return new PairRoom(
-                new Pair(new PairName(navigator), new PairName(driver)),
                 status,
+                new Pair(new PairName(navigator), new PairName(driver)),
                 new AccessCode(accessCode)
         );
     }

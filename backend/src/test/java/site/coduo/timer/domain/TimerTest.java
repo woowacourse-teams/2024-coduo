@@ -72,8 +72,8 @@ class TimerTest {
 
     private PairRoom createPairRoom(final String navigator, final String driver) {
         return new PairRoom(
-                new Pair(new PairName(navigator), new PairName(driver)),
                 PairRoomStatus.IN_PROGRESS,
+                new Pair(new PairName(navigator), new PairName(driver)),
                 new AccessCode("123456")
         );
     }

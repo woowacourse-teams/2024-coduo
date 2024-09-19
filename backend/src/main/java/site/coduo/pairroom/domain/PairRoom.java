@@ -3,20 +3,16 @@ package site.coduo.pairroom.domain;
 import java.util.Objects;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 
 @Getter
+@RequiredArgsConstructor
 public class PairRoom {
 
     private final PairRoomStatus status;
     private final Pair pair;
     private final AccessCode accessCode;
-
-    public PairRoom(final Pair pair, final PairRoomStatus status, final AccessCode accessCode) {
-        this.status = status;
-        this.pair = pair;
-        this.accessCode = accessCode;
-    }
 
     public String getAccessCodeText() {
         return accessCode.getValue();

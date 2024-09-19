@@ -25,8 +25,8 @@ class TodoTest {
         // Given
         final Long id = 1L;
         final PairRoom pairRoom = new PairRoom(
-                new Pair(new PairName("A"), new PairName("B")),
                 PairRoomStatus.IN_PROGRESS,
+                new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -69,8 +69,8 @@ class TodoTest {
         // Given
         final Long id = 1L;
         final PairRoom pairRoom = new PairRoom(
-                new Pair(new PairName("A"), new PairName("B")),
                 PairRoomStatus.IN_PROGRESS,
+                new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -96,8 +96,8 @@ class TodoTest {
         // Given
         final Long id = 1L;
         final PairRoom pairRoom = new PairRoom(
-                new Pair(new PairName("A"), new PairName("B")),
                 PairRoomStatus.IN_PROGRESS,
+                new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -120,8 +120,8 @@ class TodoTest {
     void updateSort() {
         // Given
         final PairRoom pairRoom = new PairRoom(
-                new Pair(new PairName("A"), new PairName("B")),
                 PairRoomStatus.IN_PROGRESS,
+                new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode("ACCESS-CODE")
         );
         final Todo todo = new Todo(

@@ -97,8 +97,10 @@ class PairRoomServiceTest {
     void change_pair_room() {
         // given
         final PairRoomEntity entity = PairRoomEntity.from(
-                new PairRoom(new Pair(new PairName("fram"), new PairName("lemonL")),
-                        PairRoomStatus.IN_PROGRESS, new AccessCode("1234")));
+                new PairRoom(PairRoomStatus.IN_PROGRESS,
+                        new Pair(new PairName("fram"), new PairName("lemonL")),
+                        new AccessCode("1234"))
+        );
         pairRoomRepository.save(entity);
 
         // when

@@ -39,8 +39,8 @@ class TimerRepositoryTest {
     void inquiry_timer() {
         // given
         final PairRoom pairRoom = new PairRoom(
-                new Pair(new PairName("레머네"), new PairName("프람")),
                 PairRoomStatus.IN_PROGRESS,
+                new Pair(new PairName("레머네"), new PairName("프람")),
                 new AccessCode("hello1")
         );
         final PairRoomEntity entity = site.coduo.pairroom.repository.PairRoomEntity.from(

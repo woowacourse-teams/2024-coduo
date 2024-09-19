@@ -33,6 +33,15 @@ class TodoServiceTest {
     private FakeTodoRepository todoRepository;
     private TodoService todoService;
 
+    private static Stream<Arguments> destinationSortAndExpectOrder() {
+        return Stream.of(
+                Arguments.of(0, List.of(4L, 1L, 2L, 3L, 5L, 6L, 7L)),
+                Arguments.of(6, List.of(1L, 2L, 3L, 5L, 6L, 7L, 4L)),
+                Arguments.of(1, List.of(1L, 4L, 2L, 3L, 5L, 6L, 7L)),
+                Arguments.of(5, List.of(1L, 2L, 3L, 5L, 6L, 4L, 7L))
+        );
+    }
+
     @BeforeEach
     void setUp() {
         final FakePairRoomRepository fakePairRoomRepository = new FakePairRoomRepository();
@@ -50,8 +59,8 @@ class TodoServiceTest {
         // Given
         final String pairRoomAccessCode = "ACCESS-CODE";
         final PairRoom pairRoom = new PairRoom(
-                new Pair(new PairName("A"), new PairName("B")),
                 PairRoomStatus.IN_PROGRESS,
+                new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode(pairRoomAccessCode)
         );
         pairRoomRepository.save(pairRoom);
@@ -78,8 +87,8 @@ class TodoServiceTest {
     void createPairRoomWithNotFoundPairRoomId() {
         // Given
         final PairRoom pairRoom = new PairRoom(
-                new Pair(new PairName("A"), new PairName("B")),
                 PairRoomStatus.IN_PROGRESS,
+                new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode("ACCESS-CODE")
         );
         pairRoomRepository.save(pairRoom);
@@ -98,8 +107,8 @@ class TodoServiceTest {
     void updateTodoContent() {
         // Given
         final PairRoom pairRoom = new PairRoom(
-                new Pair(new PairName("A"), new PairName("B")),
                 PairRoomStatus.IN_PROGRESS,
+                new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -127,8 +136,8 @@ class TodoServiceTest {
     void updateTodoContentWithNotFoundTodoId() {
         // Given
         final PairRoom pairRoom = new PairRoom(
-                new Pair(new PairName("A"), new PairName("B")),
                 PairRoomStatus.IN_PROGRESS,
+                new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -151,8 +160,8 @@ class TodoServiceTest {
     void toggleTodoChecked() {
         // Given
         final PairRoom pairRoom = new PairRoom(
-                new Pair(new PairName("A"), new PairName("B")),
                 PairRoomStatus.IN_PROGRESS,
+                new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -179,8 +188,8 @@ class TodoServiceTest {
     void toggleTodoCheckedWithNotFoundTodoId() {
         // Given
         final PairRoom pairRoom = new PairRoom(
-                new Pair(new PairName("A"), new PairName("B")),
                 PairRoomStatus.IN_PROGRESS,
+                new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -202,8 +211,8 @@ class TodoServiceTest {
     void deleteTodo() {
         // Given
         final PairRoom pairRoom = new PairRoom(
-                new Pair(new PairName("A"), new PairName("B")),
                 PairRoomStatus.IN_PROGRESS,
+                new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode("ACCESS-CODE")
         );
         final String content = "content!";
@@ -228,8 +237,8 @@ class TodoServiceTest {
         // Given
         final String pairRoomAccessCode = "ACCESS-CODE";
         final PairRoom pairRoom = new PairRoom(
-                new Pair(new PairName("A"), new PairName("B")),
                 PairRoomStatus.IN_PROGRESS,
+                new Pair(new PairName("A"), new PairName("B")),
                 new AccessCode(pairRoomAccessCode)
         );
         pairRoomRepository.save(pairRoom);
@@ -320,15 +329,6 @@ class TodoServiceTest {
         final List<Long> orders = todoRepository.findAllByPairRoomOrderBySortAsc(pairRoom)
                 .stream().map(Todo::getId).toList();
         assertThat(orders).isEqualTo(expect);
-    }
-
-    private static Stream<Arguments> destinationSortAndExpectOrder() {
-        return Stream.of(
-                Arguments.of(0, List.of(4L, 1L, 2L, 3L, 5L, 6L, 7L)),
-                Arguments.of(6, List.of(1L, 2L, 3L, 5L, 6L, 7L, 4L)),
-                Arguments.of(1, List.of(1L, 4L, 2L, 3L, 5L, 6L, 7L)),
-                Arguments.of(5, List.of(1L, 2L, 3L, 5L, 6L, 4L, 7L))
-        );
     }
 
     @DisplayName("존재하지 않은 페어룸 아이디와 함께 투두 순서 변경 요청을 하면 예외를 발생시킨다.")

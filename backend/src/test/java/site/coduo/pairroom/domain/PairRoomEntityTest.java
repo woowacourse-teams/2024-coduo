@@ -23,7 +23,7 @@ class PairRoomEntityTest {
         final PairRoomStatus pairRoomStatus = PairRoomStatus.IN_PROGRESS;
 
         // when & then
-        assertThatCode(() -> new PairRoom(pair, pairRoomStatus, ACCESS_CODE))
+        assertThatCode(() -> new PairRoom(pairRoomStatus, pair, ACCESS_CODE))
                 .doesNotThrowAnyException();
     }
 
@@ -32,8 +32,10 @@ class PairRoomEntityTest {
     void change_nav_and_driver() {
         // given
         final PairRoomEntity sut = PairRoomEntity.from(
-                new PairRoom(new Pair(new PairName("navi"), new PairName("dri")),
-                        PairRoomStatus.IN_PROGRESS, new AccessCode("access")));
+                new PairRoom(PairRoomStatus.IN_PROGRESS,
+                        new Pair(new PairName("navi"), new PairName("dri")),
+                        new AccessCode("access"))
+        );
 
         // when
         sut.swapNavigatorWithDriver();
