@@ -70,6 +70,4 @@ public class TimerController implements TimerDocs {
 
         return ResponseEntity.ok(response);
     }
-
-
 }

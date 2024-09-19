@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import site.coduo.sync.exception.NotFoundSseConnectionException;
-import site.coduo.sync.service.EventStream;
 import site.coduo.sync.service.EventStreams;
 import site.coduo.sync.service.EventStreamsRegistry;
 
@@ -22,9 +21,9 @@ public class FakeEventStreamRegistry extends EventStreamsRegistry {
     public SseEmitter register(final String name) {
         final EventStreams eventStreams = registry.getOrDefault(name, new EventStreams());
         registry.put(name, eventStreams);
-        final EventStream eventStream = new FakeEvenStream();
-        eventStreams.add(eventStream);
-        return eventStreams.publish(eventStream);
+        final FakeEvenStream fakeEvenStream = new FakeEvenStream();
+        eventStreams.add(fakeEvenStream);
+        return eventStreams.publish(fakeEvenStream);
     }
 
     @Override

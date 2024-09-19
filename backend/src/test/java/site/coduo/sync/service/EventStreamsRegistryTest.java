@@ -50,4 +50,31 @@ class EventStreamsRegistryTest {
         assertThatThrownBy(() -> eventStreamsRegistry.findEventStreams(key))
                 .isInstanceOf(NotFoundSseConnectionException.class);
     }
+
+    @Test
+    @DisplayName("키에 해당하는 커넥션이 유무를 확인한다. - 거짓")
+    void check_has_any_connection_with_specific_key_false_case() {
+        // given
+        final EventStreamsRegistry eventStreamsRegistry = new EventStreamsRegistry();
+        final String key = "test";
+        eventStreamsRegistry.register(key);
+
+        // when
+        final boolean hasEmptyConnection = eventStreamsRegistry.hasEmptyConnection(key);
+
+        // then
+        assertThat(hasEmptyConnection).isFalse();
+    }
+
+    @Test
+    @DisplayName("키에 해당하는 커넥션이 유무를 확인할때 해당 키가 없으면 예외를 던진다.")
+    void throw_exception_when_check_contain_connection_with_unsaved_key() {
+        // given
+        final EventStreamsRegistry eventStreamsRegistry = new EventStreamsRegistry();
+        final String key = "tes";
+
+        // when & then
+        assertThatThrownBy(() -> eventStreamsRegistry.hasEmptyConnection(key))
+                .isInstanceOf(NotFoundSseConnectionException.class);
+    }
 }
