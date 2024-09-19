@@ -16,12 +16,7 @@ export default merge(common, {
   mode: 'development',
   plugins: [new webpack.DefinePlugin(envKeys)],
   module: {
-    rules: [
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-    ],
+    rules: [],
   },
   devServer: {
     client: {

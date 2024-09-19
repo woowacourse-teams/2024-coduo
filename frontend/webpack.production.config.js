@@ -1,8 +1,6 @@
 import { merge } from 'webpack-merge';
 import common from './webpack.common.config.js';
 import { sentryWebpackPlugin } from '@sentry/webpack-plugin';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import dotenv from 'dotenv';
 import webpack from 'webpack';
 import pkg from './package.json' with { type: 'json' };
@@ -19,14 +17,6 @@ const envKeys = env
 export default merge(common, {
   mode: 'production',
   devtool: 'source-map',
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
-      },
-    ],
-  },
   plugins: [
     sentryWebpackPlugin({
       authToken: process.env.SENTRY_AUTH_TOKEN,
@@ -41,9 +31,6 @@ export default merge(common, {
       include: './dist',
       ignore: ['node_modules'],
     }),
-    new MiniCssExtractPlugin({
-      filename: '[name].[contenthash].css',
-    }),
     new webpack.DefinePlugin({
       ...envKeys,
       REACT_APP_VERSION: pkg.version,
@@ -51,17 +38,8 @@ export default merge(common, {
   ],
   optimization: {
     minimize: true,
-    minimizer: ['...', new CssMinimizerPlugin()],
     splitChunks: {
       chunks: 'all',
-      cacheGroups: {
-        styles: {
-          name: 'styles',
-          test: /\.css$/,
-          chunks: 'all',
-          enforce: true,
-        },
-      },
     },
   },
 });

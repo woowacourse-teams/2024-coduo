@@ -15,6 +15,10 @@ const config = {
   module: {
     rules: [
       {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
         test: /\.(png|svg|jpg|gif|mp3)$/,
         type: 'asset/resource',
       },
