@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Main Page</title>
+</head>
+<body>
+<h1>Room Info: <span id="roomInfo"></span></h1>
+
+<h2>Enter Access Code</h2>
+<form id="accessCodeForm">
+    <label for="accessCode">Access Code:</label>
+    <input id="accessCode" name="accessCode" required type="text">
+    <button id="connectButton" type="button">Connect to Room</button>
+    <button disabled id="startTimerButton" type="button">Start Timer</button>
+    <button disabled id="stopTimerButton" type="button">Stop Timer</button>
+</form>
+
+<h2>Room: <span id="roomAccessCode"></span></h2>
+<h2>Time Left: <span id="timer"></span></h2>
+
+<script>
+    let eventSource;  // SSE 연결 변수
+    const connectButton = document.getElementById("connectButton");
+    const startTimerButton = document.getElementById("startTimerButton");
+    const stopTimerButton = document.getElementById("stopTimerButton");
+
+    // 'Connect to Room' 버튼 클릭 이벤트
+    connectButton.addEventListener("click", function () {
+        const accessCode = document.getElementById("accessCode").value;
+
+        // 엑세스 코드를 직접 입력한 경우: 단순 SSE 연결만 시작
+        if (accessCode) {
+            document.getElementById("roomAccessCode").textContent = accessCode;
+
+            // SSE 연결 시작
+            startSse(accessCode);
+
+            // 타이머 시작 및 정지 버튼 활성화
+            startTimerButton.disabled = false;
+            stopTimerButton.disabled = false;
+        }
+        // 엑세스 코드가 없는 경우: 방 생성 요청
+        else {
+            // DTO 데이터 생성
+            const dto = {
+                navigator: "navigator",  // 실제 값으로 대체
+                driver: "driver",        // 실제 값으로 대체
+                timerDuration: 5000000,    // 실제 값으로 대체
+                timerRemainingTime: 5000000, // 실제 값으로 대체
+                status: "IN_PROGRESS"    // 실제 값으로 대체
+            };
+
+            // 방 생성 요청 보내기
+            fetch("/api/pair-room", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(dto)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Failed to create room.");
+                    }
+                    return response.json();  // 서버에서 Access Code 반환
+                })
+                .then(data => {
+                    const accessCode = data.accessCode;  // 반환된 Access Code
+                    document.getElementById("roomAccessCode").textContent = accessCode;
+
+                    // SSE 연결 시작
+                    startSse(accessCode);
+
+                    // 타이머 시작 버튼 활성화
+                    startTimerButton.disabled = false;
+                    stopTimerButton.disabled = false;
+                })
+                .catch(error => {
+                    alert("Error creating room: " + error.message);
+                });
+        }
+    });
+
+    // 'Start Timer' 버튼 클릭 이벤트
+    startTimerButton.addEventListener("click", function () {
+        const accessCode = document.getElementById("roomAccessCode").textContent;
+        if (!accessCode) {
+            alert("No Access Code available. Please connect to a room first.");
+            return;
+        }
+
+        // 타이머 시작 API 호출
+        fetch("/api/" + accessCode + "/timer/start", {
+            method: 'PATCH'
+        })
+            .then(response => {
+                if (!response.ok) {
+                    alert("Failed to start timer.");
+                }
+            });
+    });
+
+    // 'Stop Timer' 버튼 클릭 이벤트
+    stopTimerButton.addEventListener("click", function () {
+        const accessCode = document.getElementById("roomAccessCode").textContent;
+        if (!accessCode) {
+            alert("No Access Code available. Please connect to a room first.");
+            return;
+        }
+
+        // 타이머 정지 API 호출
+        fetch("/api/" + accessCode + "/timer/stop", {
+            method: 'PATCH'
+        })
+            .then(response => {
+                if (!response.ok) {
+                    alert("Failed to stop timer.");
+                }
+            });
+    });
+
+    // SSE를 통한 실시간 타이머 렌더링 및 방 정보 수신
+    function startSse(accessCode) {
+        // 기존 SSE 연결 종료
+        if (eventSource) {
+            eventSource.close();
+        }
+
+        // 새로운 SSE 연결 생성
+        eventSource = new EventSource("/api/" + accessCode + "/connect");
+
+        // 'connect' 이벤트로 방 정보를 수신
+        eventSource.addEventListener('connect', function (event) {
+            var roomInfo = event.data;
+            document.getElementById("roomInfo").textContent = roomInfo;
+        });
+
+        // 'remain-time' 이벤트로 남은 시간 수신
+        eventSource.addEventListener('remaining-time', function (event) {
+            document.getElementById("timer").textContent = event.data;
+        });
+
+        eventSource.onerror = function () {
+            alert("Connection to the server was lost.");
+            eventSource.close();
+        };
+    }
+</script>
+</body>
+</html>

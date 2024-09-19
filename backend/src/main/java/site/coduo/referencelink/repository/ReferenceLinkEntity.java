@@ -15,8 +15,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
-import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
+import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.referencelink.domain.Category;
 import site.coduo.referencelink.domain.ReferenceLink;
 
@@ -40,24 +40,24 @@ public class ReferenceLinkEntity extends BaseTimeEntity {
 
     @JoinColumn(name = "PAIR_ROOM_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne
-    private PairRoom pairRoom;
+    private PairRoomEntity pairRoomEntity;
 
     public ReferenceLinkEntity(final ReferenceLink referenceLink, final CategoryEntity categoryEntity,
-                               final PairRoom pairRoom) {
+                               final PairRoomEntity pairRoomEntity) {
         this.url = referenceLink.getUrlText();
         this.categoryEntity = categoryEntity;
-        this.pairRoom = pairRoom;
+        this.pairRoomEntity = pairRoomEntity;
     }
 
-    public ReferenceLinkEntity(final ReferenceLink referenceLink, final PairRoom pairRoom) {
+    public ReferenceLinkEntity(final ReferenceLink referenceLink, final PairRoomEntity pairRoomEntity) {
         this.url = referenceLink.getUrlText();
         this.categoryEntity = null;
-        this.pairRoom = pairRoom;
+        this.pairRoomEntity = pairRoomEntity;
     }
 
     public boolean isSameAccessCode(final AccessCode accessCode) {
-        return pairRoom.getAccessCode()
-                .equals(accessCode);
+        return pairRoomEntity.getAccessCode()
+                .equals(accessCode.getValue());
     }
 
     public boolean isSameCategory(final Category category) {

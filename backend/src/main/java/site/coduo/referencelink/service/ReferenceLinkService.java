@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
+import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.Category;
 import site.coduo.referencelink.domain.OpenGraph;
@@ -35,11 +35,11 @@ public class ReferenceLinkService {
     public ReferenceLinkResponse createReferenceLink(final String accessCodeText,
                                                      final ReferenceLinkCreateRequest request) {
         final AccessCode accessCode = new AccessCode(accessCodeText);
-        final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(accessCode);
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
         final URL url = makeUrl(request.url());
         final ReferenceLink referenceLink = new ReferenceLink(url, accessCode);
 
-        final ReferenceLinkEntity referenceLinkEntity = saveReferenceLink(request, pairRoom, referenceLink);
+        final ReferenceLinkEntity referenceLinkEntity = saveReferenceLink(request, pairRoomEntity, referenceLink);
         final OpenGraph openGraph = openGraphService.createOpenGraph(referenceLinkEntity, url);
         return new ReferenceLinkResponse(referenceLinkEntity, openGraph);
     }
@@ -52,16 +52,17 @@ public class ReferenceLinkService {
         }
     }
 
-    public ReferenceLinkEntity saveReferenceLink(final ReferenceLinkCreateRequest request,
-                                                 final PairRoom pairRoom,
-                                                 final ReferenceLink referenceLink
+    private ReferenceLinkEntity saveReferenceLink(final ReferenceLinkCreateRequest request,
+                                                  final PairRoomEntity pairRoomEntity,
+                                                  final ReferenceLink referenceLink
     ) {
         if (request.categoryName() == null) {
-            return referenceLinkRepository.save(new ReferenceLinkEntity(referenceLink, pairRoom));
+            return referenceLinkRepository.save(new ReferenceLinkEntity(referenceLink, pairRoomEntity));
         }
+        // todo: 의도 질문하기
         final CategoryEntity categoryEntity = categoryRepository.fetchByPairRoomAndCategoryName(
-                pairRoom, request.categoryName());
-        return referenceLinkRepository.save(new ReferenceLinkEntity(referenceLink, categoryEntity, pairRoom));
+                pairRoomEntity, request.categoryName());
+        return referenceLinkRepository.save(new ReferenceLinkEntity(referenceLink, pairRoomEntity));
     }
 
     @Transactional(readOnly = true)
