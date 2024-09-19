@@ -14,6 +14,7 @@ import Landing from '@/pages/Landing/Landing';
 import Layout from '@/pages/Layout';
 import Loading from '@/pages/Loading/Loading';
 import Main from '@/pages/Main/Main';
+import MyPage from '@/pages/MyPage/MyPage';
 import SignUp from '@/pages/SignUp/SignUp';
 
 import useUserStatusStore from '@/stores/userStatusStore';
@@ -72,6 +73,10 @@ const App = () => {
         {
           path: 'callback',
           element: <Callback />,
+        },
+        {
+          path: 'my-page',
+          element: <MyPage />,
         },
       ],
     },
