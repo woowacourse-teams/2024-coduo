@@ -12,7 +12,7 @@ export const Layout = styled.div<{ $isOpen: boolean }>`
 
   white-space: nowrap;
 
-  transition: width 0.3s;
+  transition: min-width 0.3s;
 `;
 
 export const Sidebar = styled.div`
