@@ -35,6 +35,27 @@ const AddReferenceForm = ({ categories, handleAddReferenceLink }: ReferenceFormP
 
   const newCategories = [...categories, '카테고리 없음'];
 
+  const handleLinkFormat = (link: string): string => {
+    if (!link) {
+      return '';
+    }
+
+    const trimmedLink = link.trim();
+
+    if (trimmedLink.startsWith('http://') || trimmedLink.startsWith('https://')) {
+      return trimmedLink;
+    }
+
+    if (trimmedLink.startsWith('http:') || trimmedLink.startsWith('https:')) {
+      return trimmedLink + '/';
+    }
+    if (trimmedLink.startsWith('http:') || trimmedLink.startsWith('https:')) {
+      return trimmedLink + '//';
+    }
+
+    return `https://${trimmedLink}`;
+  };
+
   return isFooterOpen ? (
     <S.ReferenceFormContainer>
       <Dropdown
@@ -50,11 +71,12 @@ const AddReferenceForm = ({ categories, handleAddReferenceLink }: ReferenceFormP
         <Input
           $css={S.inputStyles}
           placeholder="링크를 입력해주세요."
-          value={value}
+          value={handleLinkFormat(value)}
           status={status}
           message={message}
           onChange={handleChange}
         />
+
         <S.ButtonContainer>
           <Button type="button" size="sm" filled={false} rounded={true} onClick={() => setIsFooterOpen(false)}>
             {BUTTON_TEXT.CANCEL}
