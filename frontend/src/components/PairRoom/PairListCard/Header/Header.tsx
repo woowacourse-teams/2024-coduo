@@ -1,5 +1,7 @@
 import { IoPeople } from 'react-icons/io5';
 
+import Button from '@/components/common/Button/Button';
+
 import { theme } from '@/styles/theme';
 
 import * as S from './Header.styles';
@@ -11,7 +13,9 @@ interface HeaderProps {
 
 const Header = ({ isOpen, toggleOpen }: HeaderProps) => (
   <S.Layout icon={isOpen ? <IoPeople color={theme.color.primary[500]} /> : <></>} title={isOpen ? '페어' : ''}>
-    <S.ArrowIcon $isOpen={isOpen} onClick={toggleOpen} />
+    <Button onClick={toggleOpen} css={S.ExpandButton}>
+      <S.ArrowIcon $isOpen={isOpen} />
+    </Button>
   </S.Layout>
 );
 
