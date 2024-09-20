@@ -5,11 +5,11 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.repository.PairRoomEntity;
 
 public interface TodoRepository extends JpaRepository<TodoEntity, Long> {
 
-    List<TodoEntity> findAllByPairRoomOrderBySortAsc(PairRoom pairRoom);
+    List<TodoEntity> findAllByPairRoomEntityOrderBySortAsc(PairRoomEntity pairRoomEntity);
 
-    Optional<TodoEntity> findTopByPairRoomOrderBySortDesc(PairRoom pairRoom);
+    Optional<TodoEntity> findTopByPairRoomEntityOrderBySortDesc(PairRoomEntity pairRoomEntity);
 }

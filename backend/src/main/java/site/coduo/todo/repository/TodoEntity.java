@@ -6,6 +6,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -14,6 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
 import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.todo.domain.Todo;
 
 @Getter
@@ -27,7 +29,8 @@ public class TodoEntity extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private PairRoom pairRoom;
+    @JoinColumn(name = "PAIR_ROOM", referencedColumnName = "ID")
+    private PairRoomEntity pairRoomEntity;
 
     @Column(name = "CONTENT", nullable = false, length = 255)
     private String content;
@@ -56,7 +59,7 @@ public class TodoEntity extends BaseTimeEntity {
             final boolean isChecked
     ) {
         this.id = id;
-        this.pairRoom = pairRoom;
+        this.pairRoomEntity = site.coduo.pairroom.repository.PairRoomEntity.from(pairRoom);
         this.content = content;
         this.sort = sort;
         this.isChecked = isChecked;
@@ -65,7 +68,7 @@ public class TodoEntity extends BaseTimeEntity {
     public Todo toDomain() {
         return new Todo(
                 this.id,
-                this.pairRoom,
+                this.pairRoomEntity.toDomain(),
                 this.content,
                 this.sort,
                 this.isChecked

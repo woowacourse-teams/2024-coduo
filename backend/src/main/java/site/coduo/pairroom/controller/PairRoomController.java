@@ -38,6 +38,16 @@ public class PairRoomController implements PairRoomDocs {
                 .body(response);
     }
 
+    @PatchMapping("/pair-room/{accessCode}/pair-swap")
+    public ResponseEntity<Void> updatePairRole(
+            @PathVariable("accessCode") final String accessCode
+    ) {
+        pairRoomService.updateNavigatorWithDriver(accessCode);
+
+        return ResponseEntity.noContent()
+                .build();
+    }
+
     @PatchMapping("/pair-room/{accessCode}/status")
     public ResponseEntity<Void> updatePairRoomStatus(
             @PathVariable("accessCode") final String accessCode,
@@ -53,8 +63,7 @@ public class PairRoomController implements PairRoomDocs {
     public ResponseEntity<PairRoomReadResponse> getPairRoom(
             @Valid @PathVariable("accessCode") final PairRoomReadRequest request
     ) {
-        final PairRoomReadResponse response = PairRoomReadResponse.from(
-                pairRoomService.findByAccessCode(request.accessCode()));
+        final PairRoomReadResponse response = pairRoomService.findByAccessCode(request.accessCode());
 
         return ResponseEntity.ok(response);
     }

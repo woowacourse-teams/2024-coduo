@@ -9,20 +9,20 @@ public record PairRoomReadResponse(
         long id,
 
         @Schema(description = "첫 번째 페어의 이름", example = "해시")
-        String firstPair,
+        String navigator,
 
         @Schema(description = "두 번째 페어의 이름", example = "파슬리")
-        String secondPair,
+        String driver,
 
         @Schema(description = "페어룸의 상태", example = "IN_PROGRESS")
         String status
 ) {
 
-    public static PairRoomReadResponse from(final PairRoom pairRoom) {
+    public static PairRoomReadResponse of(final PairRoom pairRoom, final long id) {
         return new PairRoomReadResponse(
-                pairRoom.getId(),
-                pairRoom.getPair().getFirstPair().getValue(),
-                pairRoom.getPair().getSecondPair().getValue(),
+                id,
+                pairRoom.getNavigatorName(),
+                pairRoom.getDriverName(),
                 pairRoom.getStatus().name()
         );
     }

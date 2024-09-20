@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.Category;
 import site.coduo.referencelink.domain.ReferenceLink;
@@ -58,8 +58,8 @@ class CategoryServiceTest extends CascadeCleaner {
     @DisplayName("페어룸 생성 후 카테고리를 저장한다.")
     void save_category() {
         //given
-        final PairRoom pairRoom = pairRoomRepository.save(INK_REDDDY_ROOM);
-        pairRoomRepository.save(pairRoom);
+        final PairRoomEntity entity = pairRoomRepository.save(PairRoomEntity.from(INK_REDDDY_ROOM));
+        pairRoomRepository.save(entity);
 
         //when
         final CategoryCreateResponse createdCategory = categoryService.createCategory(ACCESS_CODE.getValue(),
@@ -78,8 +78,8 @@ class CategoryServiceTest extends CascadeCleaner {
     @DisplayName("카테고리를 수정한다.")
     void update_category() {
         //given
-        final PairRoom pairRoom = pairRoomRepository.save(INK_REDDDY_ROOM);
-        pairRoomRepository.save(pairRoom);
+        final PairRoomEntity entity = pairRoomRepository.save(PairRoomEntity.from(INK_REDDDY_ROOM));
+        pairRoomRepository.save(entity);
 
         final String categoryName = "자바";
         final CategoryCreateResponse createdCategory = categoryService.createCategory(ACCESS_CODE.getValue(),
@@ -102,8 +102,8 @@ class CategoryServiceTest extends CascadeCleaner {
     @DisplayName("페어룸에 중복된 카테고리가 있는 경우 저장에 실패한다.")
     void fail_save_category() {
         //given
-        final PairRoom pairRoom = pairRoomRepository.save(INK_REDDDY_ROOM);
-        pairRoomRepository.save(pairRoom);
+        final PairRoomEntity entity = pairRoomRepository.save(PairRoomEntity.from(INK_REDDDY_ROOM));
+        pairRoomRepository.save(entity);
 
         final CategoryCreateRequest categoryCreateRequest = new CategoryCreateRequest("자바");
         final String accessCode = ACCESS_CODE.getValue();
@@ -118,17 +118,17 @@ class CategoryServiceTest extends CascadeCleaner {
     @DisplayName("페어룸이 다른 경우 중복된 카테고리 저장이 가능하다.")
     void success_save_category() {
         //given
-        final PairRoom pairRoom1 = pairRoomRepository.save(INK_REDDDY_ROOM);
-        final PairRoom pairRoom2 = pairRoomRepository.save(FRAM_LEMONE_ROOM);
+        final PairRoomEntity pairRoom1 = pairRoomRepository.save(PairRoomEntity.from(INK_REDDDY_ROOM));
+        final PairRoomEntity pairRoom2 = pairRoomRepository.save(PairRoomEntity.from(FRAM_LEMONE_ROOM));
 
         pairRoomRepository.save(pairRoom1);
         pairRoomRepository.save(pairRoom2);
 
         final CategoryCreateRequest categoryCreateRequest = new CategoryCreateRequest("자바");
-        categoryService.createCategory(pairRoom1.getAccessCode().getValue(), categoryCreateRequest);
+        categoryService.createCategory(pairRoom1.getAccessCode(), categoryCreateRequest);
 
         //when & then
-        assertThatCode(() -> categoryService.createCategory(pairRoom2.getAccessCode().getValue(),
+        assertThatCode(() -> categoryService.createCategory(pairRoom2.getAccessCode(),
                 categoryCreateRequest)).doesNotThrowAnyException();
     }
 
@@ -136,8 +136,8 @@ class CategoryServiceTest extends CascadeCleaner {
     @DisplayName("카테고리를 삭제한다.")
     void delete_category() {
         //given
-        final PairRoom pairRoom = pairRoomRepository.save(INK_REDDDY_ROOM);
-        pairRoomRepository.save(pairRoom);
+        final PairRoomEntity entity = pairRoomRepository.save(PairRoomEntity.from(INK_REDDDY_ROOM));
+        pairRoomRepository.save(entity);
 
         //when
         categoryService.createCategory(ACCESS_CODE.getValue(), new CategoryCreateRequest("자바"));
@@ -158,13 +158,13 @@ class CategoryServiceTest extends CascadeCleaner {
     @DisplayName("카테고리가 삭제되면 해당 카테고리로 분류되어 있던 링크의 카테고리는 null이 된다.")
     void remove_category_and_update_reference_category_value() throws MalformedURLException {
         final Category category = new Category("자바");
-        final PairRoom pairRoom = pairRoomRepository.save(INK_REDDDY_ROOM);
+        final PairRoomEntity entity = pairRoomRepository.save(PairRoomEntity.from(INK_REDDDY_ROOM));
 
-        final CategoryEntity savedCategory = categoryRepository.save(new CategoryEntity(pairRoom, category));
+        final CategoryEntity savedCategory = categoryRepository.save(new CategoryEntity(entity, category));
         final ReferenceLink referenceLink = new ReferenceLink(new URL("https://google.com"), ACCESS_CODE);
 
         final ReferenceLinkEntity beforeDeleteCategory = referenceLinkRepository.save(
-                new ReferenceLinkEntity(referenceLink, savedCategory, pairRoom));
+                new ReferenceLinkEntity(referenceLink, savedCategory, entity));
 
         //when
         categoryService.deleteCategory(ACCESS_CODE.getValue(), category.getValue());

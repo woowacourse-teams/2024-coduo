@@ -5,21 +5,21 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.referencelink.exception.CategoryNotFoundException;
 
 public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
 
-    Optional<CategoryEntity> findByPairRoomAndCategoryName(PairRoom pairRoom, String categoryName);
+    Optional<CategoryEntity> findByPairRoomEntityAndCategoryName(PairRoomEntity pairRoomEntity, String categoryName);
 
-    default CategoryEntity fetchByPairRoomAndCategoryName(PairRoom pairRoom, String categoryName) {
-        return findByPairRoomAndCategoryName(pairRoom, categoryName)
+    default CategoryEntity fetchByPairRoomAndCategoryName(PairRoomEntity pairRoomEntity, String categoryName) {
+        return findByPairRoomEntityAndCategoryName(pairRoomEntity, categoryName)
                 .orElseThrow(() -> new CategoryNotFoundException("존재하지 않은 카테고리입니다."));
     }
 
-    List<CategoryEntity> findAllByPairRoom(PairRoom pairRoom);
+    List<CategoryEntity> findAllByPairRoomEntity(PairRoomEntity pairRoomEntity);
 
-    boolean existsByCategoryNameAndPairRoom(String categoryName, PairRoom pairRoom);
+    boolean existsByCategoryNameAndPairRoomEntity(String categoryName, PairRoomEntity pairRoomEntity);
 
-    void deleteCategoryByPairRoomAndCategoryName(PairRoom pairRoom, String categoryName);
+    void deleteCategoryByPairRoomEntityAndCategoryName(PairRoomEntity pairRoomEntity, String categoryName);
 }
