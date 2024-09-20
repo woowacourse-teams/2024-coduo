@@ -1,6 +1,6 @@
 import Bookmark from '@/components/PairRoom/ReferenceCard/Bookmark/Bookmark';
 
-import type { Link } from '@/apis/referenceLink/referenceLink';
+import type { Link } from '@/apis/referenceLink';
 
 import * as S from './ReferenceList.styles';
 
