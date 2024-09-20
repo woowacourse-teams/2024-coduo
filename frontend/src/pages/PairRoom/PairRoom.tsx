@@ -8,9 +8,9 @@ import ReferenceCard from '@/components/PairRoom/ReferenceCard/ReferenceCard';
 import TimerCard from '@/components/PairRoom/TimerCard/TimerCard';
 import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
 
-import useAddPairRoomHistory from '@/queries/Main/useAddPairRoomHistory';
-import useGetPairRoomHistory from '@/queries/Main/useGetPairRoomHistory';
-import useUpdateRemainingTime from '@/queries/PairRoomOnboarding/useUpdateRemainingTime';
+import { getSSEConnection } from '@/apis/timer';
+
+import useGetPairRoom from '@/queries/PairRoom/useGetPairRoom';
 
 import * as S from './PairRoom.styles';
 
@@ -23,13 +23,14 @@ const PairRoom = () => {
   const {
     driver: latestDriver,
     navigator: latestNavigator,
-    timerDuration,
-    timerRemainingTime,
+    duration,
+    remainingTime,
     isFetching,
-  } = useGetPairRoomHistory(accessCode || '');
+  } = useGetPairRoom(accessCode || '');
 
-  const { handleAddPairRoomHistory } = useAddPairRoomHistory(accessCode || '');
-  const { handleUpdateRemainingTime } = useUpdateRemainingTime(accessCode || '');
+  useEffect(() => {
+    getSSEConnection(accessCode || '');
+  }, []);
 
   useEffect(() => {
     setDriver(latestDriver);
@@ -39,8 +40,6 @@ const PairRoom = () => {
   const [isCardOpen, setIsCardOpen] = useState(false);
 
   const handleSwap = () => {
-    handleAddPairRoomHistory(navigator, driver, timerDuration, timerDuration);
-
     setDriver(navigator);
     setNavigator(driver);
   };
@@ -58,12 +57,7 @@ const PairRoom = () => {
       <PairListCard driver={driver} navigator={navigator} roomCode={accessCode || ''} onRoomDelete={() => {}} />
       <S.Container>
         <PairRoleCard driver={driver} navigator={navigator} />
-        <TimerCard
-          defaultTime={timerDuration}
-          defaultTimeleft={timerRemainingTime}
-          onTimerStop={handleSwap}
-          onUpdateTimeLeft={handleUpdateRemainingTime}
-        />
+        <TimerCard defaultTime={duration} defaultTimeleft={remainingTime} onTimerStop={handleSwap} />
       </S.Container>
       <S.Container>
         <TodoListCard isOpen={!isCardOpen} toggleIsOpen={() => setIsCardOpen(false)} />

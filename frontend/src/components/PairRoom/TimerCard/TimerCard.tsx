@@ -14,10 +14,9 @@ interface TimerCardProps {
   defaultTime: number;
   defaultTimeleft: number;
   onTimerStop: () => void;
-  onUpdateTimeLeft: (remainingTime: number) => void;
 }
 
-const TimerCard = ({ defaultTime, defaultTimeleft, onTimerStop, onUpdateTimeLeft }: TimerCardProps) => {
+const TimerCard = ({ defaultTime, defaultTimeleft, onTimerStop }: TimerCardProps) => {
   const { timeLeft, isActive, handleStart, handlePause } = useTimer(defaultTime, defaultTimeleft, onTimerStop);
 
   const timeLeftRef = useRef(timeLeft);
@@ -25,7 +24,6 @@ const TimerCard = ({ defaultTime, defaultTimeleft, onTimerStop, onUpdateTimeLeft
 
   useEffect(() => {
     const handleBeforeMove = (event: BeforeUnloadEvent) => {
-      onUpdateTimeLeft(timeLeftRef.current);
       handlePause();
       event.preventDefault();
     };

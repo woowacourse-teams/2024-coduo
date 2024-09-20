@@ -35,9 +35,7 @@ const PairRoomSettingSection = () => {
 
   const { handleAddPairRoom } = useAddPairRoom();
 
-  const handleSuccess = () => {
-    handleAddPairRoom(firstPairName.value, secondPairName.value, driver, navigator, timerDuration);
-  };
+  const handleSuccess = () => handleAddPairRoom(driver, navigator, timerDuration);
 
   return (
     <S.Layout>
