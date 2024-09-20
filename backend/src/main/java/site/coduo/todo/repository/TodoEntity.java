@@ -28,7 +28,7 @@ public class TodoEntity extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PAIR_ROOM", referencedColumnName = "ID")
+    @JoinColumn(name = "PAIR_ROOM_ID", referencedColumnName = "ID")
     private PairRoomEntity pairRoomEntity;
 
     @Column(name = "CONTENT", nullable = false, length = 255)
@@ -62,11 +62,11 @@ public class TodoEntity extends BaseTimeEntity {
     @Override
     public String toString() {
         return "TodoEntity{" +
-               "id=" + id +
-               ", pairRoomEntity=" + pairRoomEntity +
-               ", content='" + content + '\'' +
-               ", sort=" + sort +
-               ", isChecked=" + isChecked +
-               '}';
+                "id=" + id +
+                ", pairRoomEntity=" + pairRoomEntity +
+                ", content='" + content + '\'' +
+                ", sort=" + sort +
+                ", isChecked=" + isChecked +
+                '}';
     }
 }
