@@ -1,20 +1,33 @@
+import { Option } from '@/components/common/Dropdown/Dropdown/Dropdown';
+
 interface HiddenDropdownProps extends React.HTMLAttributes<HTMLSelectElement> {
-  options: string[];
+  options?: string[];
   selectedOption?: string;
+  valueOptions?: Option[];
+
   handleSelect: (value: string) => void;
 }
 
-const HiddenDropdown = ({ options, selectedOption, handleSelect }: HiddenDropdownProps) => {
+const HiddenDropdown = ({ options, selectedOption, handleSelect, valueOptions }: HiddenDropdownProps) => {
   return (
     <select
       style={{ display: 'none' }}
       value={selectedOption || ''}
       onChange={(event: React.ChangeEvent<HTMLSelectElement>) => handleSelect(event.target.value)}
     >
-      {!options.every((option) => option === '') &&
+      {options &&
+        !options.every((option) => option === '') &&
         options.map((option) => (
           <option key={option} value={option}>
             {option}
+          </option>
+        ))}
+
+      {valueOptions &&
+        !valueOptions.every((option) => option.value === '') &&
+        valueOptions.map((option) => (
+          <option key={option.id} value={option.id}>
+            {option.value}
           </option>
         ))}
     </select>
