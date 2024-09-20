@@ -83,7 +83,7 @@ public class TodoService {
                 .toList();
 
         final Todo updated = targetTodo.toDomain().updateSort(allByPairRoom, destinationSort);
-        final TodoEntity updatedTodoEntity = new TodoEntity(updated);
+        final TodoEntity updatedTodoEntity = new TodoEntity(updated, targetTodo.getPairRoomEntity());
         todoRepository.save(updatedTodoEntity);
     }
 
