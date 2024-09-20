@@ -11,9 +11,8 @@ import Button from '@/components/common/Button/Button';
 import useUserStatusStore from '@/stores/userStatusStore';
 
 import usePreventBackNavigation from '@/hooks/common/usePreventBackNavigation';
+import useTitleTime from '@/hooks/common/useTitleTime';
 import useSignInHandler from '@/hooks/member/useSignInHandler';
-import useTitleTime from '@/hooks/title/useTitleTime';
-
 
 const Landing = () => {
   const { userStatus } = useUserStatusStore();

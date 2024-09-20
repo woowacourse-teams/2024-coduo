@@ -9,9 +9,9 @@ import IconButton from '@/components/PairRoom/ReferenceCard/CategoryFilter/IconB
 
 import useInput from '@/hooks/common/useInput';
 
-import useDeleteCategory from '@/queries/PairRoom/category/useDeleteCategory';
-import useGetCategories from '@/queries/PairRoom/category/useGetCategories';
-import useUpdateCategory from '@/queries/PairRoom/category/useUpdateCategory';
+import useDeleteCategory from '@/queries/PairRoom/useDeleteCategory';
+import useGetCategories from '@/queries/PairRoom/useGetCategories';
+import useUpdateCategory from '@/queries/PairRoom/useUpdateCategory';
 
 import * as S from './CategoryFilter.styles';
 

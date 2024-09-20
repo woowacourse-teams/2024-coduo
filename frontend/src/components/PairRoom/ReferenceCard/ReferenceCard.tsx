@@ -8,7 +8,7 @@ import ReferenceList from '@/components/PairRoom/ReferenceCard/ReferenceList/Ref
 
 import useModal from '@/hooks/common/useModal';
 
-import useGetCategories from '@/queries/PairRoom/category/useGetCategories';
+import useGetCategories from '@/queries/PairRoom/useGetCategories';
 import useReferenceLinks from '@/queries/PairRoom/useReferenceLinks';
 
 import * as S from './ReferenceCard.styles';

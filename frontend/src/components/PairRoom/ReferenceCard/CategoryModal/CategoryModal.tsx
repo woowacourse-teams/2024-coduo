@@ -11,7 +11,7 @@ import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type
 
 import useInput from '@/hooks/common/useInput';
 
-import useAddCategory from '@/queries/PairRoom/category/useAddCategory';
+import useAddCategory from '@/queries/PairRoom/useAddCategory';
 
 import * as S from './CategoryModal.styles';
 
