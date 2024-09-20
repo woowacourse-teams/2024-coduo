@@ -56,13 +56,7 @@ public class TodoEntity extends BaseTimeEntity {
     }
 
     public Todo toDomain() {
-        return new Todo(
-                this.id,
-                this.pairRoomEntity.toDomain(),
-                this.content,
-                this.sort,
-                this.isChecked
-        );
+        return new Todo(this.id, this.content, this.sort, this.isChecked);
     }
 
     @Override

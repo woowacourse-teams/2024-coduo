@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
@@ -98,7 +97,7 @@ class TodoServiceTest {
         final String content = "content!";
         final int sort = 2048;
         final boolean isChecked = false;
-        final Todo todo = new Todo(null, pairRoomEntity.toDomain(), content, sort, isChecked);
+        final Todo todo = new Todo(null, content, sort, isChecked);
         final TodoEntity todoEntity = new TodoEntity(todo, pairRoomEntity);
         final TodoEntity savedTodo = todoRepository.save(todoEntity);
 
@@ -126,8 +125,8 @@ class TodoServiceTest {
         final String content = "content!";
         final int sort = 2048;
         final boolean isChecked = false;
-        final Todo todo = new Todo(1L, pairRoomEntity.toDomain(), content, sort, isChecked);
-        final TodoEntity todoEntity = new TodoEntity(todo);
+        final Todo todo = new Todo(1L, content, sort, isChecked);
+        final TodoEntity todoEntity = new TodoEntity(todo, pairRoomEntity);
         todoRepository.save(todoEntity);
 
         final Long todoId = 12323L;
@@ -150,8 +149,8 @@ class TodoServiceTest {
         final String content = "content!";
         final int sort = 2048;
         final boolean isChecked = false;
-        final Todo todo = new Todo(null, pairRoomEntity.toDomain(), content, sort, isChecked);
-        final TodoEntity todoEntity = new TodoEntity(todo);
+        final Todo todo = new Todo(null, content, sort, isChecked);
+        final TodoEntity todoEntity = new TodoEntity(todo, pairRoomEntity);
         final TodoEntity savedTodoEntity = todoRepository.save(todoEntity);
 
         // When
@@ -176,8 +175,8 @@ class TodoServiceTest {
         final String content = "content!";
         final int sort = 2048;
         final boolean isChecked = false;
-        final Todo todo = new Todo(1L, pairRoomEntity.toDomain(), content, sort, isChecked);
-        final TodoEntity todoEntity = new TodoEntity(todo);
+        final Todo todo = new Todo(1L, content, sort, isChecked);
+        final TodoEntity todoEntity = new TodoEntity(todo, pairRoomEntity);
         todoRepository.save(todoEntity);
 
         final Long todoId = 12323L;
@@ -199,8 +198,8 @@ class TodoServiceTest {
         final String content = "content!";
         final int sort = 2048;
         final boolean isChecked = false;
-        final Todo todo = new Todo(1L, pairRoomEntity.toDomain(), content, sort, isChecked);
-        final TodoEntity todoEntity = new TodoEntity(todo);
+        final Todo todo = new Todo(1L, content, sort, isChecked);
+        final TodoEntity todoEntity = new TodoEntity(todo, pairRoomEntity);
         todoRepository.save(todoEntity);
 
         final Long todoId = 1L;
@@ -223,16 +222,14 @@ class TodoServiceTest {
                 new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"));
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
-        final PairRoom savedPairRoom = pairRoomEntity.toDomain();
-
         final List<Todo> todos = List.of(
-                new Todo(null, savedPairRoom, "투두1!!", 5555, false),
-                new Todo(null, savedPairRoom, "투두2!!", 1024, false),
-                new Todo(null, savedPairRoom, "투두3!!", 3434, true),
-                new Todo(null, savedPairRoom, "투두4!!", 2048, false)
+                new Todo(null, "투두1!!", 5555, false),
+                new Todo(null, "투두2!!", 1024, false),
+                new Todo(null, "투두3!!", 3434, true),
+                new Todo(null, "투두4!!", 2048, false)
         );
         final List<TodoEntity> todoEntities = todos.stream()
-                .map(TodoEntity::new)
+                .map(todo -> new TodoEntity(todo, pairRoomEntity))
                 .toList();
         todoRepository.saveAll(todoEntities);
 
@@ -247,6 +244,7 @@ class TodoServiceTest {
                 .map(Todo::getContent)
                 .map(TodoContent::getContent)
                 .toList();
+
         assertSoftly(softAssertions -> {
             softAssertions.assertThat(all).hasSize(expectSize);
             softAssertions.assertThat(contents).isEqualTo(expectOrder);
@@ -261,16 +259,14 @@ class TodoServiceTest {
                 new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"));
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
-        final PairRoom savedPairRoom = pairRoomEntity.toDomain();
-
         final List<Todo> todos = List.of(
-                new Todo(null, savedPairRoom, "투두1!!", 5555, false),
-                new Todo(null, savedPairRoom, "투두2!!", 1024, false),
-                new Todo(null, savedPairRoom, "투두3!!", 3434, true),
-                new Todo(null, savedPairRoom, "투두4!!", 2048, false)
+                new Todo(null, "투두1!!", 5555, false),
+                new Todo(null, "투두2!!", 1024, false),
+                new Todo(null, "투두3!!", 3434, true),
+                new Todo(null, "투두4!!", 2048, false)
         );
         final List<TodoEntity> todoEntities = todos.stream()
-                .map(TodoEntity::new)
+                .map(todo -> new TodoEntity(todo, pairRoomEntity))
                 .toList();
         todoRepository.saveAll(todoEntities);
 
@@ -287,23 +283,21 @@ class TodoServiceTest {
     @ParameterizedTest
     void updateTodoSort(final int destinationSort, final List<String> expect) {
         // Given
-
         final String accessCode = pairRoomService.save(
                 new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"));
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
-        final PairRoom savedPairRoom = pairRoomEntity.toDomain();
 
         final List<Todo> todos = List.of(
-                new Todo(null, savedPairRoom, "content1!", 1024, false),
-                new Todo(null, savedPairRoom, "content2!", 2048, false),
-                new Todo(null, savedPairRoom, "content3!", 3072, false),
-                new Todo(null, savedPairRoom, "content4!", 4000, false),
-                new Todo(null, savedPairRoom, "content5!", 4096, false),
-                new Todo(null, savedPairRoom, "content6!", 5500, false),
-                new Todo(null, savedPairRoom, "content7!", 6000, false)
+                new Todo(null, "content1!", 1024, false),
+                new Todo(null, "content2!", 2048, false),
+                new Todo(null, "content3!", 3072, false),
+                new Todo(null, "content4!", 4000, false),
+                new Todo(null, "content5!", 4096, false),
+                new Todo(null, "content6!", 5500, false),
+                new Todo(null, "content7!", 6000, false)
         );
         final List<TodoEntity> todoEntities = todos.stream()
-                .map(TodoEntity::new)
+                .map(todo -> new TodoEntity(todo, pairRoomEntity))
                 .toList();
         final List<TodoEntity> savedTodos = todoRepository.saveAll(todoEntities);
 
@@ -342,17 +336,16 @@ class TodoServiceTest {
         final String accessCode = pairRoomService.save(
                 new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"));
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
-        final PairRoom savedPairRoom = pairRoomEntity.toDomain();
 
         final List<Todo> todos = List.of(
-                new Todo(null, savedPairRoom, "content!", 1024, false),
-                new Todo(null, savedPairRoom, "content!", 2048, false),
-                new Todo(null, savedPairRoom, "content!", 3072, false),
-                new Todo(null, savedPairRoom, "content!", 4000, false),
-                new Todo(null, savedPairRoom, "content!", 4096, false)
+                new Todo(null, "content!", 1024, false),
+                new Todo(null, "content!", 2048, false),
+                new Todo(null, "content!", 3072, false),
+                new Todo(null, "content!", 4000, false),
+                new Todo(null, "content!", 4096, false)
         );
         final List<TodoEntity> todoEntities = todos.stream()
-                .map(TodoEntity::new)
+                .map(todo -> new TodoEntity(todo, pairRoomEntity))
                 .toList();
         todoRepository.saveAll(todoEntities);
 
