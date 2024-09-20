@@ -1,9 +1,9 @@
 package site.coduo.todo.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
@@ -17,6 +17,7 @@ import site.coduo.todo.repository.TodoRepository;
 
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class TodoService {
 
     private static final int NO_SORT_VALUE = 0;
@@ -25,6 +26,7 @@ public class TodoService {
     private final PairRoomRepository pairRoomRepository;
     private final TodoRepository todoRepository;
 
+    @Transactional(readOnly = true)
     public List<Todo> getAllOrderBySort(final String accessCode) {
         final PairRoomEntity pairRoom = pairRoomRepository.findByAccessCode(accessCode)
                 .orElseThrow(() -> new PairRoomNotFoundException("해당 Access Code의 페어룸은 존재하지 않습니다. - " + accessCode));
@@ -38,18 +40,19 @@ public class TodoService {
     public void createTodo(final String accessCode, final String content) {
         final PairRoomEntity pairRoom = pairRoomRepository.findByAccessCode(accessCode)
                 .orElseThrow(() -> new PairRoomNotFoundException("해당 Access Code의 페어룸은 존재하지 않습니다. - " + accessCode));
-        final TodoSort nextToLastSort = getLastTodoSort(pairRoom).orElseGet(() -> new TodoSort(NO_SORT_VALUE))
-                .countNextSort();
+        final TodoSort nextToLastSort = getLastTodoSort(pairRoom);
         final Todo todo = new Todo(null, pairRoom.toDomain(), content, nextToLastSort.getSort(), INITIAL_TODO_CHECKED);
         final TodoEntity todoEntity = new TodoEntity(todo);
 
         todoRepository.save(todoEntity);
     }
 
-    private Optional<TodoSort> getLastTodoSort(final PairRoomEntity pairRoom) {
+    private TodoSort getLastTodoSort(final PairRoomEntity pairRoom) {
         return todoRepository.findTopByPairRoomEntityOrderBySortDesc(pairRoom)
                 .map(TodoEntity::toDomain)
-                .map(Todo::getSort);
+                .map(Todo::getSort)
+                .orElseGet(() -> new TodoSort(NO_SORT_VALUE))
+                .countNextSort();
     }
 
     public void updateTodoContent(final Long todoId, final String content) {

@@ -40,6 +40,7 @@ class TodoServiceTest {
 
     @Autowired
     private TodoRepository todoRepository;
+
     @Autowired
     private TodoService todoService;
 
