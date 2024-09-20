@@ -57,12 +57,13 @@ public class PairRoomService {
     @Transactional
     public void updatePairRoomStatus(final String accessCode, final String statusName) {
         final PairRoomStatus status = PairRoomStatus.findByName(statusName);
-        final site.coduo.pairroom.repository.PairRoomEntity entity = pairRoomRepository.fetchByAccessCode(accessCode);
+        final PairRoomEntity entity = pairRoomRepository.fetchByAccessCode(accessCode);
         entity.updateStatus(status);
     }
 
-    public PairRoomReadResponse findByAccessCode(final String accessCode) {
+    public PairRoomReadResponse findPairRoomAndTimer(final String accessCode) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
-        return PairRoomReadResponse.of(pairRoomEntity.toDomain(), pairRoomEntity.getId());
+        final TimerEntity timerEntity = timerRepository.fetchTimerByPairRoomId(pairRoomEntity.getId());
+        return PairRoomReadResponse.of(pairRoomEntity.toDomain(), timerEntity.toDomain());
     }
 }
