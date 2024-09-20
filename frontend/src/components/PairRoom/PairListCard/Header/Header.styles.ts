@@ -19,6 +19,8 @@ export const ExpandButton = css`
   height: 4rem;
   border: none;
 
+  cursor: pointer;
+
   background-color: ${({ theme }) => theme.color.black[10]};
   color: ${({ theme }) => theme.color.black[90]};
 
