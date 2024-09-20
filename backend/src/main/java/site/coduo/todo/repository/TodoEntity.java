@@ -14,7 +14,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
-import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.todo.domain.Todo;
 
@@ -42,27 +41,18 @@ public class TodoEntity extends BaseTimeEntity {
     private boolean isChecked;
 
     public TodoEntity(final Todo todo) {
-        this(
-                todo.getId(),
-                todo.getPairRoom(),
-                todo.getContent().getContent(),
-                todo.getSort().getSort(),
-                todo.getIsChecked().isChecked()
-        );
+        this.id = todo.getId();
+        this.content = todo.getContent().getContent();
+        this.sort = todo.getSort().getSort();
+        this.isChecked = todo.getIsChecked().isChecked();
     }
 
-    public TodoEntity(
-            final Long id,
-            final PairRoom pairRoom,
-            final String content,
-            final double sort,
-            final boolean isChecked
-    ) {
-        this.id = id;
-        this.pairRoomEntity = site.coduo.pairroom.repository.PairRoomEntity.from(pairRoom);
-        this.content = content;
-        this.sort = sort;
-        this.isChecked = isChecked;
+    public TodoEntity(final Todo todo, final PairRoomEntity pairRoom) {
+        this.id = todo.getId();
+        this.pairRoomEntity = pairRoom;
+        this.sort = todo.getSort().getSort();
+        this.content = todo.getContent().getContent();
+        this.isChecked = todo.getIsChecked().isChecked();
     }
 
     public Todo toDomain() {
@@ -73,5 +63,16 @@ public class TodoEntity extends BaseTimeEntity {
                 this.sort,
                 this.isChecked
         );
+    }
+
+    @Override
+    public String toString() {
+        return "TodoEntity{" +
+               "id=" + id +
+               ", pairRoomEntity=" + pairRoomEntity +
+               ", content='" + content + '\'' +
+               ", sort=" + sort +
+               ", isChecked=" + isChecked +
+               '}';
     }
 }

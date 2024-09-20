@@ -42,7 +42,7 @@ public class TodoService {
                 .orElseThrow(() -> new PairRoomNotFoundException("해당 Access Code의 페어룸은 존재하지 않습니다. - " + accessCode));
         final TodoSort nextToLastSort = getLastTodoSort(pairRoom);
         final Todo todo = new Todo(null, pairRoom.toDomain(), content, nextToLastSort.getSort(), INITIAL_TODO_CHECKED);
-        final TodoEntity todoEntity = new TodoEntity(todo);
+        final TodoEntity todoEntity = new TodoEntity(todo, pairRoom);
 
         todoRepository.save(todoEntity);
     }

@@ -15,6 +15,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
@@ -29,6 +30,7 @@ import site.coduo.todo.repository.TodoEntity;
 import site.coduo.todo.repository.TodoRepository;
 
 @SpringBootTest
+@Transactional
 @DisplayName("TodoService 테스트")
 class TodoServiceTest {
 
@@ -54,14 +56,12 @@ class TodoServiceTest {
     @Test
     void createTodo() {
         // Given
-        final String pairRoomAccessCode = "AC";
-
-        pairRoomService.save(new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"));
-
-        final String content = "켈리 치킨 사주기이이이이이";
+        final String accessCode = pairRoomService.save(
+                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"));
+        final String content = "content!";
 
         // When
-        todoService.createTodo(pairRoomAccessCode, content);
+        todoService.createTodo(accessCode, content);
 
         // Then
         final List<TodoEntity> allSaved = todoRepository.findAll();
@@ -79,14 +79,12 @@ class TodoServiceTest {
     void createPairRoomWithNotFoundPairRoomId() {
         // Given
         pairRoomService.save(new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"));
-
-        final String pariRoomAccessCode = "code";
-        final String content = "켈리 치킨 사주기이이이이이";
+        final String content = "content!";
 
         // When & Then
-        assertThatThrownBy(() -> todoService.createTodo(pariRoomAccessCode, content))
+        assertThatThrownBy(() -> todoService.createTodo("NOCODE", content))
                 .isInstanceOf(PairRoomNotFoundException.class)
-                .hasMessage("해당 Access Code의 페어룸은 존재하지 않습니다. - " + pariRoomAccessCode);
+                .hasMessage("해당 Access Code의 페어룸은 존재하지 않습니다. - " + "NOCODE");
     }
 
     @DisplayName("투두 id와 새로운 투두 내용이 입력되면 해당 투두를 저장소에서 가져와 내용을 변경한뒤 저장한다.")
@@ -95,13 +93,13 @@ class TodoServiceTest {
         // Given
         final String accessCode = pairRoomService.save(
                 new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"));
-        final PairRoomEntity pairRoomEntity = pairRoomRepository.findByAccessCode(accessCode).get();
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final String content = "content!";
         final int sort = 2048;
         final boolean isChecked = false;
         final Todo todo = new Todo(null, pairRoomEntity.toDomain(), content, sort, isChecked);
-        final TodoEntity todoEntity = new TodoEntity(todo);
+        final TodoEntity todoEntity = new TodoEntity(todo, pairRoomEntity);
         final TodoEntity savedTodo = todoRepository.save(todoEntity);
 
         final String newContent = "이거슨 새로운 내용!";
@@ -123,7 +121,7 @@ class TodoServiceTest {
         // Given
         final String accessCode = pairRoomService.save(
                 new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"));
-        final PairRoomEntity pairRoomEntity = pairRoomRepository.findByAccessCode(accessCode).get();
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final String content = "content!";
         final int sort = 2048;
@@ -147,7 +145,7 @@ class TodoServiceTest {
         // Given
         final String accessCode = pairRoomService.save(
                 new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"));
-        final PairRoomEntity pairRoomEntity = pairRoomRepository.findByAccessCode(accessCode).get();
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final String content = "content!";
         final int sort = 2048;
@@ -173,7 +171,7 @@ class TodoServiceTest {
         // Given
         final String accessCode = pairRoomService.save(
                 new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"));
-        final PairRoomEntity pairRoomEntity = pairRoomRepository.findByAccessCode(accessCode).get();
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final String content = "content!";
         final int sort = 2048;
@@ -196,7 +194,7 @@ class TodoServiceTest {
         // Given
         final String accessCode = pairRoomService.save(
                 new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"));
-        final PairRoomEntity pairRoomEntity = pairRoomRepository.findByAccessCode(accessCode).get();
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final String content = "content!";
         final int sort = 2048;
@@ -223,7 +221,7 @@ class TodoServiceTest {
         // Given
         final String accessCode = pairRoomService.save(
                 new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"));
-        final PairRoomEntity pairRoomEntity = pairRoomRepository.findByAccessCode(accessCode).get();
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final PairRoom savedPairRoom = pairRoomEntity.toDomain();
 
@@ -261,7 +259,7 @@ class TodoServiceTest {
         // Given
         final String accessCode = pairRoomService.save(
                 new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"));
-        final PairRoomEntity pairRoomEntity = pairRoomRepository.findByAccessCode(accessCode).get();
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final PairRoom savedPairRoom = pairRoomEntity.toDomain();
 
@@ -292,7 +290,7 @@ class TodoServiceTest {
 
         final String accessCode = pairRoomService.save(
                 new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"));
-        final PairRoomEntity pairRoomEntity = pairRoomRepository.findByAccessCode(accessCode).get();
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
         final PairRoom savedPairRoom = pairRoomEntity.toDomain();
 
         final List<Todo> todos = List.of(
@@ -343,7 +341,7 @@ class TodoServiceTest {
         // Given
         final String accessCode = pairRoomService.save(
                 new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"));
-        final PairRoomEntity pairRoomEntity = pairRoomRepository.findByAccessCode(accessCode).get();
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
         final PairRoom savedPairRoom = pairRoomEntity.toDomain();
 
         final List<Todo> todos = List.of(
