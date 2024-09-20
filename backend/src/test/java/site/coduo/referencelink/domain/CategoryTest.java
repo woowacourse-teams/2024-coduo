@@ -13,10 +13,10 @@ import site.coduo.referencelink.exception.InvalidCategoryException;
 class CategoryTest {
 
     @Test
-    @DisplayName("15자 이상인 경우 예외가 발생한다.")
+    @DisplayName("10자 이상인 경우 예외가 발생한다.")
     void validate_category() {
         //given
-        final String categoryName = "15자이상인경우예외가발생한다.";
+        final String categoryName = "0123456789십";
 
         //when & then
         assertThatThrownBy(() -> new Category(categoryName))

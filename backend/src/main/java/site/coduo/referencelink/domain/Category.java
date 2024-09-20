@@ -8,7 +8,7 @@ import site.coduo.referencelink.exception.InvalidCategoryException;
 @Getter
 public class Category {
 
-    private static final int CATEGORY_NAME_MAX_LENGTH = 15;
+    private static final int CATEGORY_NAME_MAX_LENGTH = 10;
 
     private final String value;
 
