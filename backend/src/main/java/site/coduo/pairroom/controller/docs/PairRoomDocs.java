@@ -31,7 +31,9 @@ public interface PairRoomDocs {
             schema = @Schema(implementation = PairRoomCreateResponse.class)))
     ResponseEntity<PairRoomCreateResponse> createPairRoom(
             @Parameter(description = "페어 프로그래밍에 참여하는 드라이버 이름, 내비게이터 이름, 타이머 시간, 타이머 남은 시간", required = true)
-            PairRoomCreateRequest pairRoomCreateRequest
+            PairRoomCreateRequest pairRoomCreateRequest,
+            @Parameter(description = "로그인 유저 토큰")
+            String token
     );
 
     @Operation(summary = "드라이버 내비게이터 역할을 바꾼다.")

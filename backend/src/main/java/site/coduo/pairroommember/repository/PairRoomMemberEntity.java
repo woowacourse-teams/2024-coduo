@@ -31,6 +31,11 @@ public class PairRoomMemberEntity {
     @ManyToOne
     private Member member;
 
+    public PairRoomMemberEntity(final PairRoomEntity pairRoom, final Member member) {
+        this.pairRoom = pairRoom;
+        this.member = member;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

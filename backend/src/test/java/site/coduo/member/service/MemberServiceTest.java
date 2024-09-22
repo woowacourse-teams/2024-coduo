@@ -62,7 +62,7 @@ class MemberServiceTest {
         memberRepository.save(member);
 
         // when
-        final MemberReadResponse response = memberService.findMemberByCredential(sign);
+        final MemberReadResponse response = memberService.findMemberNameByCredential(sign);
 
         // then
         assertThat(response.username()).isEqualTo(member.getUsername());

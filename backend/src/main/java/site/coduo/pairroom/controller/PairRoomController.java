@@ -1,10 +1,13 @@
 package site.coduo.pairroom.controller;
 
+import static site.coduo.common.config.filter.SignInCookieFilter.SIGN_IN_COOKIE_NAME;
+
 import java.net.URI;
 
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,11 +32,15 @@ public class PairRoomController implements PairRoomDocs {
 
     @PostMapping("/pair-room")
     public ResponseEntity<PairRoomCreateResponse> createPairRoom(
-            @Valid @RequestBody final PairRoomCreateRequest request
+            @Valid @RequestBody final PairRoomCreateRequest request,
+            @CookieValue(SIGN_IN_COOKIE_NAME) String token
     ) {
-        final PairRoomCreateResponse response = new PairRoomCreateResponse(
-                pairRoomService.save(request));
-
+        if (token != null) {
+            final PairRoomCreateResponse response = new PairRoomCreateResponse(pairRoomService.saveMemberPairRoom(request, token));
+            return ResponseEntity.created(URI.create("/"))
+                    .body(response);
+        }
+        final PairRoomCreateResponse response = new PairRoomCreateResponse(pairRoomService.saveNonMemberPairRoom(request));
         return ResponseEntity.created(URI.create("/"))
                 .body(response);
     }
