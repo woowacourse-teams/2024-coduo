@@ -33,22 +33,24 @@ public class PairRoomController implements PairRoomDocs {
     @PostMapping("/pair-room")
     public ResponseEntity<PairRoomCreateResponse> createPairRoom(
             @Valid @RequestBody final PairRoomCreateRequest request,
-            @CookieValue(SIGN_IN_COOKIE_NAME) String token
+            @CookieValue(value = SIGN_IN_COOKIE_NAME, required = false) String token
     ) {
-        if (token != null) {
-            final PairRoomCreateResponse response = new PairRoomCreateResponse(pairRoomService.saveMemberPairRoom(request, token));
-            return ResponseEntity.created(URI.create("/"))
-                    .body(response);
-        }
-        final PairRoomCreateResponse response = new PairRoomCreateResponse(pairRoomService.saveNonMemberPairRoom(request));
+        final PairRoomCreateResponse response = savePairRoom(request, token);
+
         return ResponseEntity.created(URI.create("/"))
                 .body(response);
     }
 
+    private PairRoomCreateResponse savePairRoom(final PairRoomCreateRequest request, final String token) {
+        if (token != null) {
+            return new PairRoomCreateResponse(pairRoomService.saveMemberPairRoom(request, token));
+        }
+
+        return new PairRoomCreateResponse(pairRoomService.saveNonMemberPairRoom(request));
+    }
+
     @PatchMapping("/pair-room/{accessCode}/pair-swap")
-    public ResponseEntity<Void> updatePairRole(
-            @PathVariable("accessCode") final String accessCode
-    ) {
+    public ResponseEntity<Void> updatePairRole(@PathVariable("accessCode") final String accessCode) {
         pairRoomService.updateNavigatorWithDriver(accessCode);
 
         return ResponseEntity.noContent()
