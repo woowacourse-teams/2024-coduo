@@ -35,7 +35,7 @@ class PairRoomMemberServiceTest {
     @Test
     void find_rooms_by_member() {
 
-        final String targetToken = jwtProvider.sign("userId");
+        final String targetToken = jwtProvider.sign("reddevilmidzy");
         final String test = jwtProvider.sign("test");
 
         final Member targetMember = Member.builder()
@@ -43,7 +43,7 @@ class PairRoomMemberServiceTest {
                 .loginId("login id")
                 .profileImage("profile image")
                 .username("hello")
-                .userId("user id")
+                .userId("reddevilmidzy")
                 .build();
 
         final Member member2 = Member.builder()
@@ -51,7 +51,7 @@ class PairRoomMemberServiceTest {
                 .loginId("test id")
                 .profileImage("profile image")
                 .username("world")
-                .userId("test id")
+                .userId("test")
                 .build();
 
         memberRepository.save(targetMember);
@@ -66,7 +66,7 @@ class PairRoomMemberServiceTest {
 
         final String accessCode1 = pairRoomService.saveMemberPairRoom(pairRoomCreateRequest1, targetToken);
         final String accessCode2 = pairRoomService.saveMemberPairRoom(pairRoomCreateRequest2, targetToken);
-        final String accessCode3 = pairRoomService.saveNonMemberPairRoom(pairRoomCreateRequest3);
+        pairRoomService.saveNonMemberPairRoom(pairRoomCreateRequest3);
 
         final List<PairRoomMemberResponse> pairRooms = pairRoomMemberService.findPairRooms(targetToken);
         final List<String> findAccessCodes = pairRooms.stream()
