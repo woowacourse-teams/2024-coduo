@@ -34,28 +34,24 @@ export const addCategory = async ({ category, accessCode }: AddCategoryRequest) 
 
 interface DeleteCategoryRequest {
   accessCode: string;
-  categoryName: string;
+  categoryId: string;
 }
 
-export const deleteCategory = async ({ categoryName, accessCode }: DeleteCategoryRequest) => {
+export const deleteCategory = async ({ categoryId, accessCode }: DeleteCategoryRequest) => {
   await fetcher.delete({
-    url: `${API_URL}/${accessCode}/category/${categoryName}`,
+    url: `${API_URL}/${accessCode}/category/${categoryId}`,
   });
 };
 
 interface UpdateCategoryRequest {
   accessCode: string;
-  previousCategoryName: string;
-  updatedCategoryName: string;
+  previousCategoryId: string;
+  updatedCategoryId: string;
 }
 
-export const updateCategory = async ({
-  previousCategoryName,
-  updatedCategoryName,
-  accessCode,
-}: UpdateCategoryRequest) => {
+export const updateCategory = async ({ previousCategoryId, updatedCategoryId, accessCode }: UpdateCategoryRequest) => {
   await fetcher.patch({
     url: `${API_URL}/${accessCode}/category`,
-    body: JSON.stringify({ previousCategoryName, updatedCategoryName }),
+    body: JSON.stringify({ previousCategoryId, updatedCategoryId }),
   });
 };

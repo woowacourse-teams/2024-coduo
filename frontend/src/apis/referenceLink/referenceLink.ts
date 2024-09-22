@@ -16,12 +16,11 @@ export interface Link {
 
 interface GetReferenceLinksRequest {
   accessCode: string;
-  currentCategory: string;
+  categoryId: string;
 }
 
-export const getReferenceLinks = async ({ accessCode, currentCategory }: GetReferenceLinksRequest): Promise<Link[]> => {
-  const categoryName = encodeURIComponent(currentCategory);
-  const categoryParamsUrl = currentCategory === '전체' ? `` : `?categoryName=${categoryName}`;
+export const getReferenceLinks = async ({ accessCode, categoryId }: GetReferenceLinksRequest): Promise<Link[]> => {
+  const categoryParamsUrl = categoryId === '0' ? `` : `?categoryId=${categoryId}`;
 
   const response = await fetcher.get({
     url: `${API_URL}/${accessCode}/reference-link${categoryParamsUrl}`,
