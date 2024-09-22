@@ -11,7 +11,7 @@ export const CategoryBox = styled.div`
   gap: 1rem;
 `;
 
-export const CategoryModalHeader = styled.div`
+export const Header = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -20,7 +20,7 @@ export const CategoryModalHeader = styled.div`
   font-size: ${({ theme }) => theme.fontSize.lg};
 `;
 
-export const AddNewCategoryBox = styled.form`
+export const Footer = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -31,7 +31,7 @@ export const AddNewCategoryBox = styled.form`
   padding-top: 2rem;
 `;
 
-export const AddNewCategoryInputBox = styled.div`
+export const AddNewCategoryInput = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
