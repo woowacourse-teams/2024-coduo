@@ -2,7 +2,7 @@ import { AiFillDelete } from 'react-icons/ai';
 import { FaPencilAlt, FaCheck } from 'react-icons/fa';
 import { GiCancel } from 'react-icons/gi';
 
-import * as S from './CategoryFilter.styles';
+import * as S from './IconButton.styles';
 
 type Icon = 'CHECK' | 'EDIT' | 'DELETE' | 'CANCEL';
 

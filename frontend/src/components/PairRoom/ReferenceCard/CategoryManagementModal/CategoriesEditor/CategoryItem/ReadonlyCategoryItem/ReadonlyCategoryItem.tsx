@@ -1,18 +1,17 @@
+import * as S from './ReadonlyCategoryItem.styles';
+
 import { CheckBoxChecked, CheckBoxUnchecked } from '@/assets';
 
-import * as S from './CategoryFilter.styles';
-
-
-interface CategoryItemProps {
+interface ReadonlyCategoryItemProps {
   isChecked: boolean;
   category: string;
   handleSelectCategory: (category: string) => void;
   id: string;
 }
 
-const CategoryItem = ({ id, isChecked, category, handleSelectCategory }: CategoryItemProps) => {
+const ReadonlyCategoryItem = ({ id, isChecked, category, handleSelectCategory }: ReadonlyCategoryItemProps) => {
   return (
-    <S.CategoryItemContainer
+    <S.Layout
       id={id}
       onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
         handleSelectCategory(event.currentTarget.id);
@@ -23,10 +22,10 @@ const CategoryItem = ({ id, isChecked, category, handleSelectCategory }: Categor
         alt={isChecked ? '체크된 체크박스' : '체크되지 않은 체크박스'}
       />
 
-      <S.Category $isChecked={isChecked}>
+      <S.ReadonlyCategoryItem $isChecked={isChecked}>
         <p>{category}</p>
-      </S.Category>
-    </S.CategoryItemContainer>
+      </S.ReadonlyCategoryItem>
+    </S.Layout>
   );
 };
-export default CategoryItem;
+export default ReadonlyCategoryItem;

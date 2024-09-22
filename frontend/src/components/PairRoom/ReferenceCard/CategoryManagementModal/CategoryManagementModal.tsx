@@ -4,7 +4,7 @@ import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import { Message } from '@/components/common/Input/Input.styles';
 import { Modal } from '@/components/common/Modal';
-import CategoryFilter from '@/components/PairRoom/ReferenceCard/CategoryFilter/CategoryFilter';
+import CategoriesEditor from '@/components/PairRoom/ReferenceCard/CategoryManagementModal/CategoriesEditor/CategoriesEditor';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 
 import useInput from '@/hooks/common/useInput';
@@ -61,10 +61,11 @@ const CategoryManagementModal = ({
       </Modal.Header>
       <Modal.CloseButton close={closeCategoryManagementModal} />
       <Modal.Body>
-        <CategoryFilter
+        <CategoriesEditor
           categories={categories}
           selectedCategory={selectedCategory}
           handleSelectCategory={handleSelectCategory}
+          accessCode={accessCode}
         />
       </Modal.Body>
 
