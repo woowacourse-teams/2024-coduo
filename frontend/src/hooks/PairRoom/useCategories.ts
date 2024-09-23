@@ -11,14 +11,28 @@ const DEFAULT_CATEGORY = {
 const useCategories = (accessCode: string) => {
   const { data } = useGetCategories(accessCode);
 
-  const categoryIdList = data?.map((category) => category.id);
+  const categoryNameList = data?.map((category) => category.value);
 
-  const isCategoryExist = (categoryId: string) => {
-    if (!categoryIdList) return false;
-    return categoryIdList.includes(categoryId);
+  const isCategoryExist = (categoryName: string) => {
+    if (!categoryNameList) return false;
+    return categoryNameList.includes(categoryName);
   };
 
-  const getCategoryNameById = (categoryId: string) => data?.find((category) => category.id === categoryId)?.value;
+  const getCategoryNameById = (categoryId: string): string => {
+    if (!data) {
+      console.error('data가 없습니다.');
+      return '';
+    }
+
+    const category = data.find((category) => category.id === categoryId);
+
+    if (!category) {
+      console.error('일치하는 카테고리 아이디가 없습니다.');
+      return '';
+    }
+
+    return category.value;
+  };
 
   const categories = [DEFAULT_CATEGORY, ...(data || [])];
 

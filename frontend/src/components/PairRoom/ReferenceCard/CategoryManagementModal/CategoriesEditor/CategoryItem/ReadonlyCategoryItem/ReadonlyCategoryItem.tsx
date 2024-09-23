@@ -5,17 +5,18 @@ import { CheckBoxChecked, CheckBoxUnchecked } from '@/assets';
 interface ReadonlyCategoryItemProps {
   isChecked: boolean;
   category: string;
-  handleSelectCategory: (category: string) => void;
-  id: string;
+  categoryId: string;
+  handleSelectCategory: (categoryId: string) => void;
 }
 
-const ReadonlyCategoryItem = ({ id, isChecked, category, handleSelectCategory }: ReadonlyCategoryItemProps) => {
+const ReadonlyCategoryItem = ({ categoryId, isChecked, category, handleSelectCategory }: ReadonlyCategoryItemProps) => {
   return (
     <S.Layout
-      id={id}
+      id={categoryId}
       onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
         handleSelectCategory(event.currentTarget.id);
       }}
+      //   TODO:이게 맞음??
     >
       <img
         src={isChecked ? CheckBoxChecked : CheckBoxUnchecked}

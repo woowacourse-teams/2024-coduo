@@ -2,13 +2,13 @@ import { useState } from 'react';
 
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import AddReferenceForm from '@/components/PairRoom/ReferenceCard/AddReferenceForm/AddReferenceForm';
-import CategoryModal from '@/components/PairRoom/ReferenceCard/CategoryModal/CategoryModal';
+import CategoryManagementModal from '@/components/PairRoom/ReferenceCard/CategoryManagementModal/CategoryManagementModal';
 import Header from '@/components/PairRoom/ReferenceCard/Header/Header';
 import ReferenceList from '@/components/PairRoom/ReferenceCard/ReferenceList/ReferenceList';
 
 import useModal from '@/hooks/common/useModal';
+import useCategories, { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/hooks/PairRoom/useCategories';
 
-import useGetCategories from '@/queries/PairRoom/category/useGetCategories';
 import useReferenceLinks from '@/queries/PairRoom/useReferenceLinks';
 
 import * as S from './ReferenceCard.styles';
@@ -20,15 +20,16 @@ interface ReferenceCardProps {
 }
 
 const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps) => {
-  const [selectedCategory, setSelectedCategory] = useState('전체');
-
+  const [selectedFilteringCategoryId, setSelectedFilteringCategoryId] = useState(DEFAULT_CATEGORY_ID);
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const { categories, categoryRecord, isCategoryExist } = useGetCategories(accessCode);
+  const { categories, isCategoryExist, getCategoryNameById } = useCategories(accessCode);
   const { referenceLinks, handleAddReferenceLink, handleDeleteReferenceLink } = useReferenceLinks(
     accessCode,
-    selectedCategory,
+    selectedFilteringCategoryId,
   );
+
+  const selectedFilteringCategoryName = getCategoryNameById(selectedFilteringCategoryId) || DEFAULT_CATEGORY_VALUE;
 
   return (
     <>
@@ -36,7 +37,7 @@ const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps)
         <PairRoomCard>
           <Header
             isOpen={isOpen}
-            selectedCategory={selectedCategory}
+            selectedFilteringCategoryName={selectedFilteringCategoryName}
             toggleIsOpen={toggleIsOpen}
             onButtonClick={openModal}
           />
@@ -47,19 +48,21 @@ const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps)
                 accessCode={accessCode}
                 categories={categories}
                 handleAddReferenceLink={handleAddReferenceLink}
+                getCategoryNameById={getCategoryNameById}
               />
             </S.Footer>
           </S.Body>
         </PairRoomCard>
       </S.Layout>
-      <CategoryModal
+
+      <CategoryManagementModal
         accessCode={accessCode}
         isOpen={isModalOpen}
         closeModal={closeModal}
-        categories={categoryRecord}
+        categories={categories}
         isCategoryExist={isCategoryExist}
-        selectedCategory={selectedCategory}
-        handleSelectCategory={(category: string) => setSelectedCategory(category)}
+        selectedCategory={selectedFilteringCategoryId}
+        handleSelectCategory={(categoryId: string) => setSelectedFilteringCategoryId(categoryId)}
       />
     </>
   );

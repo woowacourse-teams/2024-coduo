@@ -45,13 +45,13 @@ export const deleteCategory = async ({ categoryId, accessCode }: DeleteCategoryR
 
 interface UpdateCategoryRequest {
   accessCode: string;
-  previousCategoryId: string;
-  updatedCategoryId: string;
+  categoryId: string;
+  updatedCategoryName: string;
 }
 
-export const updateCategory = async ({ previousCategoryId, updatedCategoryId, accessCode }: UpdateCategoryRequest) => {
+export const updateCategory = async ({ categoryId, updatedCategoryName, accessCode }: UpdateCategoryRequest) => {
   await fetcher.patch({
     url: `${API_URL}/${accessCode}/category`,
-    body: JSON.stringify({ previousCategoryId, updatedCategoryId }),
+    body: JSON.stringify({ categoryId, updatedCategoryName }),
   });
 };

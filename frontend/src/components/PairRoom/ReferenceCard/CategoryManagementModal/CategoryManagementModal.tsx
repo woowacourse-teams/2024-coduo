@@ -20,9 +20,9 @@ interface CategoryManagementModalProps {
   isOpen: boolean;
   closeModal: () => void;
   categories: Category[];
-  isCategoryExist: (category: string) => boolean;
+  isCategoryExist: (categoryName: string) => boolean;
   selectedCategory: string;
-  handleSelectCategory: (category: string) => void;
+  handleSelectCategory: (categoryId: string) => void;
 }
 
 const CategoryManagementModal = ({

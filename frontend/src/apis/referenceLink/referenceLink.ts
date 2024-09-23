@@ -33,13 +33,13 @@ export const getReferenceLinks = async ({ accessCode, categoryId }: GetReference
 interface AddReferenceLinkRequest {
   url: string;
   accessCode: string;
-  category: string | null;
+  categoryId: string | null;
 }
 
-export const addReferenceLink = async ({ url, accessCode, category }: AddReferenceLinkRequest) => {
+export const addReferenceLink = async ({ url, accessCode, categoryId }: AddReferenceLinkRequest) => {
   await fetcher.post({
     url: `${API_URL}/${accessCode}/reference-link`,
-    body: JSON.stringify({ url, categoryName: category }),
+    body: JSON.stringify({ url, categoryId }),
     errorMessage: ERROR_MESSAGES.ADD_REFERENCE_LINKS,
   });
 };

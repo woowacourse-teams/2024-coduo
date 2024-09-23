@@ -28,8 +28,8 @@ const useEditCategory = (accessCode: string, categoryName: string, categoryId: s
   const updateCategory = async () => {
     if (status === 'ERROR') return;
     await updateCategoryMutation.mutateAsync({
-      updatedCategoryId: value,
-      previousCategoryId: categoryId,
+      categoryId: categoryId,
+      updatedCategoryName: value,
       accessCode,
     });
     setIsEditing(false);

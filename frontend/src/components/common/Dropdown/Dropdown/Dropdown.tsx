@@ -103,7 +103,7 @@ const Dropdown = ({
                 <S.Item
                   filled={false}
                   role="option"
-                  aria-selected={selectedOption === option.id}
+                  aria-selected={selectedOption === option.value}
                   onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
                     event.stopPropagation();
                     handleSelect(option.id);

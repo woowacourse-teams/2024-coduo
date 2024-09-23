@@ -6,14 +6,14 @@ import { getReferenceLinks, addReferenceLink, deleteReferenceLink } from '@/apis
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-const useReferenceLinks = (accessCode: string, currentCategory: string) => {
+const useReferenceLinks = (accessCode: string, categoryId: string) => {
   const queryClient = useQueryClient();
 
   const { addToast } = useToastStore();
 
   const { data: referenceLinks } = useQuery({
-    queryKey: [QUERY_KEYS.GET_REFERENCE_LINKS, currentCategory],
-    queryFn: () => getReferenceLinks({ accessCode, currentCategory }),
+    queryKey: [QUERY_KEYS.GET_REFERENCE_LINKS, categoryId],
+    queryFn: () => getReferenceLinks({ accessCode, categoryId }),
   });
   //TODO: 캐싱
 
@@ -29,8 +29,8 @@ const useReferenceLinks = (accessCode: string, currentCategory: string) => {
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });
 
-  const handleAddReferenceLink = (url: string, category: string | null) =>
-    addReferenceLinkMutation({ url, accessCode, category });
+  const handleAddReferenceLink = (url: string, categoryId: string | null) =>
+    addReferenceLinkMutation({ url, accessCode, categoryId });
   const handleDeleteReferenceLink = (id: number) => deleteReferenceLinkMutation({ id, accessCode });
 
   return {

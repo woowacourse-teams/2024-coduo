@@ -26,7 +26,7 @@ const CategoryItem = ({ categoryName, categoryId, isChecked, handleSelectCategor
 
   const handleDeleteCategory = () => {
     actions.deleteCategory();
-    if (isChecked) handleSelectCategory('0');
+    if (isChecked) handleSelectCategory(DEFAULT_CATEGORY_ID);
   };
 
   if (isEditing) {
@@ -58,7 +58,7 @@ const CategoryItem = ({ categoryName, categoryId, isChecked, handleSelectCategor
     <S.Layout>
       <S.Container>
         <ReadonlyCategoryItem
-          id={categoryId}
+          categoryId={categoryId}
           isChecked={isChecked}
           category={categoryName}
           handleSelectCategory={handleSelectCategory}
