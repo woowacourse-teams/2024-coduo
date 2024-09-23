@@ -47,13 +47,13 @@ public class ReferenceLinkController implements ReferenceLinkDocs {
         return ResponseEntity.ok(responses);
     }
 
-    @GetMapping(value = "/{accessCode}/reference-link", params = "categoryName")
+    @GetMapping(value = "/{accessCode}/reference-link", params = "categoryId")
     public ResponseEntity<List<ReferenceLinkResponse>> getReferenceLinksOfCategory(
             @PathVariable("accessCode") final String accessCodeText,
-            @RequestParam(value = "categoryName") final String categoryName
+            @RequestParam(value = "categoryId") final Long categoryId
     ) {
-        final List<ReferenceLinkResponse> responses = referenceLinkService.findReferenceLinksByCategory(accessCodeText,
-                categoryName);
+        final List<ReferenceLinkResponse> responses = referenceLinkService
+                .findReferenceLinksByCategory(accessCodeText, categoryId);
 
         return ResponseEntity.ok(responses);
     }
