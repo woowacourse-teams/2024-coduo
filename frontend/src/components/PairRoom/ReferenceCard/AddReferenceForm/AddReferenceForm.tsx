@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { LuPlus } from 'react-icons/lu';
 
 import Button from '@/components/common/Button/Button';
@@ -8,42 +6,28 @@ import CategoryDropdown from '@/components/PairRoom/ReferenceCard/AddReferenceFo
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 
 import useInput from '@/hooks/common/useInput';
-import { DEFAULT_CATEGORY_ID } from '@/hooks/PairRoom/useCategories';
+import useReference from '@/hooks/PairRoom/useReference';
 
 import { formatLink } from '@/utils/Reference/formatLink';
 
 import * as S from './AddReferenceForm.styles';
 
 interface ReferenceFormProps {
-  handleAddReferenceLink: (value: string, category: string | null) => void;
   getCategoryNameById: (categoryId: string) => string;
   categories: Category[];
   accessCode: string;
 }
 
-const AddReferenceForm = ({
-  accessCode,
-  categories,
-  handleAddReferenceLink,
-  getCategoryNameById,
-}: ReferenceFormProps) => {
+const AddReferenceForm = ({ accessCode, categories, getCategoryNameById }: ReferenceFormProps) => {
   const { value, status, message, handleChange, resetValue } = useInput();
-  const [currentCategory, setCurrentCategory] = useState<string | null>(null);
-  const handleCurrentCategory = (category: string | null) => setCurrentCategory(category);
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    const category = currentCategory === DEFAULT_CATEGORY_ID ? null : currentCategory;
-    handleAddReferenceLink(value, category);
-
-    resetValue();
-  };
+  const { currentCategoryId, handleCurrentCategory, handleSubmit } = useReference(accessCode, value, () =>
+    resetValue(),
+  );
 
   return (
     <S.Layout>
       <CategoryDropdown
-        currentCategory={currentCategory}
+        currentCategoryId={currentCategoryId}
         categories={categories}
         handleCurrentCategory={handleCurrentCategory}
         accessCode={accessCode}
