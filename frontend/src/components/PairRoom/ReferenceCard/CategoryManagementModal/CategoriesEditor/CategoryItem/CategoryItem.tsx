@@ -29,6 +29,24 @@ const CategoryItem = ({ categoryName, categoryId, isChecked, handleSelectCategor
     if (isChecked) handleSelectCategory(DEFAULT_CATEGORY_ID);
   };
 
+  const renderIcons = (isEditing: boolean) => {
+    if (categoryId === DEFAULT_CATEGORY_ID) return;
+    if (isEditing) {
+      return (
+        <>
+          <IconButton icon="CHECK" />
+          <IconButton onClick={actions.cancelEditing} icon="CANCEL" />
+        </>
+      );
+    }
+    return (
+      <>
+        <IconButton onClick={actions.startEditing} icon="EDIT" />
+        <IconButton onClick={handleDeleteCategory} icon="DELETE" />
+      </>
+    );
+  };
+
   return (
     <S.Layout>
       <S.Container>
@@ -53,23 +71,7 @@ const CategoryItem = ({ categoryName, categoryId, isChecked, handleSelectCategor
           />
         )}
 
-        <S.CategoryIconsContainer>
-          {isEditing ? (
-            <>
-              <IconButton icon="CHECK" />
-              <IconButton onClick={actions.cancelEditing} icon="CANCEL" />
-            </>
-          ) : (
-            <>
-              {categoryId !== DEFAULT_CATEGORY_ID && (
-                <>
-                  <IconButton onClick={actions.startEditing} icon="EDIT" />
-                  <IconButton onClick={handleDeleteCategory} icon="DELETE" />
-                </>
-              )}
-            </>
-          )}
-        </S.CategoryIconsContainer>
+        <S.CategoryIconsContainer>{renderIcons(isEditing)}</S.CategoryIconsContainer>
       </S.Container>
     </S.Layout>
   );
