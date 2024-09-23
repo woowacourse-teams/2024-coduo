@@ -1,4 +1,4 @@
-import Reference from '@/components/PairRoom/ReferenceCard/Reference/Reference';
+import Reference from '@/components/PairRoom/ReferenceCard/ReferenceList/Reference/Reference';
 
 import type { Link } from '@/apis/referenceLink';
 
