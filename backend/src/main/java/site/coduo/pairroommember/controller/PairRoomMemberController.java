@@ -10,12 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import site.coduo.pairroommember.controller.docs.PairRoomMemberDocs;
 import site.coduo.pairroommember.service.PairRoomMemberService;
 import site.coduo.pairroommember.service.dto.PairRoomMemberResponse;
 
 @RestController
 @RequiredArgsConstructor
-public class PairRoomMemberController {
+public class PairRoomMemberController implements PairRoomMemberDocs {
 
     private final PairRoomMemberService pairRoomMemberService;
 
