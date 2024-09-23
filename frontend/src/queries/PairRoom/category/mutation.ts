@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import useToastStore from '@/stores/toastStore';
 
-import { addCategory, deleteCategory, updateCategory } from '@/apis/referenceLink/category';
+import { addCategory, deleteCategory, updateCategory } from '@/apis/category';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 

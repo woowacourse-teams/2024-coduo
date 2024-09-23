@@ -29,7 +29,7 @@ export const getReferenceLinks = async ({ accessCode, categoryId }: GetReference
 
   return await response.json();
 };
-
+    
 interface AddReferenceLinkRequest {
   url: string;
   accessCode: string;

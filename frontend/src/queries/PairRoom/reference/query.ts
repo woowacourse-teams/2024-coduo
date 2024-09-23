@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getReferenceLinks } from '@/apis/referenceLink/referenceLink';
+import { getReferenceLinks } from '@/apis/referenceLink';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 

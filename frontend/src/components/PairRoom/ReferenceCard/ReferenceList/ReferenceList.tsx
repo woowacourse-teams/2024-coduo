@@ -1,34 +1,38 @@
 import Reference from '@/components/PairRoom/ReferenceCard/Reference/Reference';
 
-import type { Link } from '@/apis/referenceLink/referenceLink';
+import type { Link } from '@/apis/referenceLink';
+
+import { useDeleteReferenceLink } from '@/queries/PairRoom/reference/mutation';
 
 import * as S from './ReferenceList.styles';
 
 interface ReferenceListProps {
-  referenceLinks: Link[];
-  onDeleteReferenceLink: (id: number) => void;
+  references?: Link[];
+  accessCode: string;
 }
 
-const ReferenceList = ({ referenceLinks, onDeleteReferenceLink }: ReferenceListProps) => {
-  return referenceLinks.length > 0 ? (
-    <S.Layout $columns={referenceLinks.length}>
-      <S.List $columns={referenceLinks.length}>
-        {referenceLinks.map((link) => {
+const ReferenceList = ({ references, accessCode }: ReferenceListProps) => {
+  const deleteReference = useDeleteReferenceLink().mutate;
+
+  if (!references || references.length > 0) return <S.EmptyLayout>저장된 링크가 없습니다.</S.EmptyLayout>;
+
+  return (
+    <S.Layout $columns={references.length}>
+      <S.List $columns={references.length}>
+        {references.map((reference) => {
           return (
             <Reference
-              key={link.id}
-              url={link.url}
-              image={link.image}
-              title={link.openGraphTitle || link.headTitle}
-              description={link.description}
-              onDeleteReference={() => onDeleteReferenceLink(link.id)}
+              key={reference.id}
+              url={reference.url}
+              image={reference.image}
+              title={reference.openGraphTitle || reference.headTitle}
+              description={reference.description}
+              onDeleteReference={() => deleteReference({ id: reference.id, accessCode })}
             />
           );
         })}
       </S.List>
     </S.Layout>
-  ) : (
-    <S.EmptyLayout>저장된 링크가 없습니다.</S.EmptyLayout>
   );
 };
 

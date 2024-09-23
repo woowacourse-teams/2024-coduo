@@ -9,7 +9,7 @@ import ReferenceList from '@/components/PairRoom/ReferenceCard/ReferenceList/Ref
 import useModal from '@/hooks/common/useModal';
 import useCategories, { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/hooks/PairRoom/useCategories';
 
-import useReferenceLinks from '@/queries/PairRoom/useReferenceLinks';
+import { useGetReference } from '@/queries/PairRoom/reference/query';
 
 import * as S from './ReferenceCard.styles';
 
@@ -24,10 +24,8 @@ const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps)
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const { categories, isCategoryExist, getCategoryNameById } = useCategories(accessCode);
-  const { referenceLinks, handleAddReferenceLink, handleDeleteReferenceLink } = useReferenceLinks(
-    accessCode,
-    selectedFilteringCategoryId,
-  );
+
+  const { data: references } = useGetReference(selectedFilteringCategoryId, accessCode);
 
   const selectedFilteringCategoryName = getCategoryNameById(selectedFilteringCategoryId) || DEFAULT_CATEGORY_VALUE;
 
@@ -42,12 +40,11 @@ const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps)
             onButtonClick={openModal}
           />
           <S.Body $isOpen={isOpen}>
-            <ReferenceList referenceLinks={referenceLinks} onDeleteReferenceLink={handleDeleteReferenceLink} />
+            <ReferenceList references={references} accessCode={accessCode} />
             <S.Footer>
               <AddReferenceForm
                 accessCode={accessCode}
                 categories={categories}
-                handleAddReferenceLink={handleAddReferenceLink}
                 getCategoryNameById={getCategoryNameById}
               />
             </S.Footer>
