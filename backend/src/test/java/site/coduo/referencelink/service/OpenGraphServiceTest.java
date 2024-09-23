@@ -5,8 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import static site.coduo.fixture.PairRoomFixture.INK_REDDDY_ROOM;
 
-import java.net.MalformedURLException;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +17,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import site.coduo.pairroom.domain.PairRoom;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpServer;
+
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
@@ -32,6 +38,8 @@ import site.coduo.utils.CascadeCleaner;
 class OpenGraphServiceTest extends CascadeCleaner {
 
     private static final String DEFAULT_OPEN_GRAPH_VALUE = "";
+    private static final String HTML_START_LINE = "<html><head>";
+    private static final String HTML_END_LINE = "</head><body></body></html>";
 
     @Autowired
     private OpenGraphService openGraphService;
@@ -55,12 +63,23 @@ class OpenGraphServiceTest extends CascadeCleaner {
 
     @Test
     @DisplayName("오픈그래프를 생성 후 저장한다.")
-    void create_open_graph() throws MalformedURLException {
+    void create_open_graph_exactly() throws IOException {
         //given
+        String html = HTML_START_LINE +
+                "<title>헤드 타이틀</title>" +
+                "<meta property=\"og:title\" content=\"오픈그래프 타이틀\">" +
+                "<meta property=\"og:description\" content=\"오픈그래프 설명\">" +
+                "<meta property=\"og:image\" content=\"오픈그래프 이미지\">" +
+                HTML_END_LINE;
+
+        int assignedPort = makeTestServer(setTestHandler(html));
+
         final PairRoomEntity pairRoomEntity = pairRoomRepository.save(PairRoomEntity.from(INK_REDDDY_ROOM));
 
-        final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoomEntity, new Category("스프링")));
-        final URL url = new URL("https://www.naver.com");
+        final CategoryEntity category = categoryRepository.save(
+                new CategoryEntity(pairRoomEntity, new Category("스프링")));
+
+        final URL url = new URL("http://localhost:" + assignedPort + "/test");
         final ReferenceLinkEntity referenceLink = new ReferenceLinkEntity(
                 new ReferenceLink(url, new AccessCode(pairRoomEntity.getAccessCode())),
                 category,
@@ -69,11 +88,16 @@ class OpenGraphServiceTest extends CascadeCleaner {
         final ReferenceLinkEntity referenceLinkEntity = referenceLinkRepository.save(referenceLink);
 
         // when
-        openGraphService.createOpenGraph(referenceLinkEntity, url);
+        final OpenGraph openGraph = openGraphService.createOpenGraph(referenceLinkEntity, url);
 
         // then
-        assertThat(openGraphRepository.findAll())
-                .hasSize(1);
+        assertAll(
+                () -> assertThat(openGraphRepository.findAll()).hasSize(1),
+                () -> assertThat(openGraph.getHeadTitle()).isEqualTo("헤드 타이틀"),
+                () -> assertThat(openGraph.getOpenGraphTitle()).isEqualTo("오픈그래프 타이틀"),
+                () -> assertThat(openGraph.getDescription()).isEqualTo("오픈그래프 설명"),
+                () -> assertThat(openGraph.getImage()).isEqualTo("오픈그래프 이미지")
+        );
     }
 
     @DisplayName("일치하는 오픈그래프가 없으면 기본 값을 넣은 오픈그래프를 반환한다.")
@@ -93,11 +117,18 @@ class OpenGraphServiceTest extends CascadeCleaner {
 
     @DisplayName("레퍼런스링크 id로 오픈그래프를 삭제한다.")
     @Test
-    void delete_open_graph_by_reference_link_id() throws MalformedURLException {
+    void delete_open_graph_by_reference_link_id() throws IOException {
         // given
+        String html = HTML_START_LINE +
+                "<meta property=\"og:title\" content=\"오픈그래프 타이틀\">" +
+                HTML_END_LINE;
+        int assignedPort = makeTestServer(setTestHandler(html));
+
         final PairRoomEntity pairRoomEntity = pairRoomRepository.save(PairRoomEntity.from(INK_REDDDY_ROOM));
-        final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoomEntity, new Category("스프링")));
-        final URL url = new URL("https://www.naver.com");
+        final CategoryEntity category = categoryRepository.save(
+                new CategoryEntity(pairRoomEntity, new Category("스프링")));
+
+        final URL url = new URL("http://localhost:" + assignedPort + "/test");
         final ReferenceLinkEntity referenceLink = new ReferenceLinkEntity(
                 new ReferenceLink(url, new AccessCode(pairRoomEntity.getAccessCode())),
                 category,
@@ -111,5 +142,95 @@ class OpenGraphServiceTest extends CascadeCleaner {
 
         // then
         assertThat(openGraphRepository.findAll()).isEmpty();
+    }
+
+    @DisplayName("링크의 도큐먼트를 가져오지 못했을때 헤드타이틀에 도메인을 넣어 생성 후 저장한다.")
+    @Test
+    void create_openGraph_when_cannot_get_document() throws IOException {
+        //given
+        final int assignedPort = makeTestServer(setTestHandler(null));
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.save(PairRoomEntity.from(INK_REDDDY_ROOM));
+        final CategoryEntity category = categoryRepository.save(
+                new CategoryEntity(pairRoomEntity, new Category("스프링")));
+
+        final URL url = new URL("http://localhost:" + assignedPort + "/test");
+        final ReferenceLinkEntity referenceLink = new ReferenceLinkEntity(
+                new ReferenceLink(url, new AccessCode(pairRoomEntity.getAccessCode())),
+                category,
+                pairRoomEntity
+        );
+        final ReferenceLinkEntity referenceLinkEntity = referenceLinkRepository.save(referenceLink);
+
+        // when
+        final OpenGraph openGraph = openGraphService.createOpenGraph(referenceLinkEntity, url);
+
+        // then
+        assertAll(
+                () -> assertThat(openGraphRepository.findAll()).hasSize(1),
+                () -> assertThat(openGraph.getHeadTitle()).isEqualTo("localhost"),
+                () -> assertThat(openGraph.getOpenGraphTitle()).isEqualTo(DEFAULT_OPEN_GRAPH_VALUE),
+                () -> assertThat(openGraph.getDescription()).isEqualTo(DEFAULT_OPEN_GRAPH_VALUE),
+                () -> assertThat(openGraph.getImage()).isEqualTo(DEFAULT_OPEN_GRAPH_VALUE)
+        );
+
+        assertThat(openGraphRepository.findAll()).hasSize(1);
+    }
+
+    @DisplayName("링크의 오픈그래프 타이틀, 헤드타이틀이 없으면 헤드타이틀에 도메인을 넣어 생성 후 저장한다.")
+    @Test
+    void create_openGraph_when_titles_are_empty() throws IOException {
+        //given
+        String html = HTML_START_LINE +
+                "<meta property=\"og:description\" content=\"오픈그래프 설명\">" +
+                "<meta property=\"og:image\" content=\"오픈그래프 이미지\">" +
+                HTML_END_LINE;
+        final int assignedPort = makeTestServer(setTestHandler(html));
+
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.save(PairRoomEntity.from(INK_REDDDY_ROOM));
+        final CategoryEntity category = categoryRepository.save(
+                new CategoryEntity(pairRoomEntity, new Category("스프링")));
+
+        final URL url = new URL("http://localhost:" + assignedPort + "/test");
+        final ReferenceLinkEntity referenceLink = new ReferenceLinkEntity(
+                new ReferenceLink(url, new AccessCode(pairRoomEntity.getAccessCode())),
+                category,
+                pairRoomEntity
+        );
+        final ReferenceLinkEntity referenceLinkEntity = referenceLinkRepository.save(referenceLink);
+
+        // when
+        final OpenGraph openGraph = openGraphService.createOpenGraph(referenceLinkEntity, url);
+
+        // then
+        assertAll(
+                () -> assertThat(openGraphRepository.findAll()).hasSize(1),
+                () -> assertThat(openGraph.getHeadTitle()).isEqualTo("localhost"),
+                () -> assertThat(openGraph.getOpenGraphTitle()).isEqualTo(DEFAULT_OPEN_GRAPH_VALUE),
+                () -> assertThat(openGraph.getDescription()).isEqualTo("오픈그래프 설명"),
+                () -> assertThat(openGraph.getImage()).isEqualTo("오픈그래프 이미지")
+        );
+    }
+
+    private int makeTestServer(HttpHandler httpHandler) throws IOException {
+        HttpServer server = HttpServer.create(new InetSocketAddress(0), 0);
+        int assignedPort = server.getAddress().getPort();
+
+        server.createContext("/test", httpHandler);
+        server.setExecutor(null);
+        server.start();
+        return assignedPort;
+    }
+
+    private HttpHandler setTestHandler(final String response) {
+        return new HttpHandler() {
+            @Override
+            public void handle(HttpExchange exchange) throws IOException {
+                exchange.getResponseHeaders().set("Content-Type", "text/html; charset=UTF-8");
+                exchange.sendResponseHeaders(200, response.getBytes(StandardCharsets.UTF_8).length);
+                OutputStream os = exchange.getResponseBody();
+                os.write(response.getBytes(StandardCharsets.UTF_8));
+                os.close();
+            }
+        };
     }
 }
