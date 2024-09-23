@@ -33,7 +33,7 @@ public class PairRoomController implements PairRoomDocs {
     @PostMapping("/pair-room")
     public ResponseEntity<PairRoomCreateResponse> createPairRoom(
             @Valid @RequestBody final PairRoomCreateRequest request,
-            @CookieValue(value = SIGN_IN_COOKIE_NAME, required = false) String token
+            @CookieValue(value = SIGN_IN_COOKIE_NAME, required = false) final String token
     ) {
         final PairRoomCreateResponse response = savePairRoom(request, token);
 
