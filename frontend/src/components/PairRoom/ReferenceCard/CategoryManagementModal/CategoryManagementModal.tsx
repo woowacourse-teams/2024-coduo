@@ -27,13 +27,10 @@ interface CategoryManagementModalProps {
 
 const CategoryManagementModal = ({
   accessCode,
-
   isOpen,
   closeModal,
-
   categories,
   isCategoryExist,
-
   selectedCategory,
   handleSelectCategory,
 }: CategoryManagementModalProps) => {

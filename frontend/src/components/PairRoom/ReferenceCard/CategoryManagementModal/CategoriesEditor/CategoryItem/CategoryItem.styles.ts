@@ -9,6 +9,19 @@ export const Layout = styled.div`
   cursor: pointer;
 `;
 
+export const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+
+  cursor: pointer;
+
+  img {
+    width: 2rem;
+  }
+`;
+
 export const CategoryIconsContainer = styled.div`
   display: flex;
   align-items: center;
@@ -20,19 +33,5 @@ export const EditForm = styled.form`
   flex-direction: column;
   gap: 1rem;
 
-  width: 100%;
-`;
-
-export const Container = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-
-  width: 29rem;
-
-  cursor: pointer;
-
-  img {
-    width: 2rem;
-  }
+  width: 25rem;
 `;

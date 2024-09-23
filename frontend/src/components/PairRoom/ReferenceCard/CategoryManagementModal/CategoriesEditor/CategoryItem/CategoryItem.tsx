@@ -29,46 +29,47 @@ const CategoryItem = ({ categoryName, categoryId, isChecked, handleSelectCategor
     if (isChecked) handleSelectCategory(DEFAULT_CATEGORY_ID);
   };
 
-  if (isEditing) {
-    return (
-      <S.Layout>
-        <S.EditForm onSubmit={handleUpdateCategory}>
-          <S.Container>
+  return (
+    <S.Layout>
+      <S.Container>
+        {isEditing ? (
+          <S.EditForm onSubmit={handleUpdateCategory}>
             <Input
               placeholder="수정할 카테고리 이름을 입력해주세요."
               value={categoryInputData.value}
               onChange={actions.editCategory}
               status={categoryInputData.status}
             />
-            <S.CategoryIconsContainer>
+            {categoryInputData.message && (
+              <Message $status={categoryInputData.status}>{categoryInputData.message}</Message>
+            )}
+          </S.EditForm>
+        ) : (
+          <ReadonlyCategoryItem
+            categoryId={categoryId}
+            isChecked={isChecked}
+            category={categoryName}
+            handleSelectCategory={handleSelectCategory}
+          />
+        )}
+
+        <S.CategoryIconsContainer>
+          {isEditing ? (
+            <>
               <IconButton icon="CHECK" />
               <IconButton onClick={actions.cancelEditing} icon="CANCEL" />
-            </S.CategoryIconsContainer>
-          </S.Container>
-
-          {categoryInputData.message && (
-            <Message $status={categoryInputData.status}>{categoryInputData.message}</Message>
+            </>
+          ) : (
+            <>
+              {categoryId !== DEFAULT_CATEGORY_ID && (
+                <>
+                  <IconButton onClick={actions.startEditing} icon="EDIT" />
+                  <IconButton onClick={handleDeleteCategory} icon="DELETE" />
+                </>
+              )}
+            </>
           )}
-        </S.EditForm>
-      </S.Layout>
-    );
-  }
-
-  return (
-    <S.Layout>
-      <S.Container>
-        <ReadonlyCategoryItem
-          categoryId={categoryId}
-          isChecked={isChecked}
-          category={categoryName}
-          handleSelectCategory={handleSelectCategory}
-        />
-        {categoryId !== DEFAULT_CATEGORY_ID && (
-          <S.CategoryIconsContainer>
-            <IconButton onClick={actions.startEditing} icon="EDIT" />
-            <IconButton onClick={handleDeleteCategory} icon="DELETE" />
-          </S.CategoryIconsContainer>
-        )}
+        </S.CategoryIconsContainer>
       </S.Container>
     </S.Layout>
   );

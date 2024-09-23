@@ -10,10 +10,12 @@ interface CategoryFilterProps {
   accessCode: string;
 }
 
+const MIN_CATEGORY_NUMBER = 2;
+
 const CategoriesEditor = ({ accessCode, categories, selectedCategory, handleSelectCategory }: CategoryFilterProps) => {
   return (
     <S.CategoryList>
-      {categories.length < 1 ? (
+      {categories.length < MIN_CATEGORY_NUMBER ? (
         <>
           <p>새로운 카테고리를 추가해주세요!</p>
           <p>카테고리가 없습니다.</p>

@@ -16,7 +16,6 @@ const ReadonlyCategoryItem = ({ categoryId, isChecked, category, handleSelectCat
       onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
         handleSelectCategory(event.currentTarget.id);
       }}
-      //   TODO:이게 맞음??
     >
       <img
         src={isChecked ? CheckBoxChecked : CheckBoxUnchecked}
