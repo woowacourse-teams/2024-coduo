@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import site.coduo.common.controller.response.ApiErrorResponse;
 import site.coduo.referencelink.service.dto.CategoryCreateRequest;
 import site.coduo.referencelink.service.dto.CategoryCreateResponse;
@@ -18,6 +19,7 @@ import site.coduo.referencelink.service.dto.CategoryReadResponse;
 import site.coduo.referencelink.service.dto.CategoryUpdateRequest;
 import site.coduo.referencelink.service.dto.CategoryUpdateResponse;
 
+@Tag(name = "카테고리 API")
 public interface CategoryDocs {
 
     @Operation(summary = "모든 카테고리를 조회한다.")
@@ -40,5 +42,5 @@ public interface CategoryDocs {
     @Operation(summary = "카테고리를 삭제한다.")
     @ApiResponse(responseCode = "204", description = "카테고리 링크 삭제 성공", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     @ApiResponse(responseCode = "4xx", description = "카테고리 링크 삭제 실패", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class)))
-    ResponseEntity<Void> deleteCategory(String accessCode, String categoryName);
+    ResponseEntity<Void> deleteCategory(String accessCode, Long categoryName);
 }

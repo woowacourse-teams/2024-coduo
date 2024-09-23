@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
+import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.Category;
 import site.coduo.referencelink.exception.InvalidCategoryException;
@@ -31,46 +31,45 @@ public class CategoryService {
 
     @Transactional(readOnly = true)
     public List<CategoryReadResponse> findAllByPairRoomAccessCode(final String accessCode) {
-        final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
 
-        return categoryRepository.findAllByPairRoom(pairRoom)
+        return categoryRepository.findAllByPairRoomEntity(pairRoomEntity)
                 .stream()
                 .map(CategoryReadResponse::from)
                 .toList();
     }
 
     public CategoryCreateResponse createCategory(final String accessCode, final CategoryCreateRequest request) {
-        final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
-        validateDuplicated(request.value(), pairRoom);
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
+        validateDuplicated(request.value(), pairRoomEntity);
         final CategoryEntity saved = categoryRepository.save(
-                new CategoryEntity(pairRoom, new Category(request.value())));
+                new CategoryEntity(pairRoomEntity, new Category(request.value())));
 
         return new CategoryCreateResponse(saved.getId(), saved.getCategoryName());
     }
 
-    private void validateDuplicated(final String categoryName, final PairRoom pairRoom) {
-        if (categoryRepository.existsByCategoryNameAndPairRoom(categoryName, pairRoom)) {
+    private void validateDuplicated(final String categoryName, final PairRoomEntity pairRoomEntity) {
+        if (categoryRepository.existsByCategoryNameAndPairRoomEntity(categoryName, pairRoomEntity)) {
             throw new InvalidCategoryException("중복된 이름의 카테고리가 이미 존재합니다.");
         }
     }
 
-    public CategoryUpdateResponse updateCategoryName(final String accessCode,
-                                                     final CategoryUpdateRequest request) {
-        final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
-        validateDuplicated(request.updatedCategoryName(), pairRoom);
-        final CategoryEntity category = categoryRepository.fetchByPairRoomAndCategoryName(pairRoom,
-                request.previousCategoryName());
+    public CategoryUpdateResponse updateCategoryName(final String accessCode, final CategoryUpdateRequest request) {
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
+        validateDuplicated(request.updatedCategoryName(), pairRoomEntity);
+        final CategoryEntity category = categoryRepository.fetchByPairRoomAndCategoryId(pairRoomEntity,
+                request.categoryId());
         category.updateCategoryName(request.updatedCategoryName());
         return new CategoryUpdateResponse(category.getCategoryName());
     }
 
-    public void deleteCategory(final String accessCode, final String categoryName) {
-        final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
-        if (categoryRepository.existsByCategoryNameAndPairRoom(categoryName, pairRoom)) {
+    public void deleteCategory(final String accessCode, final Long categoryId) {
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
+        if (categoryRepository.existsByIdAndPairRoomEntity(categoryId, pairRoomEntity)) {
             final List<ReferenceLinkEntity> referenceLinks = referenceLinkService.findReferenceLinksEntityByCategory(
-                    accessCode, categoryName);
+                    accessCode, categoryId);
             referenceLinks.forEach(ReferenceLinkEntity::updateCategoryToNull);
-            categoryRepository.deleteCategoryByPairRoomAndCategoryName(pairRoom, categoryName);
+            categoryRepository.deleteCategoryByPairRoomEntityAndId(pairRoomEntity, categoryId);
         }
     }
 }
