@@ -2,24 +2,34 @@
 
 import Dropdown from '@/components/common/Dropdown/Dropdown/Dropdown';
 import Input from '@/components/common/Input/Input';
+import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 
 import useInput from '@/hooks/common/useInput';
+import { DEFAULT_CATEGORY_VALUE } from '@/hooks/PairRoom/useCategories';
 
-import useAddCategory from '@/queries/PairRoom/category/useAddCategory';
+import { useAddCategory } from '@/queries/PairRoom/category/mutation';
 
 interface CategoryDropdownProp {
-  categories: string[];
+  categories: Category[];
   accessCode: string;
   currentCategory: string | null;
-  handleCurrentCategory: (category: string | null) => void;
+  handleCurrentCategory: (category: string) => void;
+  getCategoryNameById: (categoryId: string) => string;
 }
 
-const CategoryDropdown = ({ categories, accessCode, currentCategory, handleCurrentCategory }: CategoryDropdownProp) => {
+const CategoryDropdown = ({
+  categories,
+  accessCode,
+  currentCategory,
+  handleCurrentCategory,
+  getCategoryNameById,
+}: CategoryDropdownProp) => {
   const { value, status, handleChange, resetValue } = useInput();
-  const { addCategory } = useAddCategory(() => resetValue());
-  const newCategories = [...categories, '카테고리 없음'];
-  const handleCategory = (option: string | null) => {
-    handleCurrentCategory(option);
+
+  const addCategory = useAddCategory().mutateAsync;
+  const handleCategory = (option: string) => {
+    const categoryName = getCategoryNameById(option);
+    handleCurrentCategory(categoryName);
   };
   return (
     <>
@@ -28,15 +38,15 @@ const CategoryDropdown = ({ categories, accessCode, currentCategory, handleCurre
         height="4rem"
         direction="upper"
         placeholder="카테고리를 선택해주세요."
-        options={newCategories}
-        selectedOption={currentCategory || '카테고리 없음'}
+        valueOptions={categories}
+        selectedOption={currentCategory || DEFAULT_CATEGORY_VALUE}
         onSelect={(option) => handleCategory(option)}
       >
         <form
           onSubmit={(event) => {
             event.preventDefault();
             if (status === 'ERROR') return;
-            addCategory({ category: value, accessCode });
+            addCategory({ category: value, accessCode }).then(() => resetValue());
           }}
         >
           <Input
