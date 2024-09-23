@@ -12,7 +12,7 @@ import { useAddCategory } from '@/queries/PairRoom/category/mutation';
 interface CategoryDropdownProp {
   categories: Category[];
   accessCode: string;
-  currentCategory: string | null;
+  currentCategoryId: string | null;
   handleCurrentCategory: (category: string) => void;
   getCategoryNameById: (categoryId: string) => string;
 }
@@ -20,7 +20,7 @@ interface CategoryDropdownProp {
 const CategoryDropdown = ({
   categories,
   accessCode,
-  currentCategory,
+  currentCategoryId,
   handleCurrentCategory,
   getCategoryNameById,
 }: CategoryDropdownProp) => {
@@ -39,7 +39,7 @@ const CategoryDropdown = ({
         direction="upper"
         placeholder="카테고리를 선택해주세요."
         valueOptions={categories}
-        selectedOption={currentCategory || DEFAULT_CATEGORY_VALUE}
+        selectedOption={currentCategoryId || DEFAULT_CATEGORY_VALUE}
         onSelect={(option) => handleCategory(option)}
       >
         <form
