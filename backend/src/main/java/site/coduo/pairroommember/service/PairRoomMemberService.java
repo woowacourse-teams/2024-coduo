@@ -10,9 +10,9 @@ import site.coduo.member.domain.Member;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.exception.MemberNotFoundException;
 import site.coduo.member.infrastructure.security.JwtProvider;
-import site.coduo.pairroommember.service.dto.PairRoomMemberResponse;
 import site.coduo.pairroommember.repository.PairRoomMemberEntity;
 import site.coduo.pairroommember.repository.PairRoomMemberRepository;
+import site.coduo.pairroommember.service.dto.PairRoomMemberResponse;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +33,5 @@ public class PairRoomMemberService {
                 .map(PairRoomMemberEntity::getPairRoom)
                 .map(PairRoomMemberResponse::from)
                 .toList();
-
     }
 }

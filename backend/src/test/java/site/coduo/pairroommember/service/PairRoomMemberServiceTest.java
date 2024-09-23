@@ -34,7 +34,6 @@ class PairRoomMemberServiceTest {
     @DisplayName("멤버의 방 목록을 가져온다.")
     @Test
     void find_rooms_by_member() {
-
         final String targetToken = jwtProvider.sign("reddevilmidzy");
         final String test = jwtProvider.sign("test");
 
