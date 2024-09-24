@@ -11,7 +11,6 @@ const useReference = (accessCode: string, reference: string, success: () => void
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-
     const categoryId = currentCategoryId === DEFAULT_CATEGORY_ID ? null : currentCategoryId;
     addReference({ url: reference, accessCode, categoryId }).then(() => success());
   };
