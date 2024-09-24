@@ -63,7 +63,7 @@ const App = () => {
           element: <PairRoomOnboarding />,
         },
         {
-          path: 'room/:accessCode',
+          path: 'pair-room/:accessCode',
           element: <PairRoom />,
         },
         {
@@ -77,6 +77,10 @@ const App = () => {
         {
           path: 'callback',
           element: <Callback />,
+        },
+        {
+          path: '*',
+          element: <PageNotFound />,
         },
       ],
     },
