@@ -3,8 +3,9 @@ import styled from 'styled-components';
 export const Layout = styled.div`
   display: flex;
   align-items: center;
-  width: 25rem;
   gap: 1rem;
+
+  width: 25rem;
 `;
 
 export const ReadonlyCategoryItem = styled.li<{ $isChecked: boolean }>`
