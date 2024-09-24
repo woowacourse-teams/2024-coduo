@@ -15,6 +15,7 @@ import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.timer.service.dto.TimerReadResponse;
+import site.coduo.timer.service.dto.TimerUpdateRequest;
 import site.coduo.utils.CascadeCleaner;
 
 @Transactional
@@ -63,18 +64,18 @@ class TimerServiceTest extends CascadeCleaner {
     }
 
     @Test
-    @DisplayName("타이머의 남은 시간을 업데이트 한다.")
-    void update_timer_remaining_time() {
+    @DisplayName("타이머를 업데이트 한다.")
+    void update_timer() {
         // given
-        final PairRoomCreateRequest request = new PairRoomCreateRequest("잉크", "레디", 10000000L, 100L,
+        final PairRoomCreateRequest pairRoomRequest = new PairRoomCreateRequest("잉크", "레디", 10000000L, 100L,
                 PairRoomStatus.IN_PROGRESS.name());
         final String accessCode = pairRoomService.savePairRoom(request, null);
 
         final long newTimerRemainingTime = 300000;
+        final TimerUpdateRequest timerRequest = new TimerUpdateRequest(10000, 5000);
 
         // when
-        timerService.updateTimerRemainingTime(accessCode, newTimerRemainingTime);
-        final TimerReadResponse actual = timerService.readTimer(accessCode);
+        timerService.updateTimer(accessCode, timerRequest);
 
         // then
         assertThat(actual.remainingTime()).isEqualTo(newTimerRemainingTime);
@@ -93,9 +94,11 @@ class TimerServiceTest extends CascadeCleaner {
 
         // when
         timerService.updateTimerDuration(accessCode, newTimerDuration);
-        final TimerReadResponse actual = timerService.readTimer(accessCode);
-
+        
         // then
-        assertThat(actual.duration()).isEqualTo(newTimerDuration);
+        final TimerReadResponse actual = timerService.readTimer(accessCode);
+        assertThat(actual)
+                .extracting("duration", "remainingTime")
+                .contains(timerRequest.duration(), timerRequest.remainingTime());
     }
 }
