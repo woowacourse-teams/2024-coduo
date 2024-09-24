@@ -46,12 +46,9 @@ public class TimerEntity extends BaseTimeEntity {
         this.remainingTime = timer.getRemainingTime();
     }
 
-    public void updateTimerRemainingTime(final long timerRemainingTime) {
-        this.remainingTime = timerRemainingTime;
-    }
-
-    public void updateTimerDuration(final long timerDuration) {
-        this.duration = timerDuration;
+    public void updateTimer(final Timer timer) {
+        this.duration = timer.getDuration();
+        this.remainingTime = timer.getRemainingTime();
     }
 
     public Timer toDomain() {

@@ -13,9 +13,8 @@ import lombok.RequiredArgsConstructor;
 import site.coduo.sync.service.SchedulerService;
 import site.coduo.timer.controller.docs.TimerDocs;
 import site.coduo.timer.service.TimerService;
-import site.coduo.timer.service.dto.TimerDurationUpdateRequest;
 import site.coduo.timer.service.dto.TimerReadResponse;
-import site.coduo.timer.service.dto.TimerRemainingTimeUpdateRequest;
+import site.coduo.timer.service.dto.TimerUpdateRequest;
 
 @RequiredArgsConstructor
 @RestController
@@ -40,23 +39,12 @@ public class TimerController implements TimerDocs {
                 .build();
     }
 
-    @PatchMapping("/{accessCode}/timer/remaining-time")
-    public ResponseEntity<Void> updateTimerRemainingTime(
+    @PatchMapping("/{accessCode}/timer")
+    public ResponseEntity<Void> updateTimer(
             @PathVariable("accessCode") final String accessCode,
-            @Valid @RequestBody final TimerRemainingTimeUpdateRequest request
+            @Valid @RequestBody final TimerUpdateRequest request
     ) {
-        timerService.updateTimerRemainingTime(accessCode, request.remainingTime());
-
-        return ResponseEntity.noContent()
-                .build();
-    }
-
-    @PatchMapping("/{accessCode}/timer/duration")
-    public ResponseEntity<Void> updateTimerDuration(
-            @PathVariable("accessCode") final String accessCode,
-            @Valid @RequestBody final TimerDurationUpdateRequest request
-    ) {
-        timerService.updateTimerDuration(accessCode, request.duration());
+        timerService.updateTimer(accessCode, request);
 
         return ResponseEntity.noContent()
                 .build();
