@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
 import java.util.List;
+import java.util.Random;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -126,46 +127,47 @@ class PairRoomServiceTest {
     @DisplayName("멤버의 방 목록을 가져온다.")
     @Test
     void find_rooms_by_member() {
-        final String targetToken = jwtProvider.sign("reddevilmidzy");
-        final String test = jwtProvider.sign("test");
+        //given
+        final Member memberA = createMember("reddevilmidzy");
+        final Member memberB = createMember("test");
 
-        final Member targetMember = Member.builder()
-                .accessToken(targetToken)
-                .loginId("login id")
-                .profileImage("profile image")
-                .username("hello")
-                .userId("reddevilmidzy")
-                .build();
-
-        final Member member2 = Member.builder()
-                .accessToken(test)
-                .loginId("test id")
-                .profileImage("profile image")
-                .username("world")
-                .userId("test")
-                .build();
-
-        memberRepository.save(targetMember);
-        memberRepository.save(member2);
-
-        final PairRoomCreateRequest pairRoomCreateRequest1 = new PairRoomCreateRequest("레디", "잉크", 1, 1,
-                "IN_PROGRESS");
-        final PairRoomCreateRequest pairRoomCreateRequest2 = new PairRoomCreateRequest("레디", "프람", 1, 1,
-                "IN_PROGRESS");
-        final PairRoomCreateRequest pairRoomCreateRequest3 = new PairRoomCreateRequest("잉크", "프람", 1, 1,
+        final PairRoomCreateRequest pairRoomCreateRequest = new PairRoomCreateRequest("레디", "잉크", 1, 1,
                 "IN_PROGRESS");
 
-        final String accessCode1 = pairRoomService.savePairRoom(pairRoomCreateRequest1, targetToken);
-        final String accessCode2 = pairRoomService.savePairRoom(pairRoomCreateRequest2, targetToken);
-        pairRoomService.savePairRoom(pairRoomCreateRequest3, null);
+        final String accessCodeA_1 = pairRoomService.savePairRoom(pairRoomCreateRequest, memberA.getAccessToken());
+        final String accessCodeA_2 = pairRoomService.savePairRoom(pairRoomCreateRequest, memberA.getAccessToken());
+        final String accessCodeB_1 = pairRoomService.savePairRoom(pairRoomCreateRequest, memberB.getAccessToken());
+        pairRoomService.savePairRoom(pairRoomCreateRequest, null);
 
-        final List<PairRoomMemberResponse> pairRooms = pairRoomService.findPairRooms(targetToken);
-        final List<String> findAccessCodes = pairRooms.stream()
+        final List<String> memberAExpected = List.of(accessCodeA_1, accessCodeA_2);
+        final List<String> memberBExpected = List.of(accessCodeB_1);
+
+        //when
+        final List<String> findAccessCodesForMemberA = pairRoomService.findPairRooms(memberA.getAccessToken())
+                .stream()
                 .map(PairRoomMemberResponse::accessCode)
                 .toList();
-        final List<String> expected = List.of(accessCode1, accessCode2);
+        final List<String> findAccessCodesForMemberB = pairRoomService.findPairRooms(memberB.getAccessToken())
+                .stream()
+                .map(PairRoomMemberResponse::accessCode)
+                .toList();
 
-        assertThat(findAccessCodes).hasSize(2)
-                .containsAll(expected);
+        //then
+        assertThat(findAccessCodesForMemberA).hasSize(2)
+                .containsAll(memberAExpected);
+        assertThat(findAccessCodesForMemberB).hasSize(1)
+                .containsAll(memberBExpected);
+    }
+
+    private Member createMember(final String userId) {
+        final String token = jwtProvider.sign(userId);
+        final Member member = Member.builder()
+                .accessToken(token)
+                .loginId("login id")
+                .profileImage("profile image")
+                .username("hello" + new Random().nextInt())
+                .userId(userId)
+                .build();
+        return memberRepository.save(member);
     }
 }
