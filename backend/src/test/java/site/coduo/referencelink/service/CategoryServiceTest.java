@@ -18,7 +18,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.Category;
@@ -82,13 +81,12 @@ class CategoryServiceTest extends CascadeCleaner {
         final PairRoomEntity entity = pairRoomRepository.save(PairRoomEntity.from(INK_REDDDY_ROOM));
         pairRoomRepository.save(entity);
 
-        final String categoryName = "자바";
-        final CategoryCreateResponse createdCategory = categoryService.createCategory(ACCESS_CODE.getValue(),
-                new CategoryCreateRequest(categoryName));
+        final CategoryCreateRequest request = new CategoryCreateRequest("자바");
+        final CategoryCreateResponse createdCategory = categoryService.createCategory(ACCESS_CODE.getValue(), request);
 
         //when
         final CategoryUpdateResponse updatedCategory = categoryService.updateCategoryName(ACCESS_CODE.getValue(),
-                new CategoryUpdateRequest(categoryName, "파이썬"));
+                new CategoryUpdateRequest(createdCategory.id(), "파이썬"));
 
         //then
         final List<CategoryReadResponse> categories = categoryService.findAllByPairRoomAccessCode(
@@ -141,11 +139,12 @@ class CategoryServiceTest extends CascadeCleaner {
         pairRoomRepository.save(entity);
 
         //when
-        categoryService.createCategory(ACCESS_CODE.getValue(), new CategoryCreateRequest("자바"));
+        final CategoryCreateResponse category = categoryService.createCategory(ACCESS_CODE.getValue(),
+                new CategoryCreateRequest("자바"));
         final List<CategoryReadResponse> beforeDelete = categoryService.findAllByPairRoomAccessCode(
                 ACCESS_CODE.getValue());
 
-        categoryService.deleteCategory(ACCESS_CODE.getValue(), "자바");
+        categoryService.deleteCategory(ACCESS_CODE.getValue(), category.id());
 
         final List<CategoryReadResponse> afterDelete = categoryService.findAllByPairRoomAccessCode(
                 ACCESS_CODE.getValue());
@@ -168,7 +167,7 @@ class CategoryServiceTest extends CascadeCleaner {
                 new ReferenceLinkEntity(referenceLink, savedCategory, entity));
 
         //when
-        categoryService.deleteCategory(ACCESS_CODE.getValue(), category.getValue());
+        categoryService.deleteCategory(ACCESS_CODE.getValue(), savedCategory.getId());
 
         //then
         final ReferenceLinkEntity afterDeleteCategory = referenceLinkRepository.findById(beforeDeleteCategory.getId())

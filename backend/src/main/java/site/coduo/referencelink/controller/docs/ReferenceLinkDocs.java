@@ -34,7 +34,7 @@ public interface ReferenceLinkDocs {
     @Operation(summary = "카테고리로 필터링된 레퍼런스 링크를 조회한다.")
     @ApiResponse(responseCode = "200", description = "레퍼런스 링크 조회 성공", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ReferenceLinkResponse.class)))
     @ApiResponse(responseCode = "4xx", description = "레퍼런스 링크 조회 실패", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class)))
-    ResponseEntity<List<ReferenceLinkResponse>> getReferenceLinksOfCategory(String accessCodeText, String categoryName);
+    ResponseEntity<List<ReferenceLinkResponse>> getReferenceLinksOfCategory(String accessCodeText, Long categoryId);
 
     @Operation(summary = "레퍼런스 링크를 삭제한다.")
     @ApiResponse(responseCode = "204", description = "레퍼런스 링크 삭제 성공", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))

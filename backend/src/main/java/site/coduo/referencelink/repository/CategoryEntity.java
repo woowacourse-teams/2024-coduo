@@ -15,7 +15,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
-import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.referencelink.domain.Category;
 
@@ -33,7 +32,7 @@ public class CategoryEntity extends BaseTimeEntity {
     private String categoryName;
 
     @ManyToOne
-    @JoinColumn(name = "PAIR_ROOM_ID",referencedColumnName = "ID",nullable = false)
+    @JoinColumn(name = "PAIR_ROOM_ID", referencedColumnName = "ID", nullable = false)
     private PairRoomEntity pairRoomEntity;
 
     public CategoryEntity(final PairRoomEntity pairRoomEntity, final Category category) {
@@ -66,7 +65,7 @@ public class CategoryEntity extends BaseTimeEntity {
     public String toString() {
         return "CategoryEntity{" +
                "id=" + id +
-               ", categoryName='" + categoryName + '\'' +
+               ", categoryId='" + categoryName + '\'' +
                ", pairRoom=" + pairRoomEntity +
                '}';
     }

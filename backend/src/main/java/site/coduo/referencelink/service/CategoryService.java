@@ -54,23 +54,22 @@ public class CategoryService {
         }
     }
 
-    public CategoryUpdateResponse updateCategoryName(final String accessCode,
-                                                     final CategoryUpdateRequest request) {
+    public CategoryUpdateResponse updateCategoryName(final String accessCode, final CategoryUpdateRequest request) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
         validateDuplicated(request.updatedCategoryName(), pairRoomEntity);
-        final CategoryEntity category = categoryRepository.fetchByPairRoomAndCategoryName(pairRoomEntity,
-                request.previousCategoryName());
+        final CategoryEntity category = categoryRepository.fetchByPairRoomAndCategoryId(pairRoomEntity,
+                request.categoryId());
         category.updateCategoryName(request.updatedCategoryName());
         return new CategoryUpdateResponse(category.getCategoryName());
     }
 
-    public void deleteCategory(final String accessCode, final String categoryName) {
+    public void deleteCategory(final String accessCode, final Long categoryId) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
-        if (categoryRepository.existsByCategoryNameAndPairRoomEntity(categoryName, pairRoomEntity)) {
+        if (categoryRepository.existsByIdAndPairRoomEntity(categoryId, pairRoomEntity)) {
             final List<ReferenceLinkEntity> referenceLinks = referenceLinkService.findReferenceLinksEntityByCategory(
-                    accessCode, categoryName);
+                    accessCode, categoryId);
             referenceLinks.forEach(ReferenceLinkEntity::updateCategoryToNull);
-            categoryRepository.deleteCategoryByPairRoomEntityAndCategoryName(pairRoomEntity, categoryName);
+            categoryRepository.deleteCategoryByPairRoomEntityAndId(pairRoomEntity, categoryId);
         }
     }
 }
