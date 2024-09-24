@@ -13,10 +13,10 @@ import site.coduo.referencelink.exception.ReferenceLinkException;
 
 public class FakeServer {
 
-    public static String testUrl;
+    public static final String testUrl;
 
     static {
-        String html = "<html><head>" +
+        final String html = "<html><head>" +
                 "<title>헤드 타이틀</title>" +
                 "<meta property=\"og:title\" content=\"오픈그래프 타이틀\">" +
                 "<meta property=\"og:description\" content=\"오픈그래프 설명\">" +
@@ -25,14 +25,14 @@ public class FakeServer {
         testUrl = "http://localhost:" + createAndStartFakeServer(html) + "/test";
     }
 
-    public static int createAndStartFakeServer(String html) {
+    public static int createAndStartFakeServer(final String html) {
         HttpServer server = null;
         try {
             server = HttpServer.create(new InetSocketAddress(0), 0);
         } catch (IOException e) {
             throw new ReferenceLinkException("테스트용 서버 생성에 실패했습니다.");
         }
-        int assignedPort = server.getAddress().getPort();
+        final int assignedPort = server.getAddress().getPort();
 
         server.createContext("/test", createHandler(html));
         server.setExecutor(null);
@@ -46,7 +46,7 @@ public class FakeServer {
             public void handle(HttpExchange exchange) throws IOException {
                 exchange.getResponseHeaders().set("Content-Type", "text/html; charset=UTF-8");
                 exchange.sendResponseHeaders(200, html.getBytes(StandardCharsets.UTF_8).length);
-                OutputStream os = exchange.getResponseBody();
+                final OutputStream os = exchange.getResponseBody();
                 os.write(html.getBytes(StandardCharsets.UTF_8));
                 os.close();
             }

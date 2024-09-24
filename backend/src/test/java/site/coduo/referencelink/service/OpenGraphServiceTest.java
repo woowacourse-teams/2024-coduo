@@ -159,7 +159,7 @@ class OpenGraphServiceTest extends CascadeCleaner {
     @Test
     void create_openGraph_when_titles_are_empty() throws IOException {
         //given
-        String html = "<html><head>" +
+        final String html = "<html><head>" +
                 "<meta property=\"og:description\" content=\"오픈그래프 설명\">" +
                 "<meta property=\"og:image\" content=\"오픈그래프 이미지\">" +
                 "</head><body></body></html>";
