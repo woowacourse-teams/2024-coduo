@@ -28,8 +28,7 @@ const CategoryDropdown = ({
 
   const addCategory = useAddCategory().mutateAsync;
   const handleCategory = (option: string) => {
-    const categoryName = getCategoryNameById(option);
-    handleCurrentCategory(categoryName);
+    handleCurrentCategory(option);
   };
   return (
     <>
@@ -39,7 +38,7 @@ const CategoryDropdown = ({
         direction="upper"
         placeholder="카테고리를 선택해주세요."
         valueOptions={categories}
-        selectedOption={currentCategoryId || DEFAULT_CATEGORY_VALUE}
+        selectedOption={ getCategoryNameById(currentCategoryId||"") || DEFAULT_CATEGORY_VALUE}
         onSelect={(option) => handleCategory(option)}
       >
         <form
