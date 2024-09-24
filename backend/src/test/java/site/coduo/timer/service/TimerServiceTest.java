@@ -40,7 +40,7 @@ class TimerServiceTest extends CascadeCleaner {
                 PairRoomStatus.IN_PROGRESS.name());
 
         // when & then
-        assertThatCode(() -> pairRoomService.saveNonMemberPairRoom(request))
+        assertThatCode(() -> pairRoomService.savePairRoom(request, null))
                 .doesNotThrowAnyException();
     }
 
@@ -50,7 +50,7 @@ class TimerServiceTest extends CascadeCleaner {
         // given
         final PairRoomCreateRequest request = new PairRoomCreateRequest("잉크", "레디", 1000L, 1000L,
                 PairRoomStatus.IN_PROGRESS.name());
-        final String accessCode = pairRoomService.saveNonMemberPairRoom(request);
+        final String accessCode = pairRoomService.savePairRoom(request, null);
 
         // when
         final TimerReadResponse actual = timerService.readTimer(accessCode);
@@ -68,7 +68,7 @@ class TimerServiceTest extends CascadeCleaner {
         // given
         final PairRoomCreateRequest request = new PairRoomCreateRequest("잉크", "레디", 10000000L, 100L,
                 PairRoomStatus.IN_PROGRESS.name());
-        final String accessCode = pairRoomService.saveNonMemberPairRoom(request);
+        final String accessCode = pairRoomService.savePairRoom(request, null);
 
         final long newTimerRemainingTime = 300000;
 
@@ -87,7 +87,7 @@ class TimerServiceTest extends CascadeCleaner {
         final PairRoomCreateRequest request = new PairRoomCreateRequest("잉크", "레디", 10000L, 100L,
                 PairRoomStatus.IN_PROGRESS.name());
         final String accessCode = pairRoomService
-                .saveNonMemberPairRoom(request);
+                .savePairRoom(request, null);
 
         final long newTimerDuration = 9500000;
 

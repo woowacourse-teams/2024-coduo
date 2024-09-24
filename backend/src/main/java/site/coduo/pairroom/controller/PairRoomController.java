@@ -35,18 +35,11 @@ public class PairRoomController implements PairRoomDocs {
             @Valid @RequestBody final PairRoomCreateRequest request,
             @CookieValue(value = SIGN_IN_COOKIE_NAME, required = false) final String token
     ) {
-        final PairRoomCreateResponse response = savePairRoom(request, token);
+        final String accessCode = pairRoomService.savePairRoom(request, token);
+        final PairRoomCreateResponse response = new PairRoomCreateResponse(accessCode);
 
         return ResponseEntity.created(URI.create("/"))
                 .body(response);
-    }
-
-    private PairRoomCreateResponse savePairRoom(final PairRoomCreateRequest request, final String token) {
-        if (token != null) {
-            return new PairRoomCreateResponse(pairRoomService.saveMemberPairRoom(request, token));
-        }
-
-        return new PairRoomCreateResponse(pairRoomService.saveNonMemberPairRoom(request));
     }
 
     @PatchMapping("/pair-room/{accessCode}/pair-swap")

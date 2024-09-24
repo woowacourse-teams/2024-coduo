@@ -2,6 +2,8 @@ package site.coduo.pairroom.service;
 
 import java.util.List;
 
+import jakarta.annotation.Nullable;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,27 +38,17 @@ public class PairRoomService {
     private final MemberService memberService;
 
     @Transactional
-    public String saveNonMemberPairRoom(final PairRoomCreateRequest request) {
+    public String savePairRoom(final PairRoomCreateRequest request, @Nullable final String token) {
         final PairRoom pairRoom = createPairRoom(request);
-
-        final PairRoomEntity pairRoomEntity = pairRoomRepository.save(PairRoomEntity.from(pairRoom));
-
-        final Timer timer = new Timer(pairRoom.getAccessCode(), request.timerDuration(), request.timerRemainingTime());
-        timerRepository.save(new TimerEntity(timer, pairRoomEntity));
-        return pairRoom.getAccessCodeText();
-    }
-
-    @Transactional
-    public String saveMemberPairRoom(final PairRoomCreateRequest request, final String token) {
-        final PairRoom pairRoom = createPairRoom(request);
-
         final PairRoomEntity pairRoomEntity = pairRoomRepository.save(PairRoomEntity.from(pairRoom));
 
         final Timer timer = new Timer(pairRoom.getAccessCode(), request.timerDuration(), request.timerRemainingTime());
         timerRepository.save(new TimerEntity(timer, pairRoomEntity));
 
-        final Member member = memberService.findMemberByCredential(token);
-        pairRoomMemberRepository.save(new PairRoomMemberEntity(pairRoomEntity, member));
+        if (token != null) {
+            final Member member = memberService.findMemberByCredential(token);
+            pairRoomMemberRepository.save(new PairRoomMemberEntity(pairRoomEntity, member));
+        }
         return pairRoom.getAccessCodeText();
     }
 

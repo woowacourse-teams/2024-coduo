@@ -63,9 +63,9 @@ class PairRoomMemberServiceTest {
         final PairRoomCreateRequest pairRoomCreateRequest3 = new PairRoomCreateRequest("잉크", "프람", 1, 1,
                 "IN_PROGRESS");
 
-        final String accessCode1 = pairRoomService.saveMemberPairRoom(pairRoomCreateRequest1, targetToken);
-        final String accessCode2 = pairRoomService.saveMemberPairRoom(pairRoomCreateRequest2, targetToken);
-        pairRoomService.saveNonMemberPairRoom(pairRoomCreateRequest3);
+        final String accessCode1 = pairRoomService.savePairRoom(pairRoomCreateRequest1, targetToken);
+        final String accessCode2 = pairRoomService.savePairRoom(pairRoomCreateRequest2, targetToken);
+        pairRoomService.savePairRoom(pairRoomCreateRequest3, null);
 
         final List<PairRoomMemberResponse> pairRooms = pairRoomMemberService.findPairRooms(targetToken);
         final List<String> findAccessCodes = pairRooms.stream()

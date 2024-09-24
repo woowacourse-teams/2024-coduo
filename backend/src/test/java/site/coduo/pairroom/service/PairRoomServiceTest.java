@@ -41,7 +41,7 @@ class PairRoomServiceTest {
                         PairRoomStatus.IN_PROGRESS.name());
 
         // when
-        final String accessCode = pairRoomService.saveNonMemberPairRoom(request);
+        final String accessCode = pairRoomService.savePairRoom(request, null);
 
         // then
         assertThatCode(() -> pairRoomService.findByAccessCode(accessCode))
@@ -57,7 +57,7 @@ class PairRoomServiceTest {
                         PairRoomStatus.IN_PROGRESS.name());
 
         // when
-        final String accessCode = pairRoomService.saveNonMemberPairRoom(request);
+        final String accessCode = pairRoomService.savePairRoom(request, null);
 
         // then
         assertThat(timerRepository.findAll()).hasSize(1);
@@ -82,7 +82,7 @@ class PairRoomServiceTest {
         // given
         final PairRoomCreateRequest request =
                 new PairRoomCreateRequest("레디", "프람", 1000L, 100L, PairRoomStatus.IN_PROGRESS.name());
-        final String accessCode = pairRoomService.saveNonMemberPairRoom(request);
+        final String accessCode = pairRoomService.savePairRoom(request, null);
 
         // when
         pairRoomService.updatePairRoomStatus(accessCode, PairRoomStatus.COMPLETED.name());
