@@ -13,7 +13,7 @@ interface HeaderProps {
 
 const Header = ({ isOpen, toggleOpen }: HeaderProps) => (
   <S.Layout icon={isOpen ? <IoPeople color={theme.color.primary[500]} /> : <></>} title={isOpen ? '페어' : ''}>
-    <Button onClick={toggleOpen} css={S.ExpandButton}>
+    <Button onClick={toggleOpen} css={S.expandButton}>
       <S.ArrowIcon $isOpen={isOpen} />
     </Button>
   </S.Layout>

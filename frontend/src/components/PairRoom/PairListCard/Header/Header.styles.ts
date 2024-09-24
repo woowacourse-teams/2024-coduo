@@ -11,7 +11,7 @@ export const Layout = styled(PairRoomCard.Header)`
   }
 `;
 
-export const ExpandButton = css`
+export const expandButton = css`
   position: absolute;
   right: 1rem;
 
