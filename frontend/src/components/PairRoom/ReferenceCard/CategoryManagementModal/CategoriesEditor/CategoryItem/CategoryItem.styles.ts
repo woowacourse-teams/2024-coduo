@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Layout = styled.div`
   display: flex;
   gap: 1rem;
+  justify-content: space-between;
 
   width: 100%;
 
@@ -11,10 +12,11 @@ export const Layout = styled.div`
 
 export const Container = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+
   gap: 1rem;
 
-  width: 100%;
+  width: 25rem;
 
   cursor: pointer;
 
@@ -31,7 +33,6 @@ export const CategoryIconsContainer = styled.div`
 
 export const EditForm = styled.form`
   display: flex;
-  flex-direction: column;
   gap: 1rem;
 
   width: 25rem;

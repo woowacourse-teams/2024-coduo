@@ -9,9 +9,10 @@ type Icon = 'CHECK' | 'EDIT' | 'DELETE' | 'CANCEL';
 interface IconButtonProps {
   onClick?: () => void;
   icon: Icon;
+  type?:'button'|'submit'|'reset';
 }
 
-const IconButton = ({ onClick, icon }: IconButtonProps) => {
+const IconButton = ({ onClick, icon, type="button" }: IconButtonProps) => {
   const GET_ICON = {
     CHECK: <FaCheck />,
     EDIT: <FaPencilAlt />,
@@ -24,6 +25,7 @@ const IconButton = ({ onClick, icon }: IconButtonProps) => {
         event.stopPropagation();
         onClick && onClick();
       }}
+      type={type}
     >
       {GET_ICON[icon]}
     </S.IconsButton>
