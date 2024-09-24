@@ -3,6 +3,7 @@ package site.coduo.pairroom.controller;
 import static site.coduo.common.config.filter.SignInCookieFilter.SIGN_IN_COOKIE_NAME;
 
 import java.net.URI;
+import java.util.List;
 
 import jakarta.validation.Valid;
 
@@ -23,6 +24,7 @@ import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
 import site.coduo.pairroom.service.dto.PairRoomReadRequest;
 import site.coduo.pairroom.service.dto.PairRoomReadResponse;
 import site.coduo.pairroom.service.dto.PairRoomStatusUpdateRequest;
+import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
 
 @RequiredArgsConstructor
 @RestController
@@ -68,5 +70,15 @@ public class PairRoomController implements PairRoomDocs {
         final PairRoomReadResponse response = pairRoomService.findByAccessCode(request.accessCode());
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/my-pair-rooms")
+    public ResponseEntity<List<PairRoomMemberResponse>> getPairRooms(
+            @CookieValue(SIGN_IN_COOKIE_NAME) final String token
+    ) {
+        final List<PairRoomMemberResponse> pairRooms = pairRoomService.findPairRooms(token);
+
+        return ResponseEntity.ok()
+                .body(pairRooms);
     }
 }

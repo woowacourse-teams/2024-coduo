@@ -1,4 +1,4 @@
-package site.coduo.pairroommember.service.dto;
+package site.coduo.pairroom.service.dto;
 
 import site.coduo.pairroom.repository.PairRoomEntity;
 

@@ -18,11 +18,12 @@ import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.domain.accesscode.AccessCodeFactory;
 import site.coduo.pairroom.domain.accesscode.UUIDAccessCodeStrategy;
 import site.coduo.pairroom.repository.PairRoomEntity;
+import site.coduo.pairroom.repository.PairRoomMemberEntity;
+import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
+import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
 import site.coduo.pairroom.service.dto.PairRoomReadResponse;
-import site.coduo.pairroommember.repository.PairRoomMemberEntity;
-import site.coduo.pairroommember.repository.PairRoomMemberRepository;
 import site.coduo.timer.domain.Timer;
 import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
@@ -81,5 +82,16 @@ public class PairRoomService {
     public PairRoomReadResponse findByAccessCode(final String accessCode) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
         return PairRoomReadResponse.of(pairRoomEntity.toDomain(), pairRoomEntity.getId());
+    }
+
+    public List<PairRoomMemberResponse> findPairRooms(final String token) {
+        final Member member = memberService.findMemberByCredential(token);
+
+        final List<PairRoomMemberEntity> pairRooms = pairRoomMemberRepository.findByMember(member);
+
+        return pairRooms.stream()
+                .map(PairRoomMemberEntity::getPairRoom)
+                .map(PairRoomMemberResponse::from)
+                .toList();
     }
 }

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import site.coduo.pairroom.repository.PairRoomRepository;
-import site.coduo.pairroommember.repository.PairRoomMemberRepository;
+import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.timer.repository.TimerRepository;
 import site.coduo.referencelink.repository.CategoryRepository;
 import site.coduo.referencelink.repository.OpenGraphRepository;

@@ -4,12 +4,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
+import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import site.coduo.member.domain.Member;
+import site.coduo.member.domain.repository.MemberRepository;
+import site.coduo.member.infrastructure.security.JwtProvider;
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
@@ -19,6 +24,7 @@ import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
+import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
 import site.coduo.timer.repository.TimerRepository;
 
 @Transactional
@@ -27,6 +33,10 @@ class PairRoomServiceTest {
 
     @Autowired
     private PairRoomService pairRoomService;
+    @Autowired
+    private JwtProvider jwtProvider;
+    @Autowired
+    private MemberRepository memberRepository;
     @Autowired
     private TimerRepository timerRepository;
     @Autowired
@@ -110,5 +120,52 @@ class PairRoomServiceTest {
         assertThat(entity)
                 .extracting("navigator", "driver")
                 .contains("lemonL", "fram");
+    }
+
+
+    @DisplayName("멤버의 방 목록을 가져온다.")
+    @Test
+    void find_rooms_by_member() {
+        final String targetToken = jwtProvider.sign("reddevilmidzy");
+        final String test = jwtProvider.sign("test");
+
+        final Member targetMember = Member.builder()
+                .accessToken(targetToken)
+                .loginId("login id")
+                .profileImage("profile image")
+                .username("hello")
+                .userId("reddevilmidzy")
+                .build();
+
+        final Member member2 = Member.builder()
+                .accessToken(test)
+                .loginId("test id")
+                .profileImage("profile image")
+                .username("world")
+                .userId("test")
+                .build();
+
+        memberRepository.save(targetMember);
+        memberRepository.save(member2);
+
+        final PairRoomCreateRequest pairRoomCreateRequest1 = new PairRoomCreateRequest("레디", "잉크", 1, 1,
+                "IN_PROGRESS");
+        final PairRoomCreateRequest pairRoomCreateRequest2 = new PairRoomCreateRequest("레디", "프람", 1, 1,
+                "IN_PROGRESS");
+        final PairRoomCreateRequest pairRoomCreateRequest3 = new PairRoomCreateRequest("잉크", "프람", 1, 1,
+                "IN_PROGRESS");
+
+        final String accessCode1 = pairRoomService.savePairRoom(pairRoomCreateRequest1, targetToken);
+        final String accessCode2 = pairRoomService.savePairRoom(pairRoomCreateRequest2, targetToken);
+        pairRoomService.savePairRoom(pairRoomCreateRequest3, null);
+
+        final List<PairRoomMemberResponse> pairRooms = pairRoomService.findPairRooms(targetToken);
+        final List<String> findAccessCodes = pairRooms.stream()
+                .map(PairRoomMemberResponse::accessCode)
+                .toList();
+        final List<String> expected = List.of(accessCode1, accessCode2);
+
+        assertThat(findAccessCodes).hasSize(2)
+                .containsAll(expected);
     }
 }

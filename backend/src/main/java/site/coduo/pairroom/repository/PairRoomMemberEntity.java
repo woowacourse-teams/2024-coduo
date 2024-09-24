@@ -1,4 +1,4 @@
-package site.coduo.pairroommember.repository;
+package site.coduo.pairroom.repository;
 
 import java.util.Objects;
 
@@ -14,7 +14,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.coduo.member.domain.Member;
-import site.coduo.pairroom.repository.PairRoomEntity;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

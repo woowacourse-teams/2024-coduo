@@ -1,4 +1,4 @@
-package site.coduo.pairroommember.repository;
+package site.coduo.pairroom.repository;
 
 import java.util.List;
 
