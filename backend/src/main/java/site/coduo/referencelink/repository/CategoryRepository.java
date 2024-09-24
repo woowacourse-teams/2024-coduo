@@ -10,10 +10,10 @@ import site.coduo.referencelink.exception.CategoryNotFoundException;
 
 public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
 
-    Optional<CategoryEntity> findByPairRoomEntityAndCategoryName(PairRoomEntity pairRoomEntity, String categoryName);
+    Optional<CategoryEntity> findByPairRoomEntityAndId(PairRoomEntity pairRoomEntity, Long id);
 
-    default CategoryEntity fetchByPairRoomAndCategoryName(PairRoomEntity pairRoomEntity, String categoryName) {
-        return findByPairRoomEntityAndCategoryName(pairRoomEntity, categoryName)
+    default CategoryEntity fetchByPairRoomAndCategoryId(PairRoomEntity pairRoomEntity, Long id) {
+        return findByPairRoomEntityAndId(pairRoomEntity, id)
                 .orElseThrow(() -> new CategoryNotFoundException("존재하지 않은 카테고리입니다."));
     }
 
@@ -21,5 +21,7 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> 
 
     boolean existsByCategoryNameAndPairRoomEntity(String categoryName, PairRoomEntity pairRoomEntity);
 
-    void deleteCategoryByPairRoomEntityAndCategoryName(PairRoomEntity pairRoomEntity, String categoryName);
+    boolean existsByIdAndPairRoomEntity(Long id, PairRoomEntity pairRoomEntity);
+
+    void deleteCategoryByPairRoomEntityAndId(PairRoomEntity pairRoomEntity, Long id);
 }

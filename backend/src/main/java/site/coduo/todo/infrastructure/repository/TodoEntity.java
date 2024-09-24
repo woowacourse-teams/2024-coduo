@@ -29,7 +29,7 @@ public class TodoEntity extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PAIR_ROOM", referencedColumnName = "ID")
+    @JoinColumn(name = "PAIR_ROOM")
     private PairRoomEntity pairRoomEntity;
 
     @Column(name = "CONTENT", nullable = false, length = 255)

@@ -56,13 +56,12 @@ public class ReferenceLinkService {
                                                   final PairRoomEntity pairRoomEntity,
                                                   final ReferenceLink referenceLink
     ) {
-        if (request.categoryName() == null) {
+        if (request.categoryId() == null) {
             return referenceLinkRepository.save(new ReferenceLinkEntity(referenceLink, pairRoomEntity));
         }
-        // todo: 의도 질문하기
-        final CategoryEntity categoryEntity = categoryRepository.fetchByPairRoomAndCategoryName(
-                pairRoomEntity, request.categoryName());
-        return referenceLinkRepository.save(new ReferenceLinkEntity(referenceLink, pairRoomEntity));
+        final CategoryEntity categoryEntity = categoryRepository.fetchByPairRoomAndCategoryId(
+                pairRoomEntity, request.categoryId());
+        return referenceLinkRepository.save(new ReferenceLinkEntity(referenceLink, categoryEntity, pairRoomEntity));
     }
 
     @Transactional(readOnly = true)
@@ -80,10 +79,13 @@ public class ReferenceLinkService {
     @Transactional(readOnly = true)
     public List<ReferenceLinkResponse> findReferenceLinksByCategory(
             final String accessCodeText,
-            final String categoryName
+            final Long categoryId
     ) {
         final AccessCode accessCode = new AccessCode(accessCodeText);
-        final Category category = new Category(categoryName);
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
+        final CategoryEntity categoryEntity = categoryRepository.fetchByPairRoomAndCategoryId(pairRoomEntity,
+                categoryId);
+        final Category category = new Category(categoryEntity.getCategoryName());
 
         return referenceLinkRepository.findAll()
                 .stream()
@@ -96,10 +98,13 @@ public class ReferenceLinkService {
     @Transactional(readOnly = true)
     public List<ReferenceLinkEntity> findReferenceLinksEntityByCategory(
             final String accessCodeText,
-            final String categoryName
+            final Long categoryId
     ) {
         final AccessCode accessCode = new AccessCode(accessCodeText);
-        final Category category = new Category(categoryName);
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
+        final CategoryEntity categoryEntity = categoryRepository.fetchByPairRoomAndCategoryId(pairRoomEntity,
+                categoryId);
+        final Category category = new Category(categoryEntity.getCategoryName());
 
         return referenceLinkRepository.findAll()
                 .stream()
