@@ -51,7 +51,7 @@ jobs:
 
   deploy:
     environment: test
-    runs-on: test-ec2-runner
+    runs-on: coduo_runner_test-server
     needs: build
     defaults:
       run:
@@ -77,6 +77,7 @@ jobs:
           # DB Configuration secrets info from Github Secrets
           DB_URL=${{ secrets.DB_URL }}
           DB_USERNAME=${{ secrets.DB_USERNAME }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
           DDL_AUTO=${{ secrets.DDL_AUTO }}
 
           # OAUTH & JWT
