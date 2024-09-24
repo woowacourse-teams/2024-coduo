@@ -40,7 +40,7 @@ jobs:
 
       - name: Image build and push
         run: |
-          docker build --build-arg PROFILE=test --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_REPO_NAME }}/springboot-app:test-latest --platform linux/arm64 .
+          docker build --build-arg PROFILE=prod --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_REPO_NAME }}/springboot-app:test-latest --platform linux/arm64 .
           docker push ${{ secrets.DOCKER_REPO_NAME }}/springboot-app:test-latest
 
       - name: Upload docker-compose yaml script to artifact
