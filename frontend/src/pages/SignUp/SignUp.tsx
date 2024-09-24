@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { LogoIconWithTitle } from '@/assets';
+
 import { validateName } from '@/validations/validatePairName';
 
 import Button from '@/components/common/Button/Button';

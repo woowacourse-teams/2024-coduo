@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
+import { validateCategory } from '@/validations/validateCategory';
+
 import useInput from '@/hooks/common/useInput';
 import useCategories from '@/hooks/PairRoom/useCategories';
 
 import { useDeleteCategory, useUpdateCategory } from '@/queries/PairRoom/category/mutation';
-
-import { validateCategory } from '@/validations/validateCategory';
 
 const useEditCategory = (accessCode: string, categoryName: string, categoryId: string) => {
   const [isEditing, setIsEditing] = useState(false);

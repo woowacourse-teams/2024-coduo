@@ -1,6 +1,7 @@
+import { CheckBoxChecked, CheckBoxUnchecked } from '@/assets';
+
 import * as S from './ReadonlyCategoryItem.styles';
 
-import { CheckBoxChecked, CheckBoxUnchecked } from '@/assets';
 
 interface ReadonlyCategoryItemProps {
   isChecked: boolean;
