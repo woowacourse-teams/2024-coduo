@@ -26,7 +26,6 @@ const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps)
   const { categories, isCategoryExist, getCategoryNameById } = useCategories(accessCode);
 
   const { data: references } = useGetReference(selectedFilteringCategoryId, accessCode);
-
   const selectedFilteringCategoryName = getCategoryNameById(selectedFilteringCategoryId) || DEFAULT_CATEGORY_VALUE;
 
   return (

@@ -29,29 +29,13 @@ const CategoryItem = ({ categoryName, categoryId, isChecked, handleSelectCategor
     if (isChecked) handleSelectCategory(DEFAULT_CATEGORY_ID);
   };
 
-  const renderIcons = (isEditing: boolean) => {
-    if (categoryId === DEFAULT_CATEGORY_ID) return;
-    if (isEditing) {
-      return (
-        <>
-          <IconButton icon="CHECK" />
-          <IconButton onClick={actions.cancelEditing} icon="CANCEL" />
-        </>
-      );
-    }
-    return (
-      <>
-        <IconButton onClick={actions.startEditing} icon="EDIT" />
-        <IconButton onClick={handleDeleteCategory} icon="DELETE" />
-      </>
-    );
-  };
 
   return (
     <S.Layout>
-      <S.Container>
+      
         {isEditing ? (
           <S.EditForm onSubmit={handleUpdateCategory}>
+             <S.Container>
             <Input
               placeholder="수정할 카테고리 이름을 입력해주세요."
               value={categoryInputData.value}
@@ -60,19 +44,30 @@ const CategoryItem = ({ categoryName, categoryId, isChecked, handleSelectCategor
             />
             {categoryInputData.message && (
               <Message $status={categoryInputData.status}>{categoryInputData.message}</Message>
-            )}
+            )} </S.Container>
+            <S.CategoryIconsContainer><IconButton type='submit' icon="CHECK" />
+            <IconButton onClick={actions.cancelEditing} icon="CANCEL" /></S.CategoryIconsContainer>
+            
           </S.EditForm>
         ) : (
+          <>
+          <S.Container>
           <ReadonlyCategoryItem
             categoryId={categoryId}
             isChecked={isChecked}
             category={categoryName}
             handleSelectCategory={handleSelectCategory}
-          />
+          /> </S.Container>
+          {categoryId !== DEFAULT_CATEGORY_ID&&<S.CategoryIconsContainer>  <IconButton onClick={actions.startEditing} icon="EDIT" />
+          <IconButton onClick={handleDeleteCategory} icon="DELETE" /></S.CategoryIconsContainer>
+        }
+         
+           
+          </>
+         
         )}
 
-        <S.CategoryIconsContainer>{renderIcons(isEditing)}</S.CategoryIconsContainer>
-      </S.Container>
+     
     </S.Layout>
   );
 };
