@@ -71,7 +71,7 @@ class PairRoomServiceTest {
                         PairRoomStatus.IN_PROGRESS.name());
 
         // when
-        pairRoomService.save(request);
+        pairRoomService.savePairRoom(request, null);
 
         // then
         assertThat(timerRepository.findAll()).hasSize(1);
@@ -172,6 +172,7 @@ class PairRoomServiceTest {
                 .userId(userId)
                 .build();
         return memberRepository.save(member);
+    }
 
     @Test
     @DisplayName("페어룸을 반환할 때 타이머 정보도 함께 반환한다.")
