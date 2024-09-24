@@ -51,7 +51,7 @@ jobs:
 
   deploy:
     environment: test
-    runs-on: coduo_runner_test-server
+    runs-on: test-ec2-runner
     needs: build
     defaults:
       run:
