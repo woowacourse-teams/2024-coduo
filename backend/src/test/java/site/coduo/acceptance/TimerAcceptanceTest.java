@@ -8,8 +8,7 @@ import io.restassured.RestAssured;
 import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
-import site.coduo.timer.service.dto.TimerDurationUpdateRequest;
-import site.coduo.timer.service.dto.TimerRemainingTimeUpdateRequest;
+import site.coduo.timer.service.dto.TimerUpdateRequest;
 
 class TimerAcceptanceTest extends AcceptanceFixture {
 
@@ -66,52 +65,26 @@ class TimerAcceptanceTest extends AcceptanceFixture {
     }
 
     @Test
-    @DisplayName("페어룸의 타이머 남은 시간을 업데이트 한다.")
-    void update_remaining_time() {
-        // given
-        final String accessCode = createPairRoom(new PairRoomCreateRequest(
-                "잉크",
-                "파슬리",
-                10000L,
-                10000L,
-                PairRoomStatus.IN_PROGRESS.name())
-        );
-        final long newTimerRemainingTime = 1000;
-
-        // when & then
-        RestAssured
-                .given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(new TimerRemainingTimeUpdateRequest(newTimerRemainingTime))
-
-                .when()
-                .patch("/api/{accessCode}/timer/remaining-time", accessCode)
-
-                .then()
-                .statusCode(204);
-    }
-
-    @Test
-    @DisplayName("페어룸의 타이머 시간을 업데이트 한다.")
+    @DisplayName("페어룸의 타이머를 업데이트 한다.")
     void update_timer_duration() {
         // given
         final String accessCode = createPairRoom(new PairRoomCreateRequest(
                 "해시",
                 "파슬리",
-                1000L,
-                1000L,
+                10000L,
+                10000L,
                 PairRoomStatus.IN_PROGRESS.name())
         );
-        final long newTimerDuration = 1234;
+        final TimerUpdateRequest request = new TimerUpdateRequest(20000L, 3000L);
 
         // when & then
         RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(new TimerDurationUpdateRequest(newTimerDuration))
+                .body(request)
 
                 .when()
-                .patch("/api/{accessCode}/timer/duration", accessCode)
+                .patch("/api/{accessCode}/timer", accessCode)
 
                 .then()
                 .statusCode(204);
