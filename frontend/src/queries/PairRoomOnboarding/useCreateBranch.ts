@@ -14,7 +14,6 @@ const useCreateBranch = () => {
     },
     onError: () => {
       addToast({ status: 'ERROR', message: '브랜치 생성에 실패했습니다.' });
-      //TODO: 추후에 status 분기처리하기
     },
   });
 

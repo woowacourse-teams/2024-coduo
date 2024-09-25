@@ -1,15 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
 
-import useToastStore from '@/stores/toastStore';
-
 import { addPairRoomHistory } from '@/apis/pairRoom';
 
 const useAddPairRoomHistory = (accessCode: string) => {
-  const { addToast } = useToastStore();
-
   const { mutate } = useMutation({
     mutationFn: addPairRoomHistory,
-    onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });
 
   const handleAddPairRoomHistory = (
