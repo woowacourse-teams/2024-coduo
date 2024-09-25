@@ -48,12 +48,12 @@ const Main = () => {
           </S.TextContainer>
         </ScrollAnimationContainer>
         <S.ButtonContainer>
-          <ScrollAnimationContainer animationDirection="left" animationDelay={0.3}>
+          <ScrollAnimationContainer animationDirection="left" animationDelay={0.2}>
             <Button size="xl" css={S.buttonStyles} rounded={true} onClick={openPairRoomCreateModal}>
               방 만들기
             </Button>
           </ScrollAnimationContainer>
-          <ScrollAnimationContainer animationDirection="left" animationDelay={0.5}>
+          <ScrollAnimationContainer animationDirection="left" animationDelay={0.4}>
             <Button size="xl" css={S.buttonStyles} filled={false} rounded={true} onClick={openPairRoomEntryModal}>
               방 들어가기
             </Button>
