@@ -148,7 +148,7 @@ jobs:
           JWT_KEY=${{ secrets.JWT_KEY}}
 
           # Server App
-          SERVER_BINDING_PORT=${{ secrets.SERVER_BINDING_PORT }}
+          SERVER_BINDING_PORT=${{ secrets.PRODUCTION_SERVER_BINDING_PORT }}
           SERVER_LOGS_PATH=${{ secrets.SERVER_LOGS_PATH }}
           EOF
 
