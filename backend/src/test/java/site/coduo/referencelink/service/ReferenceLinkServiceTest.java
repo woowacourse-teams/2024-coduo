@@ -15,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
@@ -85,11 +84,14 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
         final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoomEntity, new Category("자바")));
         final AccessCode accessCode = new AccessCode(pairRoomEntity.getAccessCode());
         referenceLinkRepository.save(
-                new ReferenceLinkEntity(new ReferenceLink(new URL("http://url1.com"), accessCode), category, pairRoomEntity));
+                new ReferenceLinkEntity(new ReferenceLink(new URL("http://url1.com"), accessCode), category,
+                        pairRoomEntity));
         referenceLinkRepository.save(
-                new ReferenceLinkEntity(new ReferenceLink(new URL("http://url2.com"), accessCode), category, pairRoomEntity));
+                new ReferenceLinkEntity(new ReferenceLink(new URL("http://url2.com"), accessCode), category,
+                        pairRoomEntity));
         referenceLinkRepository.save(
-                new ReferenceLinkEntity(new ReferenceLink(new URL("http://url3.com"), accessCode), category, pairRoomEntity));
+                new ReferenceLinkEntity(new ReferenceLink(new URL("http://url3.com"), accessCode), category,
+                        pairRoomEntity));
 
         // when
         final List<ReferenceLinkResponse> responses = referenceLinkService.readAllReferenceLink(
@@ -103,10 +105,12 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
     @DisplayName("레퍼런스 링크와 오픈그래프를 삭제한다.")
     void delete_reference_link_and_open_graph() throws MalformedURLException {
         // given
-        final PairRoomEntity pairRoomEntity = pairRoomRepository.save(site.coduo.pairroom.repository.PairRoomEntity.from(INK_REDDDY_ROOM));
-        final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoomEntity, new Category("리액트")));
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.save(PairRoomEntity.from(INK_REDDDY_ROOM));
+        final CategoryEntity category = categoryRepository.save(
+                new CategoryEntity(pairRoomEntity, new Category("리액트")));
         final ReferenceLinkEntity link = referenceLinkRepository.save(
-                new ReferenceLinkEntity(new ReferenceLink(new URL("http://url1.com"), new AccessCode(pairRoomEntity.getAccessCode())),
+                new ReferenceLinkEntity(
+                        new ReferenceLink(new URL("http://url1.com"), new AccessCode(pairRoomEntity.getAccessCode())),
                         category, pairRoomEntity));
 
         // when

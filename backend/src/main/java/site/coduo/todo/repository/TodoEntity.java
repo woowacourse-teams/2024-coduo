@@ -1,4 +1,4 @@
-package site.coduo.todo.infrastructure.repository;
+package site.coduo.todo.repository;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,7 +14,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
-import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.todo.domain.Todo;
 
@@ -29,49 +28,45 @@ public class TodoEntity extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PAIR_ROOM")
+    @JoinColumn(name = "PAIR_ROOM_ID", referencedColumnName = "ID")
     private PairRoomEntity pairRoomEntity;
 
     @Column(name = "CONTENT", nullable = false, length = 255)
     private String content;
 
     @Column(name = "SORT", nullable = false)
-    private int sort;
+    private double sort;
 
     @Column(name = "IS_CHECKED", nullable = false)
     private boolean isChecked;
 
     public TodoEntity(final Todo todo) {
-        this(
-                todo.getId(),
-                todo.getPairRoom(),
-                todo.getContent().getContent(),
-                todo.getSort().getSort(),
-                todo.getIsChecked().isChecked()
-        );
+        this.id = todo.getId();
+        this.content = todo.getContent().getContent();
+        this.sort = todo.getSort().getSort();
+        this.isChecked = todo.getIsChecked().isChecked();
     }
 
-    public TodoEntity(
-            final Long id,
-            final PairRoom pairRoom,
-            final String content,
-            final int sort,
-            final boolean isChecked
-    ) {
-        this.id = id;
-        this.pairRoomEntity = site.coduo.pairroom.repository.PairRoomEntity.from(pairRoom);
-        this.content = content;
-        this.sort = sort;
-        this.isChecked = isChecked;
+    public TodoEntity(final Todo todo, final PairRoomEntity pairRoom) {
+        this.id = todo.getId();
+        this.pairRoomEntity = pairRoom;
+        this.sort = todo.getSort().getSort();
+        this.content = todo.getContent().getContent();
+        this.isChecked = todo.getIsChecked().isChecked();
     }
 
     public Todo toDomain() {
-        return new Todo(
-                this.id,
-                this.pairRoomEntity.toDomain(),
-                this.content,
-                this.sort,
-                this.isChecked
-        );
+        return new Todo(this.id, this.content, this.sort, this.isChecked);
+    }
+
+    @Override
+    public String toString() {
+        return "TodoEntity{" +
+                "id=" + id +
+                ", pairRoomEntity=" + pairRoomEntity +
+                ", content='" + content + '\'' +
+                ", sort=" + sort +
+                ", isChecked=" + isChecked +
+                '}';
     }
 }
