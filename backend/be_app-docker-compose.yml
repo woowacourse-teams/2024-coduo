@@ -1,4 +1,5 @@
 services:
+
   springboot:
     container_name: coduo_springboot-app
     image: ${DOCKER_REPO_NAME}/springboot-app:test-latest
