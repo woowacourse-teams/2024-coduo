@@ -8,8 +8,6 @@ import ReferenceCard from '@/components/PairRoom/ReferenceCard/ReferenceCard';
 import TimerCard from '@/components/PairRoom/TimerCard/TimerCard';
 import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
 
-import { getSSEConnection } from '@/apis/timer';
-
 import useGetPairRoom from '@/queries/PairRoom/useGetPairRoom';
 
 import * as S from './PairRoom.styles';
@@ -27,10 +25,6 @@ const PairRoom = () => {
     remainingTime,
     isFetching,
   } = useGetPairRoom(accessCode || '');
-
-  useEffect(() => {
-    getSSEConnection(accessCode || '');
-  }, []);
 
   useEffect(() => {
     setDriver(latestDriver);
@@ -57,7 +51,12 @@ const PairRoom = () => {
       <PairListCard driver={driver} navigator={navigator} roomCode={accessCode || ''} onRoomDelete={() => {}} />
       <S.Container>
         <PairRoleCard driver={driver} navigator={navigator} />
-        <TimerCard defaultTime={duration} defaultTimeleft={remainingTime} onTimerStop={handleSwap} />
+        <TimerCard
+          accessCode={accessCode || ''}
+          defaultTime={duration}
+          defaultTimeleft={remainingTime}
+          onTimerStop={handleSwap}
+        />
       </S.Container>
       <S.Container>
         <TodoListCard isOpen={!isCardOpen} toggleIsOpen={() => setIsCardOpen(false)} />

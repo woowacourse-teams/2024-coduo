@@ -3,12 +3,7 @@ import fetcher from '@/apis/fetcher';
 const API_URL = process.env.REACT_APP_API_URL;
 
 export const getSSEConnection = (accessCode: string) => {
-  const sse = new EventSource(`${API_URL}/${accessCode}/connect`);
-
-  sse.onmessage = async (event) => {
-    const response = await event.data;
-    console.log(response);
-  };
+  return new EventSource(`${API_URL}/${accessCode}/connect`);
 };
 
 export interface GetTimerResponse {

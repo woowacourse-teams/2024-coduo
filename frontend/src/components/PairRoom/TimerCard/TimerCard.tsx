@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import TimerEditPanel from '@/components/PairRoom/TimerCard/TimerEditPanel/TimerEditPanel';
@@ -11,31 +11,22 @@ import { formatTime } from '@/utils/Timer/formatTime';
 import * as S from './TimerCard.styles';
 
 interface TimerCardProps {
+  accessCode: string;
   defaultTime: number;
   defaultTimeleft: number;
   onTimerStop: () => void;
 }
 
-const TimerCard = ({ defaultTime, defaultTimeleft, onTimerStop }: TimerCardProps) => {
-  const { timeLeft, isActive, handleStart, handlePause } = useTimer(defaultTime, defaultTimeleft, onTimerStop);
+const TimerCard = ({ accessCode, defaultTime, defaultTimeleft, onTimerStop }: TimerCardProps) => {
+  const { timeLeft, isActive, handleStart, handlePause } = useTimer(
+    accessCode,
+    defaultTime,
+    defaultTimeleft,
+    onTimerStop,
+  );
 
   const timeLeftRef = useRef(timeLeft);
   timeLeftRef.current = timeLeft;
-
-  useEffect(() => {
-    const handleBeforeMove = (event: BeforeUnloadEvent) => {
-      handlePause();
-      event.preventDefault();
-    };
-
-    window.addEventListener('beforeunload', handleBeforeMove);
-    window.addEventListener('popstate', handleBeforeMove);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeMove);
-      window.removeEventListener('popstate', handleBeforeMove);
-    };
-  }, []);
 
   const { minutes, seconds } = formatTime(timeLeft);
   useTitleTime(minutes, seconds);

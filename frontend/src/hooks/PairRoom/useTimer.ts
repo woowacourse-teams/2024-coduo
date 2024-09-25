@@ -4,75 +4,65 @@ import { AlarmSound } from '@/assets';
 
 import useToastStore from '@/stores/toastStore';
 
+import { getSSEConnection, startTimer, stopTimer } from '@/apis/timer';
+
 import useNotification from '@/hooks/common/useNotification';
 
-const useTimer = (defaultTime: number, defaultTimeleft: number, onStop: () => void) => {
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+const TIMER_SSE_KEY = 'remaining-time';
+
+const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: number, onTimerStop: () => void) => {
   const alarmAudio = useRef(new Audio(AlarmSound));
 
   const [timeLeft, setTimeLeft] = useState(defaultTimeleft);
   const [isActive, setIsActive] = useState(false);
-  const [startTime, setStartTime] = useState<number | null>(null);
 
   const { addToast } = useToastStore();
   const { fireNotification } = useNotification();
 
-  const initializeTimer = () => {
-    setTimeLeft(defaultTimeleft);
-    setStartTime(null);
-    setIsActive(false);
-  };
-
   const handleStart = () => {
     if (!isActive) {
-      setStartTime(Date.now() - (defaultTime - timeLeft));
+      startTimer(accessCode);
       setIsActive(true);
       addToast({ status: 'SUCCESS', message: '타이머가 시작되었습니다.' });
     }
   };
 
   const handlePause = () => {
+    stopTimer(accessCode);
     setIsActive(false);
     addToast({ status: 'WARNING', message: '타이머가 일시 정지되었습니다.' });
   };
 
   const handleStop = () => {
-    initializeTimer();
-    onStop();
+    onTimerStop();
+    setTimeLeft(defaultTime);
+    setIsActive(false);
   };
 
   useEffect(() => {
-    initializeTimer();
-  }, [defaultTime]);
+    const sse = getSSEConnection(accessCode);
 
-  useEffect(() => {
-    if (!isActive || timeLeft <= 0) return;
-
-    const updateTimer = () => {
-      if (!startTime) return;
-
-      const elapsedTime = Date.now() - startTime;
-      const newTimeLeft = Math.max(defaultTime - elapsedTime, 0);
-
-      setTimeLeft(newTimeLeft);
-
-      if (newTimeLeft === 0) {
+    const handleTimeLeft = (event: MessageEvent) => {
+      if (event.data === 0) {
         handleStop();
         alarmAudio.current.play();
-        fireNotification('타이머가 끝났어요!', '드라이버 / 내비게이터 역할을 바꾸세요!', {
-          requireInteraction: true,
-        });
+        fireNotification('타이머가 끝났어요!', '드라이버 / 내비게이터 역할을 바꾸세요!', { requireInteraction: true });
+      } else {
+        setTimeLeft(event.data);
       }
     };
 
-    timerRef.current = setInterval(updateTimer, 100);
+    sse.addEventListener(TIMER_SSE_KEY, handleTimeLeft);
+    window.addEventListener('beforeunload', (event) => event.preventDefault());
 
     return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
+      sse.removeEventListener(TIMER_SSE_KEY, handleTimeLeft);
+      sse.close();
+      window.removeEventListener('beforeunload', (event) => event.preventDefault());
     };
-  }, [isActive, startTime, timeLeft]);
+  }, []);
 
-  return { timeLeft, isActive, handleStart, handlePause, handleStop };
+  return { timeLeft, isActive, handleStart, handlePause };
 };
 
 export default useTimer;
