@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 
 import './styles/font.css';
+import { worker } from '@/mock/browser';
 
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({
@@ -18,6 +19,9 @@ if (process.env.NODE_ENV === 'production') {
     replaysOnErrorSampleRate: 1.0,
   });
   if (process.env.GA_TRACKING_ID) ReactGA.initialize(process.env.GA_TRACKING_ID);
+}
+if (process.env.NODE_ENV === 'development') {
+  worker.start();
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
