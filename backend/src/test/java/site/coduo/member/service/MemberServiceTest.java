@@ -62,9 +62,30 @@ class MemberServiceTest {
         memberRepository.save(member);
 
         // when
-        final MemberReadResponse response = memberService.findMemberByCredential(sign);
+        final MemberReadResponse response = memberService.findMemberNameByCredential(sign);
 
         // then
         assertThat(response.username()).isEqualTo(member.getUsername());
+    }
+
+    @Test
+    @DisplayName("로그인 토큰을 바탕으로 회원 엔티티를 조회한다.")
+    void search_member_by_login_token() {
+        // given
+        final Member member = Member.builder()
+                .userId("userid")
+                .accessToken("access")
+                .loginId("login")
+                .username("username")
+                .profileImage("some image")
+                .build();
+        final String sign = jwtProvider.sign(member.getUserId());
+        memberRepository.save(member);
+
+        // when
+        final Member findMember = memberService.findMemberByCredential(sign);
+
+        // then
+        assertThat(findMember.getUsername()).isEqualTo(member.getUsername());
     }
 }
