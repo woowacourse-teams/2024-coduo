@@ -101,8 +101,7 @@ export const buttonStyles = css`
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     width: 100%;
     min-width: 18rem;
-    max-height: 5rem;
 
-    font-size: ${({ theme }) => theme.fontSize.base};
+    font-size: ${({ theme }) => theme.fontSize.lg};
   }
 `;
