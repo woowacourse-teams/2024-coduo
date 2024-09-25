@@ -21,8 +21,6 @@ services:
     restart: on-failure
     networks:
       - coduo_net
-    depends_on:
-      - mysql
 
 networks:
   coduo_net:
