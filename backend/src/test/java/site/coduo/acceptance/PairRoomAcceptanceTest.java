@@ -47,8 +47,8 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
         //when & then
         RestAssured
                 .given()
-//                .log()
-//                .all()
+                .log()
+                .all()
                 .contentType("application/json")
 
                 .when()
