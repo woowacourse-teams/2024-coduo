@@ -105,8 +105,7 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
     @DisplayName("레퍼런스 링크와 오픈그래프를 삭제한다.")
     void delete_reference_link_and_open_graph() throws MalformedURLException {
         // given
-        final PairRoomEntity pairRoomEntity = pairRoomRepository.save(
-                site.coduo.pairroom.repository.PairRoomEntity.from(INK_REDDDY_ROOM));
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.save(PairRoomEntity.from(INK_REDDDY_ROOM));
         final CategoryEntity category = categoryRepository.save(
                 new CategoryEntity(pairRoomEntity, new Category("리액트")));
         final ReferenceLinkEntity link = referenceLinkRepository.save(
