@@ -104,7 +104,7 @@ jobs:
 
   deployB:
     environment: production
-    runs-on: coduo_runner_production-server
+    runs-on: production-ec2-B-runner
     needs: deployA
     defaults:
       run:
