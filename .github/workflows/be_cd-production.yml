@@ -49,9 +49,9 @@ jobs:
           name: docker-compose
           path: ${{ github.workspace }}/backend/be_app-docker-compose.yml
 
-  deploy:
+  deployA:
     environment: production
-    runs-on: coduo_runner_production-server
+    runs-on: production-ec2-A-runner
     needs: build
     defaults:
       run:
@@ -66,6 +66,63 @@ jobs:
       - name: Move docker-compose YAML
         run: |
           sudo mv be_app-docker-compose.yml ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/
+
+      - name: Extract secrets as .be_app-env file
+        run: |
+          cat <<EOF > ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env
+
+          # Docker Hub info from Github Secrets
+          DOCKER_REPO_NAME=${{ secrets.DOCKER_REPO_NAME }}
+
+          # DB Configuration secrets info from Github Secrets
+          MYSQL_DB_NAME=${{ secrets.MYSQL_DB_NAME }}
+          MYSQL_TIME_ZONE=${{ secrets.MYSQL_TIME_ZONE }}
+          DB_BINDING_PORT=${{ secrets.DB_BINDING_PORT }}
+          DOCKER_DATA_PATH=${{ secrets.DOCKER_DATA_PATH }}
+          DB_URL=${{ secrets.DB_URL }}
+          DB_USERNAME=${{ secrets.DB_USERNAME }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          DDL_AUTO=${{ secrets.DDL_AUTO }}
+
+          # OAUTH & JWT
+          CLIENT_ID=${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}
+          CLIENT_REDIRECT_URI=${{ secrets.CLIENT_REDIRECT_URI }}
+          JWT_KEY=${{ secrets.JWT_KEY}}
+
+          # Server App
+          SERVER_BINDING_PORT=${{ secrets.SERVER_BINDING_PORT }}
+          SERVER_LOGS_PATH=${{ secrets.SERVER_LOGS_PATH }}
+          EOF
+
+      - name: Stop and remove existing containers
+        run: |
+          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml down --rmi all
+      - name: Deploy docker container
+        run: |
+          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml up -d
+
+  deployB:
+    environment: production
+    runs-on: coduo_runner_production-server
+    needs: deployA
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - name: Set docker-compose YAML script to runner
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-compose
+          path: ${{ github.workspace }}/backend
+
+      - name: Move docker-compose YAML
+        run: |
+          sudo mv be_app-docker-compose.yml ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/
+
+      - name: waiting deployA complete
+        run: |
+          sudo ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/scheduler.sh
 
       - name: Extract secrets as .be_app-env file
         run: |
