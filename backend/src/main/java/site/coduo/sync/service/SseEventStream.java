@@ -16,6 +16,8 @@ import site.coduo.sync.exception.SseConnectionFailureException;
 public class SseEventStream implements EventStream {
 
     private static final long INFINITE_TIME_OUT = -1;
+    private static final String CONNECT_NAME = "connect";
+    private static final String CONNECT_SUCCESS_MESSAGE = "OK";
 
     private final AtomicLong id = new AtomicLong(0);
     private final SseEmitter sseEmitter;
@@ -38,8 +40,8 @@ public class SseEventStream implements EventStream {
         try {
             sseEmitter.send(SseEmitter.event()
                     .id(eventId)
-                    .name("connect")
-                    .data("OK"));
+                    .name(CONNECT_NAME)
+                    .data(CONNECT_SUCCESS_MESSAGE));
         } catch (final IOException e) {
             throw new SseConnectionFailureException("SSE 연결이 실패했습니다.");
         }

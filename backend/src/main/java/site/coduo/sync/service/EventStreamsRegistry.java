@@ -26,16 +26,16 @@ public class EventStreamsRegistry {
     }
 
     public EventStreams findEventStreams(final String key) {
-        if (!registry.containsKey(key)) {
-            throw new NotFoundSseConnectionException("존재하지 않는 SSE 커넥션입니다.");
+        if (registry.containsKey(key)) {
+            return registry.get(key);
         }
-        return registry.get(key);
+        throw new NotFoundSseConnectionException("존재하지 않는 SSE 커넥션입니다.");
     }
 
     public boolean hasNoStreams(final String key) {
-        if (!registry.containsKey(key)) {
-            throw new NotFoundSseConnectionException("SSE 커넥션을 찾을 수 없습니다.");
+        if (registry.containsKey(key)) {
+            return registry.get(key).isEmpty();
         }
-        return registry.get(key).isEmpty();
+        throw new NotFoundSseConnectionException("SSE 커넥션을 찾을 수 없습니다.");
     }
 }
