@@ -40,7 +40,6 @@ const Main = () => {
                 코딩해<span>듀오</span>
               </S.Title>
             </S.TitleContainer>
-
             <S.Info>
               코딩해듀오는 페어프로그래밍을 통해 더 나은 결과를 만들어내는 것을 목표로 합니다.
               <br />
@@ -48,15 +47,14 @@ const Main = () => {
             </S.Info>
           </S.TextContainer>
         </ScrollAnimationContainer>
-
         <S.ButtonContainer>
-          <ScrollAnimationContainer animationDirection="left" animationDelay={0.3}>
-            <Button size="xl" rounded={true} onClick={openPairRoomCreateModal}>
+          <ScrollAnimationContainer animationDirection="left" animationDelay={0.2}>
+            <Button size="xl" css={S.buttonStyles} rounded={true} onClick={openPairRoomCreateModal}>
               방 만들기
             </Button>
           </ScrollAnimationContainer>
-          <ScrollAnimationContainer animationDirection="left" animationDelay={0.5}>
-            <Button size="xl" filled={false} rounded={true} onClick={openPairRoomEntryModal}>
+          <ScrollAnimationContainer animationDirection="left" animationDelay={0.4}>
+            <Button size="xl" css={S.buttonStyles} filled={false} rounded={true} onClick={openPairRoomEntryModal}>
               방 들어가기
             </Button>
           </ScrollAnimationContainer>
