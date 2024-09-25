@@ -56,7 +56,7 @@ public class SseEventStream implements EventStream {
                     .data(message)
             );
         } catch (IOException e) {
-            throw new SseConnectionFailureException("SSE 통신에 실패했습니다.");
+            log.warn("SSE 통신 중 에러가 발생했습니다.");
         }
     }
 
