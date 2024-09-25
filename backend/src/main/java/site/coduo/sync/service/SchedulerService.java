@@ -26,6 +26,7 @@ public class SchedulerService {
     private final SseService sseService;
 
     public void start(final String key) {
+        sseService.broadcast(key, "timer", "start");
         if (isInitial(key)) {
             final Timer timer = timerRepository.fetchTimerByAccessCode(key).toDomain();
             scheduling(key, timer);
@@ -64,6 +65,7 @@ public class SchedulerService {
     }
 
     public void stop(final String key) {
+        sseService.broadcast(key, "timer", "stop");
         schedulerRegistry.release(key);
     }
 }
