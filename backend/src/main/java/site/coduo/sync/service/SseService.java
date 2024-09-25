@@ -20,7 +20,7 @@ public class SseService {
         emitters.broadcast(event, data);
     }
 
-    public boolean hasEmptyConnection(final String key) {
-        return eventStreamsRegistry.hasEmptyConnection(key);
+    public boolean hasNoConnections(final String key) {
+        return eventStreamsRegistry.hasNoStreams(key);
     }
 }

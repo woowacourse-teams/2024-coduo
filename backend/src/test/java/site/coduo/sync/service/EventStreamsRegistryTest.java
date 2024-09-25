@@ -60,7 +60,7 @@ class EventStreamsRegistryTest {
         eventStreamsRegistry.register(key);
 
         // when
-        final boolean hasEmptyConnection = eventStreamsRegistry.hasEmptyConnection(key);
+        final boolean hasEmptyConnection = eventStreamsRegistry.hasNoStreams(key);
 
         // then
         assertThat(hasEmptyConnection).isFalse();
@@ -74,7 +74,7 @@ class EventStreamsRegistryTest {
         final String key = "tes";
 
         // when & then
-        assertThatThrownBy(() -> eventStreamsRegistry.hasEmptyConnection(key))
+        assertThatThrownBy(() -> eventStreamsRegistry.hasNoStreams(key))
                 .isInstanceOf(NotFoundSseConnectionException.class);
     }
 }

@@ -25,7 +25,8 @@ public class SchedulerRegistry {
         if (!registry.containsKey(key)) {
             throw new NotFoundScheduledFutureException("키에 해당하는 스케줄러 결과가 존재하지 않습니다.");
         }
-        registry.get(key).cancel(false);
+        registry.get(key)
+                .cancel(false);
         registry.remove(key);
     }
 

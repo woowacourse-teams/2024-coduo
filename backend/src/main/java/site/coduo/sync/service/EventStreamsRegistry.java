@@ -32,7 +32,7 @@ public class EventStreamsRegistry {
         return registry.get(key);
     }
 
-    public boolean hasEmptyConnection(final String key) {
+    public boolean hasNoStreams(final String key) {
         if (!registry.containsKey(key)) {
             throw new NotFoundSseConnectionException("SSE 커넥션을 찾을 수 없습니다.");
         }
