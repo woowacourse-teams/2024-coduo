@@ -26,6 +26,8 @@ management:
     web:
       exposure:
         include: prometheus
+      base-path: /api/actuator
+
 server:
   tomcat:
     mbeanregistry:
