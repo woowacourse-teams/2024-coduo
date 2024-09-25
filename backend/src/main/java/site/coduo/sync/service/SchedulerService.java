@@ -49,13 +49,17 @@ public class SchedulerService {
     private void scheduling(final String key, final Timer timer) {
         final Trigger trigger = new PeriodicTrigger(DELAY_SECOND);
         final ScheduledFuture<?> schedule = taskScheduler.schedule(() -> {
-            timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
-            if (timer.getRemainingTime() == 0 || sseService.hasEmptyConnection(key)) {
-                schedulerRegistry.release(key);
+            if (timer.isTimeUp()) {
+                stop(key);
                 timestampRegistry.release(key);
             }
+            if (sseService.hasNoConnections(key)) {
+                stop(key);
+            }
+            timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
             sseService.broadcast(key, "remaining-time", String.valueOf(timer.getRemainingTime()));
         }, trigger);
+
         schedulerRegistry.register(key, schedule);
     }
 
