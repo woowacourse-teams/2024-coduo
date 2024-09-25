@@ -38,7 +38,6 @@ class EventStreamsRegistryTest {
                 .doesNotThrowAnyException();
     }
 
-
     @Test
     @DisplayName("등록되지 않은 이벤트 스트림들을 조회할 경우 예외를 발생시킨다.")
     void throw_exception_when_search_un_registered_event_stream() {
