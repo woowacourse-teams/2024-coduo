@@ -1,6 +1,10 @@
 html {
   font-family: 'Pretendard Variable', sans-serif;
   font-size: 62.5%;
+
+  @media screen and (max-width: 768px) {
+    font-size: 50%;
+  }
 }
 
 body {

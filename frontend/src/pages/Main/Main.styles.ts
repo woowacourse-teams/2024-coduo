@@ -51,7 +51,7 @@ export const SubTitle = styled.h2`
   }
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
-    font-size: ${({ theme }) => theme.fontSize.h5};
+    font-size: ${({ theme }) => theme.fontSize.h4};
   }
 `;
 
@@ -65,7 +65,7 @@ export const Title = styled.h1`
   }
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
-    font-size: 7rem;
+    font-size: 8rem;
   }
 `;
 
@@ -88,7 +88,7 @@ export const ButtonContainer = styled.div`
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: 2rem;
   }
 `;
 
@@ -100,9 +100,8 @@ export const buttonStyles = css`
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     width: 100%;
-    min-width: 15rem;
+    min-width: 18rem;
     max-height: 5rem;
-    padding: 2rem 4rem;
 
     font-size: ${({ theme }) => theme.fontSize.base};
   }
