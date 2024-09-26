@@ -115,7 +115,7 @@ class SchedulerServiceTest {
                 .pollDelay(1, TimeUnit.SECONDS)
                 .pollInterval(1, TimeUnit.SECONDS)
                 .untilAsserted(() -> {
-                    schedulerService.stop(key);
+                    schedulerService.pause(key);
                     assertThat(schedulerRegistry.has(key)).isFalse();
                 });
     }

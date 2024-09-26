@@ -67,6 +67,11 @@ public class SchedulerService {
         sseService.broadcast(key, "remaining-time", String.valueOf(timer.getRemainingTime()));
     }
 
+    public void pause(final String key) {
+        sseService.broadcast(key, "timer", "pause");
+        schedulerRegistry.release(key);
+    }
+
     public void stop(final String key) {
         sseService.broadcast(key, "timer", "stop");
         schedulerRegistry.release(key);
