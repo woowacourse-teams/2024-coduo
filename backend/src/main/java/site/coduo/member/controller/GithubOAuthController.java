@@ -56,7 +56,7 @@ public class GithubOAuthController implements GithubOAuthControllerDocs {
         session.setMaxInactiveInterval(ACCESS_TOKEN_EXPIRE_IN_SECOND);
 
         return ResponseEntity.status(HttpStatus.FOUND)
-                .location(URI.create(frontUrl + "/callback"))
+                .location(URI.create("https://" + frontUrl + "/callback"))
                 .build();
     }
 }
