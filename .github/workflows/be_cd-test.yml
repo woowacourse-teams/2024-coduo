@@ -51,7 +51,7 @@ jobs:
 
   deploy:
     environment: test
-    runs-on: coduo_runner_test-server
+    runs-on: test-ec2-runner
     needs: build
     defaults:
       run:
@@ -75,19 +75,15 @@ jobs:
           DOCKER_REPO_NAME=${{ secrets.DOCKER_REPO_NAME }}
 
           # DB Configuration secrets info from Github Secrets
-          MYSQL_DB_NAME=${{ secrets.MYSQL_DB_NAME }}
-          MYSQL_TIME_ZONE=${{ secrets.MYSQL_TIME_ZONE }}
-          DB_BINDING_PORT=${{ secrets.DB_BINDING_PORT }}
-          DOCKER_DATA_PATH=${{ secrets.DOCKER_DATA_PATH }}
           DB_URL=${{ secrets.DB_URL }}
           DB_USERNAME=${{ secrets.DB_USERNAME }}
           DB_PASSWORD=${{ secrets.DB_PASSWORD }}
           DDL_AUTO=${{ secrets.DDL_AUTO }}
 
           # OAUTH & JWT
-          CLIENT_ID=${{ secrets.CLIENT_ID }}
-          CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}
-          CLIENT_REDIRECT_URI=${{ secrets.CLIENT_REDIRECT_URI }}
+          CLIENT_ID=${{ secrets.TEST_CLIENT_ID }}
+          CLIENT_SECRET=${{ secrets.TEST_CLIENT_SECRET }}
+          CLIENT_REDIRECT_URI=${{ secrets.TEST_CLIENT_REDIRECT_URI }}
           JWT_KEY=${{ secrets.JWT_KEY}}
 
           # Server App

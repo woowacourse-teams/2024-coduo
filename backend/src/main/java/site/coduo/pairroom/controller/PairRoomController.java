@@ -1,10 +1,14 @@
 package site.coduo.pairroom.controller;
 
+import static site.coduo.common.config.filter.SignInCookieFilter.SIGN_IN_COOKIE_NAME;
+
 import java.net.URI;
+import java.util.List;
 
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +24,7 @@ import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
 import site.coduo.pairroom.service.dto.PairRoomReadRequest;
 import site.coduo.pairroom.service.dto.PairRoomReadResponse;
 import site.coduo.pairroom.service.dto.PairRoomStatusUpdateRequest;
+import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
 
 @RequiredArgsConstructor
 @RestController
@@ -29,13 +34,22 @@ public class PairRoomController implements PairRoomDocs {
 
     @PostMapping("/pair-room")
     public ResponseEntity<PairRoomCreateResponse> createPairRoom(
-            @Valid @RequestBody final PairRoomCreateRequest request
+            @Valid @RequestBody final PairRoomCreateRequest request,
+            @CookieValue(value = SIGN_IN_COOKIE_NAME, required = false) final String token
     ) {
-        final PairRoomCreateResponse response = new PairRoomCreateResponse(
-                pairRoomService.save(request));
+        final String accessCode = pairRoomService.savePairRoom(request, token);
+        final PairRoomCreateResponse response = new PairRoomCreateResponse(accessCode);
 
         return ResponseEntity.created(URI.create("/"))
                 .body(response);
+    }
+
+    @PatchMapping("/pair-room/{accessCode}/pair-swap")
+    public ResponseEntity<Void> updatePairRole(@PathVariable("accessCode") final String accessCode) {
+        pairRoomService.updateNavigatorWithDriver(accessCode);
+
+        return ResponseEntity.noContent()
+                .build();
     }
 
     @PatchMapping("/pair-room/{accessCode}/status")
@@ -53,9 +67,18 @@ public class PairRoomController implements PairRoomDocs {
     public ResponseEntity<PairRoomReadResponse> getPairRoom(
             @Valid @PathVariable("accessCode") final PairRoomReadRequest request
     ) {
-        final PairRoomReadResponse response = PairRoomReadResponse.from(
-                pairRoomService.findByAccessCode(request.accessCode()));
+        final PairRoomReadResponse response = pairRoomService.findPairRoomAndTimer(request.accessCode());
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/my-pair-rooms")
+    public ResponseEntity<List<PairRoomMemberResponse>> getPairRooms(
+            @CookieValue(SIGN_IN_COOKIE_NAME) final String token
+    ) {
+        final List<PairRoomMemberResponse> pairRooms = pairRoomService.findPairRooms(token);
+
+        return ResponseEntity.ok()
+                .body(pairRooms);
     }
 }

@@ -42,6 +42,6 @@ oauth:
 
 front:
   url: https://coduo.site
-
+  
 jwt:
   sign-key: ${JWT_KEY}

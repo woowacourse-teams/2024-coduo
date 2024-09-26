@@ -16,12 +16,12 @@ import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
 @Transactional
 class PairRoomAcceptanceTest extends AcceptanceFixture {
 
-    static PairRoomCreateResponse createPairRoom(final PairRoomCreateRequest pairRoom) {
+    static PairRoomCreateResponse createPairRoom(final PairRoomCreateRequest request) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .body(pairRoom)
+                .body(request)
 
                 .when()
                 .post("/api/pair-room")
@@ -36,7 +36,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     void show_pair_room() {
         //given
         final PairRoomCreateResponse pairRoomUrl =
-                createPairRoom(new PairRoomCreateRequest("레디", "프람", "IN_PROGRESS"));
+                createPairRoom(new PairRoomCreateRequest("레디", "프람", 10000L, 10000L, "IN_PROGRESS"));
 
         //when & then
         RestAssured
@@ -59,7 +59,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     void update_pair_room_status() {
         //given
         final PairRoomCreateResponse accessCode =
-                createPairRoom(new PairRoomCreateRequest("레디", "프람", "IN_PROGRESS"));
+                createPairRoom(new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "IN_PROGRESS"));
         final Map<String, String> status = Map.of("status", PairRoomStatus.IN_PROGRESS.name());
 
         // when & then
@@ -76,6 +76,26 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .then()
                 .log()
                 .all()
+                .statusCode(204);
+    }
+
+    @Test
+    @DisplayName("페어룸의 드라이버와 내비게이터를 변경한다.")
+    void update_driver_navigator() {
+        // given
+        final PairRoomCreateResponse accessCode =
+                createPairRoom(new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "IN_PROGRESS"));
+
+        // when & then
+        RestAssured
+                .given()
+                .log()
+                .all()
+
+                .when()
+                .patch("/api/pair-room/{access-code}/pair-swap", accessCode.accessCode())
+
+                .then()
                 .statusCode(204);
     }
 }
