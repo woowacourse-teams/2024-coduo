@@ -44,8 +44,7 @@ public class DataSourceConfig {
 
         return dataSourceRouter;
     }
-
-
+    
     @Bean
     @Primary
     @DependsOn({"routingDataSource"})
