@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'styled-components';
 
 const PairRoom = lazy(() => import('@/pages/PairRoom/PairRoom'));
-const PairRoomOnboarding = lazy(() => import('@/pages/PairRoomOnboarding/PairRoomOnboarding'));
 
 import Callback from '@/pages/Callback/Callback';
 import Docs from '@/pages/CoduoDocs/CoduoDocs';
@@ -16,6 +15,7 @@ import Layout from '@/pages/Layout';
 import Loading from '@/pages/Loading/Loading';
 import Main from '@/pages/Main/Main';
 import MyPage from '@/pages/MyPage/MyPage';
+import PairRoomOnboarding from '@/pages/PairRoomOnboarding/PairRoomOnboarding';
 import SignUp from '@/pages/SignUp/SignUp';
 
 import useUserStore from '@/stores/userStore';
@@ -62,11 +62,19 @@ const App = () => {
         },
         {
           path: 'onboarding',
-          element: <PairRoomOnboarding />,
+          element: (
+            <Suspense fallback={<Loading />}>
+              <PairRoomOnboarding />{' '}
+            </Suspense>
+          ),
         },
         {
-          path: 'pair-room/:accessCode',
-          element: <PairRoom />,
+          path: 'room/:accessCode',
+          element: (
+            <Suspense fallback={<Loading />}>
+              <PairRoom />
+            </Suspense>
+          ),
         },
         {
           path: 'sign-up',
@@ -96,9 +104,7 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        <Suspense fallback={<Loading />}>
-          <RouterProvider router={router} />
-        </Suspense>
+        <RouterProvider router={router} />
       </ThemeProvider>
     </QueryClientProvider>
   );

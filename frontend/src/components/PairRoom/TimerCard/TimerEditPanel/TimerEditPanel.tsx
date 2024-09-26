@@ -12,7 +12,7 @@ import useClickOutside from '@/hooks/common/useClickOutside';
 import useInput from '@/hooks/common/useInput';
 import useModal from '@/hooks/common/useModal';
 
-import useUpdateTimerDuration from '@/queries/PairRoomOnboarding/useUpdateTimerDuration';
+import useUpdateDuration from '@/queries/PairRoom/useUpdateDuration';
 
 import { BUTTON_TEXT } from '@/constants/button';
 
@@ -29,7 +29,7 @@ const TimerEditPanel = ({ isActive }: TimerEditPanelProps) => {
 
   const { isModalOpen: isPanelOpen, openModal: openPanel, closeModal: closePanel } = useModal();
   const { value, handleChange, resetValue } = useInput();
-  const { handleUpdateTimerDuration } = useUpdateTimerDuration(() =>
+  const { handleUpdateTimerDuration } = useUpdateDuration(() =>
     addToast({ status: 'SUCCESS', message: '타이머 시간이 변경되었습니다.' }),
   );
 

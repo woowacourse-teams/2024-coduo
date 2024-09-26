@@ -14,7 +14,7 @@ interface ReferenceListProps {
 const ReferenceList = ({ references, accessCode }: ReferenceListProps) => {
   const deleteReference = useDeleteReferenceLink().mutate;
 
-  if (!references || references.length <1 ) return <S.EmptyLayout>저장된 링크가 없습니다.</S.EmptyLayout>;
+  if (!references || references.length < 1) return <S.EmptyLayout>저장된 링크가 없습니다.</S.EmptyLayout>;
 
   return (
     <S.Layout $columns={references.length}>
