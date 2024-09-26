@@ -45,7 +45,7 @@ const CategoryItem = ({
             <Input
               placeholder="수정할 카테고리 이름을 입력해주세요."
               value={categoryInputData.value}
-              onChange={actions.editCategory}
+              onChange={(event) => actions.editCategory(event, categoryName)}
               status={categoryInputData.status}
               height="4.4rem"
               width="28rem"
