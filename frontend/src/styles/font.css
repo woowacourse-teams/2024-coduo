@@ -1,8 +1,12 @@
 html {
-  font-family: 'Pretendard Variable', sans-serif;
+  font-family: 'Pretendard Variable';
   font-size: 62.5%;
+
+  @media screen and (max-width: 768px) {
+    font-size: 50%;
+  }
 }
 
 body {
-  font-family: 'Pretendard Variable', sans-serif;
+  font-family: 'Pretendard Variable';
 }

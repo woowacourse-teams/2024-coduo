@@ -1,4 +1,4 @@
-import { IoIosLink, IoIosArrowDown } from 'react-icons/io';
+import { IoIosLink, IoIosArrowUp } from 'react-icons/io';
 
 import Button from '@/components/common/Button/Button';
 import ToolTipQuestionBox from '@/components/common/ToolTipQuestionBox/ToolTipQuestionBox';
@@ -9,19 +9,24 @@ import * as S from './Header.styles';
 
 interface HeaderProps {
   isOpen: boolean;
-  selectedCategory: string;
+  selectedFilteringCategoryName: string;
   toggleIsOpen: () => void;
   onButtonClick: () => void;
 }
 
-const Header = ({ isOpen, selectedCategory, toggleIsOpen, onButtonClick }: React.PropsWithChildren<HeaderProps>) => {
+const Header = ({
+  isOpen,
+  selectedFilteringCategoryName,
+  toggleIsOpen,
+  onButtonClick,
+}: React.PropsWithChildren<HeaderProps>) => {
   return (
     <S.Layout onClick={toggleIsOpen}>
       <S.Container>
         {isOpen ? (
           <IoIosLink size={theme.fontSize.h6} color={theme.color.primary[600]} />
         ) : (
-          <IoIosArrowDown size={theme.fontSize.h6} color={theme.color.primary[600]} />
+          <IoIosArrowUp size={theme.fontSize.h6} color={theme.color.primary[600]} />
         )}
         <p>링크</p>
         <ToolTipQuestionBox
@@ -37,9 +42,10 @@ const Header = ({ isOpen, selectedCategory, toggleIsOpen, onButtonClick }: React
         onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
           event.stopPropagation();
           onButtonClick();
+          toggleIsOpen();
         }}
       >
-        {selectedCategory}
+        {selectedFilteringCategoryName}
       </Button>
     </S.Layout>
   );

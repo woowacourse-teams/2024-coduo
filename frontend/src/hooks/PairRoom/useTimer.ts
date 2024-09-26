@@ -1,78 +1,118 @@
 import { useRef, useState, useEffect } from 'react';
 
+import { useQueryClient } from '@tanstack/react-query';
+
 import { AlarmSound } from '@/assets';
 
 import useToastStore from '@/stores/toastStore';
 
+import { getSSEConnection, startTimer, stopTimer } from '@/apis/timer';
+
 import useNotification from '@/hooks/common/useNotification';
 
-const useTimer = (defaultTime: number, defaultTimeleft: number, onStop: () => void) => {
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+import { QUERY_KEYS } from '@/constants/queryKeys';
+
+const STATUS_SSE_KEY = 'timer';
+const TIME_SSE_KEY = 'remaining-time';
+
+const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: number, onTimerStop: () => void) => {
+  const queryClient = useQueryClient();
+
   const alarmAudio = useRef(new Audio(AlarmSound));
 
   const [timeLeft, setTimeLeft] = useState(defaultTimeleft);
   const [isActive, setIsActive] = useState(false);
-  const [startTime, setStartTime] = useState<number | null>(null);
 
   const { addToast } = useToastStore();
   const { fireNotification } = useNotification();
 
-  const initializeTimer = () => {
-    setTimeLeft(defaultTimeleft);
-    setStartTime(null);
-    setIsActive(false);
-  };
-
   const handleStart = () => {
-    if (!isActive) {
-      setStartTime(Date.now() - (defaultTime - timeLeft));
-      setIsActive(true);
-      addToast({ status: 'SUCCESS', message: '타이머가 시작되었습니다.' });
-    }
+    if (!isActive) startTimer(accessCode);
   };
 
   const handlePause = () => {
-    setIsActive(false);
-    addToast({ status: 'WARNING', message: '타이머가 일시 정지되었습니다.' });
+    stopTimer(accessCode);
   };
 
   const handleStop = () => {
-    initializeTimer();
-    onStop();
+    addToast({ status: 'SUCCESS', message: '타이머가 종료되었습니다.' });
+
+    setIsActive(false);
+    setTimeLeft(defaultTime);
+    onTimerStop();
+
+    addToast({ status: 'INFO', message: '드라이버 / 내비게이터 역할을 바꿔 주세요!' });
   };
 
   useEffect(() => {
-    initializeTimer();
-  }, [defaultTime]);
+    const sse = getSSEConnection(accessCode);
 
-  useEffect(() => {
-    if (!isActive || timeLeft <= 0) return;
+    const handleStatus = (event: MessageEvent) => {
+      if (event.data === 'start') {
+        setIsActive(true);
+        addToast({ status: 'SUCCESS', message: '타이머가 시작되었습니다.' });
+        return;
+      }
 
-    const updateTimer = () => {
-      if (!startTime) return;
+      if (event.data === 'running') {
+        setIsActive(true);
+        addToast({ status: 'SUCCESS', message: '타이머가 진행 중입니다.' });
+        return;
+      }
 
-      const elapsedTime = Date.now() - startTime;
-      const newTimeLeft = Math.max(defaultTime - elapsedTime, 0);
+      if (event.data === 'pause') {
+        setIsActive(false);
+        addToast({ status: 'WARNING', message: '타이머가 일시 정지되었습니다.' });
+        return;
+      }
 
-      setTimeLeft(newTimeLeft);
-
-      if (newTimeLeft === 0) {
-        handleStop();
-        alarmAudio.current.play();
-        fireNotification('타이머가 끝났어요!', '드라이버 / 내비게이터 역할을 바꾸세요!', {
-          requireInteraction: true,
-        });
+      if (event.data === 'update') {
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_PAIR_ROOM_TIMER] });
+        addToast({ status: 'WARNING', message: '타이머 시간이 변경되었습니다.' });
+        return;
       }
     };
 
-    timerRef.current = setInterval(updateTimer, 100);
+    const handleTimeLeft = (event: MessageEvent) => {
+      if (event.data === '0') {
+        handleStop();
+        alarmAudio.current.play();
+        fireNotification('타이머가 끝났어요!', '드라이버 / 내비게이터 역할을 바꿔 주세요!', {
+          requireInteraction: true,
+        });
+      } else {
+        setTimeLeft(event.data);
+      }
+    };
+
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+    };
+
+    sse.addEventListener(TIME_SSE_KEY, handleTimeLeft);
+    sse.addEventListener(STATUS_SSE_KEY, handleStatus);
+
+    sse.onerror = () => {
+      setIsActive(false);
+      stopTimer(accessCode);
+      addToast({
+        status: 'ERROR',
+        message: '타이머 작동 중 예기치 못한 문제가 발생하였습니다. 타이머를 다시 시작해 주세요.',
+      });
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
 
     return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [isActive, startTime, timeLeft]);
+      sse.removeEventListener(STATUS_SSE_KEY, handleStatus);
+      sse.removeEventListener(TIME_SSE_KEY, handleTimeLeft);
+      sse.close();
 
-  return { timeLeft, isActive, handleStart, handlePause, handleStop };
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
+  return { timeLeft, isActive, handleStart, handlePause };
 };
 
 export default useTimer;

@@ -5,17 +5,19 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'styled-components';
 
 const PairRoom = lazy(() => import('@/pages/PairRoom/PairRoom'));
-const PairRoomOnboarding = lazy(() => import('@/pages/PairRoomOnboarding/PairRoomOnboarding'));
 
 import Callback from '@/pages/Callback/Callback';
+import CoduoDocs from '@/pages/CoduoDocs/CoduoDocs';
 import PageNotFound from '@/pages/Error/PageNotFound';
-import HowToPair from '@/pages/HowToPair/HowToPair';
 import Landing from '@/pages/Landing/Landing';
 import Layout from '@/pages/Layout';
 import Loading from '@/pages/Loading/Loading';
 import Main from '@/pages/Main/Main';
 import MyPage from '@/pages/MyPage/MyPage';
+import PairRoomOnboarding from '@/pages/PairRoomOnboarding/PairRoomOnboarding';
 import SignUp from '@/pages/SignUp/SignUp';
+
+import HowToPair from '@/components/Landing/HowToPair/HowToPair';
 
 import useUserStore from '@/stores/userStore';
 
@@ -31,10 +33,15 @@ const App = () => {
   const { setUser } = useUserStore();
 
   const updateUser = async () => {
-    const userStatus = await getIsUserLoggedIn();
-    const username = await getMember();
+    const { signedIn } = await getIsUserLoggedIn();
 
-    setUser(username, userStatus.signedIn ? 'SIGNED_IN' : 'SIGNED_OUT');
+    if (!signedIn) {
+      return setUser('', 'SIGNED_OUT');
+    }
+
+    const { username } = await getMember();
+
+    setUser(username, 'SIGNED_IN');
   };
 
   useEffect(() => {
@@ -61,15 +68,27 @@ const App = () => {
         },
         {
           path: 'onboarding',
-          element: <PairRoomOnboarding />,
+          element: (
+            <Suspense fallback={<Loading />}>
+              <PairRoomOnboarding />{' '}
+            </Suspense>
+          ),
         },
         {
           path: 'room/:accessCode',
-          element: <PairRoom />,
+          element: (
+            <Suspense fallback={<Loading />}>
+              <PairRoom />
+            </Suspense>
+          ),
         },
         {
           path: 'sign-up',
           element: <SignUp />,
+        },
+        {
+          path: 'coduo-docs',
+          element: <CoduoDocs />,
         },
         {
           path: 'callback',
@@ -79,6 +98,10 @@ const App = () => {
           path: 'my-page',
           element: <MyPage />,
         },
+        {
+          path: '*',
+          element: <PageNotFound />,
+        },
       ],
     },
   ]);
@@ -87,9 +110,7 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        <Suspense fallback={<Loading />}>
-          <RouterProvider router={router} />
-        </Suspense>
+        <RouterProvider router={router} />
       </ThemeProvider>
     </QueryClientProvider>
   );
