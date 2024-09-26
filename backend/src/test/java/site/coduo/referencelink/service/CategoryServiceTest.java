@@ -86,7 +86,7 @@ class CategoryServiceTest extends CascadeCleaner {
 
         //when
         final CategoryUpdateResponse updatedCategory = categoryService.updateCategoryName(ACCESS_CODE.getValue(),
-                new CategoryUpdateRequest(createdCategory.id(), "파이썬"));
+                new CategoryUpdateRequest(Long.parseLong(createdCategory.id()), "파이썬"));
 
         //then
         final List<CategoryReadResponse> categories = categoryService.findAllByPairRoomAccessCode(
@@ -144,7 +144,7 @@ class CategoryServiceTest extends CascadeCleaner {
         final List<CategoryReadResponse> beforeDelete = categoryService.findAllByPairRoomAccessCode(
                 ACCESS_CODE.getValue());
 
-        categoryService.deleteCategory(ACCESS_CODE.getValue(), category.id());
+        categoryService.deleteCategory(ACCESS_CODE.getValue(), Long.parseLong(category.id()));
 
         final List<CategoryReadResponse> afterDelete = categoryService.findAllByPairRoomAccessCode(
                 ACCESS_CODE.getValue());
