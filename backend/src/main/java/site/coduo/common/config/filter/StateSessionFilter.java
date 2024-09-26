@@ -33,7 +33,6 @@ public class StateSessionFilter implements SessionFilter {
     public String getStoreSession(final HttpServletRequest request) {
         final HttpSession session = request.getSession();
         final String sessionState = (String) session.getAttribute(STATE_SESSION_NAME);
-        log.info("session 담아온 것 : {}", sessionState);
         if (Objects.isNull(sessionState)) {
             throw new AuthenticationException("세션에서 state 정보를 찾을 수 없습니다.");
         }

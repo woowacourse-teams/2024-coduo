@@ -39,7 +39,7 @@ public class FilterConfig {
     public FilterRegistrationBean<SignInCookieFilter> signInCookieFilter(final JwtProvider jwtProvider) {
         final FilterRegistrationBean<SignInCookieFilter> bean = new FilterRegistrationBean<>();
         bean.setFilter(new SignInCookieFilter(jwtProvider));
-        bean.addUrlPatterns("/api/sign-out", "/api/member");
+        bean.addUrlPatterns("/api/sign-out", "/api/member", "/api/sign-in/check");
         bean.setOrder(1);
         return bean;
     }

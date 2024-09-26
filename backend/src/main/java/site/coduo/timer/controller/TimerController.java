@@ -29,9 +29,7 @@ public class TimerController implements TimerDocs {
 
     @PatchMapping("/{accessCode}/timer/start")
     public ResponseEntity<Void> createTimerStart(@PathVariable("accessCode") final String accessCode) {
-        log.info("[Timer] 1. 타이머 시작!");
         schedulerService.start(accessCode);
-        log.info("[Timer] 9. 스케줄링 API 전체 종료");
         return ResponseEntity.noContent()
                 .build();
     }

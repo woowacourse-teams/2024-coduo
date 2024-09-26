@@ -32,7 +32,6 @@ public class GithubApiClient {
 
     public GithubUserResponse getUser(final GithubUserRequest request) {
 
-        log.info("Github User 정보 요청 시작 ");
         return client.get()
                 .uri("/user")
                 .accept()
