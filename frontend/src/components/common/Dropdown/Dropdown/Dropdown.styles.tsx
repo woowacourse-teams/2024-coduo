@@ -36,7 +36,7 @@ export const Layout = styled.div<{ $width: string; $height: string }>`
     padding-left: 1.7rem;
     border-radius: 0.8rem;
 
-    font-size: 1.4rem;
+    font-size: ${({ theme }) => theme.fontSize.md};
 
     &:hover {
       background-color: ${({ theme }) => theme.color.black[40]};
