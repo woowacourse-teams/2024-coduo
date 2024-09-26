@@ -1,16 +1,4 @@
-import styled, { css, keyframes } from 'styled-components';
-
-const gradientAnimation = keyframes`
-  0%{
-    background-position: 0% 50%;
-  }
-  50%{
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-    }
-`;
+import styled, { css } from 'styled-components';
 
 export const buttonStyles = css`
   width: 26rem;
@@ -62,15 +50,11 @@ export const Layout = styled.div`
   padding: 10rem;
 
   background: linear-gradient(
-    -45deg,
-    rgb(152 251 152 / 50%),
-    rgb(0 224 200 / 50%),
-    rgb(152 251 152 / 50%),
-    rgb(0 224 200 / 50%)
+    140deg,
+    ${({ theme }) => theme.color.secondary[100]},
+    ${({ theme }) => theme.color.primary[200]}
   );
-
-  animation: ${gradientAnimation} 10s ease infinite;
-  background-size: 400% 400%;
+  background-color: ${({ theme }) => theme.color.black[10]};
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     padding: 4rem;

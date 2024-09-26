@@ -55,7 +55,7 @@ const useHashScroll = () => {
         element.scrollIntoView({ behavior: 'smooth' });
       }
     }
-  }, [location]);
+  }, [location, currentHash]);
 
   return { activeSection };
 };
