@@ -11,8 +11,8 @@ import Button from '@/components/common/Button/Button';
 import useUserStore from '@/stores/userStore';
 
 import usePreventBackNavigation from '@/hooks/common/usePreventBackNavigation';
+import useTitleTime from '@/hooks/common/useTitleTime';
 import useSignInHandler from '@/hooks/member/useSignInHandler';
-import useTitleTime from '@/hooks/title/useTitleTime';
 
 const Landing = () => {
   const navigate = useNavigate();
