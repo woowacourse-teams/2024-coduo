@@ -33,10 +33,13 @@ const config = {
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './public/index.html',
-      favicon: './public/favicon.ico',
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: 'src/assets', to: 'assets/' }],
+      patterns: [
+        { from: 'public/coduo_metadata.jpg', to: 'coduo_metadata.jpg' },
+        { from: 'public/favicon.ico', to: 'favicon.ico' },
+        { from: 'src/assets', to: 'assets/' },
+      ],
     }),
   ],
   resolve: {
