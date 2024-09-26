@@ -1,6 +1,6 @@
 package site.coduo.pairroom.controller;
 
-import static site.coduo.common.config.filter.SignInCookieFilter.SIGN_IN_COOKIE_NAME;
+import static site.coduo.common.config.web.filter.SignInCookieFilter.SIGN_IN_COOKIE_NAME;
 
 import java.net.URI;
 import java.util.List;
@@ -22,10 +22,10 @@ import site.coduo.pairroom.controller.docs.PairRoomDocs;
 import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
+import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
 import site.coduo.pairroom.service.dto.PairRoomReadRequest;
 import site.coduo.pairroom.service.dto.PairRoomReadResponse;
 import site.coduo.pairroom.service.dto.PairRoomStatusUpdateRequest;
-import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
 
 @Slf4j
 @RequiredArgsConstructor
