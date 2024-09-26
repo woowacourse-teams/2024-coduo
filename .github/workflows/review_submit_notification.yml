@@ -1,0 +1,69 @@
+name: review submitted notification
+
+on:
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ vars.SLACK_BRANCH }}
+
+      - name: Install jq
+        run: sudo apt-get install jq
+
+      - name: Read Thead JSON and Set Env Variables
+        run: |
+          TARGET_URL=${{ github.event.pull_request.html_url }}
+          JSON_CONTENT=$(cat .github/logs/thread_fe.json)
+          TARGET_OBJECT=$(echo "$JSON_CONTENT" | jq --arg url "$TARGET_URL" '.[] | select(.pr_url == $url)')
+
+          PR_URL=$(echo "$TARGET_OBJECT" | jq -r '.pr_url')
+          AUTHOR=$(echo "$TARGET_OBJECT" | jq -r '.author')
+          THREAD_TS=$(echo "$TARGET_OBJECT" | jq -r '.thread_ts')
+
+          echo "PR_URL=${PR_URL}" >> $GITHUB_ENV
+          echo "PR_AUTHOR=${AUTHOR}" >> $GITHUB_ENV
+          echo "REVIEW_AUTHOR=${{ github.event.review.user.login }}" >> $GITHUB_ENV
+          echo "THREAD_TS=${THREAD_TS}" >> $GITHUB_ENV
+
+      - name: Decode base64 and parse CREW JSON
+        run: |
+          echo ${{secrets.SLACK_CREW_INFO_JSON}} | base64 --decode > decoded.json
+          JSON_CONTENT=$(cat decoded.json | jq -c .)
+          echo "CREW_INFO_JSON=$JSON_CONTENT" >> $GITHUB_ENV
+
+      - name: Extract member
+        id: extract_member
+        uses: actions/github-script@v7.0.1
+        with:
+          script: |
+            const members = JSON.parse(process.env.CREW_INFO_JSON);
+            const reviewee = members.find(entry => entry.githubId === process.env.PR_AUTHOR);
+            const reviewer = members.find(entry => entry.githubId === process.env.REVIEW_AUTHOR);
+            console.log(`::set-output name=reviewee_slack_id::${reviewee.slackId}`);
+            console.log(`::set-output name=reviewer_slack_name::${reviewer.name}`);
+      - name: Send Slack notification
+        uses: slackapi/slack-github-action@v1.22.0
+        with:
+          channel-id: ${{secrets.SLACK_FE_REVIEW_CHANNEL}}
+          payload: |
+            {
+              "text": "리뷰가 도착했어요✉️",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "📫<@${{ steps.extract_member.outputs.reviewee_slack_id }}>님 PR에 대한 `${{steps.extract_member.outputs.reviewer_slack_name}}`님의 리뷰가 도착했어요.📫"
+                  }
+                }
+              ],
+              "thread_ts": "${{ env.THREAD_TS }}"
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}

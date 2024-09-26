@@ -1,0 +1,75 @@
+package site.coduo.referencelink.controller;
+
+import java.net.URI;
+import java.util.List;
+
+import jakarta.validation.Valid;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import site.coduo.referencelink.controller.docs.ReferenceLinkDocs;
+import site.coduo.referencelink.service.ReferenceLinkService;
+import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
+import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
+
+@Slf4j
+@RequiredArgsConstructor
+@RestController
+public class ReferenceLinkController implements ReferenceLinkDocs {
+
+    private final ReferenceLinkService referenceLinkService;
+
+    @PostMapping("/{accessCode}/reference-link")
+    public ResponseEntity<ReferenceLinkResponse> createReferenceLink(
+            @PathVariable("accessCode") final String accessCodeText,
+            @Valid @RequestBody final ReferenceLinkCreateRequest request
+    ) {
+        final ReferenceLinkResponse response = referenceLinkService.createReferenceLink(
+                accessCodeText, request);
+
+        return ResponseEntity.created(URI.create("/"))
+                .body(response);
+    }
+
+    @GetMapping("/{accessCode}/reference-link")
+    public ResponseEntity<List<ReferenceLinkResponse>> getReferenceLinks(
+            @PathVariable("accessCode") final String accessCodeText
+    ) {
+        log.info("[Reference Link] 1. 링크 조회 API 호출 시작!");
+        final List<ReferenceLinkResponse> responses = referenceLinkService.readAllReferenceLink(accessCodeText);
+
+        log.info("[Reference Link] 5. 끝!! 응답!");
+        return ResponseEntity.ok(responses);
+    }
+
+    @GetMapping(value = "/{accessCode}/reference-link", params = "categoryId")
+    public ResponseEntity<List<ReferenceLinkResponse>> getReferenceLinksOfCategory(
+            @PathVariable("accessCode") final String accessCodeText,
+            @RequestParam(value = "categoryId") final Long categoryId
+    ) {
+        final List<ReferenceLinkResponse> responses = referenceLinkService
+                .findReferenceLinksByCategory(accessCodeText, categoryId);
+
+        return ResponseEntity.ok(responses);
+    }
+
+    @DeleteMapping("/{accessCode}/reference-link/{id}")
+    public ResponseEntity<Void> deleteReferenceLink(
+            @PathVariable("accessCode") final String accessCodeText,
+            @PathVariable("id") final long id
+    ) {
+        referenceLinkService.deleteReferenceLink(id);
+
+        return ResponseEntity.noContent()
+                .build();
+    }
+}
