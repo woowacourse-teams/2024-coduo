@@ -9,6 +9,7 @@ const useGetPairRoom = (accessCode: string) => {
   const {
     data: pairRoom,
     isFetching: isPairRoomFetching,
+    isRefetching: isPairRoomReFetching,
     refetch,
   } = useQuery({
     queryKey: [QUERY_KEYS.GET_PAIR_ROOM],
@@ -29,7 +30,7 @@ const useGetPairRoom = (accessCode: string) => {
     navigator: pairRoom?.navigator || '',
     duration: timer?.duration || 0,
     remainingTime: timer?.remainingTime || 0,
-    isFetching: isPairRoomFetching || isTimerFetching,
+    isFetching: (isPairRoomFetching && !isPairRoomReFetching) || isTimerFetching,
     refetch,
   };
 };

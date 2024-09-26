@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import Spinner from '@/components/common/Spinner/Spinner';
+import Loading from '@/pages/Loading/Loading';
+
 import PairListCard from '@/components/PairRoom/PairListCard/PairListCard';
 import PairRoleCard from '@/components/PairRoom/PairRoleCard/PairRoleCard';
 import ReferenceCard from '@/components/PairRoom/ReferenceCard/ReferenceCard';
@@ -9,6 +10,7 @@ import TimerCard from '@/components/PairRoom/TimerCard/TimerCard';
 import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
 
 import useGetPairRoom from '@/queries/PairRoom/useGetPairRoom';
+import useUpdatePairRoom from '@/queries/PairRoom/useUpdatePairRoom';
 
 import * as S from './PairRoom.styles';
 
@@ -25,6 +27,7 @@ const PairRoom = () => {
     remainingTime,
     isFetching,
   } = useGetPairRoom(accessCode || '');
+  const { handleUpdatePairRole } = useUpdatePairRoom(accessCode || '');
 
   useEffect(() => {
     setDriver(latestDriver);
@@ -33,17 +36,8 @@ const PairRoom = () => {
 
   const [isCardOpen, setIsCardOpen] = useState(false);
 
-  const handleSwap = () => {
-    setDriver(navigator);
-    setNavigator(driver);
-  };
-
   if (isFetching) {
-    return (
-      <S.Layout>
-        <Spinner />
-      </S.Layout>
-    );
+    return <Loading />;
   }
 
   return (
@@ -55,7 +49,7 @@ const PairRoom = () => {
           accessCode={accessCode || ''}
           defaultTime={duration}
           defaultTimeleft={remainingTime}
-          onTimerStop={handleSwap}
+          onTimerStop={handleUpdatePairRole}
         />
       </S.Container>
       <S.Container>

@@ -29,9 +29,13 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
   };
 
   const handleStop = () => {
-    onTimerStop();
-    setTimeLeft(defaultTime);
+    addToast({ status: 'SUCCESS', message: '타이머가 종료되었습니다.' });
+
     setIsActive(false);
+    setTimeLeft(defaultTime);
+    onTimerStop();
+
+    addToast({ status: 'INFO', message: '드라이버 / 내비게이터 역할을 바꿔 주세요!' });
   };
 
   useEffect(() => {
@@ -50,7 +54,7 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
         return;
       }
 
-      if (event.data === 'stop') {
+      if (event.data === 'pause') {
         setIsActive(false);
         addToast({ status: 'WARNING', message: '타이머가 일시 정지되었습니다.' });
         return;
@@ -58,10 +62,13 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
     };
 
     const handleTimeLeft = (event: MessageEvent) => {
-      if (event.data === 0) {
+      if (event.data === '0') {
+        console.log('타이머 종료');
         handleStop();
         alarmAudio.current.play();
-        fireNotification('타이머가 끝났어요!', '드라이버 / 내비게이터 역할을 바꾸세요!', { requireInteraction: true });
+        fireNotification('타이머가 끝났어요!', '드라이버 / 내비게이터 역할을 바꿔 주세요!', {
+          requireInteraction: true,
+        });
       } else {
         setTimeLeft(event.data);
       }
@@ -71,8 +78,8 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
       event.preventDefault();
     };
 
-    sse.addEventListener(STATUS_SSE_KEY, handleStatus);
     sse.addEventListener(TIME_SSE_KEY, handleTimeLeft);
+    sse.addEventListener(STATUS_SSE_KEY, handleStatus);
 
     window.addEventListener('beforeunload', handleBeforeUnload);
 
