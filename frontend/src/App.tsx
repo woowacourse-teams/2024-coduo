@@ -33,10 +33,15 @@ const App = () => {
   const { setUser } = useUserStore();
 
   const updateUser = async () => {
-    const userStatus = await getIsUserLoggedIn();
-    const username = await getMember();
+    const { signedIn } = await getIsUserLoggedIn();
 
-    setUser(username, userStatus.signedIn ? 'SIGNED_IN' : 'SIGNED_OUT');
+    if (!signedIn) {
+      return setUser('', 'SIGNED_OUT');
+    }
+
+    const { username } = await getMember();
+
+    setUser(username, 'SIGNED_IN');
   };
 
   useEffect(() => {

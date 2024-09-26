@@ -1,14 +1,12 @@
 import { Driver, Navigator } from '@/assets';
 
 import { ScrollAnimationContainer } from '@/components/common/Animation/ScrollAnimationContainer';
-import ScrollIcon from '@/components/common/ScrollIcon/ScrollIcon';
 
 import * as S from './HowToPair.styles';
 
 const HowToPair = () => {
   return (
-    <S.Layout>
-      <ScrollIcon />
+    <S.Layout id="how-to-pair">
       <ScrollAnimationContainer
         animationDirection="right"
         animationDuration={0.7}
