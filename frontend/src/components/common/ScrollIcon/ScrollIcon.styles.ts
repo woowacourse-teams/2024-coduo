@@ -36,6 +36,7 @@ export const Layout = styled.div<{ $isBottom: boolean }>`
 
   position: fixed;
   bottom: 2rem;
+  left: calc(50% - 3rem);
   z-index: 10;
 
   padding: 1.5rem;

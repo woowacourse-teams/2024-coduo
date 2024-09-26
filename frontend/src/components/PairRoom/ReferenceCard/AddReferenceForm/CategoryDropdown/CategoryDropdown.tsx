@@ -1,8 +1,12 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 
+import { validateCategory } from '@/validations/validateCategory';
+
 import Dropdown from '@/components/common/Dropdown/Dropdown/Dropdown';
 import Input from '@/components/common/Input/Input';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
+
+import useToastStore from '@/stores/toastStore';
 
 import useInput from '@/hooks/common/useInput';
 import { DEFAULT_CATEGORY_VALUE } from '@/hooks/PairRoom/useCategories';
@@ -15,6 +19,7 @@ interface CategoryDropdownProp {
   currentCategoryId: string | null;
   handleCurrentCategory: (category: string) => void;
   getCategoryNameById: (categoryId: string) => string;
+  isCategoryExist: (categoryName: string) => boolean;
 }
 
 const CategoryDropdown = ({
@@ -23,8 +28,10 @@ const CategoryDropdown = ({
   currentCategoryId,
   handleCurrentCategory,
   getCategoryNameById,
+  isCategoryExist,
 }: CategoryDropdownProp) => {
-  const { value, status, handleChange, resetValue } = useInput();
+  const { value, status, message, handleChange, resetValue } = useInput();
+  const { addToast } = useToastStore();
 
   const addCategory = useAddCategory().mutateAsync;
   const handleCategory = (option: string) => {
@@ -43,16 +50,20 @@ const CategoryDropdown = ({
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          if (status === 'ERROR') return;
+          if (status === 'ERROR') {
+            addToast({ status, message });
+            return;
+          }
           addCategory({ category: value, accessCode }).then(() => resetValue());
         }}
       >
         <Input
           value={value}
-          onChange={handleChange}
+          onChange={(event) => handleChange(event, validateCategory(event.target.value, isCategoryExist))}
           maxLength={15}
           height="4rem"
-          placeholder="새 카테고리 추가하기"
+          status={status}
+          placeholder="+ 새 카테고리 추가"
           autoFocus
         />
       </form>

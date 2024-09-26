@@ -13,7 +13,6 @@ const useInput = (initialValue: string = '') => {
   ) => {
     if (validateValue) {
       const { status, message } = validateValue;
-
       setStatus(status);
       setMessage(message);
     }

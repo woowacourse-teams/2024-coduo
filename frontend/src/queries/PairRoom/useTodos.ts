@@ -4,43 +4,45 @@ import useToastStore from '@/stores/toastStore';
 
 import { getTodos, addTodos, updateOrder, updateChecked, updateContents, deleteTodo } from '@/apis/todo';
 
+import { QUERY_KEYS } from '@/constants/queryKeys';
+
 const useTodos = (accessCode: string) => {
   const queryClient = useQueryClient();
 
   const { addToast } = useToastStore();
 
   const { data } = useQuery({
-    queryKey: ['getTodos'],
+    queryKey: [QUERY_KEYS.GET_TODOS],
     queryFn: () => getTodos(accessCode),
   });
 
   const { mutate: addTodosMutation } = useMutation({
     mutationFn: addTodos,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['getTodos'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_TODOS] }),
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });
 
   const { mutate: updateContentsMutation } = useMutation({
     mutationFn: updateContents,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['getTodos'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_TODOS] }),
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });
 
   const { mutate: updateOrderMutation } = useMutation({
     mutationFn: updateOrder,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['getTodos'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_TODOS] }),
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });
 
   const { mutate: updateCheckedMutation } = useMutation({
     mutationFn: updateChecked,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['getTodos'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_TODOS] }),
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });
 
   const { mutate: deleteTodoMutation } = useMutation({
     mutationFn: deleteTodo,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['getTodos'] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_TODOS] }),
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });
 

@@ -14,9 +14,10 @@ interface ReferenceFormProps {
   getCategoryNameById: (categoryId: string) => string;
   categories: Category[];
   accessCode: string;
+  isCategoryExist: (categoryName: string) => boolean;
 }
 
-const AddReferenceForm = ({ accessCode, categories, getCategoryNameById }: ReferenceFormProps) => {
+const AddReferenceForm = ({ accessCode, categories, getCategoryNameById, isCategoryExist }: ReferenceFormProps) => {
   const { value, status, message, handleChange, resetValue } = useInput();
   const { currentCategoryId, handleCurrentCategory, handleSubmit } = useReference(accessCode, value, () =>
     resetValue(),
@@ -29,7 +30,9 @@ const AddReferenceForm = ({ accessCode, categories, getCategoryNameById }: Refer
         categories={categories}
         handleCurrentCategory={handleCurrentCategory}
         accessCode={accessCode}
-        getCategoryNameById={getCategoryNameById} />
+        getCategoryNameById={getCategoryNameById}
+        isCategoryExist={isCategoryExist}
+      />
       <S.Form onSubmit={handleSubmit}>
         <Input
           $css={S.inputStyles}

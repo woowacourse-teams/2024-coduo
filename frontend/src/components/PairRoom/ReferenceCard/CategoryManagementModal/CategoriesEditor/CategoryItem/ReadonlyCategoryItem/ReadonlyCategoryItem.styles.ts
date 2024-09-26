@@ -5,7 +5,7 @@ export const Layout = styled.div`
   align-items: center;
   gap: 1rem;
 
-  width: 25rem;
+  width: 28rem;
 `;
 
 export const ReadonlyCategoryItem = styled.li<{ $isChecked: boolean }>`
@@ -14,7 +14,7 @@ export const ReadonlyCategoryItem = styled.li<{ $isChecked: boolean }>`
   align-items: center;
 
   width: 100%;
-  height: 4.8rem;
+  height: 4.4rem;
   padding: 0 1rem;
   border: 1px solid ${({ theme }) => theme.color.black[50]};
   border-radius: 0.5rem;
