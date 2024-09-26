@@ -36,7 +36,9 @@ const Header = () => {
         {userStatus === 'SIGNED_IN' ? (
           <>
             <button onClick={handleSignOut}>로그아웃</button>
-            <p>{username}</p>
+            <Link to="/my-page">
+              <button>{username}</button>
+            </Link>
           </>
         ) : (
           <button onClick={handleSignInGithub}>Github로 로그인</button>
