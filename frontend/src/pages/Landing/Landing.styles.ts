@@ -49,6 +49,11 @@ export const Layout = styled.div`
   height: calc(100vh - 7rem);
   padding: 10rem;
 
+  background: linear-gradient(
+    140deg,
+    ${({ theme }) => theme.color.primary[200]},
+    ${({ theme }) => theme.color.secondary[400]}
+  );
   background-color: ${({ theme }) => theme.color.black[10]};
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
