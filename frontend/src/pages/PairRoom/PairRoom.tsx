@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import Loading from '@/pages/Loading/Loading';
+
 import PairListCard from '@/components/PairRoom/PairListCard/PairListCard';
 import PairRoleCard from '@/components/PairRoom/PairRoleCard/PairRoleCard';
 import ReferenceCard from '@/components/PairRoom/ReferenceCard/ReferenceCard';
@@ -9,19 +11,20 @@ import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
 
 import { getPairRoom } from '@/apis/pairRoom';
 
-import useAddPairRoomHistory from '@/queries/Main/useAddPairRoomHistory';
-import useGetPairRoomHistory from '@/queries/Main/useGetPairRoomHistory';
-import useUpdateRemainingTime from '@/queries/PairRoomOnboarding/useUpdateRemainingTime';
+import useGetPairRoom from '@/queries/PairRoom/useGetPairRoom';
+import useUpdatePairRoom from '@/queries/PairRoom/useUpdatePairRoom';
 
 import * as S from './PairRoom.styles';
 
 const PairRoom = () => {
-  const { accessCode } = useParams();
   const navigate = useNavigate();
+
+  const { accessCode } = useParams();
 
   useEffect(() => {
     const checkPairRoomExists = async () => {
       if (!accessCode) return navigate('/404');
+
       try {
         await getPairRoom(accessCode);
       } catch (error) {
@@ -38,12 +41,11 @@ const PairRoom = () => {
   const {
     driver: latestDriver,
     navigator: latestNavigator,
-    timerDuration,
-    timerRemainingTime,
-  } = useGetPairRoomHistory(accessCode || '');
-
-  const { handleAddPairRoomHistory } = useAddPairRoomHistory(accessCode || '');
-  const { handleUpdateRemainingTime } = useUpdateRemainingTime(accessCode || '');
+    duration,
+    remainingTime,
+    isFetching,
+  } = useGetPairRoom(accessCode || '');
+  const { handleUpdatePairRole } = useUpdatePairRoom(accessCode || '');
 
   useEffect(() => {
     setDriver(latestDriver);
@@ -52,12 +54,9 @@ const PairRoom = () => {
 
   const [isCardOpen, setIsCardOpen] = useState(false);
 
-  const handleSwap = () => {
-    handleAddPairRoomHistory(navigator, driver, timerDuration, timerDuration);
-
-    setDriver(navigator);
-    setNavigator(driver);
-  };
+  if (isFetching) {
+    return <Loading />;
+  }
 
   return (
     <S.Layout>
@@ -65,10 +64,10 @@ const PairRoom = () => {
       <S.Container>
         <PairRoleCard driver={driver} navigator={navigator} />
         <TimerCard
-          defaultTime={timerDuration}
-          defaultTimeleft={timerRemainingTime}
-          onTimerStop={handleSwap}
-          onUpdateTimeLeft={handleUpdateRemainingTime}
+          accessCode={accessCode || ''}
+          defaultTime={duration}
+          defaultTimeleft={remainingTime}
+          onTimerStop={handleUpdatePairRole}
         />
       </S.Container>
       <S.Container>

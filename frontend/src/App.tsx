@@ -63,11 +63,19 @@ const App = () => {
         },
         {
           path: 'onboarding',
-          element: <PairRoomOnboarding />,
+          element: (
+            <Suspense fallback={<Loading />}>
+              <PairRoomOnboarding />{' '}
+            </Suspense>
+          ),
         },
         {
-          path: 'pair-room/:accessCode',
-          element: <PairRoom />,
+          path: 'room/:accessCode',
+          element: (
+            <Suspense fallback={<Loading />}>
+              <PairRoom />
+            </Suspense>
+          ),
         },
         {
           path: 'sign-up',
@@ -97,9 +105,7 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        <Suspense fallback={<Loading />}>
-          <RouterProvider router={router} />
-        </Suspense>
+        <RouterProvider router={router} />
       </ThemeProvider>
     </QueryClientProvider>
   );
