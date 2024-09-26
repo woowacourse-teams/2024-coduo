@@ -5,11 +5,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Component;
 
+import lombok.NoArgsConstructor;
 import site.coduo.sync.exception.DuplicateTimestampException;
 import site.coduo.sync.exception.NotFoundTimeStampException;
 import site.coduo.timer.domain.Timer;
 
 @Component
+@NoArgsConstructor
 public class TimestampRegistry {
 
     private final Map<String, Timer> registry = new ConcurrentHashMap<>();

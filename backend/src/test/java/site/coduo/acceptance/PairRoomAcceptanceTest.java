@@ -16,12 +16,12 @@ import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
 @Transactional
 class PairRoomAcceptanceTest extends AcceptanceFixture {
 
-    static PairRoomCreateResponse createPairRoom(final PairRoomCreateRequest pairRoom) {
+    static PairRoomCreateResponse createPairRoom(final PairRoomCreateRequest request) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .body(pairRoom)
+                .body(request)
 
                 .when()
                 .post("/api/pair-room")

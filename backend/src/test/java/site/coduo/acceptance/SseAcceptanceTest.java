@@ -49,7 +49,14 @@ class SseAcceptanceTest extends AcceptanceFixture {
     @DisplayName("페어룸의 모든 SSE connection을 종료한다.")
     void delete_sse_connection() {
         // given
-        final String accessCode = "hihio";
+        final PairRoomCreateRequest request = new PairRoomCreateRequest(
+                "해시",
+                "잉크",
+                1000L,
+                1000L,
+                PairRoomStatus.IN_PROGRESS.name()
+        );
+        final String accessCode = createPairRoom(request).accessCode();
         createConnect(accessCode);
 
         // when & then
