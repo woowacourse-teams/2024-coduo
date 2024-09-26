@@ -7,9 +7,8 @@ import { ThemeProvider } from 'styled-components';
 const PairRoom = lazy(() => import('@/pages/PairRoom/PairRoom'));
 
 import Callback from '@/pages/Callback/Callback';
-import Docs from '@/pages/CoduoDocs/CoduoDocs';
+import CoduoDocs from '@/pages/CoduoDocs/CoduoDocs';
 import PageNotFound from '@/pages/Error/PageNotFound';
-import HowToPair from '@/pages/HowToPair/HowToPair';
 import Landing from '@/pages/Landing/Landing';
 import Layout from '@/pages/Layout';
 import Loading from '@/pages/Loading/Loading';
@@ -17,6 +16,8 @@ import Main from '@/pages/Main/Main';
 import MyPage from '@/pages/MyPage/MyPage';
 import PairRoomOnboarding from '@/pages/PairRoomOnboarding/PairRoomOnboarding';
 import SignUp from '@/pages/SignUp/SignUp';
+
+import HowToPair from '@/components/Landing/HowToPair/HowToPair';
 
 import useUserStore from '@/stores/userStore';
 
@@ -32,10 +33,15 @@ const App = () => {
   const { setUser } = useUserStore();
 
   const updateUser = async () => {
-    const userStatus = await getIsUserLoggedIn();
-    const username = await getMember();
+    const { signedIn } = await getIsUserLoggedIn();
 
-    setUser(username, userStatus.signedIn ? 'SIGNED_IN' : 'SIGNED_OUT');
+    if (!signedIn) {
+      return setUser('', 'SIGNED_OUT');
+    }
+
+    const { username } = await getMember();
+
+    setUser(username, 'SIGNED_IN');
   };
 
   useEffect(() => {
@@ -82,7 +88,7 @@ const App = () => {
         },
         {
           path: 'coduo-docs',
-          element: <Docs />,
+          element: <CoduoDocs />,
         },
         {
           path: 'callback',

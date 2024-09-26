@@ -19,8 +19,7 @@ const config = {
         use: ['style-loader', 'css-loader'],
       },
       {
-
-        test: /\.(png|svg|jpg|gif|mp3|webp)$/,
+        test: /\.(png|svg|jpg|gif|mp3|webp|ico)$/,
         type: 'asset/resource',
       },
       {
@@ -32,11 +31,15 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
+      filename: 'index.html',
       template: './public/index.html',
-      filename: './index.html',
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: 'src/assets', to: 'assets/' }],
+      patterns: [
+        { from: 'public/coduo_metadata.jpg', to: 'coduo_metadata.jpg' },
+        { from: 'public/favicon.ico', to: 'favicon.ico' },
+        { from: 'src/assets', to: 'assets/' },
+      ],
     }),
   ],
   resolve: {
