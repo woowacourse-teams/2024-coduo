@@ -8,11 +8,18 @@ interface CategoryFilterProps {
   selectedCategory: string;
   handleSelectCategory: (categoryId: string) => void;
   accessCode: string;
+  closeModal: () => void;
 }
 
 const MIN_CATEGORY_NUMBER = 2;
 
-const CategoriesEditor = ({ accessCode, categories, selectedCategory, handleSelectCategory }: CategoryFilterProps) => {
+const CategoriesEditor = ({
+  closeModal,
+  accessCode,
+  categories,
+  selectedCategory,
+  handleSelectCategory,
+}: CategoryFilterProps) => {
   return (
     <S.CategoryList>
       {categories.length < MIN_CATEGORY_NUMBER ? (
@@ -24,6 +31,7 @@ const CategoriesEditor = ({ accessCode, categories, selectedCategory, handleSele
         <>
           {categories.map((category) => (
             <CategoryItem
+              closeModal={closeModal}
               accessCode={accessCode}
               key={category.id}
               categoryName={category.value}

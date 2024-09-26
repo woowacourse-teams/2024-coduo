@@ -13,10 +13,18 @@ interface CategoryItemProps {
   categoryName: string;
   categoryId: string;
   isChecked: boolean;
+  closeModal: () => void;
   handleSelectCategory: (categoryId: string) => void;
 }
 
-const CategoryItem = ({ categoryName, categoryId, isChecked, handleSelectCategory, accessCode }: CategoryItemProps) => {
+const CategoryItem = ({
+  closeModal,
+  categoryName,
+  categoryId,
+  isChecked,
+  handleSelectCategory,
+  accessCode,
+}: CategoryItemProps) => {
   const { isEditing, categoryInputData, actions } = useEditCategory(accessCode, categoryName, categoryId);
 
   const handleUpdateCategory = async (event: React.FormEvent) => {
@@ -24,8 +32,8 @@ const CategoryItem = ({ categoryName, categoryId, isChecked, handleSelectCategor
     await actions.updateCategory();
   };
 
-  const handleDeleteCategory = () => {
-    actions.deleteCategory();
+  const handleDeleteCategory = async () => {
+    await actions.deleteCategory();
     if (isChecked) handleSelectCategory(DEFAULT_CATEGORY_ID);
   };
 
@@ -39,6 +47,8 @@ const CategoryItem = ({ categoryName, categoryId, isChecked, handleSelectCategor
               value={categoryInputData.value}
               onChange={actions.editCategory}
               status={categoryInputData.status}
+              height="4.4rem"
+              width="28rem"
             />
             {categoryInputData.message && (
               <Message $status={categoryInputData.status}>{categoryInputData.message}</Message>
@@ -53,6 +63,7 @@ const CategoryItem = ({ categoryName, categoryId, isChecked, handleSelectCategor
         <>
           <S.Container>
             <ReadonlyCategoryItem
+              closeModal={closeModal}
               categoryId={categoryId}
               isChecked={isChecked}
               category={categoryName}

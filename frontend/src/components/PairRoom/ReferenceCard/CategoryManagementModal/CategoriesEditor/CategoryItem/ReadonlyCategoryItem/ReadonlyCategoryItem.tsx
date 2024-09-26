@@ -2,20 +2,27 @@ import { CheckBoxChecked, CheckBoxUnchecked } from '@/assets';
 
 import * as S from './ReadonlyCategoryItem.styles';
 
-
 interface ReadonlyCategoryItemProps {
   isChecked: boolean;
   category: string;
   categoryId: string;
+  closeModal: () => void;
   handleSelectCategory: (categoryId: string) => void;
 }
 
-const ReadonlyCategoryItem = ({ categoryId, isChecked, category, handleSelectCategory }: ReadonlyCategoryItemProps) => {
+const ReadonlyCategoryItem = ({
+  closeModal,
+  categoryId,
+  isChecked,
+  category,
+  handleSelectCategory,
+}: ReadonlyCategoryItemProps) => {
   return (
     <S.Layout
       id={categoryId}
       onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
         handleSelectCategory(event.currentTarget.id);
+        closeModal();
       }}
     >
       <img
