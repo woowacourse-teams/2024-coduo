@@ -7,6 +7,7 @@ import * as S from '@/pages/Landing/Landing.styles';
 
 import { ScrollAnimationContainer } from '@/components/common/Animation/ScrollAnimationContainer';
 import Button from '@/components/common/Button/Button';
+import ScrollIcon, { TargetSection } from '@/components/common/ScrollIcon/ScrollIcon';
 import HowToPair from '@/components/Landing/HowToPair/HowToPair';
 
 import useUserStore from '@/stores/userStore';
@@ -17,7 +18,10 @@ import useSignInHandler from '@/hooks/member/useSignInHandler';
 
 const Landing = () => {
   const navigate = useNavigate();
-
+  const targetSections: TargetSection[] = [
+    { id: 'landing', position: 'top' },
+    { id: 'how-to-pair', position: 'bottom' },
+  ];
   useTitleTime();
   usePreventBackNavigation();
 
@@ -30,6 +34,7 @@ const Landing = () => {
 
   return (
     <>
+      <ScrollIcon targetSections={targetSections} />
       <S.Layout id="landing">
         <ScrollAnimationContainer animationDirection="right">
           <S.SubTitle>당신의 첫 번째 페어 프로그래밍,</S.SubTitle>
