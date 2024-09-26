@@ -15,7 +15,7 @@ import site.coduo.sync.exception.SseConnectionFailureException;
 @Getter
 public class SseEventStream implements EventStream {
 
-    private static final long INFINITE_TIME_OUT = -1;
+    private static final Duration TIME_OUT = Duration.ofMinutes(20);
     private static final String CLOSE_NAME = "close";
     private static final String CONNECT_NAME = "connect";
     private static final String SUCCESS_MESSAGE = "OK";
@@ -24,7 +24,7 @@ public class SseEventStream implements EventStream {
     private final SseEmitter sseEmitter;
 
     public SseEventStream() {
-        this.sseEmitter = new SseEmitter(INFINITE_TIME_OUT);
+        this.sseEmitter = new SseEmitter(TIME_OUT.toMillis());
     }
 
     public SseEventStream(final Duration timeout) {
