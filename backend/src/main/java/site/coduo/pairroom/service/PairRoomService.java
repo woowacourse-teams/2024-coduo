@@ -15,8 +15,7 @@ import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
-import site.coduo.pairroom.domain.accesscode.AccessCodeFactory;
-import site.coduo.pairroom.domain.accesscode.UUIDAccessCodeStrategy;
+import site.coduo.pairroom.domain.accesscode.UUIDAccessCodeGenerator;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomMemberEntity;
 import site.coduo.pairroom.repository.PairRoomMemberRepository;
@@ -54,16 +53,18 @@ public class PairRoomService {
     }
 
     private PairRoom createPairRoom(final PairRoomCreateRequest request) {
+        final AccessCode accessCode = generateAccessCode();
         final PairRoomStatus status = PairRoomStatus.findByName(request.status());
         final Pair pair = new Pair(new PairName(request.navigator()), new PairName(request.driver()));
-        final List<AccessCode> accessCodes = pairRoomRepository.findAll()
-                .stream()
-                .map(PairRoomEntity::getAccessCode)
-                .map(AccessCode::new)
-                .toList();
+        return new PairRoom(status, pair, accessCode);
+    }
 
-        final AccessCodeFactory accessCodeFactory = new AccessCodeFactory(new UUIDAccessCodeStrategy());
-        return new PairRoom(status, pair, accessCodeFactory.generate(accessCodes));
+    private AccessCode generateAccessCode() {
+        final String generatedAccessCode = UUIDAccessCodeGenerator.generate();
+        if (pairRoomRepository.existsByAccessCode(generatedAccessCode)) {
+            return generateAccessCode();
+        }
+        return new AccessCode(generatedAccessCode);
     }
 
     @Transactional
