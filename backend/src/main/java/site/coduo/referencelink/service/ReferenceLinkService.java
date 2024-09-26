@@ -70,10 +70,9 @@ public class ReferenceLinkService {
     public List<ReferenceLinkResponse> readAllReferenceLink(final String accessCodeText) {
         log.info("[Reference Link] 2. readAllReferenceLink 메서드 호출 시작!");
         log.info("[Reference Link] 3. referenceLinkRepository.findAll() 호출 시작!");
-        final List<ReferenceLinkEntity> referenceLinkEntities = referenceLinkRepository.findAll()
-                .stream()
-                .filter(link -> link.isSameAccessCode(new AccessCode(accessCodeText)))
-                .toList();
+        final PairRoomEntity pairRoom = pairRoomRepository.fetchByAccessCode(accessCodeText);
+
+        final List<ReferenceLinkEntity> referenceLinkEntities = referenceLinkRepository.findByPairRoomEntity(pairRoom);
 
         log.info("[Reference Link] 4. referenceLinkRepository.findAll() 반환 데이터 필터링 시작!!");
         return referenceLinkEntities.stream()
@@ -92,9 +91,8 @@ public class ReferenceLinkService {
                 categoryId);
         final Category category = new Category(categoryEntity.getCategoryName());
 
-        return referenceLinkRepository.findAll()
+        return referenceLinkRepository.findByPairRoomEntity(pairRoomEntity)
                 .stream()
-                .filter(link -> link.isSameAccessCode(accessCode))
                 .filter(link -> link.isSameCategory(category))
                 .map(this::makeReferenceLinkResponse)
                 .toList();
@@ -111,9 +109,8 @@ public class ReferenceLinkService {
                 categoryId);
         final Category category = new Category(categoryEntity.getCategoryName());
 
-        return referenceLinkRepository.findAll()
+        return referenceLinkRepository.findByPairRoomEntity(pairRoomEntity)
                 .stream()
-                .filter(link -> link.isSameAccessCode(accessCode))
                 .filter(link -> link.isSameCategory(category))
                 .toList();
     }
