@@ -29,8 +29,7 @@ const AddReferenceForm = ({ accessCode, categories, getCategoryNameById }: Refer
         categories={categories}
         handleCurrentCategory={handleCurrentCategory}
         accessCode={accessCode}
-        getCategoryNameById={getCategoryNameById}
-      ></CategoryDropdown>
+        getCategoryNameById={getCategoryNameById} />
       <S.Form onSubmit={handleSubmit}>
         <Input
           $css={S.inputStyles}
