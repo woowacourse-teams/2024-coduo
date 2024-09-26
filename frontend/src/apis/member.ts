@@ -12,7 +12,7 @@ export const getSignOut = async (): Promise<void> => {
   });
 };
 
-export const getMember = async () => {
+export const getMember = async (): Promise<{ username: string }> => {
   const response = await fetcher.get({
     url: `${API_URL}/member`,
     errorMessage: ERROR_MESSAGES.GET_MEMBER,

@@ -24,10 +24,10 @@ const Callback = () => {
 
     hasCalledBack.current = true;
 
-    const userStatus = await getSignInCallback();
+    const { signedUp } = await getSignInCallback();
 
-    if (userStatus.signedUp) {
-      const username = await getMember();
+    if (signedUp) {
+      const { username } = await getMember();
 
       setUser(username, 'SIGNED_IN');
       navigate('/main');
