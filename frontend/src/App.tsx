@@ -17,7 +17,7 @@ import MyPage from '@/pages/MyPage/MyPage';
 import PairRoomOnboarding from '@/pages/PairRoomOnboarding/PairRoomOnboarding';
 import SignUp from '@/pages/SignUp/SignUp';
 
-import HowToPair from '@/components/HowToPair/HowToPair';
+import HowToPair from '@/components/Landing/HowToPair/HowToPair';
 
 import useUserStore from '@/stores/userStore';
 

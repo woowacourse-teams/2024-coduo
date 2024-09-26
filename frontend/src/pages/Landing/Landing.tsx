@@ -7,7 +7,7 @@ import * as S from '@/pages/Landing/Landing.styles';
 
 import { ScrollAnimationContainer } from '@/components/common/Animation/ScrollAnimationContainer';
 import Button from '@/components/common/Button/Button';
-import HowToPair from '@/components/HowToPair/HowToPair';
+import HowToPair from '@/components/Landing/HowToPair/HowToPair';
 
 import useUserStore from '@/stores/userStore';
 
