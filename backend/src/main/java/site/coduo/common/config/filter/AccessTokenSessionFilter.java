@@ -1,6 +1,7 @@
 package site.coduo.common.config.filter;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.Objects;
 
 import jakarta.servlet.FilterChain;
@@ -14,8 +15,10 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpHeaders;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import site.coduo.member.exception.AuthenticationException;
 
+@Slf4j
 @RequiredArgsConstructor
 public class AccessTokenSessionFilter implements SessionFilter {
 
@@ -31,7 +34,15 @@ public class AccessTokenSessionFilter implements SessionFilter {
 
     @Override
     public String getStoreSession(final HttpServletRequest request) {
+        log.info("getSession Store 호출");
+        log.info("HttpRequest : {}", request);
         final HttpSession session = request.getSession();
+        session.setAttribute("name", "password");
+        final Enumeration<String> attributeNames = session.getAttributeNames();
+        while (attributeNames.hasMoreElements()) {
+            final String name = attributeNames.nextElement();
+            log.info("{} : {}", name, session.getAttribute(name));
+        }
         final String sessionState = (String) session.getAttribute(ACCESS_TOKEN_SESSION_NAME);
         if (Objects.isNull(sessionState)) {
             throw new AuthenticationException("세션에서 Access token의 정보를 찾을 수 없습니다.");
