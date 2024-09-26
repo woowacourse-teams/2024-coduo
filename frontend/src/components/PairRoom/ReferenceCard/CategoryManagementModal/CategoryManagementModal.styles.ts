@@ -28,7 +28,6 @@ export const Footer = styled.form`
 
   width: 100%;
   height: 7rem;
-  padding-top: 2rem;
 `;
 
 export const AddNewCategoryInput = styled.div`
