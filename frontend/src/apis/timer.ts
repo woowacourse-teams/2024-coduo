@@ -28,14 +28,8 @@ interface UpdateDurationRequest {
 
 export const updateDuration = async ({ duration, accessCode }: UpdateDurationRequest) => {
   await fetcher.patch({
-    url: `${API_URL}/${accessCode}/timer/duration`,
-    body: JSON.stringify({ duration: Number(duration) * 60 * 1000 }),
-    errorMessage: '',
-  });
-
-  await fetcher.patch({
-    url: `${API_URL}/${accessCode}/timer/remaining-time`,
-    body: JSON.stringify({ timerRemainingTime: Number(duration) * 60 * 1000 }),
+    url: `${API_URL}/${accessCode}/timer`,
+    body: JSON.stringify({ duration: Number(duration) * 60 * 1000, remainingTime: Number(duration) * 60 * 1000 }),
     errorMessage: '',
   });
 };

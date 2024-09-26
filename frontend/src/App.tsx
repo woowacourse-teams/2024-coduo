@@ -69,7 +69,7 @@ const App = () => {
           ),
         },
         {
-          path: 'pair-room/:accessCode',
+          path: 'room/:accessCode',
           element: (
             <Suspense fallback={<Loading />}>
               <PairRoom />

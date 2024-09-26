@@ -34,7 +34,7 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
     }
 
     if (!isFetching && isSuccess) {
-      navigate(`/pair-room/${value}`);
+      navigate(`/room/${value}`);
     }
   };
 
