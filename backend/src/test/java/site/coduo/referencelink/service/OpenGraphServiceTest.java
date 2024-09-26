@@ -91,7 +91,7 @@ class OpenGraphServiceTest extends CascadeCleaner {
         );
     }
 
-    @DisplayName("레퍼런스링크 id로 오픈그래프를 삭제한다.")
+    @DisplayName("레퍼런스링크로 오픈그래프를 삭제한다.")
     @Test
     void delete_open_graph_by_reference_link_id() throws MalformedURLException {
         // given
@@ -108,7 +108,7 @@ class OpenGraphServiceTest extends CascadeCleaner {
         openGraphService.createOpenGraph(referenceLinkEntity, url);
 
         // when
-        openGraphService.deleteByReferenceLinkId(referenceLinkEntity.getId());
+        openGraphService.deleteByReferenceLink(referenceLinkEntity);
 
         // then
         assertThat(openGraphRepository.findAll()).isEmpty();

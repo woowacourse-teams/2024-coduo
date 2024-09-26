@@ -118,8 +118,11 @@ public class ReferenceLinkService {
         return new ReferenceLinkResponse(referenceLinkEntity, openGraph);
     }
 
-    public void deleteReferenceLink(final long id) {
-        openGraphService.deleteByReferenceLinkId(id);
-        referenceLinkRepository.deleteById(id);
+    public void deleteReferenceLink(final String accessCodeText, final long id) {
+        final ReferenceLinkEntity referenceLinkEntity = referenceLinkRepository.fetchById(id);
+        if (referenceLinkEntity.isSameAccessCode(new AccessCode(accessCodeText))) {
+            openGraphService.deleteByReferenceLink(referenceLinkEntity);
+            referenceLinkRepository.delete(referenceLinkEntity);
+        }
     }
 }

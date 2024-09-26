@@ -106,20 +106,35 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
     void delete_reference_link_and_open_graph() throws MalformedURLException {
         // given
         final PairRoomEntity pairRoomEntity = pairRoomRepository.save(PairRoomEntity.from(INK_REDDDY_ROOM));
-        final CategoryEntity category = categoryRepository.save(
-                new CategoryEntity(pairRoomEntity, new Category("리액트")));
-        final ReferenceLinkEntity link = referenceLinkRepository.save(
-                new ReferenceLinkEntity(
-                        new ReferenceLink(new URL("http://url1.com"), new AccessCode(pairRoomEntity.getAccessCode())),
-                        category, pairRoomEntity));
+        final ReferenceLinkCreateRequest request = new ReferenceLinkCreateRequest("https://www.naver.com", null);
+        final ReferenceLinkResponse referenceLink = referenceLinkService.createReferenceLink(
+                pairRoomEntity.getAccessCode(), request);
 
         // when
-        referenceLinkService.deleteReferenceLink(link.getId());
+        referenceLinkService.deleteReferenceLink(pairRoomEntity.getAccessCode(), referenceLink.id());
 
         // then
         assertAll(
                 () -> assertThat(referenceLinkRepository.findAll()).isEmpty(),
                 () -> assertThat(openGraphRepository.findAll()).isEmpty()
+        );
+    }
+
+    @DisplayName("액세스코드가 일치하지 않으면 삭제를 시도해도 삭제되지 않는다.")
+    @Test
+    void cannot_delete_reference_link_and_open_graph_when_invalid_access_code() throws MalformedURLException {
+        // given
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.save(PairRoomEntity.from(INK_REDDDY_ROOM));
+        final ReferenceLinkCreateRequest request = new ReferenceLinkCreateRequest("https://www.naver.com", null);
+        final ReferenceLinkResponse referenceLink = referenceLinkService.createReferenceLink(
+                pairRoomEntity.getAccessCode(), request);
+
+        // when
+        referenceLinkService.deleteReferenceLink("abcdef", referenceLink.id());
+
+        assertAll(
+                () -> assertThat(referenceLinkRepository.findAll()).hasSize(1),
+                () -> assertThat(openGraphRepository.findAll()).hasSize(1)
         );
     }
 }
