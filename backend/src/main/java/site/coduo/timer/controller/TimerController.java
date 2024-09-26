@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import site.coduo.sync.service.SchedulerService;
 import site.coduo.sync.service.SseService;
 import site.coduo.timer.controller.docs.TimerDocs;
@@ -17,6 +18,7 @@ import site.coduo.timer.service.TimerService;
 import site.coduo.timer.service.dto.TimerReadResponse;
 import site.coduo.timer.service.dto.TimerUpdateRequest;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class TimerController implements TimerDocs {
@@ -27,8 +29,9 @@ public class TimerController implements TimerDocs {
 
     @PatchMapping("/{accessCode}/timer/start")
     public ResponseEntity<Void> createTimerStart(@PathVariable("accessCode") final String accessCode) {
+        log.info("[Timer] 1. 타이머 시작!");
         schedulerService.start(accessCode);
-
+        log.info("[Timer] 9. 스케줄링 API 전체 종료");
         return ResponseEntity.noContent()
                 .build();
     }

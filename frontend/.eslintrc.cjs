@@ -68,7 +68,17 @@ module.exports = {
             position: 'before',
           },
           {
+            pattern: '@/assets',
+            group: 'internal',
+            position: 'after',
+          },
+          {
             pattern: '@/pages/**',
+            group: 'internal',
+            position: 'after',
+          },
+          {
+            pattern: '@/validations/**',
             group: 'internal',
             position: 'after',
           },
@@ -77,6 +87,7 @@ module.exports = {
             group: 'internal',
             position: 'after',
           },
+
           {
             pattern: '@/common/**',
             group: 'internal',
@@ -114,11 +125,6 @@ module.exports = {
           },
           {
             pattern: '@/constants/**',
-            group: 'internal',
-            position: 'after',
-          },
-          {
-            pattern: '@/assets/**',
             group: 'internal',
             position: 'after',
           },

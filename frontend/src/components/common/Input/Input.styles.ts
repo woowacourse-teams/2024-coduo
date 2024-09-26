@@ -4,6 +4,7 @@ import type { InputStatus } from '@/components/common/Input/Input.type';
 
 interface InputProps {
   $status: InputStatus;
+  $height: string;
   $css?: ReturnType<typeof css>;
 }
 
@@ -65,7 +66,7 @@ export const Input = styled.input<InputProps>`
   ${({ $status }) => inputStatusCss[$status]};
   ${({ $status }) => inputStatusCss[$status]};
   width: 100%;
-  height: 4.8rem;
+  height: ${({ $height }) => $height};
   padding: 0 1rem;
   border-radius: 0.5rem;
 

@@ -10,15 +10,16 @@ import LogoIconWithTitle from '@/assets/images/logo_icon_with_title.svg';
 import LogoTitle from '@/assets/images/logo_title.svg';
 import Wave from '@/assets/images/wave.svg';
 
-export { GithubLogo, 
-  GithubLogoWhite, 
+export {
+  GithubLogo,
+  GithubLogoWhite,
   CheckBoxUnchecked,
-  CheckBoxChecked, 
-  LogoIcon, 
-  LogoIconWithTitle, 
-  LogoTitle, 
-  Wave, 
-  AlarmSound, 
-  Driver, 
-  Navigator 
+  CheckBoxChecked,
+  LogoIcon,
+  LogoIconWithTitle,
+  LogoTitle,
+  Wave,
+  AlarmSound,
+  Driver,
+  Navigator,
 };
