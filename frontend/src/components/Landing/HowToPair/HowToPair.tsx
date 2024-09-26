@@ -9,7 +9,13 @@ const HowToPair = () => {
   return (
     <S.Layout>
       <ScrollIcon />
-      <ScrollAnimationContainer animationDirection="bottom" animationDuration={1}>
+      <ScrollAnimationContainer
+        animationDirection="right"
+        animationDuration={0.7}
+        intersectionObserverOptions={{
+          threshold: 0.5,
+        }}
+      >
         <S.Section $textAlign="center">
           <S.SectionText>
             <S.SectionTitle>페어 프로그래밍이란?</S.SectionTitle>
@@ -25,42 +31,62 @@ const HowToPair = () => {
         </S.Section>
       </ScrollAnimationContainer>
 
-      <ScrollAnimationContainer animationDirection="right" animationDuration={1}>
+      <ScrollAnimationContainer
+        animationDirection="left"
+        animationDuration={0.7}
+        intersectionObserverOptions={{
+          threshold: 0.5,
+        }}
+      >
         <S.TextBoxContainer>
           <S.TextBox>
             <S.Paragraph>
               <S.Strong>드라이버</S.Strong>
               <br /> 실제로 코드를 작성하는 사람으로, <br />
-              키보드와 마우스를 사용해 코드를 타이핑합니다.
+              내비게이터의 설계에 따라
+              <br /> 코드를 타이핑합니다.
             </S.Paragraph>
           </S.TextBox>
           <S.TextBox>
             <S.Paragraph>
               <S.Strong>내비게이터</S.Strong>
-              <br /> 작성된 코드를 실시간으로 검토하고 개선할 부분을 제안하며, <br />
-              코드의 전반적인 구조와 논리를 생각합니다.
+              <br /> 작성된 코드를 실시간으로 검토하고 <br />
+              개선할 부분을 제안하며, <br />
+              코드의 전반적인 구조를 설계합니다.
             </S.Paragraph>
           </S.TextBox>
         </S.TextBoxContainer>
       </ScrollAnimationContainer>
 
-      <ScrollAnimationContainer animationDirection="left" animationDuration={1}>
+      <ScrollAnimationContainer
+        animationDirection="right"
+        animationDuration={0.7}
+        intersectionObserverOptions={{
+          threshold: 0.5,
+        }}
+      >
         <S.Section $textAlign="right">
           <S.Character src={Navigator} />
           <S.SectionText>
             <S.SectionTitle>왜 페어 프로그래밍을 해야 할까요?</S.SectionTitle>
             <S.Paragraph>
-              서로의 대화를 통해 자연스럽게 코드 리뷰가 이루어져,
-              <S.Highlighted>오류를 조기에 발견하고 수정할 수 있습니다.</S.Highlighted>
+              서로의 대화를 통해 자연스럽게 코드 리뷰가 이루어져
+              <S.Highlighted> 오류를 조기에 발견하고 수정</S.Highlighted>할 수 있습니다.
               <br />
-              또한 <S.Highlighted>서로 다른 시각에서 문제를 바라보며</S.Highlighted> 더 창의적이고 효율적인 해결책을
+              또한 <S.Highlighted>서로 다른 시각</S.Highlighted>에서 문제를 바라보며 더 창의적이고 효율적인 해결책을
               찾을 수 있습니다.
             </S.Paragraph>
           </S.SectionText>
         </S.Section>
       </ScrollAnimationContainer>
 
-      <ScrollAnimationContainer animationDirection="right" animationDuration={1}>
+      <ScrollAnimationContainer
+        animationDirection="left"
+        animationDuration={0.7}
+        intersectionObserverOptions={{
+          threshold: 0.5,
+        }}
+      >
         <S.Section>
           <S.SectionText>
             <S.SectionTitle>페어 프로그래밍의 방법</S.SectionTitle>
@@ -74,7 +100,13 @@ const HowToPair = () => {
         </S.Section>
       </ScrollAnimationContainer>
 
-      <ScrollAnimationContainer animationDirection="top" animationDuration={1}>
+      <ScrollAnimationContainer
+        animationDirection="top"
+        animationDuration={0.7}
+        intersectionObserverOptions={{
+          threshold: 0.5,
+        }}
+      >
         <S.Conclusion>
           페어 프로그래밍은 단순히 코드를 함께 작성하는 것을 넘어,
           <br /> 협업을 통해 더 나은 코드를 만들어 나가는 과정입니다.

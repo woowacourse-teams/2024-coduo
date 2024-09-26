@@ -9,7 +9,6 @@ const PairRoom = lazy(() => import('@/pages/PairRoom/PairRoom'));
 import Callback from '@/pages/Callback/Callback';
 import CoduoDocs from '@/pages/CoduoDocs/CoduoDocs';
 import PageNotFound from '@/pages/Error/PageNotFound';
-import HowToPair from '@/pages/HowToPair/HowToPair';
 import Landing from '@/pages/Landing/Landing';
 import Layout from '@/pages/Layout';
 import Loading from '@/pages/Loading/Loading';
@@ -17,6 +16,8 @@ import Main from '@/pages/Main/Main';
 import MyPage from '@/pages/MyPage/MyPage';
 import PairRoomOnboarding from '@/pages/PairRoomOnboarding/PairRoomOnboarding';
 import SignUp from '@/pages/SignUp/SignUp';
+
+import HowToPair from '@/components/Landing/HowToPair/HowToPair';
 
 import useUserStore from '@/stores/userStore';
 
