@@ -1,37 +1,25 @@
 import styled from 'styled-components';
 
-import { Wave } from '@/assets';
-
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20rem;
+  gap: 15rem;
   overflow-x: hidden;
 
   position: relative;
 
-  padding: 16rem 4rem;
+  padding: 10rem 4rem;
 
+  background: linear-gradient(
+    75deg,
+    ${({ theme }) => theme.color.secondary[100]},
+    ${({ theme }) => theme.color.primary[200]}
+  );
+  background-color: ${({ theme }) => theme.color.black[10]};
   color: ${({ theme }) => theme.color.black[80]};
   line-height: 1.2;
-
-  &::before,
-  &::after {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-
-    width: 100%;
-    height: 100%;
-
-    background: url(${Wave}) repeat-y;
-    opacity: 0.5;
-    content: '';
-    background-size: cover;
-  }
 `;
 
 export const Section = styled.section<{ $textAlign?: 'left' | 'center' | 'right' }>`
@@ -40,6 +28,15 @@ export const Section = styled.section<{ $textAlign?: 'left' | 'center' | 'right'
 
   width: 100%;
   border-radius: 1rem;
+
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    word-break: keep-all;
+  }
 
   text-align: ${({ $textAlign = 'left' }) => $textAlign};
 `;
@@ -54,6 +51,10 @@ export const TextBoxContainer = styled.div`
 
     flex-grow: 1;
   }
+
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+    flex-direction: column;
+  }
 `;
 
 export const TextBox = styled.div`
@@ -61,6 +62,7 @@ export const TextBox = styled.div`
   flex-direction: column;
   gap: 1rem;
 
+  width: 36rem;
   padding: 2rem 4rem;
   border-radius: 3rem;
 
@@ -70,16 +72,16 @@ export const TextBox = styled.div`
 export const SectionText = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
 
   width: 100%;
 `;
 
 export const SectionTitle = styled.h2`
-  margin: 5rem 0;
+  margin: 2rem 0;
 
   color: ${({ theme }) => theme.color.primary[800]};
-  font-size: ${({ theme }) => theme.fontSize.h1};
+  font-size: ${({ theme }) => theme.fontSize.h3};
   font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;
 
@@ -94,18 +96,16 @@ export const Paragraph = styled.p`
 
 export const Strong = styled.strong`
   color: ${({ theme }) => theme.color.primary[700]};
-  font-size: ${({ theme }) => theme.fontSize.h4};
-  font-weight: ${({ theme }) => theme.fontWeight.extraBold};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;
 
 export const Highlighted = styled.span`
-  color: ${({ theme }) => theme.color.primary[800]};
-  font-size: ${({ theme }) => theme.fontSize.h5};
-  font-weight: ${({ theme }) => theme.fontWeight.extraBold};
+  color: ${({ theme }) => theme.color.primary[700]};
+  font-size: ${({ theme }) => theme.fontSize.h6};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;
 
 export const Conclusion = styled.p`
-  margin-top: 2rem;
   padding-left: 1rem;
 
   color: ${({ theme }) => theme.color.primary[800]};
