@@ -11,8 +11,6 @@ interface CategoryFilterProps {
   closeModal: () => void;
 }
 
-const MIN_CATEGORY_NUMBER = 2;
-
 const CategoriesEditor = ({
   closeModal,
   accessCode,
@@ -22,26 +20,17 @@ const CategoriesEditor = ({
 }: CategoryFilterProps) => {
   return (
     <S.CategoryList>
-      {categories.length < MIN_CATEGORY_NUMBER ? (
-        <>
-          <p>새로운 카테고리를 추가해주세요!</p>
-          <p>카테고리가 없습니다.</p>
-        </>
-      ) : (
-        <>
-          {categories.map((category) => (
-            <CategoryItem
-              closeModal={closeModal}
-              accessCode={accessCode}
-              key={category.id}
-              categoryName={category.value}
-              categoryId={category.id}
-              isChecked={category.id === selectedCategory}
-              handleSelectCategory={handleSelectCategory}
-            />
-          ))}
-        </>
-      )}
+      {categories.map((category) => (
+        <CategoryItem
+          closeModal={closeModal}
+          accessCode={accessCode}
+          key={category.id}
+          categoryName={category.value}
+          categoryId={category.id}
+          isChecked={category.id === selectedCategory}
+          handleSelectCategory={handleSelectCategory}
+        />
+      ))}
     </S.CategoryList>
   );
 };

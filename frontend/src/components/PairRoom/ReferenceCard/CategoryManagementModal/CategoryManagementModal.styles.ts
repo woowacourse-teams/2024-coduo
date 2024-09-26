@@ -35,3 +35,8 @@ export const AddNewCategoryInput = styled.div`
   align-items: center;
   gap: 0.5rem;
 `;
+export const buttonStyles = css`
+  width: 4.4rem;
+  height: 4rem;
+  border-radius: 0.6rem;
+`;

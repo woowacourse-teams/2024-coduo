@@ -1,4 +1,5 @@
 import { FaFilter } from 'react-icons/fa';
+import { LuPlus } from 'react-icons/lu';
 
 import { validateCategory } from '@/validations/validateCategory';
 
@@ -71,13 +72,19 @@ const CategoryManagementModal = ({
         <S.AddNewCategoryInput>
           <Input
             value={value}
-            placeholder="새로운 카테고리를 입력해주세요."
+            placeholder="+ 새로운 카테고리를 입력해주세요."
             onChange={(event) => handleChange(event, validateCategory(event.target.value, isCategoryExist))}
             status={status}
             $css={S.inputStyles}
           />
-          <Button size="sm" disabled={status === 'ERROR' || value === ''}>
-            추가
+          <Button
+            css={S.buttonStyles}
+            type="submit"
+            size="sm"
+            rounded={true}
+            disabled={value === '' || status !== 'DEFAULT'}
+          >
+            <LuPlus size="1.6rem" />
           </Button>
         </S.AddNewCategoryInput>
         <Message $status={status}>{message}</Message>

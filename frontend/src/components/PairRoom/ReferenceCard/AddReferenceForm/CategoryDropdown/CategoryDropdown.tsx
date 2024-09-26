@@ -63,7 +63,7 @@ const CategoryDropdown = ({
           maxLength={15}
           height="4rem"
           status={status}
-          placeholder="새 카테고리 추가하기"
+          placeholder="+ 새 카테고리 추가"
           autoFocus
         />
       </form>
