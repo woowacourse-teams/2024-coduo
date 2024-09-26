@@ -42,6 +42,7 @@ const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps)
             <ReferenceList references={references} accessCode={accessCode} />
             <S.Footer>
               <AddReferenceForm
+                isCategoryExist={isCategoryExist}
                 accessCode={accessCode}
                 categories={categories}
                 getCategoryNameById={getCategoryNameById}

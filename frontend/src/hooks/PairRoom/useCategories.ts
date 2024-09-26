@@ -19,15 +19,9 @@ const useCategories = (accessCode: string) => {
   };
 
   const getCategoryNameById = (categoryId: string): string => {
-    if (!data) {
-      console.error('data가 없습니다.');
-      return '';
-    }
-
-    const category = data.find((category) => category.id === categoryId);
+    const category = data?.find((category) => category.id === categoryId);
 
     if (!category) {
-      console.error('일치하는 카테고리 아이디가 없습니다.');
       return '';
     }
 
