@@ -39,9 +39,8 @@ oauth:
     client-secret: ${CLIENT_SECRET}
     redirect-uri: ${CLIENT_REDIRECT_URI}
 
-
 front:
   url: https://coduo.site
-
+  
 jwt:
   sign-key: ${JWT_KEY}

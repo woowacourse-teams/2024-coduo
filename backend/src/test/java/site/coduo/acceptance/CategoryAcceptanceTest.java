@@ -39,7 +39,8 @@ class CategoryAcceptanceTest extends AcceptanceFixture {
     void show_category() {
         //given
         final PairRoomCreateResponse pairRoomUrl = PairRoomAcceptanceTest.createPairRoom(
-                new PairRoomCreateRequest("레디", "프람", PairRoomStatus.IN_PROGRESS.name()));
+                new PairRoomCreateRequest("레디", "프람", 10000L, 10000L,
+                        PairRoomStatus.IN_PROGRESS.name()));
 
         createCategory(pairRoomUrl.accessCode(), new CategoryCreateRequest("새로운 카테고리"));
 
@@ -64,12 +65,14 @@ class CategoryAcceptanceTest extends AcceptanceFixture {
     void update_category() {
         //given
         final PairRoomCreateResponse pairRoomUrl = PairRoomAcceptanceTest.createPairRoom(
-                new PairRoomCreateRequest("레디", "프람", PairRoomStatus.IN_PROGRESS.name()));
+                new PairRoomCreateRequest("레디", "프람", 10000L, 10000L,
+                        PairRoomStatus.IN_PROGRESS.name()));
 
-        createCategory(pairRoomUrl.accessCode(), new CategoryCreateRequest("이전 카테고리"));
+        final CategoryCreateResponse previousCategory = createCategory(pairRoomUrl.accessCode(),
+                new CategoryCreateRequest("이전 카테고리"));
 
         final String updateName = "변경된 카테고리";
-        final CategoryUpdateRequest request = new CategoryUpdateRequest("이전 카테고리", updateName);
+        final CategoryUpdateRequest request = new CategoryUpdateRequest(Long.parseLong(previousCategory.id()), updateName);
 
         //when & then
         final CategoryUpdateResponse categoryUpdateResponse = RestAssured
@@ -97,10 +100,11 @@ class CategoryAcceptanceTest extends AcceptanceFixture {
     void delete_category() {
         //given
         final PairRoomCreateResponse pairRoomUrl = PairRoomAcceptanceTest.createPairRoom(
-                new PairRoomCreateRequest("레디", "프람", PairRoomStatus.IN_PROGRESS.name()));
+                new PairRoomCreateRequest("레디", "프람", 10000L, 10000L,
+                        PairRoomStatus.IN_PROGRESS.name()));
 
-        final String categoryName = "자바";
-        createCategory(pairRoomUrl.accessCode(), new CategoryCreateRequest(categoryName));
+        final CategoryCreateResponse category = createCategory(pairRoomUrl.accessCode(),
+                new CategoryCreateRequest("자바"));
 
         //when & then
         RestAssured
@@ -110,7 +114,7 @@ class CategoryAcceptanceTest extends AcceptanceFixture {
                 .contentType("application/json")
 
                 .when()
-                .delete("/api/{accessCode}/category/{categoryName}", pairRoomUrl.accessCode(), categoryName)
+                .delete("/api/{accessCode}/category/{categoryId}", pairRoomUrl.accessCode(), category.id())
 
                 .then()
                 .log()

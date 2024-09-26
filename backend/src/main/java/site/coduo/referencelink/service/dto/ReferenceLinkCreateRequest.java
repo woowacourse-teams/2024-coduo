@@ -11,8 +11,8 @@ public record ReferenceLinkCreateRequest(
         @NotBlank(message = "빈 url은 허용하지 않습니다.")
         String url,
 
-        @Schema(description = "카테고리 값", example = "자바 스크립트")
+        @Schema(description = "카테고리 id", example = "자바 스크립트")
         @Nullable
-        String categoryName
+        Long categoryId
 ) {
 }

@@ -4,26 +4,18 @@ import java.util.List;
 import java.util.Objects;
 
 import lombok.Getter;
-import site.coduo.todo.exception.InvalidTodoSortException;
 import site.coduo.todo.exception.InvalidUpdatedTodoSortException;
 
 @Getter
 public class TodoSort {
 
-    private static final int SORT_INTERVAL = 1024;
-    private static final int FIRST_INDEX = 0;
+    private static final int SORT_INTERVAL = 3072;
+    private static final int FIRST_ORDER = 0;
 
-    private final int sort;
+    private final double sort;
 
-    public TodoSort(final int sort) {
-        validateSort(sort);
+    public TodoSort(final double sort) {
         this.sort = sort;
-    }
-
-    private void validateSort(final int sort) {
-        if (sort < 0) {
-            throw new InvalidTodoSortException("todoSort는 음수가 될 수 없습니다.");
-        }
     }
 
     public TodoSort countNextSort() {
@@ -31,32 +23,43 @@ public class TodoSort {
     }
 
     public TodoSort update(final List<TodoSort> todoSorts, final int destinationOrder) {
-        validateUpdateSort(todoSorts.size(), destinationOrder);
+        validateDestinationOrder(todoSorts, destinationOrder);
 
-        if (destinationOrder == FIRST_INDEX) {
-            final int oldFirstItemSortValue = todoSorts.get(FIRST_INDEX).getSort();
+        if (destinationOrder == FIRST_ORDER) {
+            final double oldFirstItemSortValue = todoSorts.get(FIRST_ORDER).getSort();
             return new TodoSort(oldFirstItemSortValue - SORT_INTERVAL);
         }
 
         final int lastItemIndex = todoSorts.size() - 1;
         if (destinationOrder == lastItemIndex) {
-            final int oldLastItemSortValue = todoSorts.get(lastItemIndex).getSort();
+            final double oldLastItemSortValue = todoSorts.get(lastItemIndex).getSort();
             return new TodoSort(oldLastItemSortValue + SORT_INTERVAL);
         }
 
         final int currentOrder = todoSorts.indexOf(this);
         if (destinationOrder < currentOrder) {
-            final int newSortValue = (todoSorts.get(destinationOrder - 1).sort + todoSorts.get(destinationOrder).sort) / 2;
+            final double newSortValue = (todoSorts.get(destinationOrder - 1).sort + todoSorts.get(destinationOrder).sort) / 2;
             return new TodoSort(newSortValue);
         }
 
-        final int newSortValue = (todoSorts.get(destinationOrder).sort + todoSorts.get(destinationOrder + 1).sort) / 2;
+        final double newSortValue = (todoSorts.get(destinationOrder).sort + todoSorts.get(destinationOrder + 1).sort) / 2;
         return new TodoSort(newSortValue);
     }
 
-    private void validateUpdateSort(final int allTodoSize, final int destinationSort) {
-        if (destinationSort < FIRST_INDEX || destinationSort >= allTodoSize) {
-            throw new InvalidUpdatedTodoSortException("Todo 순서는 전체 Todo 범위를 벗어나는 위치일 수 없습니다. sort - " + destinationSort);
+    private void validateDestinationOrder(final List<TodoSort> todoSorts, final int destinationSort) {
+        final TodoSort currentSort = todoSorts.stream()
+                .filter(todoSort -> todoSort.getSort() == this.sort)
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("입력된 투두 정렬에 현재 정렬값이 포함되어 있지 않습니다."));
+        final int currentSortOrder = todoSorts.indexOf(currentSort);
+
+        if (currentSortOrder == destinationSort) {
+            throw new IllegalArgumentException("현재 위치로는 이동할 수 없습니다.");
+        }
+
+        if (destinationSort < FIRST_ORDER || destinationSort >= todoSorts.size()) {
+            throw new InvalidUpdatedTodoSortException(
+                    "Todo 순서는 전체 Todo 범위를 벗어나는 위치일 수 없습니다. sort - " + destinationSort);
         }
     }
 

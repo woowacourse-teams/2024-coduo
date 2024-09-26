@@ -1,8 +1,8 @@
-name: Coduo Backend Test Server CI
+name: Coduo Backend Production Server CI
 
 on:
   pull_request:
-    branches: [ "BE/dev", "BE/test" ]
+    branches: [ "BE/dev", "BE/test", "production" ]
 
 jobs:
   build-and-test:

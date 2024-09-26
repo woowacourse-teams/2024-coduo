@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import site.coduo.pairroom.repository.PairRoomRepository;
-import site.coduo.pairroomhistory.repository.PairRoomHistoryRepository;
+import site.coduo.pairroom.repository.PairRoomMemberRepository;
+import site.coduo.timer.repository.TimerRepository;
 import site.coduo.referencelink.repository.CategoryRepository;
 import site.coduo.referencelink.repository.OpenGraphRepository;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
@@ -13,7 +14,7 @@ import site.coduo.referencelink.repository.ReferenceLinkRepository;
 public class CascadeCleaner {
 
     @Autowired
-    private PairRoomHistoryRepository pairRoomHistoryRepository;
+    private TimerRepository timerRepository;
 
     @Autowired
     private OpenGraphRepository openGraphRepository;
@@ -27,8 +28,12 @@ public class CascadeCleaner {
     @Autowired
     private PairRoomRepository pairRoomRepository;
 
+    @Autowired
+    private PairRoomMemberRepository pairRoomMemberRepository;
+
     public void deleteAllPairRoomCascade() {
-        pairRoomHistoryRepository.deleteAll();
+        pairRoomMemberRepository.deleteAll();
+        timerRepository.deleteAll();
         openGraphRepository.deleteAll();
         referenceLinkRepository.deleteAll();
         categoryRepository.deleteAll();
