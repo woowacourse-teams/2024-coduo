@@ -12,9 +12,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import lombok.extern.slf4j.Slf4j;
 import site.coduo.member.exception.AuthenticationException;
 import site.coduo.member.service.dto.oauth.State;
 
+@Slf4j
 public class StateSessionFilter implements SessionFilter {
 
     public static final String STATE_SESSION_NAME = "state";
@@ -31,6 +33,7 @@ public class StateSessionFilter implements SessionFilter {
     public String getStoreSession(final HttpServletRequest request) {
         final HttpSession session = request.getSession();
         final String sessionState = (String) session.getAttribute(STATE_SESSION_NAME);
+        log.info("session 담아온 것 : {}", sessionState);
         if (Objects.isNull(sessionState)) {
             throw new AuthenticationException("세션에서 state 정보를 찾을 수 없습니다.");
         }

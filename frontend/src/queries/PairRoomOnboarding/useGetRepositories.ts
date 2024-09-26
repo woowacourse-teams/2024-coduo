@@ -4,18 +4,16 @@ import { getRepositories } from '@/apis/github';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
+const FILTER_KEYWORD = 'coduo';
+
 const useGetRepositories = () => {
-  const {
-    data: repositories,
-    isFetching,
-    error,
-  } = useQuery({
+  const { data, isFetching, error } = useQuery({
     queryKey: [QUERY_KEYS.GET_REPOSITORIES],
     queryFn: () => getRepositories(),
     refetchOnWindowFocus: false,
   });
 
-  return { repositories, isFetching, error };
+  return { repositories: data?.filter((el) => el.name.startsWith(FILTER_KEYWORD)) || [], isFetching, error };
 };
 
 export default useGetRepositories;

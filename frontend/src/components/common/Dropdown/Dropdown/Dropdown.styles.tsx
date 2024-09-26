@@ -36,7 +36,7 @@ export const Layout = styled.div<{ $width: string; $height: string }>`
     padding-left: 1.7rem;
     border-radius: 0.8rem;
 
-    font-size: 1.6rem;
+    font-size: ${({ theme }) => theme.fontSize.md};
 
     &:hover {
       background-color: ${({ theme }) => theme.color.black[40]};
@@ -70,7 +70,7 @@ export const DropdownContainer = styled.div<{ $direction: Direction }>`
   flex-direction: ${({ $direction }) => ($direction === 'lower' ? 'column' : 'column-reverse')};
 `;
 
-export const ItemList = styled.ul<{ $width: string; $height: string; $direction: Direction }>`
+export const ItemList = styled.ul<{ $height: string; $direction: Direction }>`
   display: flex;
   flex-direction: ${({ $direction }) => ($direction === 'lower' ? 'column' : 'column-reverse')};
   overflow-y: auto;
@@ -81,7 +81,7 @@ export const ItemList = styled.ul<{ $width: string; $height: string; $direction:
   left: 0;
   z-index: 1000;
 
-  width: ${({ $width }) => $width};
+  width: 100%;
   max-height: 20rem;
   border-radius: 0.8rem;
 
