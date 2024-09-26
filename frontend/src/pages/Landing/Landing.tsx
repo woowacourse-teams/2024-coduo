@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 
 import { GithubLogoWhite, LogoIconWithTitle } from '@/assets';
 
-import HowToPair from '@/pages/HowToPair/HowToPair';
 import * as S from '@/pages/Landing/Landing.styles';
 
 import { ScrollAnimationContainer } from '@/components/common/Animation/ScrollAnimationContainer';
 import Button from '@/components/common/Button/Button';
+import HowToPair from '@/components/HowToPair/HowToPair';
 
 import useUserStore from '@/stores/userStore';
 
