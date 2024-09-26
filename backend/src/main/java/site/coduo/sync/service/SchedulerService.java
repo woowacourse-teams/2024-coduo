@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import site.coduo.timer.domain.Timer;
 import site.coduo.timer.repository.TimerRepository;
+import site.coduo.timer.service.TimestampRegistry;
 
 @RequiredArgsConstructor
 @Component
@@ -28,23 +29,18 @@ public class SchedulerService {
     public void start(final String key) {
         sseService.broadcast(key, "timer", "start");
         if (isInitial(key)) {
-            final Timer timer = timerRepository.fetchTimerByAccessCode(key).toDomain();
+            final Timer timer = timerRepository.fetchTimerByAccessCode(key)
+                    .toDomain();
             scheduling(key, timer);
             timestampRegistry.register(key, timer);
             return;
         }
-        if (isResume(key)) {
-            final Timer timer = timestampRegistry.get(key);
-            scheduling(key, timer);
-        }
+        final Timer timer = timestampRegistry.get(key);
+        scheduling(key, timer);
     }
 
     private boolean isInitial(final String key) {
         return !schedulerRegistry.has(key) && !timestampRegistry.has(key);
-    }
-
-    private boolean isResume(final String key) {
-        return !schedulerRegistry.has(key) && timestampRegistry.has(key);
     }
 
     private void scheduling(final String key, final Timer timer) {
@@ -56,7 +52,8 @@ public class SchedulerService {
     private void runTimer(final String key, final Timer timer) {
         if (timer.isTimeUp()) {
             stop(key);
-            timestampRegistry.release(key);
+            final Timer initalTimer = new Timer(timer.getAccessCode(), timer.getDuration(), timer.getDuration());
+            timestampRegistry.register(key, initalTimer);
             return;
         }
         if (sseService.hasNoConnections(key)) {

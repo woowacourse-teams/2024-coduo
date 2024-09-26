@@ -20,6 +20,7 @@ import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.timer.domain.Timer;
 import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
+import site.coduo.timer.service.TimestampRegistry;
 
 @Disabled
 @SpringBootTest
