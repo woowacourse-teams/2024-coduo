@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import { Wave } from '@/assets';
-
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
@@ -14,24 +12,9 @@ export const Layout = styled.div`
 
   padding: 16rem 4rem;
 
+  background-color: ${({ theme }) => theme.color.primary[100]};
   color: ${({ theme }) => theme.color.black[80]};
   line-height: 1.2;
-
-  &::before,
-  &::after {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-
-    width: 100%;
-    height: 100%;
-
-    background: url(${Wave}) repeat-y;
-    opacity: 0.5;
-    content: '';
-    background-size: cover;
-  }
 `;
 
 export const Section = styled.section<{ $textAlign?: 'left' | 'center' | 'right' }>`
