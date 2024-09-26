@@ -24,6 +24,15 @@ export const Section = styled.section<{ $textAlign?: 'left' | 'center' | 'right'
   width: 100%;
   border-radius: 1rem;
 
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    word-break: keep-all;
+  }
+
   text-align: ${({ $textAlign = 'left' }) => $textAlign};
 `;
 
@@ -36,6 +45,10 @@ export const TextBoxContainer = styled.div`
     flex-basis: 0;
 
     flex-grow: 1;
+  }
+
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+    flex-direction: column;
   }
 `;
 

@@ -45,7 +45,7 @@ const Landing = () => {
             </Button>
           </ScrollAnimationContainer>
           <ScrollAnimationContainer animationDirection="top" animationDelay={2.1}>
-            <Button size="xl" css={S.buttonStyles} filled={false} onClick={() => navigate('/main')}>
+            <Button size="xl" css={S.buttonStyles} filled={false} color="secondary" onClick={() => navigate('/main')}>
               회원가입 없이 사용하기
             </Button>
           </ScrollAnimationContainer>
