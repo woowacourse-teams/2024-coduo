@@ -21,6 +21,8 @@ const ReadonlyCategoryItem = ({
     <S.Layout
       id={categoryId}
       onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+        if (event.currentTarget.id === '카테고리') return;
+        if (isChecked) return;
         handleSelectCategory(event.currentTarget.id);
         closeModal();
       }}
