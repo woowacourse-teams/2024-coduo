@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
-import site.coduo.sync.service.TimestampRegistry;
 import site.coduo.timer.domain.Timer;
 import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
@@ -40,14 +39,15 @@ public class TimerService {
     }
 
     @Transactional
-    public void updateTimer(final String accessCode, final TimerUpdateRequest newTimer) {
+    public void updateTimer(final String accessCode, final TimerUpdateRequest updateRequest) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
         final TimerEntity timerEntity = timerRepository.fetchTimerByPairRoomId(pairRoomEntity.getId());
-        final Timer timer = new Timer(
+        final Timer newTimer = new Timer(
                 new AccessCode(pairRoomEntity.getAccessCode()),
-                newTimer.duration(),
-                newTimer.remainingTime()
+                updateRequest.duration(),
+                updateRequest.remainingTime()
         );
-        timerEntity.updateTimer(timer);
+        timerEntity.updateTimer(newTimer);
+        timestampRegistry.register(accessCode, newTimer);
     }
 }
