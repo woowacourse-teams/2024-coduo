@@ -169,10 +169,10 @@ ex) cd java-guessing-number"
 
         <S.ParagraphContainer>
           <S.Title>페어 프로그래밍에 대해</S.Title>
-          <S.Subtitle id={ABOUT_PAIR_PROGRAMMING[0].id}>페어프로그래밍이란?</S.Subtitle>
+          <S.Subtitle id={ABOUT_PAIR_PROGRAMMING[0].id}>페어 프로그래밍이란?</S.Subtitle>
           <S.ParagraphContainer>
             <Quote
-              text="페어프로그래밍에 대한 정보는 다음 레퍼런스를 기반으로 작성했습니다."
+              text="페어 프로그래밍에 대한 정보는 다음 레퍼런스를 기반으로 작성했습니다."
               linkText="자세한 정보 보기"
               href="https://www.techtarget.com/searchsoftwarequality/definition/Pair-programming"
             />
@@ -233,22 +233,22 @@ ex) cd java-guessing-number"
             </S.Sentence>
           </S.ParagraphContainer>
 
-          <S.Subtitle id={ABOUT_PAIR_PROGRAMMING[1].id}>페어룸 이란?</S.Subtitle>
+          <S.Subtitle id={ABOUT_PAIR_PROGRAMMING[1].id}>페어룸이란?</S.Subtitle>
           <S.Content>
             <S.Sentence>
               <S.Content>
-                <Quote text="코딩해듀오에서는 페어룸을 제공하여 페어프로그래밍을 더욱 유용하고 쉽게 하도록 도와줍니다."></Quote>
+                <Quote text="코딩해듀오에서는 페어룸을 제공하여 페어 프로그래밍을 더욱 유용하고 쉽게 하도록 도와줍니다."></Quote>
                 <br />
-                <S.Strong>투두리스트</S.Strong>
+                <S.Strong>투두 리스트</S.Strong>
                 <p>
-                  투두리스트를 제공하여, 페어가 함께 목표와 할 일을 설정하고 관리할 수 있습니다. 이를 통해 작업의
+                  투두 리스트를 제공하여, 페어가 함께 목표와 할 일을 설정하고 관리할 수 있습니다. 이를 통해 작업의
                   방향성을 명확히 하고 진행 상황을 실시간으로 파악할 수 있습니다. 또한, 우선순위를 설정하여 중요한
                   작업에 집중할 수 있으며, 완료된 작업을 체크하면서 성취감을 느낄 수 있습니다.
                 </p>
                 <br />
                 <S.Strong>레퍼런스</S.Strong>
                 <p>
-                  페어프로그래밍 도중 참고한 레퍼런스를 저장할 수 있습니다. 저장된 레퍼런스는 카테고리별로 정리되어
+                  페어 프로그래밍 도중 참고한 레퍼런스를 저장할 수 있습니다. 저장된 레퍼런스는 카테고리별로 정리되어
                   나중에 쉽게 찾아볼 수 있어 프로젝트 완료 후에도 학습 자료로 활용할 수 있습니다.
                 </p>
                 <br />
