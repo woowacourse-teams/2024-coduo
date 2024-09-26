@@ -4,28 +4,13 @@ import { getBranches } from '@/apis/github';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-const useGetBranches = (repository: string) => {
-  const {
-    data: branches,
-    isFetching,
-    error,
-    refetch,
-  } = useQuery({
-    queryKey: [QUERY_KEYS.GET_BRANCHES, repository],
-    queryFn: () => getBranches(repository),
-    enabled: false,
+const useGetBranches = (repositoryName: string) => {
+  const { data: branches } = useQuery({
+    queryKey: [QUERY_KEYS.GET_BRANCHES, repositoryName],
+    queryFn: () => getBranches(repositoryName),
   });
 
-  interface BranchResponse {
-    name: string;
-  }
-
-  const isAlreadyCreated = (branchName: string) => {
-    const branchesName = branches?.map((branch: BranchResponse) => branch.name) || [];
-    return branchesName.includes(branchName);
-  };
-
-  return { branches, isFetching, error, isAlreadyCreated, refetch };
+  return { branches: branches?.map((branch) => branch.name) || [] };
 };
 
 export default useGetBranches;

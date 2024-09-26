@@ -8,7 +8,7 @@ import useToastStore from '@/stores/toastStore';
 
 import useInput from '@/hooks/common/useInput';
 
-import useGetPairRoomInformation from '@/queries/PairRoomOnboarding/useGetPairRoomInformation';
+import useGetPairRoom from '@/queries/PairRoom/useGetPairRoom';
 
 import { BUTTON_TEXT } from '@/constants/button';
 
@@ -22,7 +22,9 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
   const { addToast } = useToastStore();
 
   const { value, status, message, handleChange } = useInput();
-  const { refetch } = useGetPairRoomInformation(value);
+
+  const { refetch } = useGetPairRoom(value);
+
   const enterPairRoom = async () => {
     const { error, isFetching, isSuccess } = await refetch();
 

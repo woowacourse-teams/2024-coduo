@@ -15,6 +15,9 @@ const envKeys = env
 export default merge(common, {
   mode: 'development',
   plugins: [new webpack.DefinePlugin(envKeys)],
+  module: {
+    rules: [],
+  },
   devServer: {
     client: {
       overlay: true,

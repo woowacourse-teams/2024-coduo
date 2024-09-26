@@ -1,13 +1,10 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { HiQuestionMarkCircle } from 'react-icons/hi';
+import { AiFillQuestionCircle } from 'react-icons/ai';
 
 import { LogoIcon } from '@/assets';
 
-import useUserStatusStore from '@/stores/userStatusStore';
-
-import { getMember } from '@/apis/member';
+import useUserStore from '@/stores/userStore';
 
 import useSignInHandler from '@/hooks/member/useSignInHandler';
 import useSignOutHandler from '@/hooks/member/useSignOutHandler';
@@ -17,18 +14,10 @@ import { theme } from '@/styles/theme';
 import * as S from './Header.styles';
 
 const Header = () => {
-  const { userStatus } = useUserStatusStore();
-  const { handleSignOut } = useSignOutHandler();
-  const { handleSignInGithub } = useSignInHandler();
-  const [username, setUsername] = useState('');
+  const { username, userStatus } = useUserStore();
 
-  useEffect(() => {
-    if (userStatus === 'SIGNED_IN') {
-      getMember()
-        .then((data) => setUsername(data.username))
-        .catch(console.error);
-    }
-  }, [userStatus]);
+  const { handleSignInGithub } = useSignInHandler();
+  const { handleSignOut } = useSignOutHandler();
 
   return (
     <S.Layout>
@@ -36,23 +25,21 @@ const Header = () => {
         <S.Logo src={LogoIcon} alt="logo_icon_with_title" />
       </Link>
       <S.LinkContainer>
-        <S.HowToPairLinkContainer>
-          <Link to="/how-to-pair">
-            <S.HowToPairTextLink>페어 프로그래밍이란?</S.HowToPairTextLink>
-          </Link>
-          <Link to="/how-to-pair">
-            <S.HowToPairIconLink>
-              <HiQuestionMarkCircle size={theme.iconSize.sm} />
-            </S.HowToPairIconLink>
-          </Link>
-        </S.HowToPairLinkContainer>
+        <Link to="/how-to-pair">
+          <S.HowToPairText>페어 프로그래밍이란?</S.HowToPairText>
+        </Link>
+        <Link to="/how-to-pair">
+          <S.HowToPairIcon>
+            <AiFillQuestionCircle size={theme.iconSize.sm} />
+          </S.HowToPairIcon>
+        </Link>
         {userStatus === 'SIGNED_IN' ? (
           <>
-            <S.LoginText onClick={handleSignOut}>로그아웃</S.LoginText>
-            <S.Username>{username}</S.Username>
+            <button onClick={handleSignOut}>로그아웃</button>
+            <p>{username}</p>
           </>
         ) : (
-          <S.LoginText onClick={handleSignInGithub}>Github로 로그인</S.LoginText>
+          <button onClick={handleSignInGithub}>Github로 로그인</button>
         )}
       </S.LinkContainer>
     </S.Layout>
