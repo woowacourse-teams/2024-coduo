@@ -92,6 +92,15 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
     sse.addEventListener(TIME_SSE_KEY, handleTimeLeft);
     sse.addEventListener(STATUS_SSE_KEY, handleStatus);
 
+    sse.onerror = () => {
+      setIsActive(false);
+      stopTimer(accessCode);
+      addToast({
+        status: 'ERROR',
+        message: '타이머 작동 중 예기치 못한 문제가 발생하였습니다. 타이머를 다시 시작해 주세요.',
+      });
+    };
+
     window.addEventListener('beforeunload', handleBeforeUnload);
 
     return () => {
