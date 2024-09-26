@@ -32,6 +32,10 @@ public class EventStreams {
         streams.forEach(eventStream -> eventStream.flush(name, message));
     }
 
+    public void closeAll() {
+        streams.forEach(EventStream::close);
+    }
+
     public boolean isEmpty() {
         return streams.isEmpty();
     }

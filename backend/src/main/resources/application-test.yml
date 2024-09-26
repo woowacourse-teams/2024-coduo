@@ -14,6 +14,7 @@ spring:
     hibernate:
       ddl-auto: ${DDL_AUTO}
     database-platform: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
 
 springdoc:
   swagger-ui:
@@ -38,6 +39,9 @@ oauth:
     client-id: ${CLIENT_ID}
     client-secret: ${CLIENT_SECRET}
     redirect-uri: ${CLIENT_REDIRECT_URI}
+
+front:
+  url: test.coduo.site
 
 jwt:
   sign-key: ${JWT_KEY}

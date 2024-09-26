@@ -25,11 +25,20 @@ public class SchedulerRegistry {
         if (!registry.containsKey(key)) {
             throw new NotFoundScheduledFutureException("키에 해당하는 스케줄러 결과가 존재하지 않습니다.");
         }
-        registry.get(key).cancel(false);
+        registry.get(key)
+                .cancel(false);
         registry.remove(key);
     }
 
     public boolean has(final String key) {
         return registry.containsKey(key);
+    }
+
+    public boolean isActive(final String key) {
+        if (registry.containsKey(key)) {
+            final ScheduledFuture<?> scheduledFuture = registry.get(key);
+            return !scheduledFuture.isDone() && !scheduledFuture.isCancelled();
+        }
+        return false;
     }
 }

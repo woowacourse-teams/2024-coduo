@@ -10,6 +10,7 @@ import java.net.URI;
 
 import jakarta.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,9 @@ public class GithubOAuthController implements GithubOAuthControllerDocs {
 
     private final GithubOAuthService githubOAuthService;
 
+    @Value("${front.url}")
+    private String frontUrl;
+
     @GetMapping("/sign-in/oauth/github")
     public ResponseEntity<GithubOAuthEndpoint> getGithubAuthCode(final HttpSession session) {
         final GithubAuthQuery query = githubOAuthService.createAuthorizationContent();
@@ -53,7 +57,7 @@ public class GithubOAuthController implements GithubOAuthControllerDocs {
         session.setMaxInactiveInterval(ACCESS_TOKEN_EXPIRE_IN_SECOND);
 
         return ResponseEntity.status(HttpStatus.FOUND)
-                .location(URI.create("https://coduo.site/callback"))
+                .location(URI.create("https://" + frontUrl + "/callback"))
                 .build();
     }
 }
