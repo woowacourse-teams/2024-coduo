@@ -2,7 +2,7 @@ package site.coduo.acceptance;
 
 import static org.hamcrest.Matchers.is;
 
-import static site.coduo.common.config.filter.SignInCookieFilter.SIGN_IN_COOKIE_NAME;
+import static site.coduo.common.config.web.filter.SignInCookieFilter.SIGN_IN_COOKIE_NAME;
 
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.DisplayName;

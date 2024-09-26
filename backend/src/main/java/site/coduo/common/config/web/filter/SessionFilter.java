@@ -1,4 +1,4 @@
-package site.coduo.common.config.filter;
+package site.coduo.common.config.web.filter;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.http.HttpServletRequest;

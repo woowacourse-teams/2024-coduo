@@ -1,10 +1,10 @@
 package site.coduo.member.controller;
 
 
-import static site.coduo.common.config.filter.AccessTokenSessionFilter.ACCESS_TOKEN_EXPIRE_IN_SECOND;
-import static site.coduo.common.config.filter.AccessTokenSessionFilter.ACCESS_TOKEN_SESSION_NAME;
-import static site.coduo.common.config.filter.StateSessionFilter.STATE_SESSION_EXPIRE_IN_SECOND;
-import static site.coduo.common.config.filter.StateSessionFilter.STATE_SESSION_NAME;
+import static site.coduo.common.config.web.filter.AccessTokenSessionFilter.ACCESS_TOKEN_EXPIRE_IN_SECOND;
+import static site.coduo.common.config.web.filter.AccessTokenSessionFilter.ACCESS_TOKEN_SESSION_NAME;
+import static site.coduo.common.config.web.filter.StateSessionFilter.STATE_SESSION_EXPIRE_IN_SECOND;
+import static site.coduo.common.config.web.filter.StateSessionFilter.STATE_SESSION_NAME;
 
 import java.net.URI;
 

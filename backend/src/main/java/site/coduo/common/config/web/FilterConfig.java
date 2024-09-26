@@ -1,4 +1,4 @@
-package site.coduo.common.config;
+package site.coduo.common.config.web;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -7,10 +7,10 @@ import org.springframework.context.annotation.Configuration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
-import site.coduo.common.config.filter.AccessTokenSessionFilter;
-import site.coduo.common.config.filter.AuthFailHandlerFilter;
-import site.coduo.common.config.filter.SignInCookieFilter;
-import site.coduo.common.config.filter.StateSessionFilter;
+import site.coduo.common.config.web.filter.AccessTokenSessionFilter;
+import site.coduo.common.config.web.filter.AuthFailHandlerFilter;
+import site.coduo.common.config.web.filter.SignInCookieFilter;
+import site.coduo.common.config.web.filter.StateSessionFilter;
 import site.coduo.member.infrastructure.security.JwtProvider;
 
 @RequiredArgsConstructor
