@@ -11,9 +11,10 @@ export const Layout = styled.div`
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.3rem;
 
-  width: 26rem;
+  width: 100%;
+  height: 6rem;
 
   cursor: pointer;
 
@@ -26,6 +27,8 @@ export const CategoryIconsContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 0.2rem;
+
+  height: 4.4rem;
 `;
 
 export const EditForm = styled.form`

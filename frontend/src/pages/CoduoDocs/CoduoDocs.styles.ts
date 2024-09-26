@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Title = styled.p`
   color: ${({ theme }) => theme.color.black[90]};
-  font-size: ${({ theme }) => theme.fontSize.h1};
+  font-size: ${({ theme }) => theme.fontSize.h2};
   font-weight: ${({ theme }) => theme.fontWeight.semibold};
 `;
 
@@ -13,9 +13,16 @@ export const Subtitle = styled.p`
 `;
 
 export const Content = styled.p`
+  gap: 1rem;
+
   color: ${({ theme }) => theme.color.black[90]};
-  font-size: ${({ theme }) => theme.fontSize.lg};
-  line-height: 1.7;
+  font-size: ${({ theme }) => theme.fontSize.base};
+  line-height: 1.9;
+`;
+
+export const Strong = styled.strong`
+  color: ${({ theme }) => theme.color.primary[700]};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
 `;
 
 export const Sentence = styled.div`

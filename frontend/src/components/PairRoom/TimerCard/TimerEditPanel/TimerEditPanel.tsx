@@ -29,9 +29,7 @@ const TimerEditPanel = ({ isActive }: TimerEditPanelProps) => {
 
   const { isModalOpen: isPanelOpen, openModal: openPanel, closeModal: closePanel } = useModal();
   const { value, handleChange, resetValue } = useInput();
-  const { handleUpdateTimerDuration } = useUpdateDuration(() =>
-    addToast({ status: 'SUCCESS', message: '타이머 시간이 변경되었습니다.' }),
-  );
+  const { handleUpdateTimerDuration } = useUpdateDuration();
 
   const handleButtonClick = () => {
     if (isActive) {
