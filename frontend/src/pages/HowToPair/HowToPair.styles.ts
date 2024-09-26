@@ -12,6 +12,11 @@ export const Layout = styled.div`
 
   padding: 16rem 4rem;
 
+  background: linear-gradient(
+    75deg,
+    ${({ theme }) => theme.color.secondary[100]},
+    ${({ theme }) => theme.color.primary[200]}
+  );
   background-color: ${({ theme }) => theme.color.black[10]};
   color: ${({ theme }) => theme.color.black[80]};
   line-height: 1.2;

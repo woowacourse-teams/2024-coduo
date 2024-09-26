@@ -51,8 +51,8 @@ export const Layout = styled.div`
 
   background: linear-gradient(
     140deg,
-    ${({ theme }) => theme.color.primary[200]},
-    ${({ theme }) => theme.color.secondary[400]}
+    ${({ theme }) => theme.color.secondary[100]},
+    ${({ theme }) => theme.color.primary[200]}
   );
   background-color: ${({ theme }) => theme.color.black[10]};
 
