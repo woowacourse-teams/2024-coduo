@@ -1,16 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 
-import useUserStatusStore from '@/stores/userStatusStore';
+import useUserStore from '@/stores/userStore';
 
-import { getSignOut } from '@/apis/signOut';
+import { getSignOut } from '@/apis/member';
 
 const useSignOutHandler = () => {
   const navigate = useNavigate();
-  const { setUserStatus } = useUserStatusStore();
+  const { setUser } = useUserStore();
 
   const handleSignOut = async () => {
     await getSignOut();
-    setUserStatus('SIGNED_OUT');
+    setUser('', 'SIGNED_OUT');
     document.cookie = 'whoami=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     navigate('/');
   };

@@ -8,25 +8,23 @@ import * as S from '@/pages/Landing/Landing.styles';
 import { ScrollAnimationContainer } from '@/components/common/Animation/ScrollAnimationContainer';
 import Button from '@/components/common/Button/Button';
 
-import useUserStatusStore from '@/stores/userStatusStore';
+import useUserStore from '@/stores/userStore';
 
 import usePreventBackNavigation from '@/hooks/common/usePreventBackNavigation';
 import useSignInHandler from '@/hooks/member/useSignInHandler';
 import useTitleTime from '@/hooks/title/useTitleTime';
 
-
 const Landing = () => {
-  const { userStatus } = useUserStatusStore();
-  const { handleSignInGithub } = useSignInHandler();
   const navigate = useNavigate();
-  useTitleTime();
 
+  const { userStatus } = useUserStore();
+  const { handleSignInGithub } = useSignInHandler();
+
+  useTitleTime();
   usePreventBackNavigation();
 
   useEffect(() => {
-    if (userStatus === 'SIGNED_IN') {
-      navigate('/main');
-    }
+    if (userStatus === 'SIGNED_IN') navigate('/main');
   }, [userStatus]);
 
   return (
