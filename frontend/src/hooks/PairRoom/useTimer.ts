@@ -1,5 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 
+import { useQueryClient } from '@tanstack/react-query';
+
 import { AlarmSound } from '@/assets';
 
 import useToastStore from '@/stores/toastStore';
@@ -8,10 +10,14 @@ import { getSSEConnection, startTimer, stopTimer } from '@/apis/timer';
 
 import useNotification from '@/hooks/common/useNotification';
 
+import { QUERY_KEYS } from '@/constants/queryKeys';
+
 const STATUS_SSE_KEY = 'timer';
 const TIME_SSE_KEY = 'remaining-time';
 
 const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: number, onTimerStop: () => void) => {
+  const queryClient = useQueryClient();
+
   const alarmAudio = useRef(new Audio(AlarmSound));
 
   const [timeLeft, setTimeLeft] = useState(defaultTimeleft);
@@ -59,11 +65,16 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
         addToast({ status: 'WARNING', message: '타이머가 일시 정지되었습니다.' });
         return;
       }
+
+      if (event.data === 'update') {
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_PAIR_ROOM_TIMER] });
+        addToast({ status: 'WARNING', message: '타이머 시간이 변경되었습니다.' });
+        return;
+      }
     };
 
     const handleTimeLeft = (event: MessageEvent) => {
       if (event.data === '0') {
-        console.log('타이머 종료');
         handleStop();
         alarmAudio.current.play();
         fireNotification('타이머가 끝났어요!', '드라이버 / 내비게이터 역할을 바꿔 주세요!', {
