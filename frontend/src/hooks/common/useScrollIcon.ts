@@ -46,13 +46,17 @@ const useScrollIcon = ({ targetSections }: UseScrollIconProps) => {
     const nextIndex = (currentIndex + 1) % sections.length;
     const nextSection = sections[nextIndex];
 
-    if (nextSection.id === 'top') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (nextSection.id === 'bottom') {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    } else {
-      document.getElementById(nextSection.id)?.scrollIntoView({ behavior: 'smooth' });
+    switch (nextSection.id) {
+      case 'top':
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        break;
+      case 'bottom':
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        break;
+      default:
+        document.getElementById(nextSection.id)?.scrollIntoView({ behavior: 'smooth' });
     }
+
     setCurrentSection(nextSection.id);
   };
 
