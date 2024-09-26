@@ -23,7 +23,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedMethods("*")
                 .allowedOrigins("http://localhost:3000", "https://coduo.site", "https://test.coduo.site",
-                        "https://api-test.coduo.site/")
+                        "https://api-test.coduo.site")
                 .allowCredentials(true);
     }
 }
