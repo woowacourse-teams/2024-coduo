@@ -20,7 +20,7 @@ const Landing = () => {
   useTitleTime();
   usePreventBackNavigation();
 
-  const { userStatus } = useUserStatusStore();
+  const { userStatus } = useUserStore();
   const { handleSignInGithub } = useSignInHandler();
 
   useEffect(() => {
