@@ -42,10 +42,10 @@ public class CategoryService {
     public CategoryCreateResponse createCategory(final String accessCode, final CategoryCreateRequest request) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
         validateDuplicated(request.value(), pairRoomEntity);
-        final CategoryEntity saved = categoryRepository.save(
+        final CategoryEntity categoryEntity = categoryRepository.save(
                 new CategoryEntity(pairRoomEntity, new Category(request.value())));
 
-        return new CategoryCreateResponse(saved.getId(), saved.getCategoryName());
+        return CategoryCreateResponse.from(categoryEntity);
     }
 
     private void validateDuplicated(final String categoryName, final PairRoomEntity pairRoomEntity) {

@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
@@ -59,7 +58,8 @@ class OpenGraphServiceTest extends CascadeCleaner {
         //given
         final PairRoomEntity pairRoomEntity = pairRoomRepository.save(PairRoomEntity.from(INK_REDDDY_ROOM));
 
-        final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoomEntity, new Category("스프링")));
+        final CategoryEntity category = categoryRepository.save(
+                new CategoryEntity(pairRoomEntity, new Category("스프링")));
         final URL url = new URL("https://www.naver.com");
         final ReferenceLinkEntity referenceLink = new ReferenceLinkEntity(
                 new ReferenceLink(url, new AccessCode(pairRoomEntity.getAccessCode())),
@@ -96,7 +96,8 @@ class OpenGraphServiceTest extends CascadeCleaner {
     void delete_open_graph_by_reference_link_id() throws MalformedURLException {
         // given
         final PairRoomEntity pairRoomEntity = pairRoomRepository.save(PairRoomEntity.from(INK_REDDDY_ROOM));
-        final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoomEntity, new Category("스프링")));
+        final CategoryEntity category = categoryRepository.save(
+                new CategoryEntity(pairRoomEntity, new Category("스프링")));
         final URL url = new URL("https://www.naver.com");
         final ReferenceLinkEntity referenceLink = new ReferenceLinkEntity(
                 new ReferenceLink(url, new AccessCode(pairRoomEntity.getAccessCode())),

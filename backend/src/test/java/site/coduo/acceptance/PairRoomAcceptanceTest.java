@@ -4,6 +4,8 @@ import java.util.Map;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +40,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
         final PairRoomCreateResponse pairRoomUrl =
                 createPairRoom(new PairRoomCreateRequest("레디", "프람", 10000L, 10000L, "IN_PROGRESS"));
 
+        log.info("여기까지 생성 로그");
         //when & then
         RestAssured
                 .given()

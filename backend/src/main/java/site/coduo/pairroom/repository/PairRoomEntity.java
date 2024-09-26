@@ -100,4 +100,15 @@ public class PairRoomEntity extends BaseTimeEntity {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        return "PairRoomEntity{" +
+               "id=" + id +
+               ", status=" + status +
+               ", navigator='" + navigator + '\'' +
+               ", driver='" + driver + '\'' +
+               ", accessCode='" + accessCode + '\'' +
+               '}';
+    }
 }

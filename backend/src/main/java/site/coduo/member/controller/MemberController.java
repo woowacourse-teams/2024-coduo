@@ -22,7 +22,7 @@ public class MemberController implements MemberControllerDocs {
     public ResponseEntity<MemberReadResponse> getMember(
             @CookieValue(SIGN_IN_COOKIE_NAME) final String token
     ) {
-        final MemberReadResponse response = memberService.findMemberByCredential(token);
+        final MemberReadResponse response = memberService.findMemberNameByCredential(token);
 
         return ResponseEntity.ok(response);
     }

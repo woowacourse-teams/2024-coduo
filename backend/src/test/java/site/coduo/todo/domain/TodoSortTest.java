@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import site.coduo.todo.exception.InvalidTodoSortException;
 import site.coduo.todo.exception.InvalidUpdatedTodoSortException;
 
 @DisplayName("TodoSort 도메인 테스트")
@@ -38,7 +37,7 @@ class TodoSortTest {
     void countNextSort() {
         // Given
         final TodoSort todoSort = new TodoSort(1024);
-        final int expect = 2048;
+        final int expect = 4096;
 
         // When
         final TodoSort nextSort = todoSort.countNextSort();
@@ -48,18 +47,6 @@ class TodoSortTest {
             assertThat(nextSort).isNotNull();
             assertThat(nextSort.getSort()).isEqualTo(expect);
         });
-    }
-
-    @DisplayName("음수값을 입력하면 예외를 발생시킨다.")
-    @Test
-    void createTodoSortWithNegative() {
-        // Given
-        final int input = -1;
-
-        // When & Then
-        assertThatThrownBy(() -> new TodoSort(input))
-                .isInstanceOf(InvalidTodoSortException.class)
-                .hasMessage("todoSort는 음수가 될 수 없습니다.");
     }
 
     @DisplayName("첫 번째 위치로 이동할경우 기존 첫 번째 아이템의 정렬값에서 아이템 간격 만큼을 뺀 값으로 정렬값을 변경한다.")
@@ -76,7 +63,7 @@ class TodoSortTest {
         );
         final int destinationSort = 0;
 
-        final int expect = 0;
+        final int expect = -2048;
 
         // When
         final TodoSort updatedSort = targetSort.update(todoSorts, destinationSort);
@@ -102,7 +89,7 @@ class TodoSortTest {
         );
         final int destinationSort = 3;
 
-        final int expect = 5120;
+        final int expect = 7168;
 
         // When
         final TodoSort updatedSort = targetSort.update(todoSorts, destinationSort);
@@ -139,6 +126,45 @@ class TodoSortTest {
             assertThat(updatedSort).isNotNull();
             assertThat(updatedSort.getSort()).isEqualTo(expect);
         });
+    }
+
+    @DisplayName("현재 정렬값이 포함되어 있지 않은 리스트를 입력하면 예외를 발생시킨다.")
+    @Test
+    void updateWithoutCurrentSort() {
+        // Given
+        final TodoSort targetSort = new TodoSort(2048);
+        final int destinationSort = 3;
+        final List<TodoSort> todoSorts = List.of(
+                new TodoSort(1024),
+                new TodoSort(3072),
+                new TodoSort(4000),
+                new TodoSort(4096)
+        );
+
+        // When & Then
+        assertThatThrownBy(() -> targetSort.update(todoSorts, destinationSort))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("입력된 투두 정렬에 현재 정렬값이 포함되어 있지 않습니다.");
+    }
+
+    @DisplayName("현재 위치로 정렬 순서를 변경하려고 하면 예외를 발생시킨다.")
+    @Test
+    void updateCurrentSort() {
+        // Given
+        final TodoSort targetSort = new TodoSort(2048);
+        final int destinationSort = 1;
+        final List<TodoSort> todoSorts = List.of(
+                new TodoSort(1024),
+                new TodoSort(2048),
+                new TodoSort(3072),
+                new TodoSort(4000),
+                new TodoSort(4096)
+        );
+
+        // When & Then
+        assertThatThrownBy(() -> targetSort.update(todoSorts, destinationSort))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("현재 위치로는 이동할 수 없습니다.");
     }
 
     @DisplayName("전체 투두 아이템 범위를 벗어나는 위치로 이동하려하면 예외를 발생시킨다.")

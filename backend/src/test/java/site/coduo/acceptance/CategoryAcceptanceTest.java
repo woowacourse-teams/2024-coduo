@@ -72,7 +72,7 @@ class CategoryAcceptanceTest extends AcceptanceFixture {
                 new CategoryCreateRequest("이전 카테고리"));
 
         final String updateName = "변경된 카테고리";
-        final CategoryUpdateRequest request = new CategoryUpdateRequest(previousCategory.id(), updateName);
+        final CategoryUpdateRequest request = new CategoryUpdateRequest(Long.parseLong(previousCategory.id()), updateName);
 
         //when & then
         final CategoryUpdateResponse categoryUpdateResponse = RestAssured
