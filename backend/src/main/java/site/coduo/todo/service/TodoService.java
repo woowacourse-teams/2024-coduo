@@ -56,21 +56,15 @@ public class TodoService {
     }
 
     public void updateTodoContent(final Long todoId, final String content) {
-        final Todo todo = todoRepository.findById(todoId)
-                .map(TodoEntity::toDomain)
-                .orElseThrow(() -> new TodoNotFoundException("존재하지 않은 todo id입니다." + todoId));
-        final Todo updatedTodo = todo.updateContent(content);
-        final TodoEntity updatedTodoEntity = new TodoEntity(updatedTodo);
-        todoRepository.save(updatedTodoEntity);
+        final TodoEntity todoEntity = todoRepository.fetchById(todoId);
+
+        todoEntity.updateContent(content);
     }
 
     public void toggleTodoChecked(final Long todoId) {
-        final Todo todo = todoRepository.findById(todoId)
-                .map(TodoEntity::toDomain)
-                .orElseThrow(() -> new TodoNotFoundException("존재하지 않은 todo id입니다." + todoId));
-        final Todo updatedTodo = todo.toggleTodoChecked();
-        final TodoEntity updatedTodoEntity = new TodoEntity(updatedTodo);
-        todoRepository.save(updatedTodoEntity);
+        final TodoEntity todoEntity = todoRepository.fetchById(todoId);
+
+        todoEntity.toggleTodoChecked();
     }
 
     public void updateTodoSort(final Long targetTodoId, final int destinationSort) {
