@@ -21,6 +21,7 @@ services:
       OAUTH_GITHUB_CLIENT_SECRET: ${CLIENT_SECRET}
       OAUTH_GITHUB_REDIRECT_URI: ${CLIENT_REDIRECT_URI}
       JWT_SIGN_KEY: ${JWT_KEY}
+      EC2_PREFIX: ${INSTANCE_NAME}
     restart: on-failure
     networks:
       - coduo_net
