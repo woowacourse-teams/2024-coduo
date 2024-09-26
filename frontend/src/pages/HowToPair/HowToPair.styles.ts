@@ -5,12 +5,12 @@ export const Layout = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 30rem;
+  gap: 20rem;
   overflow-x: hidden;
 
   position: relative;
 
-  padding: 16rem 4rem;
+  padding: 10rem 4rem;
 
   background: linear-gradient(
     75deg,
@@ -62,6 +62,7 @@ export const TextBox = styled.div`
   flex-direction: column;
   gap: 1rem;
 
+  width: 36rem;
   padding: 2rem 4rem;
   border-radius: 3rem;
 
@@ -71,16 +72,16 @@ export const TextBox = styled.div`
 export const SectionText = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
 
   width: 100%;
 `;
 
 export const SectionTitle = styled.h2`
-  margin: 5rem 0;
+  margin: 2rem 0;
 
   color: ${({ theme }) => theme.color.primary[800]};
-  font-size: ${({ theme }) => theme.fontSize.h1};
+  font-size: ${({ theme }) => theme.fontSize.h3};
   font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;
 
@@ -95,18 +96,16 @@ export const Paragraph = styled.p`
 
 export const Strong = styled.strong`
   color: ${({ theme }) => theme.color.primary[700]};
-  font-size: ${({ theme }) => theme.fontSize.h4};
-  font-weight: ${({ theme }) => theme.fontWeight.extraBold};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;
 
 export const Highlighted = styled.span`
   color: ${({ theme }) => theme.color.primary[700]};
-  font-size: ${({ theme }) => theme.fontSize.h5};
-  font-weight: ${({ theme }) => theme.fontWeight.extraBold};
+  font-size: ${({ theme }) => theme.fontSize.h6};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;
 
 export const Conclusion = styled.p`
-  margin-top: 2rem;
   padding-left: 1rem;
 
   color: ${({ theme }) => theme.color.primary[800]};

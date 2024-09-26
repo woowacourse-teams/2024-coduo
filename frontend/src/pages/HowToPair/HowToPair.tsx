@@ -43,14 +43,16 @@ const HowToPair = () => {
             <S.Paragraph>
               <S.Strong>드라이버</S.Strong>
               <br /> 실제로 코드를 작성하는 사람으로, <br />
-              키보드와 마우스를 사용해 코드를 타이핑합니다.
+              내비게이터의 설계에 따라
+              <br /> 코드를 타이핑합니다.
             </S.Paragraph>
           </S.TextBox>
           <S.TextBox>
             <S.Paragraph>
               <S.Strong>내비게이터</S.Strong>
-              <br /> 작성된 코드를 실시간으로 검토하고 개선할 부분을 제안하며, <br />
-              코드의 전반적인 구조와 논리를 생각합니다.
+              <br /> 작성된 코드를 실시간으로 검토하고 <br />
+              개선할 부분을 제안하며, <br />
+              코드의 전반적인 구조를 설계합니다.
             </S.Paragraph>
           </S.TextBox>
         </S.TextBoxContainer>
