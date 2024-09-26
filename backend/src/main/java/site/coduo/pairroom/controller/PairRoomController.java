@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import site.coduo.pairroom.controller.docs.PairRoomDocs;
 import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
@@ -26,6 +27,7 @@ import site.coduo.pairroom.service.dto.PairRoomReadResponse;
 import site.coduo.pairroom.service.dto.PairRoomStatusUpdateRequest;
 import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class PairRoomController implements PairRoomDocs {
@@ -37,9 +39,12 @@ public class PairRoomController implements PairRoomDocs {
             @Valid @RequestBody final PairRoomCreateRequest request,
             @CookieValue(value = SIGN_IN_COOKIE_NAME, required = false) final String token
     ) {
+        log.info("1. 일단 Pair Room 생성 POST 요청이 들어와서 Controller가 받았다.");
         final String accessCode = pairRoomService.savePairRoom(request, token);
+        log.info("12. 페어룸 서비스 탈출!!!!");
         final PairRoomCreateResponse response = new PairRoomCreateResponse(accessCode);
 
+        log.info("13. 최종 응답 보내기 시작!!");
         return ResponseEntity.created(URI.create("/"))
                 .body(response);
     }
