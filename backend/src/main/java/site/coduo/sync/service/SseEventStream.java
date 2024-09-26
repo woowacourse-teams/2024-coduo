@@ -51,6 +51,7 @@ public class SseEventStream implements EventStream {
 
     @Override
     public void flush(final String name, final String message) {
+
         final String eventId = String.valueOf(id.incrementAndGet());
         try {
             sseEmitter.send(SseEmitter.event()
