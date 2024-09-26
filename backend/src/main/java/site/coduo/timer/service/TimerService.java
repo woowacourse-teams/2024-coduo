@@ -19,6 +19,7 @@ import site.coduo.timer.service.dto.TimerUpdateRequest;
 public class TimerService {
 
     private final TimerRepository timerRepository;
+    private final TimestampRegistry timestampRegistry;
     private final PairRoomRepository pairRoomRepository;
 
     public TimerReadResponse readTimer(final String accessCode) {
@@ -27,15 +28,26 @@ public class TimerService {
         return TimerReadResponse.of(timerEntity.getId(), timerEntity.toDomain());
     }
 
+    public long readTimerRemainingTime(final String accessCode) {
+        if (timestampRegistry.has(accessCode)) {
+            return timestampRegistry.get(accessCode)
+                    .getRemainingTime();
+        }
+        final Timer timer = timerRepository.fetchTimerByAccessCode(accessCode)
+                .toDomain();
+        return timer.getDuration();
+    }
+
     @Transactional
-    public void updateTimer(final String accessCode, final TimerUpdateRequest newTimer) {
+    public void updateTimer(final String accessCode, final TimerUpdateRequest updateRequest) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
         final TimerEntity timerEntity = timerRepository.fetchTimerByPairRoomId(pairRoomEntity.getId());
-        final Timer timer = new Timer(
+        final Timer newTimer = new Timer(
                 new AccessCode(pairRoomEntity.getAccessCode()),
-                newTimer.duration(),
-                newTimer.remainingTime()
+                updateRequest.duration(),
+                updateRequest.remainingTime()
         );
-        timerEntity.updateTimer(timer);
+        timerEntity.updateTimer(newTimer);
+        timestampRegistry.register(accessCode, newTimer);
     }
 }

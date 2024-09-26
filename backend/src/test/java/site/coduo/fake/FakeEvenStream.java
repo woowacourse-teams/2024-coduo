@@ -27,4 +27,9 @@ public class FakeEvenStream implements EventStream {
     public void flush(final String name, final String message) {
         sseEmitter.complete();
     }
+
+    @Override
+    public void close() {
+        sseEmitter.complete();
+    }
 }

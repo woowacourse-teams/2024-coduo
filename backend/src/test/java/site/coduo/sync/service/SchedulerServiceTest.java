@@ -20,6 +20,7 @@ import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.timer.domain.Timer;
 import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
+import site.coduo.timer.service.TimestampRegistry;
 
 @Disabled
 @SpringBootTest
@@ -115,7 +116,7 @@ class SchedulerServiceTest {
                 .pollDelay(1, TimeUnit.SECONDS)
                 .pollInterval(1, TimeUnit.SECONDS)
                 .untilAsserted(() -> {
-                    schedulerService.stop(key);
+                    schedulerService.pause(key);
                     assertThat(schedulerRegistry.has(key)).isFalse();
                 });
     }
