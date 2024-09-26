@@ -16,12 +16,11 @@ export interface Link {
 
 interface GetReferenceLinksRequest {
   accessCode: string;
-  currentCategory: string;
+  categoryId: string;
 }
 
-export const getReferenceLinks = async ({ accessCode, currentCategory }: GetReferenceLinksRequest): Promise<Link[]> => {
-  const categoryName = encodeURIComponent(currentCategory);
-  const categoryParamsUrl = currentCategory === '전체' ? `` : `?categoryName=${categoryName}`;
+export const getReferenceLinks = async ({ accessCode, categoryId }: GetReferenceLinksRequest): Promise<Link[]> => {
+  const categoryParamsUrl = categoryId === '0' ? `` : `?categoryId=${categoryId}`;
 
   const response = await fetcher.get({
     url: `${API_URL}/${accessCode}/reference-link${categoryParamsUrl}`,
@@ -30,17 +29,17 @@ export const getReferenceLinks = async ({ accessCode, currentCategory }: GetRefe
 
   return await response.json();
 };
-
+    
 interface AddReferenceLinkRequest {
   url: string;
   accessCode: string;
-  category: string | null;
+  categoryId: string | null;
 }
 
-export const addReferenceLink = async ({ url, accessCode, category }: AddReferenceLinkRequest) => {
+export const addReferenceLink = async ({ url, accessCode, categoryId }: AddReferenceLinkRequest) => {
   await fetcher.post({
     url: `${API_URL}/${accessCode}/reference-link`,
-    body: JSON.stringify({ url, categoryName: category }),
+    body: JSON.stringify({ url, categoryId }),
     errorMessage: ERROR_MESSAGES.ADD_REFERENCE_LINKS,
   });
 };

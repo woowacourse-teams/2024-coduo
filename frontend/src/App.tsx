@@ -15,10 +15,12 @@ import Landing from '@/pages/Landing/Landing';
 import Layout from '@/pages/Layout';
 import Loading from '@/pages/Loading/Loading';
 import Main from '@/pages/Main/Main';
+import MyPage from '@/pages/MyPage/MyPage';
 import SignUp from '@/pages/SignUp/SignUp';
 
-import useUserStatusStore from '@/stores/userStatusStore';
+import useUserStore from '@/stores/userStore';
 
+import { getMember } from '@/apis/member';
 import { getIsUserLoggedIn } from '@/apis/oauth';
 
 import GlobalStyles from './styles/Global.style';
@@ -27,17 +29,17 @@ import { theme } from './styles/theme';
 const queryClient = new QueryClient();
 
 const App = () => {
-  const { setUserStatus } = useUserStatusStore();
+  const { setUser } = useUserStore();
 
-  const checkUserStatus = async () => {
-    const response = await getIsUserLoggedIn();
-    setUserStatus(response.signedIn ? 'SIGNED_IN' : 'SIGNED_OUT');
+  const updateUser = async () => {
+    const userStatus = await getIsUserLoggedIn();
+    const username = await getMember();
+
+    setUser(username, userStatus.signedIn ? 'SIGNED_IN' : 'SIGNED_OUT');
   };
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'production') {
-      checkUserStatus();
-    }
+    if (process.env.NODE_ENV === 'production') updateUser();
   }, []);
 
   const router = createBrowserRouter([
@@ -77,6 +79,10 @@ const App = () => {
         {
           path: 'callback',
           element: <Callback />,
+        },
+        {
+          path: 'my-page',
+          element: <MyPage />,
         },
         {
           path: '*',

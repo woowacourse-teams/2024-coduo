@@ -8,7 +8,7 @@ import * as S from '@/pages/Landing/Landing.styles';
 import { ScrollAnimationContainer } from '@/components/common/Animation/ScrollAnimationContainer';
 import Button from '@/components/common/Button/Button';
 
-import useUserStatusStore from '@/stores/userStatusStore';
+import useUserStore from '@/stores/userStore';
 
 import usePreventBackNavigation from '@/hooks/common/usePreventBackNavigation';
 import useSignInHandler from '@/hooks/member/useSignInHandler';

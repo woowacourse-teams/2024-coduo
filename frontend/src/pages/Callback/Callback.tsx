@@ -5,27 +5,36 @@ import { LogoIconWithTitle } from '@/assets';
 
 import Spinner from '@/components/common/Spinner/Spinner';
 
-import useUserStatusStore from '@/stores/userStatusStore';
+import useUserStore from '@/stores/userStore';
 
+import { getMember } from '@/apis/member';
 import { getSignInCallback } from '@/apis/oauth';
 
 import * as S from './Callback.styles';
 
 const Callback = () => {
   const navigate = useNavigate();
+
   const hasCalledBack = useRef(false);
-  const { setUserStatus } = useUserStatusStore();
+
+  const { setUser } = useUserStore();
+
   const handleCallBack = async () => {
     if (hasCalledBack.current) return;
+
     hasCalledBack.current = true;
 
-    const response = await getSignInCallback();
-    if (response.signedUp) {
-      setUserStatus('SIGNED_IN');
+    const userStatus = await getSignInCallback();
+
+    if (userStatus.signedUp) {
+      const username = await getMember();
+
+      setUser(username, 'SIGNED_IN');
       navigate('/main');
-    } else {
-      navigate('/sign-up');
+      return;
     }
+
+    navigate('/sign-up');
   };
 
   useEffect(() => {

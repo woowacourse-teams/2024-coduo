@@ -7,15 +7,15 @@ export const Layout = styled.div`
 
   position: relative;
 
-  width: 20rem;
-  height: 24rem;
+  width: 17rem;
+  height: 20rem;
   border: 1px solid ${({ theme }) => theme.color.black[30]};
   border-radius: 1.5rem;
 `;
 
 export const Image = styled.img`
   width: 100%;
-  height: 12rem;
+  height: 10rem;
 
   object-fit: cover;
   border-top-left-radius: 1.5rem;
@@ -28,12 +28,13 @@ export const NoneImage = styled.div`
   align-items: center;
 
   width: 100%;
-  height: 12rem;
+  height: 10rem;
 
   background-color: ${({ theme }) => theme.color.black[40]};
   color: ${({ theme }) => theme.color.black[70]};
   font-size: ${({ theme }) => theme.fontSize.sm};
   line-height: 1.3;
+
   border-top-left-radius: 1.5rem;
   border-top-right-radius: 1.5rem;
 `;
@@ -41,13 +42,13 @@ export const NoneImage = styled.div`
 export const Box = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.6rem;
   overflow: hidden;
 
   width: 100%;
-  height: 12rem;
+  height: 10rem;
   max-height: 12rem;
-  padding: 1.6rem;
+  padding: 1.5rem;
 
   cursor: pointer;
 `;
@@ -56,7 +57,6 @@ export const Title = styled.p`
   overflow: hidden;
 
   width: 100%;
-  margin: 0.5rem 0;
 
   font-size: ${({ theme }) => theme.fontSize.md};
   font-weight: ${({ theme }) => theme.fontWeight.medium};

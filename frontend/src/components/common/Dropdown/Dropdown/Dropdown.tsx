@@ -9,14 +9,20 @@ import { theme } from '@/styles/theme';
 
 export type Direction = 'lower' | 'upper';
 
+export interface Option {
+  id: string;
+  value: string;
+}
 interface DropdownProps {
   placeholder: string;
-  options: string[];
+  valueOptions?: Option[];
+  options?: string[];
   selectedOption?: string;
   width?: string;
   height?: string;
   direction?: Direction;
   onSelect: (option: string) => void;
+  children?: React.ReactNode;
 }
 
 const Dropdown = ({
@@ -27,6 +33,8 @@ const Dropdown = ({
   height = '4.8rem',
   direction = 'lower',
   onSelect,
+  children,
+  valueOptions,
 }: DropdownProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -46,20 +54,30 @@ const Dropdown = ({
 
   return (
     <S.Layout $width={width} ref={dropdownRef} $height={height}>
-      <HiddenDropdown options={options} selectedOption={selectedOption} handleSelect={handleSelect} />
+      <HiddenDropdown
+        options={options}
+        valueOptions={valueOptions}
+        selectedOption={selectedOption}
+        handleSelect={handleSelect}
+      />
       <S.DropdownContainer $direction={direction}>
-        <S.OpenButton
-          role="listbox"
-          filled={false}
-          $isSelected={!!selectedOption}
-          $isOpen={isOpen}
-          onClick={toggleDropdown}
-        >
-          {selectedOption || placeholder}
-          <S.Icon $isOpen={isOpen} size={theme.iconSize.md} $direction={direction} />
-        </S.OpenButton>
-        {!options.some((option) => option === '') && isOpen && (
-          <S.ItemList $width={width} $height={height} $direction={direction}>
+        {children && isOpen ? (
+          children
+        ) : (
+          <S.OpenButton
+            role="listbox"
+            filled={false}
+            $isSelected={!!selectedOption}
+            $isOpen={isOpen}
+            onClick={toggleDropdown}
+          >
+            {selectedOption || placeholder}
+            <S.Icon $isOpen={isOpen} size={theme.iconSize.md} $direction={direction} />
+          </S.OpenButton>
+        )}
+
+        {options && !options.some((option) => option === '') && isOpen && (
+          <S.ItemList $height={height} $direction={direction}>
             {options.map((option, index) => (
               <li key={`${option}_${index}`}>
                 <S.Item
@@ -72,6 +90,26 @@ const Dropdown = ({
                   }}
                 >
                   {option}
+                </S.Item>
+              </li>
+            ))}
+          </S.ItemList>
+        )}
+
+        {valueOptions && !valueOptions.some((option) => option.value === '') && isOpen && (
+          <S.ItemList $height={height} $direction={direction}>
+            {valueOptions.map((option, index) => (
+              <li key={`${option}_${index}`}>
+                <S.Item
+                  filled={false}
+                  role="option"
+                  aria-selected={selectedOption === option.value}
+                  onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+                    event.stopPropagation();
+                    handleSelect(option.id);
+                  }}
+                >
+                  {option.value}
                 </S.Item>
               </li>
             ))}
