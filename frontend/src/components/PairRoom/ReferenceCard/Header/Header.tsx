@@ -1,4 +1,4 @@
-import { IoIosLink, IoIosArrowDown } from 'react-icons/io';
+import { IoIosLink, IoIosArrowUp } from 'react-icons/io';
 
 import Button from '@/components/common/Button/Button';
 import ToolTipQuestionBox from '@/components/common/ToolTipQuestionBox/ToolTipQuestionBox';
@@ -26,7 +26,7 @@ const Header = ({
         {isOpen ? (
           <IoIosLink size={theme.fontSize.h6} color={theme.color.primary[600]} />
         ) : (
-          <IoIosArrowDown size={theme.fontSize.h6} color={theme.color.primary[600]} />
+          <IoIosArrowUp size={theme.fontSize.h6} color={theme.color.primary[600]} />
         )}
         <p>링크</p>
         <ToolTipQuestionBox

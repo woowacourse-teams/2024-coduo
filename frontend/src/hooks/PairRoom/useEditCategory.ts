@@ -25,8 +25,8 @@ const useEditCategory = (accessCode: string, categoryName: string, categoryId: s
     resetValue();
   };
 
-  const editCategory = (event: React.ChangeEvent<HTMLInputElement>) => {
-    handleChange(event, validateCategory(event.target.value, isCategoryExist));
+  const editCategory = (event: React.ChangeEvent<HTMLInputElement>, prevCategoryName: string) => {
+    handleChange(event, validateCategory(event.target.value, isCategoryExist, prevCategoryName));
   };
 
   const updateCategory = async () => {
