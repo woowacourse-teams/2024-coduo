@@ -15,14 +15,14 @@ const MyPage = () => {
       <S.Container>
         <S.TitleContainer>
           <S.Title>마이 페이지</S.Title>
-          <S.SubTitle>
+          {/* <S.SubTitle>
             <span>코듀오</span> 님의 마이 페이지에 오신 걸 환영합니다!
-          </S.SubTitle>
+          </S.SubTitle> */}
         </S.TitleContainer>
         <S.ListWrapper>
           <h2>나의 페어룸 목록</h2>
           <div>
-            <S.AllText>총 0개</S.AllText>
+            <S.AllText>총 {pairRooms && pairRooms.length}개</S.AllText>
             <S.List>
               {isFetching ? (
                 <Spinner />
