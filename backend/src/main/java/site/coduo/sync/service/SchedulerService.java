@@ -49,19 +49,22 @@ public class SchedulerService {
 
     private void scheduling(final String key, final Timer timer) {
         final Trigger trigger = new PeriodicTrigger(DELAY_SECOND);
-        final ScheduledFuture<?> schedule = taskScheduler.schedule(() -> {
-            if (timer.isTimeUp()) {
-                stop(key);
-                timestampRegistry.release(key);
-            }
-            if (sseService.hasNoConnections(key)) {
-                stop(key);
-            }
-            timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
-            sseService.broadcast(key, "remaining-time", String.valueOf(timer.getRemainingTime()));
-        }, trigger);
-
+        final ScheduledFuture<?> schedule = taskScheduler.schedule(() -> runTimer(key, timer), trigger);
         schedulerRegistry.register(key, schedule);
+    }
+
+    private void runTimer(final String key, final Timer timer) {
+        if (timer.isTimeUp()) {
+            stop(key);
+            timestampRegistry.release(key);
+            return;
+        }
+        if (sseService.hasNoConnections(key)) {
+            stop(key);
+            return;
+        }
+        timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
+        sseService.broadcast(key, "remaining-time", String.valueOf(timer.getRemainingTime()));
     }
 
     public void stop(final String key) {
