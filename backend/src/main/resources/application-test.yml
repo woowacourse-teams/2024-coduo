@@ -40,7 +40,7 @@ oauth:
     redirect-uri: ${CLIENT_REDIRECT_URI}
 
 front:
-  url: https://test.coduo.site
+  url: test.coduo.site
 
 jwt:
   sign-key: ${JWT_KEY}
