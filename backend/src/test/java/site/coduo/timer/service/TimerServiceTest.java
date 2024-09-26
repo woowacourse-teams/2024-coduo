@@ -15,7 +15,6 @@ import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
-import site.coduo.sync.service.TimestampRegistry;
 import site.coduo.timer.domain.Timer;
 import site.coduo.timer.service.dto.TimerReadResponse;
 import site.coduo.timer.service.dto.TimerUpdateRequest;
@@ -95,7 +94,7 @@ class TimerServiceTest extends CascadeCleaner {
         // given
         final PairRoomCreateRequest pairRoomCreateRequest = new PairRoomCreateRequest("켈리", "레모네", 3000L, 3000L,
                 PairRoomStatus.IN_PROGRESS.name());
-        final String accessCode = pairRoomService.save(pairRoomCreateRequest);
+        final String accessCode = pairRoomService.savePairRoom(pairRoomCreateRequest, null);
         final Timer timeStamp = new Timer(new AccessCode(accessCode), 10000L, 10000L);
         timestampRegistry.register(accessCode, timeStamp);
 
@@ -112,7 +111,7 @@ class TimerServiceTest extends CascadeCleaner {
         // given
         final PairRoomCreateRequest pairRoomCreateRequest = new PairRoomCreateRequest("켈리", "레모네", 3000L, 3000L,
                 PairRoomStatus.IN_PROGRESS.name());
-        final String accessCode = pairRoomService.save(pairRoomCreateRequest);
+        final String accessCode = pairRoomService.savePairRoom(pairRoomCreateRequest, null);
 
         // when
         final long remainingTime = timerService.readTimerRemainingTime(accessCode);
