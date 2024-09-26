@@ -7,7 +7,7 @@ import { ThemeProvider } from 'styled-components';
 const PairRoom = lazy(() => import('@/pages/PairRoom/PairRoom'));
 
 import Callback from '@/pages/Callback/Callback';
-import Docs from '@/pages/CoduoDocs/CoduoDocs';
+import CoduoDocs from '@/pages/CoduoDocs/CoduoDocs';
 import PageNotFound from '@/pages/Error/PageNotFound';
 import HowToPair from '@/pages/HowToPair/HowToPair';
 import Landing from '@/pages/Landing/Landing';
@@ -82,7 +82,7 @@ const App = () => {
         },
         {
           path: 'coduo-docs',
-          element: <Docs />,
+          element: <CoduoDocs />,
         },
         {
           path: 'callback',
