@@ -58,7 +58,7 @@ export const ContentItem = styled(Link)<{ $isActive: boolean }>`
   font-size: ${({ theme }) => theme.fontSize.lg};
   text-decoration: none;
 
-  transition: all 0.2s;
+  transition: all 0.1s;
 
   &::before {
     position: absolute;
