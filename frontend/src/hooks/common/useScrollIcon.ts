@@ -1,27 +1,37 @@
 import { useState, useEffect } from 'react';
 
-const useScrollIcon = () => {
-  const [isBottom, setIsBottom] = useState(false);
+import { TargetSection } from '@/components/common/ScrollIcon/ScrollIcon';
+
+interface UseScrollIconProps {
+  targetSections: TargetSection[];
+}
+
+const useScrollIcon = ({ targetSections }: UseScrollIconProps) => {
+  const [currentSection, setCurrentSection] = useState<string>(targetSections[0].id);
 
   const handleScroll = () => {
-    const scrollPosition = window.innerHeight + window.scrollY;
-    const documentHeight = document.documentElement.scrollHeight;
-    const atBottom = scrollPosition >= documentHeight - 80;
-    setIsBottom(atBottom);
+    const scrollPosition = window.scrollY + window.innerHeight / 2;
+
+    for (const section of targetSections) {
+      const element = document.getElementById(section.id);
+      if (element) {
+        const elementTop = element.offsetTop;
+        const elementBottom = elementTop + element.offsetHeight;
+
+        if (scrollPosition >= elementTop && scrollPosition < elementBottom) {
+          setCurrentSection(section.id);
+          break;
+        }
+      }
+    }
   };
 
   const handleClick = () => {
-    if (isBottom) {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
-      });
-    } else {
-      window.scrollTo({
-        top: document.documentElement.scrollHeight,
-        behavior: 'smooth',
-      });
-    }
+    const currentIndex = targetSections.findIndex((section) => section.id === currentSection);
+    const nextIndex = (currentIndex + 1) % targetSections.length;
+    const nextSection = targetSections[nextIndex];
+
+    document.getElementById(nextSection.id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(() => {
@@ -31,7 +41,7 @@ const useScrollIcon = () => {
     };
   }, []);
 
-  return { isBottom, handleClick };
+  return { currentSection, handleClick };
 };
 
 export default useScrollIcon;

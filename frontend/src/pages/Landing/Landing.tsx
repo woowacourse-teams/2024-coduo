@@ -30,7 +30,7 @@ const Landing = () => {
 
   return (
     <>
-      <S.Layout>
+      <S.Layout id="landing">
         <ScrollAnimationContainer animationDirection="right">
           <S.SubTitle>당신의 첫 번째 페어 프로그래밍,</S.SubTitle>
         </ScrollAnimationContainer>
