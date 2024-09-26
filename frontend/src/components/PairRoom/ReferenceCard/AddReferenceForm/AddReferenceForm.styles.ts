@@ -1,12 +1,21 @@
 import styled, { css } from 'styled-components';
 
+export const Layout = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  width: 100%;
+  height: 6rem;
+  padding: 0 2rem;
+`;
+
 export const Form = styled.form`
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 0.6rem;
 
-  width: 75%;
-  padding: 0 2rem;
+  width: 80%;
 `;
 
 export const ButtonContainer = styled.div`
@@ -16,32 +25,11 @@ export const ButtonContainer = styled.div`
 
 export const inputStyles = css`
   height: 4rem;
-`;
-export const FooterButton = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-
-  width: 100%;
-  height: 6rem;
-  padding: 2rem;
-  border-radius: 0 0 1.5rem 1.5rem;
-
-  color: ${({ theme }) => theme.color.black[70]};
-  font-size: ${({ theme }) => theme.fontSize.base};
-
-  transition: all 0.2s ease 0s;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.color.black[20]};
-  }
+  border-radius: 0.6rem;
 `;
 
-export const ReferenceFormContainer = styled.div`
-  display: flex;
-  align-items: center;
-
-  width: 100%;
-  height: 6rem;
-  padding-left: 1rem;
+export const buttonStyles = css`
+  width: 4.4rem;
+  height: 4rem;
+  border-radius: 0.6rem;
 `;

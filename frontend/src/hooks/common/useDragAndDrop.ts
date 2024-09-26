@@ -1,31 +1,29 @@
-import { useRef } from 'react';
+import { useState } from 'react';
 
-const useDragAndDrop = (list: string[], handleList: (newList: string[]) => void) => {
-  const dragItem = useRef<number | null>(null);
-  const dragOverItem = useRef<number | null>(null);
+import { Todo } from '@/apis/todo';
 
-  const handleDragStart = (position: number) => (dragItem.current = position);
+export type DragPosition = 'ABOVE' | 'BELOW';
 
-  const handleDragEnter = (position: number) => (dragOverItem.current = position);
+const useDragAndDrop = (list: Todo[], handleOrder: (todoId: number, order: number) => void) => {
+  const [dragItem, setDragItem] = useState<Todo | null>(null);
+  const [dragOverItem, setDragOverItem] = useState<Todo | null>(null);
+
+  const handleDragStart = (id: number) => setDragItem(list.find((item) => item.id === id) || null);
+
+  const handleDragEnter = (id: number) => setDragOverItem(list.find((item) => item.id === id) || null);
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
 
-    if (dragItem.current === null || dragOverItem.current === null) return;
+    if (!dragItem || !dragOverItem || dragItem.id === dragOverItem.id) return;
 
-    const newList = [...list];
-    const draggedItem = newList[dragItem.current];
+    handleOrder(dragItem.id, dragOverItem.order);
 
-    newList.splice(dragItem.current, 1);
-    newList.splice(dragOverItem.current, 0, draggedItem);
-
-    dragItem.current = null;
-    dragOverItem.current = null;
-
-    handleList(newList);
+    setDragItem(null);
+    setDragOverItem(null);
   };
 
-  return { handleDragStart, handleDragEnter, handleDrop };
+  return { dragItem, dragOverItem, handleDragStart, handleDragEnter, handleDrop };
 };
 
 export default useDragAndDrop;

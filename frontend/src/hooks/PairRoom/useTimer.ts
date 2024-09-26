@@ -2,20 +2,23 @@ import { useRef, useState, useEffect } from 'react';
 
 import { AlarmSound } from '@/assets';
 
+import useToastStore from '@/stores/toastStore';
+
 import useNotification from '@/hooks/common/useNotification';
 
-const useTimer = (defaultTime: number, onStop: () => void) => {
+const useTimer = (defaultTime: number, defaultTimeleft: number, onStop: () => void) => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const alarmAudio = useRef(new Audio(AlarmSound));
 
-  const [timeLeft, setTimeLeft] = useState(defaultTime);
+  const [timeLeft, setTimeLeft] = useState(defaultTimeleft);
   const [isActive, setIsActive] = useState(false);
   const [startTime, setStartTime] = useState<number | null>(null);
 
+  const { addToast } = useToastStore();
   const { fireNotification } = useNotification();
 
   const initializeTimer = () => {
-    setTimeLeft(defaultTime);
+    setTimeLeft(defaultTimeleft);
     setStartTime(null);
     setIsActive(false);
   };
@@ -24,10 +27,14 @@ const useTimer = (defaultTime: number, onStop: () => void) => {
     if (!isActive) {
       setStartTime(Date.now() - (defaultTime - timeLeft));
       setIsActive(true);
+      addToast({ status: 'SUCCESS', message: '타이머가 시작되었습니다.' });
     }
   };
 
-  const handlePause = () => setIsActive(false);
+  const handlePause = () => {
+    setIsActive(false);
+    addToast({ status: 'WARNING', message: '타이머가 일시 정지되었습니다.' });
+  };
 
   const handleStop = () => {
     initializeTimer();

@@ -31,8 +31,6 @@ const useAddPairRoom = () => {
     try {
       const accessCode = await addPairRoomMutation.mutateAsync({ firstPair, secondPair });
 
-      console.log(accessCode);
-
       await addPairRoomHistoryMutation.mutateAsync({
         driver,
         navigator,
@@ -41,7 +39,7 @@ const useAddPairRoom = () => {
         accessCode,
       });
 
-      navigate(`/room/${accessCode}`);
+      navigate(`/pair-room/${accessCode}`);
     } catch (error) {
       if (error instanceof Error) addToast({ status: 'ERROR', message: error.message });
     }

@@ -1,17 +1,20 @@
-import { useEffect } from 'react';
+import { useEffect, Suspense, lazy } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from 'styled-components';
 
+const PairRoom = lazy(() => import('@/pages/PairRoom/PairRoom'));
+const PairRoomOnboarding = lazy(() => import('@/pages/PairRoomOnboarding/PairRoomOnboarding'));
+
 import Callback from '@/pages/Callback/Callback';
+import Docs from '@/pages/CoduoDocs/CoduoDocs';
 import PageNotFound from '@/pages/Error/PageNotFound';
 import HowToPair from '@/pages/HowToPair/HowToPair';
 import Landing from '@/pages/Landing/Landing';
 import Layout from '@/pages/Layout';
+import Loading from '@/pages/Loading/Loading';
 import Main from '@/pages/Main/Main';
-import PairRoom from '@/pages/PairRoom/PairRoom';
-import PairRoomOnboarding from '@/pages/PairRoomOnboarding/PairRoomOnboarding';
 import SignUp from '@/pages/SignUp/SignUp';
 
 import useUserStatusStore from '@/stores/userStatusStore';
@@ -60,20 +63,24 @@ const App = () => {
           element: <PairRoomOnboarding />,
         },
         {
-          path: 'room/:accessCode',
+          path: 'pair-room/:accessCode',
           element: <PairRoom />,
-        },
-        {
-          path: 'room/:accessCode/onboarding',
-          element: <PairRoomOnboarding />,
         },
         {
           path: 'sign-up',
           element: <SignUp />,
         },
         {
+          path: 'coduo-docs',
+          element: <Docs />,
+        },
+        {
           path: 'callback',
           element: <Callback />,
+        },
+        {
+          path: '*',
+          element: <PageNotFound />,
         },
       ],
     },
@@ -83,7 +90,9 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        <RouterProvider router={router} />
+        <Suspense fallback={<Loading />}>
+          <RouterProvider router={router} />
+        </Suspense>
       </ThemeProvider>
     </QueryClientProvider>
   );

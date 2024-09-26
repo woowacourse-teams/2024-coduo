@@ -1,38 +1,12 @@
-@font-face {
-  font-family: 'Pretendard';
-  src: url('@/assets/fonts/Pretendard-Light.woff2') format('woff2');
-  font-weight: 300;
-}
-
-@font-face {
-  font-family: 'Pretendard';
-  src: url('@/assets/fonts/Pretendard-Regular.woff2') format('woff2');
-  font-weight: 400;
-}
-
-@font-face {
-  font-family: 'Pretendard';
-  src: url('@/assets/fonts/Pretendard-Medium.woff2') format('woff2');
-  font-weight: 500;
-}
-
-@font-face {
-  font-family: 'Pretendard';
-  src: url('@/assets/fonts/Pretendard-SemiBold.woff2') format('woff2');
-  font-weight: 600;
-}
-
-@font-face {
-  font-family: 'Pretendard';
-  src: url('@/assets/fonts/Pretendard-Bold.woff2') format('woff2');
-  font-weight: 700;
-}
-
 html {
-  font-family: 'Pretendard';
+  font-family: 'Pretendard Variable', sans-serif;
   font-size: 62.5%;
+
+  @media screen and (max-width: 768px) {
+    font-size: 50%;
+  }
 }
 
 body {
-  font-family: 'Pretendard';
+  font-family: 'Pretendard Variable', sans-serif;
 }

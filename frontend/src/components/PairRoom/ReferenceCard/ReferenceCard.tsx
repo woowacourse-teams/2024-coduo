@@ -1,28 +1,15 @@
 import { useState } from 'react';
 
-import { FaFilter } from 'react-icons/fa';
-import { IoIosLink } from 'react-icons/io';
-import { css } from 'styled-components';
-
-import Button from '@/components/common/Button/Button';
-import Input from '@/components/common/Input/Input';
-import { Message } from '@/components/common/Input/Input.styles';
-import { InputStatus } from '@/components/common/Input/Input.type';
-import { Modal } from '@/components/common/Modal';
-import ToolTipQuestionBox from '@/components/common/Tooltip/ToolTipQuestionBox';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import AddReferenceForm from '@/components/PairRoom/ReferenceCard/AddReferenceForm/AddReferenceForm';
-import CategoryFilter from '@/components/PairRoom/ReferenceCard/CategoryFilter/CategoryFilter';
+import CategoryManagementModal from '@/components/PairRoom/ReferenceCard/CategoryManagementModal/CategoryManagementModal';
+import Header from '@/components/PairRoom/ReferenceCard/Header/Header';
 import ReferenceList from '@/components/PairRoom/ReferenceCard/ReferenceList/ReferenceList';
 
-import useInput from '@/hooks/common/useInput';
 import useModal from '@/hooks/common/useModal';
+import useCategories, { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/hooks/PairRoom/useCategories';
 
-import useAddCategory from '@/queries/PairRoom/category/useAddCategory';
-import useGetCategories from '@/queries/PairRoom/category/useGetCategories';
-import useReferenceLinks from '@/queries/PairRoom/useReferenceLinks';
-
-import { theme } from '@/styles/theme';
+import { useGetReference } from '@/queries/PairRoom/reference/query';
 
 import * as S from './ReferenceCard.styles';
 
@@ -33,149 +20,46 @@ interface ReferenceCardProps {
 }
 
 const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps) => {
-  const { categories, categoryRecord, isCategoryExist } = useGetCategories(accessCode);
-
-  const [selectedCategory, setSelectedCategory] = useState('전체');
-  const handleSelectCategory = (category: string) => {
-    setSelectedCategory(category);
-  };
-
-  const { referenceLinks, handleAddReferenceLink, handleDeleteReferenceLink } = useReferenceLinks(
-    accessCode,
-    selectedCategory,
-  );
-
+  const [selectedFilteringCategoryId, setSelectedFilteringCategoryId] = useState(DEFAULT_CATEGORY_ID);
   const { isModalOpen, openModal, closeModal } = useModal();
-  const { value, handleChange, resetValue, message, status } = useInput('');
-  const { addCategory } = useAddCategory();
 
-  const validateCategoryName = (category: string): { status: InputStatus; message: string } => {
-    if (category.length >= 8)
-      return {
-        status: 'ERROR',
-        message: '8자 이하로 입력해주세요',
-      };
-    if (isCategoryExist(category))
-      return {
-        status: 'ERROR',
-        message: '중복된 카테고리 입니다.',
-      };
-    return {
-      status: 'DEFAULT',
-      message: '',
-    };
-  };
-  const closeCategoryModal = () => {
-    closeModal();
-    resetValue();
-  };
+  const { categories, isCategoryExist, getCategoryNameById } = useCategories(accessCode);
+
+  const { data: references } = useGetReference(selectedFilteringCategoryId, accessCode);
+  const selectedFilteringCategoryName = getCategoryNameById(selectedFilteringCategoryId) || DEFAULT_CATEGORY_VALUE;
+
   return (
     <>
-      <Modal isOpen={isModalOpen} close={closeCategoryModal} size="45rem">
-        <Modal.Header>
-          <S.CategoryModalHeader>
-            <FaFilter />
-            <p>카테고리 선택</p>
-          </S.CategoryModalHeader>
-        </Modal.Header>
-        <Modal.CloseButton close={closeCategoryModal} />
-        <Modal.Body>
-          <CategoryFilter
-            categories={categoryRecord}
-            selectedCategory={selectedCategory}
-            handleSelectCategory={handleSelectCategory}
-          />
-        </Modal.Body>
-
-        <S.AddNewCategoryBox
-          onSubmit={(event) => {
-            event.preventDefault();
-            if (status === 'ERROR') return;
-            addCategory({ category: value, accessCode });
-            resetValue();
-          }}
-        >
-          <S.AddNewCategoryInputBox>
-            <Input
-              value={value}
-              placeholder="새로운 카테고리를 입력해주세요."
-              onChange={(event) => handleChange(event, validateCategoryName(event.target.value))}
-              status={status}
-              $css={css`
-                width: 100%;
-                border: none;
-
-                font-size: ${({ theme }) => theme.fontSize.md};
-              `}
-            />
-            <Button size="sm" disabled={status === 'ERROR' || value === ''}>
-              추가
-            </Button>
-          </S.AddNewCategoryInputBox>
-
-          <Message $status={status}>{message}</Message>
-        </S.AddNewCategoryBox>
-      </Modal>
       <S.Layout>
         <PairRoomCard>
-          <PairRoomCard.Header
-            icon={<IoIosLink color={theme.color.primary[500]} />}
-            title="링크"
-            secondIcon={
-              <ToolTipQuestionBox
-                direction={isOpen ? 'bottom' : 'top'}
-                message="페어프로그래밍 도중 도움이 되었던 레퍼런스 링크들을 저장해보세요 ☺️"
-              />
-            }
+          <Header
             isOpen={isOpen}
+            selectedFilteringCategoryName={selectedFilteringCategoryName}
             toggleIsOpen={toggleIsOpen}
-          >
-            <S.CategoryBox>
-              {selectedCategory && (
-                <Button
-                  onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-                    event.stopPropagation();
-                  }}
-                  rounded={true}
-                  size="sm"
-                  css={css`
-                    width: fit-content;
-                    min-width: 6rem;
-                    padding: 0 1rem;
-                  `}
-                >
-                  {selectedCategory}
-                </Button>
-              )}
-              <Button
-                onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-                  event.stopPropagation();
-                  openModal();
-                }}
-                filled={false}
-                rounded={true}
-                size="sm"
-                css={css`
-                  display: flex;
-                  gap: 0.5rem;
-
-                  width: fit-content;
-                  padding: 0 1rem;
-                `}
-              >
-                <FaFilter />
-                카테고리 관리
-              </Button>
-            </S.CategoryBox>
-          </PairRoomCard.Header>
+            onButtonClick={openModal}
+          />
           <S.Body $isOpen={isOpen}>
-            <ReferenceList referenceLinks={referenceLinks} onDeleteReferenceLink={handleDeleteReferenceLink} />
+            <ReferenceList references={references} accessCode={accessCode} />
             <S.Footer>
-              <AddReferenceForm categories={categories} handleAddReferenceLink={handleAddReferenceLink} />
+              <AddReferenceForm
+                accessCode={accessCode}
+                categories={categories}
+                getCategoryNameById={getCategoryNameById}
+              />
             </S.Footer>
           </S.Body>
         </PairRoomCard>
       </S.Layout>
+
+      <CategoryManagementModal
+        accessCode={accessCode}
+        isOpen={isModalOpen}
+        closeModal={closeModal}
+        categories={categories}
+        isCategoryExist={isCategoryExist}
+        selectedCategory={selectedFilteringCategoryId}
+        handleSelectCategory={(categoryId: string) => setSelectedFilteringCategoryId(categoryId)}
+      />
     </>
   );
 };

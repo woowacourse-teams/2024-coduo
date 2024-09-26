@@ -1,30 +1,46 @@
+import { useRef, useEffect } from 'react';
+
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import TimerEditPanel from '@/components/PairRoom/TimerCard/TimerEditPanel/TimerEditPanel';
 
 import useTimer from '@/hooks/PairRoom/useTimer';
+import useTitleTime from '@/hooks/title/useTitleTime';
+
+import { formatTime } from '@/utils/Timer/formatTime';
 
 import * as S from './TimerCard.styles';
 
-const formatMinutes = (minutes: number) => (minutes < 10 ? `0${minutes}` : `${minutes}`);
-
-const formatSeconds = (seconds: number) => (seconds < 10 ? `0${seconds}` : `${seconds}`);
-
-const formatTime = (time: number) => {
-  const minutes = Math.floor(time / (60 * 1000));
-  const seconds = Math.floor((time % 60000) / 1000);
-
-  return { minutes: formatMinutes(minutes), seconds: formatSeconds(seconds) };
-};
-
 interface TimerCardProps {
   defaultTime: number;
+  defaultTimeleft: number;
   onTimerStop: () => void;
+  onUpdateTimeLeft: (remainingTime: number) => void;
 }
 
-const TimerCard = ({ defaultTime, onTimerStop }: TimerCardProps) => {
-  const { timeLeft, isActive, handleStart, handlePause } = useTimer(defaultTime, onTimerStop);
+const TimerCard = ({ defaultTime, defaultTimeleft, onTimerStop, onUpdateTimeLeft }: TimerCardProps) => {
+  const { timeLeft, isActive, handleStart, handlePause } = useTimer(defaultTime, defaultTimeleft, onTimerStop);
+
+  const timeLeftRef = useRef(timeLeft);
+  timeLeftRef.current = timeLeft;
+
+  useEffect(() => {
+    const handleBeforeMove = (event: BeforeUnloadEvent) => {
+      onUpdateTimeLeft(timeLeftRef.current);
+      handlePause();
+      event.preventDefault();
+    };
+
+    window.addEventListener('beforeunload', handleBeforeMove);
+    window.addEventListener('popstate', handleBeforeMove);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeMove);
+      window.removeEventListener('popstate', handleBeforeMove);
+    };
+  }, []);
 
   const { minutes, seconds } = formatTime(timeLeft);
+  useTitleTime(minutes, seconds);
 
   return (
     <PairRoomCard>

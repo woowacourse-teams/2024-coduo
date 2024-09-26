@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { validateTimerDuration } from '@/validations/validateTimerDuration';
@@ -7,10 +8,11 @@ import Input from '@/components/common/Input/Input';
 
 import useToastStore from '@/stores/toastStore';
 
+import useClickOutside from '@/hooks/common/useClickOutside';
 import useInput from '@/hooks/common/useInput';
 import useModal from '@/hooks/common/useModal';
 
-import useAddTimer from '@/queries/PairRoomOnboarding/useAddTimer';
+import useUpdateTimerDuration from '@/queries/PairRoomOnboarding/useUpdateTimerDuration';
 
 import { BUTTON_TEXT } from '@/constants/button';
 
@@ -21,12 +23,13 @@ interface TimerEditPanelProps {
 }
 
 const TimerEditPanel = ({ isActive }: TimerEditPanelProps) => {
+  const panelRef = useRef<HTMLDivElement>(null);
   const { accessCode } = useParams();
   const { addToast } = useToastStore();
 
   const { isModalOpen: isPanelOpen, openModal: openPanel, closeModal: closePanel } = useModal();
   const { value, handleChange, resetValue } = useInput();
-  const { handleAddTimer } = useAddTimer(() =>
+  const { handleUpdateTimerDuration } = useUpdateTimerDuration(() =>
     addToast({ status: 'SUCCESS', message: '타이머 시간이 변경되었습니다.' }),
   );
 
@@ -43,11 +46,13 @@ const TimerEditPanel = ({ isActive }: TimerEditPanelProps) => {
     event.preventDefault();
 
     if (!value || !accessCode) return;
-    handleAddTimer({ timer: value, accessCode });
+    handleUpdateTimerDuration(value, accessCode);
 
     resetValue();
     closePanel();
   };
+
+  useClickOutside(panelRef, () => closePanel());
 
   const isButtonDisabled = value === '' || !validateTimerDuration(value);
 
@@ -55,7 +60,7 @@ const TimerEditPanel = ({ isActive }: TimerEditPanelProps) => {
     <S.Layout>
       <S.Icon onClick={handleButtonClick} />
       {isPanelOpen && (
-        <S.Panel>
+        <S.Panel ref={panelRef}>
           <S.Title>타이머 시간 변경</S.Title>
           <S.Form onSubmit={handleSubmit}>
             <Input id="timer" value={value} placeholder="타이머 시간 (분)" onChange={handleChange} />

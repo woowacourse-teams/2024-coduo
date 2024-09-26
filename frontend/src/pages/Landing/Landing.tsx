@@ -12,12 +12,14 @@ import useUserStatusStore from '@/stores/userStatusStore';
 
 import usePreventBackNavigation from '@/hooks/common/usePreventBackNavigation';
 import useSignInHandler from '@/hooks/member/useSignInHandler';
+import useTitleTime from '@/hooks/title/useTitleTime';
 
 
 const Landing = () => {
   const { userStatus } = useUserStatusStore();
   const { handleSignInGithub } = useSignInHandler();
   const navigate = useNavigate();
+  useTitleTime();
 
   usePreventBackNavigation();
 
