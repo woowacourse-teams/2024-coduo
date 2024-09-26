@@ -35,9 +35,9 @@ server:
 
 oauth:
   github:
-    client-id: ${TEST_CLIENT_ID}
-    client-secret: ${TEST_CLIENT_SECRET}
-    redirect-uri: ${TEST_CLIENT_REDIRECT_URI}
+    client-id: ${CLIENT_ID}
+    client-secret: ${CLIENT_SECRET}
+    redirect-uri: ${CLIENT_REDIRECT_URI}
 
 jwt:
   sign-key: ${JWT_KEY}
