@@ -1,6 +1,7 @@
 package site.coduo.sync.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,5 +22,13 @@ public class SseController implements SseDocs {
         final SseEmitter sseEmitter = sseService.connect(key);
 
         return ResponseEntity.ok(sseEmitter);
+    }
+
+    @DeleteMapping("/{key}/connect")
+    public ResponseEntity<Void> deleteConnection(@PathVariable("key") final String key) {
+        sseService.disconnectAll(key);
+
+        return ResponseEntity.noContent()
+                .build();
     }
 }

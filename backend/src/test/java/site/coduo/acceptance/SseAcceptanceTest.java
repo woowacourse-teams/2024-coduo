@@ -22,7 +22,6 @@ class SseAcceptanceTest extends AcceptanceFixture {
                 .then()
                 .log().all()
                 .statusCode(200);
-
     }
 
     @Test
@@ -44,5 +43,25 @@ class SseAcceptanceTest extends AcceptanceFixture {
                 .then()
                 .log().all()
                 .statusCode(200);
+    }
+
+    @Test
+    @DisplayName("페어룸의 모든 SSE connection을 종료한다.")
+    void delete_sse_connection() {
+        // given
+        final String accessCode = "hihio";
+        createConnect(accessCode);
+
+        // when & then
+        RestAssured
+                .given()
+
+                .when()
+                .log().all()
+                .delete("/api/{key}/connect", accessCode)
+
+                .then()
+                .log().all()
+                .statusCode(204);
     }
 }

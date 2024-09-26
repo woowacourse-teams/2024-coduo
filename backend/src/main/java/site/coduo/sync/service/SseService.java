@@ -23,4 +23,8 @@ public class SseService {
     public boolean hasNoConnections(final String key) {
         return eventStreamsRegistry.hasNoStreams(key);
     }
+
+    public void disconnectAll(final String key) {
+        eventStreamsRegistry.release(key);
+    }
 }

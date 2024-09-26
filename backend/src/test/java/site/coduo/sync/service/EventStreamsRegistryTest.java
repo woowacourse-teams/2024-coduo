@@ -31,7 +31,7 @@ class EventStreamsRegistryTest {
         // given
         final EventStreamsRegistry eventStreamsRegistry = new EventStreamsRegistry();
         final String key = "test";
-        final SseEmitter emitter = eventStreamsRegistry.register(key);
+        eventStreamsRegistry.register(key);
 
         // when & then
         assertThatCode(() -> eventStreamsRegistry.findEventStreams(key))
@@ -75,5 +75,21 @@ class EventStreamsRegistryTest {
         // when & then
         assertThatThrownBy(() -> eventStreamsRegistry.hasNoStreams(key))
                 .isInstanceOf(NotFoundSseConnectionException.class);
+    }
+
+    @Test
+    @DisplayName("키에 해당하는 모든 스트림을 종료 후 삭제한다.")
+    void close_all_of_key() {
+        // given
+        final String key = "hellow";
+        final EventStreamsRegistry registry = new EventStreamsRegistry();
+        registry.register(key);
+
+        // when
+        registry.release(key);
+
+        // then
+        assertThatThrownBy(() -> registry.findEventStreams(key))
+                .isExactlyInstanceOf(NotFoundSseConnectionException.class);
     }
 }

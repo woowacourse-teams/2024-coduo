@@ -17,12 +17,21 @@ public class EventStreamsRegistry {
         this.registry = new ConcurrentHashMap<>();
     }
 
-    public SseEmitter register(final String name) {
-        final EventStreams eventStreams = registry.getOrDefault(name, new EventStreams());
+    public SseEmitter register(final String key) {
+        final EventStreams eventStreams = registry.getOrDefault(key, new EventStreams());
         final EventStream eventStream = new SseEventStream();
         eventStreams.add(eventStream);
-        registry.put(name, eventStreams);
+        registry.put(key, eventStreams);
         return eventStreams.publish(eventStream);
+    }
+
+    public void release(final String key) {
+        if (!registry.containsKey(key)) {
+            return;
+        }
+        final EventStreams eventStreams = registry.get(key);
+        eventStreams.closeAll();
+        registry.remove(key);
     }
 
     public EventStreams findEventStreams(final String key) {
