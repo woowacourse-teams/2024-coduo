@@ -8,8 +8,6 @@ import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type
 import useInput from '@/hooks/common/useInput';
 import useReference from '@/hooks/PairRoom/useReference';
 
-import { formatLink } from '@/utils/Reference/formatLink';
-
 import * as S from './AddReferenceForm.styles';
 
 interface ReferenceFormProps {
@@ -37,7 +35,7 @@ const AddReferenceForm = ({ accessCode, categories, getCategoryNameById }: Refer
         <Input
           $css={S.inputStyles}
           placeholder="링크를 입력해주세요."
-          value={formatLink(value)}
+          value={value}
           status={status}
           message={message}
           onChange={handleChange}

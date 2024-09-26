@@ -4,6 +4,8 @@ import { DEFAULT_CATEGORY_ID } from '@/hooks/PairRoom/useCategories';
 
 import { useAddReferenceLink } from '@/queries/PairRoom/reference/mutation';
 
+import { formatLink } from '@/utils/Reference/formatLink';
+
 const useReference = (accessCode: string, reference: string, success: () => void) => {
   const addReference = useAddReferenceLink().mutateAsync;
   const [currentCategoryId, setCurrentCategoryId] = useState<string | null>(null);
@@ -11,8 +13,9 @@ const useReference = (accessCode: string, reference: string, success: () => void
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    const url = formatLink(reference);
     const categoryId = currentCategoryId === DEFAULT_CATEGORY_ID ? null : currentCategoryId;
-    addReference({ url: reference, accessCode, categoryId }).then(() => success());
+    addReference({ url, accessCode, categoryId }).then(() => success());
   };
   return { currentCategoryId, handleCurrentCategory, handleSubmit };
 };
