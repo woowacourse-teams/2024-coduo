@@ -58,10 +58,10 @@ public class CategoryController implements CategoryDocs {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{accessCode}/category/{categoryName}")
+    @DeleteMapping("/{accessCode}/category/{categoryId}")
     public ResponseEntity<Void> deleteCategory(
             @PathVariable("accessCode") String accessCode,
-            @PathVariable("categoryName") Long categoryId
+            @PathVariable("categoryId") Long categoryId
     ) {
         categoryService.deleteCategory(accessCode, categoryId);
 
