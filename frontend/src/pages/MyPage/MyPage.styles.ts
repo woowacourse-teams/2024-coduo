@@ -65,6 +65,11 @@ export const AllText = styled.p`
   font-size: ${({ theme }) => theme.fontSize.md};
 `;
 
+export const EmptyText = styled.p`
+  color: ${({ theme }) => theme.color.black[70]};
+  font-size: ${({ theme }) => theme.fontSize.base};
+`;
+
 export const LeaveButton = styled.button`
   display: flex;
   justify-content: flex-end;
