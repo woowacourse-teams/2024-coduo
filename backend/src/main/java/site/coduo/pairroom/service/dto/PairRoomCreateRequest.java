@@ -1,18 +1,27 @@
 package site.coduo.pairroom.service.dto;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "페어룸 생성 요청 바디")
 public record PairRoomCreateRequest(
-        @Schema(description = "첫 번째 페어의 이름")
+        @Schema(description = "내비게이터 이름")
         @NotBlank
-        String firstPair,
+        String navigator,
 
-        @Schema(description = "두 번째 페어의 이름")
+        @Schema(description = "드라이버 이름")
         @NotBlank
-        String secondPair,
+        String driver,
+
+        @Schema(description = "타이머 시간")
+        @Min(value = 1, message = "타이머 시간은 0보다 커야합니다.")
+        long timerDuration,
+
+        @Schema(description = "타이머 남은 시간")
+        @Min(value = 1, message = "타이머 남은 시간은 0보다 커야합니다.")
+        long timerRemainingTime,
 
         @Schema(description = "페어룸의 상태", example = "IN_PROGRESS")
         @NotBlank

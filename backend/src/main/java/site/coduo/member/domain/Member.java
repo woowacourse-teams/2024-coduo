@@ -76,4 +76,3 @@ public class Member extends BaseTimeEntity {
         return Objects.hash(id);
     }
 }
-
