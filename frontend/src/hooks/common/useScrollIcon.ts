@@ -27,18 +27,20 @@ const useScrollIcon = ({ targetSections }: UseScrollIconProps) => {
       return;
     }
 
-    for (const section of sections) {
-      const element = document.getElementById(section.id);
-      if (element) {
-        const elementTop = element.offsetTop;
-        const elementBottom = elementTop + element.offsetHeight;
+    const isInView = (element: HTMLElement, scrollPosition: number) => {
+      const elementTop = element.offsetTop;
+      const elementBottom = elementTop + element.offsetHeight;
+      return scrollPosition >= elementTop && scrollPosition < elementBottom;
+    };
 
-        if (scrollPosition >= elementTop && scrollPosition < elementBottom) {
-          setCurrentSection(section.id);
-          break;
-        }
+    sections.some((section) => {
+      const element = document.getElementById(section.id);
+      if (element && isInView(element, scrollPosition)) {
+        setCurrentSection(section.id);
+        return true;
       }
-    }
+      return false;
+    });
   };
 
   const handleClick = () => {
