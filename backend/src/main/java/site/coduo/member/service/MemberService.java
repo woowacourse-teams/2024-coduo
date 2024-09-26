@@ -29,8 +29,9 @@ public class MemberService {
     public void createMember(final String username, final String accessToken) {
         final Bearer bearer = new Bearer(accessToken);
         final GithubUserResponse userResponse = githubClient.getUser(new GithubUserRequest(bearer));
+        log.info("사용자 정보 불러오기 종료");
         final Member member = userResponse.toDomain(bearer, username);
-
+        log.info("사용자 정보 DB 반영 완료");
         memberRepository.save(member);
     }
 
