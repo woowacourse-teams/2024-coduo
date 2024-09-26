@@ -7,7 +7,7 @@ import { validateName } from '@/validations/validatePairName';
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 
-import useUserStatusStore from '@/stores/userStatusStore';
+import useUserStore from '@/stores/userStore';
 
 import useInput from '@/hooks/common/useInput';
 import useSignUpHandler from '@/hooks/member/useSignUpHandler';
@@ -15,14 +15,13 @@ import useSignUpHandler from '@/hooks/member/useSignUpHandler';
 import * as S from './SignUp.styles';
 
 const SignUp = () => {
-  const { userStatus } = useUserStatusStore();
   const navigate = useNavigate();
 
+  const { userStatus } = useUserStore();
+
   useEffect(() => {
-    if (userStatus === 'SIGNED_IN') {
-      navigate('/main', { replace: true });
-    }
-  }, [userStatus, navigate]);
+    if (userStatus === 'SIGNED_IN') navigate('/main', { replace: true });
+  }, [userStatus]);
 
   const {
     value: username,

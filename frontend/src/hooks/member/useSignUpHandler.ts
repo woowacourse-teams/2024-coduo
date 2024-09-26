@@ -1,16 +1,19 @@
 import { useNavigate } from 'react-router-dom';
 
-import useUserStatusStore from '@/stores/userStatusStore';
+import useUserStore from '@/stores/userStore';
 
 import { addSignUp } from '@/apis/oauth';
 
 const useSignUpHandler = () => {
-  const { setUserStatus } = useUserStatusStore();
   const navigate = useNavigate();
+
+  const { setUser } = useUserStore();
 
   const handleSignUp = async (username: string) => {
     await addSignUp(username);
-    setUserStatus('SIGNED_IN');
+
+    setUser(username, 'SIGNED_IN');
+
     navigate('/main');
   };
 

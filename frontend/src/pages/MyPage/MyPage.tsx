@@ -1,10 +1,15 @@
 import { IoIosArrowForward } from 'react-icons/io';
 
+import Spinner from '@/components/common/Spinner/Spinner';
 import PairRoomButton from '@/components/MyPage/PairRoomButton/PairRoomButton';
+
+import useMyPairRooms from '@/queries/MyPage/useMyPairRooms';
 
 import * as S from './MyPage.styles';
 
 const MyPage = () => {
+  const { data: pairRooms, isFetching } = useMyPairRooms();
+
   return (
     <S.Layout>
       <S.Container>
@@ -19,8 +24,19 @@ const MyPage = () => {
           <div>
             <S.AllText>총 0개</S.AllText>
             <S.List>
-              <PairRoomButton driver="레모네" navigator="파슬리" status="IN_PROGRESS" />
-              <PairRoomButton driver="레모네" navigator="파슬리" status="COMPLETED" />
+              {isFetching ? (
+                <Spinner />
+              ) : (
+                pairRooms &&
+                pairRooms.map((pairRoom) => (
+                  <PairRoomButton
+                    key={pairRoom.id}
+                    driver={pairRoom.driver}
+                    navigator={pairRoom.navigator}
+                    status={pairRoom.status}
+                  />
+                ))
+              )}
             </S.List>
           </div>
         </S.ListWrapper>

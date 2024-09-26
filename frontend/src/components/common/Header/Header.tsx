@@ -1,13 +1,10 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { HiQuestionMarkCircle } from 'react-icons/hi';
 
 import { LogoIcon } from '@/assets';
 
-import useUserStatusStore from '@/stores/userStatusStore';
-
-import { getMember } from '@/apis/member';
+import useUserStore from '@/stores/userStore';
 
 import useSignInHandler from '@/hooks/member/useSignInHandler';
 import useSignOutHandler from '@/hooks/member/useSignOutHandler';
@@ -17,19 +14,10 @@ import { theme } from '@/styles/theme';
 import * as S from './Header.styles';
 
 const Header = () => {
-  const [username, setUsername] = useState('');
+  const { username, userStatus } = useUserStore();
 
-  const { userStatus } = useUserStatusStore();
   const { handleSignInGithub } = useSignInHandler();
   const { handleSignOut } = useSignOutHandler();
-
-  useEffect(() => {
-    if (userStatus === 'SIGNED_IN') {
-      getMember()
-        .then((data) => setUsername(data.username))
-        .catch(console.error);
-    }
-  }, [userStatus]);
 
   return (
     <S.Layout>
