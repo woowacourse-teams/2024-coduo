@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
@@ -22,6 +23,7 @@ import site.coduo.referencelink.repository.ReferenceLinkRepository;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
 import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
 
+@Slf4j
 @Transactional
 @RequiredArgsConstructor
 @Service
@@ -66,11 +68,14 @@ public class ReferenceLinkService {
 
     @Transactional(readOnly = true)
     public List<ReferenceLinkResponse> readAllReferenceLink(final String accessCodeText) {
+        log.info("[Reference Link] 2. readAllReferenceLink 메서드 호출 시작!");
+        log.info("[Reference Link] 3. referenceLinkRepository.findAll() 호출 시작!");
         final List<ReferenceLinkEntity> referenceLinkEntities = referenceLinkRepository.findAll()
                 .stream()
                 .filter(link -> link.isSameAccessCode(new AccessCode(accessCodeText)))
                 .toList();
 
+        log.info("[Reference Link] 4. referenceLinkRepository.findAll() 반환 데이터 필터링 시작!!");
         return referenceLinkEntities.stream()
                 .map(this::makeReferenceLinkResponse)
                 .toList();
