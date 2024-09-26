@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import site.coduo.timer.domain.Timer;
 import site.coduo.timer.repository.TimerRepository;
+import site.coduo.timer.service.TimestampRegistry;
 
 @RequiredArgsConstructor
 @Component
@@ -26,40 +27,50 @@ public class SchedulerService {
     private final SseService sseService;
 
     public void start(final String key) {
+        sseService.broadcast(key, "timer", "start");
         if (isInitial(key)) {
-            final Timer timer = timerRepository.fetchTimerByAccessCode(key).toDomain();
+            final Timer timer = timerRepository.fetchTimerByAccessCode(key)
+                    .toDomain();
             scheduling(key, timer);
             timestampRegistry.register(key, timer);
             return;
         }
-        if (isResume(key)) {
-            final Timer timer = timestampRegistry.get(key);
-            scheduling(key, timer);
-        }
+        final Timer timer = timestampRegistry.get(key);
+        scheduling(key, timer);
     }
 
     private boolean isInitial(final String key) {
         return !schedulerRegistry.has(key) && !timestampRegistry.has(key);
     }
 
-    private boolean isResume(final String key) {
-        return !schedulerRegistry.has(key) && timestampRegistry.has(key);
-    }
-
     private void scheduling(final String key, final Timer timer) {
         final Trigger trigger = new PeriodicTrigger(DELAY_SECOND);
-        final ScheduledFuture<?> schedule = taskScheduler.schedule(() -> {
-            timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
-            if (timer.getRemainingTime() == 0 || sseService.hasEmptyConnection(key)) {
-                schedulerRegistry.release(key);
-                timestampRegistry.release(key);
-            }
-            sseService.broadcast(key, "remaining-time", String.valueOf(timer.getRemainingTime()));
-        }, trigger);
+        final ScheduledFuture<?> schedule = taskScheduler.schedule(() -> runTimer(key, timer), trigger);
         schedulerRegistry.register(key, schedule);
     }
 
+    private void runTimer(final String key, final Timer timer) {
+        if (timer.isTimeUp()) {
+            stop(key);
+            final Timer initalTimer = new Timer(timer.getAccessCode(), timer.getDuration(), timer.getDuration());
+            timestampRegistry.register(key, initalTimer);
+            return;
+        }
+        if (sseService.hasNoConnections(key)) {
+            stop(key);
+            return;
+        }
+        timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
+        sseService.broadcast(key, "remaining-time", String.valueOf(timer.getRemainingTime()));
+    }
+
+    public void pause(final String key) {
+        sseService.broadcast(key, "timer", "pause");
+        schedulerRegistry.release(key);
+    }
+
     public void stop(final String key) {
+        sseService.broadcast(key, "timer", "stop");
         schedulerRegistry.release(key);
     }
 }

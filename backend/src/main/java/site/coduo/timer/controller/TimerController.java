@@ -33,7 +33,7 @@ public class TimerController implements TimerDocs {
 
     @PatchMapping("/{accessCode}/timer/stop")
     public ResponseEntity<Void> createTimerStop(@PathVariable("accessCode") final String accessCode) {
-        schedulerService.stop(accessCode);
+        schedulerService.pause(accessCode);
 
         return ResponseEntity.noContent()
                 .build();

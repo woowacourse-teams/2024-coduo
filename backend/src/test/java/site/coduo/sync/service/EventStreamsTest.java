@@ -100,7 +100,7 @@ class EventStreamsTest {
     }
 
     @Test
-    @DisplayName("등록된 에미터가 비었지 확인한다. - 거짓")
+    @DisplayName("등록된 에미터가 비었는지 확인한다. - 거짓")
     void check_emitters_empty_false_case() {
         // given
         final EventStreams eventStreams = new EventStreams();
@@ -111,5 +111,20 @@ class EventStreamsTest {
 
         // then
         assertThat(empty).isFalse();
+    }
+
+    @Test
+    @DisplayName("등록된 에미터가 모두 종료되었는지 확인한다.")
+    void check_emitters_all_close() {
+        // given
+        final EventStreams eventStreams = new EventStreams();
+        final SseEventStream target = new SseEventStream();
+        eventStreams.add(target);
+
+        // when
+        eventStreams.closeAll();
+
+        // then
+        assertThatThrownBy(() -> target.flush("종료 후 메세지 보내면", "에러 발생"));
     }
 }

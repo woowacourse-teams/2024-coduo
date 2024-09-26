@@ -1,23 +1,21 @@
-package site.coduo.sync.service;
+package site.coduo.timer.service;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Component;
 
-import site.coduo.sync.exception.DuplicateTimestampException;
+import lombok.NoArgsConstructor;
 import site.coduo.sync.exception.NotFoundTimeStampException;
 import site.coduo.timer.domain.Timer;
 
 @Component
+@NoArgsConstructor
 public class TimestampRegistry {
 
     private final Map<String, Timer> registry = new ConcurrentHashMap<>();
 
     public void register(final String key, final Timer timer) {
-        if (registry.containsKey(key)) {
-            throw new DuplicateTimestampException("이미 존재하는 타임 스탬프입니다.");
-        }
         registry.put(key, timer);
     }
 
