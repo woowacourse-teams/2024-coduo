@@ -8,22 +8,20 @@ import org.springframework.http.ResponseCookie;
 
 public record SignInCookie(String credential) {
 
-    private static final String SERVICE_DOMAIN_NAME = "coduo.site";
-
-    public ResponseCookie generate() {
+    public ResponseCookie generate(final String domain) {
         return ResponseCookie.from(SIGN_IN_COOKIE_NAME)
                 .value(credential)
                 .httpOnly(true)
                 .secure(true)
-                .domain(SERVICE_DOMAIN_NAME)
+                .domain(domain)
                 .path("/")
                 .build();
     }
 
-    public ResponseCookie expire() {
+    public ResponseCookie expire(final String domain) {
         return ResponseCookie.from(SIGN_IN_COOKIE_NAME)
                 .maxAge(Duration.ZERO)
-                .domain(SERVICE_DOMAIN_NAME)
+                .domain(domain)
                 .path("/")
                 .build();
     }
