@@ -8,7 +8,8 @@ import { getSSEConnection, startTimer, stopTimer } from '@/apis/timer';
 
 import useNotification from '@/hooks/common/useNotification';
 
-const TIMER_SSE_KEY = 'remaining-time';
+const STATUS_SSE_KEY = 'timer';
+const TIME_SSE_KEY = 'remaining-time';
 
 const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: number, onTimerStop: () => void) => {
   const alarmAudio = useRef(new Audio(AlarmSound));
@@ -20,17 +21,11 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
   const { fireNotification } = useNotification();
 
   const handleStart = () => {
-    if (!isActive) {
-      startTimer(accessCode);
-      setIsActive(true);
-      addToast({ status: 'SUCCESS', message: '타이머가 시작되었습니다.' });
-    }
+    if (!isActive) startTimer(accessCode);
   };
 
   const handlePause = () => {
     stopTimer(accessCode);
-    setIsActive(false);
-    addToast({ status: 'WARNING', message: '타이머가 일시 정지되었습니다.' });
   };
 
   const handleStop = () => {
@@ -42,6 +37,26 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
   useEffect(() => {
     const sse = getSSEConnection(accessCode);
 
+    const handleStatus = (event: MessageEvent) => {
+      if (event.data === 'start') {
+        setIsActive(true);
+        addToast({ status: 'SUCCESS', message: '타이머가 시작되었습니다.' });
+        return;
+      }
+
+      if (event.data === 'running') {
+        setIsActive(true);
+        addToast({ status: 'SUCCESS', message: '타이머가 진행 중입니다.' });
+        return;
+      }
+
+      if (event.data === 'stop') {
+        setIsActive(false);
+        addToast({ status: 'WARNING', message: '타이머가 일시 정지되었습니다.' });
+        return;
+      }
+    };
+
     const handleTimeLeft = (event: MessageEvent) => {
       if (event.data === 0) {
         handleStop();
@@ -52,13 +67,21 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
       }
     };
 
-    sse.addEventListener(TIMER_SSE_KEY, handleTimeLeft);
-    window.addEventListener('beforeunload', (event) => event.preventDefault());
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+    };
+
+    sse.addEventListener(STATUS_SSE_KEY, handleStatus);
+    sse.addEventListener(TIME_SSE_KEY, handleTimeLeft);
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
 
     return () => {
-      sse.removeEventListener(TIMER_SSE_KEY, handleTimeLeft);
+      sse.removeEventListener(STATUS_SSE_KEY, handleStatus);
+      sse.removeEventListener(TIME_SSE_KEY, handleTimeLeft);
       sse.close();
-      window.removeEventListener('beforeunload', (event) => event.preventDefault());
+
+      window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, []);
 
