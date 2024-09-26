@@ -38,6 +38,7 @@ const useEditCategory = (accessCode: string, categoryName: string, categoryId: s
       accessCode,
     });
     setIsEditing(false);
+    addToast({ status: 'SUCCESS', message: '카테고리 이름이 수정되었어요.' });
   };
 
   const deleteCategory = async () => {
