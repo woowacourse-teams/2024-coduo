@@ -15,7 +15,7 @@ import site.coduo.sync.exception.SseConnectionFailureException;
 @Getter
 public class SseEventStream implements EventStream {
 
-    private static final long INFINITE_TIME_OUT = -1;
+    private static final long INFINITE_TIME_OUT = Duration.ofMinutes(20).toMillis();
 
     private final AtomicLong id = new AtomicLong(0);
     private final SseEmitter sseEmitter;
