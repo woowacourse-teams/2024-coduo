@@ -1,6 +1,6 @@
 package site.coduo.member.service.dto.auth;
 
-import static site.coduo.common.config.filter.SignInCookieFilter.SIGN_IN_COOKIE_NAME;
+import static site.coduo.common.config.web.filter.SignInCookieFilter.SIGN_IN_COOKIE_NAME;
 
 import java.time.Duration;
 
