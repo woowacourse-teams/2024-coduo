@@ -14,11 +14,11 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   $css?: ReturnType<typeof css>;
 }
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ width = '100%', status = 'DEFAULT', message, label, ...props }: InputProps, ref) => {
+  ({ width = '100%', status = 'DEFAULT', message, label, height = '4.8rem', ...props }: InputProps, ref) => {
     return (
       <S.Layout $width={width}>
         {label && <S.Label htmlFor={props.id}>{label}</S.Label>}
-        <S.Input ref={ref} $status={status} {...props} />
+        <S.Input ref={ref} $status={status} $height={height} {...props} />
         {message && <S.Message $status={status}>{message}</S.Message>}
       </S.Layout>
     );

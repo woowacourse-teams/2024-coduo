@@ -6,26 +6,26 @@ import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import { Message } from '@/components/common/Input/Input.styles';
 import { Modal } from '@/components/common/Modal';
-import CategoryFilter from '@/components/PairRoom/ReferenceCard/CategoryFilter/CategoryFilter';
+import CategoriesEditor from '@/components/PairRoom/ReferenceCard/CategoryManagementModal/CategoriesEditor/CategoriesEditor';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 
 import useInput from '@/hooks/common/useInput';
 
-import useAddCategory from '@/queries/PairRoom/useAddCategory';
+import { useAddCategory } from '@/queries/PairRoom/mutation';
 
-import * as S from './CategoryModal.styles';
+import * as S from './CategoryManagementModal.styles';
 
-interface CategoryModalProps {
+interface CategoryManagementModalProps {
   accessCode: string;
   isOpen: boolean;
   closeModal: () => void;
   categories: Category[];
-  isCategoryExist: (category: string) => boolean;
+  isCategoryExist: (categoryName: string) => boolean;
   selectedCategory: string;
-  handleSelectCategory: (category: string) => void;
+  handleSelectCategory: (categoryId: string) => void;
 }
 
-const CategoryModal = ({
+const CategoryManagementModal = ({
   accessCode,
   isOpen,
   closeModal,
@@ -33,41 +33,41 @@ const CategoryModal = ({
   isCategoryExist,
   selectedCategory,
   handleSelectCategory,
-}: CategoryModalProps) => {
+}: CategoryManagementModalProps) => {
   const { value, handleChange, resetValue, message, status } = useInput('');
+  const addCategory = useAddCategory();
 
-  const { addCategory } = useAddCategory();
-
-  const closeCategoryModal = () => {
+  const closeCategoryManagementModal = () => {
     resetValue();
     closeModal();
   };
 
+  const handleAddCategorySubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (status === 'ERROR') return;
+    addCategory.mutateAsync({ category: value, accessCode }).then(() => resetValue());
+  };
+
   return (
-    <Modal isOpen={isOpen} close={closeCategoryModal} size="45rem">
+    <Modal isOpen={isOpen} close={closeCategoryManagementModal} size="45rem">
       <Modal.Header>
-        <S.CategoryModalHeader>
+        <S.Header>
           <FaFilter />
           <p>카테고리 선택</p>
-        </S.CategoryModalHeader>
+        </S.Header>
       </Modal.Header>
-      <Modal.CloseButton close={closeCategoryModal} />
+      <Modal.CloseButton close={closeCategoryManagementModal} />
       <Modal.Body>
-        <CategoryFilter
+        <CategoriesEditor
           categories={categories}
           selectedCategory={selectedCategory}
           handleSelectCategory={handleSelectCategory}
+          accessCode={accessCode}
         />
       </Modal.Body>
-      <S.AddNewCategoryBox
-        onSubmit={(event) => {
-          event.preventDefault();
-          if (status === 'ERROR') return;
-          addCategory({ category: value, accessCode });
-          resetValue();
-        }}
-      >
-        <S.AddNewCategoryInputBox>
+
+      <S.Footer onSubmit={handleAddCategorySubmit}>
+        <S.AddNewCategoryInput>
           <Input
             value={value}
             placeholder="새로운 카테고리를 입력해주세요."
@@ -78,11 +78,11 @@ const CategoryModal = ({
           <Button size="sm" disabled={status === 'ERROR' || value === ''}>
             추가
           </Button>
-        </S.AddNewCategoryInputBox>
+        </S.AddNewCategoryInput>
         <Message $status={status}>{message}</Message>
-      </S.AddNewCategoryBox>
+      </S.Footer>
     </Modal>
   );
 };
 
-export default CategoryModal;
+export default CategoryManagementModal;

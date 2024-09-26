@@ -9,12 +9,17 @@ import * as S from './Header.styles';
 
 interface HeaderProps {
   isOpen: boolean;
-  selectedCategory: string;
+  selectedFilteringCategoryName: string;
   toggleIsOpen: () => void;
   onButtonClick: () => void;
 }
 
-const Header = ({ isOpen, selectedCategory, toggleIsOpen, onButtonClick }: React.PropsWithChildren<HeaderProps>) => {
+const Header = ({
+  isOpen,
+  selectedFilteringCategoryName,
+  toggleIsOpen,
+  onButtonClick,
+}: React.PropsWithChildren<HeaderProps>) => {
   return (
     <S.Layout onClick={toggleIsOpen}>
       <S.Container>
@@ -37,9 +42,10 @@ const Header = ({ isOpen, selectedCategory, toggleIsOpen, onButtonClick }: React
         onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
           event.stopPropagation();
           onButtonClick();
+          toggleIsOpen();
         }}
       >
-        {selectedCategory}
+        {selectedFilteringCategoryName}
       </Button>
     </S.Layout>
   );

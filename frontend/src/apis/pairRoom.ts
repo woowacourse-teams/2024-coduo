@@ -4,11 +4,13 @@ import { ERROR_MESSAGES } from '@/constants/message';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
+export type PairRoomStatus = 'IN_PROGRESS' | 'COMPLETED';
+
 export interface GetPairRoomResponse {
   id: number;
   navigator: string;
   driver: string;
-  status: string;
+  status: PairRoomStatus;
 }
 
 export const getPairRoom = async (accessCode: string): Promise<GetPairRoomResponse> => {
