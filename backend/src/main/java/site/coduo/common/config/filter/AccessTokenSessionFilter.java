@@ -14,8 +14,10 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpHeaders;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import site.coduo.member.exception.AuthenticationException;
 
+@Slf4j
 @RequiredArgsConstructor
 public class AccessTokenSessionFilter implements SessionFilter {
 

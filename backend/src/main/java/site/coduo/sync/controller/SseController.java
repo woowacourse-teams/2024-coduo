@@ -21,10 +21,8 @@ public class SseController implements SseDocs {
 
     @GetMapping("/{key}/connect")
     public ResponseEntity<SseEmitter> createConnection(@PathVariable("key") final String key) {
-        log.info("[Connect] 1. SSE 커넥션 연결 시작");
         final SseEmitter sseEmitter = sseService.connect(key);
 
-        log.info("[Connect] 7. SSE API 종료");
         return ResponseEntity.ok(sseEmitter);
     }
 

@@ -30,7 +30,6 @@ public class MemberService {
         final Bearer bearer = new Bearer(accessToken);
         final GithubUserResponse userResponse = githubClient.getUser(new GithubUserRequest(bearer));
         final Member member = userResponse.toDomain(bearer, username);
-
         memberRepository.save(member);
     }
 

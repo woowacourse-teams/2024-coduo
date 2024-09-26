@@ -27,6 +27,10 @@ public class SignInCookieFilter implements Filter {
     public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
             throws IOException, ServletException {
         final HttpServletRequest httpRequest = (HttpServletRequest) request;
+        if (httpRequest.getMethod().equalsIgnoreCase("OPTIONS")) {
+            chain.doFilter(request, response);
+            return;
+        }
         validate(parseSignInCookie(httpRequest));
         chain.doFilter(request, response);
     }
