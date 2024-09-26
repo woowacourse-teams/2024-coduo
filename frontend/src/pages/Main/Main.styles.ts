@@ -14,9 +14,9 @@ export const Layout = styled.div`
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     flex-direction: column;
+    justify-content: center;
     gap: 8rem;
 
-    min-height: 0;
     padding: 8rem 5.4vw;
   }
 `;
