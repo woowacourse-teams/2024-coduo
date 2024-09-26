@@ -7,7 +7,7 @@ export const Layout = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 16rem;
+  gap: 20rem;
   overflow-x: hidden;
 
   position: relative;
@@ -80,7 +80,7 @@ export const SectionTitle = styled.h2`
 
   color: ${({ theme }) => theme.color.primary[800]};
   font-size: ${({ theme }) => theme.fontSize.h1};
-  font-weight: ${({ theme }) => theme.fontWeight.extraBold};
+  font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;
 
 export const Paragraph = styled.p`
@@ -88,7 +88,7 @@ export const Paragraph = styled.p`
 
   color: ${({ theme }) => theme.color.black[80]};
   font-size: ${({ theme }) => theme.fontSize.h6};
-  font-weight: ${({ theme }) => theme.fontWeight.semibold};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
   line-height: 2;
 `;
 
@@ -98,13 +98,19 @@ export const Strong = styled.strong`
   font-weight: ${({ theme }) => theme.fontWeight.extraBold};
 `;
 
+export const Highlighted = styled.span`
+  color: ${({ theme }) => theme.color.primary[800]};
+  font-size: ${({ theme }) => theme.fontSize.h5};
+  font-weight: ${({ theme }) => theme.fontWeight.extraBold};
+`;
+
 export const Conclusion = styled.p`
   margin-top: 2rem;
   padding-left: 1rem;
 
   color: ${({ theme }) => theme.color.primary[800]};
   font-style: italic;
-  font-size: ${({ theme }) => theme.fontSize.h5};
+  font-size: ${({ theme }) => theme.fontSize.lg};
   font-weight: ${({ theme }) => theme.fontWeight.semibold};
   line-height: 1.5;
   text-align: center;

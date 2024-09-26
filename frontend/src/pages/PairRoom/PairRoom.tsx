@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import Loading from '@/pages/Loading/Loading';
 
@@ -9,13 +9,31 @@ import ReferenceCard from '@/components/PairRoom/ReferenceCard/ReferenceCard';
 import TimerCard from '@/components/PairRoom/TimerCard/TimerCard';
 import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
 
+import { getPairRoom } from '@/apis/pairRoom';
+
 import useGetPairRoom from '@/queries/PairRoom/useGetPairRoom';
 import useUpdatePairRoom from '@/queries/PairRoom/useUpdatePairRoom';
 
 import * as S from './PairRoom.styles';
 
 const PairRoom = () => {
+  const navigate = useNavigate();
+
   const { accessCode } = useParams();
+
+  useEffect(() => {
+    const checkPairRoomExists = async () => {
+      if (!accessCode) return navigate('/404');
+
+      try {
+        await getPairRoom(accessCode);
+      } catch (error) {
+        navigate('/404');
+      }
+    };
+
+    checkPairRoomExists();
+  }, [accessCode]);
 
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
