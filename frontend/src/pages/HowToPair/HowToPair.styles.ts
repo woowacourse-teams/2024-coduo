@@ -5,14 +5,14 @@ export const Layout = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20rem;
+  gap: 30rem;
   overflow-x: hidden;
 
   position: relative;
 
   padding: 16rem 4rem;
 
-  background-color: ${({ theme }) => theme.color.primary[100]};
+  background-color: ${({ theme }) => theme.color.black[10]};
   color: ${({ theme }) => theme.color.black[80]};
   line-height: 1.2;
 `;
@@ -82,7 +82,7 @@ export const Strong = styled.strong`
 `;
 
 export const Highlighted = styled.span`
-  color: ${({ theme }) => theme.color.primary[800]};
+  color: ${({ theme }) => theme.color.primary[700]};
   font-size: ${({ theme }) => theme.fontSize.h5};
   font-weight: ${({ theme }) => theme.fontWeight.extraBold};
 `;

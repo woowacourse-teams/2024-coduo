@@ -49,7 +49,7 @@ export const Layout = styled.div`
   height: calc(100vh - 7rem);
   padding: 10rem;
 
-  background-color: ${({ theme }) => theme.color.primary[100]};
+  background-color: ${({ theme }) => theme.color.black[10]};
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     padding: 4rem;
