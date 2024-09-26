@@ -10,7 +10,6 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import lombok.RequiredArgsConstructor;
 import site.coduo.sync.controller.docs.SseDocs;
 import site.coduo.sync.service.SseService;
-import site.coduo.timer.service.TimerService;
 
 
 @RequiredArgsConstructor
@@ -18,14 +17,10 @@ import site.coduo.timer.service.TimerService;
 public class SseController implements SseDocs {
 
     private final SseService sseService;
-    private final TimerService timerService;
 
     @GetMapping("/{key}/connect")
     public ResponseEntity<SseEmitter> createConnection(@PathVariable("key") final String key) {
         final SseEmitter sseEmitter = sseService.connect(key);
-        // todo 추후 리팩토링
-        final long remainingTime = timerService.readTimerRemainingTime(key);
-        sseService.broadcast(key, "remaining-time", String.valueOf(remainingTime));
 
         return ResponseEntity.ok(sseEmitter);
     }

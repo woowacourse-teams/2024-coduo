@@ -33,4 +33,12 @@ public class SchedulerRegistry {
     public boolean has(final String key) {
         return registry.containsKey(key);
     }
+
+    public boolean isActive(final String key) {
+        if (registry.containsKey(key)) {
+            final ScheduledFuture<?> scheduledFuture = registry.get(key);
+            return !scheduledFuture.isDone() && !scheduledFuture.isCancelled();
+        }
+        return false;
+    }
 }
