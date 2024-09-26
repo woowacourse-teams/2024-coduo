@@ -63,6 +63,7 @@ const CategoryManagementModal = ({
           selectedCategory={selectedCategory}
           handleSelectCategory={handleSelectCategory}
           accessCode={accessCode}
+          closeModal={closeCategoryManagementModal}
         />
       </Modal.Body>
 

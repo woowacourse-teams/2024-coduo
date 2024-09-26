@@ -16,8 +16,8 @@ const useEditCategory = (accessCode: string, categoryName: string, categoryId: s
   const { value, handleChange, resetValue, message, status } = useInput(categoryName);
   const { isCategoryExist } = useCategories(accessCode);
 
-  const { mutate: updateCategoryMutation } = useUpdateCategory();
-  const { mutate: deleteCategoryMutation } = useDeleteCategory();
+  const updateCategoryMutation = useUpdateCategory();
+  const deleteCategoryMutation = useDeleteCategory();
 
   const startEditing = () => setIsEditing(true);
   const cancelEditing = () => {
@@ -32,7 +32,7 @@ const useEditCategory = (accessCode: string, categoryName: string, categoryId: s
   const updateCategory = async () => {
     if (value === categoryName) return;
     if (status === 'ERROR') return;
-    await updateCategoryMutation({
+    await updateCategoryMutation.mutateAsync({
       categoryId,
       updatedCategoryName: value,
       accessCode,
@@ -40,8 +40,8 @@ const useEditCategory = (accessCode: string, categoryName: string, categoryId: s
     setIsEditing(false);
   };
 
-  const deleteCategory = () => {
-    deleteCategoryMutation({ categoryId, accessCode });
+  const deleteCategory = async () => {
+    await deleteCategoryMutation.mutateAsync({ categoryId, accessCode });
     addToast({ status: 'SUCCESS', message: '카테고리가 삭제되었어요.' });
   };
 
