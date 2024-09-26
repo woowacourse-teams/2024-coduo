@@ -16,6 +16,11 @@ export const Content = styled.p`
   color: ${({ theme }) => theme.color.black[90]};
   font-size: ${({ theme }) => theme.fontSize.lg};
   line-height: 1.7;
+
+  strong {
+    color: ${({ theme }) => theme.color.primary[700]};
+    font-weight: ${({ theme }) => theme.fontWeight.semibold};
+  }
 `;
 
 export const Sentence = styled.div`
