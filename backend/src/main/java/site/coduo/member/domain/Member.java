@@ -26,7 +26,7 @@ public class Member extends BaseTimeEntity {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @Column(name = "ACCESS_TOKEN", nullable = false)
+    @Column(length = 1000, name = "ACCESS_TOKEN", nullable = false)
     private String accessToken;
 
     @Column(name = "PROVIDER_LOGIN_ID", nullable = false)
