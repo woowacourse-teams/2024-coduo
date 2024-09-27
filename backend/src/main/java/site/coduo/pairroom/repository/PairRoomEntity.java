@@ -43,7 +43,7 @@ public class PairRoomEntity extends BaseTimeEntity {
     @Column(name = "DRIVER", nullable = false)
     private String driver;
 
-    @Column(name = "ACCESS_CODE", nullable = false, unique = true)
+    @Column(length = 1000, name = "ACCESS_CODE", nullable = false, unique = true)
     private String accessCode;
 
     @Builder
