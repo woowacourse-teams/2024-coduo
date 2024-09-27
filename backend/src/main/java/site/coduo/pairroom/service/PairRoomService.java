@@ -65,7 +65,6 @@ public class PairRoomService {
     private AccessCode generateAccessCode() {
         final String generatedAccessCode = uuidAccessCodeGenerator.generate();
         log.info("ACCESS CODE : {}", generatedAccessCode);
-
         if (pairRoomRepository.existsByAccessCode(generatedAccessCode)) {
             return generateAccessCode();
         }
