@@ -51,3 +51,6 @@ front:
 
 jwt:
   sign-key: ${JWT_KEY}
+
+ec2:
+  prefix: ${INSTANCE_NAME}

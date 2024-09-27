@@ -92,7 +92,10 @@ jobs:
           CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}
           CLIENT_REDIRECT_URI=${{ secrets.CLIENT_REDIRECT_URI }}
           JWT_KEY=${{ secrets.JWT_KEY}}
-
+          
+          # INSTANCE NAME
+          INSTANCE_NAME=${{ secrets.INSTANCE_A_NAME }}
+          
           # Server App
           SERVER_BINDING_PORT=${{ secrets.PRODUCTION_SERVER_BINDING_PORT }}
           SERVER_LOGS_PATH=${{ secrets.SERVER_LOGS_PATH }}
@@ -149,6 +152,9 @@ jobs:
           CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}
           CLIENT_REDIRECT_URI=${{ secrets.CLIENT_REDIRECT_URI }}
           JWT_KEY=${{ secrets.JWT_KEY}}
+          
+          # INSTANCE NAME
+          INSTANCE_NAME=${{ secrets.INSTANCE_A_NAME }}
 
           # Server App
           SERVER_BINDING_PORT=${{ secrets.PRODUCTION_SERVER_BINDING_PORT }}

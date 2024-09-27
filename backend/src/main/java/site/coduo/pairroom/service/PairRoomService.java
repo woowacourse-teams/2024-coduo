@@ -38,29 +38,23 @@ public class PairRoomService {
     private final TimerRepository timerRepository;
     private final PairRoomMemberRepository pairRoomMemberRepository;
     private final MemberService memberService;
+    private final UUIDAccessCodeGenerator uuidAccessCodeGenerator;
 
     @Transactional
     public String savePairRoom(final PairRoomCreateRequest request, @Nullable final String token) {
-        log.info("2. Service의 savePairRoom 메서드를 시작했다.");
-        log.info("3. Service의 createPairRoom 메서드 실행!");
         final PairRoom pairRoom = createPairRoom(request);
-        log.info("4. Service의 createPairRoom 메서드 탈출!!");
-        log.info("5. 페어룸 리포지토리 시작!");
+        final PairRoomEntity entity = PairRoomEntity.from(pairRoom);
+        log.info("Pair ROom entity : {}", entity);
+
         final PairRoomEntity pairRoomEntity = pairRoomRepository.save(PairRoomEntity.from(pairRoom));
-        log.info("6. 페어룸 리포지토리 끝!!");
 
         final Timer timer = new Timer(pairRoom.getAccessCode(), request.timerDuration(), request.timerRemainingTime());
-        log.info("7. 타이머 리포지토리 시작!!");
         timerRepository.save(new TimerEntity(timer, pairRoomEntity));
 
-        log.info("8. 토큰 널 체크 시작!!");
         if (token != null) {
-            log.info("9. 리포지토리에서 크래덴셜로 멤버 조회");
             final Member member = memberService.findMemberByCredential(token);
-            log.info("10. 페어룸 & 멤버 중간 테이블 save 저장!!");
             pairRoomMemberRepository.save(new PairRoomMemberEntity(pairRoomEntity, member));
         }
-        log.info("11. 페어룸 AccessToken 문자열 반환하면서 메서드 종료 시도");
         return pairRoom.getAccessCodeText();
     }
 
@@ -72,7 +66,8 @@ public class PairRoomService {
     }
 
     private AccessCode generateAccessCode() {
-        final String generatedAccessCode = UUIDAccessCodeGenerator.generate();
+        final String generatedAccessCode = uuidAccessCodeGenerator.generate();
+        log.info("ACCESS CODE : {}", generatedAccessCode);
         if (pairRoomRepository.existsByAccessCode(generatedAccessCode)) {
             return generateAccessCode();
         }
