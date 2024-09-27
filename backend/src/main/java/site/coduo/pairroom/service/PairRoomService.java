@@ -43,6 +43,8 @@ public class PairRoomService {
     @Transactional
     public String savePairRoom(final PairRoomCreateRequest request, @Nullable final String token) {
         final PairRoom pairRoom = createPairRoom(request);
+        final PairRoomEntity entity = PairRoomEntity.from(pairRoom);
+        log.info("Pair ROom entity : {}", entity);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.save(PairRoomEntity.from(pairRoom));
 
         final Timer timer = new Timer(pairRoom.getAccessCode(), request.timerDuration(), request.timerRemainingTime());

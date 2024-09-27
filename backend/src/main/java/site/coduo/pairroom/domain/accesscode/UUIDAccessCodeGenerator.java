@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UUIDAccessCodeGenerator {
 
-    private static final int ACCESS_CODE_LENGTH = 6;
+    private static final int ACCESS_CODE_LENGTH = 9;
 
     @Value("${ec2.prefix}")
     private String prefix;
