@@ -58,7 +58,7 @@ public class SchedulerService {
             timestampRegistry.register(key, initalTimer);
             return;
         }
-        if (sseService.hasNoConnections(key)) {
+        if (sseService.hasNoConnections(key) && schedulerRegistry.has(key)) {
             stop(key);
             return;
         }
