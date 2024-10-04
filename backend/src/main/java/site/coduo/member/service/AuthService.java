@@ -33,6 +33,9 @@ public class AuthService {
     }
 
     public boolean isSignedIn(final String signInToken) {
+        if (signInToken == null) {
+            return false;
+        }
         return jwtProvider.isValid(signInToken);
     }
 }
