@@ -68,8 +68,6 @@ public class ReferenceLinkService {
 
     @Transactional(readOnly = true)
     public List<ReferenceLinkResponse> readAllReferenceLink(final String accessCodeText) {
-        log.info("[Reference Link] 2. readAllReferenceLink 메서드 호출 시작!");
-        log.info("[Reference Link] 3. referenceLinkRepository.findAll() 호출 시작!");
         final PairRoomEntity pairRoom = pairRoomRepository.fetchByAccessCode(accessCodeText);
 
         final List<ReferenceLinkEntity> referenceLinkEntities = referenceLinkRepository.findByPairRoomEntity(pairRoom);
