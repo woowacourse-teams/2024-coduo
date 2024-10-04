@@ -79,9 +79,12 @@ jobs:
           MYSQL_TIME_ZONE=${{ secrets.MYSQL_TIME_ZONE }}
           DB_BINDING_PORT=${{ secrets.DB_BINDING_PORT }}
           DOCKER_DATA_PATH=${{ secrets.DOCKER_DATA_PATH }}
-          DB_URL=${{ secrets.DB_URL }}
-          DB_USERNAME=${{ secrets.DB_USERNAME }}
-          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          MASTER_DB_URL=${{ secrets.MASTER_DB_URL }}
+          MASTER_DB_USERNAME=${{ secrets.MASTER_DB_USERNAME }}
+          MASTER_DB_PASSWORD=${{ secrets.MASTER_DB_PASSWORD }}
+          SLAVE_DB_URL=${{ secrets.SLAVE_DB_URL }}
+          SLAVE_DB_USERNAME=${{ secrets.SLAVE_DB_USERNAME }}
+          SLAVE_DB_PASSWORD=${{ secrets.SLAVE_DB_PASSWORD }}
           DDL_AUTO=${{ secrets.DDL_AUTO }}
 
           # OAUTH & JWT
@@ -89,9 +92,12 @@ jobs:
           CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}
           CLIENT_REDIRECT_URI=${{ secrets.CLIENT_REDIRECT_URI }}
           JWT_KEY=${{ secrets.JWT_KEY}}
-
+          
+          # INSTANCE NAME
+          INSTANCE_NAME=${{ secrets.INSTANCE_A_NAME }}
+          
           # Server App
-          SERVER_BINDING_PORT=${{ secrets.SERVER_BINDING_PORT }}
+          SERVER_BINDING_PORT=${{ secrets.PRODUCTION_SERVER_BINDING_PORT }}
           SERVER_LOGS_PATH=${{ secrets.SERVER_LOGS_PATH }}
           EOF
 
@@ -104,7 +110,7 @@ jobs:
 
   deployB:
     environment: production
-    runs-on: coduo_runner_production-server
+    runs-on: production-ec2-B-runner
     needs: deployA
     defaults:
       run:
@@ -146,9 +152,13 @@ jobs:
           CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}
           CLIENT_REDIRECT_URI=${{ secrets.CLIENT_REDIRECT_URI }}
           JWT_KEY=${{ secrets.JWT_KEY}}
+          
+          # INSTANCE NAME
+          INSTANCE_NAME=${{ secrets.INSTANCE_B_NAME }}
+
 
           # Server App
-          SERVER_BINDING_PORT=${{ secrets.SERVER_BINDING_PORT }}
+          SERVER_BINDING_PORT=${{ secrets.PRODUCTION_SERVER_BINDING_PORT }}
           SERVER_LOGS_PATH=${{ secrets.SERVER_LOGS_PATH }}
           EOF
 

@@ -17,25 +17,34 @@ public class EventStreamsRegistry {
         this.registry = new ConcurrentHashMap<>();
     }
 
-    public SseEmitter register(final String name) {
-        final EventStreams eventStreams = registry.getOrDefault(name, new EventStreams());
+    public SseEmitter register(final String key) {
+        final EventStreams eventStreams = registry.getOrDefault(key, new EventStreams());
         final EventStream eventStream = new SseEventStream();
         eventStreams.add(eventStream);
-        registry.put(name, eventStreams);
+        registry.put(key, eventStreams);
         return eventStreams.publish(eventStream);
     }
 
-    public EventStreams findEventStreams(final String key) {
+    public void release(final String key) {
         if (!registry.containsKey(key)) {
-            throw new NotFoundSseConnectionException("존재하지 않는 SSE 커넥션입니다.");
+            return;
         }
-        return registry.get(key);
+        final EventStreams eventStreams = registry.get(key);
+        eventStreams.closeAll();
+        registry.remove(key);
     }
 
-    public boolean hasEmptyConnection(final String key) {
-        if (!registry.containsKey(key)) {
-            throw new NotFoundSseConnectionException("SSE 커넥션을 찾을 수 없습니다.");
+    public EventStreams findEventStreams(final String key) {
+        if (registry.containsKey(key)) {
+            return registry.get(key);
         }
-        return registry.get(key).isEmpty();
+        throw new NotFoundSseConnectionException("존재하지 않는 SSE 커넥션입니다.");
+    }
+
+    public boolean hasNoStreams(final String key) {
+        if (registry.containsKey(key)) {
+            return registry.get(key).isEmpty();
+        }
+        throw new NotFoundSseConnectionException("SSE 커넥션을 찾을 수 없습니다.");
     }
 }

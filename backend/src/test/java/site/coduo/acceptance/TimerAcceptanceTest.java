@@ -1,5 +1,7 @@
 package site.coduo.acceptance;
 
+import static site.coduo.acceptance.SseAcceptanceTest.createConnect;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -30,7 +32,7 @@ class TimerAcceptanceTest extends AcceptanceFixture {
     }
 
     private static void timerStart(final String accessCode) {
-        SseAcceptanceTest.createConnect(accessCode);
+        createConnect(accessCode);
         RestAssured
                 .given()
 
@@ -76,7 +78,7 @@ class TimerAcceptanceTest extends AcceptanceFixture {
                 PairRoomStatus.IN_PROGRESS.name())
         );
         final TimerUpdateRequest request = new TimerUpdateRequest(20000L, 3000L);
-
+        createConnect(accessCode);
         // when & then
         RestAssured
                 .given()
@@ -96,7 +98,7 @@ class TimerAcceptanceTest extends AcceptanceFixture {
         // given
         final String accessCode = createPairRoom(new PairRoomCreateRequest("fram", "lemone", 10000L, 10000L,
                 PairRoomStatus.IN_PROGRESS.name()));
-        SseAcceptanceTest.createConnect(accessCode);
+        createConnect(accessCode);
 
         // when & then
         RestAssured

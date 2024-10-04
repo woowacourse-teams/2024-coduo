@@ -15,32 +15,31 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.(ts|js)x?$/,
-        exclude: /node_modules/,
-        use: ['ts-loader'],
-      },
-      {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(png|svg|jpg|gif|mp3)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]',
-          },
-        },
+        test: /\.(png|svg|jpg|gif|mp3|webp|ico)$/,
+        type: 'asset/resource',
+      },
+      {
+        test: /\.(ts|js)x?$/,
+        exclude: /node_modules/,
+        use: ['ts-loader'],
       },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
+      filename: 'index.html',
       template: './public/index.html',
-      filename: './index.html',
     }),
     new CopyWebpackPlugin({
-      patterns: [{ from: 'src/assets', to: 'assets/' }],
+      patterns: [
+        { from: 'public/coduo_metadata.jpg', to: 'coduo_metadata.jpg' },
+        { from: 'public/favicon.ico', to: 'favicon.ico' },
+        { from: 'src/assets', to: 'assets/' },
+      ],
     }),
   ],
   resolve: {

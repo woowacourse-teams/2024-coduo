@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import site.coduo.member.domain.Member;
 import site.coduo.member.service.MemberService;
 import site.coduo.pairroom.domain.Pair;
@@ -15,8 +16,7 @@ import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
-import site.coduo.pairroom.domain.accesscode.AccessCodeFactory;
-import site.coduo.pairroom.domain.accesscode.UUIDAccessCodeStrategy;
+import site.coduo.pairroom.domain.accesscode.UUIDAccessCodeGenerator;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomMemberEntity;
 import site.coduo.pairroom.repository.PairRoomMemberRepository;
@@ -28,6 +28,7 @@ import site.coduo.timer.domain.Timer;
 import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -37,10 +38,14 @@ public class PairRoomService {
     private final TimerRepository timerRepository;
     private final PairRoomMemberRepository pairRoomMemberRepository;
     private final MemberService memberService;
+    private final UUIDAccessCodeGenerator uuidAccessCodeGenerator;
 
     @Transactional
     public String savePairRoom(final PairRoomCreateRequest request, @Nullable final String token) {
         final PairRoom pairRoom = createPairRoom(request);
+        final PairRoomEntity entity = PairRoomEntity.from(pairRoom);
+        log.info("Pair ROom entity : {}", entity);
+
         final PairRoomEntity pairRoomEntity = pairRoomRepository.save(PairRoomEntity.from(pairRoom));
 
         final Timer timer = new Timer(pairRoom.getAccessCode(), request.timerDuration(), request.timerRemainingTime());
@@ -54,16 +59,19 @@ public class PairRoomService {
     }
 
     private PairRoom createPairRoom(final PairRoomCreateRequest request) {
+        final AccessCode accessCode = generateAccessCode();
         final PairRoomStatus status = PairRoomStatus.findByName(request.status());
         final Pair pair = new Pair(new PairName(request.navigator()), new PairName(request.driver()));
-        final List<AccessCode> accessCodes = pairRoomRepository.findAll()
-                .stream()
-                .map(PairRoomEntity::getAccessCode)
-                .map(AccessCode::new)
-                .toList();
+        return new PairRoom(status, pair, accessCode);
+    }
 
-        final AccessCodeFactory accessCodeFactory = new AccessCodeFactory(new UUIDAccessCodeStrategy());
-        return new PairRoom(status, pair, accessCodeFactory.generate(accessCodes));
+    private AccessCode generateAccessCode() {
+        final String generatedAccessCode = uuidAccessCodeGenerator.generate();
+        log.info("ACCESS CODE : {}", generatedAccessCode);
+        if (pairRoomRepository.existsByAccessCode(generatedAccessCode)) {
+            return generateAccessCode();
+        }
+        return new AccessCode(generatedAccessCode);
     }
 
     @Transactional

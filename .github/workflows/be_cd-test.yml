@@ -75,17 +75,24 @@ jobs:
           DOCKER_REPO_NAME=${{ secrets.DOCKER_REPO_NAME }}
 
           # DB Configuration secrets info from Github Secrets
-          DB_URL=${{ secrets.DB_URL }}
-          DB_USERNAME=${{ secrets.DB_USERNAME }}
-          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          MASTER_DB_URL=${{ secrets.MASTER_DB_URL }}
+          MASTER_DB_USERNAME=${{ secrets.MASTER_DB_USERNAME }}
+          MASTER_DB_PASSWORD=${{ secrets.MASTER_DB_PASSWORD }}
+          
+          SLAVE_DB_URL=${{ secrets.SLAVE_DB_URL }}
+          SLAVE_DB_USERNAME=${{ secrets.SLAVE_DB_USERNAME }}
+          SLAVE_DB_PASSWORD=${{ secrets.SLAVE_DB_PASSWORD }}
           DDL_AUTO=${{ secrets.DDL_AUTO }}
 
           # OAUTH & JWT
-          CLIENT_ID=${{ secrets.CLIENT_ID }}
-          CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}
-          CLIENT_REDIRECT_URI=${{ secrets.CLIENT_REDIRECT_URI }}
+          CLIENT_ID=${{ secrets.TEST_CLIENT_ID }}
+          CLIENT_SECRET=${{ secrets.TEST_CLIENT_SECRET }}
+          CLIENT_REDIRECT_URI=${{ secrets.TEST_CLIENT_REDIRECT_URI }}
           JWT_KEY=${{ secrets.JWT_KEY}}
-
+          
+          # Sticky Synchronize
+          INSTANCE_NAME=${{ secrets.INSTANCE_A_NAME }}
+          
           # Server App
           SERVER_BINDING_PORT=${{ secrets.SERVER_BINDING_PORT }}
           SERVER_LOGS_PATH=${{ secrets.SERVER_LOGS_PATH }}

@@ -22,9 +22,16 @@ export const Container = styled.div`
   gap: 5rem;
 
   width: 60%;
+  min-width: 76.8rem;
   padding: 4rem 4rem 12rem;
 
   background-color: ${({ theme }) => theme.color.black[10]};
+
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+    width: 100%;
+    min-width: 0;
+    padding: 4rem;
+  }
 `;
 
 export const InputContainer = styled.div`

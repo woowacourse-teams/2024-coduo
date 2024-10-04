@@ -16,12 +16,12 @@ interface PairListCardProps {
 }
 
 const PairListCard = ({ driver, navigator, roomCode, onRoomDelete }: PairListCardProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const toggleOpen = () => setIsOpen(!isOpen);
 
   return (
-    <S.Layout $isOpen={isOpen} onMouseOver={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
+    <S.Layout $isOpen={isOpen}>
       <PairRoomCard>
         <Header isOpen={isOpen} toggleOpen={toggleOpen} />
         <S.Sidebar>

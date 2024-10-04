@@ -1,10 +1,11 @@
 package site.coduo.member.controller;
 
-import static site.coduo.common.config.filter.AccessTokenSessionFilter.ACCESS_TOKEN_SESSION_NAME;
-import static site.coduo.common.config.filter.SignInCookieFilter.SIGN_IN_COOKIE_NAME;
+import static site.coduo.common.config.web.filter.AccessTokenSessionFilter.ACCESS_TOKEN_SESSION_NAME;
+import static site.coduo.common.config.web.filter.SignInCookieFilter.SIGN_IN_COOKIE_NAME;
 
 import java.net.URI;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -33,12 +34,15 @@ public class AuthController implements AuthControllerDocs {
     private final AuthService authService;
     private final MemberService memberService;
 
+    @Value("${front.url}")
+    private String frontUrl;
+
     @GetMapping("/sign-out")
     public ResponseEntity<Void> signOut(@CookieValue(name = SIGN_IN_COOKIE_NAME) final String signInToken) {
         final SignInCookie cookie = new SignInCookie(signInToken);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, cookie.expire().toString())
+                .header(HttpHeaders.SET_COOKIE, cookie.expire(frontUrl).toString())
                 .build();
     }
 
@@ -58,7 +62,7 @@ public class AuthController implements AuthControllerDocs {
             @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME) final String accessToken
     ) {
         final SignInServiceResponse serviceResponse = authService.createSignInToken(accessToken);
-        final ResponseCookie cookie = new SignInCookie(serviceResponse.token()).generate();
+        final ResponseCookie cookie = new SignInCookie(serviceResponse.token()).generate(frontUrl);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, cookie.toString())

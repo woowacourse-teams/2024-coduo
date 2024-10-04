@@ -4,10 +4,17 @@ spring:
       on-profile: prod
 
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    replica:
+      master:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: ${MASTER_DB_URL}
+        username: ${MASTER_DB_USERNAME}
+        password: ${MASTER_DB_PASSWORD}
+      slave:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: ${SLAVE_DB_URL}
+        username: ${SLAVE_DB_USERNAME}
+        password: ${SLAVE_DB_PASSWORD}
 
   jpa:
     database: mysql
@@ -39,5 +46,11 @@ oauth:
     client-secret: ${CLIENT_SECRET}
     redirect-uri: ${CLIENT_REDIRECT_URI}
 
+front:
+  url: coduo.site
+
 jwt:
   sign-key: ${JWT_KEY}
+
+ec2:
+  prefix: ${INSTANCE_NAME}

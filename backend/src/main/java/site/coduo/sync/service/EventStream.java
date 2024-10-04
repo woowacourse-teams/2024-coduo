@@ -7,4 +7,6 @@ public interface EventStream {
     SseEmitter connect();
 
     void flush(String name, String message);
+
+    void close();
 }

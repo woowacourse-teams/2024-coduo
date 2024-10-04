@@ -5,9 +5,11 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+import lombok.extern.slf4j.Slf4j;
 import site.coduo.member.client.dto.GithubUserRequest;
 import site.coduo.member.client.dto.GithubUserResponse;
 
+@Slf4j
 @Component
 public class GithubApiClient {
 

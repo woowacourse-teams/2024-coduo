@@ -36,12 +36,12 @@ export const Layout = styled.div<{ $isBottom: boolean }>`
 
   position: fixed;
   bottom: 2rem;
+  left: calc(50% - 3rem);
   z-index: 10;
 
   padding: 1.5rem;
   border-radius: 3rem;
 
-  background-color: ${({ theme }) => theme.color.black[20]};
   opacity: 0.7;
   font-size: 2rem;
 
@@ -60,10 +60,4 @@ export const ScrollIcon = styled(RiArrowDownDoubleLine)<{ $isBottom: boolean }>`
 
   transition: transform 0.3s ease-in-out;
   ${getTransformStyle}
-`;
-
-export const Text = styled.div`
-  color: ${({ theme }) => theme.color.primary[800]};
-  font-size: ${({ theme }) => theme.fontSize.lg};
-  font-weight: ${({ theme }) => theme.fontWeight.semibold};
 `;

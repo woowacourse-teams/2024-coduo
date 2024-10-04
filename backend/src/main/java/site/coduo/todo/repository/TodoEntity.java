@@ -55,6 +55,14 @@ public class TodoEntity extends BaseTimeEntity {
         this.isChecked = todo.getIsChecked().isChecked();
     }
 
+    public void updateContent(final String content) {
+        this.content = content;
+    }
+
+    public void toggleTodoChecked() {
+        this.isChecked = !this.isChecked;
+    }
+
     public Todo toDomain() {
         return new Todo(this.id, this.content, this.sort, this.isChecked);
     }
@@ -62,11 +70,11 @@ public class TodoEntity extends BaseTimeEntity {
     @Override
     public String toString() {
         return "TodoEntity{" +
-                "id=" + id +
-                ", pairRoomEntity=" + pairRoomEntity +
-                ", content='" + content + '\'' +
-                ", sort=" + sort +
-                ", isChecked=" + isChecked +
-                '}';
+               "id=" + id +
+               ", pairRoomEntity=" + pairRoomEntity +
+               ", content='" + content + '\'' +
+               ", sort=" + sort +
+               ", isChecked=" + isChecked +
+               '}';
     }
 }

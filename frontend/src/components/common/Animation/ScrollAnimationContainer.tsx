@@ -1,4 +1,4 @@
-import { IntersectionObserverOptions, useScrollAnimation } from '@/hooks/animations/useScrollAnimation';
+import { IntersectionObserverOptions, useScrollAnimation } from '@/hooks/common/useScrollAnimation';
 
 import * as S from './ScrollAnimationContainer.styles';
 

@@ -31,6 +31,10 @@ public class Timer {
         return remainingTime.get();
     }
 
+    public boolean isTimeUp() {
+        return remainingTime.get() == 0;
+    }
+
     public void decreaseRemainingTime(final long decrease) {
         if (remainingTime.get() == 0L) {
             return;

@@ -1,5 +1,3 @@
-import { ReactNode } from 'react';
-
 import { Direction } from '@/components/common/Tooltip/Tooltip.type';
 
 import { theme } from '@/styles/theme';
@@ -8,12 +6,16 @@ import * as S from './Tooltip.styles';
 
 interface ToolTipProps {
   message: string;
-  children?: ReactNode;
   direction?: Direction;
   color?: string;
 }
 
-const Tooltip = ({ children, message, direction = 'bottom', color = theme.color.primary[800] }: ToolTipProps) => {
+const Tooltip = ({
+  message,
+  direction = 'bottom',
+  color = theme.color.primary[800],
+  children,
+}: React.PropsWithChildren<ToolTipProps>) => {
   return (
     <S.Box>
       {children}

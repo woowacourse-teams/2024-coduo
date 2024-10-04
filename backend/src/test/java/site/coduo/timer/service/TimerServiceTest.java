@@ -12,8 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import site.coduo.pairroom.domain.PairRoomStatus;
+import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
+import site.coduo.timer.domain.Timer;
 import site.coduo.timer.service.dto.TimerReadResponse;
 import site.coduo.timer.service.dto.TimerUpdateRequest;
 import site.coduo.utils.CascadeCleaner;
@@ -24,6 +26,9 @@ class TimerServiceTest extends CascadeCleaner {
 
     @Autowired
     private PairRoomService pairRoomService;
+
+    @Autowired
+    private TimestampRegistry timestampRegistry;
 
     @Autowired
     private TimerService timerService;
@@ -81,5 +86,37 @@ class TimerServiceTest extends CascadeCleaner {
         assertThat(actual)
                 .extracting("duration", "remainingTime")
                 .contains(timerRequest.duration(), timerRequest.remainingTime());
+    }
+
+    @Test
+    @DisplayName("타이머 남은 시간을 반환한다. - 타이머 타임 스탬프가 존재할 경우")
+    void get_remaining_time_when_exist_timestamp() {
+        // given
+        final PairRoomCreateRequest pairRoomCreateRequest = new PairRoomCreateRequest("켈리", "레모네", 3000L, 3000L,
+                PairRoomStatus.IN_PROGRESS.name());
+        final String accessCode = pairRoomService.savePairRoom(pairRoomCreateRequest, null);
+        final Timer timeStamp = new Timer(new AccessCode(accessCode), 10000L, 10000L);
+        timestampRegistry.register(accessCode, timeStamp);
+
+        // when
+        final long remainingTime = timerService.readTimerRemainingTime(accessCode);
+
+        // then
+        assertThat(remainingTime).isEqualTo(timeStamp.getRemainingTime());
+    }
+
+    @Test
+    @DisplayName("타이머 남은 시간을 반환한다. - 타이머가 한번도 동작하지 않았을 경우")
+    void get_remaining_time_when_not_exist_timestamp() {
+        // given
+        final PairRoomCreateRequest pairRoomCreateRequest = new PairRoomCreateRequest("켈리", "레모네", 3000L, 3000L,
+                PairRoomStatus.IN_PROGRESS.name());
+        final String accessCode = pairRoomService.savePairRoom(pairRoomCreateRequest, null);
+
+        // when
+        final long remainingTime = timerService.readTimerRemainingTime(accessCode);
+
+        // then
+        assertThat(remainingTime).isEqualTo(pairRoomCreateRequest.timerRemainingTime());
     }
 }

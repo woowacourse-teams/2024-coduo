@@ -18,9 +18,9 @@ public class FakeEventStreamRegistry extends EventStreamsRegistry {
     }
 
     @Override
-    public SseEmitter register(final String name) {
-        final EventStreams eventStreams = registry.getOrDefault(name, new EventStreams());
-        registry.put(name, eventStreams);
+    public SseEmitter register(final String key) {
+        final EventStreams eventStreams = registry.getOrDefault(key, new EventStreams());
+        registry.put(key, eventStreams);
         final FakeEvenStream fakeEvenStream = new FakeEvenStream();
         eventStreams.add(fakeEvenStream);
         return eventStreams.publish(fakeEvenStream);
