@@ -1,6 +1,7 @@
 package site.coduo.common.config.storage;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -32,10 +33,10 @@ public class DataSourceConfig {
     @Bean
     @DependsOn({"masterDataSource", "slaveDataSource"})
     public DataSource routingDataSource() {
-        DataSourceRouter dataSourceRouter = new DataSourceRouter();
-        DataSource writeDataSource = masterDataSource();
-        DataSource readDataSource = slaveDataSource();
-        HashMap<Object, Object> dataSourceMap = new HashMap<>();
+        final DataSourceRouter dataSourceRouter = new DataSourceRouter();
+        final DataSource writeDataSource = masterDataSource();
+        final DataSource readDataSource = slaveDataSource();
+        final Map<Object, Object> dataSourceMap = new HashMap<>();
         dataSourceMap.put(DataSourceRouter.MASTER_TAG, writeDataSource);
         dataSourceMap.put(DataSourceRouter.SLAVE_TAG, readDataSource);
 
@@ -44,7 +45,7 @@ public class DataSourceConfig {
 
         return dataSourceRouter;
     }
-    
+
     @Bean
     @Primary
     @DependsOn({"routingDataSource"})
