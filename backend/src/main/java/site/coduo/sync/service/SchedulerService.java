@@ -53,13 +53,11 @@ public class SchedulerService {
 
     private void runTimer(final String key, final Timer timer) {
         if (timer.isTimeUp()) {
-            stop(key);
-            final Timer initalTimer = new Timer(timer.getAccessCode(), timer.getDuration(), timer.getDuration());
-            timestampRegistry.register(key, initalTimer);
+            stop(key, timer);
             return;
         }
         if (sseService.hasNoConnections(key) && schedulerRegistry.has(key)) {
-            stop(key);
+            pause(key);
             return;
         }
         timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
@@ -71,8 +69,10 @@ public class SchedulerService {
         schedulerRegistry.release(key);
     }
 
-    public void stop(final String key) {
+    private void stop(final String key, final Timer timer) {
         sseService.broadcast(key, "timer", "stop");
         schedulerRegistry.release(key);
+        final Timer initalTimer = new Timer(timer.getAccessCode(), timer.getDuration(), timer.getDuration());
+        timestampRegistry.register(key, initalTimer);
     }
 }
