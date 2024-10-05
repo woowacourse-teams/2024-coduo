@@ -68,8 +68,10 @@ public class SchedulerService {
     }
 
     public void pause(final String key) {
-        sseService.broadcast(key, "timer", "pause");
-        schedulerRegistry.release(key);
+        if (schedulerRegistry.isActive(key)) {
+            sseService.broadcast(key, "timer", "pause");
+            schedulerRegistry.release(key);
+        }
     }
 
     private void stop(final String key, final Timer timer) {
