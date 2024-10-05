@@ -29,6 +29,9 @@ public class SchedulerService {
     private final SseService sseService;
 
     public void start(final String key) {
+        if (schedulerRegistry.isActive(key)) {
+            return;
+        }
         sseService.broadcast(key, "timer", "start");
         if (isInitial(key)) {
             final Timer timer = timerRepository.fetchTimerByAccessCode(key)
@@ -52,14 +55,12 @@ public class SchedulerService {
     }
 
     private void runTimer(final String key, final Timer timer) {
-        if (timer.isTimeUp()) {
-            stop(key);
-            final Timer initalTimer = new Timer(timer.getAccessCode(), timer.getDuration(), timer.getDuration());
-            timestampRegistry.register(key, initalTimer);
+        if (timer.isTimeUp() && schedulerRegistry.has(key)) {
+            stop(key, timer);
             return;
         }
         if (sseService.hasNoConnections(key) && schedulerRegistry.has(key)) {
-            stop(key);
+            pause(key);
             return;
         }
         timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
@@ -67,12 +68,16 @@ public class SchedulerService {
     }
 
     public void pause(final String key) {
-        sseService.broadcast(key, "timer", "pause");
-        schedulerRegistry.release(key);
+        if (schedulerRegistry.isActive(key)) {
+            sseService.broadcast(key, "timer", "pause");
+            schedulerRegistry.release(key);
+        }
     }
 
-    public void stop(final String key) {
+    private void stop(final String key, final Timer timer) {
         sseService.broadcast(key, "timer", "stop");
         schedulerRegistry.release(key);
+        final Timer initalTimer = new Timer(timer.getAccessCode(), timer.getDuration(), timer.getDuration());
+        timestampRegistry.register(key, initalTimer);
     }
 }

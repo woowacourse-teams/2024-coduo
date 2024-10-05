@@ -24,7 +24,7 @@ public class TimerService {
 
     public TimerReadResponse readTimer(final String accessCode) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
-        final TimerEntity timerEntity = timerRepository.fetchTimerByPairRoomId(pairRoomEntity.getId());
+        final TimerEntity timerEntity = timerRepository.fetchTimerByPairRoomEntity(pairRoomEntity);
         return TimerReadResponse.of(timerEntity.getId(), timerEntity.toDomain());
     }
 
@@ -41,7 +41,7 @@ public class TimerService {
     @Transactional
     public void updateTimer(final String accessCode, final TimerUpdateRequest updateRequest) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
-        final TimerEntity timerEntity = timerRepository.fetchTimerByPairRoomId(pairRoomEntity.getId());
+        final TimerEntity timerEntity = timerRepository.fetchTimerByPairRoomEntity(pairRoomEntity);
         final Timer newTimer = new Timer(
                 new AccessCode(pairRoomEntity.getAccessCode()),
                 updateRequest.duration(),
