@@ -85,7 +85,7 @@ public class PairRoomService {
 
     public PairRoomReadResponse findPairRoomAndTimer(final String accessCode) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
-        final TimerEntity timerEntity = timerRepository.fetchTimerByPairRoomId(pairRoomEntity.getId());
+        final TimerEntity timerEntity = timerRepository.fetchTimerByPairRoomEntity(pairRoomEntity);
         return PairRoomReadResponse.of(pairRoomEntity.toDomain(), timerEntity.toDomain());
     }
 
