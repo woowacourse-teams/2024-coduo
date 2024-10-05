@@ -72,7 +72,6 @@ public class ReferenceLinkService {
 
         final List<ReferenceLinkEntity> referenceLinkEntities = referenceLinkRepository.findByPairRoomEntity(pairRoom);
 
-        log.info("[Reference Link] 4. referenceLinkRepository.findAll() 반환 데이터 필터링 시작!!");
         return referenceLinkEntities.stream()
                 .map(this::makeReferenceLinkResponse)
                 .toList();
