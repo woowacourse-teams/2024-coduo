@@ -29,6 +29,9 @@ public class SchedulerService {
     private final SseService sseService;
 
     public void start(final String key) {
+        if (schedulerRegistry.isActive(key)) {
+            return;
+        }
         sseService.broadcast(key, "timer", "start");
         if (isInitial(key)) {
             final Timer timer = timerRepository.fetchTimerByAccessCode(key)
@@ -52,7 +55,7 @@ public class SchedulerService {
     }
 
     private void runTimer(final String key, final Timer timer) {
-        if (timer.isTimeUp()) {
+        if (timer.isTimeUp() && schedulerRegistry.has(key)) {
             stop(key, timer);
             return;
         }
