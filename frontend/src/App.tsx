@@ -36,7 +36,8 @@ const App = () => {
     const { signedIn } = await getIsUserLoggedIn();
 
     if (!signedIn) {
-      return setUser('', 'SIGNED_OUT');
+      setUser('', 'SIGNED_OUT');
+      return;
     }
 
     const { username } = await getMember();
