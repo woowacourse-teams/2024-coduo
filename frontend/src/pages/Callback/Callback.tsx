@@ -5,9 +5,9 @@ import { LogoIconWithTitle } from '@/assets';
 
 import Spinner from '@/components/common/Spinner/Spinner';
 
-// import useUserStore from '@/stores/userStore';
+import useUserStore from '@/stores/userStore';
 
-// import { getMember } from '@/apis/member';
+import { getMember } from '@/apis/member';
 import { getSignInCallback } from '@/apis/oauth';
 
 import * as S from './Callback.styles';
@@ -15,31 +15,20 @@ import * as S from './Callback.styles';
 const Callback = () => {
   const navigate = useNavigate();
 
-  // const { setUser } = useUserStore();
+  const { setUser } = useUserStore();
 
   useEffect(() => {
     const handleCallBack = async () => {
-      console.log('1');
-
       const { signedUp } = await getSignInCallback();
 
-      console.log('2');
-
       if (signedUp) {
-        // const { username } = await getMember();
+        const { username } = await getMember();
 
-        // setUser(username, 'SIGNED_IN');
-
-        console.log('3');
-
+        setUser(username, 'SIGNED_IN');
         navigate('/main');
-
-        console.log('4');
 
         return;
       }
-
-      console.log('5');
 
       navigate('/sign-up');
     };

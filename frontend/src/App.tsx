@@ -46,7 +46,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'production') updateUser();
+    if (window.location.pathname !== '/callback') updateUser();
   }, []);
 
   const router = createBrowserRouter([
