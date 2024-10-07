@@ -74,7 +74,7 @@ public class AuthController implements AuthControllerDocs {
 
     @GetMapping("/sign-in/check")
     public ResponseEntity<SignInCheckResponse> signInCheck(
-            @CookieValue(name = SIGN_IN_COOKIE_NAME) final String signInToken
+            @CookieValue(name = SIGN_IN_COOKIE_NAME, required = false) final String signInToken
     ) {
         final boolean signedIn = authService.isSignedIn(signInToken);
         final SignInCheckResponse response = new SignInCheckResponse(signedIn);

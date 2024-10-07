@@ -4,16 +4,17 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.timer.exception.TimerNotFoundException;
 
 public interface TimerRepository extends JpaRepository<TimerEntity, Long> {
 
-    default TimerEntity fetchTimerByPairRoomId(final long pairRoomId) {
-        return findByPairRoomEntityId(pairRoomId)
+    default TimerEntity fetchTimerByPairRoomEntity(final PairRoomEntity pairRoomEntity) {
+        return findByPairRoomEntity(pairRoomEntity)
                 .orElseThrow(() -> new TimerNotFoundException("해당 페어룸의 타이머가 존재하지 않습니다."));
     }
 
-    Optional<TimerEntity> findByPairRoomEntityId(long pairRoomId);
+    Optional<TimerEntity> findByPairRoomEntity(PairRoomEntity pairRoomEntity);
 
     default TimerEntity fetchTimerByAccessCode(final String accessCode) {
         return findByPairRoomEntityAccessCode(accessCode)

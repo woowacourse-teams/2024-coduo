@@ -64,7 +64,6 @@ public class PairRoomService {
 
     private AccessCode generateAccessCode() {
         final String generatedAccessCode = uuidAccessCodeGenerator.generate();
-        log.info("ACCESS CODE : {}", generatedAccessCode);
         if (pairRoomRepository.existsByAccessCode(generatedAccessCode)) {
             return generateAccessCode();
         }
@@ -86,7 +85,7 @@ public class PairRoomService {
 
     public PairRoomReadResponse findPairRoomAndTimer(final String accessCode) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
-        final TimerEntity timerEntity = timerRepository.fetchTimerByPairRoomId(pairRoomEntity.getId());
+        final TimerEntity timerEntity = timerRepository.fetchTimerByPairRoomEntity(pairRoomEntity);
         return PairRoomReadResponse.of(pairRoomEntity.toDomain(), timerEntity.toDomain());
     }
 
