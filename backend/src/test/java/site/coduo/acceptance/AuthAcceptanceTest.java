@@ -2,6 +2,8 @@ package site.coduo.acceptance;
 
 import static org.hamcrest.Matchers.is;
 
+import static site.coduo.common.config.web.filter.AccessTokenCookieFilter.TEMPORARY_ACCESS_TOKEN_COOKIE_NAME;
+
 import java.util.Map;
 
 import org.apache.http.HttpStatus;
@@ -28,7 +30,7 @@ class AuthAcceptanceTest extends AcceptanceFixture {
     @Test
     @DisplayName("로그인 검증 & 로그인 토큰을 발급한다.")
     void verify_login_and_publish_login_token() {
-        final String sessionId = GithubAcceptanceTest.createAccessTokenThenReturnSessionId();
+        final String cookie = GithubAcceptanceTest.createAccessTokenCookie();
         final Member member = createMember();
 
         memberRepository.save(member);
@@ -36,7 +38,7 @@ class AuthAcceptanceTest extends AcceptanceFixture {
         // when
         RestAssured
                 .given()
-                .cookie("JSESSIONID", sessionId)
+                .cookie(TEMPORARY_ACCESS_TOKEN_COOKIE_NAME, cookie)
 
                 .when()
                 .get("/api/sign-in/callback")
@@ -50,12 +52,12 @@ class AuthAcceptanceTest extends AcceptanceFixture {
     @Test
     @DisplayName("로그인 검증 & 로그인 토큰을 발급한다. - 로그인 실패 케이스")
     void verify_login_and_publish_login_token_dose_not_exists_case() {
-        final String sessionId = GithubAcceptanceTest.createAccessTokenThenReturnSessionId();
+        final String tempCookie = GithubAcceptanceTest.createAccessTokenCookie();
 
         // when
         RestAssured
                 .given()
-                .cookie("JSESSIONID", sessionId)
+                .cookie(TEMPORARY_ACCESS_TOKEN_COOKIE_NAME, tempCookie)
 
                 .when()
                 .get("/api/sign-in/callback")
@@ -107,7 +109,7 @@ class AuthAcceptanceTest extends AcceptanceFixture {
     @DisplayName("인가 정보를 통해 회원가입을 한다.")
     void sign_up_via_authorization_info() {
         // given
-        final String sessionId = GithubAcceptanceTest.createAccessTokenThenReturnSessionId();
+        final String tempCookie = GithubAcceptanceTest.createAccessTokenCookie();
         final Map<String, String> body = Map.of("username", "닉네임");
 
         // when & then
@@ -115,7 +117,7 @@ class AuthAcceptanceTest extends AcceptanceFixture {
                 .given().log().all()
                 .contentType(ContentType.JSON)
                 .body(body)
-                .cookie("JSESSIONID", sessionId)
+                .cookie(TEMPORARY_ACCESS_TOKEN_COOKIE_NAME, tempCookie)
 
                 .when()
                 .post("/api/sign-up")

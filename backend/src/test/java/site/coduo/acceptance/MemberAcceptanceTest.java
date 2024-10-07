@@ -51,7 +51,7 @@ class MemberAcceptanceTest extends AcceptanceFixture {
     }
 
     String login(Member member) {
-        final String sessionId = GithubAcceptanceTest.createAccessTokenThenReturnSessionId();
+        final String sessionId = GithubAcceptanceTest.createAccessTokenCookie();
 
         memberRepository.save(member);
 

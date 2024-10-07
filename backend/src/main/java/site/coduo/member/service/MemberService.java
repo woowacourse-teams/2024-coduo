@@ -26,7 +26,8 @@ public class MemberService {
     private final JwtProvider jwtProvider;
 
     @Transactional
-    public void createMember(final String username, final String accessToken) {
+    public void createMember(final String username, final String encryptedAccessToken) {
+        final String accessToken = jwtProvider.extractSubject(encryptedAccessToken);
         final Bearer bearer = new Bearer(accessToken);
         final GithubUserResponse userResponse = githubClient.getUser(new GithubUserRequest(bearer));
         final Member member = userResponse.toDomain(bearer, username);
