@@ -42,7 +42,8 @@ public class SseEventStream implements EventStream {
             sseEmitter.send(SseEmitter.event()
                     .id(eventId)
                     .name(CONNECT_NAME)
-                    .data(SUCCESS_MESSAGE));
+                    .data(SUCCESS_MESSAGE)
+                    .reconnectTime(1));
         } catch (final IOException e) {
             throw new SseConnectionFailureException("SSE 연결이 실패했습니다.");
         }
