@@ -38,10 +38,11 @@ class MemberServiceTest {
     void save_member() {
         // given
         final String credential = "access-token";
+        final String token = jwtProvider.sign(credential);
         final String username = "username";
 
         // when
-        memberService.createMember(username, credential);
+        memberService.createMember(username, token);
 
         // then
         assertThat(memberRepository.findAll()).hasSize(1);

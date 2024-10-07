@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
-import site.coduo.common.config.web.filter.AccessTokenSessionFilter;
+import site.coduo.common.config.web.filter.AccessTokenCookieFilter;
 import site.coduo.common.config.web.filter.AuthFailHandlerFilter;
 import site.coduo.common.config.web.filter.SignInCookieFilter;
 import site.coduo.member.infrastructure.security.JwtProvider;
@@ -17,9 +17,9 @@ import site.coduo.member.infrastructure.security.JwtProvider;
 public class FilterConfig {
 
     @Bean
-    public FilterRegistrationBean<AccessTokenSessionFilter> accessTokenSessionFilter() {
-        final FilterRegistrationBean<AccessTokenSessionFilter> bean = new FilterRegistrationBean<>();
-        bean.setFilter(new AccessTokenSessionFilter());
+    public FilterRegistrationBean<AccessTokenCookieFilter> accessTokenSessionFilter(final JwtProvider jwtProvider) {
+        final FilterRegistrationBean<AccessTokenCookieFilter> bean = new FilterRegistrationBean<>();
+        bean.setFilter(new AccessTokenCookieFilter(jwtProvider));
         bean.addUrlPatterns("/api/sign-up", "/api/sign-in/callback");
         bean.setOrder(2);
         return bean;
