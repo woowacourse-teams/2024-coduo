@@ -17,24 +17,24 @@ const Callback = () => {
 
   const { setUser } = useUserStore();
 
-  const handleCallBack = async () => {
-    const { signedUp } = await getSignInCallback();
-
-    if (signedUp) {
-      const { username } = await getMember();
-
-      setUser(username, 'SIGNED_IN');
-      navigate('/main');
-
-      return;
-    }
-
-    navigate('/sign-up');
-  };
-
   useEffect(() => {
+    const handleCallBack = async () => {
+      const { signedUp } = await getSignInCallback();
+
+      if (signedUp) {
+        const { username } = await getMember();
+
+        setUser(username, 'SIGNED_IN');
+        navigate('/main');
+
+        return;
+      }
+
+      navigate('/sign-up');
+    };
+
     handleCallBack();
-  }, []);
+  }, [navigate]);
 
   return (
     <S.Layout>
