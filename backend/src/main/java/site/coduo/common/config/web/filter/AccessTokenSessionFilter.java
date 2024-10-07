@@ -22,7 +22,6 @@ import site.coduo.member.exception.AuthenticationException;
 public class AccessTokenSessionFilter implements SessionFilter {
 
     public static final String ACCESS_TOKEN_SESSION_NAME = "access token";
-    public static final int ACCESS_TOKEN_EXPIRE_IN_SECOND = 600;
 
     @Override
     public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
