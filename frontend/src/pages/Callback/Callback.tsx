@@ -34,7 +34,7 @@ const Callback = () => {
     };
 
     handleCallBack();
-  }, [navigate]);
+  }, []);
 
   return (
     <S.Layout>
