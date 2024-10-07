@@ -31,6 +31,8 @@ import site.coduo.member.service.dto.auth.SignUpRequest;
 @RestController
 public class AuthController implements AuthControllerDocs {
 
+    public static final String PRODUCT_DOMAIN = "coduo.site";
+
     private final AuthService authService;
     private final MemberService memberService;
 
@@ -39,7 +41,7 @@ public class AuthController implements AuthControllerDocs {
 
     @GetMapping("/sign-out")
     public ResponseEntity<Void> signOut(@CookieValue(name = SIGN_IN_COOKIE_NAME) final String signInToken) {
-        final ResponseCookie expire = SignInCookie.expire(frontUrl);
+        final ResponseCookie expire = SignInCookie.expire(PRODUCT_DOMAIN);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, expire.toString())
@@ -62,10 +64,11 @@ public class AuthController implements AuthControllerDocs {
             @CookieValue(name = TEMPORARY_ACCESS_TOKEN_COOKIE_NAME) final String encryptedAccessToken
     ) {
         final SignInServiceResponse serviceResponse = authService.createSignInToken(encryptedAccessToken);
-        final ResponseCookie signInCookie = new SignInCookie(serviceResponse.token()).generate(frontUrl);
+        final ResponseCookie signInCookie = new SignInCookie(serviceResponse.token()).generate(PRODUCT_DOMAIN);
+        final ResponseCookie expireTemporaryAccessToken = AccessTokenCookie.expire(PRODUCT_DOMAIN);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, signInCookie.toString(), AccessTokenCookie.expire(frontUrl).toString())
+                .header(HttpHeaders.SET_COOKIE, signInCookie.toString(), expireTemporaryAccessToken.toString())
                 .body(SignInWebResponse.of(serviceResponse));
     }
 

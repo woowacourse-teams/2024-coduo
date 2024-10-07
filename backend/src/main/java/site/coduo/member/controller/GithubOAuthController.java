@@ -3,6 +3,7 @@ package site.coduo.member.controller;
 
 import static site.coduo.common.config.web.filter.StateSessionFilter.STATE_SESSION_EXPIRE_IN_SECOND;
 import static site.coduo.common.config.web.filter.StateSessionFilter.STATE_SESSION_NAME;
+import static site.coduo.member.controller.AuthController.PRODUCT_DOMAIN;
 
 import java.net.URI;
 
@@ -53,9 +54,9 @@ public class GithubOAuthController implements GithubOAuthControllerDocs {
                                                final HttpSession session) {
         final String encryptedAccessToken = githubOAuthService.invokeOAuthCallback(query.code());
         final AccessTokenCookie cookie = new AccessTokenCookie(encryptedAccessToken);
-        final ResponseCookie responseCookie = cookie.generate(frontUrl);
+        final ResponseCookie responseCookie = cookie.generate(PRODUCT_DOMAIN);
 
-        return ResponseEntity.status(HttpStatus.FOUND)
+        return ResponseEntity.status(HttpStatus.TEMPORARY_REDIRECT)
                 .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
                 .location(URI.create("https://" + frontUrl + "/callback"))
                 .build();

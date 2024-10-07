@@ -9,6 +9,7 @@ import org.springframework.http.ResponseCookie;
 public record AccessTokenCookie(String accessToken) {
 
     public static ResponseCookie expire(final String domain) {
+
         return ResponseCookie.from(TEMPORARY_ACCESS_TOKEN_COOKIE_NAME)
                 .maxAge(Duration.ZERO)
                 .domain(domain)
@@ -17,6 +18,7 @@ public record AccessTokenCookie(String accessToken) {
     }
 
     public ResponseCookie generate(final String domain) {
+
         return ResponseCookie.from(TEMPORARY_ACCESS_TOKEN_COOKIE_NAME)
                 .value(accessToken)
                 .httpOnly(true)

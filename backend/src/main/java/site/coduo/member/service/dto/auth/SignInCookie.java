@@ -9,6 +9,7 @@ import org.springframework.http.ResponseCookie;
 public record SignInCookie(String credential) {
 
     public static ResponseCookie expire(final String domain) {
+
         return ResponseCookie.from(SIGN_IN_COOKIE_NAME)
                 .maxAge(Duration.ZERO)
                 .domain(domain)
@@ -17,6 +18,7 @@ public record SignInCookie(String credential) {
     }
 
     public ResponseCookie generate(final String domain) {
+
         return ResponseCookie.from(SIGN_IN_COOKIE_NAME)
                 .value(credential)
                 .httpOnly(true)
