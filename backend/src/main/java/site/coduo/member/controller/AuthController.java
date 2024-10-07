@@ -5,7 +5,6 @@ import static site.coduo.common.config.web.filter.SignInCookieFilter.SIGN_IN_COO
 
 import java.net.URI;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -31,18 +30,14 @@ import site.coduo.member.service.dto.auth.SignUpRequest;
 @RestController
 public class AuthController implements AuthControllerDocs {
 
-    public static final String PRODUCT_DOMAIN = "coduo.site";
+    public static final String PRODUCT_DOMAIN = ".coduo.site";
 
     private final AuthService authService;
     private final MemberService memberService;
 
-    @Value("${front.url}")
-    private String frontUrl;
-
     @GetMapping("/sign-out")
     public ResponseEntity<Void> signOut(@CookieValue(name = SIGN_IN_COOKIE_NAME) final String signInToken) {
         final ResponseCookie expire = SignInCookie.expire(PRODUCT_DOMAIN);
-
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, expire.toString())
                 .build();
