@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { LogoIconWithTitle } from '@/assets';
@@ -15,15 +15,9 @@ import * as S from './Callback.styles';
 const Callback = () => {
   const navigate = useNavigate();
 
-  const hasCalledBack = useRef(false);
-
   const { setUser } = useUserStore();
 
   const handleCallBack = async () => {
-    if (hasCalledBack.current) return;
-
-    hasCalledBack.current = true;
-
     const { signedUp } = await getSignInCallback();
 
     if (signedUp) {
@@ -31,6 +25,7 @@ const Callback = () => {
 
       setUser(username, 'SIGNED_IN');
       navigate('/main');
+
       return;
     }
 
@@ -43,8 +38,8 @@ const Callback = () => {
 
   return (
     <S.Layout>
-      <S.LogoIconWithTitle src={LogoIconWithTitle} alt="logo" />
-      <S.Title>로그인 중입니다! 잠시만 기다려주세요 ☺️</S.Title>
+      <S.LogoIcon src={LogoIconWithTitle} alt="logo" />
+      <S.Title>로그인 중입니다. 잠시만 기다려주세요 😊</S.Title>
       <Spinner size="md" />
     </S.Layout>
   );
