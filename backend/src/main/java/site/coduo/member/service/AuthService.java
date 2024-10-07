@@ -22,7 +22,8 @@ public class AuthService {
     private final JwtProvider jwtProvider;
 
     @Transactional
-    public SignInServiceResponse createSignInToken(final String accessToken) {
+    public SignInServiceResponse createSignInToken(final String encryptedAccessToken) {
+        final String accessToken = jwtProvider.extractSubject(encryptedAccessToken);
         final GithubUserResponse userResponse = githubApiClient.getUser(new GithubUserRequest(accessToken));
 
         memberRepository.findByUserId(userResponse.userId())
