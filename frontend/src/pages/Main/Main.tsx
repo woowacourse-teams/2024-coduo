@@ -10,6 +10,8 @@ import useModal from '@/hooks/common/useModal';
 import usePreventBackNavigation from '@/hooks/common/usePreventBackNavigation';
 
 const Main = () => {
+  console.log('6');
+
   usePreventBackNavigation();
 
   const {

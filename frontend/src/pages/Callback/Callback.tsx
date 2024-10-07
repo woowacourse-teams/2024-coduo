@@ -19,16 +19,27 @@ const Callback = () => {
 
   useEffect(() => {
     const handleCallBack = async () => {
+      console.log('1');
+
       const { signedUp } = await getSignInCallback();
+
+      console.log('2');
 
       if (signedUp) {
         // const { username } = await getMember();
 
         // setUser(username, 'SIGNED_IN');
+
+        console.log('3');
+
         navigate('/main');
+
+        console.log('4');
 
         return;
       }
+
+      console.log('5');
 
       navigate('/sign-up');
     };
