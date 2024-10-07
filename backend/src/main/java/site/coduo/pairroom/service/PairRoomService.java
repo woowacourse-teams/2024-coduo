@@ -55,6 +55,10 @@ public class PairRoomService {
         return pairRoom.getAccessCodeText();
     }
 
+    public boolean existsByAccessCode(final String accessCode) {
+        return pairRoomRepository.existsByAccessCode(accessCode);
+    }
+
     private PairRoom createPairRoom(final PairRoomCreateRequest request) {
         final AccessCode accessCode = generateAccessCode();
         final PairRoomStatus status = PairRoomStatus.findByName(request.status());

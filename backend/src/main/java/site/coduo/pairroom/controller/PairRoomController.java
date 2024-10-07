@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import site.coduo.pairroom.controller.docs.PairRoomDocs;
 import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
+import site.coduo.pairroom.service.dto.PairRoomExistResponse;
 import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
 import site.coduo.pairroom.service.dto.PairRoomReadRequest;
 import site.coduo.pairroom.service.dto.PairRoomReadResponse;
@@ -81,5 +83,13 @@ public class PairRoomController implements PairRoomDocs {
 
         return ResponseEntity.ok()
                 .body(pairRooms);
+    }
+
+    @GetMapping("/pair-room/exist")
+    public ResponseEntity<PairRoomExistResponse> pairRoomExist(@RequestParam final String accessCode) {
+        final PairRoomExistResponse response = new PairRoomExistResponse(
+                pairRoomService.existsByAccessCode(accessCode));
+
+        return ResponseEntity.ok(response);
     }
 }
