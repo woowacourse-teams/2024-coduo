@@ -10,21 +10,11 @@ import lombok.RequiredArgsConstructor;
 import site.coduo.common.config.web.filter.AccessTokenSessionFilter;
 import site.coduo.common.config.web.filter.AuthFailHandlerFilter;
 import site.coduo.common.config.web.filter.SignInCookieFilter;
-import site.coduo.common.config.web.filter.StateSessionFilter;
 import site.coduo.member.infrastructure.security.JwtProvider;
 
 @RequiredArgsConstructor
 @Configuration
 public class FilterConfig {
-
-    @Bean
-    public FilterRegistrationBean<StateSessionFilter> stateSessionFilter() {
-        final FilterRegistrationBean<StateSessionFilter> bean = new FilterRegistrationBean<>();
-        bean.setFilter(new StateSessionFilter());
-        bean.addUrlPatterns("/api/github/callback");
-        bean.setOrder(1);
-        return bean;
-    }
 
     @Bean
     public FilterRegistrationBean<AccessTokenSessionFilter> accessTokenSessionFilter() {
