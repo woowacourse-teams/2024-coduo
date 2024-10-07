@@ -20,7 +20,6 @@ public class FilterConfig {
     public FilterRegistrationBean<AccessTokenCookieFilter> accessTokenSessionFilter(final JwtProvider jwtProvider) {
         final FilterRegistrationBean<AccessTokenCookieFilter> bean = new FilterRegistrationBean<>();
         bean.setFilter(new AccessTokenCookieFilter(jwtProvider));
-
         bean.addUrlPatterns("/api/sign-up", "/api/sign-in/callback");
         bean.setOrder(2);
         return bean;
