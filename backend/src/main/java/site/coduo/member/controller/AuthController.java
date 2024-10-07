@@ -32,7 +32,6 @@ public class AuthController implements AuthControllerDocs {
 
     public static final String PRODUCT_DOMAIN = ".coduo.site";
 
-
     private final AuthService authService;
     private final MemberService memberService;
 
