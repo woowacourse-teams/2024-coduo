@@ -51,7 +51,7 @@ class TimerRepositoryTest {
 
         // when
         final TimerEntity actual = timerRepository
-                .fetchTimerByPairRoomId(entity.getId());
+                .fetchTimerByPairRoomEntity(entity);
 
         // then
         assertThat(actual)

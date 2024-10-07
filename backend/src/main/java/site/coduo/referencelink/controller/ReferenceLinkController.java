@@ -44,10 +44,8 @@ public class ReferenceLinkController implements ReferenceLinkDocs {
     public ResponseEntity<List<ReferenceLinkResponse>> getReferenceLinks(
             @PathVariable("accessCode") final String accessCodeText
     ) {
-        log.info("[Reference Link] 1. 링크 조회 API 호출 시작!");
         final List<ReferenceLinkResponse> responses = referenceLinkService.readAllReferenceLink(accessCodeText);
 
-        log.info("[Reference Link] 5. 끝!! 응답!");
         return ResponseEntity.ok(responses);
     }
 
