@@ -91,7 +91,7 @@ class GithubAcceptanceTest extends AcceptanceFixture {
                 .get("/api/github/callback")
 
                 .then()
-                .statusCode(HttpStatus.SC_MOVED_TEMPORARILY);
+                .statusCode(HttpStatus.SC_TEMPORARY_REDIRECT);
     }
 
     @Test
@@ -122,6 +122,6 @@ class GithubAcceptanceTest extends AcceptanceFixture {
                 .get("/api/github/callback")
 
                 .then().log().all()
-                .statusCode(302);
+                .statusCode(HttpStatus.SC_TEMPORARY_REDIRECT);
     }
 }
