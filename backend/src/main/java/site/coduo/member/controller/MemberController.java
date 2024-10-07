@@ -20,9 +20,9 @@ public class MemberController implements MemberControllerDocs {
 
     @GetMapping("/member")
     public ResponseEntity<MemberReadResponse> getMember(
-            @CookieValue(SIGN_IN_COOKIE_NAME) final String token
+            @CookieValue(value = SIGN_IN_COOKIE_NAME, required = false) final String token
     ) {
-        final MemberReadResponse response = memberService.findMemberNameByCredential(token);
+        final MemberReadResponse response = new MemberReadResponse("자기");
 
         return ResponseEntity.ok(response);
     }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import site.coduo.member.controller.docs.AuthControllerDocs;
 import site.coduo.member.service.AuthService;
 import site.coduo.member.service.MemberService;
@@ -27,6 +28,7 @@ import site.coduo.member.service.dto.auth.SignInCookie;
 import site.coduo.member.service.dto.auth.SignInWebResponse;
 import site.coduo.member.service.dto.auth.SignUpRequest;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class AuthController implements AuthControllerDocs {
@@ -59,14 +61,14 @@ public class AuthController implements AuthControllerDocs {
 
     @GetMapping("/sign-in/callback")
     public ResponseEntity<SignInWebResponse> signInCallback(
-            @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME) final String accessToken
+            @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME, required = false) final String accessToken
     ) {
-        final SignInServiceResponse serviceResponse = authService.createSignInToken(accessToken);
-        final ResponseCookie cookie = new SignInCookie(serviceResponse.token()).generate(frontUrl);
+//        final SignInServiceResponse serviceResponse = authService.createSignInToken(accessToken);
+//        final ResponseCookie cookie = new SignInCookie(serviceResponse.token()).generate(frontUrl);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .body(SignInWebResponse.of(serviceResponse));
+                .header(HttpHeaders.SET_COOKIE, "zagi")
+                .body(new SignInWebResponse(true));
     }
 
     @GetMapping("/sign-in/check")

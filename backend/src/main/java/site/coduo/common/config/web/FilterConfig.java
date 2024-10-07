@@ -17,7 +17,7 @@ import site.coduo.member.infrastructure.security.JwtProvider;
 @Configuration
 public class FilterConfig {
 
-    @Bean
+//    @Bean
     public FilterRegistrationBean<StateSessionFilter> stateSessionFilter() {
         final FilterRegistrationBean<StateSessionFilter> bean = new FilterRegistrationBean<>();
         bean.setFilter(new StateSessionFilter());
@@ -26,7 +26,7 @@ public class FilterConfig {
         return bean;
     }
 
-    @Bean
+//    @Bean
     public FilterRegistrationBean<AccessTokenSessionFilter> accessTokenSessionFilter() {
         final FilterRegistrationBean<AccessTokenSessionFilter> bean = new FilterRegistrationBean<>();
         bean.setFilter(new AccessTokenSessionFilter());
@@ -35,7 +35,7 @@ public class FilterConfig {
         return bean;
     }
 
-    @Bean
+//    @Bean
     public FilterRegistrationBean<SignInCookieFilter> signInCookieFilter(final JwtProvider jwtProvider) {
         final FilterRegistrationBean<SignInCookieFilter> bean = new FilterRegistrationBean<>();
         bean.setFilter(new SignInCookieFilter(jwtProvider));
@@ -44,7 +44,7 @@ public class FilterConfig {
         return bean;
     }
 
-    @Bean
+//    @Bean
     public FilterRegistrationBean<AuthFailHandlerFilter> authFailHandlerFilter(final ObjectMapper objectMapper) {
         final FilterRegistrationBean<AuthFailHandlerFilter> bean = new FilterRegistrationBean<>();
         bean.setFilter(new AuthFailHandlerFilter(objectMapper));
