@@ -38,7 +38,6 @@ public class AuthController implements AuthControllerDocs {
     @GetMapping("/sign-out")
     public ResponseEntity<Void> signOut(@CookieValue(name = SIGN_IN_COOKIE_NAME) final String signInToken) {
         final ResponseCookie expire = SignInCookie.expire(PRODUCT_DOMAIN);
-
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, expire.toString())
                 .build();
