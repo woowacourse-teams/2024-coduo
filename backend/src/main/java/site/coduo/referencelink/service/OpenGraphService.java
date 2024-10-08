@@ -69,7 +69,7 @@ public class OpenGraphService {
         return new OpenGraph();
     }
 
-    public void deleteByReferenceLinkId(final long referenceLinkEntityId) {
-        openGraphRepository.deleteByReferenceLinkEntityId(referenceLinkEntityId);
+    public void deleteByReferenceLink(final ReferenceLinkEntity referenceLinkEntity) {
+        openGraphRepository.deleteByReferenceLinkEntity(referenceLinkEntity);
     }
 }

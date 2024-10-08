@@ -116,8 +116,8 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .all()
 
                 .when()
-                .queryParam("access-code", accessCode.accessCode())
-                .get("/api/pair-room/exist")
+                .queryParam("access_code", accessCode.accessCode())
+                .get("/api/pair-room/exists")
 
                 .then()
                 .statusCode(200)
@@ -141,8 +141,8 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .all()
 
                 .when()
-                .queryParam("access-code", "babyroom")
-                .get("/api/pair-room/exist")
+                .queryParam("access_code", "babyroom")
+                .get("/api/pair-room/exists")
 
                 .then()
                 .statusCode(200)
