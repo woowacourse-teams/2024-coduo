@@ -14,10 +14,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
+import site.coduo.pairroom.service.dto.PairRoomExistResponse;
+import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
 import site.coduo.pairroom.service.dto.PairRoomReadRequest;
 import site.coduo.pairroom.service.dto.PairRoomReadResponse;
 import site.coduo.pairroom.service.dto.PairRoomStatusUpdateRequest;
-import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
 
 @Tag(name = "페어룸 API")
 public interface PairRoomDocs {
@@ -68,4 +69,9 @@ public interface PairRoomDocs {
                     required = true
             )
             String signInToken);
+
+    @Operation(summary = "액세스 코드로 페어룸이 존재하는지 조회한다.")
+    @ApiResponse(responseCode = "200", description = "페어룸 존재 여부", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+            schema = @Schema(implementation = PairRoomExistResponse.class)))
+    ResponseEntity<PairRoomExistResponse> pairRoomExist(String accessCode);
 }
