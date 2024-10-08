@@ -19,6 +19,7 @@ public record AccessTokenCookie(String accessToken) {
     public ResponseCookie generate(final String domain) {
         return ResponseCookie.from(TEMPORARY_ACCESS_TOKEN_COOKIE_NAME)
                 .value(accessToken)
+                .maxAge(Duration.ofMinutes(10))
                 .httpOnly(true)
                 .secure(true)
                 .domain(domain)
