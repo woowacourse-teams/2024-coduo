@@ -23,6 +23,7 @@ import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.Category;
 import site.coduo.referencelink.domain.ReferenceLink;
 import site.coduo.referencelink.exception.InvalidCategoryException;
+import site.coduo.referencelink.fake.FakeServer;
 import site.coduo.referencelink.repository.CategoryEntity;
 import site.coduo.referencelink.repository.CategoryRepository;
 import site.coduo.referencelink.repository.ReferenceLinkEntity;
@@ -70,7 +71,7 @@ class CategoryServiceTest extends CascadeCleaner {
                 ACCESS_CODE.getValue());
         assertThat(categories.stream().anyMatch(
                 category -> category.id().equals(createdCategory.id()) &&
-                            category.value().equals(createdCategory.value())))
+                        category.value().equals(createdCategory.value())))
                 .isTrue();
     }
 
@@ -93,7 +94,7 @@ class CategoryServiceTest extends CascadeCleaner {
                 ACCESS_CODE.getValue());
         assertThat(categories.stream().anyMatch(
                 category -> category.id().equals(createdCategory.id()) &&
-                            category.value().equals(updatedCategory.updatedCategoryName())))
+                        category.value().equals(updatedCategory.updatedCategoryName())))
                 .isTrue();
     }
 
@@ -161,7 +162,7 @@ class CategoryServiceTest extends CascadeCleaner {
         final PairRoomEntity entity = pairRoomRepository.save(PairRoomEntity.from(INK_REDDDY_ROOM));
 
         final CategoryEntity savedCategory = categoryRepository.save(new CategoryEntity(entity, category));
-        final ReferenceLink referenceLink = new ReferenceLink(new URL("https://google.com"), ACCESS_CODE);
+        final ReferenceLink referenceLink = new ReferenceLink(new URL(FakeServer.testUrl), ACCESS_CODE);
 
         final ReferenceLinkEntity beforeDeleteCategory = referenceLinkRepository.save(
                 new ReferenceLinkEntity(referenceLink, savedCategory, entity));
