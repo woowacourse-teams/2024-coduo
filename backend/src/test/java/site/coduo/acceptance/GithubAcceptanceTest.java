@@ -1,8 +1,5 @@
 package site.coduo.acceptance;
 
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
-
 import static site.coduo.common.config.web.filter.AccessTokenCookieFilter.TEMPORARY_ACCESS_TOKEN_COOKIE_NAME;
 
 import java.util.Map;
@@ -10,7 +7,6 @@ import java.util.Map;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpHeaders;
 
 import io.restassured.RestAssured;
 import site.coduo.fake.FakeGithubApiClient;
@@ -51,9 +47,9 @@ class GithubAcceptanceTest extends AcceptanceFixture {
 
                 .then().log().all()
                 .assertThat()
-                .statusCode(HttpStatus.SC_OK)
-                .body("endpoint",
-                        is("https://www.github.com/login/oauth/authorize?client_id=test&state=randomNumber&redirect_uri=http://test.test"));
+                .statusCode(307)
+                .header("Location",
+                        "https://www.github.com/login/oauth/authorize?client_id=test&state=randomNumber&redirect_uri=http://test.test");
     }
 
     @Test
@@ -68,8 +64,7 @@ class GithubAcceptanceTest extends AcceptanceFixture {
                 .get("/api/sign-in/oauth/github")
 
                 .then().log().all()
-                .statusCode(HttpStatus.SC_OK)
-                .header(HttpHeaders.SET_COOKIE, containsString("JSESSIONID"));
+                .statusCode(307);
     }
 
     @Test

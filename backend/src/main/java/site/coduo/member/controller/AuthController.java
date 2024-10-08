@@ -5,7 +5,6 @@ import static site.coduo.common.config.web.filter.SignInCookieFilter.SIGN_IN_COO
 
 import java.net.URI;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -21,7 +20,6 @@ import site.coduo.member.controller.docs.AuthControllerDocs;
 import site.coduo.member.service.AuthService;
 import site.coduo.member.service.MemberService;
 import site.coduo.member.service.dto.SignInServiceResponse;
-import site.coduo.member.service.dto.auth.AccessTokenCookie;
 import site.coduo.member.service.dto.auth.SignInCheckResponse;
 import site.coduo.member.service.dto.auth.SignInCookie;
 import site.coduo.member.service.dto.auth.SignInWebResponse;
@@ -31,18 +29,14 @@ import site.coduo.member.service.dto.auth.SignUpRequest;
 @RestController
 public class AuthController implements AuthControllerDocs {
 
-    public static final String PRODUCT_DOMAIN = "coduo.site";
+    public static final String PRODUCT_DOMAIN = ".coduo.site";
 
     private final AuthService authService;
     private final MemberService memberService;
 
-    @Value("${front.url}")
-    private String frontUrl;
-
     @GetMapping("/sign-out")
     public ResponseEntity<Void> signOut(@CookieValue(name = SIGN_IN_COOKIE_NAME) final String signInToken) {
         final ResponseCookie expire = SignInCookie.expire(PRODUCT_DOMAIN);
-
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, expire.toString())
                 .build();
@@ -65,10 +59,9 @@ public class AuthController implements AuthControllerDocs {
     ) {
         final SignInServiceResponse serviceResponse = authService.createSignInToken(encryptedAccessToken);
         final ResponseCookie signInCookie = new SignInCookie(serviceResponse.token()).generate(PRODUCT_DOMAIN);
-        final ResponseCookie expireTemporaryAccessToken = AccessTokenCookie.expire(PRODUCT_DOMAIN);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, signInCookie.toString(), expireTemporaryAccessToken.toString())
+                .header(HttpHeaders.SET_COOKIE, signInCookie.toString())
                 .body(SignInWebResponse.of(serviceResponse));
     }
 
