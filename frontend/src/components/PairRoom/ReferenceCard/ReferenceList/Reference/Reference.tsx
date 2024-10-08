@@ -14,16 +14,16 @@ const Reference = ({ url, image, title, description, onDeleteReference }: Refere
   return (
     <S.Layout>
       <S.DeleteButton onClick={onDeleteReference} />
-      {image ? (
-        <S.Image alt="link" src={image} />
-      ) : (
-        <S.NoneImage>
-          이미지가
-          <br />
-          없습니다
-        </S.NoneImage>
-      )}
       <Link to={url} target="_blank">
+        {image ? (
+          <S.Image alt="link" src={image} />
+        ) : (
+          <S.NoneImage>
+            이미지가
+            <br />
+            없습니다
+          </S.NoneImage>
+        )}
         <S.Box>
           <S.Title>{title}</S.Title>
           <S.Content>{description}</S.Content>
