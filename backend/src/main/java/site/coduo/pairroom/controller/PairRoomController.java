@@ -86,7 +86,7 @@ public class PairRoomController implements PairRoomDocs {
     }
 
     @GetMapping("/pair-room/exists")
-    public ResponseEntity<PairRoomExistResponse> pairRoomExist(@RequestParam("access_code") final String accessCode) {
+    public ResponseEntity<PairRoomExistResponse> pairRoomExists(@RequestParam("access_code") final String accessCode) {
         final PairRoomExistResponse response = new PairRoomExistResponse(
                 pairRoomService.existsByAccessCode(accessCode));
 
