@@ -82,7 +82,7 @@ const CategoryManagementModal = ({
             type="submit"
             size="sm"
             rounded={true}
-            disabled={value === '' || status !== 'DEFAULT'}
+            disabled={value.trim() === '' || status !== 'DEFAULT'}
           >
             <LuPlus size="1.6rem" />
           </Button>

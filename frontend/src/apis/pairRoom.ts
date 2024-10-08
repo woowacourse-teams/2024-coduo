@@ -22,6 +22,15 @@ export const getPairRoom = async (accessCode: string): Promise<GetPairRoomRespon
   return await response.json();
 };
 
+export const getPairRoomExists = async (accessCode: string): Promise<{ exists: boolean }> => {
+  const response = await fetcher.get({
+    url: `${API_URL}/pair-room/exists?access_code=${accessCode}`,
+    errorMessage: ERROR_MESSAGES.GET_PAIR_ROOM,
+  });
+
+  return await response.json();
+};
+
 interface AddPairRoomRequest {
   driver: string;
   navigator: string;
