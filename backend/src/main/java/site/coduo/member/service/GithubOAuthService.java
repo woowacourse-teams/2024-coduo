@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import site.coduo.member.client.GithubOAuthClient;
 import site.coduo.member.client.dto.TokenRequest;
 import site.coduo.member.client.dto.TokenResponse;
+import site.coduo.member.infrastructure.security.JwtProvider;
 import site.coduo.member.infrastructure.security.NonceProvider;
 import site.coduo.member.service.dto.oauth.GithubAuthQuery;
 
@@ -17,6 +18,7 @@ public class GithubOAuthService {
 
     private final GithubOAuthClient oAuthClient;
     private final NonceProvider nonceProvider;
+    private final JwtProvider jwtProvider;
 
     public GithubAuthQuery createAuthorizationContent() {
 
@@ -27,8 +29,9 @@ public class GithubOAuthService {
         );
     }
 
-    public TokenResponse invokeOAuthCallback(final String code) {
+    public String invokeOAuthCallback(final String code) {
         String redirectUri = oAuthClient.getOAuthRedirectUri();
-        return oAuthClient.grant(new TokenRequest(code, redirectUri));
+        final TokenResponse tokenResponse = oAuthClient.grant(new TokenRequest(code, redirectUri));
+        return jwtProvider.sign(tokenResponse.accessToken());
     }
 }

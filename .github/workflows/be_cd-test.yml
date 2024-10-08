@@ -75,13 +75,13 @@ jobs:
           DOCKER_REPO_NAME=${{ secrets.DOCKER_REPO_NAME }}
 
           # DB Configuration secrets info from Github Secrets
-          MASTER_DB_URL=${{ secrets.MASTER_DB_URL }}
-          MASTER_DB_USERNAME=${{ secrets.MASTER_DB_USERNAME }}
-          MASTER_DB_PASSWORD=${{ secrets.MASTER_DB_PASSWORD }}
+          MASTER_DB_URL=${{ secrets.TEST_SERVER_DB_URL }}
+          MASTER_DB_USERNAME=${{ secrets.TEST_SERVER_DB_USERNAME }}
+          MASTER_DB_PASSWORD=${{ secrets.TEST_SERVER_DB_PASSWORD }}
           
-          SLAVE_DB_URL=${{ secrets.SLAVE_DB_URL }}
-          SLAVE_DB_USERNAME=${{ secrets.SLAVE_DB_USERNAME }}
-          SLAVE_DB_PASSWORD=${{ secrets.SLAVE_DB_PASSWORD }}
+          SLAVE_DB_URL=${{ secrets.TEST_SERVER_DB_URL }}
+          SLAVE_DB_USERNAME=${{ secrets.TEST_SERVER_DB_USERNAME }}
+          SLAVE_DB_PASSWORD=${{ secrets.TEST_SERVER_DB_PASSWORD }}
           DDL_AUTO=${{ secrets.DDL_AUTO }}
 
           # OAUTH & JWT

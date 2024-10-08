@@ -43,9 +43,6 @@ public class PairRoomService {
     @Transactional
     public String savePairRoom(final PairRoomCreateRequest request, @Nullable final String token) {
         final PairRoom pairRoom = createPairRoom(request);
-        final PairRoomEntity entity = PairRoomEntity.from(pairRoom);
-        log.info("Pair ROom entity : {}", entity);
-
         final PairRoomEntity pairRoomEntity = pairRoomRepository.save(PairRoomEntity.from(pairRoom));
 
         final Timer timer = new Timer(pairRoom.getAccessCode(), request.timerDuration(), request.timerRemainingTime());
@@ -58,6 +55,10 @@ public class PairRoomService {
         return pairRoom.getAccessCodeText();
     }
 
+    public boolean existsByAccessCode(final String accessCode) {
+        return pairRoomRepository.existsByAccessCode(accessCode);
+    }
+
     private PairRoom createPairRoom(final PairRoomCreateRequest request) {
         final AccessCode accessCode = generateAccessCode();
         final PairRoomStatus status = PairRoomStatus.findByName(request.status());
@@ -67,7 +68,6 @@ public class PairRoomService {
 
     private AccessCode generateAccessCode() {
         final String generatedAccessCode = uuidAccessCodeGenerator.generate();
-        log.info("ACCESS CODE : {}", generatedAccessCode);
         if (pairRoomRepository.existsByAccessCode(generatedAccessCode)) {
             return generateAccessCode();
         }
@@ -89,7 +89,7 @@ public class PairRoomService {
 
     public PairRoomReadResponse findPairRoomAndTimer(final String accessCode) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
-        final TimerEntity timerEntity = timerRepository.fetchTimerByPairRoomId(pairRoomEntity.getId());
+        final TimerEntity timerEntity = timerRepository.fetchTimerByPairRoomEntity(pairRoomEntity);
         return PairRoomReadResponse.of(pairRoomEntity.toDomain(), timerEntity.toDomain());
     }
 

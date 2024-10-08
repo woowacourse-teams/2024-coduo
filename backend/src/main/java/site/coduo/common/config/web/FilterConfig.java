@@ -7,10 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
-import site.coduo.common.config.web.filter.AccessTokenSessionFilter;
+import site.coduo.common.config.web.filter.AccessTokenCookieFilter;
 import site.coduo.common.config.web.filter.AuthFailHandlerFilter;
 import site.coduo.common.config.web.filter.SignInCookieFilter;
-import site.coduo.common.config.web.filter.StateSessionFilter;
 import site.coduo.member.infrastructure.security.JwtProvider;
 
 @RequiredArgsConstructor
@@ -18,18 +17,9 @@ import site.coduo.member.infrastructure.security.JwtProvider;
 public class FilterConfig {
 
     @Bean
-    public FilterRegistrationBean<StateSessionFilter> stateSessionFilter() {
-        final FilterRegistrationBean<StateSessionFilter> bean = new FilterRegistrationBean<>();
-        bean.setFilter(new StateSessionFilter());
-        bean.addUrlPatterns("/api/github/callback");
-        bean.setOrder(1);
-        return bean;
-    }
-
-    @Bean
-    public FilterRegistrationBean<AccessTokenSessionFilter> accessTokenSessionFilter() {
-        final FilterRegistrationBean<AccessTokenSessionFilter> bean = new FilterRegistrationBean<>();
-        bean.setFilter(new AccessTokenSessionFilter());
+    public FilterRegistrationBean<AccessTokenCookieFilter> accessTokenSessionFilter(final JwtProvider jwtProvider) {
+        final FilterRegistrationBean<AccessTokenCookieFilter> bean = new FilterRegistrationBean<>();
+        bean.setFilter(new AccessTokenCookieFilter(jwtProvider));
         bean.addUrlPatterns("/api/sign-up", "/api/sign-in/callback");
         bean.setOrder(2);
         return bean;
@@ -39,7 +29,7 @@ public class FilterConfig {
     public FilterRegistrationBean<SignInCookieFilter> signInCookieFilter(final JwtProvider jwtProvider) {
         final FilterRegistrationBean<SignInCookieFilter> bean = new FilterRegistrationBean<>();
         bean.setFilter(new SignInCookieFilter(jwtProvider));
-        bean.addUrlPatterns("/api/sign-out", "/api/member", "/api/sign-in/check");
+        bean.addUrlPatterns("/api/sign-out", "/api/member");
         bean.setOrder(1);
         return bean;
     }
