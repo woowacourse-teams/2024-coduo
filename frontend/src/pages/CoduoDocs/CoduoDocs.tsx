@@ -145,7 +145,7 @@ ex) cd java-guessing-number"
         </S.ImageContainer>
         <S.ImageContainer aria-labelledby={START_CONTENT[4].id}>
           <DocsImage
-            information="4. 역할 선택하기"
+            information="3. 역할 선택하기"
             id={START_CONTENT[4].id}
             src={DOCS_IMAGES.setRole}
             alt="set-role"
@@ -159,7 +159,7 @@ ex) cd java-guessing-number"
         </S.ImageContainer>
         <S.ImageContainer aria-labelledby={START_CONTENT[5].id}>
           <DocsImage
-            information="6. 타이머 설정하기"
+            information="4. 타이머 설정하기"
             id={START_CONTENT[5].id}
             src={DOCS_IMAGES.setTimer}
             alt="set-timer"
