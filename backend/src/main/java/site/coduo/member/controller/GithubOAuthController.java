@@ -1,8 +1,6 @@
 package site.coduo.member.controller;
 
 
-import static site.coduo.common.config.web.filter.StateSessionFilter.STATE_SESSION_EXPIRE_IN_SECOND;
-import static site.coduo.common.config.web.filter.StateSessionFilter.STATE_SESSION_NAME;
 import static site.coduo.member.controller.AuthController.PRODUCT_DOMAIN;
 
 import java.net.URI;
@@ -26,7 +24,6 @@ import site.coduo.member.service.dto.auth.AccessTokenCookie;
 import site.coduo.member.service.dto.oauth.GithubAuthQuery;
 import site.coduo.member.service.dto.oauth.GithubAuthUri;
 import site.coduo.member.service.dto.oauth.GithubCallbackQuery;
-import site.coduo.member.service.dto.oauth.GithubOAuthEndpoint;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -39,14 +36,13 @@ public class GithubOAuthController implements GithubOAuthControllerDocs {
     private String frontUrl;
 
     @GetMapping("/sign-in/oauth/github")
-    public ResponseEntity<GithubOAuthEndpoint> getGithubAuthCode(final HttpSession session) {
+    public ResponseEntity<Void> getGithubAuthCode(final HttpSession session) {
         final GithubAuthQuery query = githubOAuthService.createAuthorizationContent();
         final GithubAuthUri githubAuthUri = new GithubAuthUri(query);
 
-        session.setAttribute(STATE_SESSION_NAME, query.state());
-        session.setMaxInactiveInterval(STATE_SESSION_EXPIRE_IN_SECOND);
-        return ResponseEntity.ok()
-                .body(new GithubOAuthEndpoint(githubAuthUri.toPlainText()));
+        return ResponseEntity.status(HttpStatus.TEMPORARY_REDIRECT)
+                .location(URI.create(githubAuthUri.toPlainText()))
+                .build();
     }
 
     @GetMapping("/github/callback")
