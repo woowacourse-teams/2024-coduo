@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -14,11 +15,15 @@ import { QUERY_KEYS } from '@/constants/queryKeys';
 
 const STATUS_SSE_KEY = 'timer';
 const TIME_SSE_KEY = 'remaining-time';
+const TIMEOUT_LIMIT = 100;
 
 const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: number, onTimerStop: () => void) => {
+  const navigate = useNavigate();
+
   const queryClient = useQueryClient();
 
   const alarmAudio = useRef(new Audio(AlarmSound));
+  const timeoutCount = useRef(0);
 
   const [timeLeft, setTimeLeft] = useState(defaultTimeleft);
   const [isActive, setIsActive] = useState(false);
@@ -93,12 +98,8 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
     sse.addEventListener(STATUS_SSE_KEY, handleStatus);
 
     sse.onerror = () => {
-      setIsActive(false);
-      stopTimer(accessCode);
-      addToast({
-        status: 'ERROR',
-        message: '타이머 작동 중 예기치 못한 문제가 발생하였습니다. 타이머를 다시 시작해 주세요.',
-      });
+      timeoutCount.current += 1;
+      if (timeoutCount.current >= TIMEOUT_LIMIT) navigate('/error');
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);

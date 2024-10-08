@@ -11,25 +11,26 @@ export const Layout = styled.div`
   gap: 6rem;
 
   height: calc(100vh - 7rem);
-  padding: 15rem 5rem;
+  padding: 15rem;
 
-  background-color: ${({ theme }) => theme.color.black[20]};
+  background-color: ${({ theme }) => theme.color.primary[100]};
 `;
 
-export const LogoIconWithTitle = styled.img`
-  width: 30rem;
-  max-width: 40rem;
-`;
-
-export const Form = styled.form`
+export const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3.6rem;
+  gap: 2rem;
 `;
 
 export const Title = styled.h1`
   color: ${({ theme }) => theme.color.primary[800]};
-  font-size: ${({ theme }) => theme.fontSize.h5};
-  font-weight: ${({ theme }) => theme.fontWeight.medium};
+  font-size: ${({ theme }) => theme.fontSize.h1};
+  font-weight: bold;
+`;
+
+export const SubTitle = styled.p`
+  font-size: ${({ theme }) => theme.fontSize.md};
+  line-height: 1.5;
+  text-align: center;
 `;

@@ -74,4 +74,5 @@ public interface PairRoomDocs {
     @ApiResponse(responseCode = "200", description = "페어룸 존재 여부", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
             schema = @Schema(implementation = PairRoomExistResponse.class)))
     ResponseEntity<PairRoomExistResponse> pairRoomExists(String accessCode);
+
 }
