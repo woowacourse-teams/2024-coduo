@@ -8,7 +8,7 @@ const PairRoom = lazy(() => import('@/pages/PairRoom/PairRoom'));
 
 import Callback from '@/pages/Callback/Callback';
 import CoduoDocs from '@/pages/CoduoDocs/CoduoDocs';
-import PageNotFound from '@/pages/Error/PageNotFound';
+import Error from '@/pages/Error/Error';
 import Landing from '@/pages/Landing/Landing';
 import Layout from '@/pages/Layout';
 import Loading from '@/pages/Loading/Loading';
@@ -36,7 +36,8 @@ const App = () => {
     const { signedIn } = await getIsUserLoggedIn();
 
     if (!signedIn) {
-      return setUser('', 'SIGNED_OUT');
+      setUser('', 'SIGNED_OUT');
+      return;
     }
 
     const { username } = await getMember();
@@ -45,14 +46,14 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (process.env.NODE_ENV === 'production') updateUser();
+    if (window.location.pathname !== '/callback') updateUser();
   }, []);
 
   const router = createBrowserRouter([
     {
       path: '/',
       element: <Layout />,
-      errorElement: <PageNotFound />,
+      errorElement: <Error />,
       children: [
         {
           path: '',
@@ -99,8 +100,12 @@ const App = () => {
           element: <MyPage />,
         },
         {
+          path: 'error',
+          element: <Error />,
+        },
+        {
           path: '*',
-          element: <PageNotFound />,
+          element: <Error />,
         },
       ],
     },

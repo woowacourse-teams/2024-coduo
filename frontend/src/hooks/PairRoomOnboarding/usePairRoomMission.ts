@@ -10,7 +10,7 @@ const usePairRoomMission = () => {
   const { value, status, message, handleChange, resetValue } = useInput();
 
   const isRepositorySelected = repositoryName !== '';
-  const isValidBranchName = status === 'DEFAULT' && value !== '';
+  const isValidBranchName = status === 'DEFAULT' && value !== '' && value.length <= 30;
 
   const handleRepositoryName = (name: string) => {
     setRepositoryName(name);
