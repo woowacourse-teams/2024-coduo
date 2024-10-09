@@ -21,6 +21,7 @@ spring:
     hibernate:
       ddl-auto: ${DDL_AUTO}
     database-platform: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
 
 springdoc:
   swagger-ui:
