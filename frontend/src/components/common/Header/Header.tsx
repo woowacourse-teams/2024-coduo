@@ -26,7 +26,7 @@ const Header = () => {
       </Link>
       <S.LinkContainer>
         <Link to="/coduo-docs">
-          <S.HowToPairText>코딩해듀오 시작하기</S.HowToPairText>
+          <button>코딩해듀오 시작하기</button>
         </Link>
         <Link to="/coduo-docs">
           <S.HowToPairIcon>

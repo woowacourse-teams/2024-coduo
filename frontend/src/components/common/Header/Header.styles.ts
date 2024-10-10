@@ -50,7 +50,7 @@ export const Logo = styled.img`
 
 export const LinkContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   gap: 1.4rem;
 `;
