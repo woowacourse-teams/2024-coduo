@@ -22,6 +22,7 @@ import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
+import site.coduo.pairroom.exception.DeletePairRoomException;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
@@ -92,6 +93,21 @@ class PairRoomServiceTest {
     }
 
     @Test
+    @Transactional
+    @DisplayName("삭제된 페어룸의 접근 코드를 찾으면 예외가 발생한다.")
+    void throw_exception_when_find_delete_pair_room_access_code() {
+        // given
+        final PairRoomCreateRequest request =
+                new PairRoomCreateRequest("레디", "프람", 1000L, 100L,
+                        PairRoomStatus.DELETE.name());
+        final String accessCode = pairRoomService.savePairRoom(request, null);
+
+        // when & then
+        assertThatThrownBy(() -> pairRoomService.findPairRoomAndTimer(accessCode))
+                .isExactlyInstanceOf(DeletePairRoomException.class);
+    }
+
+    @Test
     @DisplayName("페어룸 상태를 변경한다.")
     void update_pair_room_status() {
         // given
@@ -105,6 +121,19 @@ class PairRoomServiceTest {
         // then
         assertThat(PairRoomStatus.findByName(pairRoomService.findPairRoomAndTimer(accessCode).status()))
                 .isEqualTo(PairRoomStatus.COMPLETED);
+    }
+
+    @Test
+    @DisplayName("삭제된 페어룸 상태를 변경하려고 하면 예외를 발생시킨다.")
+    void update_delete_pair_room_status() {
+        // given
+        final PairRoomCreateRequest request =
+                new PairRoomCreateRequest("레디", "프람", 1000L, 100L, PairRoomStatus.DELETE.name());
+        final String accessCode = pairRoomService.savePairRoom(request, null);
+
+        // when & then
+        assertThatThrownBy(() -> pairRoomService.updatePairRoomStatus(accessCode, PairRoomStatus.COMPLETED.name()))
+                .isExactlyInstanceOf(DeletePairRoomException.class);
     }
 
     @Test
@@ -127,8 +156,24 @@ class PairRoomServiceTest {
                 .contains("lemonL", "fram");
     }
 
+    @Test
+    @DisplayName("삭제된 페어룸의 페어 역할을 변경하려하면 예외를 발생시킨다.")
+    void change_delete_pair_room_role() {
+        // given
+        final PairRoomEntity entity = PairRoomEntity.from(
+                new PairRoom(PairRoomStatus.DELETE,
+                        new Pair(new PairName("fram"), new PairName("lemonL")),
+                        new AccessCode("1234"))
+        );
+        pairRoomRepository.save(entity);
 
-    @DisplayName("멤버의 방 목록을 가져온다.")
+        // when & then
+        assertThatThrownBy(() -> pairRoomService.updateNavigatorWithDriver(entity.getAccessCode()))
+                .isExactlyInstanceOf(DeletePairRoomException.class);
+    }
+
+
+    @DisplayName("삭제되지 않은, 멤버의 방 목록을 가져온다.")
     @Test
     void find_rooms_by_member() {
         //given
@@ -142,6 +187,12 @@ class PairRoomServiceTest {
         final String accessCodeA_2 = pairRoomService.savePairRoom(pairRoomCreateRequest, memberA.getAccessToken());
         final String accessCodeB_1 = pairRoomService.savePairRoom(pairRoomCreateRequest, memberB.getAccessToken());
         pairRoomService.savePairRoom(pairRoomCreateRequest, null);
+
+        final PairRoomCreateRequest deletePairRoomCreateRequest = new PairRoomCreateRequest("레디", "잉크", 1, 1,
+                "DELETE");
+        pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getAccessToken());
+        pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getAccessToken());
+        pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getAccessToken());
 
         final List<String> memberAExpected = List.of(accessCodeA_1, accessCodeA_2);
         final List<String> memberBExpected = List.of(accessCodeB_1);

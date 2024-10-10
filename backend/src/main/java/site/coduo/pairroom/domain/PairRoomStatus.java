@@ -12,7 +12,8 @@ import site.coduo.pairroom.exception.InvalidPairRoomStatusException;
 public enum PairRoomStatus {
 
     IN_PROGRESS,
-    COMPLETED;
+    COMPLETED,
+    DELETE;
 
     private static final Map<String, PairRoomStatus> STATUS = Arrays.stream(values())
             .collect(Collectors.toMap(PairRoomStatus::name, Function.identity()));
