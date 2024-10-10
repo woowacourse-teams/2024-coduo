@@ -2,19 +2,21 @@ import styled from 'styled-components';
 
 export const Layout = styled.div`
   display: flex;
-  position: fixed;
   justify-content: space-between;
   align-items: center;
+
+  position: fixed;
+  z-index: 99;
+
   width: 100%;
   height: 7rem;
   padding: 0 5rem;
 
-  z-index: 99;
-
-  border-bottom: 0.1rem solid ${({ theme }) => theme.color.black[30]};
   background-color: ${({ theme }) => theme.color.black[10]};
   color: ${({ theme }) => theme.color.black[80]};
   font-size: ${({ theme }) => theme.fontSize.base};
+
+  border-bottom: 0.1rem solid ${({ theme }) => theme.color.black[30]};
 
   a {
     display: flex;
