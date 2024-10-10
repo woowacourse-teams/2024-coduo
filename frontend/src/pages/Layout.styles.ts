@@ -6,3 +6,7 @@ export const Layout = styled.div`
 
   min-width: fit-content;
 `;
+
+export const Main = styled.main`
+  margin-top: 7rem;
+`;
