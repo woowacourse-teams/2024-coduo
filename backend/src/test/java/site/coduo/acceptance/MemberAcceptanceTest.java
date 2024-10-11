@@ -50,6 +50,33 @@ class MemberAcceptanceTest extends AcceptanceFixture {
                 .body("username", is(member.getUsername()));
     }
 
+    @Test
+    @DisplayName("회원을 삭제한다.")
+    void delete_member() {
+        //given
+        final Member member = Member.builder()
+                .userId("123")
+                .accessToken("access")
+                .loginId("login")
+                .username("username")
+                .profileImage("some image")
+                .build();
+
+        final String loginToken = jwtProvider.sign(member.getUserId());
+        memberRepository.save(member);
+
+        //when && then
+        RestAssured
+                .given()
+                .cookie(SIGN_IN_COOKIE_NAME, loginToken)
+
+                .when()
+                .delete("/api/member")
+
+                .then()
+                .statusCode(HttpStatus.SC_NO_CONTENT);
+    }
+
     String login(Member member) {
         final String sessionId = GithubAcceptanceTest.createAccessTokenCookie();
 

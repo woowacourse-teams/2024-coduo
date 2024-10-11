@@ -47,4 +47,13 @@ public class MemberService {
         return memberRepository.findByUserId(userId)
                 .orElseThrow(() -> new MemberNotFoundException(String.format("%s는 찾을 수 없는 회원 아이디입니다.", userId)));
     }
+
+    @Transactional
+    public void deleteMember(final String token) {
+        final String userId = jwtProvider.extractSubject(token);
+        final Member member = memberRepository.findByUserId(userId)
+                .orElseThrow(() -> new MemberNotFoundException(String.format("%s는 찾을 수 없는 회원 아이디입니다.", userId)));
+
+        memberRepository.delete(member);
+    }
 }
