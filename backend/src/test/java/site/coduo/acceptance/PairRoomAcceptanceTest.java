@@ -155,4 +155,24 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
 
         assertThat(response.exists()).isFalse();
     }
+
+    @Test
+    @DisplayName("페어룸을 삭제한다.")
+    void delete_pair_room() {
+        // given
+        final PairRoomCreateResponse accessCode =
+                createPairRoom(new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "IN_PROGRESS"));
+
+        // when & then
+        RestAssured
+                .given()
+                .log()
+                .all()
+
+                .when()
+                .delete("/api/pair-room/{access-code}", accessCode.accessCode())
+
+                .then()
+                .statusCode(204);
+    }
 }
