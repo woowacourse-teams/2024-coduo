@@ -16,6 +16,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
+import site.coduo.pairroom.domain.MissionUrl;
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
@@ -43,16 +44,24 @@ public class PairRoomEntity extends BaseTimeEntity {
     @Column(name = "DRIVER", nullable = false)
     private String driver;
 
+    @Column(name = "MISSION_URL", nullable = false)
+    private String missionUrl;
+
     @Column(name = "ACCESS_CODE", nullable = false, unique = true)
     private String accessCode;
 
     @Builder
-    private PairRoomEntity(final Long id, final PairRoomStatus status, final String navigator, final String driver,
+    private PairRoomEntity(final Long id,
+                           final PairRoomStatus status,
+                           final String navigator,
+                           final String driver,
+                           final String missionUrl,
                            final String accessCode) {
         this.id = id;
         this.status = status;
         this.navigator = navigator;
         this.driver = driver;
+        this.missionUrl = missionUrl;
         this.accessCode = accessCode;
     }
 
@@ -62,6 +71,7 @@ public class PairRoomEntity extends BaseTimeEntity {
                 pairRoom.getStatus(),
                 pairRoom.getNavigatorName(),
                 pairRoom.getDriverName(),
+                pairRoom.getMissionUrl(),
                 pairRoom.getAccessCodeText()
         );
     }
@@ -70,6 +80,7 @@ public class PairRoomEntity extends BaseTimeEntity {
         return new PairRoom(
                 status,
                 new Pair(new PairName(navigator), new PairName(driver)),
+                new MissionUrl(missionUrl),
                 new AccessCode(accessCode)
         );
     }
@@ -104,11 +115,12 @@ public class PairRoomEntity extends BaseTimeEntity {
     @Override
     public String toString() {
         return "PairRoomEntity{" +
-               "id=" + id +
-               ", status=" + status +
-               ", navigator='" + navigator + '\'' +
-               ", driver='" + driver + '\'' +
-               ", accessCode='" + accessCode + '\'' +
-               '}';
+                "id=" + id +
+                ", status=" + status +
+                ", navigator='" + navigator + '\'' +
+                ", driver='" + driver + '\'' +
+                ", missionUrl='" + missionUrl + '\'' +
+                ", accessCode='" + accessCode + '\'' +
+                '}';
     }
 }

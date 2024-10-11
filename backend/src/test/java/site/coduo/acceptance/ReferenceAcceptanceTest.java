@@ -28,7 +28,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
         // given
         final PairRoomCreateResponse pairRoom =
                 createPairRoom(new PairRoomCreateRequest("레모네", "프람", 10000L, 10000L,
-                        "IN_PROGRESS"));
+                        "https://missionUrl.xxx", "IN_PROGRESS"));
         final CategoryCreateResponse category = CategoryAcceptanceTest.createCategory(
                 pairRoom.accessCode(), new CategoryCreateRequest("타입스크립트"));
 
@@ -56,7 +56,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
         // given
         final PairRoomCreateResponse pairRoom =
                 createPairRoom(new PairRoomCreateRequest("레모네", "프람", 10000L, 10000L,
-                        "IN_PROGRESS"));
+                        "https://missionUrl.xxx", "IN_PROGRESS"));
         createReferenceLink("http://www.some1.url", pairRoom.accessCode(), "카테고리1");
         createReferenceLink("http://www.some2.url", pairRoom.accessCode(), "카테고리2");
 
@@ -79,7 +79,8 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
     void read_reference_link_without_open_graph() {
         // given
         final PairRoomCreateResponse pairRoom =
-                createPairRoom(new PairRoomCreateRequest("잉크", "해시", 1000L, 100L, "IN_PROGRESS"));
+                createPairRoom(
+                        new PairRoomCreateRequest("잉크", "해시", 1000L, 100L, "https://missionUrl.xxx", "IN_PROGRESS"));
         final String expectedUrl = "http://www.deleasfsdte.com";
         createReferenceLink(expectedUrl, pairRoom.accessCode(), "카테고리");
 

@@ -12,6 +12,7 @@ public class PairRoom {
 
     private final PairRoomStatus status;
     private final Pair pair;
+    private final MissionUrl missionUrl;
     private final AccessCode accessCode;
 
     public String getAccessCodeText() {
@@ -26,22 +27,25 @@ public class PairRoom {
         return pair.getDriverName();
     }
 
+    public String getMissionUrl() {
+        return missionUrl.getValue();
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof final PairRoom pairRoom)) {
             return false;
         }
-        final PairRoom pairRoom = (PairRoom) o;
         return status == pairRoom.status && Objects.equals(pair, pairRoom.pair) && Objects.equals(
-                accessCode, pairRoom.accessCode);
+                missionUrl, pairRoom.missionUrl) && Objects.equals(accessCode, pairRoom.accessCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(status, pair, accessCode);
+        return Objects.hash(status, pair, missionUrl, accessCode);
     }
 
     @Override
@@ -49,6 +53,7 @@ public class PairRoom {
         return "PairRoom{" +
                 "status=" + status +
                 ", pair=" + pair +
+                ", missionUrl=" + missionUrl +
                 ", accessCode=" + accessCode +
                 '}';
     }

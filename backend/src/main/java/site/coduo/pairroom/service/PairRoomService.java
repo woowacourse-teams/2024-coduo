@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.coduo.member.domain.Member;
 import site.coduo.member.service.MemberService;
+import site.coduo.pairroom.domain.MissionUrl;
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
@@ -63,7 +64,8 @@ public class PairRoomService {
         final AccessCode accessCode = generateAccessCode();
         final PairRoomStatus status = PairRoomStatus.findByName(request.status());
         final Pair pair = new Pair(new PairName(request.navigator()), new PairName(request.driver()));
-        return new PairRoom(status, pair, accessCode);
+        final MissionUrl missionUrl = new MissionUrl(request.missionUrl());
+        return new PairRoom(status, pair, missionUrl, accessCode);
     }
 
     private AccessCode generateAccessCode() {

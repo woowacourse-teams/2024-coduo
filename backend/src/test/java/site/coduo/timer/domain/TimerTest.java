@@ -7,6 +7,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import site.coduo.pairroom.domain.MissionUrl;
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
@@ -74,6 +75,7 @@ class TimerTest {
         return new PairRoom(
                 PairRoomStatus.IN_PROGRESS,
                 new Pair(new PairName(navigator), new PairName(driver)),
+                new MissionUrl("https://missionUrl.xxx"),
                 new AccessCode("123456")
         );
     }
