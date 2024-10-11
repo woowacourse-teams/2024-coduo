@@ -187,7 +187,7 @@ class PairRoomServiceTest {
         pairRoomService.savePairRoom(pairRoomCreateRequest, null);
 
         final PairRoomCreateRequest deletePairRoomCreateRequest = new PairRoomCreateRequest("레디", "잉크", 1, 1,
-                "DELETE");
+                PairRoomStatus.DELETED.name());
         pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getAccessToken());
         pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getAccessToken());
         pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getAccessToken());
