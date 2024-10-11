@@ -161,7 +161,8 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     void delete_pair_room() {
         // given
         final PairRoomCreateResponse accessCode =
-                createPairRoom(new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "IN_PROGRESS"));
+                createPairRoom(
+                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx", "IN_PROGRESS"));
 
         // when & then
         RestAssured

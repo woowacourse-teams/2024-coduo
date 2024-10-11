@@ -55,6 +55,7 @@ class PairRoomEntityTest {
         final PairRoomEntity sut = PairRoomEntity.from(
                 new PairRoom(PairRoomStatus.DELETED,
                         new Pair(new PairName("navi"), new PairName("dri")),
+                        new MissionUrl("https://missionUrl.xxx"),
                         new AccessCode("access"))
         );
 
@@ -72,6 +73,7 @@ class PairRoomEntityTest {
         final PairRoomEntity sut = PairRoomEntity.from(
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("navi"), new PairName("dri")),
+                        new MissionUrl("https://missionUrl.xxx"),
                         new AccessCode("access"))
         );
 

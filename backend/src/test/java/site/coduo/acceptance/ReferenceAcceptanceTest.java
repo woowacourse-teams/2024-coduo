@@ -124,7 +124,8 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
     void delete_reference_link_request() {
         // given
         final PairRoomCreateResponse pairRoom =
-                createPairRoom(new PairRoomCreateRequest("레모네", "프람", 1000L, 1000L, "IN_PROGRESS"));
+                createPairRoom(
+                        new PairRoomCreateRequest("레모네", "프람", 1000L, 1000L, "https://missionUrl.xxx", "IN_PROGRESS"));
 
         final ReferenceLinkResponse response = createReferenceLink("http://www.delete.com", pairRoom.accessCode(),
                 "카테고리 이름");
