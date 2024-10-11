@@ -103,4 +103,13 @@ public class PairRoomService {
                 .map(PairRoomMemberResponse::from)
                 .toList();
     }
+
+    public List<PairRoomMemberResponse> findLimit() {
+        final List<PairRoomMemberEntity> pairRooms = pairRoomMemberRepository.findAll();
+
+        return pairRooms.stream()
+                .map(PairRoomMemberEntity::getPairRoom)
+                .map(PairRoomMemberResponse::from)
+                .toList();
+    }
 }
