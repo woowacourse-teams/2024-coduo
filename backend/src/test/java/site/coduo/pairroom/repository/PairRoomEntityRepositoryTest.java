@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import site.coduo.pairroom.domain.MissionUrl;
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
@@ -28,9 +29,9 @@ class PairRoomEntityRepositoryTest {
     void search_persistence_by_access_code_exists_case() {
         // given
         final Pair pair = new Pair(new PairName("hello"), new PairName("world"));
-        final PairRoom pairRoom = new PairRoom(PairRoomStatus.IN_PROGRESS, pair, new AccessCode("code"));
-        final PairRoomEntity entity = PairRoomEntity.from(
-                pairRoom);
+        final MissionUrl missionUrl = new MissionUrl("https://missionUrl.xxx");
+        final PairRoom pairRoom = new PairRoom(PairRoomStatus.IN_PROGRESS, pair, missionUrl, new AccessCode("code"));
+        final PairRoomEntity entity = PairRoomEntity.from(pairRoom);
         pairRoomRepository.save(entity);
 
         // when
@@ -46,7 +47,8 @@ class PairRoomEntityRepositoryTest {
     void search_persistence_by_access_code_not_exists_case() {
         // given
         final Pair pair = new Pair(new PairName("hello"), new PairName("world"));
-        final PairRoom pairRoom = new PairRoom(PairRoomStatus.IN_PROGRESS, pair, new AccessCode("code"));
+        final MissionUrl missionUrl = new MissionUrl("https://missionUrl.xxx");
+        final PairRoom pairRoom = new PairRoom(PairRoomStatus.IN_PROGRESS, pair, missionUrl, new AccessCode("code"));
 
         // when
         final Optional<PairRoomEntity> persistence = pairRoomRepository.findByAccessCode(
@@ -62,7 +64,8 @@ class PairRoomEntityRepositoryTest {
         // given
         final Pair pair = new Pair(new PairName("hello"), new PairName("world"));
         final AccessCode code = new AccessCode("code");
-        final PairRoom pairRoom = new PairRoom(PairRoomStatus.IN_PROGRESS, pair, code);
+        final MissionUrl missionUrl = new MissionUrl("https://missionUrl.xxx");
+        final PairRoom pairRoom = new PairRoom(PairRoomStatus.IN_PROGRESS, pair, missionUrl, code);
         pairRoomRepository.save(PairRoomEntity.from(pairRoom));
 
         // when

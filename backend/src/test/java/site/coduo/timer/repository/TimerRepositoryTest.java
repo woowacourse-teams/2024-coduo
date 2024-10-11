@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import site.coduo.pairroom.domain.MissionUrl;
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
@@ -41,6 +42,7 @@ class TimerRepositoryTest {
         final PairRoom pairRoom = new PairRoom(
                 PairRoomStatus.IN_PROGRESS,
                 new Pair(new PairName("레머네"), new PairName("프람")),
+                new MissionUrl("https://missionUrl.xxx"),
                 new AccessCode("hello1")
         );
         final PairRoomEntity entity = site.coduo.pairroom.repository.PairRoomEntity.from(

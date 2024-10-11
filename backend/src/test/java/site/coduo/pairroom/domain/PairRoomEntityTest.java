@@ -21,9 +21,10 @@ class PairRoomEntityTest {
         final String secondName = "second";
         final Pair pair = new Pair(new PairName(firstName), new PairName(secondName));
         final PairRoomStatus pairRoomStatus = PairRoomStatus.IN_PROGRESS;
+        final MissionUrl missionUrl = new MissionUrl("https://missionUrl.xxx");
 
         // when & then
-        assertThatCode(() -> new PairRoom(pairRoomStatus, pair, ACCESS_CODE))
+        assertThatCode(() -> new PairRoom(pairRoomStatus, pair, missionUrl, ACCESS_CODE))
                 .doesNotThrowAnyException();
     }
 
@@ -34,6 +35,7 @@ class PairRoomEntityTest {
         final PairRoomEntity sut = PairRoomEntity.from(
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("navi"), new PairName("dri")),
+                        new MissionUrl("https://missionUrl.xxx"),
                         new AccessCode("access"))
         );
 
@@ -53,6 +55,7 @@ class PairRoomEntityTest {
         final PairRoomEntity sut = PairRoomEntity.from(
                 new PairRoom(PairRoomStatus.DELETED,
                         new Pair(new PairName("navi"), new PairName("dri")),
+                        new MissionUrl("https://missionUrl.xxx"),
                         new AccessCode("access"))
         );
 
@@ -70,6 +73,7 @@ class PairRoomEntityTest {
         final PairRoomEntity sut = PairRoomEntity.from(
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("navi"), new PairName("dri")),
+                        new MissionUrl("https://missionUrl.xxx"),
                         new AccessCode("access"))
         );
 

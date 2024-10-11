@@ -29,7 +29,7 @@ class SseAcceptanceTest extends AcceptanceFixture {
     void create_sse_connection() {
         // given
         final PairRoomCreateRequest request = new PairRoomCreateRequest("프람", "레모네", 10000L,
-                10000L, PairRoomStatus.IN_PROGRESS.name());
+                10000L, "https://missionUrl.xxx", PairRoomStatus.IN_PROGRESS.name());
         final String accessCode = createPairRoom(request).accessCode();
 
         // when & then
@@ -54,6 +54,7 @@ class SseAcceptanceTest extends AcceptanceFixture {
                 "잉크",
                 1000L,
                 1000L,
+                "https://missionUrl.xxx",
                 PairRoomStatus.IN_PROGRESS.name()
         );
         final String accessCode = createPairRoom(request).accessCode();
