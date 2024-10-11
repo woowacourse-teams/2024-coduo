@@ -85,7 +85,7 @@ public class PairRoomEntity extends BaseTimeEntity {
     }
 
     public boolean isDelete() {
-        return status == PairRoomStatus.DELETE;
+        return status == PairRoomStatus.DELETED;
     }
 
     @Override
@@ -108,11 +108,11 @@ public class PairRoomEntity extends BaseTimeEntity {
     @Override
     public String toString() {
         return "PairRoomEntity{" +
-               "id=" + id +
-               ", status=" + status +
-               ", navigator='" + navigator + '\'' +
-               ", driver='" + driver + '\'' +
-               ", accessCode='" + accessCode + '\'' +
-               '}';
+                "id=" + id +
+                ", status=" + status +
+                ", navigator='" + navigator + '\'' +
+                ", driver='" + driver + '\'' +
+                ", accessCode='" + accessCode + '\'' +
+                '}';
     }
 }

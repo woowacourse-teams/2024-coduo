@@ -57,7 +57,7 @@ public class PairRoomService {
     }
 
     public boolean existsByAccessCode(final String accessCode) {
-        return pairRoomRepository.existsByAccessCodeAndStatusNot(accessCode, PairRoomStatus.DELETE);
+        return pairRoomRepository.existsByAccessCodeAndStatusNot(accessCode, PairRoomStatus.DELETED);
     }
 
     private PairRoom createPairRoom(final PairRoomCreateRequest request) {
@@ -121,6 +121,6 @@ public class PairRoomService {
     public void deletePairRoom(final String accessCode) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
         checkDeletePairRoom(pairRoomEntity);
-        pairRoomEntity.updateStatus(PairRoomStatus.DELETE);
+        pairRoomEntity.updateStatus(PairRoomStatus.DELETED);
     }
 }

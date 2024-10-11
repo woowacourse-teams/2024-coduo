@@ -51,7 +51,7 @@ class PairRoomEntityTest {
     void pairRoomEntityStatusIsDelete() {
         // Given
         final PairRoomEntity sut = PairRoomEntity.from(
-                new PairRoom(PairRoomStatus.DELETE,
+                new PairRoom(PairRoomStatus.DELETED,
                         new Pair(new PairName("navi"), new PairName("dri")),
                         new AccessCode("access"))
         );

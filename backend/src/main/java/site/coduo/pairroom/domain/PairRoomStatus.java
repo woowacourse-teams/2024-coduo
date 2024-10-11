@@ -13,7 +13,7 @@ public enum PairRoomStatus {
 
     IN_PROGRESS,
     COMPLETED,
-    DELETE;
+    DELETED;
 
     private static final Map<String, PairRoomStatus> STATUS = Arrays.stream(values())
             .collect(Collectors.toMap(PairRoomStatus::name, Function.identity()));
