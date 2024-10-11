@@ -23,7 +23,9 @@ public class SseController implements SseDocs {
     public ResponseEntity<SseEmitter> createConnection(@PathVariable("key") final String key) {
         final SseEmitter sseEmitter = sseService.connect(key);
 
-        return ResponseEntity.ok(sseEmitter);
+        return ResponseEntity.ok()
+                .header("X-Accel-Buffering", "no")
+                .body(sseEmitter);
     }
 
     @DeleteMapping("/{key}/connect")
