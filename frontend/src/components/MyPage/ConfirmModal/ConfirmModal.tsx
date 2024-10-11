@@ -5,10 +5,11 @@ import * as S from './ConfirmModal.styles';
 
 interface ConfirmModalProps {
   isOpen: boolean;
+  onConfirm: () => void;
   close: () => void;
 }
 
-const ConfirmModal = ({ isOpen, close }: ConfirmModalProps) => {
+const ConfirmModal = ({ isOpen, onConfirm, close }: ConfirmModalProps) => {
   return (
     <Modal isOpen={isOpen} close={close} size="sm">
       <Modal.CloseButton close={close} />
@@ -17,8 +18,12 @@ const ConfirmModal = ({ isOpen, close }: ConfirmModalProps) => {
         해당 작업은 다시 복구할 수 없습니다.
       </S.Container>
       <Modal.Footer position="CENTER">
-        <Button css={S.confirmButtonStyles}>확인</Button>
-        <Button css={S.cancelButtonStyles}>취소</Button>
+        <Button css={S.confirmButtonStyles} onClick={onConfirm}>
+          확인
+        </Button>
+        <Button css={S.cancelButtonStyles} onClick={close}>
+          취소
+        </Button>
       </Modal.Footer>
     </Modal>
   );
