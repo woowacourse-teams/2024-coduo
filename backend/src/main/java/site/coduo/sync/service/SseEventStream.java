@@ -60,8 +60,7 @@ public class SseEventStream implements EventStream {
                     .name(name)
                     .data(message)
             );
-        } catch (final IOException e) {
-            log.warn("SSE 통신 중 에러가 발생했습니다.");
+        } catch (final IOException ignored) {
         }
     }
 
