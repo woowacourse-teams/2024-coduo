@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -91,5 +92,11 @@ public class PairRoomController implements PairRoomDocs {
                 pairRoomService.existsByAccessCode(accessCode));
 
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/pair-room/{accessCode}")
+    public ResponseEntity<Void> deletePairRoom(@PathVariable("accessCode") final String accessCode) {
+        pairRoomService.deletePairRoom(accessCode);
+        return ResponseEntity.noContent().build();
     }
 }
