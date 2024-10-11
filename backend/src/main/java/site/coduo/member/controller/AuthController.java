@@ -58,7 +58,7 @@ public class AuthController implements AuthControllerDocs {
             @CookieValue(name = TEMPORARY_ACCESS_TOKEN_COOKIE_NAME) final String encryptedAccessToken
     ) {
         final SignInServiceResponse serviceResponse = authService.createSignInToken(encryptedAccessToken);
-        final ResponseCookie signInCookie = new SignInCookie(serviceResponse.token()).generate(PRODUCT_DOMAIN);
+        final ResponseCookie signInCookie = new SignInCookie(serviceResponse.token()).generate("localhost");
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, signInCookie.toString())

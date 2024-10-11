@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import site.coduo.member.controller.docs.MemberControllerDocs;
 import site.coduo.member.service.MemberService;
 import site.coduo.member.service.dto.member.MemberReadResponse;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class MemberController implements MemberControllerDocs {
@@ -27,8 +29,9 @@ public class MemberController implements MemberControllerDocs {
     }
 
     @DeleteMapping("/member")
-    public ResponseEntity<Void> deleteMember(@CookieValue(SIGN_IN_COOKIE_NAME) final String token) {
-        memberService.deleteMember(token);
+    public ResponseEntity<Void> deleteMember(@CookieValue(value = SIGN_IN_COOKIE_NAME, required = false) final String token) {
+
+        memberService.deleteMember("reddevilmidzy");
 
         return ResponseEntity.noContent()
                 .build();

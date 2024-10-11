@@ -48,8 +48,7 @@ public class MemberService {
 
     @Transactional
     public void deleteMember(final String token) {
-        final String userId = jwtProvider.extractSubject(token);
-        final Member member = memberRepository.fetchByUserId(userId);
+        final Member member = memberRepository.fetchByUserId(token);
 
         member.delete();
     }
