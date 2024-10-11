@@ -76,20 +76,4 @@ class MemberAcceptanceTest extends AcceptanceFixture {
                 .then()
                 .statusCode(HttpStatus.SC_NO_CONTENT);
     }
-
-    String login(Member member) {
-        final String sessionId = GithubAcceptanceTest.createAccessTokenCookie();
-
-        memberRepository.save(member);
-
-        return RestAssured
-                .given()
-                .cookie("JSESSIONID", sessionId)
-
-                .when()
-                .get("/api/sign-in/callback")
-
-                .thenReturn()
-                .cookie("coudo_whoami");
-    }
 }
