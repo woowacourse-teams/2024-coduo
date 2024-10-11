@@ -13,7 +13,7 @@ import site.coduo.common.config.web.filter.SignInCookieFilter;
 import site.coduo.member.infrastructure.security.JwtProvider;
 
 @RequiredArgsConstructor
-@Configuration
+//@Configuration
 public class FilterConfig {
 
     @Bean

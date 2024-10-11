@@ -105,7 +105,7 @@ public class PairRoomService {
     }
 
     public List<PairRoomMemberResponse> findLimit() {
-        final List<PairRoomMemberEntity> pairRooms = pairRoomMemberRepository.findAll();
+        final List<PairRoomMemberEntity> pairRooms = pairRoomMemberRepository.findLimit10();
 
         return pairRooms.stream()
                 .map(PairRoomMemberEntity::getPairRoom)
