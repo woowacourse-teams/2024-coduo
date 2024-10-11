@@ -81,7 +81,6 @@ class PairRoomServiceTest {
 
 
     @Test
-    @Transactional
     @DisplayName("존재하지 않는 페어룸 접근 코드를 찾으면 예외가 발생한다.")
     void throw_exception_when_find_not_exist_access_code() {
         // given
@@ -93,7 +92,6 @@ class PairRoomServiceTest {
     }
 
     @Test
-    @Transactional
     @DisplayName("삭제된 페어룸의 접근 코드를 찾으면 예외가 발생한다.")
     void throw_exception_when_find_delete_pair_room_access_code() {
         // given
