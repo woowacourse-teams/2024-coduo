@@ -21,6 +21,13 @@ export const getMember = async (): Promise<{ username: string }> => {
   return response.json();
 };
 
+export const deleteMember = async () => {
+  await fetcher.delete({
+    url: `${API_URL}/member`,
+    errorMessage: ERROR_MESSAGES.GET_MEMBER,
+  });
+};
+
 interface GetMyPairRoomsResponse {
   id: number;
   status: PairRoomStatus;
