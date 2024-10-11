@@ -75,9 +75,9 @@ public class PairRoomController implements PairRoomDocs {
 
     @GetMapping("/my-pair-rooms")
     public ResponseEntity<List<PairRoomMemberResponse>> getPairRooms(
-            @CookieValue(value = SIGN_IN_COOKIE_NAME, required = false) final String token
+            @CookieValue(value = SIGN_IN_COOKIE_NAME, required = false  ) final String token
     ) {
-        final List<PairRoomMemberResponse> pairRooms = pairRoomService.findPairRooms(token);
+        final List<PairRoomMemberResponse> pairRooms = pairRoomService.findLimit();
 
         return ResponseEntity.ok()
                 .body(pairRooms);
