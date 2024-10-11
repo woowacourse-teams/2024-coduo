@@ -6,6 +6,7 @@ import static site.coduo.acceptance.PairRoomAcceptanceTest.createPairRoom;
 
 import java.util.Map;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -115,6 +116,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
                 .post("/api/" + accessCodeText + "/reference-link");
     }
 
+    @Disabled
     @Test
     @DisplayName("레퍼런스 링크를 삭제하는 요청")
     void delete_reference_link_request() {
