@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
 
@@ -22,4 +23,6 @@ public interface PairRoomRepository extends JpaRepository<PairRoomEntity, Long> 
     }
 
     boolean existsByAccessCode(String generatedAccessCode);
+
+    boolean existsByAccessCodeAndStatusNot(String accessCode, PairRoomStatus status);
 }
