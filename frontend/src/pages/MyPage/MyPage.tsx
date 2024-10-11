@@ -1,6 +1,7 @@
 import { IoIosArrowForward } from 'react-icons/io';
 
 import Spinner from '@/components/common/Spinner/Spinner';
+import ConfirmModal from '@/components/MyPage/ConfirmModal/ConfirmModal';
 import PairRoomButton from '@/components/MyPage/PairRoomButton/PairRoomButton';
 
 import useUserStore from '@/stores/userStore';
@@ -51,6 +52,7 @@ const MyPage = () => {
           <IoIosArrowForward size="1.5rem" />
         </S.LeaveButton>
       </S.Container>
+      <ConfirmModal isOpen={true} close={() => {}} />
     </S.Layout>
   );
 };
