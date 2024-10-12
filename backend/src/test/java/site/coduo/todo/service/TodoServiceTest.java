@@ -45,6 +45,19 @@ class TodoServiceTest {
     @Autowired
     private TodoService todoService;
 
+    private static Stream<Arguments> destinationSortAndExpectOrder() {
+        return Stream.of(
+                Arguments.of(0, List.of("content4!", "content1!", "content2!", "content3!", "content5!", "content6!",
+                        "content7!")),
+                Arguments.of(6, List.of("content1!", "content2!", "content3!", "content5!", "content6!", "content7!",
+                        "content4!")),
+                Arguments.of(1, List.of("content1!", "content4!", "content2!", "content3!", "content5!", "content6!",
+                        "content7!")),
+                Arguments.of(5, List.of("content1!", "content2!", "content3!", "content5!", "content6!", "content4!",
+                        "content7!"))
+        );
+    }
+
     @AfterEach
     void clean() {
         todoRepository.deleteAll();
@@ -56,7 +69,7 @@ class TodoServiceTest {
     void createTodo() {
         // Given
         final String accessCode = pairRoomService.savePairRoom(
-                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"), null);
+                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "https://missionUrl.xxx", "IN_PROGRESS"), null);
         final String content = "content!";
 
         // When
@@ -77,7 +90,8 @@ class TodoServiceTest {
     @Test
     void createPairRoomWithNotFoundPairRoomId() {
         // Given
-        pairRoomService.savePairRoom(new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"), null);
+        pairRoomService.savePairRoom(
+                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "https://missionUrl.xxx", "IN_PROGRESS"), null);
         final String content = "content!";
 
         // When & Then
@@ -91,7 +105,7 @@ class TodoServiceTest {
     void updateTodoContent() {
         // Given
         final String accessCode = pairRoomService.savePairRoom(
-                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"), null);
+                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "https://missionUrl.xxx", "IN_PROGRESS"), null);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final String content = "content!";
@@ -119,7 +133,7 @@ class TodoServiceTest {
     void updateTodoContentWithNotFoundTodoId() {
         // Given
         final String accessCode = pairRoomService.savePairRoom(
-                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"), null);
+                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "https://missionUrl.xxx", "IN_PROGRESS"), null);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final String content = "content!";
@@ -143,7 +157,7 @@ class TodoServiceTest {
     void toggleTodoChecked() {
         // Given
         final String accessCode = pairRoomService.savePairRoom(
-                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"), null);
+                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "https://missionUrl.xxx", "IN_PROGRESS"), null);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final String content = "content!";
@@ -169,7 +183,7 @@ class TodoServiceTest {
     void toggleTodoCheckedWithNotFoundTodoId() {
         // Given
         final String accessCode = pairRoomService.savePairRoom(
-                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"), null);
+                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "https://missionUrl.xxx", "IN_PROGRESS"), null);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final String content = "content!";
@@ -192,7 +206,7 @@ class TodoServiceTest {
     void deleteTodo() {
         // Given
         final String accessCode = pairRoomService.savePairRoom(
-                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"), null);
+                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "https://missionUrl.xxx", "IN_PROGRESS"), null);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final String content = "content!";
@@ -219,7 +233,7 @@ class TodoServiceTest {
     void getAll() {
         // Given
         final String accessCode = pairRoomService.savePairRoom(
-                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"), null);
+                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "https://missionUrl.xxx", "IN_PROGRESS"), null);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final List<Todo> todos = List.of(
@@ -256,7 +270,7 @@ class TodoServiceTest {
     void getAllOrderBySortWithNotExistPairRoomId() {
         // Given
         final String accessCode = pairRoomService.savePairRoom(
-                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"), null);
+                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "https://missionUrl.xxx", "IN_PROGRESS"), null);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final List<Todo> todos = List.of(
@@ -284,7 +298,7 @@ class TodoServiceTest {
     void updateTodoSort(final int destinationSort, final List<String> expect) {
         // Given
         final String accessCode = pairRoomService.savePairRoom(
-                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"), null);
+                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "https://missionUrl.xxx", "IN_PROGRESS"), null);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final List<Todo> todos = List.of(
@@ -316,25 +330,12 @@ class TodoServiceTest {
         assertThat(orders).isEqualTo(expect);
     }
 
-    private static Stream<Arguments> destinationSortAndExpectOrder() {
-        return Stream.of(
-                Arguments.of(0, List.of("content4!", "content1!", "content2!", "content3!", "content5!", "content6!",
-                        "content7!")),
-                Arguments.of(6, List.of("content1!", "content2!", "content3!", "content5!", "content6!", "content7!",
-                        "content4!")),
-                Arguments.of(1, List.of("content1!", "content4!", "content2!", "content3!", "content5!", "content6!",
-                        "content7!")),
-                Arguments.of(5, List.of("content1!", "content2!", "content3!", "content5!", "content6!", "content4!",
-                        "content7!"))
-        );
-    }
-
     @DisplayName("존재하지 않은 페어룸 아이디와 함께 투두 순서 변경 요청을 하면 예외를 발생시킨다.")
     @Test
     void updateTodoSortWithNotExistPairRoomId() {
         // Given
         final String accessCode = pairRoomService.savePairRoom(
-                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "IN_PROGRESS"), null);
+                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "https://missionUrl.xxx", "IN_PROGRESS"), null);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final List<Todo> todos = List.of(
