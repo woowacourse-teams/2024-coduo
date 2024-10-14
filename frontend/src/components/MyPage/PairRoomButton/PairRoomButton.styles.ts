@@ -1,4 +1,4 @@
-import { Link as RouterLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { FaTrashAlt } from 'react-icons/fa';
 import styled, { keyframes, css } from 'styled-components';
@@ -42,7 +42,7 @@ export const Layout = styled.div`
   width: 100%;
 `;
 
-export const Link = styled(RouterLink)`
+export const LinkWrapper = styled(Link)`
   width: 100%;
 `;
 

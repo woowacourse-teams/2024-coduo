@@ -31,7 +31,7 @@ const PairRoomButton = ({ driver, navigator, status, accessCode }: PairRoomButto
 
   return (
     <S.Layout>
-      <S.Link to={`/room/${accessCode}`}>
+      <S.LinkWrapper to={`/room/${accessCode}`}>
         <S.PairRoomButton $status={status}>
           <S.RoleTextContainer>
             <S.RoleText $status={status}>
@@ -49,7 +49,7 @@ const PairRoomButton = ({ driver, navigator, status, accessCode }: PairRoomButto
             <IoIosArrowForward size="1.8rem" />
           </S.ConnectText>
         </S.PairRoomButton>
-      </S.Link>
+      </S.LinkWrapper>
       <S.DeleteButton onClick={handleOpenDeleteModal} />
       <PairRoomDeleteModal
         isOpen={isDeleteModalOpen}
