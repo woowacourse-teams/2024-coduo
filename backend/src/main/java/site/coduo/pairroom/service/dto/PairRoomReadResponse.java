@@ -19,7 +19,10 @@ public record PairRoomReadResponse(
         long duration,
 
         @Schema(description = "타이머 남은 시간 (millisecond 기준)", example = "5000")
-        long remainingTime
+        long remainingTime,
+
+        @Schema(description = "미션 리포지토리 링크", example = "https://github.com/coduo-missions/coduo-javascript-rps")
+        String missionUrl
 ) {
 
     public static PairRoomReadResponse of(final PairRoom pairRoom, final Timer timer) {
@@ -28,7 +31,8 @@ public record PairRoomReadResponse(
                 pairRoom.getDriverName(),
                 pairRoom.getStatus().name(),
                 timer.getDuration(),
-                timer.getRemainingTime()
+                timer.getRemainingTime(),
+                pairRoom.getMissionUrl()
         );
     }
 }

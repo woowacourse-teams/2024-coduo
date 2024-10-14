@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import site.coduo.member.domain.Member;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.infrastructure.security.JwtProvider;
+import site.coduo.pairroom.domain.MissionUrl;
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
@@ -53,7 +54,7 @@ class PairRoomServiceTest {
     void create_pair_room() {
         // given
         final PairRoomCreateRequest request =
-                new PairRoomCreateRequest("레디", "프람", 1000L, 100L,
+                new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx",
                         PairRoomStatus.IN_PROGRESS.name());
 
         // when
@@ -69,7 +70,7 @@ class PairRoomServiceTest {
     void create_timer_when_create_pair_room() {
         // given
         final PairRoomCreateRequest request =
-                new PairRoomCreateRequest("레디", "프람", 1000L, 100L,
+                new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx",
                         PairRoomStatus.IN_PROGRESS.name());
 
         // when
@@ -97,7 +98,7 @@ class PairRoomServiceTest {
         // given
         final PairRoomCreateRequest request =
                 new PairRoomCreateRequest("레디", "프람", 1000L, 100L,
-                        PairRoomStatus.DELETED.name());
+                        "https://missionUrl.xxx", PairRoomStatus.DELETED.name());
         final String accessCode = pairRoomService.savePairRoom(request, null);
 
         // when & then
@@ -110,7 +111,8 @@ class PairRoomServiceTest {
     void update_pair_room_status() {
         // given
         final PairRoomCreateRequest request =
-                new PairRoomCreateRequest("레디", "프람", 1000L, 100L, PairRoomStatus.IN_PROGRESS.name());
+                new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx",
+                        PairRoomStatus.IN_PROGRESS.name());
         final String accessCode = pairRoomService.savePairRoom(request, null);
 
         // when
@@ -126,7 +128,8 @@ class PairRoomServiceTest {
     void update_delete_pair_room_status() {
         // given
         final PairRoomCreateRequest request =
-                new PairRoomCreateRequest("레디", "프람", 1000L, 100L, PairRoomStatus.DELETED.name());
+                new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx",
+                        PairRoomStatus.DELETED.name());
         final String accessCode = pairRoomService.savePairRoom(request, null);
 
         // when & then
@@ -141,6 +144,7 @@ class PairRoomServiceTest {
         final PairRoomEntity entity = PairRoomEntity.from(
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("fram"), new PairName("lemonL")),
+                        new MissionUrl("https://missionUrl.xxx"),
                         new AccessCode("1234"))
         );
         pairRoomRepository.save(entity);
@@ -161,6 +165,7 @@ class PairRoomServiceTest {
         final PairRoomEntity entity = PairRoomEntity.from(
                 new PairRoom(PairRoomStatus.DELETED,
                         new Pair(new PairName("fram"), new PairName("lemonL")),
+                        new MissionUrl("https://missionUrl.xxx"),
                         new AccessCode("1234"))
         );
         pairRoomRepository.save(entity);
@@ -179,6 +184,7 @@ class PairRoomServiceTest {
         final Member memberB = createMember("test");
 
         final PairRoomCreateRequest pairRoomCreateRequest = new PairRoomCreateRequest("레디", "잉크", 1, 1,
+                "https://missionUrl.xxx",
                 "IN_PROGRESS");
 
         final String accessCodeA_1 = pairRoomService.savePairRoom(pairRoomCreateRequest, memberA.getAccessToken());
@@ -187,7 +193,7 @@ class PairRoomServiceTest {
         pairRoomService.savePairRoom(pairRoomCreateRequest, null);
 
         final PairRoomCreateRequest deletePairRoomCreateRequest = new PairRoomCreateRequest("레디", "잉크", 1, 1,
-                PairRoomStatus.DELETED.name());
+                "https://missionUrl.xxx", PairRoomStatus.DELETED.name());
         pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getAccessToken());
         pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getAccessToken());
         pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getAccessToken());
@@ -231,6 +237,7 @@ class PairRoomServiceTest {
         final PairRoomEntity pairRoomEntity = PairRoomEntity.from(
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
+                        new MissionUrl("https://missionUrl.xxx"),
                         new AccessCode("123456"))
         );
         final Timer timer = new Timer(
@@ -260,6 +267,7 @@ class PairRoomServiceTest {
         final PairRoomEntity pairRoomEntity = PairRoomEntity.from(
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("레모네")),
+                        new MissionUrl("https://missionUrl.xxx"),
                         accessCode
                 ));
         pairRoomRepository.save(pairRoomEntity);
