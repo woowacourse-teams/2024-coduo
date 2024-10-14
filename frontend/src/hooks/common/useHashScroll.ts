@@ -52,7 +52,15 @@ const useHashScroll = () => {
     if (location.hash) {
       const element = document.getElementById(currentHash);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        const headerHeight = 70;
+        const marginTop = 50;
+        const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+        const offsetPosition = elementPosition - headerHeight - marginTop;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth',
+        });
       }
     }
   }, [location, currentHash]);

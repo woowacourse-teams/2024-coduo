@@ -5,13 +5,18 @@ export const Layout = styled.div`
   justify-content: space-between;
   align-items: center;
 
+  position: fixed;
+  z-index: 99;
+
+  width: 100%;
   height: 7rem;
   padding: 0 5rem;
 
-  border-bottom: 0.1rem solid ${({ theme }) => theme.color.black[30]};
-
+  background-color: ${({ theme }) => theme.color.black[10]};
   color: ${({ theme }) => theme.color.black[80]};
   font-size: ${({ theme }) => theme.fontSize.base};
+
+  border-bottom: 0.1rem solid ${({ theme }) => theme.color.black[30]};
 
   a {
     display: flex;
@@ -47,7 +52,7 @@ export const Logo = styled.img`
 
 export const LinkContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   gap: 1.4rem;
 `;
