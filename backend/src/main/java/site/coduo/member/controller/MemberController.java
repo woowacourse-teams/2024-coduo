@@ -4,6 +4,7 @@ import static site.coduo.common.config.web.filter.SignInCookieFilter.SIGN_IN_COO
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,11 +20,17 @@ public class MemberController implements MemberControllerDocs {
     private final MemberService memberService;
 
     @GetMapping("/member")
-    public ResponseEntity<MemberReadResponse> getMember(
-            @CookieValue(SIGN_IN_COOKIE_NAME) final String token
-    ) {
+    public ResponseEntity<MemberReadResponse> getMember(@CookieValue(SIGN_IN_COOKIE_NAME) final String token) {
         final MemberReadResponse response = memberService.findMemberNameByCredential(token);
 
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/member")
+    public ResponseEntity<Void> deleteMember(@CookieValue(SIGN_IN_COOKIE_NAME) final String token) {
+        memberService.deleteMember(token);
+
+        return ResponseEntity.noContent()
+                .build();
     }
 }

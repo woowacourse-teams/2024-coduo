@@ -29,4 +29,14 @@ public interface MemberControllerDocs {
                     schema = @Schema(type = "string")
             )
             String token);
+
+    @ApiResponse(responseCode = "204", description = "회원 정보를 삭제한다.",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+    ResponseEntity<Void> deleteMember(
+            @Parameter(
+                    in = ParameterIn.COOKIE,
+                    name = "coduo_whoami",
+                    description = "사용자가 인증에 성공하면 서버에서 발급하는 쿠키",
+                    schema = @Schema(type = "string")
+            ) String token);
 }
