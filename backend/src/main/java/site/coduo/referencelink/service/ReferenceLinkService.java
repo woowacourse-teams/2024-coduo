@@ -68,13 +68,10 @@ public class ReferenceLinkService {
 
     @Transactional(readOnly = true)
     public List<ReferenceLinkResponse> readAllReferenceLink(final String accessCodeText) {
-        log.info("[Reference Link] 2. readAllReferenceLink 메서드 호출 시작!");
-        log.info("[Reference Link] 3. referenceLinkRepository.findAll() 호출 시작!");
         final PairRoomEntity pairRoom = pairRoomRepository.fetchByAccessCode(accessCodeText);
 
         final List<ReferenceLinkEntity> referenceLinkEntities = referenceLinkRepository.findByPairRoomEntity(pairRoom);
 
-        log.info("[Reference Link] 4. referenceLinkRepository.findAll() 반환 데이터 필터링 시작!!");
         return referenceLinkEntities.stream()
                 .map(this::makeReferenceLinkResponse)
                 .toList();
@@ -120,8 +117,11 @@ public class ReferenceLinkService {
         return new ReferenceLinkResponse(referenceLinkEntity, openGraph);
     }
 
-    public void deleteReferenceLink(final long id) {
-        openGraphService.deleteByReferenceLinkId(id);
-        referenceLinkRepository.deleteById(id);
+    public void deleteReferenceLink(final String accessCodeText, final long id) {
+        final ReferenceLinkEntity referenceLinkEntity = referenceLinkRepository.fetchById(id);
+        if (referenceLinkEntity.isSameAccessCode(new AccessCode(accessCodeText))) {
+            openGraphService.deleteByReferenceLink(referenceLinkEntity);
+            referenceLinkRepository.delete(referenceLinkEntity);
+        }
     }
 }

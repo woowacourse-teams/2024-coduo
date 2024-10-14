@@ -10,7 +10,6 @@ import site.coduo.member.client.dto.GithubUserRequest;
 import site.coduo.member.client.dto.GithubUserResponse;
 import site.coduo.member.domain.Member;
 import site.coduo.member.domain.repository.MemberRepository;
-import site.coduo.member.exception.MemberNotFoundException;
 import site.coduo.member.infrastructure.http.Bearer;
 import site.coduo.member.infrastructure.security.JwtProvider;
 import site.coduo.member.service.dto.member.MemberReadResponse;
@@ -26,7 +25,8 @@ public class MemberService {
     private final JwtProvider jwtProvider;
 
     @Transactional
-    public void createMember(final String username, final String accessToken) {
+    public void createMember(final String username, final String encryptedAccessToken) {
+        final String accessToken = jwtProvider.extractSubject(encryptedAccessToken);
         final Bearer bearer = new Bearer(accessToken);
         final GithubUserResponse userResponse = githubClient.getUser(new GithubUserRequest(bearer));
         final Member member = userResponse.toDomain(bearer, username);
@@ -35,15 +35,22 @@ public class MemberService {
 
     public MemberReadResponse findMemberNameByCredential(final String token) {
         final String userId = jwtProvider.extractSubject(token);
-        final Member member = memberRepository.findByUserId(userId)
-                .orElseThrow(() -> new MemberNotFoundException(String.format("%s는 찾을 수 없는 회원 아이디입니다.", userId)));
+        final Member member = memberRepository.fetchByUserId(userId);
 
         return new MemberReadResponse(member.getUsername());
     }
 
     public Member findMemberByCredential(final String token) {
         final String userId = jwtProvider.extractSubject(token);
-        return memberRepository.findByUserId(userId)
-                .orElseThrow(() -> new MemberNotFoundException(String.format("%s는 찾을 수 없는 회원 아이디입니다.", userId)));
+
+        return memberRepository.fetchByUserId(userId);
+    }
+
+    @Transactional
+    public void deleteMember(final String token) {
+        final String userId = jwtProvider.extractSubject(token);
+        final Member member = memberRepository.fetchByUserId(userId);
+
+        member.delete();
     }
 }

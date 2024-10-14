@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import DeleteButton from '@/components/PairRoom/PairListCard/DeleteButton/DeleteButton';
+// import DeleteButton from '@/components/PairRoom/PairListCard/DeleteButton/DeleteButton';
 import Header from '@/components/PairRoom/PairListCard/Header/Header';
 import PairListSection from '@/components/PairRoom/PairListCard/PairListSection/PairListSection';
 import RoomCodeSection from '@/components/PairRoom/PairListCard/RoomCodeSection/RoomCodeSection';
@@ -12,10 +12,10 @@ interface PairListCardProps {
   driver: string;
   navigator: string;
   roomCode: string;
-  onRoomDelete: () => void;
+  onRoomDelete?: () => void;
 }
 
-const PairListCard = ({ driver, navigator, roomCode, onRoomDelete }: PairListCardProps) => {
+const PairListCard = ({ driver, navigator, roomCode }: PairListCardProps) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const toggleOpen = () => setIsOpen(!isOpen);
@@ -27,7 +27,7 @@ const PairListCard = ({ driver, navigator, roomCode, onRoomDelete }: PairListCar
         <S.Sidebar>
           <RoomCodeSection isOpen={isOpen} roomCode={roomCode} />
           <PairListSection isOpen={isOpen} driver={driver} navigator={navigator} />
-          <DeleteButton isOpen={isOpen} onRoomDelete={onRoomDelete} />
+          {/* <DeleteButton isOpen={isOpen} onRoomDelete={onRoomDelete} /> */}
         </S.Sidebar>
       </PairRoomCard>
     </S.Layout>

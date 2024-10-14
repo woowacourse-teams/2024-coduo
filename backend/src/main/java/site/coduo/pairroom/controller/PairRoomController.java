@@ -9,11 +9,13 @@ import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ import site.coduo.pairroom.controller.docs.PairRoomDocs;
 import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
+import site.coduo.pairroom.service.dto.PairRoomExistResponse;
 import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
 import site.coduo.pairroom.service.dto.PairRoomReadRequest;
 import site.coduo.pairroom.service.dto.PairRoomReadResponse;
@@ -81,5 +84,19 @@ public class PairRoomController implements PairRoomDocs {
 
         return ResponseEntity.ok()
                 .body(pairRooms);
+    }
+
+    @GetMapping("/pair-room/exists")
+    public ResponseEntity<PairRoomExistResponse> pairRoomExists(@RequestParam("access_code") final String accessCode) {
+        final PairRoomExistResponse response = new PairRoomExistResponse(
+                pairRoomService.existsByAccessCode(accessCode));
+
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/pair-room/{accessCode}")
+    public ResponseEntity<Void> deletePairRoom(@PathVariable("accessCode") final String accessCode) {
+        pairRoomService.deletePairRoom(accessCode);
+        return ResponseEntity.noContent().build();
     }
 }

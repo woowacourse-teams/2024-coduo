@@ -37,25 +37,29 @@ const SignUp = () => {
     onUsernameChange(event, validateName(event.target.value));
   };
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    handleSignUp(username);
+  };
+
   return (
     <S.Layout>
       <S.LogoIconWithTitle src={LogoIconWithTitle} alt="logo_icon_with_title" />
-      <S.Title>첫 방문이시네요! 당신을 어떻게 불러야 할까요?</S.Title>
-      <S.InputWrapper>
+      <S.Form onSubmit={handleSubmit}>
+        <S.Title>첫 방문이시네요! 당신을 어떻게 불러야 할까요?</S.Title>
         <Input
           value={username}
           status={usernameStatus}
           message={usernameMessage}
+          width="50rem"
           title="이름(또는 닉네임)"
           placeholder="이름(또는 닉네임)을 입력해주세요."
           onChange={handleChange}
         />
-      </S.InputWrapper>
-      <S.ButtonWrapper>
-        <Button size="lg" rounded={true} onClick={() => handleSignUp(username)}>
+        <Button css={S.buttonStyles} type="submit" size="lg" disabled={validateName(username).status === 'ERROR'}>
           계정 만들기 🥳
         </Button>
-      </S.ButtonWrapper>
+      </S.Form>
     </S.Layout>
   );
 };
