@@ -37,7 +37,8 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     void show_pair_room() {
         //given
         final PairRoomCreateResponse pairRoomUrl =
-                createPairRoom(new PairRoomCreateRequest("레디", "프람", 10000L, 10000L, "IN_PROGRESS"));
+                createPairRoom(
+                        new PairRoomCreateRequest("레디", "프람", 10000L, 10000L, "https://missionUrl.xxx", "IN_PROGRESS"));
 
         //when & then
         RestAssured
@@ -60,7 +61,8 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     void update_pair_room_status() {
         //given
         final PairRoomCreateResponse accessCode =
-                createPairRoom(new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "IN_PROGRESS"));
+                createPairRoom(
+                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx", "IN_PROGRESS"));
         final Map<String, String> status = Map.of("status", PairRoomStatus.IN_PROGRESS.name());
 
         // when & then
@@ -85,7 +87,8 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     void update_driver_navigator() {
         // given
         final PairRoomCreateResponse accessCode =
-                createPairRoom(new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "IN_PROGRESS"));
+                createPairRoom(
+                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx", "IN_PROGRESS"));
 
         // when & then
         RestAssured
@@ -105,7 +108,8 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     void exist_pair_room_true() {
         //given
         final PairRoomCreateResponse accessCode =
-                createPairRoom(new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "IN_PROGRESS"));
+                createPairRoom(
+                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx", "IN_PROGRESS"));
 
         // when & then
         final PairRoomExistResponse response = RestAssured
@@ -150,5 +154,26 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .as(PairRoomExistResponse.class);
 
         assertThat(response.exists()).isFalse();
+    }
+
+    @Test
+    @DisplayName("페어룸을 삭제한다.")
+    void delete_pair_room() {
+        // given
+        final PairRoomCreateResponse accessCode =
+                createPairRoom(
+                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx", "IN_PROGRESS"));
+
+        // when & then
+        RestAssured
+                .given()
+                .log()
+                .all()
+
+                .when()
+                .delete("/api/pair-room/{access-code}", accessCode.accessCode())
+
+                .then()
+                .statusCode(204);
     }
 }

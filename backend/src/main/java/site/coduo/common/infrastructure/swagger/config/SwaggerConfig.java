@@ -9,6 +9,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
 
 @Configuration
 public class SwaggerConfig {
@@ -18,6 +19,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(apiInfo())
                 .components(securitySchemeComponents())
+                .addServersItem(serverItem())
                 .addSecurityItem(securityRequirement());
     }
 
@@ -37,6 +39,12 @@ public class SwaggerConfig {
                 .name(HttpHeaders.AUTHORIZATION);
 
         return new Components().addSecuritySchemes(HttpHeaders.AUTHORIZATION, bearerAuth);
+    }
+
+    private Server serverItem() {
+        return new Server()
+                .url("https://coduo.site")
+                .description("클라우드에 배포된 서버");
     }
 
     private SecurityRequirement securityRequirement() {

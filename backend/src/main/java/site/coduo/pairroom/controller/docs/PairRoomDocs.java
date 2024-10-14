@@ -35,7 +35,7 @@ public interface PairRoomDocs {
     @ApiResponse(responseCode = "201", description = "페어룸 저장 성공", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
             schema = @Schema(implementation = PairRoomCreateResponse.class)))
     ResponseEntity<PairRoomCreateResponse> createPairRoom(
-            @Parameter(description = "페어 프로그래밍에 참여하는 드라이버 이름, 내비게이터 이름, 타이머 시간, 타이머 남은 시간", required = true)
+            @Parameter(description = "페어 프로그래밍에 참여하는 드라이버 이름, 내비게이터 이름, 타이머 시간, 타이머 남은 시간, 미션 리포지토리 링크", required = true)
             PairRoomCreateRequest pairRoomCreateRequest,
             @Parameter(description = "로그인 유저 토큰")
             String token
@@ -74,4 +74,11 @@ public interface PairRoomDocs {
     @ApiResponse(responseCode = "200", description = "페어룸 존재 여부", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
             schema = @Schema(implementation = PairRoomExistResponse.class)))
     ResponseEntity<PairRoomExistResponse> pairRoomExists(String accessCode);
+  
+    @Operation(summary = "페어룸을 삭제한다.")
+    @ApiResponse(responseCode = "204", description = "페어룸 삭제 성공")
+    ResponseEntity<Void> deletePairRoom(
+            @Parameter(description = "페어룸 접근 코드", required = true)
+            String accessCode
+    );
 }

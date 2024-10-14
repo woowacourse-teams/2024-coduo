@@ -52,6 +52,7 @@ class TimerAcceptanceTest extends AcceptanceFixture {
                 "파란",
                 10000L,
                 10000L,
+                "https://missionUrl.xxx",
                 PairRoomStatus.IN_PROGRESS.name())
         );
 
@@ -75,6 +76,7 @@ class TimerAcceptanceTest extends AcceptanceFixture {
                 "파슬리",
                 10000L,
                 10000L,
+                "https://missionUrl.xxx",
                 PairRoomStatus.IN_PROGRESS.name())
         );
         final TimerUpdateRequest request = new TimerUpdateRequest(20000L, 3000L);
@@ -96,8 +98,9 @@ class TimerAcceptanceTest extends AcceptanceFixture {
     @DisplayName("타이머를 시작한다.")
     void start_timer() {
         // given
-        final String accessCode = createPairRoom(new PairRoomCreateRequest("fram", "lemone", 10000L, 10000L,
-                PairRoomStatus.IN_PROGRESS.name()));
+        final String accessCode = createPairRoom(
+                new PairRoomCreateRequest("fram", "lemone", 10000L, 10000L, "https://missionUrl.xxx",
+                        PairRoomStatus.IN_PROGRESS.name()));
         createConnect(accessCode);
 
         // when & then
@@ -115,8 +118,9 @@ class TimerAcceptanceTest extends AcceptanceFixture {
     @DisplayName("타이머를 종료한다.")
     void stop_timer() {
         // given
-        final String accessCode = createPairRoom(new PairRoomCreateRequest("fram", "lemone", 10000L, 10000L,
-                PairRoomStatus.IN_PROGRESS.name()));
+        final String accessCode = createPairRoom(
+                new PairRoomCreateRequest("fram", "lemone", 10000L, 10000L, "https://missionUrl.xxx",
+                        PairRoomStatus.IN_PROGRESS.name()));
         timerStart(accessCode);
 
         // when & then

@@ -50,19 +50,67 @@ class MemberAcceptanceTest extends AcceptanceFixture {
                 .body("username", is(member.getUsername()));
     }
 
-    String login(Member member) {
-        final String sessionId = GithubAcceptanceTest.createAccessTokenCookie();
+    @Test
+    @DisplayName("회원을 삭제한다.")
+    void delete_member() {
+        //given
+        final Member member = Member.builder()
+                .userId("123")
+                .accessToken("access")
+                .loginId("login")
+                .username("username")
+                .profileImage("some image")
+                .build();
 
+        final String loginToken = jwtProvider.sign(member.getUserId());
         memberRepository.save(member);
 
-        return RestAssured
+        //when && then
+        RestAssured
                 .given()
-                .cookie("JSESSIONID", sessionId)
+                .cookie(SIGN_IN_COOKIE_NAME, loginToken)
 
                 .when()
-                .get("/api/sign-in/callback")
+                .delete("/api/member")
 
-                .thenReturn()
-                .cookie("coudo_whoami");
+                .then()
+                .statusCode(HttpStatus.SC_NO_CONTENT);
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 회원을 삭제한다.")
+    void delete_not_member() {
+        //given
+        final Member member = Member.builder()
+                .userId("123")
+                .accessToken("access")
+                .loginId("login")
+                .username("username")
+                .profileImage("some image")
+                .build();
+
+        final String loginToken = jwtProvider.sign(member.getUserId());
+        memberRepository.save(member);
+
+        //when && then
+        RestAssured
+                .given()
+                .cookie(SIGN_IN_COOKIE_NAME, loginToken)
+
+                .when()
+                .delete("/api/member")
+
+                .then()
+                .statusCode(HttpStatus.SC_NO_CONTENT);
+
+        RestAssured
+                .given()
+                .cookie(SIGN_IN_COOKIE_NAME, loginToken)
+
+                .when()
+                .delete("/api/member")
+
+                .then()
+                .statusCode(HttpStatus.SC_NOT_FOUND);
     }
 }
