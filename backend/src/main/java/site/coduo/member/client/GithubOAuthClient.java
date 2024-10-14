@@ -2,14 +2,17 @@ package site.coduo.member.client;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.FormHttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClient.ResponseSpec.ErrorHandler;
 
 import site.coduo.member.client.dto.TokenRequest;
 import site.coduo.member.client.dto.TokenResponse;
+import site.coduo.member.exception.ExternalApiCallException;
 import site.coduo.member.infrastructure.http.Basic;
 
 @Component
@@ -50,6 +53,7 @@ public class GithubOAuthClient {
                 .header(HttpHeaders.AUTHORIZATION, new Basic(oAuthClientId, oAuthClientSecret).getValue())
                 .body(request.toQueryParams())
                 .retrieve()
+                .onStatus(HttpStatusCode::isError, getErrorHandler())
                 .body(TokenResponse.class);
     }
 
@@ -59,5 +63,16 @@ public class GithubOAuthClient {
 
     public String getOAuthRedirectUri() {
         return oAuthRedirectUri;
+    }
+
+    private ErrorHandler getErrorHandler() {
+        return (request, response) -> {
+            if (response.getStatusCode().is4xxClientError()) {
+                throw new ExternalApiCallException("Github OAuth API 호출에 실패했습니다.");
+            }
+            if (response.getStatusCode().is5xxServerError()) {
+                throw new ExternalApiCallException("Github OAuth 과정 중 서버 내부에서 오류가 발생했습니다.");
+            }
+        };
     }
 }
