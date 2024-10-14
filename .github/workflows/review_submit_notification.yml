@@ -50,7 +50,7 @@ jobs:
       - name: Send Slack notification
         uses: slackapi/slack-github-action@v1.22.0
         with:
-          channel-id: ${{secrets.SLACK_FE_REVIEW_CHANNEL}}
+          channel-id: ${{secrets.SLACK_BE_REVIEW_CHANNEL}}
           payload: |
             {
               "text": "리뷰가 도착했어요✉️",
