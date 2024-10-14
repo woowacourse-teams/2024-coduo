@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import site.coduo.referencelink.controller.docs.CategoryDocs;
 import site.coduo.referencelink.service.CategoryService;
 import site.coduo.referencelink.service.dto.CategoryCreateRequest;
 import site.coduo.referencelink.service.dto.CategoryCreateResponse;
@@ -24,7 +25,7 @@ import site.coduo.referencelink.service.dto.CategoryUpdateResponse;
 
 @RestController
 @RequiredArgsConstructor
-public class CategoryController {
+public class CategoryController implements CategoryDocs {
 
     private final CategoryService categoryService;
 
@@ -57,12 +58,12 @@ public class CategoryController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/{accessCode}/category/{categoryName}")
+    @DeleteMapping("/{accessCode}/category/{categoryId}")
     public ResponseEntity<Void> deleteCategory(
             @PathVariable("accessCode") String accessCode,
-            @PathVariable("categoryName") String categoryName
+            @PathVariable("categoryId") Long categoryId
     ) {
-        categoryService.deleteCategory(accessCode, categoryName);
+        categoryService.deleteCategory(accessCode, categoryId);
 
         return ResponseEntity.noContent()
                 .build();

@@ -10,23 +10,24 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.transaction.annotation.Transactional;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import site.coduo.pairroom.dto.PairRoomCreateRequest;
-import site.coduo.pairroom.dto.PairRoomCreateResponse;
+import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
+import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
 import site.coduo.referencelink.service.dto.CategoryCreateRequest;
 import site.coduo.referencelink.service.dto.CategoryCreateResponse;
+import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
 
-@Transactional
 class ReferenceAcceptanceTest extends AcceptanceFixture {
 
     @Test
     @DisplayName("레퍼런스 링크 생성 요청")
     void reference_link_create_request() {
         // given
-        final PairRoomCreateResponse pairRoom = createPairRoom(new PairRoomCreateRequest("레모네", "프람"));
+        final PairRoomCreateResponse pairRoom =
+                createPairRoom(new PairRoomCreateRequest("레모네", "프람", 10000L, 10000L,
+                        "https://missionUrl.xxx", "IN_PROGRESS"));
         final CategoryCreateResponse category = CategoryAcceptanceTest.createCategory(
                 pairRoom.accessCode(), new CategoryCreateRequest("타입스크립트"));
 
@@ -52,7 +53,9 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
     @DisplayName("모든 레퍼런스 링크를 조회하는 요청")
     void read_all_reference_link_request() {
         // given
-        final PairRoomCreateResponse pairRoom = createPairRoom(new PairRoomCreateRequest("레모네", "프람"));
+        final PairRoomCreateResponse pairRoom =
+                createPairRoom(new PairRoomCreateRequest("레모네", "프람", 10000L, 10000L,
+                        "https://missionUrl.xxx", "IN_PROGRESS"));
         createReferenceLink("http://www.some1.url", pairRoom.accessCode(), "카테고리1");
         createReferenceLink("http://www.some2.url", pairRoom.accessCode(), "카테고리2");
 
@@ -74,7 +77,9 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
     @DisplayName("오픈그래프 정보가 없는 레퍼런스 링크를 조회하면 도메인만 넣어 반환한다.")
     void read_reference_link_without_open_graph() {
         // given
-        final PairRoomCreateResponse pairRoom = createPairRoom(new PairRoomCreateRequest("잉크", "해시"));
+        final PairRoomCreateResponse pairRoom =
+                createPairRoom(
+                        new PairRoomCreateRequest("잉크", "해시", 1000L, 100L, "https://missionUrl.xxx", "IN_PROGRESS"));
         final String expectedUrl = "http://www.deleasfsdte.com";
         createReferenceLink(expectedUrl, pairRoom.accessCode(), "카테고리");
 
@@ -90,33 +95,40 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
                 .assertThat()
                 .statusCode(HttpStatus.OK.value())
                 .body("[0].url", is(expectedUrl))
-                .body("[0].headTitle", is("deleasfsdte.com"))
+                .body("[0].headTitle", is("www.deleasfsdte.com"))
                 .body("[0].openGraphTitle", is(""))
                 .body("[0].description", is(""))
                 .body("[0].image", is(""));
     }
 
-    void createReferenceLink(final String url, String accessCodeText, String categoryName) {
+    ReferenceLinkResponse createReferenceLink(final String url, String accessCodeText, String categoryName) {
         final CategoryCreateResponse response = CategoryAcceptanceTest.createCategory(
                 accessCodeText, new CategoryCreateRequest(categoryName));
         final Map<String, Object> request = Map.of("url", url, "categoryId", response.id());
 
-        RestAssured
+        return RestAssured
                 .given()
                 .contentType(ContentType.JSON)
                 .body(request)
 
                 .when()
-                .post("/api/" + accessCodeText + "/reference-link");
+                .post("/api/" + accessCodeText + "/reference-link")
+
+                .then()
+                .extract()
+                .as(ReferenceLinkResponse.class);
     }
 
     @Test
     @DisplayName("레퍼런스 링크를 삭제하는 요청")
     void delete_reference_link_request() {
         // given
-        final PairRoomCreateResponse pairRoom = createPairRoom(new PairRoomCreateRequest("레모네", "프람"));
+        final PairRoomCreateResponse pairRoom =
+                createPairRoom(
+                        new PairRoomCreateRequest("레모네", "프람", 1000L, 1000L, "https://missionUrl.xxx", "IN_PROGRESS"));
 
-        createReferenceLink("http://www.delete.com", pairRoom.accessCode(), "카테고리 이름");
+        final ReferenceLinkResponse response = createReferenceLink("http://www.delete.com", pairRoom.accessCode(),
+                "카테고리 이름");
 
         // when & then
         RestAssured
@@ -125,7 +137,7 @@ class ReferenceAcceptanceTest extends AcceptanceFixture {
 
                 .when()
                 .log().all()
-                .delete("/api/" + pairRoom.accessCode() + "/reference-link/1")
+                .delete("/api/" + pairRoom.accessCode() + "/reference-link/" + response.id())
 
                 .then()
                 .assertThat()

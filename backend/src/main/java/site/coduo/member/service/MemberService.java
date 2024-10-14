@@ -11,6 +11,8 @@ import site.coduo.member.client.dto.GithubUserResponse;
 import site.coduo.member.domain.Member;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.infrastructure.http.Bearer;
+import site.coduo.member.infrastructure.security.JwtProvider;
+import site.coduo.member.service.dto.member.MemberReadResponse;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -20,13 +22,35 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final GithubApiClient githubClient;
+    private final JwtProvider jwtProvider;
 
     @Transactional
-    public void createMember(final String username, final String accessToken) {
+    public void createMember(final String username, final String encryptedAccessToken) {
+        final String accessToken = jwtProvider.extractSubject(encryptedAccessToken);
         final Bearer bearer = new Bearer(accessToken);
         final GithubUserResponse userResponse = githubClient.getUser(new GithubUserRequest(bearer));
         final Member member = userResponse.toDomain(bearer, username);
-
         memberRepository.save(member);
+    }
+
+    public MemberReadResponse findMemberNameByCredential(final String token) {
+        final String userId = jwtProvider.extractSubject(token);
+        final Member member = memberRepository.fetchByUserId(userId);
+
+        return new MemberReadResponse(member.getUsername());
+    }
+
+    public Member findMemberByCredential(final String token) {
+        final String userId = jwtProvider.extractSubject(token);
+
+        return memberRepository.fetchByUserId(userId);
+    }
+
+    @Transactional
+    public void deleteMember(final String token) {
+        final String userId = jwtProvider.extractSubject(token);
+        final Member member = memberRepository.fetchByUserId(userId);
+
+        member.delete();
     }
 }

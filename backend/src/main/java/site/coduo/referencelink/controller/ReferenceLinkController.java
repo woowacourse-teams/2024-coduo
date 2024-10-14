@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import site.coduo.referencelink.controller.docs.ReferenceLinkDocs;
 import site.coduo.referencelink.service.ReferenceLinkService;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
 import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class ReferenceLinkController implements ReferenceLinkDocs {
@@ -47,13 +49,13 @@ public class ReferenceLinkController implements ReferenceLinkDocs {
         return ResponseEntity.ok(responses);
     }
 
-    @GetMapping(value = "/{accessCode}/reference-link", params = "categoryName")
+    @GetMapping(value = "/{accessCode}/reference-link", params = "categoryId")
     public ResponseEntity<List<ReferenceLinkResponse>> getReferenceLinksOfCategory(
             @PathVariable("accessCode") final String accessCodeText,
-            @RequestParam(value = "categoryName") final String categoryName
+            @RequestParam(value = "categoryId") final Long categoryId
     ) {
-        final List<ReferenceLinkResponse> responses = referenceLinkService.findReferenceLinksByCategory(accessCodeText,
-                categoryName);
+        final List<ReferenceLinkResponse> responses = referenceLinkService
+                .findReferenceLinksByCategory(accessCodeText, categoryId);
 
         return ResponseEntity.ok(responses);
     }
@@ -63,7 +65,7 @@ public class ReferenceLinkController implements ReferenceLinkDocs {
             @PathVariable("accessCode") final String accessCodeText,
             @PathVariable("id") final long id
     ) {
-        referenceLinkService.deleteReferenceLink(id);
+        referenceLinkService.deleteReferenceLink(accessCodeText, id);
 
         return ResponseEntity.noContent()
                 .build();

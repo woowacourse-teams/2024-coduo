@@ -3,6 +3,8 @@ package site.coduo.acceptance;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 
+import static site.coduo.common.config.web.filter.AccessTokenCookieFilter.TEMPORARY_ACCESS_TOKEN_COOKIE_NAME;
+
 import java.util.Map;
 
 import org.apache.http.HttpStatus;
@@ -13,21 +15,18 @@ import org.springframework.http.HttpHeaders;
 import io.restassured.RestAssured;
 import site.coduo.fake.FakeGithubApiClient;
 import site.coduo.fake.FakeGithubOAuthClient;
-import site.coduo.fake.FixedNanceProvider;
+import site.coduo.fake.FixedNonceProvider;
 import site.coduo.member.domain.Member;
 
 class GithubAcceptanceTest extends AcceptanceFixture {
 
-    static String createAccessTokenThenReturnSessionId() {
-        final String session = callAuthorizeThenReturnSessionId();
-
+    static String createAccessTokenCookie() {
         final Map<String, String> query = Map.of("code", "authorization code",
-                "state", FixedNanceProvider.FIXED_VALUE);
+                "state", FixedNonceProvider.FIXED_VALUE);
 
-        RestAssured
+        return RestAssured
                 .given()
                 .queryParams(query)
-                .sessionId("JSESSIONID", session)
                 .redirects()
                 .follow(false)
                 .log().all()
@@ -35,23 +34,8 @@ class GithubAcceptanceTest extends AcceptanceFixture {
                 .when()
                 .get("/api/github/callback")
 
-                .then()
-                .statusCode(HttpStatus.SC_MOVED_TEMPORARILY);
-
-        return session;
-    }
-
-    static String callAuthorizeThenReturnSessionId() {
-        return RestAssured
-                .given()
-                .redirects()
-                .follow(false)
-
-                .when()
-                .get("/api/sign-in/oauth/github")
-
                 .thenReturn()
-                .getSessionId();
+                .getCookie(TEMPORARY_ACCESS_TOKEN_COOKIE_NAME);
     }
 
     @Test
@@ -69,7 +53,7 @@ class GithubAcceptanceTest extends AcceptanceFixture {
                 .assertThat()
                 .statusCode(HttpStatus.SC_OK)
                 .body("endpoint",
-                        is("https://www.github.com/login/oauth/authorize?client_id=test&state=random%20number&redirect_uri=http://test.test"));
+                        is("https://www.github.com/login/oauth/authorize?client_id=test&state=randomNumber&redirect_uri=http://test.test"));
     }
 
     @Test
@@ -92,16 +76,13 @@ class GithubAcceptanceTest extends AcceptanceFixture {
     @DisplayName("callback 엔드포인트 호출")
     void call_callback_end_point() {
         // given
-        final String session = callAuthorizeThenReturnSessionId();
-
         final Map<String, String> query = Map.of("code", "authorization code",
-                "state", FixedNanceProvider.FIXED_VALUE);
+                "state", FixedNonceProvider.FIXED_VALUE);
 
         // when & then
         RestAssured
                 .given()
                 .queryParams(query)
-                .sessionId("JSESSIONID", session)
                 .redirects()
                 .follow(false)
                 .log().all()
@@ -110,7 +91,7 @@ class GithubAcceptanceTest extends AcceptanceFixture {
                 .get("/api/github/callback")
 
                 .then()
-                .statusCode(HttpStatus.SC_MOVED_TEMPORARILY);
+                .statusCode(HttpStatus.SC_TEMPORARY_REDIRECT);
     }
 
     @Test
@@ -124,9 +105,8 @@ class GithubAcceptanceTest extends AcceptanceFixture {
                 .accessToken(FakeGithubOAuthClient.ACCESS_TOKEN.getCredential())
                 .profileImage(FakeGithubApiClient.PROFILE_IMAGE)
                 .build();
-        final String session = callAuthorizeThenReturnSessionId();
         final Map<String, String> query = Map.of("code", "authorization code",
-                "state", FixedNanceProvider.FIXED_VALUE);
+                "state", FixedNonceProvider.FIXED_VALUE);
 
         memberRepository.save(member);
 
@@ -134,7 +114,6 @@ class GithubAcceptanceTest extends AcceptanceFixture {
         RestAssured
                 .given()
                 .queryParams(query)
-                .sessionId("JSESSIONID", session)
                 .redirects()
                 .follow(false)
                 .log().all()
@@ -143,6 +122,6 @@ class GithubAcceptanceTest extends AcceptanceFixture {
                 .get("/api/github/callback")
 
                 .then().log().all()
-                .statusCode(302);
+                .statusCode(HttpStatus.SC_TEMPORARY_REDIRECT);
     }
 }

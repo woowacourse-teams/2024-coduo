@@ -1,6 +1,6 @@
-name: PULL REQUEST
+name: pull request
 
-on: 
+on:
   pull_request:
     types: [opened, reopened]
 
@@ -11,11 +11,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ vars.SLACK_BRANCH}}
-  
+          ref: ${{vars.SLACK_BRANCH}}
+
       - name: Install jq
         run: sudo apt-get install jq
-      
+
       - name: Decode base64 and parse JSON
         run: |
           echo ${{secrets.SLACK_CREW_INFO_JSON}} | base64 --decode > decoded.json
@@ -38,11 +38,11 @@ jobs:
             }
             console.log(`::set-output name=names::${outputString.trim()}`);
             console.log(`::set-output name=requester::${requester.name}`);
-            
+
       - name: pull_request_noifiy
         id: pull_request_notify
         uses: slackapi/slack-github-action@v1.26.0
-        with: 
+        with:
           channel-id: ${{secrets.SLACK_BE_REVIEW_CHANNEL}}
           payload: |
             {
@@ -52,7 +52,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*📬${{steps.extract_receiver_list.outputs.requester}}님의 PR이 도착했어요.📬*\n\n\n⚡⚡⚡⚡⚡⚡⚡⚡⚡\n*⚡<${{github.event.pull_request.html_url}} | [${{steps.extract_receiver_list.outputs.requester}}] 혼구멍 내러가기~>⚡* \n⚡⚡⚡⚡⚡⚡⚡⚡⚡\n\n _혼내줄 사람들: ${{steps.extract_receiver_list.outputs.names}}_ \n"
+                    "text": "*📬${{steps.extract_receiver_list.outputs.requester}}님의 PR이 도착했어요.📬*\n\n\n⚡⚡⚡⚡⚡⚡⚡⚡⚡\n*⚡<${{github.event.pull_request.html_url}}| [${{steps.extract_receiver_list.outputs.requester}}] 혼구멍 내러가기~>⚡* \n⚡⚡⚡⚡⚡⚡⚡⚡⚡\n\n _혼내줄 사람들: ${{steps.extract_receiver_list.outputs.names}}_ \n"
                   }
                 },
                 {
@@ -62,7 +62,7 @@ jobs:
             }
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-  
+
       - name: Append Thread info to JSON
         run: |
           NEW_THREAD_JSON=$(jq -n \
@@ -73,20 +73,20 @@ jobs:
 
           mkdir -p .github/logs
           cd .github/logs
-  
-          if [ -f thread_be.json ]; then
-            jq --argjson new "$NEW_THREAD_JSON" '. += [$new]' thread_be.json > thread_be.tmp.json
-            mv thread_be.tmp.json thread_be.json
+
+          if [ -f thread_fe.json ]; then
+            jq --argjson new "$NEW_THREAD_JSON" '. += [$new]' thread_fe.json > thread_fe.tmp.json
+            mv thread_fe.tmp.json thread_fe.json
           else
-            echo "[$NEW_THREAD_JSON]" > thread_be.json
+            echo "[$NEW_THREAD_JSON]" > thread_fe.json
           fi
 
-      - name: Commit updated thread_be.json
+      - name: Commit updated thread_fe.json
         run: |
           git config --global user.email "action@github.com"
           git config --global user.name "GitHub Actions"
-          git add .github/logs/thread_be.json
-          git commit -m "Update thread_be.json with new thread data"
+          git add .github/logs/thread_fe.json
+          git commit -m "Update thread_fe.json with new thread data"
           git push origin ${{ vars.SLACK_BRANCH }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

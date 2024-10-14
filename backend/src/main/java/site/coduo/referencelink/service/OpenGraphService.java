@@ -1,7 +1,10 @@
 package site.coduo.referencelink.service;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.Optional;
 
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
@@ -9,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.referencelink.domain.OpenGraph;
-import site.coduo.referencelink.domain.Url;
 import site.coduo.referencelink.exception.DocumentAccessException;
 import site.coduo.referencelink.repository.OpenGraphEntity;
 import site.coduo.referencelink.repository.OpenGraphRepository;
@@ -22,26 +24,33 @@ public class OpenGraphService {
 
     private final OpenGraphRepository openGraphRepository;
 
-    public OpenGraph createOpenGraph(final ReferenceLinkEntity referenceLinkEntity) {
-        final OpenGraph openGraph = getOpenGraph(referenceLinkEntity);
+    public OpenGraph createOpenGraph(final ReferenceLinkEntity referenceLinkEntity, final URL url) {
+        final OpenGraph openGraph = getOpenGraph(url);
         final OpenGraphEntity openGraphEntity = new OpenGraphEntity(openGraph, referenceLinkEntity);
         return openGraphRepository.save(openGraphEntity)
                 .toDomain();
     }
 
-    private OpenGraph getOpenGraph(final ReferenceLinkEntity referenceLinkEntity) {
-        final Url url = new Url(referenceLinkEntity.getUrl());
+    private OpenGraph getOpenGraph(final URL url) {
         try {
-            final Document document = url.getDocument();
+            final Document document = getDocumentFromUrl(url);
             return getOpenGraphFromDocument(document, url);
         } catch (final DocumentAccessException e) {
-            return OpenGraph.from(url.extractDomain());
+            return OpenGraph.from(url);
         }
     }
 
-    private OpenGraph getOpenGraphFromDocument(final Document document, final Url url) {
+    private Document getDocumentFromUrl(final URL url) {
+        try {
+            return Jsoup.connect(url.toExternalForm()).get();
+        } catch (final IOException e) {
+            throw new DocumentAccessException("URL에 대한 Document를 불러올 수 없습니다.");
+        }
+    }
+
+    private OpenGraph getOpenGraphFromDocument(final Document document, final URL url) {
         if (hasNoTitle(document)) {
-            return OpenGraph.of(document, url.extractDomain());
+            return OpenGraph.of(document, url);
         }
         return OpenGraph.from(document);
     }
@@ -60,7 +69,7 @@ public class OpenGraphService {
         return new OpenGraph();
     }
 
-    public void deleteByReferenceLinkId(final long referenceLinkEntityId) {
-        openGraphRepository.deleteByReferenceLinkEntityId(referenceLinkEntityId);
+    public void deleteByReferenceLink(final ReferenceLinkEntity referenceLinkEntity) {
+        openGraphRepository.deleteByReferenceLinkEntity(referenceLinkEntity);
     }
 }

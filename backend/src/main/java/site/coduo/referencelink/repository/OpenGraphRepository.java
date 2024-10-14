@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface OpenGraphRepository extends JpaRepository<OpenGraphEntity, Long> {
 
-    void deleteByReferenceLinkEntityId(Long referenceLinkEntityId);
+    void deleteByReferenceLinkEntity(ReferenceLinkEntity referenceLinkEntity);
 
     Optional<OpenGraphEntity> findByReferenceLinkEntityId(Long id);
 }

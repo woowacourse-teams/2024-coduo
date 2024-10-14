@@ -8,18 +8,22 @@ import site.coduo.referencelink.exception.InvalidCategoryException;
 @Getter
 public class Category {
 
-    private static final int CATEGORY_NAME_MAX_LENGTH = 15;
+    private static final int CATEGORY_NAME_MAX_LENGTH = 10;
 
     private final String value;
 
     public Category(final String value) {
         validate(value);
-        this.value = value;
+        this.value = value.trim();
     }
 
     private void validate(final String value) {
-        if (value.length() > CATEGORY_NAME_MAX_LENGTH) {
-            throw new InvalidCategoryException("카테고리 길이는 " + CATEGORY_NAME_MAX_LENGTH + "자 이하여야 합니다.");
+        if (value == null || value.isBlank()) {
+            throw new InvalidCategoryException("카테고리 값이 비어 있습니다.");
+        }
+
+        if (value.trim().length() > CATEGORY_NAME_MAX_LENGTH) {
+            throw new InvalidCategoryException(String.format("카테고리 길이는 %d자 이하여야 합니다.", CATEGORY_NAME_MAX_LENGTH));
         }
     }
 

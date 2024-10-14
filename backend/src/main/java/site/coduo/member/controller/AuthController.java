@@ -1,6 +1,7 @@
 package site.coduo.member.controller;
 
-import static site.coduo.member.controller.GithubOAuthController.ACCESS_TOKEN_SESSION_NAME;
+import static site.coduo.common.config.web.filter.AccessTokenCookieFilter.TEMPORARY_ACCESS_TOKEN_COOKIE_NAME;
+import static site.coduo.common.config.web.filter.SignInCookieFilter.SIGN_IN_COOKIE_NAME;
 
 import java.net.URI;
 
@@ -13,40 +14,39 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import site.coduo.member.controller.dto.auth.SignInCheckResponse;
-import site.coduo.member.controller.dto.auth.SignInCookie;
-import site.coduo.member.controller.dto.auth.SignInWebResponse;
-import site.coduo.member.controller.dto.auth.SignUpRequest;
+import site.coduo.member.controller.docs.AuthControllerDocs;
 import site.coduo.member.service.AuthService;
 import site.coduo.member.service.MemberService;
 import site.coduo.member.service.dto.SignInServiceResponse;
+import site.coduo.member.service.dto.auth.SignInCheckResponse;
+import site.coduo.member.service.dto.auth.SignInCookie;
+import site.coduo.member.service.dto.auth.SignInWebResponse;
+import site.coduo.member.service.dto.auth.SignUpRequest;
 
-@Slf4j
 @RequiredArgsConstructor
 @RestController
-public class AuthController {
+public class AuthController implements AuthControllerDocs {
+
+    public static final String PRODUCT_DOMAIN = ".coduo.site";
 
     private final AuthService authService;
     private final MemberService memberService;
 
     @GetMapping("/sign-out")
-    public ResponseEntity<Void> signOut(@CookieValue(name = SignInCookie.SIGN_IN_COOKIE_NAME) String signInToken) {
-        final SignInCookie cookie = new SignInCookie(signInToken);
-
+    public ResponseEntity<Void> signOut(@CookieValue(name = SIGN_IN_COOKIE_NAME) final String signInToken) {
+        final ResponseCookie expire = SignInCookie.expire(PRODUCT_DOMAIN);
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, cookie.expire().toString())
+                .header(HttpHeaders.SET_COOKIE, expire.toString())
                 .build();
     }
 
     @PostMapping("/sign-up")
     public ResponseEntity<Void> signUp(@RequestBody final SignUpRequest request,
-                                       @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME, required = false) final String accessToken
+                                       @CookieValue(name = TEMPORARY_ACCESS_TOKEN_COOKIE_NAME) final String encryptedAccessToken
     ) {
-        memberService.createMember(request.username(), accessToken);
+        memberService.createMember(request.username(), encryptedAccessToken);
 
         return ResponseEntity.status(HttpStatus.FOUND)
                 .location(URI.create("/api/sign-in/callback"))
@@ -55,19 +55,19 @@ public class AuthController {
 
     @GetMapping("/sign-in/callback")
     public ResponseEntity<SignInWebResponse> signInCallback(
-            @SessionAttribute(name = ACCESS_TOKEN_SESSION_NAME, required = false) final String accessToken
+            @CookieValue(name = TEMPORARY_ACCESS_TOKEN_COOKIE_NAME) final String encryptedAccessToken
     ) {
-        final SignInServiceResponse serviceResponse = authService.createSignInToken(accessToken);
-        final ResponseCookie cookie = new SignInCookie(serviceResponse.token()).generate();
+        final SignInServiceResponse serviceResponse = authService.createSignInToken(encryptedAccessToken);
+        final ResponseCookie signInCookie = new SignInCookie(serviceResponse.token()).generate(PRODUCT_DOMAIN);
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, cookie.toString())
+                .header(HttpHeaders.SET_COOKIE, signInCookie.toString())
                 .body(SignInWebResponse.of(serviceResponse));
     }
 
     @GetMapping("/sign-in/check")
     public ResponseEntity<SignInCheckResponse> signInCheck(
-            @CookieValue(value = SignInCookie.SIGN_IN_COOKIE_NAME) final String signInToken
+            @CookieValue(name = SIGN_IN_COOKIE_NAME, required = false) final String signInToken
     ) {
         final boolean signedIn = authService.isSignedIn(signInToken);
         final SignInCheckResponse response = new SignInCheckResponse(signedIn);

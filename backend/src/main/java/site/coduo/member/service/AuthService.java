@@ -22,18 +22,21 @@ public class AuthService {
     private final JwtProvider jwtProvider;
 
     @Transactional
-    public SignInServiceResponse createSignInToken(final String accessToken) {
+    public SignInServiceResponse createSignInToken(final String encryptedAccessToken) {
+        final String accessToken = jwtProvider.extractSubject(encryptedAccessToken);
         final GithubUserResponse userResponse = githubApiClient.getUser(new GithubUserRequest(accessToken));
 
         memberRepository.findByUserId(userResponse.userId())
                 .ifPresent(member -> new MemberUpdate(member).update(accessToken));
-
         final String signInToken = jwtProvider.sign(userResponse.userId());
 
         return new SignInServiceResponse(memberRepository.existsByUserId(userResponse.userId()), signInToken);
     }
 
     public boolean isSignedIn(final String signInToken) {
+        if (signInToken == null) {
+            return false;
+        }
         return jwtProvider.isValid(signInToken);
     }
 }

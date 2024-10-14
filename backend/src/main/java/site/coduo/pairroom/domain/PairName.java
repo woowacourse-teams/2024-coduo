@@ -2,21 +2,16 @@ package site.coduo.pairroom.domain;
 
 import java.util.Objects;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-
 import org.apache.commons.lang3.StringUtils;
 
 import lombok.Getter;
 import site.coduo.pairroom.exception.InvalidNameFormatException;
 
 @Getter
-@Embeddable
 public class PairName {
 
     private static final int MAX_LENGTH = 10;
 
-    @Column(length = MAX_LENGTH, nullable = false)
     private final String value;
 
     protected PairName() {

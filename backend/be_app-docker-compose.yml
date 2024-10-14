@@ -1,23 +1,4 @@
 services:
-  mysql:
-    container_name: coduo_mysql
-    image: mysql:8.0
-    restart: unless-stopped
-    ports:
-      - ${DB_BINDING_PORT}
-    environment:
-      MYSQL_DATABASE: ${MYSQL_DB_NAME}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      TZ: ${MYSQL_TIME_ZONE}
-    volumes:
-      - ${DOCKER_DATA_PATH}/db/mysql/conf.d:/etc/mysql/conf.d
-      - ${DOCKER_DATA_PATH}/db/mysql/data:/var/lib/mysql
-      - ${DOCKER_DATA_PATH}/db/mysql/init:/docker_entrypoint-initdb.d
-    command:
-      - '--character-set-server=utf8mb4'
-      - '--collation-server=utf8mb4_0900_ai_ci'
-    networks:
-      - coduo_net
 
   springboot:
     container_name: coduo_springboot-app
@@ -29,19 +10,21 @@ services:
       - ${SERVER_LOGS_PATH}/springboot-app:/logs
       - ${SERVER_LOGS_PATH}/springboot-app/backup:/logs/backup
     environment:
-      SPRING_DATASOURCE_URL: ${DB_URL}
-      SPRING_DATASOURCE_USERNAME: ${DB_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD}
+      SPRING_DATASOURCE_REPLICA_MASTER_JDBC-URL: ${MASTER_DB_URL}
+      SPRING_DATASOURCE_REPLICA_MASTER_USERNAME: ${MASTER_DB_USERNAME}
+      SPRING_DATASOURCE_REPLICA_MASTER_PASSWORD: ${MASTER_DB_PASSWORD}
+      SPRING_DATASOURCE_REPLICA_SLAVE_JDBC-URL: ${SLAVE_DB_URL}
+      SPRING_DATASOURCE_REPLICA_SLAVE_USERNAME: ${SLAVE_DB_USERNAME}
+      SPRING_DATASOURCE_REPLICA_SLAVE_PASSWORD: ${SLAVE_DB_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL-AUTO: ${DDL_AUTO}
       OAUTH_GITHUB_CLIENT_ID: ${CLIENT_ID}
       OAUTH_GITHUB_CLIENT_SECRET: ${CLIENT_SECRET}
       OAUTH_GITHUB_REDIRECT_URI: ${CLIENT_REDIRECT_URI}
       JWT_SIGN_KEY: ${JWT_KEY}
+      EC2_PREFIX: ${INSTANCE_NAME}
     restart: on-failure
     networks:
       - coduo_net
-    depends_on:
-      - mysql
 
 networks:
   coduo_net:

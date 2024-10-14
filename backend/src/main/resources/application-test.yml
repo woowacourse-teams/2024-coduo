@@ -1,19 +1,24 @@
 spring:
-  config:
-    activate:
-      on-profile: test
-
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    replica:
+      master:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: ${DB_URL}
+        username: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
+      slave:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: ${DB_URL}
+        username: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
+
 
   jpa:
     database: mysql
     hibernate:
       ddl-auto: ${DDL_AUTO}
     database-platform: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
 
 springdoc:
   swagger-ui:
@@ -26,11 +31,24 @@ management:
     web:
       exposure:
         include: prometheus
+      base-path: /api/actuator
+
+server:
+  tomcat:
+    mbeanregistry:
+      enabled: true
+
 oauth:
   github:
     client-id: ${CLIENT_ID}
     client-secret: ${CLIENT_SECRET}
     redirect-uri: ${CLIENT_REDIRECT_URI}
 
+front:
+  url: test.coduo.site
+
 jwt:
   sign-key: ${JWT_KEY}
+
+ec2:
+  prefix: ${INSTANCE_NAME}

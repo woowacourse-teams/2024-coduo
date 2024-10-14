@@ -2,6 +2,8 @@ package site.coduo.referencelink.domain;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
+import java.net.URL;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +18,7 @@ class ReferenceLinkTest {
         final String url = "https://www.google.com";
 
         // when & then
-        assertThatCode(() -> new ReferenceLink(new Url(url), new AccessCode("value")))
+        assertThatCode(() -> new ReferenceLink(new URL(url), new AccessCode("value")))
                 .doesNotThrowAnyException();
     }
 }

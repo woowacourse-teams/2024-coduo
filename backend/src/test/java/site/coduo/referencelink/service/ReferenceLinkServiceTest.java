@@ -1,24 +1,29 @@
 package site.coduo.referencelink.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import static site.coduo.fixture.PairRoomFixture.INK_REDDDY_ROOM;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import site.coduo.pairroom.domain.Pair;
-import site.coduo.pairroom.domain.PairName;
-import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
+import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.Category;
 import site.coduo.referencelink.domain.ReferenceLink;
-import site.coduo.referencelink.domain.Url;
+import site.coduo.referencelink.exception.InvalidUrlFormatException;
+import site.coduo.referencelink.fake.FakeServer;
 import site.coduo.referencelink.repository.CategoryEntity;
 import site.coduo.referencelink.repository.CategoryRepository;
 import site.coduo.referencelink.repository.OpenGraphRepository;
@@ -46,6 +51,17 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    private PairRoomEntity pairRoomEntity;
+    private CategoryEntity reactCategory;
+    private CategoryEntity springCategory;
+
+    @BeforeEach
+    void setUp() {
+        pairRoomEntity = pairRoomRepository.save(PairRoomEntity.from(INK_REDDDY_ROOM));
+        reactCategory = categoryRepository.save(new CategoryEntity(pairRoomEntity, new Category("리액트")));
+        springCategory = categoryRepository.save(new CategoryEntity(pairRoomEntity, new Category("스프링")));
+    }
+
     @AfterEach
     void tearDown() {
         deleteAllPairRoomCascade();
@@ -55,12 +71,11 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
     @DisplayName("레퍼런스 링크와 오픈그래프를 함께 저장한다.")
     void save_reference_link_and_open_graph() {
         // given
-        final Pair pair = new Pair(new PairName("first"), new PairName("second"));
-        final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(pair, new AccessCode("code`")));
-        final ReferenceLinkCreateRequest request = new ReferenceLinkCreateRequest("https://www.naver.com", null);
+        final ReferenceLinkCreateRequest request = new ReferenceLinkCreateRequest(
+                FakeServer.testUrl, springCategory.getId());
 
         // when
-        referenceLinkService.createReferenceLink(pairRoom.getAccessCodeText(), request);
+        referenceLinkService.createReferenceLink(pairRoomEntity.getAccessCode(), request);
 
         // then
         assertAll(
@@ -68,55 +83,100 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
                 () -> assertThat(openGraphRepository.findAll()).hasSize(1),
                 () -> {
                     final ReferenceLinkResponse referenceLinkResponses =
-                            referenceLinkService.readAllReferenceLink(pairRoom.getAccessCodeText()).get(0);
-                    assertThat(referenceLinkResponses.url()).isEqualTo(request.url());
-                    assertThat(referenceLinkResponses.headTitle()).isEqualTo("NAVER");
-                    assertThat(referenceLinkResponses.openGraphTitle()).isEqualTo("네이버");
+                            referenceLinkService.readAllReferenceLink(pairRoomEntity.getAccessCode()).get(0);
+                    assertThat(referenceLinkResponses)
+                            .extracting("url", "headTitle", "openGraphTitle", "description", "image", "categoryName")
+                            .contains(request.url(), "헤드 타이틀", "오픈그래프 타이틀", "오픈그래프 설명", "오픈그래프 이미지", "스프링");
                 }
         );
     }
 
     @Test
-    @DisplayName("모든 레퍼런스 링크를 조회한다.")
-    void search_all_reference_link() {
+    @DisplayName("잘못된 url로 저장을 시도하면 예외가 발생한다.")
+    void throw_exception_when_invalid_url_format() {
         // given
-        final Pair pair = new Pair(new PairName("first"), new PairName("second"));
-        final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(pair, new AccessCode("code")));
-        final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoom, new Category("자바")));
-        final AccessCode accessCode = pairRoom.getAccessCode();
-        referenceLinkRepository.save(
-                new ReferenceLinkEntity(new ReferenceLink(new Url("http://url1.com"), accessCode), category, pairRoom));
-        referenceLinkRepository.save(
-                new ReferenceLinkEntity(new ReferenceLink(new Url("http://url2.com"), accessCode), category, pairRoom));
-        referenceLinkRepository.save(
-                new ReferenceLinkEntity(new ReferenceLink(new Url("http://url3.com"), accessCode), category, pairRoom));
+        final ReferenceLinkCreateRequest request = new ReferenceLinkCreateRequest("failUrl", null);
+
+        // when & then
+        assertThatThrownBy(
+                () -> referenceLinkService.createReferenceLink(pairRoomEntity.getAccessCode(), request))
+                .isInstanceOf(InvalidUrlFormatException.class);
+    }
+
+    @Test
+    @DisplayName("모든 레퍼런스 링크를 조회한다.")
+    void search_all_reference_link() throws MalformedURLException {
+        // given
+        final AccessCode accessCode = new AccessCode(pairRoomEntity.getAccessCode());
+        referenceLinkRepository.save(generateReferenceLink(springCategory));
+        referenceLinkRepository.save(generateReferenceLink(springCategory));
+        referenceLinkRepository.save(generateReferenceLink(reactCategory));
 
         // when
         final List<ReferenceLinkResponse> responses = referenceLinkService.readAllReferenceLink(
                 accessCode.getValue());
-
         // then
         assertThat(responses).hasSize(3);
     }
 
     @Test
     @DisplayName("레퍼런스 링크와 오픈그래프를 삭제한다.")
-    void delete_reference_link_and_open_graph() {
+    void delete_reference_link_and_open_graph() throws MalformedURLException {
         // given
-        final Pair pair = new Pair(new PairName("first"), new PairName("second"));
-        AccessCode code = new AccessCode("hello");
-        final PairRoom pairRoom = pairRoomRepository.save(new PairRoom(pair, code));
-        final CategoryEntity category = categoryRepository.save(new CategoryEntity(pairRoom, new Category("리액트")));
-        final ReferenceLinkEntity link = referenceLinkRepository.save(
-                new ReferenceLinkEntity(new ReferenceLink(new Url("http://url1.com"), code), category, pairRoom));
+        final ReferenceLinkEntity referenceLink = generateReferenceLink(reactCategory);
+        final ReferenceLinkEntity saved = referenceLinkRepository.save(referenceLink);
 
         // when
-        referenceLinkService.deleteReferenceLink(link.getId());
+        referenceLinkService.deleteReferenceLink(pairRoomEntity.getAccessCode(), saved.getId());
 
         // then
         assertAll(
                 () -> assertThat(referenceLinkRepository.findAll()).isEmpty(),
                 () -> assertThat(openGraphRepository.findAll()).isEmpty()
         );
+    }
+
+    @DisplayName("액세스코드가 일치하지 않으면 삭제를 시도해도 삭제되지 않는다.")
+    @Test
+    void cannot_delete_reference_link_and_open_graph_when_invalid_access_code() throws MalformedURLException {
+        // given
+        final ReferenceLinkCreateRequest request =
+                new ReferenceLinkCreateRequest(FakeServer.testUrl, springCategory.getId());
+        final ReferenceLinkResponse referenceLink = referenceLinkService.createReferenceLink(
+                pairRoomEntity.getAccessCode(), request);
+
+        // when
+        referenceLinkService.deleteReferenceLink("abcdef", referenceLink.id());
+
+        assertAll(
+                () -> assertThat(referenceLinkRepository.findAll()).hasSize(1),
+                () -> assertThat(openGraphRepository.findAll()).hasSize(1)
+        );
+    }
+
+    @Test
+    @DisplayName("카테고리가 일치하는 모든 레퍼런스 링크를 조회한다.")
+    void find_reference_links_by_category() throws MalformedURLException {
+        // given
+        final ReferenceLinkEntity reactReferenceLink = generateReferenceLink(reactCategory);
+        final ReferenceLinkEntity reactReferenceLink2 = generateReferenceLink(reactCategory);
+        final ReferenceLinkEntity springReferenceLink = generateReferenceLink(springCategory);
+
+        referenceLinkRepository.save(reactReferenceLink);
+        referenceLinkRepository.save(reactReferenceLink2);
+        referenceLinkRepository.save(springReferenceLink);
+
+        // when
+        final List<ReferenceLinkResponse> referenceLinksByCategory = referenceLinkService.findReferenceLinksByCategory(
+                pairRoomEntity.getAccessCode(), reactCategory.getId());
+
+        // then
+        assertThat(referenceLinksByCategory).hasSize(2);
+    }
+
+    private ReferenceLinkEntity generateReferenceLink(final CategoryEntity category) throws MalformedURLException {
+        return new ReferenceLinkEntity(new ReferenceLink(new URL(FakeServer.testUrl),
+                new AccessCode(pairRoomEntity.getAccessCode())),
+                category, pairRoomEntity);
     }
 }

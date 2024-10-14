@@ -35,13 +35,14 @@ class AuthServiceTest {
     }
 
     @Test
-    @DisplayName("엑세스 토큰으로 회원을 조회한다.")
+    @DisplayName("JWT로 감싸진 엑세스 토큰으로 회원을 조회한다.")
     void search_member_by_access_token() {
         // given
         final Member member = createMember("username", FakeGithubApiClient.ACCESS_TOKEN, FakeGithubApiClient.USER_ID);
+        final String sign = jwtProvider.sign(member.getAccessToken());
 
         // when
-        final SignInServiceResponse signInToken = authService.createSignInToken(member.getAccessToken());
+        final SignInServiceResponse signInToken = authService.createSignInToken(sign);
 
         // then
         assertThat(signInToken.signedIn()).isTrue();
@@ -52,9 +53,10 @@ class AuthServiceTest {
     void throw_exception_when_search_by_does_not_exists_access_token() {
         // given
         final String token = "does not exist token";
+        final String sign = jwtProvider.sign(token);
 
         // when
-        final SignInServiceResponse signInToken = authService.createSignInToken(token);
+        final SignInServiceResponse signInToken = authService.createSignInToken(sign);
 
         // then
         assertThat(signInToken.token()).isEmpty();
@@ -77,9 +79,10 @@ class AuthServiceTest {
     void renewal_member_access_token_when_create_sign_in_token() {
         // given
         final Member member = createMember("username", "origin", FakeGithubApiClient.USER_ID);
+        final String sign = jwtProvider.sign("change");
 
         // when
-        authService.createSignInToken("change");
+        authService.createSignInToken(sign);
 
         // then
         assertThat(memberRepository.findById(member.getId()).orElseThrow())
@@ -104,7 +107,7 @@ class AuthServiceTest {
     @DisplayName("해당 토큰이 유효한지 확인한다. - 거짓")
     void return_false_when_token_is_invalid() {
         // given
-        final String invalidToken = "";
+        final String invalidToken = "hello, world";
 
         // when
         final boolean signedIn = authService.isSignedIn(invalidToken);

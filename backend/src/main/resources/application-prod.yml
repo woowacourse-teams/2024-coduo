@@ -1,0 +1,57 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    replica:
+      master:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: ${MASTER_DB_URL}
+        username: ${MASTER_DB_USERNAME}
+        password: ${MASTER_DB_PASSWORD}
+      slave:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: ${SLAVE_DB_URL}
+        username: ${SLAVE_DB_USERNAME}
+        password: ${SLAVE_DB_PASSWORD}
+
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: ${DDL_AUTO}
+    database-platform: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
+
+springdoc:
+  swagger-ui:
+    persist-authorization: true
+    default-models-expand-depth: -1
+    path: /api/docs
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
+      base-path: /api/actuator
+
+server:
+  tomcat:
+    mbeanregistry:
+      enabled: true
+
+oauth:
+  github:
+    client-id: ${CLIENT_ID}
+    client-secret: ${CLIENT_SECRET}
+    redirect-uri: ${CLIENT_REDIRECT_URI}
+
+front:
+  url: coduo.site
+
+jwt:
+  sign-key: ${JWT_KEY}
+
+ec2:
+  prefix: ${INSTANCE_NAME}

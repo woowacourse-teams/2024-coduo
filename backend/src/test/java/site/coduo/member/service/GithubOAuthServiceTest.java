@@ -1,6 +1,7 @@
 package site.coduo.member.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,9 +11,9 @@ import org.springframework.context.annotation.Import;
 
 import site.coduo.config.TestConfig;
 import site.coduo.fake.FakeGithubOAuthClient;
-import site.coduo.fake.FixedNanceProvider;
-import site.coduo.member.client.dto.TokenResponse;
-import site.coduo.member.controller.dto.oauth.GithubAuthQuery;
+import site.coduo.fake.FixedNonceProvider;
+import site.coduo.member.infrastructure.security.JwtProvider;
+import site.coduo.member.service.dto.oauth.GithubAuthQuery;
 
 @SpringBootTest
 @Import(TestConfig.class)
@@ -21,6 +22,9 @@ class GithubOAuthServiceTest {
     @Autowired
     private GithubOAuthService githubOAuthService;
 
+    @Autowired
+    private JwtProvider jwtProvider;
+
     @Test
     @DisplayName("인가 요청을 위한 정보를 생성한다.")
     void create_info_for_authorization_request_to_third_party() {
@@ -28,7 +32,7 @@ class GithubOAuthServiceTest {
         final GithubAuthQuery expect = new GithubAuthQuery(
                 FakeGithubOAuthClient.OAUTH_CLIENT_ID,
                 FakeGithubOAuthClient.OAUTH_REDIRECT_URI,
-                FixedNanceProvider.FIXED_VALUE
+                FixedNonceProvider.FIXED_VALUE
         );
 
         // when
@@ -45,9 +49,10 @@ class GithubOAuthServiceTest {
         final String code = "code";
 
         // when
-        final TokenResponse tokenResponse = githubOAuthService.invokeOAuthCallback(code);
+        final String tempToken = githubOAuthService.invokeOAuthCallback(code);
 
         // then
-        assertThat(tokenResponse.accessToken()).isEqualTo(FakeGithubOAuthClient.ACCESS_TOKEN.getCredential());
+        assertThatCode(() -> jwtProvider.extractSubject(tempToken))
+                .doesNotThrowAnyException();
     }
 }

@@ -1,62 +1,60 @@
 package site.coduo.pairroom.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import java.util.Objects;
 
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
+import lombok.RequiredArgsConstructor;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "PAIR_ROOM")
-@Entity
-public class PairRoom extends BaseTimeEntity {
+@RequiredArgsConstructor
+public class PairRoom {
 
-    @Id
-    @Column(name = "ID", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Embedded
-    private Pair pair;
-
-    @Embedded
-    @Column(name = "ACCESS_CODE", nullable = false)
-    private AccessCode accessCode;
-
-    @Column(name = "TIMER_DURATION", nullable = true)
-    private Long timerDuration;
-
-    public PairRoom(final Pair pair, final AccessCode accessCode) {
-        this.pair = pair;
-        this.accessCode = accessCode;
-    }
-
-    public PairRoom(final Long id, final Pair pair, final AccessCode accessCode) {
-        this.id = id;
-        this.pair = pair;
-        this.accessCode = accessCode;
-    }
+    private final PairRoomStatus status;
+    private final Pair pair;
+    private final MissionUrl missionUrl;
+    private final AccessCode accessCode;
 
     public String getAccessCodeText() {
         return accessCode.getValue();
     }
 
+    public String getNavigatorName() {
+        return pair.getNavigatorName();
+    }
+
+    public String getDriverName() {
+        return pair.getDriverName();
+    }
+
+    public String getMissionUrl() {
+        return missionUrl.getValue();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof final PairRoom pairRoom)) {
+            return false;
+        }
+        return status == pairRoom.status && Objects.equals(pair, pairRoom.pair) && Objects.equals(
+                missionUrl, pairRoom.missionUrl) && Objects.equals(accessCode, pairRoom.accessCode);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(status, pair, missionUrl, accessCode);
+    }
+
     @Override
     public String toString() {
         return "PairRoom{" +
-                "id=" + id +
+                "status=" + status +
                 ", pair=" + pair +
+                ", missionUrl=" + missionUrl +
                 ", accessCode=" + accessCode +
-                ", timerDuration=" + timerDuration +
                 '}';
     }
 }

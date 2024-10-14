@@ -1,25 +1,28 @@
 package site.coduo.acceptance;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Map;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
-import org.springframework.transaction.annotation.Transactional;
 
 import io.restassured.RestAssured;
-import site.coduo.pairroom.dto.PairRoomCreateRequest;
-import site.coduo.pairroom.dto.PairRoomCreateResponse;
+import io.restassured.http.ContentType;
+import site.coduo.pairroom.domain.PairRoomStatus;
+import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
+import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
+import site.coduo.pairroom.service.dto.PairRoomExistResponse;
 
-@Transactional
 class PairRoomAcceptanceTest extends AcceptanceFixture {
 
-    static PairRoomCreateResponse createPairRoom(final PairRoomCreateRequest pairRoom) {
+    static PairRoomCreateResponse createPairRoom(final PairRoomCreateRequest request) {
         return RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .body(pairRoom)
+                .body(request)
 
                 .when()
                 .post("/api/pair-room")
@@ -29,31 +32,13 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .as(PairRoomCreateResponse.class);
     }
 
-    static void createTimerDuration(final String accessCode, final long timerDuration) {
-        final Map<String, Object> request = Map.of("timerDuration", timerDuration);
-
-        RestAssured
-                .given()
-                .log()
-                .all()
-                .contentType("application/json")
-                .body(request)
-
-                .when()
-                .patch("/api/pair-room/{accessCode}/timer", accessCode)
-
-                .then()
-                .log()
-                .all()
-                .statusCode(201);
-    }
-
     @Test
     @DisplayName("페어룸 요청 시 정보를 반환한다.")
     void show_pair_room() {
         //given
-        final PairRoomCreateResponse pairRoomUrl = createPairRoom(new PairRoomCreateRequest("레디", "프람"));
-        createTimerDuration(pairRoomUrl.accessCode(), 600000);
+        final PairRoomCreateResponse pairRoomUrl =
+                createPairRoom(
+                        new PairRoomCreateRequest("레디", "프람", 10000L, 10000L, "https://missionUrl.xxx", "IN_PROGRESS"));
 
         //when & then
         RestAssured
@@ -72,44 +57,24 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     }
 
     @Test
-    @DisplayName("타이머 시간을 저장한다.")
-    void save_timer_duration() {
-        // given
-        final PairRoomCreateResponse pairRoomUrl = createPairRoom(new PairRoomCreateRequest("레디", "프람"));
-        final Map<String, Object> request = Map.of("timerDuration", 600000);
+    @DisplayName("페어룸의 상태를 변경한다.")
+    void update_pair_room_status() {
+        //given
+        final PairRoomCreateResponse accessCode =
+                createPairRoom(
+                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx", "IN_PROGRESS"));
+        final Map<String, String> status = Map.of("status", PairRoomStatus.IN_PROGRESS.name());
 
         // when & then
         RestAssured
                 .given()
                 .log()
                 .all()
-                .contentType("application/json")
-                .body(request)
+                .contentType(ContentType.JSON)
+                .body(status)
 
                 .when()
-                .patch("/api/pair-room/{accessCode}/timer", pairRoomUrl.accessCode())
-
-                .then()
-                .log()
-                .all()
-                .statusCode(201);
-    }
-
-    @Test
-    @DisplayName("페어룸을 삭제한다.")
-    void delete_pair_room() {
-        //given
-        final PairRoomCreateResponse pairRoomUrl = createPairRoom(new PairRoomCreateRequest("레디", "프람"));
-
-        //when & then
-        RestAssured
-                .given()
-                .log()
-                .all()
-                .contentType("application/json")
-
-                .when()
-                .delete("/api/pair-room/" + pairRoomUrl.accessCode())
+                .patch("/api/pair-room/{accessCode}/status", accessCode.accessCode())
 
                 .then()
                 .log()
@@ -118,21 +83,97 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     }
 
     @Test
-    @DisplayName("존재하지 않은 accessCode로 페어룸 삭제시 실패한다.")
-    void fail_delete_pair_room() {
-        //when & then
+    @DisplayName("페어룸의 드라이버와 내비게이터를 변경한다.")
+    void update_driver_navigator() {
+        // given
+        final PairRoomCreateResponse accessCode =
+                createPairRoom(
+                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx", "IN_PROGRESS"));
+
+        // when & then
         RestAssured
                 .given()
                 .log()
                 .all()
-                .contentType("application/json")
 
                 .when()
-                .delete("/api/pair-room/" + "zzzzzz")
+                .patch("/api/pair-room/{access-code}/pair-swap", accessCode.accessCode())
 
                 .then()
+                .statusCode(204);
+    }
+
+    @Test
+    @DisplayName("페어룸이 존재하면 true를 반환한다.")
+    void exist_pair_room_true() {
+        //given
+        final PairRoomCreateResponse accessCode =
+                createPairRoom(
+                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx", "IN_PROGRESS"));
+
+        // when & then
+        final PairRoomExistResponse response = RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
                 .log()
                 .all()
-                .statusCode(404);
+
+                .when()
+                .queryParam("access_code", accessCode.accessCode())
+                .get("/api/pair-room/exists")
+
+                .then()
+                .statusCode(200)
+                .extract()
+                .as(PairRoomExistResponse.class);
+
+        assertThat(response.exists()).isTrue();
+    }
+
+    @Test
+    @DisplayName("페어룸이 존재하면 false를 반환한다.")
+    void exist_pair_room_false() {
+        //given
+
+        // when & then
+        final PairRoomExistResponse response = RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .log()
+                .all()
+
+                .when()
+                .queryParam("access_code", "babyroom")
+                .get("/api/pair-room/exists")
+
+                .then()
+                .statusCode(200)
+                .extract()
+                .as(PairRoomExistResponse.class);
+
+        assertThat(response.exists()).isFalse();
+    }
+
+    @Test
+    @DisplayName("페어룸을 삭제한다.")
+    void delete_pair_room() {
+        // given
+        final PairRoomCreateResponse accessCode =
+                createPairRoom(
+                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx", "IN_PROGRESS"));
+
+        // when & then
+        RestAssured
+                .given()
+                .log()
+                .all()
+
+                .when()
+                .delete("/api/pair-room/{access-code}", accessCode.accessCode())
+
+                .then()
+                .statusCode(204);
     }
 }
