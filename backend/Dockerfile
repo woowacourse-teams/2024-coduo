@@ -5,4 +5,5 @@ COPY ${JAR_FILE} /coduo-app.jar
 
 ARG PROFILE
 ENV PROFILE_ENV=${PROFILE}
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=${PROFILE_ENV}", "/coduo-app.jar"]
+ENV SERVER_PORT=8080
+ENTRYPOINT ["sh", "-c", "java -jar -Dspring.profiles.active=${PROFILE_ENV} -Dserver.port=${SERVER_PORT} /coduo-app.jar"]
