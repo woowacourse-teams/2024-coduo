@@ -30,7 +30,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: prometheus
+        include: prometheus, health
       base-path: /api/actuator
 
 server:
