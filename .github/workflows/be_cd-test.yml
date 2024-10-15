@@ -109,7 +109,7 @@ jobs:
       - name: Determine Active and Inactive Ports (Blue/Green)
         id: determine-ports
         run: |
-          ip=${{ secrets.TEST_SERVER_IP_ADDRESS }}
+          ip="api-test.coduo.site"
           ports=(8080 8081)
           for port in "${ports[@]}"; do
             RESPONSE=$(curl -s https://$ip:$port/api/actuator/health)
