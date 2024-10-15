@@ -60,3 +60,10 @@ export const updatePairRole = async ({ accessCode }: UpdatePairRoleRequest) => {
     errorMessage: '',
   });
 };
+
+export const deletePairRoom = async (accessCode: string) => {
+  await fetcher.delete({
+    url: `${API_URL}/pair-room/${accessCode}`,
+    errorMessage: ERROR_MESSAGES.DELETE_PAIR_ROOM,
+  });
+};

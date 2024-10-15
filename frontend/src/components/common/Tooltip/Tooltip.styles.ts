@@ -52,8 +52,9 @@ const directionStyle = (direction: Direction, color: string) => {
           top: 100%;
           left: 50%;
 
-          transform: translateX(-50%);
           border-color: ${color} transparent transparent transparent;
+
+          transform: translateX(-50%);
         }
       `;
     case 'bottom':
@@ -68,8 +69,9 @@ const directionStyle = (direction: Direction, color: string) => {
           bottom: 100%;
           left: 50%;
 
-          transform: translateX(-50%);
           border-color: transparent transparent ${color} transparent;
+
+          transform: translateX(-50%);
         }
       `;
     case 'left':
@@ -84,8 +86,9 @@ const directionStyle = (direction: Direction, color: string) => {
           top: 50%;
           left: 100%;
 
-          transform: translateY(-50%);
           border-color: transparent transparent transparent ${color};
+
+          transform: translateY(-50%);
         }
       `;
     case 'right':
@@ -100,8 +103,9 @@ const directionStyle = (direction: Direction, color: string) => {
           top: 50%;
           right: 100%;
 
-          transform: translateY(-50%);
           border-color: transparent ${color} transparent transparent;
+
+          transform: translateY(-50%);
         }
       `;
   }

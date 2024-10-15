@@ -59,6 +59,7 @@
           "padding-bottom",
           "padding-left",
           "border",
+          "border-color",
           "border-radius"
         ]
       },
