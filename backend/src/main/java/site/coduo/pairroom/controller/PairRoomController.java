@@ -29,6 +29,7 @@ import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
 import site.coduo.pairroom.service.dto.PairRoomReadRequest;
 import site.coduo.pairroom.service.dto.PairRoomReadResponse;
 import site.coduo.pairroom.service.dto.PairRoomStatusUpdateRequest;
+import site.coduo.pairroom.service.dto.PairUpdateRequest;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -46,6 +47,14 @@ public class PairRoomController implements PairRoomDocs {
         final PairRoomCreateResponse response = new PairRoomCreateResponse(accessCode);
         return ResponseEntity.created(URI.create("/"))
                 .body(response);
+    }
+
+    @PatchMapping("/pair-room/pair")
+    public ResponseEntity<Void> updatePair(@Valid @RequestBody final PairUpdateRequest request) {
+        pairRoomService.addPair(request.accessCode(), request.userName());
+
+        return ResponseEntity.noContent()
+                .build();
     }
 
     @PatchMapping("/pair-room/{accessCode}/pair-swap")
