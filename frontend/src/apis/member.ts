@@ -24,7 +24,7 @@ export const getMember = async (): Promise<{ username: string }> => {
 export const deleteMember = async () => {
   await fetcher.delete({
     url: `${API_URL}/member`,
-    errorMessage: ERROR_MESSAGES.GET_MEMBER,
+    errorMessage: ERROR_MESSAGES.DELETE_MEMBER,
   });
 };
 
