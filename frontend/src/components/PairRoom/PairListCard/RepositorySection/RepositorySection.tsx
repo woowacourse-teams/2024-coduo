@@ -18,8 +18,8 @@ const RepositorySection = ({ isOpen, missionUrl }: RepositorySectionProps) => {
         <img src={GithubLogoWhite} alt="" />
         {isOpen && (
           <S.RepositoryWrapper>
-            <S.RepositoryText>리포지토리로 이동</S.RepositoryText>
-            <IoIosArrowForward size="1.8rem" color="white" />
+            <S.RepositoryText>미션 리포지토리로 이동</S.RepositoryText>
+            <IoIosArrowForward size="1.6rem" color="white" />
           </S.RepositoryWrapper>
         )}
       </S.Layout>
