@@ -19,6 +19,7 @@ import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
 import site.coduo.pairroom.service.dto.PairRoomReadRequest;
 import site.coduo.pairroom.service.dto.PairRoomReadResponse;
 import site.coduo.pairroom.service.dto.PairRoomStatusUpdateRequest;
+import site.coduo.pairroom.service.dto.PairUpdateRequest;
 
 @Tag(name = "페어룸 API")
 public interface PairRoomDocs {
@@ -41,10 +42,18 @@ public interface PairRoomDocs {
             String token
     );
 
+    @Operation(summary = "페어를 추가한다.")
+    @ApiResponse(responseCode = "204", description = "페어 추가 성공", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+    ResponseEntity<Void> updatePair(
+            @Parameter(description = "페어룸 코드와 추가할 페어 id", required = true)
+            PairUpdateRequest request
+    );
+
+
     @Operation(summary = "드라이버 내비게이터 역할을 바꾼다.")
     @ApiResponse(responseCode = "204", description = "페어룸 역할 스왑 성공")
     ResponseEntity<Void> updatePairRole(
-            @Parameter(description = "페어룸 접근 코드")
+            @Parameter(description = "페어룸 접근 코드", required = true)
             String accessCode
     );
 
@@ -74,7 +83,7 @@ public interface PairRoomDocs {
     @ApiResponse(responseCode = "200", description = "페어룸 존재 여부", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
             schema = @Schema(implementation = PairRoomExistResponse.class)))
     ResponseEntity<PairRoomExistResponse> pairRoomExists(String accessCode);
-  
+
     @Operation(summary = "페어룸을 삭제한다.")
     @ApiResponse(responseCode = "204", description = "페어룸 삭제 성공")
     ResponseEntity<Void> deletePairRoom(
