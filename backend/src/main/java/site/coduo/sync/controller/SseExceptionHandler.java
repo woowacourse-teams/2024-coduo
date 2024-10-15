@@ -33,8 +33,8 @@ public class SseExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleNotFoundScheduledFutureException(
             final NotFoundScheduledFutureException e) {
         log.warn(e.getMessage());
-        return ResponseEntity.status(SseApiError.TIMER_STOP_FAILED.getHttpStatus())
-                .body(new ApiErrorResponse(SseApiError.TIMER_STOP_FAILED.getMessage()));
+        return ResponseEntity.status(SseApiError.SCHEDULER_NOT_FOUND.getHttpStatus())
+                .body(new ApiErrorResponse(SseApiError.SCHEDULER_NOT_FOUND.getMessage()));
     }
 
     @ExceptionHandler(NotFoundSseConnectionException.class)

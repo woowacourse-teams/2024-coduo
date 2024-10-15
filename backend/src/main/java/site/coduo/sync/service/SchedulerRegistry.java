@@ -30,6 +30,15 @@ public class SchedulerRegistry {
         registry.remove(key);
     }
 
+    public void clear(final String key) {
+        if (!registry.containsKey(key)) {
+            return;
+        }
+        registry.get(key)
+                .cancel(false);
+        registry.remove(key);
+    }
+
     public boolean has(final String key) {
         return registry.containsKey(key);
     }
