@@ -17,7 +17,7 @@ const useDeleteMember = () => {
     mutationFn: deleteMember,
     onSuccess: () => {
       resetUser();
-      addToast({ status: 'SUCCESS', message: '회원 탈퇴에 성공했습니다.' });
+      addToast({ status: 'SUCCESS', message: '지금까지 코딩해듀오와 함께 해 주셔서 감사해요. 다음에 또 만나요 👋🏻' });
       navigate('/', { replace: true });
     },
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
