@@ -19,7 +19,7 @@ const ConfirmModal = ({ isOpen, onConfirm, close }: ConfirmModalProps) => {
       </S.Container>
       <Modal.Footer position="CENTER">
         <Button css={S.confirmButtonStyles} onClick={onConfirm}>
-          확인
+          탈퇴
         </Button>
         <Button css={S.cancelButtonStyles} onClick={close}>
           취소
