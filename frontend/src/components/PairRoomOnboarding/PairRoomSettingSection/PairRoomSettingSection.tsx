@@ -39,7 +39,10 @@ const PairRoomSettingSection = ({ repositoryName }: PairRoomSettingSectionProps)
 
   const { handleAddPairRoom } = useAddPairRoom();
 
-  const handleSuccess = () => handleAddPairRoom(driver, navigator, repositoryName, timerDuration);
+  const handleSuccess = () => {
+    const missionUrl = repositoryName !== '' ? `https://github.com/coduo-missions/${repositoryName}` : '';
+    handleAddPairRoom(driver, navigator, missionUrl, timerDuration);
+  };
 
   return (
     <S.Layout>

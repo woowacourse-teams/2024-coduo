@@ -8,8 +8,9 @@ export type PairRoomStatus = 'IN_PROGRESS' | 'COMPLETED';
 
 export interface GetPairRoomResponse {
   id: number;
-  navigator: string;
   driver: string;
+  navigator: string;
+  missionUrl: string;
   status: PairRoomStatus;
 }
 
