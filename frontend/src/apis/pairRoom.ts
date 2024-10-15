@@ -34,14 +34,21 @@ export const getPairRoomExists = async (accessCode: string): Promise<{ exists: b
 interface AddPairRoomRequest {
   driver: string;
   navigator: string;
+  missionUrl: string;
   timerDuration: number;
   timerRemainingTime: number;
 }
 
-export const addPairRoom = async ({ driver, navigator, timerDuration, timerRemainingTime }: AddPairRoomRequest) => {
+export const addPairRoom = async ({
+  driver,
+  navigator,
+  missionUrl,
+  timerDuration,
+  timerRemainingTime,
+}: AddPairRoomRequest) => {
   const response = await fetcher.post({
     url: `${API_URL}/pair-room`,
-    body: JSON.stringify({ driver, navigator, timerDuration, timerRemainingTime, status: 'IN_PROGRESS' }),
+    body: JSON.stringify({ driver, navigator, missionUrl, timerDuration, timerRemainingTime, status: 'IN_PROGRESS' }),
     errorMessage: '',
   });
 

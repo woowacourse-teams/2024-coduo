@@ -13,7 +13,11 @@ import { BUTTON_TEXT } from '@/constants/button';
 
 import * as S from './PairRoomSettingSection.styles';
 
-const PairRoomSettingSection = () => {
+interface PairRoomSettingSectionProps {
+  repositoryName: string;
+}
+
+const PairRoomSettingSection = ({ repositoryName }: PairRoomSettingSectionProps) => {
   const {
     firstPairName,
     secondPairName,
@@ -35,7 +39,7 @@ const PairRoomSettingSection = () => {
 
   const { handleAddPairRoom } = useAddPairRoom();
 
-  const handleSuccess = () => handleAddPairRoom(driver, navigator, timerDuration);
+  const handleSuccess = () => handleAddPairRoom(driver, navigator, repositoryName, timerDuration);
 
   return (
     <S.Layout>
