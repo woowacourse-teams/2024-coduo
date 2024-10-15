@@ -5,7 +5,7 @@ services:
     image: ${DOCKER_REPO_NAME}/springboot-app:test-latest
     platform: linux/arm64
     ports:
-      - ${BLUE_SERVER_BINDING_PORT}
+      - "${BLUE_SERVER_BINDING_PORT}:8080"
     volumes:
       - ${SERVER_LOGS_PATH}/springboot-app/blue:/logs
       - ${SERVER_LOGS_PATH}/springboot-app/backup/blue:/logs/backup
@@ -31,7 +31,7 @@ services:
     image: ${DOCKER_REPO_NAME}/springboot-app:test-latest
     platform: linux/arm64
     ports:
-      - ${GREEN_SERVER_BINDING_PORT}
+      - "${GREEN_SERVER_BINDING_PORT}:8080"
     volumes:
       - ${SERVER_LOGS_PATH}/springboot-app/green:/logs
       - ${SERVER_LOGS_PATH}/springboot-app/backup/green:/logs/backup
