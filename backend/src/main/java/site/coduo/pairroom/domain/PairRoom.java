@@ -31,6 +31,10 @@ public class PairRoom {
         return missionUrl.getValue();
     }
 
+    public boolean isSameAccessCode(final AccessCode code) {
+        return accessCode.equals(code);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {

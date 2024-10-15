@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.coduo.member.domain.Member;
+import site.coduo.member.infrastructure.security.JwtProvider;
 import site.coduo.member.service.MemberService;
 import site.coduo.pairroom.domain.MissionUrl;
 import site.coduo.pairroom.domain.Pair;
@@ -40,6 +41,7 @@ public class PairRoomService {
     private final TimerRepository timerRepository;
     private final PairRoomMemberRepository pairRoomMemberRepository;
     private final MemberService memberService;
+    private final JwtProvider jwtProvider;
     private final UUIDAccessCodeGenerator uuidAccessCodeGenerator;
 
     @Transactional
@@ -124,5 +126,16 @@ public class PairRoomService {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
         checkDeletePairRoom(pairRoomEntity);
         pairRoomEntity.updateStatus(PairRoomStatus.DELETED);
+    }
+
+    public boolean isParticipant(final String token, final String accessCode) {
+        final Member member = memberService.findMemberByCredential(token);
+
+        final List<PairRoomMemberEntity> pairRooms = pairRoomMemberRepository.findByMember(member);
+        return pairRooms.stream()
+                .map(PairRoomMemberEntity::getPairRoom)
+                .filter(pairRoomEntity -> !pairRoomEntity.isDelete())
+                .map(PairRoomEntity::toDomain)
+                .anyMatch(pairRoom -> pairRoom.isSameAccessCode(new AccessCode(accessCode)));
     }
 }

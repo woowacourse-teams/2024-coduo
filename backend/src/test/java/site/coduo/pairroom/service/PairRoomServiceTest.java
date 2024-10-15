@@ -26,6 +26,8 @@ import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.exception.DeletePairRoomException;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.repository.PairRoomEntity;
+import site.coduo.pairroom.repository.PairRoomMemberEntity;
+import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
@@ -40,14 +42,22 @@ class PairRoomServiceTest {
 
     @Autowired
     private PairRoomService pairRoomService;
+
     @Autowired
     private JwtProvider jwtProvider;
+
     @Autowired
     private MemberRepository memberRepository;
+
     @Autowired
     private TimerRepository timerRepository;
+
     @Autowired
     private PairRoomRepository pairRoomRepository;
+
+    @Autowired
+    private PairRoomMemberRepository pairRoomMemberRepository;
+
 
     @Test
     @DisplayName("페어룸을 생성한다.")
@@ -263,13 +273,9 @@ class PairRoomServiceTest {
     @DisplayName("페어룸이 존재하는지 확인한다.")
     void exists_pair_room() {
         //given
-        final AccessCode accessCode = new AccessCode("123456");
-        final PairRoomEntity pairRoomEntity = PairRoomEntity.from(
-                new PairRoom(PairRoomStatus.IN_PROGRESS,
-                        new Pair(new PairName("레디"), new PairName("레모네")),
-                        new MissionUrl("https://missionUrl.xxx"),
-                        accessCode
-                ));
+        final String code = "123456";
+        final AccessCode accessCode = new AccessCode(code);
+        final PairRoomEntity pairRoomEntity = createPairRoom(code);
         pairRoomRepository.save(pairRoomEntity);
 
         //when & then
@@ -279,4 +285,52 @@ class PairRoomServiceTest {
 
         );
     }
+
+    @Test
+    @DisplayName("특정 멤버가 해당 엑세스코드의 방 참가자인지 판별한다. - 참")
+    void check_is_consistent_of_specific_access_code_pair_room_true_case() {
+        // given
+        final String accessCode = "123456";
+        final PairRoomEntity pairRoomEntity = createPairRoom(accessCode);
+        pairRoomRepository.save(pairRoomEntity);
+        final String memberId = "memberId";
+        final Member member = createMember(memberId);
+        pairRoomMemberRepository.save(new PairRoomMemberEntity(pairRoomEntity, member));
+        final String token = jwtProvider.sign(memberId);
+
+        // when
+        final boolean participant = pairRoomService.isParticipant(token, accessCode);
+
+        // then
+        assertThat(participant).isTrue();
+    }
+
+    private PairRoomEntity createPairRoom(final String code) {
+        final AccessCode accessCode = new AccessCode(code);
+        return PairRoomEntity.from(
+                new PairRoom(PairRoomStatus.IN_PROGRESS,
+                        new Pair(new PairName("레디"), new PairName("레모네")),
+                        new MissionUrl("https://missionUrl.xxx"),
+                        accessCode
+                ));
+    }
+
+    @Test
+    @DisplayName("특정 멤버가 해당 엑세스코드의 방 참가자인지 판별한다. - 거짓")
+    void check_is_consistent_of_specific_access_code_pair_room_false_case() {
+        // given
+        final String accessCode = "123456";
+        final PairRoomEntity pairRoomEntity = createPairRoom(accessCode);
+        pairRoomRepository.save(pairRoomEntity);
+        final String memberId = "memberId";
+        createMember(memberId);
+        final String token = jwtProvider.sign(memberId);
+
+        // when
+        final boolean participant = pairRoomService.isParticipant(token, accessCode);
+
+        // then
+        assertThat(participant).isFalse();
+    }
+
 }
