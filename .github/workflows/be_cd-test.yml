@@ -94,7 +94,8 @@ jobs:
           INSTANCE_NAME=${{ secrets.INSTANCE_A_NAME }}
           
           # Server App
-          SERVER_BINDING_PORT=${{ secrets.SERVER_BINDING_PORT }}
+          BLUE_SERVER_BINDING_PORT=${{ secrets.BLUE_SERVER_BINDING_PORT }}
+          GREEN_SERVER_BINDING_PORT=${{ secrets.GREEN_SERVER_BINDING_PORT }}
           SERVER_LOGS_PATH=${{ secrets.SERVER_LOGS_PATH }}
           EOF
 
