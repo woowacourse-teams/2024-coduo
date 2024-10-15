@@ -22,6 +22,7 @@ services:
       OAUTH_GITHUB_REDIRECT_URI: ${CLIENT_REDIRECT_URI}
       JWT_SIGN_KEY: ${JWT_KEY}
       EC2_PREFIX: ${INSTANCE_NAME}
+      SERVER_PORT: ${BLUE_SERVER_BINDING_PORT}
     restart: on-failure
     networks:
       - coduo_net
@@ -48,6 +49,7 @@ services:
       OAUTH_GITHUB_REDIRECT_URI: ${CLIENT_REDIRECT_URI}
       JWT_SIGN_KEY: ${JWT_KEY}
       EC2_PREFIX: ${INSTANCE_NAME}
+      SERVER_PORT: ${GREEN_SERVER_BINDING_PORT}
     restart: on-failure
     networks:
       - coduo_net
