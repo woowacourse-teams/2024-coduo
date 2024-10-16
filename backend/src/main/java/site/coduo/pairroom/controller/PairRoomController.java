@@ -51,7 +51,7 @@ public class PairRoomController implements PairRoomDocs {
 
     @PatchMapping("/pair-room/pair")
     public ResponseEntity<Void> updatePair(@Valid @RequestBody final PairUpdateRequest request) {
-        pairRoomService.addPair(request.accessCode(), request.userName());
+        pairRoomService.addPair(request.accessCode(), request.userId());
 
         return ResponseEntity.noContent()
                 .build();

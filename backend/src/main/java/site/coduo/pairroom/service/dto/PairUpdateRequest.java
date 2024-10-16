@@ -13,6 +13,6 @@ public record PairUpdateRequest(
 
         @Schema(description = "추가할 페어 id", example = "myGithubId")
         @NotBlank
-        String userName
+        String userId
 ) {
 }
