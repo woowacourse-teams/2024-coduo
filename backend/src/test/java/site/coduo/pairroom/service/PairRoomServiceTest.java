@@ -24,10 +24,8 @@ import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.exception.DeletePairRoomException;
-import site.coduo.pairroom.exception.InvalidAccessCodeException;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.repository.PairRoomEntity;
-import site.coduo.pairroom.repository.PairRoomMemberEntity;
 import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
@@ -309,24 +307,6 @@ class PairRoomServiceTest {
         assertThat(pairRoomRepository.fetchByAccessCode(pairRoomEntity.getAccessCode()).getStatus())
                 .isEqualTo(PairRoomStatus.COMPLETED);
     }
-  
-    @DisplayName("특정 멤버가 해당 엑세스코드의 방 참가자인지 판별한다. - 참")
-    void check_is_consistent_of_specific_access_code_pair_room_true_case() {
-        // given
-        final String accessCode = "123456";
-        final PairRoomEntity pairRoomEntity = createPairRoom(accessCode);
-        pairRoomRepository.save(pairRoomEntity);
-        final String memberId = "memberId";
-        final Member member = createMember(memberId);
-        pairRoomMemberRepository.save(new PairRoomMemberEntity(pairRoomEntity, member));
-        final String token = jwtProvider.sign(memberId);
-
-        // when
-        final boolean participant = pairRoomService.isParticipant(token, accessCode);
-
-        // then
-        assertThat(participant).isTrue();
-    }
 
     private PairRoomEntity createPairRoom(final String code) {
         final AccessCode accessCode = new AccessCode(code);
@@ -354,41 +334,5 @@ class PairRoomServiceTest {
 
         // then
         assertThat(participant).isFalse();
-    }
-
-    @Test
-    @DisplayName("엑세스코드로 페어룸이 삭제되었는지 검증한다.")
-    void validate_pair_room_is_deleted() {
-        // given
-        final String accessCode = "code";
-        final PairRoomEntity pairRoom = createPairRoom(accessCode, PairRoomStatus.COMPLETED);
-        pairRoomRepository.save(pairRoom);
-
-        // when & then
-        assertThatCode(() -> pairRoomService.validateNotDeleted(accessCode))
-                .doesNotThrowAnyException();
-    }
-
-    @Test
-    @DisplayName("엑세스코드로가 삭제 상태가 아니면 예외를 던진다.")
-    void throw_exception_when_pair_room_did_not_deleted() {
-        // given
-        final String accessCode = "code";
-        final PairRoomEntity pairRoom = createPairRoom(accessCode, PairRoomStatus.DELETED);
-        pairRoomRepository.save(pairRoom);
-
-        // when & then
-        assertThatThrownBy(() -> pairRoomService.validateNotDeleted(accessCode))
-                .isInstanceOf(InvalidAccessCodeException.class);
-    }
-
-    private PairRoomEntity createPairRoom(final String code, final PairRoomStatus pairRoomStatus) {
-        final AccessCode accessCode = new AccessCode(code);
-        return PairRoomEntity.from(
-                new PairRoom(pairRoomStatus,
-                        new Pair(new PairName("레디"), new PairName("레모네")),
-                        new MissionUrl("https://missionUrl.xxx"),
-                        accessCode
-                ));
     }
 }

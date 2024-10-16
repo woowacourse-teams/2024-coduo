@@ -28,6 +28,9 @@ public class SseService {
     }
 
     public void broadcast(final String key, final String event, final String data) {
+        if (eventStreamsRegistry.hasNoStreams(key)) {
+            return;
+        }
         final EventStreams emitters = eventStreamsRegistry.findEventStreams(key);
         emitters.broadcast(event, data);
     }

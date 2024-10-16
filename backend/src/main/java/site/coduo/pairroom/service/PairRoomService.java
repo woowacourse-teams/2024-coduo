@@ -19,7 +19,6 @@ import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.domain.accesscode.UUIDAccessCodeGenerator;
 import site.coduo.pairroom.exception.DeletePairRoomException;
-import site.coduo.pairroom.exception.InvalidAccessCodeException;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomMemberEntity;
 import site.coduo.pairroom.repository.PairRoomMemberRepository;
@@ -27,6 +26,7 @@ import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
 import site.coduo.pairroom.service.dto.PairRoomReadResponse;
+import site.coduo.sync.service.SchedulerService;
 import site.coduo.timer.domain.Timer;
 import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
@@ -42,6 +42,7 @@ public class PairRoomService {
     private final PairRoomMemberRepository pairRoomMemberRepository;
     private final MemberService memberService;
     private final UUIDAccessCodeGenerator uuidAccessCodeGenerator;
+    private final SchedulerService schedulerService;
 
     @Transactional
     public String savePairRoom(final PairRoomCreateRequest request, @Nullable final String token) {
@@ -127,11 +128,14 @@ public class PairRoomService {
         pairRoomEntity.updateStatus(PairRoomStatus.DELETED);
     }
 
+    @Transactional
     public void completePairRoom(final String accessCode) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
         checkDeletePairRoom(pairRoomEntity);
         pairRoomEntity.updateStatus(PairRoomStatus.COMPLETED);
-  
+        schedulerService.detach(accessCode);
+    }
+
     public boolean isParticipant(final String token, final String accessCode) {
         final Member member = memberService.findMemberByCredential(token);
 
@@ -141,12 +145,5 @@ public class PairRoomService {
                 .filter(pairRoomEntity -> !pairRoomEntity.isDelete())
                 .map(PairRoomEntity::toDomain)
                 .anyMatch(pairRoom -> pairRoom.isSameAccessCode(new AccessCode(accessCode)));
-    }
-
-    public void validateNotDeleted(final String accessCode) {
-        final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(accessCode).toDomain();
-        if (pairRoom.isDeleted()) {
-            throw new InvalidAccessCodeException("이미 삭제되어 접근이 불가능한 엑세스 코드입니다.");
-        }
     }
 }

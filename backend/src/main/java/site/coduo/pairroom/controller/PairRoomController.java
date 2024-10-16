@@ -94,7 +94,7 @@ public class PairRoomController implements PairRoomDocs {
 
     @PatchMapping("/pair-room/{accessCode}/complete")
     public ResponseEntity<Void> completePairRoom(
-            @Valid @PathVariable("accessCode") final String accessCode
+            @PathVariable("accessCode") final String accessCode
     ) {
         pairRoomService.completePairRoom(accessCode);
         return ResponseEntity.noContent()

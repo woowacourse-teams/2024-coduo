@@ -4,14 +4,23 @@ import static site.coduo.acceptance.SseAcceptanceTest.createConnect;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
 import io.restassured.RestAssured;
+import site.coduo.member.domain.repository.MemberRepository;
+import site.coduo.member.infrastructure.security.JwtProvider;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
 import site.coduo.timer.service.dto.TimerUpdateRequest;
 
 class TimerAcceptanceTest extends AcceptanceFixture {
+
+    @Autowired
+    private JwtProvider jwtProvider;
+
+    @Autowired
+    private MemberRepository memberRepository;
 
     static String createPairRoom(final PairRoomCreateRequest pairRoom) {
         final PairRoomCreateResponse response = RestAssured
@@ -30,7 +39,7 @@ class TimerAcceptanceTest extends AcceptanceFixture {
         return response.accessCode();
     }
 
-    private static void timerStart(final String accessCode) {
+    static void timerStart(final String accessCode) {
         createConnect(accessCode);
         RestAssured
                 .given()

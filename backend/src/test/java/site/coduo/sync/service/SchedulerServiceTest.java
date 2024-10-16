@@ -1,8 +1,6 @@
 package site.coduo.sync.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.util.concurrent.TimeUnit;
@@ -16,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import site.coduo.fake.FakeScheduledFuture;
-import site.coduo.member.exception.AuthorizationException;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.service.PairRoomService;
@@ -125,11 +122,9 @@ class SchedulerServiceTest {
         eventStreamsRegistry.register(key);
         schedulerRegistry.register(key, new FakeScheduledFuture());
         timestampRegistry.register(key, new Timer(new AccessCode(key), 10000L, 10000L));
-        when(pairRoomService.isParticipant(anyString(), anyString()))
-                .thenReturn(true);
 
         // when
-        schedulerService.detach(key, "accessCode");
+        schedulerService.detach(key);
 
         // then
         assertThat(timestampRegistry.has(key)).isFalse();
@@ -144,11 +139,9 @@ class SchedulerServiceTest {
         eventStreamsRegistry.register(key);
         schedulerRegistry.register(key, new FakeScheduledFuture());
         timestampRegistry.register(key, new Timer(new AccessCode(key), 10000L, 10000L));
-        when(pairRoomService.isParticipant(anyString(), anyString()))
-                .thenReturn(true);
 
         // when
-        schedulerService.detach(key, "accessToken");
+        schedulerService.detach(key);
 
         // then
         assertThat(schedulerRegistry.has(key)).isFalse();
@@ -162,29 +155,11 @@ class SchedulerServiceTest {
         eventStreamsRegistry.register(key);
         schedulerRegistry.register(key, new FakeScheduledFuture());
         timestampRegistry.register(key, new Timer(new AccessCode(key), 10000L, 10000L));
-        when(pairRoomService.isParticipant(anyString(), anyString()))
-                .thenReturn(true);
 
         // when
-        schedulerService.detach(key, "accessToken");
+        schedulerService.detach(key);
 
         // then
         assertThat(eventStreamsRegistry.hasNoStreams(key)).isTrue();
-    }
-
-    @Test
-    @DisplayName("해당 방에 등록되지 않은 사용자가 타이머를 비활성화할 경우 예외를 발생시킨다.")
-    void return_exception_if_user_who_is_not_registered_in_the_room() {
-        // given
-        final String key = "some-access-code";
-        eventStreamsRegistry.register(key);
-        schedulerRegistry.register(key, new FakeScheduledFuture());
-        timestampRegistry.register(key, new Timer(new AccessCode(key), 10000L, 10000L));
-        when(pairRoomService.isParticipant(anyString(), anyString()))
-                .thenReturn(false);
-
-        // when & then
-        assertThatThrownBy(() -> schedulerService.detach(key, "accessToken"))
-                .isInstanceOf(AuthorizationException.class);
     }
 }
