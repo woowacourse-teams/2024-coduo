@@ -74,7 +74,14 @@ public interface PairRoomDocs {
     @ApiResponse(responseCode = "200", description = "페어룸 존재 여부", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
             schema = @Schema(implementation = PairRoomExistResponse.class)))
     ResponseEntity<PairRoomExistResponse> pairRoomExists(String accessCode);
-  
+
+    @Operation(summary = "페어룸을 종료한다. 페어룸 종료 시 timer disconnect 메세지가 전송되고, Sse connection이 함께 종료된다.")
+    @ApiResponse(responseCode = "204", description = "페어룸 종료 성공")
+    ResponseEntity<Void> completePairRoom(
+            @Parameter(description = "페어룸 접근 코드", required = true)
+            String accessCode
+    );
+
     @Operation(summary = "페어룸을 삭제한다.")
     @ApiResponse(responseCode = "204", description = "페어룸 삭제 성공")
     ResponseEntity<Void> deletePairRoom(
