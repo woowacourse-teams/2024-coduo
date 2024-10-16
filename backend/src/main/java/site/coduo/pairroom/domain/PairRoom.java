@@ -15,6 +15,10 @@ public class PairRoom {
     private final MissionUrl missionUrl;
     private final AccessCode accessCode;
 
+    public boolean isCompleted() {
+        return status == PairRoomStatus.COMPLETED;
+    }
+
     public String getAccessCodeText() {
         return accessCode.getValue();
     }

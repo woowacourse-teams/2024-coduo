@@ -127,6 +127,11 @@ public class PairRoomService {
         pairRoomEntity.updateStatus(PairRoomStatus.DELETED);
     }
 
+    public void completePairRoom(final String accessCode) {
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
+        checkDeletePairRoom(pairRoomEntity);
+        pairRoomEntity.updateStatus(PairRoomStatus.COMPLETED);
+  
     public boolean isParticipant(final String token, final String accessCode) {
         final Member member = memberService.findMemberByCredential(token);
 

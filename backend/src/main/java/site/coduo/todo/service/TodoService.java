@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.exception.OperateNotAllowedException;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
@@ -38,11 +40,12 @@ public class TodoService {
     }
 
     public void createTodo(final String accessCode, final String content) {
-        final PairRoomEntity pairRoom = pairRoomRepository.findByAccessCode(accessCode)
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.findByAccessCode(accessCode)
                 .orElseThrow(() -> new PairRoomNotFoundException("해당 Access Code의 페어룸은 존재하지 않습니다. - " + accessCode));
-        final TodoSort nextToLastSort = getLastTodoSort(pairRoom);
+        validateOperationAllow(pairRoomEntity.toDomain());
+        final TodoSort nextToLastSort = getLastTodoSort(pairRoomEntity);
         final Todo todo = new Todo(null, content, nextToLastSort.getSort(), INITIAL_TODO_CHECKED);
-        final TodoEntity todoEntity = new TodoEntity(todo, pairRoom);
+        final TodoEntity todoEntity = new TodoEntity(todo, pairRoomEntity);
 
         todoRepository.save(todoEntity);
     }
@@ -57,19 +60,20 @@ public class TodoService {
 
     public void updateTodoContent(final Long todoId, final String content) {
         final TodoEntity todoEntity = todoRepository.fetchById(todoId);
-
+        validateOperationAllow(todoEntity.getPairRoomEntity().toDomain());
         todoEntity.updateContent(content);
     }
 
     public void toggleTodoChecked(final Long todoId) {
         final TodoEntity todoEntity = todoRepository.fetchById(todoId);
-
+        validateOperationAllow(todoEntity.getPairRoomEntity().toDomain());
         todoEntity.toggleTodoChecked();
     }
 
     public void updateTodoSort(final Long targetTodoId, final int destinationSort) {
         final TodoEntity targetTodo = todoRepository.findById(targetTodoId)
                 .orElseThrow(() -> new TodoNotFoundException("존재하지 않은 todo id입니다." + targetTodoId));
+        validateOperationAllow(targetTodo.getPairRoomEntity().toDomain());
         final List<Todo> allByPairRoom = todoRepository
                 .findAllByPairRoomEntityOrderBySortAsc(targetTodo.getPairRoomEntity())
                 .stream()
@@ -82,6 +86,15 @@ public class TodoService {
     }
 
     public void deleteTodo(final Long todoId) {
+        final TodoEntity todoEntity = todoRepository.findById(todoId)
+                .orElseThrow(() -> new TodoNotFoundException("존재하지 않은 todo id입니다." + todoId));
+        validateOperationAllow(todoEntity.getPairRoomEntity().toDomain());
         todoRepository.deleteById(todoId);
+    }
+
+    private void validateOperationAllow(final PairRoom pairRoom) {
+        if (pairRoom.isCompleted()) {
+            throw new OperateNotAllowedException("페어룸이 COMPLETED(종료) 상태이기 때문에 카테고리를 조작할 수 없습니다.");
+        }
     }
 }
