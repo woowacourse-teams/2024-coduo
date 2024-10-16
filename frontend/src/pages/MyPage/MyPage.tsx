@@ -1,10 +1,14 @@
 import { IoIosArrowForward } from 'react-icons/io';
 
 import Spinner from '@/components/common/Spinner/Spinner';
+import ConfirmModal from '@/components/MyPage/ConfirmModal/ConfirmModal';
 import PairRoomButton from '@/components/MyPage/PairRoomButton/PairRoomButton';
 
 import useUserStore from '@/stores/userStore';
 
+import useModal from '@/hooks/common/useModal';
+
+import useDeleteMember from '@/queries/MyPage/useDeleteMember';
 import useMyPairRooms from '@/queries/MyPage/useMyPairRooms';
 
 import * as S from './MyPage.styles';
@@ -12,7 +16,10 @@ import * as S from './MyPage.styles';
 const MyPage = () => {
   const { username } = useUserStore();
 
+  const { isModalOpen, openModal, closeModal } = useModal();
+
   const { data: pairRooms, isFetching } = useMyPairRooms();
+  const { handleDeleteMember } = useDeleteMember();
 
   return (
     <S.Layout>
@@ -46,11 +53,12 @@ const MyPage = () => {
             </S.List>
           </div>
         </S.ListWrapper>
-        <S.LeaveButton>
+        <S.LeaveButton onClick={openModal}>
           회원 탈퇴하기
           <IoIosArrowForward size="1.5rem" />
         </S.LeaveButton>
       </S.Container>
+      <ConfirmModal isOpen={isModalOpen} close={closeModal} onConfirm={handleDeleteMember} />
     </S.Layout>
   );
 };

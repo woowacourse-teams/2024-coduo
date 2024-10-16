@@ -7,10 +7,10 @@ import useGetRepositories from '@/queries/PairRoomOnboarding/useGetRepositories'
 import * as S from './MissionSelectInput.styles';
 
 interface MissionSelectInputProps {
-  onRepositoryName: (repositoryName: string) => void;
+  onSelect: (repositoryName: string) => void;
 }
 
-const MissionSelectInput = ({ onRepositoryName }: MissionSelectInputProps) => {
+const MissionSelectInput = ({ onSelect }: MissionSelectInputProps) => {
   const { repositories, isFetching } = useGetRepositories();
 
   return (
@@ -31,12 +31,7 @@ const MissionSelectInput = ({ onRepositoryName }: MissionSelectInputProps) => {
         ) : (
           repositories.map((repository) => {
             return (
-              <RepositoryButton
-                key={repository.id}
-                id={repository.id}
-                name={repository.name}
-                onSelect={onRepositoryName}
-              />
+              <RepositoryButton key={repository.id} id={repository.id} name={repository.name} onSelect={onSelect} />
             );
           })
         )}
