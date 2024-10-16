@@ -8,6 +8,7 @@ const PairRoom = lazy(() => import('@/pages/PairRoom/PairRoom'));
 
 import Callback from '@/pages/Callback/Callback';
 import CoduoDocs from '@/pages/CoduoDocs/CoduoDocs';
+import CompletedPairRoom from '@/pages/CompletedPairRoom/CompletedPairRoom';
 import Error from '@/pages/Error/Error';
 import Landing from '@/pages/Landing/Landing';
 import Layout from '@/pages/Layout';
@@ -80,6 +81,14 @@ const App = () => {
           element: (
             <Suspense fallback={<Loading />}>
               <PairRoom />
+            </Suspense>
+          ),
+        },
+        {
+          path: 'room/:accessCode/completed',
+          element: (
+            <Suspense fallback={<Loading />}>
+              <CompletedPairRoom />
             </Suspense>
           ),
         },
