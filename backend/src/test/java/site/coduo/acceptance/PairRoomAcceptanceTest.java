@@ -32,6 +32,22 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .as(PairRoomCreateResponse.class);
     }
 
+    static PairRoomCreateResponse createPairRoom(final PairRoomCreateRequest request, final String loginCookie) {
+        return RestAssured
+                .given()
+                .cookie("coduo_whoami", loginCookie)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+
+                .when()
+                .post("/api/pair-room")
+
+                .then()
+                .extract()
+                .as(PairRoomCreateResponse.class);
+    }
+
     @Test
     @DisplayName("페어룸 요청 시 정보를 반환한다.")
     void show_pair_room() {

@@ -19,6 +19,7 @@ import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.domain.accesscode.UUIDAccessCodeGenerator;
 import site.coduo.pairroom.exception.DeletePairRoomException;
+import site.coduo.pairroom.exception.InvalidAccessCodeException;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomMemberEntity;
 import site.coduo.pairroom.repository.PairRoomMemberRepository;
@@ -130,5 +131,22 @@ public class PairRoomService {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
         checkDeletePairRoom(pairRoomEntity);
         pairRoomEntity.updateStatus(PairRoomStatus.COMPLETED);
+  
+    public boolean isParticipant(final String token, final String accessCode) {
+        final Member member = memberService.findMemberByCredential(token);
+
+        final List<PairRoomMemberEntity> pairRooms = pairRoomMemberRepository.findByMember(member);
+        return pairRooms.stream()
+                .map(PairRoomMemberEntity::getPairRoom)
+                .filter(pairRoomEntity -> !pairRoomEntity.isDelete())
+                .map(PairRoomEntity::toDomain)
+                .anyMatch(pairRoom -> pairRoom.isSameAccessCode(new AccessCode(accessCode)));
+    }
+
+    public void validateNotDeleted(final String accessCode) {
+        final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(accessCode).toDomain();
+        if (pairRoom.isDeleted()) {
+            throw new InvalidAccessCodeException("이미 삭제되어 접근이 불가능한 엑세스 코드입니다.");
+        }
     }
 }

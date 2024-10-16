@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.coduo.member.exception.AuthorizationException;
+import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.timer.domain.Timer;
 import site.coduo.timer.repository.TimerRepository;
 import site.coduo.timer.service.TimestampRegistry;
@@ -19,23 +21,21 @@ import site.coduo.timer.service.TimestampRegistry;
 @RequiredArgsConstructor
 @Component
 public class SchedulerService {
-
     public static final Duration DELAY_SECOND = Duration.of(1, ChronoUnit.SECONDS);
-
     private final ThreadPoolTaskScheduler taskScheduler;
     private final SchedulerRegistry schedulerRegistry;
     private final TimestampRegistry timestampRegistry;
     private final TimerRepository timerRepository;
     private final SseService sseService;
+    private final PairRoomService pairRoomService;
 
     public void start(final String key) {
+        pairRoomService.validateNotDeleted(key);
         if (schedulerRegistry.isActive(key)) {
             return;
         }
-        sseService.broadcast(key, "timer", "start");
         if (isInitial(key)) {
-            final Timer timer = timerRepository.fetchTimerByAccessCode(key)
-                    .toDomain();
+            final Timer timer = timerRepository.fetchTimerByAccessCode(key).toDomain();
             scheduling(key, timer);
             timestampRegistry.register(key, timer);
             return;
@@ -49,6 +49,7 @@ public class SchedulerService {
     }
 
     private void scheduling(final String key, final Timer timer) {
+        sseService.broadcast(key, "timer", "start");
         final Trigger trigger = new PeriodicTrigger(DELAY_SECOND);
         final ScheduledFuture<?> schedule = taskScheduler.schedule(() -> runTimer(key, timer), trigger);
         schedulerRegistry.register(key, schedule);
@@ -79,5 +80,15 @@ public class SchedulerService {
         schedulerRegistry.release(key);
         final Timer initalTimer = new Timer(timer.getAccessCode(), timer.getDuration(), timer.getDuration());
         timestampRegistry.register(key, initalTimer);
+    }
+
+    public void detach(final String key, final String accessToken) {
+        if (!pairRoomService.isParticipant(accessToken, key)) {
+            throw new AuthorizationException("인증되지 않은 타이머 비활성화 접근입니다.");
+        }
+        sseService.broadcast(key, "timer", "disconnect");
+        schedulerRegistry.clear(key);
+        sseService.disconnectAll(key);
+        timestampRegistry.clear(key);
     }
 }

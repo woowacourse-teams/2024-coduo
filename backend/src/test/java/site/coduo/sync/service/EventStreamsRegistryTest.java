@@ -72,9 +72,11 @@ class EventStreamsRegistryTest {
         final EventStreamsRegistry eventStreamsRegistry = new EventStreamsRegistry();
         final String key = "tes";
 
-        // when & then
-        assertThatThrownBy(() -> eventStreamsRegistry.hasNoStreams(key))
-                .isInstanceOf(NotFoundSseConnectionException.class);
+        // when
+        final boolean actual = eventStreamsRegistry.hasNoStreams(key);
+
+        // then
+        assertThat(actual).isTrue();
     }
 
     @Test

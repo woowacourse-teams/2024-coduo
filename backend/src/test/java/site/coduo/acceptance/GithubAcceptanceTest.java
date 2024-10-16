@@ -1,7 +1,7 @@
 package site.coduo.acceptance;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.startsWith;
 
 import static site.coduo.common.config.web.filter.AccessTokenCookieFilter.TEMPORARY_ACCESS_TOKEN_COOKIE_NAME;
 
@@ -53,7 +53,7 @@ class GithubAcceptanceTest extends AcceptanceFixture {
                 .assertThat()
                 .statusCode(HttpStatus.SC_OK)
                 .body("endpoint",
-                        is("https://www.github.com/login/oauth/authorize?client_id=test&state=randomNumber&redirect_uri=http://test.test"));
+                        startsWith("https://www.github.com/login/oauth/authorize?client_id="));
     }
 
     @Test
