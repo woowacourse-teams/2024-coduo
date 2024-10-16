@@ -11,11 +11,9 @@ import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import site.coduo.member.exception.AuthorizationException;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.exception.InvalidAccessCodeException;
 import site.coduo.pairroom.repository.PairRoomRepository;
-import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.timer.domain.Timer;
 import site.coduo.timer.repository.TimerRepository;
 import site.coduo.timer.service.TimestampRegistry;
