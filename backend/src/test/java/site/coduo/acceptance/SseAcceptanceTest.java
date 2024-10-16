@@ -11,6 +11,7 @@ import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 class SseAcceptanceTest extends AcceptanceFixture {
 
     static void createConnect(final String accessCode) {
+
         RestAssured
                 .given()
 
