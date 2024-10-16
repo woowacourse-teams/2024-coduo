@@ -1,14 +1,14 @@
 services:
 
-  springboot:
-    container_name: coduo_springboot-app
+  springboot-blue:
+    container_name: coduo_springboot-app-blue
     image: ${DOCKER_REPO_NAME}/springboot-app:test-latest
     platform: linux/arm64
     ports:
-      - ${SERVER_BINDING_PORT}
+      - "${BLUE_SERVER_BINDING_PORT}:8080"
     volumes:
-      - ${SERVER_LOGS_PATH}/springboot-app:/logs
-      - ${SERVER_LOGS_PATH}/springboot-app/backup:/logs/backup
+      - ${SERVER_LOGS_PATH}/springboot-app/blue:/logs
+      - ${SERVER_LOGS_PATH}/springboot-app/backup/blue:/logs/backup
     environment:
       SPRING_DATASOURCE_REPLICA_MASTER_JDBC-URL: ${MASTER_DB_URL}
       SPRING_DATASOURCE_REPLICA_MASTER_USERNAME: ${MASTER_DB_USERNAME}
@@ -22,6 +22,34 @@ services:
       OAUTH_GITHUB_REDIRECT_URI: ${CLIENT_REDIRECT_URI}
       JWT_SIGN_KEY: ${JWT_KEY}
       EC2_PREFIX: ${INSTANCE_NAME}
+      SERVER_PORT: ${BLUE_SERVER_BINDING_PORT}
+    restart: on-failure
+    networks:
+      - coduo_net
+
+  springboot-green:
+    container_name: coduo_springboot-app-green
+    image: ${DOCKER_REPO_NAME}/springboot-app:test-latest
+    platform: linux/arm64
+    ports:
+      - "${GREEN_SERVER_BINDING_PORT}:8081"
+    volumes:
+      - ${SERVER_LOGS_PATH}/springboot-app/green:/logs
+      - ${SERVER_LOGS_PATH}/springboot-app/backup/green:/logs/backup
+    environment:
+      SPRING_DATASOURCE_REPLICA_MASTER_JDBC-URL: ${MASTER_DB_URL}
+      SPRING_DATASOURCE_REPLICA_MASTER_USERNAME: ${MASTER_DB_USERNAME}
+      SPRING_DATASOURCE_REPLICA_MASTER_PASSWORD: ${MASTER_DB_PASSWORD}
+      SPRING_DATASOURCE_REPLICA_SLAVE_JDBC-URL: ${SLAVE_DB_URL}
+      SPRING_DATASOURCE_REPLICA_SLAVE_USERNAME: ${SLAVE_DB_USERNAME}
+      SPRING_DATASOURCE_REPLICA_SLAVE_PASSWORD: ${SLAVE_DB_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL-AUTO: ${DDL_AUTO}
+      OAUTH_GITHUB_CLIENT_ID: ${CLIENT_ID}
+      OAUTH_GITHUB_CLIENT_SECRET: ${CLIENT_SECRET}
+      OAUTH_GITHUB_REDIRECT_URI: ${CLIENT_REDIRECT_URI}
+      JWT_SIGN_KEY: ${JWT_KEY}
+      EC2_PREFIX: ${INSTANCE_NAME}
+      SERVER_PORT: ${GREEN_SERVER_BINDING_PORT}
     restart: on-failure
     networks:
       - coduo_net

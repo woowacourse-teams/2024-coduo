@@ -74,7 +74,7 @@ public class PairRoomService {
 
     private PairRoom createPairRoom(final PairRoomCreateRequest request) {
         final AccessCode accessCode = generateAccessCode();
-        final PairRoomStatus status = PairRoomStatus.findByName(request.status());
+        final PairRoomStatus status = PairRoomStatus.IN_PROGRESS;
         final Pair pair = new Pair(new PairName(request.navigator()), new PairName(request.driver()));
         final MissionUrl missionUrl = new MissionUrl(request.missionUrl());
         return new PairRoom(status, pair, missionUrl, accessCode);
