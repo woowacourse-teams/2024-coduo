@@ -17,6 +17,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import site.coduo.fake.FakeScheduledFuture;
 import site.coduo.member.exception.AuthorizationException;
+import site.coduo.pairroom.domain.MissionUrl;
+import site.coduo.pairroom.domain.Pair;
+import site.coduo.pairroom.domain.PairName;
+import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.service.PairRoomService;
@@ -187,5 +192,15 @@ class SchedulerServiceTest {
         // when & then
         assertThatThrownBy(() -> schedulerService.detach(key, "accessToken"))
                 .isInstanceOf(AuthorizationException.class);
+    }
+
+    private PairRoomEntity createPairRoom(final String code, final PairRoomStatus pairRoomStatus) {
+        final AccessCode accessCode = new AccessCode(code);
+        return PairRoomEntity.from(
+                new PairRoom(pairRoomStatus,
+                        new Pair(new PairName("레디"), new PairName("레모네")),
+                        new MissionUrl("https://missionUrl.xxx"),
+                        accessCode
+                ));
     }
 }

@@ -24,6 +24,7 @@ import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.exception.DeletePairRoomException;
+import site.coduo.pairroom.exception.InvalidAccessCodeException;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomMemberEntity;
@@ -333,4 +334,39 @@ class PairRoomServiceTest {
         assertThat(participant).isFalse();
     }
 
+    @Test
+    @DisplayName("엑세스코드로 페어룸이 삭제되었는지 검증한다.")
+    void validate_pair_room_is_deleted() {
+        // given
+        final String accessCode = "code";
+        final PairRoomEntity pairRoom = createPairRoom(accessCode, PairRoomStatus.COMPLETED);
+        pairRoomRepository.save(pairRoom);
+
+        // when & then
+        assertThatCode(() -> pairRoomService.validateNotDeleted(accessCode))
+                .doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("엑세스코드로가 삭제 상태가 아니면 예외를 던진다.")
+    void throw_exception_when_pair_room_did_not_deleted() {
+        // given
+        final String accessCode = "code";
+        final PairRoomEntity pairRoom = createPairRoom(accessCode, PairRoomStatus.DELETED);
+        pairRoomRepository.save(pairRoom);
+
+        // when & then
+        assertThatThrownBy(() -> pairRoomService.validateNotDeleted(accessCode))
+                .isInstanceOf(InvalidAccessCodeException.class);
+    }
+
+    private PairRoomEntity createPairRoom(final String code, final PairRoomStatus pairRoomStatus) {
+        final AccessCode accessCode = new AccessCode(code);
+        return PairRoomEntity.from(
+                new PairRoom(pairRoomStatus,
+                        new Pair(new PairName("레디"), new PairName("레모네")),
+                        new MissionUrl("https://missionUrl.xxx"),
+                        accessCode
+                ));
+    }
 }

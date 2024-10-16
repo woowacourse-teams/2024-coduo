@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.coduo.member.exception.AuthorizationException;
-import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.timer.domain.Timer;
 import site.coduo.timer.repository.TimerRepository;
@@ -23,7 +22,6 @@ import site.coduo.timer.service.TimestampRegistry;
 @Component
 public class SchedulerService {
     public static final Duration DELAY_SECOND = Duration.of(1, ChronoUnit.SECONDS);
-    private final PairRoomMemberRepository pairRoomMemberRepository;
     private final ThreadPoolTaskScheduler taskScheduler;
     private final SchedulerRegistry schedulerRegistry;
     private final TimestampRegistry timestampRegistry;
@@ -32,6 +30,7 @@ public class SchedulerService {
     private final PairRoomService pairRoomService;
 
     public void start(final String key) {
+        pairRoomService.validateNotDeleted(key);
         if (schedulerRegistry.isActive(key)) {
             return;
         }

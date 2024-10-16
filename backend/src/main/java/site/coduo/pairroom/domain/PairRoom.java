@@ -31,6 +31,10 @@ public class PairRoom {
         return missionUrl.getValue();
     }
 
+    public boolean isDeleted() {
+        return status == PairRoomStatus.DELETED;
+    }
+
     public boolean isSameAccessCode(final AccessCode code) {
         return accessCode.equals(code);
     }
