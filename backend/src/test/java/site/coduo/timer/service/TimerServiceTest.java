@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
@@ -43,7 +42,7 @@ class TimerServiceTest extends CascadeCleaner {
     void create_timer() {
         // given
         final PairRoomCreateRequest request = new PairRoomCreateRequest("켈리", "레모네", 10000L,
-                1000L, "https://missionUrl.xxx", PairRoomStatus.IN_PROGRESS.name());
+                1000L, "https://missionUrl.xxx");
 
         // when & then
         assertThatCode(() -> pairRoomService.savePairRoom(request, null))
@@ -55,7 +54,7 @@ class TimerServiceTest extends CascadeCleaner {
     void get_latest_timer() {
         // given
         final PairRoomCreateRequest request = new PairRoomCreateRequest("잉크", "레디", 1000L,
-                1000L, "https://missionUrl.xxx", PairRoomStatus.IN_PROGRESS.name());
+                1000L, "https://missionUrl.xxx");
         final String accessCode = pairRoomService.savePairRoom(request, null);
 
         // when
@@ -73,7 +72,7 @@ class TimerServiceTest extends CascadeCleaner {
     void update_timer() {
         // given
         final PairRoomCreateRequest request = new PairRoomCreateRequest("잉크", "레디", 10000000L,
-                100L, "https://missionUrl.xxx", PairRoomStatus.IN_PROGRESS.name());
+                100L, "https://missionUrl.xxx");
         final String accessCode = pairRoomService.savePairRoom(request, null);
 
         final TimerUpdateRequest timerRequest = new TimerUpdateRequest(10000, 5000);
@@ -93,7 +92,7 @@ class TimerServiceTest extends CascadeCleaner {
     void get_remaining_time_when_exist_timestamp() {
         // given
         final PairRoomCreateRequest pairRoomCreateRequest = new PairRoomCreateRequest("켈리", "레모네",
-                3000L, 3000L, "https://missionUrl.xxx", PairRoomStatus.IN_PROGRESS.name());
+                3000L, 3000L, "https://missionUrl.xxx");
         final String accessCode = pairRoomService.savePairRoom(pairRoomCreateRequest, null);
         final Timer timeStamp = new Timer(new AccessCode(accessCode), 10000L, 10000L);
         timestampRegistry.register(accessCode, timeStamp);
@@ -110,7 +109,7 @@ class TimerServiceTest extends CascadeCleaner {
     void get_remaining_time_when_not_exist_timestamp() {
         // given
         final PairRoomCreateRequest pairRoomCreateRequest = new PairRoomCreateRequest("켈리", "레모네",
-                3000L, 3000L, "https://missionUrl.xxx", PairRoomStatus.IN_PROGRESS.name());
+                3000L, 3000L, "https://missionUrl.xxx");
         final String accessCode = pairRoomService.savePairRoom(pairRoomCreateRequest, null);
 
         // when
