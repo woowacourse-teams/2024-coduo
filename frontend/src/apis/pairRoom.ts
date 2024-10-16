@@ -49,7 +49,7 @@ export const addPairRoom = async ({
 }: AddPairRoomRequest) => {
   const response = await fetcher.post({
     url: `${API_URL}/pair-room`,
-    body: JSON.stringify({ driver, navigator, missionUrl, timerDuration, timerRemainingTime, status: 'IN_PROGRESS' }),
+    body: JSON.stringify({ driver, navigator, missionUrl, timerDuration, timerRemainingTime }),
     errorMessage: '',
   });
 
