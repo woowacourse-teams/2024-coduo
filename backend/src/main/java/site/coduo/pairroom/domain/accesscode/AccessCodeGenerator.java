@@ -1,8 +1,5 @@
 package site.coduo.pairroom.domain.accesscode;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class AccessCodeGenerator {
 
     private static final String POST_POSITION_WITH_FINAL_CONSONANT = "과";
