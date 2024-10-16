@@ -91,6 +91,15 @@ public class PairRoomController implements PairRoomDocs {
         return ResponseEntity.ok(response);
     }
 
+    @PatchMapping("/pair-room/{accessCode}")
+    public ResponseEntity<Void> completePairRoom(
+            @Valid @PathVariable("accessCode") final String accessCode
+    ) {
+        pairRoomService.completePairRoom(accessCode);
+        return ResponseEntity.noContent()
+                .build();
+    }
+
     @DeleteMapping("/pair-room/{accessCode}")
     public ResponseEntity<Void> deletePairRoom(
             @Valid @PathVariable("accessCode") final String accessCode

@@ -279,4 +279,24 @@ class PairRoomServiceTest {
 
         );
     }
+
+    @Test
+    @DisplayName("페어룸을 종료한다.")
+    void complete_pair_room() {
+        // given
+        final PairRoomEntity pairRoomEntity = PairRoomEntity.from(
+                new PairRoom(PairRoomStatus.IN_PROGRESS,
+                        new Pair(new PairName("레디"), new PairName("레모네")),
+                        new MissionUrl("https://missionUrl.xxx"),
+                        new AccessCode("123456")
+                ));
+        pairRoomRepository.save(pairRoomEntity);
+
+        // when
+        pairRoomService.completePairRoom(pairRoomEntity.getAccessCode());
+
+        // then
+        assertThat(pairRoomRepository.fetchByAccessCode(pairRoomEntity.getAccessCode()).getStatus())
+                .isEqualTo(PairRoomStatus.COMPLETED);
+    }
 }

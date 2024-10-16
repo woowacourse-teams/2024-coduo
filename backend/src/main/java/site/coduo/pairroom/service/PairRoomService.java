@@ -125,4 +125,10 @@ public class PairRoomService {
         checkDeletePairRoom(pairRoomEntity);
         pairRoomEntity.updateStatus(PairRoomStatus.DELETED);
     }
+
+    public void completePairRoom(final String accessCode) {
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
+        checkDeletePairRoom(pairRoomEntity);
+        pairRoomEntity.updateStatus(PairRoomStatus.COMPLETED);
+    }
 }
