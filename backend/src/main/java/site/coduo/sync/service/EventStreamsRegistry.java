@@ -45,6 +45,6 @@ public class EventStreamsRegistry {
         if (registry.containsKey(key)) {
             return registry.get(key).isEmpty();
         }
-        throw new NotFoundSseConnectionException("SSE 커넥션을 찾을 수 없습니다.");
+        return true;
     }
 }

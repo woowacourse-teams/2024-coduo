@@ -27,6 +27,16 @@ class AuthAcceptanceTest extends AcceptanceFixture {
     @Autowired
     private JwtProvider jwtProvider;
 
+    static Member createMember() {
+        return Member.builder()
+                .username("test user")
+                .userId(FakeGithubApiClient.USER_ID)
+                .loginId(FakeGithubApiClient.LOGIN_ID)
+                .accessToken(FakeGithubOAuthClient.ACCESS_TOKEN.getCredential())
+                .profileImage(FakeGithubApiClient.PROFILE_IMAGE)
+                .build();
+    }
+
     @Test
     @DisplayName("로그인 검증 & 로그인 토큰을 발급한다.")
     void verify_login_and_publish_login_token() {
@@ -138,16 +148,6 @@ class AuthAcceptanceTest extends AcceptanceFixture {
 
                 .then().log().all()
                 .statusCode(HttpStatus.SC_UNAUTHORIZED);
-    }
-
-    private Member createMember() {
-        return Member.builder()
-                .username("test user")
-                .userId(FakeGithubApiClient.USER_ID)
-                .loginId(FakeGithubApiClient.LOGIN_ID)
-                .accessToken(FakeGithubOAuthClient.ACCESS_TOKEN.getCredential())
-                .profileImage(FakeGithubApiClient.PROFILE_IMAGE)
-                .build();
     }
 
 }
