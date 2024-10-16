@@ -26,10 +26,6 @@ public record PairRoomCreateRequest(
 
         @Schema(description = "미션 리포지토리 링크. '그냥 시작할래요'로 생성하면 빈 문자열")
         @NotNull
-        String missionUrl,
-
-        @Schema(description = "페어룸의 상태", example = "IN_PROGRESS")
-        @NotBlank
-        String status
+        String missionUrl
 ) {
 }

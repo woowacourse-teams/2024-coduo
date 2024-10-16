@@ -38,7 +38,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
         //given
         final PairRoomCreateResponse pairRoomUrl =
                 createPairRoom(
-                        new PairRoomCreateRequest("레디", "프람", 10000L, 10000L, "https://missionUrl.xxx", "IN_PROGRESS"));
+                        new PairRoomCreateRequest("레디", "프람", 10000L, 10000L, "https://missionUrl.xxx"));
 
         //when & then
         RestAssured
@@ -62,7 +62,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
         //given
         final PairRoomCreateResponse accessCode =
                 createPairRoom(
-                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx", "IN_PROGRESS"));
+                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx"));
         final Map<String, String> status = Map.of("status", PairRoomStatus.IN_PROGRESS.name());
 
         // when & then
@@ -88,7 +88,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
         // given
         final PairRoomCreateResponse accessCode =
                 createPairRoom(
-                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx", "IN_PROGRESS"));
+                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx"));
 
         // when & then
         RestAssured
@@ -109,7 +109,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
         //given
         final PairRoomCreateResponse accessCode =
                 createPairRoom(
-                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx", "IN_PROGRESS"));
+                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx"));
 
         // when & then
         final PairRoomExistResponse response = RestAssured
@@ -162,7 +162,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
         // given
         final PairRoomCreateResponse accessCode =
                 createPairRoom(
-                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx", "IN_PROGRESS"));
+                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx"));
 
         // when & then
         RestAssured
