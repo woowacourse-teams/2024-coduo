@@ -13,7 +13,8 @@ public enum PairRoomApiError {
     INVALID_PAIR_NAME(HttpStatus.BAD_REQUEST, "올바르지 않은 페어 이름입니다."),
     INVALID_ACCESS_CODE(HttpStatus.BAD_REQUEST, "올바르지 않은 접근 코드입니다."),
     PAIR_ROOM_NOT_FOUND(HttpStatus.NOT_FOUND, "페어룸이 존재하지 않습니다."),
-    INVALID_PROPERTIES_FORMAT(HttpStatus.BAD_REQUEST, "올바르지 않은 데이터 형식입니다.");
+    INVALID_PROPERTIES_FORMAT(HttpStatus.BAD_REQUEST, "올바르지 않은 데이터 형식입니다."),
+    NOT_OPERATE_PAIR_ROOM(HttpStatus.BAD_REQUEST, "페어룸이 종료된 상태이므로 해당 요청을 수행할 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;

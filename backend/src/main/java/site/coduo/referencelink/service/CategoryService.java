@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
+import site.coduo.pairroom.exception.OperateNotAllowedException;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.Category;
@@ -41,6 +43,7 @@ public class CategoryService {
 
     public CategoryCreateResponse createCategory(final String accessCode, final CategoryCreateRequest request) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
+        validateOperationAllow(pairRoomEntity.toDomain());
         validateDuplicated(request.value(), pairRoomEntity);
         final CategoryEntity categoryEntity = categoryRepository.save(
                 new CategoryEntity(pairRoomEntity, new Category(request.value())));
@@ -48,14 +51,9 @@ public class CategoryService {
         return CategoryCreateResponse.from(categoryEntity);
     }
 
-    private void validateDuplicated(final String categoryName, final PairRoomEntity pairRoomEntity) {
-        if (categoryRepository.existsByCategoryNameAndPairRoomEntity(categoryName, pairRoomEntity)) {
-            throw new InvalidCategoryException("중복된 이름의 카테고리가 이미 존재합니다.");
-        }
-    }
-
     public CategoryUpdateResponse updateCategoryName(final String accessCode, final CategoryUpdateRequest request) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
+        validateOperationAllow(pairRoomEntity.toDomain());
         validateDuplicated(request.updatedCategoryName(), pairRoomEntity);
         final CategoryEntity category = categoryRepository.fetchByPairRoomAndCategoryId(pairRoomEntity,
                 request.categoryId());
@@ -65,11 +63,24 @@ public class CategoryService {
 
     public void deleteCategory(final String accessCode, final Long categoryId) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
+        validateOperationAllow(pairRoomEntity.toDomain());
         if (categoryRepository.existsByIdAndPairRoomEntity(categoryId, pairRoomEntity)) {
             final List<ReferenceLinkEntity> referenceLinks = referenceLinkService.findReferenceLinksEntityByCategory(
                     accessCode, categoryId);
             referenceLinks.forEach(ReferenceLinkEntity::updateCategoryToNull);
             categoryRepository.deleteCategoryByPairRoomEntityAndId(pairRoomEntity, categoryId);
+        }
+    }
+
+    private void validateOperationAllow(final PairRoom pairRoom) {
+        if (pairRoom.isCompleted()) {
+            throw new OperateNotAllowedException("페어룸이 COMPLETED(종료) 상태이기 때문에 카테고리를 조작할 수 없습니다.");
+        }
+    }
+
+    private void validateDuplicated(final String categoryName, final PairRoomEntity pairRoomEntity) {
+        if (categoryRepository.existsByCategoryNameAndPairRoomEntity(categoryName, pairRoomEntity)) {
+            throw new InvalidCategoryException("중복된 이름의 카테고리가 이미 존재합니다.");
         }
     }
 }

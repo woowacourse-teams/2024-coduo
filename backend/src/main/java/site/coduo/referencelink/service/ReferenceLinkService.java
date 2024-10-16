@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
+import site.coduo.pairroom.exception.OperateNotAllowedException;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.Category;
@@ -38,6 +40,7 @@ public class ReferenceLinkService {
                                                      final ReferenceLinkCreateRequest request) {
         final AccessCode accessCode = new AccessCode(accessCodeText);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
+        validateOperationAllow(pairRoomEntity.toDomain());
         final URL url = makeUrl(request.url());
         final ReferenceLink referenceLink = new ReferenceLink(url, accessCode);
 
@@ -119,9 +122,16 @@ public class ReferenceLinkService {
 
     public void deleteReferenceLink(final String accessCodeText, final long id) {
         final ReferenceLinkEntity referenceLinkEntity = referenceLinkRepository.fetchById(id);
+        validateOperationAllow(referenceLinkEntity.getPairRoomEntity().toDomain());
         if (referenceLinkEntity.isSameAccessCode(new AccessCode(accessCodeText))) {
             openGraphService.deleteByReferenceLink(referenceLinkEntity);
             referenceLinkRepository.delete(referenceLinkEntity);
+        }
+    }
+
+    private void validateOperationAllow(final PairRoom pairRoom) {
+        if (pairRoom.isCompleted()) {
+            throw new OperateNotAllowedException("페어룸이 COMPLETED(종료) 상태이기 때문에 카테고리를 조작할 수 없습니다.");
         }
     }
 }
