@@ -19,7 +19,6 @@ public class SseService {
     public SseEmitter connect(final String key) {
         final SseEmitter emitter = eventStreamsRegistry.register(key);
         final long remainingTime = timerService.readTimerRemainingTime(key);
-        // todo: SchedulerService 분리된 상수화 어떻게 할지 생각
         broadcast(key, "remaining-time", String.valueOf(remainingTime));
         if (schedulerRegistry.isActive(key)) {
             broadcast(key, "timer", "running");
@@ -28,6 +27,9 @@ public class SseService {
     }
 
     public void broadcast(final String key, final String event, final String data) {
+        if (eventStreamsRegistry.hasNoStreams(key)) {
+            return;
+        }
         final EventStreams emitters = eventStreamsRegistry.findEventStreams(key);
         emitters.broadcast(event, data);
     }

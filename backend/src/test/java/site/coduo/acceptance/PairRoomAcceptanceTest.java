@@ -214,15 +214,15 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
         final String userId = "userId";
         final String token = jwtProvider.sign(userId);
         saveMember(userId);
-        final PairRoomCreateResponse accessCode = createPairRoom(pairRoom, token);
-        TimerAcceptanceTest.timerStart(accessCode.accessCode());
+        final PairRoomCreateResponse response = createPairRoom(pairRoom, token);
+        TimerAcceptanceTest.timerStart(response.accessCode());
 
         // when & then
         RestAssured
                 .given()
 
                 .when()
-                .pathParam("accessCode", accessCode)
+                .pathParam("accessCode", response.accessCode())
                 .patch("/api/pair-room/{accessCode}/complete")
 
                 .then().log().all()
