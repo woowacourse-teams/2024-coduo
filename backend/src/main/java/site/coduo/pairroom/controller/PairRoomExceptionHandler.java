@@ -14,9 +14,10 @@ import site.coduo.pairroom.controller.error.PairRoomApiError;
 import site.coduo.pairroom.exception.DuplicatePairNameException;
 import site.coduo.pairroom.exception.InvalidAccessCodeException;
 import site.coduo.pairroom.exception.InvalidNameFormatException;
+import site.coduo.pairroom.exception.InvalidPairRoomStatusException;
+import site.coduo.pairroom.exception.OperateNotAllowedException;
 import site.coduo.pairroom.exception.PairRoomException;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
-import site.coduo.pairroom.exception.InvalidPairRoomStatusException;
 
 @Slf4j
 @RestControllerAdvice
@@ -49,7 +50,8 @@ public class PairRoomExceptionHandler {
     }
 
     @ExceptionHandler(InvalidPairRoomStatusException.class)
-    public ResponseEntity<ApiErrorResponse> handlePairRoomStatusNotFoundException(final InvalidPairRoomStatusException e) {
+    public ResponseEntity<ApiErrorResponse> handlePairRoomStatusNotFoundException(
+            final InvalidPairRoomStatusException e) {
         log.warn(e.getMessage());
 
         return ResponseEntity.status(PairRoomApiError.INVALID_PROPERTIES_FORMAT.getHttpStatus())
@@ -62,6 +64,14 @@ public class PairRoomExceptionHandler {
 
         return ResponseEntity.status(PairRoomApiError.PAIR_ROOM_NOT_FOUND.getHttpStatus())
                 .body(new ApiErrorResponse(PairRoomApiError.PAIR_ROOM_NOT_FOUND.getMessage()));
+    }
+
+    @ExceptionHandler(OperateNotAllowedException.class)
+    public ResponseEntity<ApiErrorResponse> handleOperateNotAllowedException(final OperateNotAllowedException e) {
+        log.warn(e.getMessage());
+
+        return ResponseEntity.status(PairRoomApiError.NOT_OPERATE_PAIR_ROOM.getHttpStatus())
+                .body(new ApiErrorResponse(PairRoomApiError.NOT_OPERATE_PAIR_ROOM.getMessage()));
     }
 
     @ExceptionHandler(PairRoomException.class)
