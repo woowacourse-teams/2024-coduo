@@ -6,16 +6,28 @@ import java.util.Map;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import site.coduo.fake.FakeGithubApiClient;
+import site.coduo.fake.FakeGithubOAuthClient;
+import site.coduo.member.domain.Member;
+import site.coduo.member.domain.repository.MemberRepository;
+import site.coduo.member.infrastructure.security.JwtProvider;
 import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
 import site.coduo.pairroom.service.dto.PairRoomExistResponse;
 
 class PairRoomAcceptanceTest extends AcceptanceFixture {
+
+    @Autowired
+    private JwtProvider jwtProvider;
+
+    @Autowired
+    private MemberRepository memberRepository;
 
     static PairRoomCreateResponse createPairRoom(final PairRoomCreateRequest request) {
         return RestAssured
@@ -191,5 +203,41 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
 
                 .then()
                 .statusCode(204);
+    }
+
+    @Test
+    @DisplayName("타이머 기능을 비활성화는 SSE커넥션이 있는 상태에서만 가능하다.")
+    void disable_pair_room_timer() {
+        // given
+        final PairRoomCreateRequest pairRoom = new PairRoomCreateRequest("fram", "lemone", 10000L,
+                10000L, "https://missionUrl.xxx", PairRoomStatus.IN_PROGRESS.name());
+        final String userId = "userId";
+        final String token = jwtProvider.sign(userId);
+        saveMember(userId);
+        final PairRoomCreateResponse accessCode = createPairRoom(pairRoom, token);
+        TimerAcceptanceTest.timerStart(accessCode.accessCode());
+
+        // when & then
+        RestAssured
+                .given()
+
+                .when()
+                .pathParam("accessCode", accessCode)
+                .patch("/api/pair-room/{accessCode}/complete")
+
+                .then().log().all()
+                .statusCode(204);
+    }
+
+    private void saveMember(final String userId) {
+        final Member member = Member.builder()
+                .username("test user")
+                .userId(userId)
+                .loginId(FakeGithubApiClient.LOGIN_ID)
+                .accessToken(FakeGithubOAuthClient.ACCESS_TOKEN.getCredential())
+                .profileImage(FakeGithubApiClient.PROFILE_IMAGE)
+                .build();
+
+        memberRepository.save(member);
     }
 }

@@ -212,11 +212,11 @@ class TodoServiceTest {
         final String content = "content!";
         final int sort = 2048;
         final boolean isChecked = false;
-        final Todo todo = new Todo(1L, content, sort, isChecked);
+        final Todo todo = new Todo(null, content, sort, isChecked);
         final TodoEntity todoEntity = new TodoEntity(todo, pairRoomEntity);
         todoRepository.save(todoEntity);
 
-        final Long todoId = 1L;
+        final Long todoId = todoEntity.getId();
 
         // When
         todoService.deleteTodo(todoId);

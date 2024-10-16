@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.coduo.member.exception.AuthorizationException;
+import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.pairroom.exception.InvalidAccessCodeException;
+import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.timer.domain.Timer;
 import site.coduo.timer.repository.TimerRepository;
@@ -27,10 +30,10 @@ public class SchedulerService {
     private final TimestampRegistry timestampRegistry;
     private final TimerRepository timerRepository;
     private final SseService sseService;
-    private final PairRoomService pairRoomService;
+    private final PairRoomRepository pairRoomRepository;
 
     public void start(final String key) {
-        pairRoomService.validateNotDeleted(key);
+        validateNotDeleted(key);
         if (schedulerRegistry.isActive(key)) {
             return;
         }
@@ -42,6 +45,13 @@ public class SchedulerService {
         }
         final Timer timer = timestampRegistry.get(key);
         scheduling(key, timer);
+    }
+
+    public void validateNotDeleted(final String accessCode) {
+        final PairRoom pairRoom = pairRoomRepository.fetchByAccessCode(accessCode).toDomain();
+        if (pairRoom.isDeleted()) {
+            throw new InvalidAccessCodeException("이미 삭제되어 접근이 불가능한 엑세스 코드입니다.");
+        }
     }
 
     private boolean isInitial(final String key) {
@@ -82,10 +92,7 @@ public class SchedulerService {
         timestampRegistry.register(key, initalTimer);
     }
 
-    public void detach(final String key, final String accessToken) {
-        if (!pairRoomService.isParticipant(accessToken, key)) {
-            throw new AuthorizationException("인증되지 않은 타이머 비활성화 접근입니다.");
-        }
+    public void detach(final String key) {
         sseService.broadcast(key, "timer", "disconnect");
         schedulerRegistry.clear(key);
         sseService.disconnectAll(key);

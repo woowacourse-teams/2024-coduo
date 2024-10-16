@@ -1,11 +1,8 @@
 package site.coduo.timer.controller;
 
-import static site.coduo.common.config.web.filter.SignInCookieFilter.SIGN_IN_COOKIE_NAME;
-
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,16 +61,5 @@ public class TimerController implements TimerDocs {
         final TimerReadResponse response = timerService.readTimer(accessCode);
 
         return ResponseEntity.ok(response);
-    }
-
-    @PatchMapping("/{accessCode}/timer/disable")
-    public ResponseEntity<Void> disableTimer(
-            @PathVariable("accessCode") final String accessCode,
-            @CookieValue(name = SIGN_IN_COOKIE_NAME) final String signInToken
-    ) {
-        schedulerService.detach(accessCode, signInToken);
-
-        return ResponseEntity.ok()
-                .build();
     }
 }

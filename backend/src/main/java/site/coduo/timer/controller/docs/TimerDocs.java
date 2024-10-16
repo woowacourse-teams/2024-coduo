@@ -41,12 +41,4 @@ public interface TimerDocs {
     ResponseEntity<TimerReadResponse> getTimer(
             String accessCode
     );
-
-    @Operation(summary = "타이머 기능(시작/종료/변경)을 비활성화(SSE disconnect, 스케줄러 삭제, 시간 정보 삭제) 한다.")
-    @ApiResponse(responseCode = "200", description = "페어룸 히스토리 조회 성공/ SSE - event: timer, data: disconnect")
-    @ApiResponse(responseCode = "4xx", description = "페어룸 히스토리 생성 실패")
-    ResponseEntity<Void> disableTimer(
-            String accessCode,
-            String signInToken
-    );
 }
