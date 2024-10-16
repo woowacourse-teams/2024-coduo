@@ -30,6 +30,7 @@ const Button = ({
 }: React.PropsWithChildren<ButtonProp>) => {
   return (
     <S.Button
+      type="button"
       $size={size}
       $filled={filled}
       $rounded={rounded}
