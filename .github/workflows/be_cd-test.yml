@@ -110,9 +110,17 @@ jobs:
       - name: Determine Active and Inactive Ports (Blue/Green)
         id: determine-ports
         run: |
+          ip_blue="172.18.0.3"
+          ip_green="172.18.0.2"
+          ports=(8080 8081)  
           ip="127.0.0.1"
           ports=(8080 8081)
           for port in "${ports[@]}"; do
+            if [ $port -eq 8080 ]; then
+              ip=$ip_blue
+            else
+              ip=$ip_green
+            fi
             RESPONSE=$(curl -s http://$ip:$port/api/actuator/health)
             IS_ACTIVE=$(echo ${RESPONSE} | grep 'UP' | wc -l)
             if [ $IS_ACTIVE -eq 1 -a $port -eq "8080" ]; then
