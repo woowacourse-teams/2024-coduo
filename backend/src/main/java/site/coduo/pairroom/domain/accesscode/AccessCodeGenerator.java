@@ -17,7 +17,7 @@ public class AccessCodeGenerator {
                 pickNavigatorAdjective(driverAdjective) + navigator;
     }
 
-    private static String getPostposition(String name) {
+    private static String getPostposition(final String name) {
         final char lastChar = name.charAt(name.length() - 1);
         if (isKorean(lastChar) && hasFinalConsonant(lastChar)) {
             return POST_POSITION_WITH_FINAL_CONSONANT + BLANK;
@@ -25,15 +25,15 @@ public class AccessCodeGenerator {
         return POST_POSITION_WITHOUT_FINAL_CONSONANT + BLANK;
     }
 
-    private static boolean isKorean(char c) {
+    private static boolean isKorean(final char c) {
         return c >= KOREAN_SYLLABLE_START && c <= KOREAN_SYLLABLE_END;
     }
 
-    private static boolean hasFinalConsonant(char c) {
+    private static boolean hasFinalConsonant(final char c) {
         return (c - KOREAN_SYLLABLE_START) % FINAL_CONSONANT_COUNT > NO_FINAL_CONSONANT;
     }
 
-    private static Adjective pickNavigatorAdjective(Adjective driverAdjective) {
+    private static Adjective pickNavigatorAdjective(final Adjective driverAdjective) {
         final Adjective adjective = Adjective.pickRandom();
         if (adjective == driverAdjective) {
             return pickNavigatorAdjective(driverAdjective);
