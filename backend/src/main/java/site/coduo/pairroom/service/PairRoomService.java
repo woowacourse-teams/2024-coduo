@@ -50,11 +50,22 @@ public class PairRoomService {
         final Timer timer = new Timer(pairRoom.getAccessCode(), request.timerDuration(), request.timerRemainingTime());
         timerRepository.save(new TimerEntity(timer, pairRoomEntity));
 
-        if (token != null) {
+        if (isRegisteredMember(token)) {
             final Member member = memberService.findMemberByCredential(token);
             pairRoomMemberRepository.save(new PairRoomMemberEntity(pairRoomEntity, member));
         }
         return pairRoom.getAccessCodeText();
+    }
+
+    private boolean isRegisteredMember(final String token) {
+        return token != null;
+    }
+
+    @Transactional
+    public void addPair(final String accessCode, final String userId) {
+        final Member member = memberService.findMember(userId);
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
+        pairRoomMemberRepository.save(new PairRoomMemberEntity(pairRoomEntity, member));
     }
 
     public boolean existsByAccessCode(final String accessCode) {
