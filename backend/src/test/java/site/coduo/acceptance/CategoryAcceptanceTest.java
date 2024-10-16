@@ -8,7 +8,6 @@ import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 
 import io.restassured.RestAssured;
-import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
 import site.coduo.referencelink.service.dto.CategoryCreateRequest;
@@ -39,8 +38,7 @@ class CategoryAcceptanceTest extends AcceptanceFixture {
     void show_category() {
         //given
         final PairRoomCreateResponse pairRoomUrl = PairRoomAcceptanceTest.createPairRoom(
-                new PairRoomCreateRequest("레디", "프람", 10000L, 10000L, "https://missionUrl.xxx",
-                        PairRoomStatus.IN_PROGRESS.name()));
+                new PairRoomCreateRequest("레디", "프람", 10000L, 10000L, "https://missionUrl.xxx"));
 
         createCategory(pairRoomUrl.accessCode(), new CategoryCreateRequest("새로운 카테고리"));
 
@@ -65,8 +63,7 @@ class CategoryAcceptanceTest extends AcceptanceFixture {
     void update_category() {
         //given
         final PairRoomCreateResponse pairRoomUrl = PairRoomAcceptanceTest.createPairRoom(
-                new PairRoomCreateRequest("레디", "프람", 10000L, 10000L, "https://missionUrl.xxx",
-                        PairRoomStatus.IN_PROGRESS.name()));
+                new PairRoomCreateRequest("레디", "프람", 10000L, 10000L, "https://missionUrl.xxx"));
 
         final CategoryCreateResponse previousCategory = createCategory(pairRoomUrl.accessCode(),
                 new CategoryCreateRequest("이전 카테고리"));
@@ -101,8 +98,7 @@ class CategoryAcceptanceTest extends AcceptanceFixture {
     void delete_category() {
         //given
         final PairRoomCreateResponse pairRoomUrl = PairRoomAcceptanceTest.createPairRoom(
-                new PairRoomCreateRequest("레디", "프람", 10000L, 10000L, "https://missionUrl.xxx",
-                        PairRoomStatus.IN_PROGRESS.name()));
+                new PairRoomCreateRequest("레디", "프람", 10000L, 10000L, "https://missionUrl.xxx"));
 
         final CategoryCreateResponse category = createCategory(pairRoomUrl.accessCode(),
                 new CategoryCreateRequest("자바"));
