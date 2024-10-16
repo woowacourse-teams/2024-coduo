@@ -1,6 +1,7 @@
 package site.coduo.acceptance;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 
 import static site.coduo.common.config.web.filter.SignInCookieFilter.SIGN_IN_COOKIE_NAME;
 
@@ -234,5 +235,84 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
 
                 .then()
                 .statusCode(204);
+    }
+
+
+    @Test
+    @DisplayName("깃허브 id로 추가된 사용자가 자신의 페어룸 목록에서 페어룸을 확인할 수 있다.")
+    void add_pair_and_find_my_pair_room() {
+        //given
+        final String pairRoomCreatorId = "idA";
+        final String addPairId = "idB";
+
+        final Member pairRoomCreator = Member.builder()
+                .userId(pairRoomCreatorId)
+                .accessToken("access_aa")
+                .loginId("login")
+                .username("username")
+                .profileImage("some image")
+                .build();
+
+        final Member addPair = Member.builder()
+                .userId(addPairId)
+                .accessToken("access_bb")
+                .loginId("login")
+                .username("username")
+                .profileImage("some image")
+                .build();
+
+        memberRepository.save(pairRoomCreator);
+        memberRepository.save(addPair);
+
+        final String pairRoomCreatorToken = jwtProvider.sign(pairRoomCreator.getUserId());
+        final String addPairToken = jwtProvider.sign(addPair.getUserId());
+
+        final PairRoomCreateRequest pairRoomCreateRequest = new PairRoomCreateRequest("레디", "프람", 1000L, 100L,
+                "https://missionUrl.xxx");
+
+        final PairRoomCreateResponse createPairRoomResponse = RestAssured
+                .given()
+                .cookie(SIGN_IN_COOKIE_NAME, pairRoomCreatorToken)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .body(pairRoomCreateRequest)
+
+                .when()
+                .post("/api/pair-room")
+
+                .then()
+                .extract()
+                .as(PairRoomCreateResponse.class);
+
+        final PairUpdateRequest pairUpdateRequest = new PairUpdateRequest(createPairRoomResponse.accessCode(),
+                addPairId);
+
+        RestAssured
+                .given()
+                .cookie(SIGN_IN_COOKIE_NAME, pairRoomCreatorToken)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .body(pairUpdateRequest)
+
+                .when()
+                .patch("/api/pair-room/pair")
+
+                .then()
+                .statusCode(204);
+
+        //when && then
+        RestAssured
+                .given()
+                .cookie(SIGN_IN_COOKIE_NAME, addPairToken)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+
+                .when()
+                .get("/api/my-pair-rooms")
+
+                .then()
+                .statusCode(200)
+                .body("$", hasSize(1));
+
     }
 }
