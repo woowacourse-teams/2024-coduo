@@ -31,7 +31,7 @@ class AccessCodeGeneratorTest {
         final String accessCode = AccessCodeGenerator.generate(driverName, "내비게이터");
 
         //then
-        int postPositionIndex = accessCode.indexOf(driverName) + driverName.length();
+        final int postPositionIndex = accessCode.indexOf(driverName) + driverName.length();
         assertThat(accessCode.charAt(postPositionIndex)).isEqualTo('와');
     }
 }
