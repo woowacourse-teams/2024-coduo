@@ -51,7 +51,6 @@ public class PairRoomController implements PairRoomDocs {
     @PatchMapping("/pair-room/{accessCode}/pair-swap")
     public ResponseEntity<Void> updatePairRole(@PathVariable("accessCode") final String accessCode) {
         pairRoomService.updateNavigatorWithDriver(accessCode);
-
         return ResponseEntity.noContent()
                 .build();
     }
@@ -62,7 +61,6 @@ public class PairRoomController implements PairRoomDocs {
             @Valid @RequestBody final PairRoomStatusUpdateRequest request
     ) {
         pairRoomService.updatePairRoomStatus(accessCode, request.status());
-
         return ResponseEntity.noContent()
                 .build();
     }
@@ -72,7 +70,6 @@ public class PairRoomController implements PairRoomDocs {
             @Valid @PathVariable("accessCode") final PairRoomReadRequest request
     ) {
         final PairRoomReadResponse response = pairRoomService.findPairRoomAndTimer(request.accessCode());
-
         return ResponseEntity.ok(response);
     }
 
@@ -81,22 +78,25 @@ public class PairRoomController implements PairRoomDocs {
             @CookieValue(SIGN_IN_COOKIE_NAME) final String token
     ) {
         final List<PairRoomMemberResponse> pairRooms = pairRoomService.findPairRooms(token);
-
         return ResponseEntity.ok()
                 .body(pairRooms);
     }
 
     @GetMapping("/pair-room/exists")
-    public ResponseEntity<PairRoomExistResponse> pairRoomExists(@RequestParam("access_code") final String accessCode) {
+    public ResponseEntity<PairRoomExistResponse> pairRoomExists(
+            @Valid @RequestParam("access_code") final String accessCode
+    ) {
         final PairRoomExistResponse response = new PairRoomExistResponse(
                 pairRoomService.existsByAccessCode(accessCode));
-
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/pair-room/{accessCode}")
-    public ResponseEntity<Void> deletePairRoom(@PathVariable("accessCode") final String accessCode) {
+    public ResponseEntity<Void> deletePairRoom(
+            @Valid @PathVariable("accessCode") final String accessCode
+    ) {
         pairRoomService.deletePairRoom(accessCode);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent()
+                .build();
     }
 }
