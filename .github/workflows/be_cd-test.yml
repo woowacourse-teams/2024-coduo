@@ -94,7 +94,8 @@ jobs:
           INSTANCE_NAME=${{ secrets.INSTANCE_A_NAME }}
           
           # Server App
-          SERVER_BINDING_PORT=${{ secrets.SERVER_BINDING_PORT }}
+          BLUE_SERVER_BINDING_PORT=${{ secrets.BLUE_SERVER_BINDING_PORT }}
+          GREEN_SERVER_BINDING_PORT=${{ secrets.GREEN_SERVER_BINDING_PORT }}
           SERVER_LOGS_PATH=${{ secrets.SERVER_LOGS_PATH }}
           EOF
 
@@ -104,3 +105,37 @@ jobs:
       - name: Deploy docker container
         run: |
           sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml up -d
+
+      # 실행중인 서버 확인
+      - name: Determine Active and Inactive Ports (Blue/Green)
+        id: determine-ports
+        run: |
+          ip="127.0.0.1"
+          ports=(8080 8081)
+          for port in "${ports[@]}"; do
+            RESPONSE=$(curl -s http://$ip:$port/api/actuator/health)
+            IS_ACTIVE=$(echo ${RESPONSE} | grep 'UP' | wc -l)
+            if [ $IS_ACTIVE -eq 1 -a $port -eq "8080" ]; then
+              echo "BLUE_PORT=8080" >> $GITHUB_ENV
+              echo "GREEN_PORT=8081" >> $GITHUB_ENV
+            elif [ $IS_ACTIVE -eq 1 -a $port -eq "8081" ]; then
+              echo "BLUE_PORT=8081" >> $GITHUB_ENV
+              echo "GREEN_PORT=8080" >> $GITHUB_ENV
+            fi
+          done
+
+      - name: Start the new (green/blue) environment
+        run: |
+          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml -p ${{ env.GREEN_PORT }} up -d
+
+      - name: Wait for new environment to be healthy
+        run: |
+          until sudo docker inspect --format '{{json .State.Health.Status}}' ${env.GREEN_PORT}_springboot-app | grep "healthy"; do sleep 5; done
+
+      - name: Switch traffic to new environment
+        run: |
+          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml -p ${{ env.GREEN_PORT }} up -d --scale springboot-app=1
+
+      - name: Stop and remove the old environment
+        run: |
+          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml -p ${{ env.BLUE_PORT }} down
