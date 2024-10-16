@@ -54,8 +54,7 @@ class PairRoomServiceTest {
     void create_pair_room() {
         // given
         final PairRoomCreateRequest request =
-                new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx",
-                        PairRoomStatus.IN_PROGRESS.name());
+                new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx");
 
         // when
         final String accessCode = pairRoomService.savePairRoom(request, null);
@@ -70,8 +69,7 @@ class PairRoomServiceTest {
     void create_timer_when_create_pair_room() {
         // given
         final PairRoomCreateRequest request =
-                new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx",
-                        PairRoomStatus.IN_PROGRESS.name());
+                new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx");
 
         // when
         pairRoomService.savePairRoom(request, null);
@@ -98,8 +96,11 @@ class PairRoomServiceTest {
         // given
         final PairRoomCreateRequest request =
                 new PairRoomCreateRequest("레디", "프람", 1000L, 100L,
-                        "https://missionUrl.xxx", PairRoomStatus.DELETED.name());
+                        "https://missionUrl.xxx");
         final String accessCode = pairRoomService.savePairRoom(request, null);
+
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
+        pairRoomEntity.updateStatus(PairRoomStatus.DELETED);
 
         // when & then
         assertThatThrownBy(() -> pairRoomService.findPairRoomAndTimer(accessCode))
@@ -111,8 +112,7 @@ class PairRoomServiceTest {
     void update_pair_room_status() {
         // given
         final PairRoomCreateRequest request =
-                new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx",
-                        PairRoomStatus.IN_PROGRESS.name());
+                new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx");
         final String accessCode = pairRoomService.savePairRoom(request, null);
 
         // when
@@ -128,9 +128,10 @@ class PairRoomServiceTest {
     void update_delete_pair_room_status() {
         // given
         final PairRoomCreateRequest request =
-                new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx",
-                        PairRoomStatus.DELETED.name());
+                new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx");
         final String accessCode = pairRoomService.savePairRoom(request, null);
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
+        pairRoomEntity.updateStatus(PairRoomStatus.DELETED);
 
         // when & then
         assertThatThrownBy(() -> pairRoomService.updatePairRoomStatus(accessCode, PairRoomStatus.COMPLETED.name()))
@@ -175,7 +176,6 @@ class PairRoomServiceTest {
                 .isExactlyInstanceOf(DeletePairRoomException.class);
     }
 
-
     @DisplayName("삭제되지 않은, 멤버의 방 목록을 가져온다.")
     @Test
     void find_rooms_by_member() {
@@ -184,8 +184,7 @@ class PairRoomServiceTest {
         final Member memberB = createMember("test");
 
         final PairRoomCreateRequest pairRoomCreateRequest = new PairRoomCreateRequest("레디", "잉크", 1, 1,
-                "https://missionUrl.xxx",
-                "IN_PROGRESS");
+                "https://missionUrl.xxx");
 
         final String accessCodeA_1 = pairRoomService.savePairRoom(pairRoomCreateRequest, memberA.getAccessToken());
         final String accessCodeA_2 = pairRoomService.savePairRoom(pairRoomCreateRequest, memberA.getAccessToken());
@@ -193,10 +192,14 @@ class PairRoomServiceTest {
         pairRoomService.savePairRoom(pairRoomCreateRequest, null);
 
         final PairRoomCreateRequest deletePairRoomCreateRequest = new PairRoomCreateRequest("레디", "잉크", 1, 1,
-                "https://missionUrl.xxx", PairRoomStatus.DELETED.name());
-        pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getAccessToken());
-        pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getAccessToken());
-        pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getAccessToken());
+                "https://missionUrl.xxx");
+        final String accessToken1 = pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getAccessToken());
+        final String accessToken2 = pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getAccessToken());
+        final String accessToken3 = pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getAccessToken());
+
+        pairRoomRepository.fetchByAccessCode(accessToken1).updateStatus(PairRoomStatus.DELETED);
+        pairRoomRepository.fetchByAccessCode(accessToken2).updateStatus(PairRoomStatus.DELETED);
+        pairRoomRepository.fetchByAccessCode(accessToken3).updateStatus(PairRoomStatus.DELETED);
 
         final List<String> memberAExpected = List.of(accessCodeA_1, accessCodeA_2);
         final List<String> memberBExpected = List.of(accessCodeB_1);

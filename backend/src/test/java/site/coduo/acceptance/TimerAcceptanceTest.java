@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
 import io.restassured.RestAssured;
-import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
 import site.coduo.timer.service.dto.TimerUpdateRequest;
@@ -52,8 +51,7 @@ class TimerAcceptanceTest extends AcceptanceFixture {
                 "파란",
                 10000L,
                 10000L,
-                "https://missionUrl.xxx",
-                PairRoomStatus.IN_PROGRESS.name())
+                "https://missionUrl.xxx")
         );
 
         // when & then
@@ -76,8 +74,7 @@ class TimerAcceptanceTest extends AcceptanceFixture {
                 "파슬리",
                 10000L,
                 10000L,
-                "https://missionUrl.xxx",
-                PairRoomStatus.IN_PROGRESS.name())
+                "https://missionUrl.xxx")
         );
         final TimerUpdateRequest request = new TimerUpdateRequest(20000L, 3000L);
         createConnect(accessCode);
@@ -99,8 +96,7 @@ class TimerAcceptanceTest extends AcceptanceFixture {
     void start_timer() {
         // given
         final String accessCode = createPairRoom(
-                new PairRoomCreateRequest("fram", "lemone", 10000L, 10000L, "https://missionUrl.xxx",
-                        PairRoomStatus.IN_PROGRESS.name()));
+                new PairRoomCreateRequest("fram", "lemone", 10000L, 10000L, "https://missionUrl.xxx"));
         createConnect(accessCode);
 
         // when & then
@@ -119,8 +115,7 @@ class TimerAcceptanceTest extends AcceptanceFixture {
     void stop_timer() {
         // given
         final String accessCode = createPairRoom(
-                new PairRoomCreateRequest("fram", "lemone", 10000L, 10000L, "https://missionUrl.xxx",
-                        PairRoomStatus.IN_PROGRESS.name()));
+                new PairRoomCreateRequest("fram", "lemone", 10000L, 10000L, "https://missionUrl.xxx"));
         timerStart(accessCode);
 
         // when & then
