@@ -55,6 +55,7 @@ public class PairRoomController implements PairRoomDocs {
                 .build();
     }
 
+    // todo: 나중에 이 api 삭제
     @PatchMapping("/pair-room/{accessCode}/status")
     public ResponseEntity<Void> updatePairRoomStatus(
             @PathVariable("accessCode") final String accessCode,
@@ -91,7 +92,7 @@ public class PairRoomController implements PairRoomDocs {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/pair-room/{accessCode}")
+    @PatchMapping("/pair-room/{accessCode}/complete")
     public ResponseEntity<Void> completePairRoom(
             @Valid @PathVariable("accessCode") final String accessCode
     ) {
