@@ -22,7 +22,7 @@ const Header = () => {
   return (
     <S.Layout>
       <Link to="/" tabIndex={0}>
-        <S.Logo src={LogoIcon} alt="logo_icon_with_title" />
+        <S.Logo src={LogoIcon} alt="메인 페이지로 이동" role="link" />
       </Link>
       <S.LinkContainer>
         <Link to="/coduo-docs" tabIndex={0}>

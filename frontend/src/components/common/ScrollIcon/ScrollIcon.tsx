@@ -18,8 +18,14 @@ const ScrollIcon = ({ targetSections }: ScrollIconProps) => {
     (targetSections && targetSections.length > 0 ? targetSections[targetSections.length - 1].id : 'bottom');
 
   return (
-    <S.Layout tabIndex={0} onClick={handleClick} $isBottom={isBottom}>
-      <S.ScrollIcon size="3rem" $isBottom={isBottom} />
+    <S.Layout onClick={handleClick} $isBottom={isBottom}>
+      <S.ScrollIcon
+        tabIndex={0}
+        role="button"
+        aria-label={isBottom ? '위로 스크롤' : '아래로 스크롤'}
+        size="3rem"
+        $isBottom={isBottom}
+      />
     </S.Layout>
   );
 };
