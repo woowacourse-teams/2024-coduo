@@ -10,8 +10,6 @@ import { getPairRoomExists } from '@/apis/pairRoom';
 
 import useInput from '@/hooks/common/useInput';
 
-import { BUTTON_TEXT } from '@/constants/button';
-
 interface PairRoomEntryModal {
   isOpen: boolean;
   closeModal: () => void;
@@ -49,10 +47,10 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={closeModal} filled={false}>
-          {BUTTON_TEXT.CLOSE}
+          닫기
         </Button>
         <Button disabled={!value} onClick={enterPairRoom}>
-          {BUTTON_TEXT.COMPLETE}
+          완료
         </Button>
       </Modal.Footer>
     </Modal>

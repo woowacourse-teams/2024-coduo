@@ -9,8 +9,6 @@ import usePairRoomInformation from '@/hooks/PairRoomOnboarding/usePairRoomInform
 
 import useAddPairRoom from '@/queries/Main/useAddPairRoom';
 
-import { BUTTON_TEXT } from '@/constants/button';
-
 import * as S from './PairRoomSettingSection.styles';
 
 interface PairRoomSettingSectionProps {
@@ -65,7 +63,7 @@ const PairRoomSettingSection = ({ repositoryName }: PairRoomSettingSectionProps)
       {moveIndex >= 3 && (
         <S.ButtonWrapper>
           <Button disabled={validationList.some((valid) => !valid)} onClick={handleSuccess}>
-            {BUTTON_TEXT.COMPLETE}
+            완료
           </Button>
         </S.ButtonWrapper>
       )}
