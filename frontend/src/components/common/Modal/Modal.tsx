@@ -37,7 +37,7 @@ const Modal = ({
   if (!isOpen) return null;
 
   return createPortal(
-    <S.Layout ref={modalRef} $position={position}>
+    <S.Layout ref={modalRef} $position={position} role="dialog">
       <S.Backdrop onClick={close} $backdropType={backdropType} />
       <S.Container $size={size} $height={height} $position={position} $shadow={shadow} $animation={animation}>
         {children}
