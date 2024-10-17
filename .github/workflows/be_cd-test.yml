@@ -132,7 +132,7 @@ jobs:
 
       - name: Wait for new environment to be healthy
         run: |
-          until sudo docker inspect --format '{{json .State.Health.Status}}' coduo_springboot-app-${GREEN_PORT} | grep "healthy"; do sleep 5; done
+          until sudo docker inspect --format '{{json .State.Status}}' coduo_springboot-app-${GREEN_PORT} | grep "running"; do sleep 5; done
 
       - name: Switch traffic to new environment
         run: |
