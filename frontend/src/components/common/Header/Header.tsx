@@ -21,21 +21,23 @@ const Header = () => {
 
   return (
     <S.Layout>
-      <Link to="/">
-        <S.Logo src={LogoIcon} alt="메인 페이지로 이동" role="link" />
+      <Link to="/" aria-label="메인 페이지로 이동">
+        <S.Logo src={LogoIcon} alt="" />
       </Link>
       <S.LinkContainer>
-        <S.ResponsiveLink to="/coduo-docs">코딩해듀오 시작하기</S.ResponsiveLink>
+        <S.ResponsiveLink to="/coduo-docs" aria-label="코딩해듀오 시작하기로 이동">
+          <span aria-hidden="true">코딩해듀오 시작하기</span>
+        </S.ResponsiveLink>
         <S.ResponsiveIcon>
-          <Link to="/coduo-docs" aria-label="코딩해듀오 시작하기">
-            <FaBook size={theme.iconSize.sm} />
+          <Link to="/coduo-docs" aria-label="코딩해듀오 시작하기로 이동">
+            <FaBook size={theme.iconSize.sm} aria-hidden="true" />
           </Link>
         </S.ResponsiveIcon>
         {userStatus === 'SIGNED_IN' ? (
           <>
             <button onClick={handleSignOut}>로그아웃</button>
-            <Link to="/my-page" aria-label="마이페이지로 이동">
-              {username}
+            <Link to="/my-page" aria-label={`${username}의 마이페이지로 이동`}>
+              <span aria-hidden="true">{username}</span>
             </Link>
           </>
         ) : (
