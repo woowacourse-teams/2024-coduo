@@ -21,23 +21,23 @@ const Header = () => {
 
   return (
     <S.Layout>
-      <Link to="/">
+      <Link to="/" tabIndex={0}>
         <S.Logo src={LogoIcon} alt="logo_icon_with_title" />
       </Link>
       <S.LinkContainer>
-        <Link to="/coduo-docs">
-          <button>코딩해듀오 시작하기</button>
+        <Link to="/coduo-docs" tabIndex={0}>
+          코딩해듀오 시작하기
         </Link>
-        <Link to="/coduo-docs">
-          <S.HowToPairIcon>
+        <S.HowToPairIcon>
+          <Link to="/coduo-docs" tabIndex={0}>
             <FaBook size={theme.iconSize.sm} />
-          </S.HowToPairIcon>
-        </Link>
+          </Link>
+        </S.HowToPairIcon>
         {userStatus === 'SIGNED_IN' ? (
           <>
             <button onClick={handleSignOut}>로그아웃</button>
-            <Link to="/my-page">
-              <button>{username}</button>
+            <Link to="/my-page" tabIndex={0}>
+              {username}
             </Link>
           </>
         ) : (
