@@ -79,13 +79,13 @@ export const GithubLogo = styled.img`
   height: 2rem;
 `;
 
-export const LoginPromptContainer = styled.div`
+export const ButtonPromptContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
 `;
-export const LoginPrompt = styled.div`
+export const ButtonPrompt = styled.div`
   color: ${({ theme }) => theme.color.black[70]};
   font-size: ${({ theme }) => theme.fontSize.sm};
 `;

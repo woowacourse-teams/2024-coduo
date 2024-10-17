@@ -20,7 +20,7 @@ import * as S from './CompletedPairRoom.styles';
 
 const CompletedPairRoom = () => {
   const navigate = useNavigate();
-  const { accessCode } = useParams();
+  const accessCode = useParams().accessCode;
 
   const userStatus = useUserStore((state) => state.userStatus);
 
@@ -35,8 +35,8 @@ const CompletedPairRoom = () => {
     checkPairRoomExists();
   }, [accessCode]);
 
-  const handleReviewWriting = () => {
-    // navigate(); TODO: 회고 작성 페이지로 이동
+  const handleRetrospectWriting = () => {
+    // navigate(''); TODO: 회고 작성 페이지로 이동
   };
 
   const { driver, navigator, missionUrl, isFetching } = useGetPairRoom(accessCode || '');
@@ -54,35 +54,34 @@ const CompletedPairRoom = () => {
         <ScrollAnimationContainer animationDirection="right" animationDelay={0.2}>
           <S.PairInfo>
             <S.FirstPair>{driver}</S.FirstPair>와(과)&nbsp;
-            <S.SecondPair>{navigator}</S.SecondPair>이(가) 함께했던 페어룸이에요.
+            <S.SecondPair>{navigator}</S.SecondPair>의 기록이에요.
           </S.PairInfo>
         </ScrollAnimationContainer>
         <ScrollAnimationContainer animationDirection="right" animationDelay={0.4}>
           {missionUrl && (
             <S.RepositoryLink href={missionUrl} target="_blank">
               <S.GithubLogo src={GithubLogoWhite} />
-              미션 리포지토리로 이동
+              미션 리포지토리 열기
             </S.RepositoryLink>
           )}
         </ScrollAnimationContainer>
         <ScrollAnimationContainer animationDirection="right" animationDelay={0.4}>
-          {userStatus === 'SIGNED_IN' ? ( // TODO: 회고 작성 여부 확인 로직 추가
+          <S.ButtonPromptContainer>
             <Button
               size="lg"
+              disabled={userStatus === 'SIGNED_IN' ? false : true}
               onClick={() => {
-                handleReviewWriting();
+                handleRetrospectWriting();
               }}
             >
               회고 작성
             </Button>
-          ) : (
-            <S.LoginPromptContainer>
-              <Button size="lg" disabled={true}>
-                회고 작성
-              </Button>
-              <S.LoginPrompt>로그인 후 페어룸에 참여하면 회고를 작성할 수 있어요.</S.LoginPrompt>
-            </S.LoginPromptContainer>
-          )}
+            <S.ButtonPrompt>
+              {userStatus === 'SIGNED_IN'
+                ? '이번 페어 프로그래밍은 어떠셨나요? 회고를 작성해주세요.'
+                : '로그인 후 페어룸에 참여하면 회고를 작성할 수 있어요.'}
+            </S.ButtonPrompt>
+          </S.ButtonPromptContainer>
         </ScrollAnimationContainer>
       </S.CompletedPairRoomInformationContainer>
       <ScrollAnimationContainer animationDirection="top" animationDelay={0.4}>
