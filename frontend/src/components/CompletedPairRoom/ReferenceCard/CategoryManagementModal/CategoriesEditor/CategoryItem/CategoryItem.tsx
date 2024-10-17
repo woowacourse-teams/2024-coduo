@@ -1,4 +1,4 @@
-import ReadonlyCategoryItem from '@/components/PairRoom/ReferenceCard/CategoryManagementModal/CategoriesEditor/CategoryItem/ReadonlyCategoryItem/ReadonlyCategoryItem';
+import ReadonlyCategoryItem from '@/components/CompletedPairRoom/ReferenceCard/CategoryManagementModal/CategoriesEditor/CategoryItem/ReadonlyCategoryItem/ReadonlyCategoryItem';
 
 import * as S from './CategoryItem.styles';
 

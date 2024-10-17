@@ -10,17 +10,10 @@ export const Layout = styled.div<{ $isChecked: boolean; $isIconHovered: boolean 
   padding: 1.6rem;
   border-radius: 1rem;
 
-  background: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[40] : theme.color.black[30])};
+  background: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[30] : theme.color.secondary[200])};
   font-size: ${({ theme }) => theme.fontSize.md};
 
   transition: background 0.1s ease;
-
-  cursor: pointer;
-
-  &:hover {
-    background: ${({ $isChecked, $isIconHovered, theme }) =>
-      !$isIconHovered && ($isChecked ? theme.color.black[40] : theme.color.secondary[150])};
-  }
 `;
 
 export const TodoContainer = styled.div<{ $isChecked: boolean }>`
@@ -49,6 +42,8 @@ export const CopyIcon = styled(AiFillCopy)<{ $isChecked: boolean }>`
   color: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[50] : theme.color.secondary[500])};
 
   transition: color 0.1s ease;
+
+  cursor: pointer;
 
   &:hover {
     color: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[60] : theme.color.secondary[600])};

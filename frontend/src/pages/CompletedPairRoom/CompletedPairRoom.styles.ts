@@ -34,7 +34,7 @@ export const RoomCode = styled.div`
   font-size: ${({ theme }) => theme.fontSize.base};
 `;
 
-export const PairInfo = styled.div`
+export const PairInfo = styled.p`
   display: flex;
   align-items: center;
 
@@ -43,19 +43,19 @@ export const PairInfo = styled.div`
 
   background-color: ${({ theme }) => theme.color.black[30]};
   color: ${({ theme }) => theme.color.black[70]};
-  font-size: ${({ theme }) => theme.fontSize.lg};
+  font-size: ${({ theme }) => theme.fontSize.md};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
 
-export const FirstPair = styled.span`
+export const FirstPair = styled.p`
   color: ${({ theme }) => theme.color.primary[600]};
-  font-size: ${({ theme }) => theme.fontSize.lg};
+  font-size: ${({ theme }) => theme.fontSize.md};
   font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;
 
-export const SecondPair = styled.span`
+export const SecondPair = styled.p`
   color: ${({ theme }) => theme.color.secondary[600]};
-  font-size: ${({ theme }) => theme.fontSize.lg};
+  font-size: ${({ theme }) => theme.fontSize.md};
   font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;
 
