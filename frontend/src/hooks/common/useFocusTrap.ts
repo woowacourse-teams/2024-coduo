@@ -13,7 +13,11 @@ const useFocusTrap = (isOpen: boolean) => {
     focusableElements.current = Array.from(mainRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS));
 
     if (focusableElements.current.length === 0) return;
-
+    if (focusableElements.current[0].getAttribute('aria-label') === '모달 닫기') {
+      focusableElements.current[1]?.focus();
+    } else {
+      focusableElements.current[0].focus();
+    }
     const moveFocusIndexPrev = (currentIndex: number) =>
       currentIndex === 0 ? focusableElements.current.length - 1 : currentIndex - 1;
 
