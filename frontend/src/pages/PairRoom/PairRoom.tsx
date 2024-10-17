@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 
 import Loading from '@/pages/Loading/Loading';
 
@@ -9,6 +9,8 @@ import PairRoleCard from '@/components/PairRoom/PairRoleCard/PairRoleCard';
 import ReferenceCard from '@/components/PairRoom/ReferenceCard/ReferenceCard';
 import TimerCard from '@/components/PairRoom/TimerCard/TimerCard';
 import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
+
+import useToastStore from '@/stores/toastStore';
 
 import { getPairRoomExists } from '@/apis/pairRoom';
 
@@ -21,18 +23,35 @@ import * as S from './PairRoom.styles';
 
 const PairRoom = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { accessCode } = useParams();
 
+  const { addToast } = useToastStore();
+
   useEffect(() => {
-    const checkPairRoomExists = async () => {
-      if (!accessCode) navigate('/error');
+    const checkAccessValid = async () => {
+      if (!location.state?.valid) {
+        navigate('/main');
+        addToast({ status: 'ERROR', message: '유효하지 않은 접근입니다. 올바른 경로로 접근해 주세요.' });
+        return;
+      }
 
-      const { exists } = await getPairRoomExists(accessCode || '');
+      if (!accessCode) {
+        navigate('/main');
+        addToast({ status: 'ERROR', message: '존재하지 않는 페어룸 코드입니다. 다시 확인해 주세요.' });
+        return;
+      }
 
-      if (!exists) navigate('/error');
+      const { exists } = await getPairRoomExists(accessCode);
+
+      if (!exists) {
+        navigate('/main');
+        addToast({ status: 'ERROR', message: '존재하지 않는 페어룸 코드입니다. 다시 확인해 주세요.' });
+        return;
+      }
     };
 
-    checkPairRoomExists();
+    checkAccessValid();
   }, [accessCode]);
 
   const [driver, setDriver] = useState('');

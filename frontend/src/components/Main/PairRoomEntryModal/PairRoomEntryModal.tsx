@@ -31,7 +31,7 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
       return;
     }
 
-    navigate(`/room/${value}`);
+    navigate(`/room/${value}`, { state: { valid: true }, replace: true });
   };
 
   return (
