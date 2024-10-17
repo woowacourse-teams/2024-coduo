@@ -91,7 +91,7 @@ public class SchedulerService {
     }
 
     public void detach(final String key) {
-        sseService.broadcast(key, "timer", "disconnect");
+        sseService.broadcast(key, "pair-room", "complete");
         schedulerRegistry.clear(key);
         sseService.disconnectAll(key);
         timestampRegistry.clear(key);
