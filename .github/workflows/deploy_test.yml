@@ -1,0 +1,19 @@
+name: zero_down_time_deploy_test
+
+on:
+  push:
+    branches: [ "BE/test-deploy" ]
+
+jobs:
+  deploy:
+    environment: test
+    runs-on: test-ec2-runner
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - name: Determine Active and Inactive Ports (Blue/Green)
+        id: determine-ports
+        run: | 
+          echo test curl
+          curl http://localhost:8080/api/actuator/health
