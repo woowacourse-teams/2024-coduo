@@ -63,8 +63,8 @@ abstract class AcceptanceFixture {
     void tearDown() {
         retrospectContentRepository.deleteAll();
         retrospectRepository.deleteAll();
-        pairRoomMemberRepository.deleteAll();
         timerRepository.deleteAll();
+        pairRoomMemberRepository.deleteAll();
         memberRepository.deleteAll();
         openGraphRepository.deleteAll();
         referenceLinkRepository.deleteAll();

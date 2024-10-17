@@ -46,4 +46,8 @@ public class RetrospectContents {
         final RetrospectQuestionType retrospectQuestionType = RetrospectQuestionType.findByIndex(index);
         return new RetrospectContent(retrospectQuestionType, retrospectAnswers.get(index));
     }
+
+    public RetrospectContent getFirst() {
+        return values.get(0);
+    }
 }

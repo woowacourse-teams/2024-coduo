@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -27,10 +28,14 @@ import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomMemberEntity;
 import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
+import site.coduo.referencelink.repository.CategoryRepository;
+import site.coduo.retrospect.domain.Retrospect;
+import site.coduo.retrospect.domain.RetrospectContent;
 import site.coduo.retrospect.repository.RetrospectContentEntity;
 import site.coduo.retrospect.repository.RetrospectContentRepository;
 import site.coduo.retrospect.repository.RetrospectEntity;
 import site.coduo.retrospect.repository.RetrospectRepository;
+import site.coduo.timer.repository.TimerRepository;
 
 @SpringBootTest
 class RetrospectServiceTest {
@@ -54,10 +59,18 @@ class RetrospectServiceTest {
     private RetrospectContentRepository retrospectContentRepository;
 
     @Autowired
+    private TimerRepository timerRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
     private RetrospectService retrospectService;
 
     @AfterEach
     public void reset() {
+        timerRepository.deleteAll();
+        categoryRepository.deleteAll();
         retrospectContentRepository.deleteAll();
         retrospectRepository.deleteAll();
         pairRoomMemberRepository.deleteAll();
@@ -167,5 +180,43 @@ class RetrospectServiceTest {
         assertThatThrownBy(() -> retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("입력된 페어룸, 사용자가 서로 참조되어 있지 않습니다.");
+    }
+
+    @DisplayName("특정 회원의 모든 회고 데이터를 조회한다.")
+    @Test
+    void findAllRetrospectsByMember() {
+        // Given
+        final Member savedMember = memberRepository.save(
+                Member.builder()
+                        .userId("userid")
+                        .accessToken("access")
+                        .loginId("login")
+                        .username("username")
+                        .profileImage("some image")
+                        .build()
+        );
+        final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
+                new PairRoom(PairRoomStatus.IN_PROGRESS,
+                        new Pair(new PairName("레디"), new PairName("파슬리")),
+                        new MissionUrl("https://missionUrl.xxx"),
+                        new AccessCode("123456"))
+        ));
+        pairRoomMemberRepository.save(
+                new PairRoomMemberEntity(savedPairRoom, savedMember));
+        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        final String pairRoomAccessCode = "123456";
+        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
+        retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
+
+        // When
+        final List<Retrospect> retrospects = retrospectService.findAllRetrospectsByMember(credentialToken);
+
+        // Then
+        assertThat(retrospects).hasSize(1);
+
+        final List<RetrospectContent> values = retrospects.get(0).getContents().getValues();
+        final Stream<String> findAnswers = values.stream()
+                .map(retrospectContent -> retrospectContent.getAnswer().getValue());
+        assertThat(findAnswers).isEqualTo(answers);
     }
 }

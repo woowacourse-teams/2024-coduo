@@ -14,6 +14,7 @@ import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.retrospect.domain.Retrospect;
+import site.coduo.retrospect.domain.RetrospectContent;
 import site.coduo.retrospect.domain.RetrospectContents;
 import site.coduo.retrospect.repository.RetrospectContentEntity;
 import site.coduo.retrospect.repository.RetrospectContentRepository;
@@ -87,5 +88,27 @@ public class RetrospectService {
                         retrospectContent.getAnswer().getValue()))
                 .toList();
         retrospectContentRepository.saveAll(retrospectContentEntities);
+    }
+
+    public List<Retrospect> findAllRetrospectsByMember(final String credentialToken) {
+        final Member member = findMember(credentialToken);
+        final List<RetrospectEntity> retrospectEntities = retrospectRepository.findAllByMember(member);
+
+        return retrospectEntities.stream()
+                .map(this::convertRetrospect)
+                .toList();
+    }
+
+    private Retrospect convertRetrospect(final RetrospectEntity retrospectEntity) {
+        final List<RetrospectContent> retrospectContents = retrospectContentRepository.findAllByRetrospect(retrospectEntity)
+                .stream()
+                .map(RetrospectContentEntity::toDomain)
+                .toList();
+
+        return new Retrospect(
+                retrospectEntity.getPairRoom().toDomain(),
+                retrospectEntity.getMember(),
+                new RetrospectContents(retrospectContents)
+        );
     }
 }

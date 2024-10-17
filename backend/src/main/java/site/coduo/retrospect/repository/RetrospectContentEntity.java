@@ -15,6 +15,8 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import site.coduo.retrospect.domain.RetrospectAnswer;
+import site.coduo.retrospect.domain.RetrospectContent;
 import site.coduo.retrospect.domain.RetrospectQuestionType;
 
 @Getter
@@ -56,5 +58,9 @@ public class RetrospectContentEntity {
         this.retrospect = retrospect;
         this.questionType = questionType;
         this.content = content;
+    }
+
+    public RetrospectContent toDomain() {
+        return new RetrospectContent(questionType, new RetrospectAnswer(content));
     }
 }

@@ -73,4 +73,18 @@ class RetrospectContentsTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("회고 문항 내용 문자열 값들로 null을 입력할 수 없습니다.");
     }
+
+    @DisplayName("첫 번째 회고 내용 객체를 반환한다.")
+    @Test
+    void getFirst() {
+        // Given
+        final RetrospectContents retrospectContents = RetrospectContents.of(List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4"));
+
+        // When
+        final RetrospectContent first = retrospectContents.getFirst();
+
+        // Then
+        final String answerValue = first.getAnswer().getValue();
+        assertThat(answerValue).isEqualTo("회고 답변1");
+    }
 }
