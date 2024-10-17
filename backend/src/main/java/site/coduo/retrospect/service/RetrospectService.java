@@ -111,4 +111,10 @@ public class RetrospectService {
                 new RetrospectContents(retrospectContents)
         );
     }
+
+    public Retrospect findRetrospectById(final Long retrospectId) {
+        final RetrospectEntity retrospectEntity = retrospectRepository.findById(retrospectId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 아이디에 일치하는 회고 데이터가 존재하지 않습니다."));
+        return convertRetrospect(retrospectEntity);
+    }
 }

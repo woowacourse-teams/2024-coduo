@@ -219,4 +219,38 @@ class RetrospectServiceTest {
                 .map(retrospectContent -> retrospectContent.getAnswer().getValue());
         assertThat(findAnswers).isEqualTo(answers);
     }
+
+    @DisplayName("특정 id의 회고 정보를 상세 조회한다.")
+    @Test
+    void findRetrospectById() {
+        // Given
+        final Member savedMember = memberRepository.save(
+                Member.builder()
+                        .userId("userid")
+                        .accessToken("access")
+                        .loginId("login")
+                        .username("username")
+                        .profileImage("some image")
+                        .build()
+        );
+        final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
+                new PairRoom(PairRoomStatus.IN_PROGRESS,
+                        new Pair(new PairName("레디"), new PairName("파슬리")),
+                        new MissionUrl("https://missionUrl.xxx"),
+                        new AccessCode("123456"))
+        ));
+        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
+        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        final String pairRoomAccessCode = "123456";
+        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
+        retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
+        final RetrospectEntity savedRetrospectEntity = retrospectRepository.findByPairRoomAndMember(savedPairRoom, savedMember).get();
+
+        // When
+        final Long targetId = savedRetrospectEntity.getId();
+        final Retrospect retrospect = retrospectService.findRetrospectById(targetId);
+
+        // Then
+        assertThat(retrospect).isNotNull();
+    }
 }

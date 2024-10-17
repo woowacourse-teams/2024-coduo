@@ -6,12 +6,14 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.retrospect.controller.request.CreateRetrospectRequest;
+import site.coduo.retrospect.controller.response.FindRetrospectByIdResponse;
 import site.coduo.retrospect.controller.response.FindRetrospectsResponse;
 import site.coduo.retrospect.domain.Retrospect;
 import site.coduo.retrospect.service.RetrospectService;
@@ -35,6 +37,13 @@ public class RetrospectController {
     public ResponseEntity<FindRetrospectsResponse> findRetrospects(@CookieValue("coduo_whoami") final String credentialToken) {
         final List<Retrospect> retrospects = retrospectService.findAllRetrospectsByMember(credentialToken);
         final FindRetrospectsResponse response = FindRetrospectsResponse.of(retrospects);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/retrospects/{retrospectId}")
+    public ResponseEntity<FindRetrospectByIdResponse> findRetrospectById(@PathVariable("retrospectId") final Long retrospectId) {
+        final Retrospect retrospect = retrospectService.findRetrospectById(retrospectId);
+        final FindRetrospectByIdResponse response = FindRetrospectByIdResponse.of(retrospect);
         return ResponseEntity.ok(response);
     }
 }
