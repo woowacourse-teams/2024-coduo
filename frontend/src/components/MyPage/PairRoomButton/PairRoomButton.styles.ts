@@ -5,6 +5,8 @@ import styled, { keyframes, css } from 'styled-components';
 
 import type { PairRoomStatus } from '@/apis/pairRoom';
 
+import { Z_INDEX } from '@/constants/style';
+
 const flow = keyframes`
   0% {
     background-position: 200% 0;
@@ -122,7 +124,7 @@ export const PairRoomButton = styled.button<{ $status: PairRoomStatus }>`
     position: absolute;
     top: 0;
     left: 0;
-    z-index: -1;
+    z-index: ${Z_INDEX.MINUS};
 
     width: 100%;
     height: 100%;

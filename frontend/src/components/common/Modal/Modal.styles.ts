@@ -1,5 +1,7 @@
 import styled, { keyframes, css } from 'styled-components';
 
+import { Z_INDEX } from '@/constants/style';
+
 import type { Size, Position, BackdropType } from './Modal.type';
 
 const fadeIn = keyframes`
@@ -40,6 +42,7 @@ export const Layout = styled.div<{ $position: Position }>`
 
   position: fixed;
   top: 0;
+  z-index: ${Z_INDEX.MODAL};
 
   width: 100%;
   height: 100%;

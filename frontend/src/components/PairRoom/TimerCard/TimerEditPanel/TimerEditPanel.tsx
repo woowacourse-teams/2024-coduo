@@ -14,8 +14,6 @@ import useModal from '@/hooks/common/useModal';
 
 import useUpdateDuration from '@/queries/PairRoom/useUpdateDuration';
 
-import { BUTTON_TEXT } from '@/constants/button';
-
 import * as S from './TimerEditPanel.styles';
 
 interface TimerEditPanelProps {
@@ -64,10 +62,10 @@ const TimerEditPanel = ({ isActive }: TimerEditPanelProps) => {
             <Input id="timer" value={value} placeholder="타이머 시간 (분)" onChange={handleChange} />
             <S.ButtonContainer>
               <Button type="button" color="secondary" size="sm" filled={false} rounded={true} onClick={closePanel}>
-                {BUTTON_TEXT.CLOSE}
+                닫기
               </Button>
               <Button type="submit" color="secondary" size="sm" rounded={true} disabled={isButtonDisabled}>
-                {BUTTON_TEXT.COMPLETE}
+                완료
               </Button>
             </S.ButtonContainer>
           </S.Form>

@@ -14,7 +14,7 @@ const useAddPairRoom = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: addPairRoom,
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
-    onSuccess: (accessCode) => navigate(`/room/${accessCode}`),
+    onSuccess: (accessCode) => navigate(`/room/${accessCode}`, { state: { valid: true }, replace: true }),
   });
 
   const handleAddPairRoom = async (driver: string, navigator: string, missionUrl: string, timerDuration: string) => {

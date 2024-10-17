@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import Loading from '@/pages/Loading/Loading';
 
@@ -10,9 +10,8 @@ import ReferenceCard from '@/components/PairRoom/ReferenceCard/ReferenceCard';
 import TimerCard from '@/components/PairRoom/TimerCard/TimerCard';
 import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
 
-import { getPairRoomExists } from '@/apis/pairRoom';
-
 import useModal from '@/hooks/common/useModal';
+import usePairRoomValid from '@/hooks/PairRoom/usePairRoomValid';
 
 import useGetPairRoom from '@/queries/PairRoom/useGetPairRoom';
 import useUpdatePairRoom from '@/queries/PairRoom/useUpdatePairRoom';
@@ -20,20 +19,9 @@ import useUpdatePairRoom from '@/queries/PairRoom/useUpdatePairRoom';
 import * as S from './PairRoom.styles';
 
 const PairRoom = () => {
-  const navigate = useNavigate();
   const { accessCode } = useParams();
 
-  useEffect(() => {
-    const checkPairRoomExists = async () => {
-      if (!accessCode) navigate('/error');
-
-      const { exists } = await getPairRoomExists(accessCode || '');
-
-      if (!exists) navigate('/error');
-    };
-
-    checkPairRoomExists();
-  }, [accessCode]);
+  usePairRoomValid(accessCode || '');
 
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
