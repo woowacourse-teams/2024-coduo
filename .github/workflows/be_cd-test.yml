@@ -112,8 +112,11 @@ jobs:
         run: | 
           echo $(pwd)
           chmod +x ./deploy.sh # 스크립트에 실행 권한 부여 
+          echo chomod ok
           OUTPUT=$(./deploy.sh) # 스크립트 실행 후 결과를 변수에 저장 
+          echo hello $OUTPUT
           source ./deploy.sh
+          echo source ok
           echo "BLUE_PORT=$BLUE_PORT" >> $GITHUB_ENV
           echo "GREEN_PORT=$GREEN_PORT" >> $GITHUB_ENV
 
