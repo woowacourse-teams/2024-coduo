@@ -1,5 +1,6 @@
 package site.coduo.acceptance;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import java.util.List;
@@ -119,7 +120,8 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
 
-        final RetrospectEntity retrospectEntity = retrospectRepository.save(new RetrospectEntity(savedPairRoom, savedMember));
+        final RetrospectEntity retrospectEntity = retrospectRepository.save(
+                new RetrospectEntity(savedPairRoom, savedMember));
         final List<RetrospectContentEntity> retrospectContentEntities = List.of(
                 new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FIRST, "답변1"),
                 new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.SECOND, "답변2"),
@@ -144,7 +146,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
         // Then
         assertSoftly(softly -> {
             softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-            softly.assertThat((List)response.jsonPath().get("retrospects")).hasSize(1);
+            softly.assertThat((List) response.jsonPath().get("retrospects")).hasSize(1);
             softly.assertThat((int) response.jsonPath().get("retrospects[0].retrospectId")).isEqualTo(0);
             softly.assertThat((String) response.jsonPath().get("retrospects[0].pairRoomAccessCode")).isEqualTo("ac");
             softly.assertThat((String) response.jsonPath().get("retrospects[0].answer")).isEqualTo("답변1");
@@ -172,7 +174,8 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
         ));
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
 
-        final RetrospectEntity retrospectEntity = retrospectRepository.save(new RetrospectEntity(savedPairRoom, savedMember));
+        final RetrospectEntity retrospectEntity = retrospectRepository.save(
+                new RetrospectEntity(savedPairRoom, savedMember));
         final List<RetrospectContentEntity> retrospectContentEntities = List.of(
                 new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FIRST, "답변1"),
                 new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.SECOND, "답변2"),
@@ -200,7 +203,58 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
         assertSoftly(softly -> {
             softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
             softly.assertThat((String) response.jsonPath().get("pairRoomAccessCode")).isEqualTo("ac");
-            softly.assertThat((List)response.jsonPath().get("answers")).isEqualTo(expect);
+            softly.assertThat((List) response.jsonPath().get("answers")).isEqualTo(expect);
         });
+    }
+
+    @DisplayName("특정 아이디의 회고를 삭제한다.")
+    @Test
+    void deleteRetrospect() {
+        // Given
+        final Member savedMember = memberRepository.save(
+                Member.builder()
+                        .userId("userid")
+                        .accessToken("access")
+                        .loginId("login")
+                        .username("username")
+                        .profileImage("some image")
+                        .build()
+        );
+        final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
+                new PairRoom(PairRoomStatus.IN_PROGRESS,
+                        new Pair(new PairName("레디"), new PairName("파슬리")),
+                        new MissionUrl("https://missionUrl.xxx"),
+                        new AccessCode("ac"))
+        ));
+        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
+
+        final RetrospectEntity retrospectEntity = retrospectRepository.save(
+                new RetrospectEntity(savedPairRoom, savedMember));
+        final List<RetrospectContentEntity> retrospectContentEntities = List.of(
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FIRST, "답변1"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.SECOND, "답변2"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.THIRD, "답변3"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변4")
+        );
+        retrospectContentRepository.saveAll(retrospectContentEntities);
+
+        // When
+        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        final long targetId = retrospectEntity.getId();
+        final ExtractableResponse<Response> response = RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .cookies(Map.of("coduo_whoami", credentialToken))
+
+                .when()
+                .delete("/api/retrospects/" + targetId)
+
+                .then()
+                .log().all()
+                .extract();
+
+        // Then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
 }

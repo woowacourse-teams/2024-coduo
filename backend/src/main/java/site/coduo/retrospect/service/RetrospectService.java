@@ -117,4 +117,20 @@ public class RetrospectService {
                 .orElseThrow(() -> new EntityNotFoundException("해당 아이디에 일치하는 회고 데이터가 존재하지 않습니다."));
         return convertRetrospect(retrospectEntity);
     }
+
+    @Transactional
+    public void deleteRetrospect(final String credentialToken, Long retrospectId) {
+        final RetrospectEntity retrospectEntity = retrospectRepository.findById(retrospectId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 아이디에 일치하는 회고 데이터가 존재하지 않습니다."));
+        checkRetrospectOwner(retrospectEntity, credentialToken);
+        retrospectContentRepository.deleteAllByRetrospect(retrospectEntity);
+        retrospectRepository.delete(retrospectEntity);
+    }
+
+    private void checkRetrospectOwner(final RetrospectEntity retrospectEntity, final String credentialToken) {
+        final Member client = findMember(credentialToken);
+        if (retrospectEntity.getMember() != client) {
+            throw new IllegalStateException("본인 소유가 아닌 회고는 삭제할 수 없습니다.");
+        }
+    }
 }

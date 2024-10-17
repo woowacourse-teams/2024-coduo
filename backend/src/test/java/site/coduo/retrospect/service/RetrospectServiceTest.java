@@ -244,7 +244,8 @@ class RetrospectServiceTest {
         final String pairRoomAccessCode = "123456";
         final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
         retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
-        final RetrospectEntity savedRetrospectEntity = retrospectRepository.findByPairRoomAndMember(savedPairRoom, savedMember).get();
+        final RetrospectEntity savedRetrospectEntity = retrospectRepository.findByPairRoomAndMember(savedPairRoom,
+                savedMember).get();
 
         // When
         final Long targetId = savedRetrospectEntity.getId();
@@ -252,5 +253,102 @@ class RetrospectServiceTest {
 
         // Then
         assertThat(retrospect).isNotNull();
+    }
+
+    @DisplayName("존재하지 않은 회고 id로 조회 요청이 들어오면 예외를 발생시킨다.")
+    @Test
+    void findRetrospectByNotExistId() {
+        // When & Then
+        assertThatThrownBy(() -> retrospectService.findRetrospectById(-1L))
+                .isInstanceOf(EntityNotFoundException.class)
+                .hasMessage("해당 아이디에 일치하는 회고 데이터가 존재하지 않습니다.");
+    }
+
+    @DisplayName("입력된 회고 id로 대응되는 회고 데이터를 삭제한다.")
+    @Test
+    void deleteRetrospect() {
+        // Given
+        final Member savedMember = memberRepository.save(
+                Member.builder()
+                        .userId("userid")
+                        .accessToken("access")
+                        .loginId("login")
+                        .username("username")
+                        .profileImage("some image")
+                        .build()
+        );
+        final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
+                new PairRoom(PairRoomStatus.IN_PROGRESS,
+                        new Pair(new PairName("레디"), new PairName("파슬리")),
+                        new MissionUrl("https://missionUrl.xxx"),
+                        new AccessCode("123456"))
+        ));
+        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
+        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        final String pairRoomAccessCode = "123456";
+        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
+        retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
+        final RetrospectEntity savedRetrospectEntity = retrospectRepository.findByPairRoomAndMember(savedPairRoom, savedMember).get();
+
+        // When
+        final Long targetId = savedRetrospectEntity.getId();
+        retrospectService.deleteRetrospect(credentialToken, targetId);
+
+        // Then
+        assertThatThrownBy(() -> retrospectService.findRetrospectById(targetId))
+                .isInstanceOf(EntityNotFoundException.class)
+                .hasMessage("해당 아이디에 일치하는 회고 데이터가 존재하지 않습니다.");
+    }
+
+    @DisplayName("존재하지 않은 회고 id로 삭제 요청이 들어오면 예외를 발생시킨다.")
+    @Test
+    void deleteRetrospectByNotExistId() {
+        // When & Then
+        assertThatThrownBy(() -> retrospectService.findRetrospectById(-1L))
+                .isInstanceOf(EntityNotFoundException.class)
+                .hasMessage("해당 아이디에 일치하는 회고 데이터가 존재하지 않습니다.");
+    }
+
+    @DisplayName("본인 소유가 아닌 회고 삭제 요청이 들어오면 예외를 발생시킨다.")
+    @Test
+    void deleteRetrospectWhoNotOwner() {
+        // Given
+        final Member owner = memberRepository.save(
+                Member.builder()
+                        .userId("userid1")
+                        .accessToken("access1")
+                        .loginId("login1")
+                        .username("username1")
+                        .profileImage("some image1")
+                        .build()
+        );
+        final Member other = memberRepository.save(
+                Member.builder()
+                        .userId("userid2")
+                        .accessToken("access2")
+                        .loginId("login2")
+                        .username("username3")
+                        .profileImage("some image2")
+                        .build()
+        );
+        final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
+                new PairRoom(PairRoomStatus.IN_PROGRESS,
+                        new Pair(new PairName("레디"), new PairName("파슬리")),
+                        new MissionUrl("https://missionUrl.xxx"),
+                        new AccessCode("123456"))
+        ));
+        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, owner));
+        final String credentialToken = jwtProvider.sign(owner.getUserId());
+        final String pairRoomAccessCode = "123456";
+        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
+        retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
+        final RetrospectEntity savedRetrospectEntity = retrospectRepository.findByPairRoomAndMember(savedPairRoom, owner).get();
+
+        // When & Then
+        final String otherCredentialToken = jwtProvider.sign(other.getUserId());
+        final Long targetId = savedRetrospectEntity.getId();
+        assertThatThrownBy(() -> retrospectService.deleteRetrospect(otherCredentialToken, targetId))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessage("본인 소유가 아닌 회고는 삭제할 수 없습니다.");
     }
 }
