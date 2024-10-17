@@ -110,6 +110,8 @@ jobs:
       - name: Determine Active and Inactive Ports (Blue/Green)
         id: determine-ports
         run: | 
+          echo test curl
+          curl http://localhost:8080/api/actuator/health
           echo $(pwd)
           chmod +x ./deploy.sh # 스크립트에 실행 권한 부여 
           echo chmod ok
