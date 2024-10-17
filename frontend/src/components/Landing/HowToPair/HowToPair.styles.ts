@@ -77,7 +77,7 @@ export const SectionText = styled.div`
   width: 100%;
 `;
 
-export const SectionTitle = styled.h2`
+export const SectionTitle = styled.h1`
   margin: 2rem 0;
 
   color: ${({ theme }) => theme.color.primary[800]};

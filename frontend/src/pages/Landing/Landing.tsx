@@ -18,29 +18,30 @@ import useSignInHandler from '@/hooks/member/useSignInHandler';
 
 const Landing = () => {
   const navigate = useNavigate();
-  const targetSections: TargetSection[] = [
-    { id: 'landing', position: 'top' },
-    { id: 'how-to-pair', position: 'bottom' },
-  ];
-  useTitleTime();
-  usePreventBackNavigation();
-
   const { userStatus } = useUserStore();
-  const { handleSignInGithub } = useSignInHandler();
 
   useEffect(() => {
     if (userStatus === 'SIGNED_IN') navigate('/main');
   }, [userStatus]);
 
+  const { handleSignInGithub } = useSignInHandler();
+
+  useTitleTime();
+  usePreventBackNavigation();
+
+  const targetSections: TargetSection[] = [
+    { id: 'landing', position: 'top' },
+    { id: 'how-to-pair', position: 'bottom' },
+  ];
+
   return (
     <>
-      <ScrollIcon targetSections={targetSections} />
       <S.Layout id="landing">
         <ScrollAnimationContainer animationDirection="right">
           <S.SubTitle>당신의 첫 번째 페어 프로그래밍,</S.SubTitle>
         </ScrollAnimationContainer>
         <ScrollAnimationContainer animationDirection="right" animationDelay={0.75}>
-          <S.Logo src={LogoIconWithTitle} alt="메인 로고" />
+          <S.Logo src={LogoIconWithTitle} alt="코딩해듀오 로고" />
         </ScrollAnimationContainer>
         <S.ButtonContainer>
           <ScrollAnimationContainer animationDirection="top" animationDelay={2}>
@@ -57,6 +58,7 @@ const Landing = () => {
         </S.ButtonContainer>
       </S.Layout>
       <HowToPair />
+      <ScrollIcon targetSections={targetSections} />
     </>
   );
 };

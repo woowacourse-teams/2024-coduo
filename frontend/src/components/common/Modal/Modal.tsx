@@ -1,5 +1,6 @@
 import { createPortal } from 'react-dom';
 
+import useAriaTrap from '@/hooks/common/useAriaTrap';
 import useEscapeKey from '@/hooks/common/useEscapeKey';
 import useFocusTrap from '@/hooks/common/useFocusTrap';
 import usePreventScroll from '@/hooks/common/usePreventScroll';
@@ -31,13 +32,14 @@ const Modal = ({
 }: React.PropsWithChildren<ModalProps>) => {
   const modalRef = useFocusTrap(isOpen);
 
+  useAriaTrap(isOpen, 'root');
   useEscapeKey(isOpen, close);
   usePreventScroll(isOpen);
 
   if (!isOpen) return null;
 
   return createPortal(
-    <S.Layout ref={modalRef} $position={position}>
+    <S.Layout ref={modalRef} $position={position} role="presentation">
       <S.Backdrop onClick={close} $backdropType={backdropType} />
       <S.Container $size={size} $height={height} $position={position} $shadow={shadow} $animation={animation}>
         {children}

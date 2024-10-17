@@ -64,7 +64,7 @@ const HowToPair = () => {
         }}
       >
         <S.Section $textAlign="right">
-          <S.Character src={Navigator} />
+          <S.Character alt="" src={Navigator} />
           <S.SectionText>
             <S.SectionTitle>왜 페어 프로그래밍을 해야 할까요?</S.SectionTitle>
             <S.Paragraph>
@@ -94,7 +94,7 @@ const HowToPair = () => {
               <S.Highlighted>더 나은 협업</S.Highlighted>을 할 수 있도록 합니다.
             </S.Paragraph>
           </S.SectionText>
-          <S.Character src={Driver} />
+          <S.Character alt="" src={Driver} />
         </S.Section>
       </ScrollAnimationContainer>
 
