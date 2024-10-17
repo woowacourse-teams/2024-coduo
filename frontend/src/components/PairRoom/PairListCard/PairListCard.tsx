@@ -7,7 +7,7 @@ import RepositorySection from '@/components/PairRoom/PairListCard/RepositorySect
 import RoomCodeSection from '@/components/PairRoom/PairListCard/RoomCodeSection/RoomCodeSection';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 
-import { updatePairRoomStatus } from '@/apis/pairRoom';
+import useCompletePairRoom from '@/queries/PairRoom/useCompletePairRoom';
 
 import * as S from './PairListCard.styles';
 
@@ -20,12 +20,9 @@ interface PairListCardProps {
 
 const PairListCard = ({ driver, navigator, missionUrl, roomCode }: PairListCardProps) => {
   const [isOpen, setIsOpen] = useState(true);
+  const { handleCompletePairRoom } = useCompletePairRoom();
 
   const toggleOpen = () => setIsOpen(!isOpen);
-
-  const handleCompletePairRoom = () => {
-    updatePairRoomStatus({ accessCode: roomCode });
-  };
 
   return (
     <S.Layout $isOpen={isOpen}>
@@ -35,7 +32,7 @@ const PairListCard = ({ driver, navigator, missionUrl, roomCode }: PairListCardP
           <RoomCodeSection isOpen={isOpen} roomCode={roomCode} />
           {missionUrl !== '' && <RepositorySection isOpen={isOpen} missionUrl={missionUrl} />}
           <PairListSection isOpen={isOpen} driver={driver} navigator={navigator} />
-          <DeleteButton isOpen={isOpen} onClick={handleCompletePairRoom} />
+          <DeleteButton isOpen={isOpen} onClick={() => handleCompletePairRoom(roomCode)} />
         </S.Sidebar>
       </PairRoomCard>
     </S.Layout>
