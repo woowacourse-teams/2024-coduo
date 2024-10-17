@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import DeleteButton from './DeleteButton';
+import DeleteButton from './CompleteRoomButton';
 
 const meta = {
   title: 'component/PairRoom/PairListCard/DeleteButton',

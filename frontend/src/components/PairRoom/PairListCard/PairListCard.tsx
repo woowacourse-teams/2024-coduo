@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import DeleteButton from '@/components/PairRoom/PairListCard/DeleteButton/DeleteButton';
+import CompleteRoomButton from '@/components/PairRoom/PairListCard/CompleteRoomButton/CompleteRoomButton';
 import Header from '@/components/PairRoom/PairListCard/Header/Header';
 import PairListSection from '@/components/PairRoom/PairListCard/PairListSection/PairListSection';
 import RepositorySection from '@/components/PairRoom/PairListCard/RepositorySection/RepositorySection';
@@ -32,7 +32,7 @@ const PairListCard = ({ driver, navigator, missionUrl, roomCode }: PairListCardP
           <RoomCodeSection isOpen={isOpen} roomCode={roomCode} />
           {missionUrl !== '' && <RepositorySection isOpen={isOpen} missionUrl={missionUrl} />}
           <PairListSection isOpen={isOpen} driver={driver} navigator={navigator} />
-          <DeleteButton isOpen={isOpen} onClick={() => handleCompletePairRoom(roomCode)} />
+          <CompleteRoomButton isOpen={isOpen} onClick={() => handleCompletePairRoom(roomCode)} />
         </S.Sidebar>
       </PairRoomCard>
     </S.Layout>
