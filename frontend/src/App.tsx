@@ -86,11 +86,7 @@ const App = () => {
         },
         {
           path: 'room/:accessCode/completed',
-          element: (
-            <Suspense fallback={<Loading />}>
-              <CompletedPairRoom />
-            </Suspense>
-          ),
+          element: <CompletedPairRoom />,
         },
         {
           path: 'sign-up',
