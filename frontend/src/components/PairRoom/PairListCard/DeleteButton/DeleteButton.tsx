@@ -1,16 +1,16 @@
-import { FaTrashAlt } from 'react-icons/fa';
+import { ImExit } from 'react-icons/im';
 
 import * as S from './DeleteButton.styles';
 
 interface DeleteButtonProps {
   isOpen: boolean;
-  onRoomDelete: () => void;
+  onClick: () => void;
 }
 
-const DeleteButton = ({ isOpen, onRoomDelete }: DeleteButtonProps) => (
-  <S.Layout onClick={onRoomDelete}>
-    <FaTrashAlt size="1.5rem" />
-    {isOpen && <span>방 삭제하기</span>}
+const DeleteButton = ({ isOpen, onClick }: DeleteButtonProps) => (
+  <S.Layout onClick={onClick}>
+    <ImExit size="1.5rem" />
+    {isOpen && <span>페어룸 종료하기</span>}
   </S.Layout>
 );
 

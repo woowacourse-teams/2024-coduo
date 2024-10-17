@@ -69,6 +69,17 @@ export const updatePairRole = async ({ accessCode }: UpdatePairRoleRequest) => {
   });
 };
 
+interface UpdatePairRoomStatusRequest {
+  accessCode: string;
+}
+
+export const updatePairRoomStatus = async ({ accessCode }: UpdatePairRoomStatusRequest) => {
+  await fetcher.patch({
+    url: `${API_URL}/pair-room/${accessCode}/complete`,
+    errorMessage: '',
+  });
+};
+
 export const deletePairRoom = async (accessCode: string) => {
   await fetcher.delete({
     url: `${API_URL}/pair-room/${accessCode}`,
