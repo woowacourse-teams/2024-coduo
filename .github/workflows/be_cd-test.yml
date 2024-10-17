@@ -126,7 +126,7 @@ jobs:
 
       - name: Wait for new environment to be healthy
         run: |
-          until sudo docker inspect --format '{{json .State.Health.Status}}' $GREEN_PORT_springboot-app | grep "healthy"; do sleep 5; done
+          until sudo docker inspect --format '{{json .State.Health.Status}}' ${GREEN_PORT}_springboot-app | grep "healthy"; do sleep 5; done
 
       - name: Switch traffic to new environment
         run: |
