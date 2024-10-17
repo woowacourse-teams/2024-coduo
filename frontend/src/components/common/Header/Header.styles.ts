@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import styled from 'styled-components';
 
 export const Layout = styled.div`
@@ -20,7 +22,6 @@ export const Layout = styled.div`
 
   a,
   button {
-    display: flex;
     justify-content: center;
     align-items: center;
 
@@ -39,22 +40,6 @@ export const Layout = styled.div`
     }
   }
 
-  /* button {
-    transition: all 0.1s;
-
-    cursor: pointer;
-
-    &:hover {
-      opacity: 0.7;
-      text-decoration: underline;
-    }
-
-    &:active {
-      opacity: 0.5;
-      text-decoration: underline;
-    }
-  } */
-
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     padding: 0 8vw;
   }
@@ -72,9 +57,19 @@ export const LinkContainer = styled.div`
   gap: 1.4rem;
 `;
 
-export const HowToPairText = styled.button`
+export const ResponsiveLink = styled(Link)`
+  display: inline;
+
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     display: none;
+  }
+`;
+
+export const ResponsiveIcon = styled.div`
+  display: none;
+
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+    display: inline;
   }
 `;
 

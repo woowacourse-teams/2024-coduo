@@ -21,22 +21,20 @@ const Header = () => {
 
   return (
     <S.Layout>
-      <Link to="/" tabIndex={0}>
+      <Link to="/">
         <S.Logo src={LogoIcon} alt="메인 페이지로 이동" role="link" />
       </Link>
       <S.LinkContainer>
-        <Link to="/coduo-docs" tabIndex={0}>
-          코딩해듀오 시작하기
-        </Link>
-        <S.HowToPairIcon>
-          <Link to="/coduo-docs" tabIndex={0}>
+        <S.ResponsiveLink to="/coduo-docs">코딩해듀오 시작하기</S.ResponsiveLink>
+        <S.ResponsiveIcon>
+          <Link to="/coduo-docs" aria-label="코딩해듀오 시작하기">
             <FaBook size={theme.iconSize.sm} />
           </Link>
-        </S.HowToPairIcon>
+        </S.ResponsiveIcon>
         {userStatus === 'SIGNED_IN' ? (
           <>
             <button onClick={handleSignOut}>로그아웃</button>
-            <Link to="/my-page" tabIndex={0}>
+            <Link to="/my-page" aria-label="마이페이지로 이동">
               {username}
             </Link>
           </>
