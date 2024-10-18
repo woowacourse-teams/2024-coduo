@@ -133,4 +133,10 @@ public class RetrospectService {
             throw new IllegalStateException("본인 소유가 아닌 회고는 삭제할 수 없습니다.");
         }
     }
+
+    public boolean existRetrospectWithPairRoom(final String credentialToken, final String pairRoomAccessCode) {
+        final Member member = findMember(credentialToken);
+        final PairRoomEntity pairRoom = findPairRoom(pairRoomAccessCode);
+        return retrospectRepository.existsByMemberAndPairRoom(member, pairRoom);
+    }
 }

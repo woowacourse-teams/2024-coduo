@@ -351,4 +351,36 @@ class RetrospectServiceTest {
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessage("본인 소유가 아닌 회고는 삭제할 수 없습니다.");
     }
+
+    @DisplayName("입력된 페어룸, 회원 정보를 가진 회고가 DB에 존재하는지 여부를 반환한다.")
+    @Test
+    void existRetrospectWithPairRoom() {
+        final Member savedMember = memberRepository.save(
+                Member.builder()
+                        .userId("userid")
+                        .accessToken("access")
+                        .loginId("login")
+                        .username("username")
+                        .profileImage("some image")
+                        .build()
+        );
+        final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
+                new PairRoom(PairRoomStatus.IN_PROGRESS,
+                        new Pair(new PairName("레디"), new PairName("파슬리")),
+                        new MissionUrl("https://missionUrl.xxx"),
+                        new AccessCode("123456"))
+        ));
+        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
+        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        final String pairRoomAccessCode = "123456";
+        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
+        retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
+        retrospectRepository.findByPairRoomAndMember(savedPairRoom, savedMember).get();
+
+        // When
+        final boolean isExist = retrospectService.existRetrospectWithPairRoom(credentialToken, pairRoomAccessCode);
+
+        // Then
+        assertThat(isExist).isTrue();
+    }
 }

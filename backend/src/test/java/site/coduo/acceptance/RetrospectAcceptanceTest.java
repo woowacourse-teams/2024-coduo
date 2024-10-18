@@ -195,7 +195,6 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 .get("/api/retrospects/" + targetId)
 
                 .then()
-                .log().all()
                 .extract();
 
         // Then
@@ -251,10 +250,62 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 .delete("/api/retrospects/" + targetId)
 
                 .then()
-                .log().all()
                 .extract();
 
         // Then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.NO_CONTENT.value());
+    }
+
+    @DisplayName("특정 회원이 특정 페어룸에 작성한 회고가 존재하는지 여부를 조회한다.")
+    @Test
+    void existRetrospectWithPairRoom() {
+        // Given
+        final Member savedMember = memberRepository.save(
+                Member.builder()
+                        .userId("userid")
+                        .accessToken("access")
+                        .loginId("login")
+                        .username("username")
+                        .profileImage("some image")
+                        .build()
+        );
+        final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
+                new PairRoom(PairRoomStatus.IN_PROGRESS,
+                        new Pair(new PairName("레디"), new PairName("파슬리")),
+                        new MissionUrl("https://missionUrl.xxx"),
+                        new AccessCode("ac"))
+        ));
+        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
+
+        final RetrospectEntity retrospectEntity = retrospectRepository.save(
+                new RetrospectEntity(savedPairRoom, savedMember));
+        final List<RetrospectContentEntity> retrospectContentEntities = List.of(
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FIRST, "답변1"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.SECOND, "답변2"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.THIRD, "답변3"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변4")
+        );
+        retrospectContentRepository.saveAll(retrospectContentEntities);
+
+        // When
+        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        final ExtractableResponse<Response> response = RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .cookies(Map.of("coduo_whoami", credentialToken))
+
+                .when()
+                .get("/api/member/retrospect/" + "ac" + "/exists")
+
+                .then()
+                .log().all()
+                .extract();
+
+        // Then
+        assertSoftly(softly -> {
+            softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+            softly.assertThat((Boolean) response.jsonPath().get("existRetrospect")).isEqualTo(true);
+        });
     }
 }

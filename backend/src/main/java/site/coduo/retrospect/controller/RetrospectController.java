@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.retrospect.controller.request.CreateRetrospectRequest;
+import site.coduo.retrospect.controller.response.ExistRetrospectWithPairRoomResponse;
 import site.coduo.retrospect.controller.response.FindRetrospectByIdResponse;
 import site.coduo.retrospect.controller.response.FindRetrospectsResponse;
 import site.coduo.retrospect.domain.Retrospect;
@@ -55,5 +56,15 @@ public class RetrospectController {
     ) {
         retrospectService.deleteRetrospect(credentialToken, retrospectId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/member/retrospect/{accessCode}/exists")
+    public ResponseEntity<ExistRetrospectWithPairRoomResponse> existRetrospectWithPairRoom(
+            @CookieValue("coduo_whoami") final String credentialToken,
+            @PathVariable("accessCode") final String pairRoomAccessCode
+    ) {
+        final boolean existRetrospect = retrospectService.existRetrospectWithPairRoom(credentialToken, pairRoomAccessCode);
+        final ExistRetrospectWithPairRoomResponse response = new ExistRetrospectWithPairRoomResponse(existRetrospect);
+        return ResponseEntity.ok(response);
     }
 }

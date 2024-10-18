@@ -13,4 +13,6 @@ public interface RetrospectRepository extends JpaRepository<RetrospectEntity, Lo
     Optional<RetrospectEntity> findByPairRoomAndMember(PairRoomEntity pairRoom, Member member);
 
     List<RetrospectEntity> findAllByMember(Member member);
+
+    boolean existsByMemberAndPairRoom(Member member, PairRoomEntity pairRoom);
 }
