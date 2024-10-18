@@ -14,3 +14,11 @@ export const Header = styled.div`
   color: ${({ theme }) => theme.color.black[80]};
   font-size: ${({ theme }) => theme.fontSize.lg};
 `;
+
+export const CategoryList = styled.ul`
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 1rem;
+
+  width: 100%;
+`;

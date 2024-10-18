@@ -1,13 +1,12 @@
 import { FaFilter } from 'react-icons/fa';
 
 import { Modal } from '@/components/common/Modal';
-import CategoriesEditor from '@/components/CompletedPairRoom/ReferenceCard/CategoryManagementModal/CategoriesEditor/CategoriesEditor';
+import CategoryItem from '@/components/CompletedPairRoom/ReferenceCard/CategoryManagementModal/CategoriesEditor/CategoryItem/CategoryItem';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 
 import * as S from './CategoryManagementModal.styles';
 
 interface CategoryManagementModalProps {
-  accessCode: string;
   isOpen: boolean;
   closeModal: () => void;
   categories: Category[];
@@ -17,7 +16,6 @@ interface CategoryManagementModalProps {
 }
 
 const CategoryManagementModal = ({
-  accessCode,
   isOpen,
   closeModal,
   categories,
@@ -38,13 +36,18 @@ const CategoryManagementModal = ({
       </Modal.Header>
       <Modal.CloseButton close={closeCategoryManagementModal} />
       <Modal.Body>
-        <CategoriesEditor
-          categories={categories}
-          selectedCategory={selectedCategory}
-          handleSelectCategory={handleSelectCategory}
-          accessCode={accessCode}
-          closeModal={closeCategoryManagementModal}
-        />
+        <S.CategoryList>
+          {categories.map((category) => (
+            <CategoryItem
+              closeModal={closeModal}
+              key={category.id}
+              categoryName={category.value}
+              categoryId={category.id}
+              isChecked={category.id === selectedCategory}
+              handleSelectCategory={handleSelectCategory}
+            />
+          ))}
+        </S.CategoryList>
       </Modal.Body>
     </Modal>
   );

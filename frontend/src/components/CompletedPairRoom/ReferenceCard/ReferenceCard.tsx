@@ -37,7 +37,6 @@ const ReferenceCard = ({ accessCode }: ReferenceCardProps) => {
       </S.Layout>
 
       <CategoryManagementModal
-        accessCode={accessCode}
         isOpen={isModalOpen}
         closeModal={closeModal}
         categories={categories}
