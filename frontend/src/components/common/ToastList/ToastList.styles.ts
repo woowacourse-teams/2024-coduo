@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import { Z_INDEX } from '@/constants/style';
+
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
@@ -8,5 +10,5 @@ export const Layout = styled.div`
   position: fixed;
   top: 9rem;
   right: 2rem;
-  z-index: 9999;
+  z-index: ${Z_INDEX.TOAST};
 `;

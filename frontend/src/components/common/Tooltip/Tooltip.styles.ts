@@ -2,6 +2,8 @@ import styled, { css, keyframes } from 'styled-components';
 
 import { Direction } from '@/components/common/Tooltip/Tooltip.type';
 
+import { Z_INDEX } from '@/constants/style';
+
 const fadeIn = keyframes`
   0% {
     opacity: 0;
@@ -115,7 +117,7 @@ export const Content = styled.div<{ $color: string; $direction: Direction }>`
   display: none;
 
   position: absolute;
-  z-index: 100;
+  z-index: ${Z_INDEX.TOOLTIP};
 
   width: fit-content;
   min-width: 20rem;
