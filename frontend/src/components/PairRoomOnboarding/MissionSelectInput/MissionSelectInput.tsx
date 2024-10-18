@@ -15,8 +15,8 @@ const MissionSelectInput = ({ onSelect }: MissionSelectInputProps) => {
 
   return (
     <S.Layout>
-      <S.HeaderContainer>
-        <S.TitleContainer>
+      <S.HeaderContainer aria-label="구현해 볼 미션 레포지토리를 선택해 주세요. 미션을 선택하면 해당 미션 레포지토리에 원하는 이름으로 브랜치를 생성할 수 있어요.">
+        <S.TitleContainer role="presentation">
           <S.Title>미션 선택</S.Title>
           <S.SubTitle>구현해 볼 미션 레포지토리를 선택해 주세요.</S.SubTitle>
         </S.TitleContainer>
