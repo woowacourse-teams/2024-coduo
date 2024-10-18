@@ -1,4 +1,5 @@
 import Button from '@/components/common/Button/Button';
+import { HiddenMessage } from '@/components/common/WebAccessibility/WebAccessibility.styles';
 import CreateBranchInput from '@/components/PairRoomOnboarding/CreateBranchInput/CreateBranchInput';
 import MissionSelectInput from '@/components/PairRoomOnboarding/MissionSelectInput/MissionSelectInput';
 
@@ -25,6 +26,10 @@ const MissionSettingSection = ({ repositoryName, onRepositoryName, onCreateBranc
 
   return (
     <S.Layout>
+      <HiddenMessage aria-live="polite">
+        {repositoryName &&
+          `${repositoryName} 레포지토리가 선택되었습니다. ${repositoryName} 레포지토리의 브랜치 이름을 입력해보세요.`}
+      </HiddenMessage>
       <MissionSelectInput onSelect={handleSelectMission} />
       {moveIndex >= 1 && (
         <CreateBranchInput repositoryName={repositoryName} branchName={branchName} onBranchName={handleBranchName} />

@@ -1,9 +1,11 @@
+/* eslint-disable jsx-a11y/no-autofocus */
 import { useState } from 'react';
 
 import { validateTimerDuration } from '@/validations/validateTimerDuration';
 
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
+import { HiddenMessage } from '@/components/common/WebAccessibility/WebAccessibility.styles';
 import InformationBox from '@/components/PairRoomOnboarding/InformationBox/InformationBox';
 
 import * as S from './TimerDurationInput.styles';
@@ -37,7 +39,8 @@ const TimerDurationInput = ({ timerDuration, onTimerDuration }: TimerDurationInp
   };
 
   return (
-    <S.Layout>
+    <S.Layout aria-label="3번째 항목입니다.">
+      <HiddenMessage aria-live="polite">{timerDuration && `${timerDuration}분`} </HiddenMessage>
       <S.HeaderContainer>
         <S.TitleContainer>
           <S.Title>타이머 설정</S.Title>
@@ -67,6 +70,7 @@ const TimerDurationInput = ({ timerDuration, onTimerDuration }: TimerDurationInp
           </Button>
           {isCustom && (
             <Input
+              autoFocus
               width="20rem"
               $css={S.inputStyles}
               value={timerDuration}
@@ -75,6 +79,7 @@ const TimerDurationInput = ({ timerDuration, onTimerDuration }: TimerDurationInp
               message={!validateTimerDuration(timerDuration) ? '1 이상 99 이하의 숫자를 입력해 주세요.' : ''}
               disabled={!isCustom}
               onChange={handleCustomTime}
+              aria-label="타이머 시간을 분 단위로 입력해주세요."
             />
           )}
         </S.InputContainer>

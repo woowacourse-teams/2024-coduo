@@ -51,7 +51,6 @@ const Dropdown = ({
     event.stopPropagation();
     setIsOpen((prev) => !prev);
   };
-
   return (
     <S.Layout $width={width} ref={dropdownRef} $height={height}>
       <HiddenDropdown
@@ -70,6 +69,7 @@ const Dropdown = ({
             $isSelected={!!selectedOption}
             $isOpen={isOpen}
             onClick={toggleDropdown}
+            aria-label={isOpen ? '드롭다운을 닫습니다' : '드롭다운을 엽니다'}
           >
             {selectedOption || placeholder}
             <S.Icon $isOpen={isOpen} size={theme.iconSize.md} $direction={direction} />

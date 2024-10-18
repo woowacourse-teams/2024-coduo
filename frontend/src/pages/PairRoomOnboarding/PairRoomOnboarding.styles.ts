@@ -10,7 +10,7 @@ export const Layout = styled.div`
   background-color: ${({ theme }) => theme.color.primary[100]};
 `;
 
-export const Title = styled.h2`
+export const Title = styled.h1`
   color: ${({ theme }) => theme.color.primary[800]};
   font-size: ${({ theme }) => theme.fontSize.h3};
   font-weight: ${({ theme }) => theme.fontWeight.semibold};

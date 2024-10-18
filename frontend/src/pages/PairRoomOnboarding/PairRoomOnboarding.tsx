@@ -25,6 +25,7 @@ const PairRoomOnboarding = () => {
         <S.Title>{mission === 'true' ? '미션과 함께 시작하기' : '그냥 시작하기'}</S.Title>
         {mission === 'true' && !isSuccess && (
           <MissionSettingSection
+            aria-label={repositoryName}
             repositoryName={repositoryName}
             onRepositoryName={handleRepositoryName}
             onCreateBranch={handleCreateBranch}

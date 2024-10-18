@@ -18,7 +18,8 @@ const TOAST_IMOJI: Record<Status, string> = {
 
 const Toast = ({ isOpen, isPush, message, status = 'ERROR' }: ToastProps) => {
   return (
-    <S.Layout $isOpen={isOpen} $isPush={isPush} $status={status}>
+    <S.Layout role="alert" aria-live="assertive" $isOpen={isOpen} $isPush={isPush} $status={status}>
+      {/* TODO: 여기가 잘 안돼서 수정 부탁합니다,, 어떡하면 토스트가 읽힐까요..? */}
       {`${TOAST_IMOJI[status]} ${message}`}
     </S.Layout>
   );

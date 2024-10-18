@@ -19,7 +19,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       <S.Layout $width={width}>
         {label && <S.Label htmlFor={props.id}>{label}</S.Label>}
         <S.Input ref={ref} $status={status} $height={height} {...props} />
-        {message && <S.Message $status={status}>{message}</S.Message>}
+        {message && (
+          <S.Message role="alert" aria-live="assertive" aria-atomic="true" $status={status}>
+            {message}
+          </S.Message>
+        )}
       </S.Layout>
     );
   },
