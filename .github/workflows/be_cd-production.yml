@@ -111,7 +111,6 @@ jobs:
   deployB:
     environment: production
     runs-on: production-ec2-B-runner
-    needs: deployA
     defaults:
       run:
         working-directory: ./backend
@@ -125,10 +124,6 @@ jobs:
       - name: Move docker-compose YAML
         run: |
           sudo mv be_app-docker-compose.yml ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/
-
-      - name: waiting deployA complete
-        run: |
-          sudo ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/scheduler.sh
 
       - name: Extract secrets as .be_app-env file
         run: |
