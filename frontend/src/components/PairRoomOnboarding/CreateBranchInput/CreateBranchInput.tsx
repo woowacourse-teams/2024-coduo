@@ -21,12 +21,12 @@ const CreateBranchInput = ({ repositoryName, branchName, onBranchName }: CreateB
     <S.Layout>
       <HiddenMessage aria-live="polite">{branchName.value && `${branchName.value}`}</HiddenMessage>
       <HiddenMessage aria-live="polite">{branchName.message && `${branchName.message}`}</HiddenMessage>
-      <S.TitleContainer>
-        <S.Title role="presentation">{repositoryName}</S.Title>
+      <S.TitleContainer aria-hidden="true">
+        <S.Title>{repositoryName}</S.Title>
         <S.SubTitle>미션을 시작할 브랜치 이름을 입력해 주세요.</S.SubTitle>
       </S.TitleContainer>
       <S.InputContainer>
-        <S.RepositoryNameBox role="presentation">
+        <S.RepositoryNameBox aria-hidden="true">
           <S.GithubLogo src={GithubLogoWhite} alt="" />
           {repositoryName}
         </S.RepositoryNameBox>

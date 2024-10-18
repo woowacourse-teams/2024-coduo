@@ -4,6 +4,7 @@ import { validateTimerDuration } from '@/validations/validateTimerDuration';
 
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
+import { HiddenMessage } from '@/components/common/WebAccessibility/WebAccessibility.styles';
 import InformationBox from '@/components/PairRoomOnboarding/InformationBox/InformationBox';
 
 import * as S from './TimerDurationInput.styles';
@@ -37,7 +38,8 @@ const TimerDurationInput = ({ timerDuration, onTimerDuration }: TimerDurationInp
   };
 
   return (
-    <S.Layout>
+    <S.Layout aria-label="3번째 항목입니다.">
+      <HiddenMessage aria-live="polite">{timerDuration && `${timerDuration}분`} </HiddenMessage>
       <S.HeaderContainer>
         <S.TitleContainer>
           <S.Title>타이머 설정</S.Title>
