@@ -63,13 +63,7 @@ const PairRoom = () => {
 
   return (
     <S.Layout>
-      <PairListCard
-        driver={driver}
-        navigator={navigator}
-        missionUrl={missionUrl}
-        roomCode={accessCode || ''}
-        onRoomDelete={() => {}}
-      />
+      <PairListCard driver={driver} navigator={navigator} missionUrl={missionUrl} roomCode={accessCode || ''} />
       <S.Container>
         <PairRoleCard driver={driver} navigator={navigator} />
         <TimerCard
