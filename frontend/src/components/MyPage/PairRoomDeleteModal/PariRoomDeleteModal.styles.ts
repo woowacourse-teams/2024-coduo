@@ -13,33 +13,39 @@ export const DangerText = styled.span`
 `;
 
 export const FilledButton = styled(Button)`
-  background-color: ${({ theme }) => theme.color.danger[600]};
-  font-size: ${({ theme }) => theme.fontSize.md};
   border-color: ${({ theme }) => theme.color.danger[600]};
 
+  background-color: ${({ theme }) => theme.color.danger[600]};
+  font-size: ${({ theme }) => theme.fontSize.md};
+
   &:hover {
-    background-color: ${({ theme }) => theme.color.danger[700]};
     border-color: ${({ theme }) => theme.color.danger[700]};
+
+    background-color: ${({ theme }) => theme.color.danger[700]};
   }
 
   &:active {
-    background-color: ${({ theme }) => theme.color.danger[800]};
     border-color: ${({ theme }) => theme.color.danger[800]};
+
+    background-color: ${({ theme }) => theme.color.danger[800]};
   }
 `;
 
 export const OutlinedButton = styled(Button)`
-  color: ${({ theme }) => theme.color.danger[600]};
-  font-size: ${({ theme }) => theme.fontSize.md};
   border-color: ${({ theme }) => theme.color.danger[600]};
 
+  color: ${({ theme }) => theme.color.danger[600]};
+  font-size: ${({ theme }) => theme.fontSize.md};
+
   &:hover {
-    color: ${({ theme }) => theme.color.danger[700]};
     border-color: ${({ theme }) => theme.color.danger[700]};
+
+    color: ${({ theme }) => theme.color.danger[700]};
   }
 
   &:active {
-    color: ${({ theme }) => theme.color.danger[800]};
     border-color: ${({ theme }) => theme.color.danger[800]};
+
+    color: ${({ theme }) => theme.color.danger[800]};
   }
 `;
