@@ -2,13 +2,15 @@ import { Link } from 'react-router-dom';
 
 import styled from 'styled-components';
 
+import { Z_INDEX } from '@/constants/style';
+
 export const Layout = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   position: fixed;
-  z-index: 99;
+  z-index: ${Z_INDEX.HEADER};
 
   width: 100%;
   height: 7rem;
