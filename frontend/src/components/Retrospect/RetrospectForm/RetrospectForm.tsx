@@ -16,16 +16,20 @@ const RetrospectForm = () => {
 
   const { answers, handleChange, hasEmptyField, handleSubmit } = useInputAnswer(pairRoomAccessCode);
 
+  const renderAnswer = (index: number, id: string) => (
+    <S.Textarea
+      placeholder="질문에 대한 답변을 작성해주세요."
+      id={id}
+      value={answers[index]}
+      onChange={(event) => handleChange(index, event.target.value)}
+    />
+  );
+
   return (
     <>
       <RetrospectHeader readOnly={false} accessCode={pairRoomAccessCode} />
       <S.LayoutForm onSubmit={handleSubmit}>
-        <RetrospectContent
-          questions={RETROSPECT_QUESTIONS}
-          answers={answers}
-          readOnly={false}
-          onChange={handleChange}
-        />
+        <RetrospectContent questions={RETROSPECT_QUESTIONS} renderAnswer={renderAnswer} />
         <Button disabled={hasEmptyField()} type="submit" css={S.SubmitButton}>
           작성 완료
         </Button>

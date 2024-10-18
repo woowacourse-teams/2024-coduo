@@ -1,29 +1,16 @@
 import { RetrospectQuestion } from '@/components/Retrospect/retrospect.type';
-import Question from '@/components/Retrospect/RetrospectContent/QuestionItem/Question';
-
-import * as S from './RetrospectContent.styles';
+import Question from '@/components/Retrospect/RetrospectContent/Question/Question';
 
 interface RetrospectContentProps {
   questions: RetrospectQuestion[];
-  answers: string[];
-  readOnly: boolean;
-  onChange?: (index: number, value: string) => void;
+  renderAnswer: (index: number, id: string) => React.ReactNode;
 }
-const RetrospectContent = ({ questions, answers, readOnly, onChange }: RetrospectContentProps) => {
+const RetrospectContent = ({ questions, renderAnswer }: RetrospectContentProps) => {
   return (
     <>
       {questions.map((question, index) => (
         <Question key={question.id} id={question.id} question={question.value}>
-          {readOnly ? (
-            <S.Text>{answers[index]}</S.Text>
-          ) : (
-            <S.TextArea
-              placeholder="질문에 대한 답변을 작성해주세요."
-              id={question.id}
-              value={answers[index]}
-              onChange={(event) => onChange && onChange(index, event.target.value)}
-            />
-          )}
+          {renderAnswer(index, question.id)}
         </Question>
       ))}
     </>
