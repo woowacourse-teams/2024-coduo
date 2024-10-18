@@ -83,7 +83,6 @@ jobs:
           DOCKER_REPO_NAME=${{ secrets.DOCKER_REPO_NAME }}
 
           # DB Configuration secrets info from Github Secrets
-          MYSQL_DB_NAME=${{ secrets.MYSQL_DB_NAME }}
           MYSQL_TIME_ZONE=${{ secrets.MYSQL_TIME_ZONE }}
           DB_BINDING_PORT=${{ secrets.DB_BINDING_PORT }}
           DOCKER_DATA_PATH=${{ secrets.DOCKER_DATA_PATH }}
@@ -168,7 +167,6 @@ jobs:
           SLAVE_DB_PASSWORD=${{ secrets.SLAVE_DB_PASSWORD }}
           DDL_AUTO=${{ secrets.DDL_AUTO }}
 
-
           # OAUTH & JWT
           CLIENT_ID=${{ secrets.CLIENT_ID }}
           CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}
@@ -177,7 +175,6 @@ jobs:
           
           # INSTANCE NAME
           INSTANCE_NAME=${{ secrets.INSTANCE_B_NAME }}
-
 
           # Server App
           SERVER_BINDING_PORT=${{ secrets.PRODUCTION_SERVER_BINDING_PORT }}
