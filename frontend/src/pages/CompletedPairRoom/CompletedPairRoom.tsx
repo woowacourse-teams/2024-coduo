@@ -20,9 +20,9 @@ import * as S from './CompletedPairRoom.styles';
 
 const CompletedPairRoom = () => {
   const navigate = useNavigate();
-  const accessCode = useParams().accessCode;
+  const { accessCode } = useParams();
 
-  const userStatus = useUserStore((state) => state.userStatus);
+  const { userStatus } = useUserStore();
 
   useEffect(() => {
     const checkPairRoomExists = async () => {
