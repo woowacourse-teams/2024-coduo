@@ -15,6 +15,7 @@ import Loading from '@/pages/Loading/Loading';
 import Main from '@/pages/Main/Main';
 import MyPage from '@/pages/MyPage/MyPage';
 import PairRoomOnboarding from '@/pages/PairRoomOnboarding/PairRoomOnboarding';
+import PrivateRoutes from '@/pages/PrivateRoutes';
 import SignUp from '@/pages/SignUp/SignUp';
 
 import HowToPair from '@/components/Landing/HowToPair/HowToPair';
@@ -69,19 +70,21 @@ const App = () => {
         },
         {
           path: 'onboarding',
-          element: (
-            <Suspense fallback={<Loading />}>
-              <PairRoomOnboarding />{' '}
-            </Suspense>
-          ),
+          element: <PairRoomOnboarding />,
         },
         {
-          path: 'room/:accessCode',
-          element: (
-            <Suspense fallback={<Loading />}>
-              <PairRoom />
-            </Suspense>
-          ),
+          path: 'room',
+          element: <PrivateRoutes />,
+          children: [
+            {
+              path: ':accessCode',
+              element: (
+                <Suspense fallback={<Loading />}>
+                  <PairRoom />
+                </Suspense>
+              ),
+            },
+          ],
         },
         {
           path: 'sign-up',

@@ -11,7 +11,6 @@ import TimerCard from '@/components/PairRoom/TimerCard/TimerCard';
 import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
 
 import useModal from '@/hooks/common/useModal';
-import usePairRoomValid from '@/hooks/PairRoom/usePairRoomValid';
 
 import useGetPairRoom from '@/queries/PairRoom/useGetPairRoom';
 import useUpdatePairRoom from '@/queries/PairRoom/useUpdatePairRoom';
@@ -20,8 +19,6 @@ import * as S from './PairRoom.styles';
 
 const PairRoom = () => {
   const { accessCode } = useParams();
-
-  usePairRoomValid(accessCode || '');
 
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
