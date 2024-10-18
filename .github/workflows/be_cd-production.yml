@@ -69,6 +69,14 @@ jobs:
 
       - name: Extract secrets as .be_app-env file
         run: |
+          echo $(pwd)
+          chmod +x ./deploy.sh # 스크립트에 실행 권한 부여 
+          echo chmod ok
+          source ./deploy.sh
+          echo source ok
+          echo "BLUE_PORT=$BLUE_PORT" >> $GITHUB_ENV
+          echo "GREEN_PORT=$GREEN_PORT" >> $GITHUB_ENV
+          
           cat <<EOF > ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env
 
           # Docker Hub info from Github Secrets
@@ -97,21 +105,27 @@ jobs:
           INSTANCE_NAME=${{ secrets.INSTANCE_A_NAME }}
           
           # Server App
-          SERVER_BINDING_PORT=${{ secrets.PRODUCTION_SERVER_BINDING_PORT }}
+          BLUE_SERVER_BINDING_PORT=${BLUE_PORT}
+          GREEN_SERVER_BINDING_PORT=${GREEN_PORT}
           SERVER_LOGS_PATH=${{ secrets.SERVER_LOGS_PATH }}
           EOF
+        
+      - name: Start the new (green/blue) environment
+        run: |
+          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml -p $GREEN_PORT up -d
 
-      - name: Stop and remove existing containers
+      - name: Wait for new environment to be healthy
         run: |
-          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml down --rmi all
-      - name: Deploy docker container
+          until sudo docker inspect --format '{{json .State.Status}}' coduo_springboot-app-${GREEN_PORT} | grep "running"; do sleep 5; done
+
+      - name: Stop and remove the old environment
         run: |
-          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml up -d
+          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml -p $BLUE_PORT down
 
   deployB:
     environment: production
     runs-on: production-ec2-B-runner
-    needs: deployA
+    needs: build
     defaults:
       run:
         working-directory: ./backend
@@ -126,12 +140,16 @@ jobs:
         run: |
           sudo mv be_app-docker-compose.yml ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/
 
-      - name: waiting deployA complete
-        run: |
-          sudo ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/scheduler.sh
-
       - name: Extract secrets as .be_app-env file
         run: |
+          echo $(pwd)
+          chmod +x ./deploy.sh # 스크립트에 실행 권한 부여 
+          echo chmod ok
+          source ./deploy.sh
+          echo source ok
+          echo "BLUE_PORT=$BLUE_PORT" >> $GITHUB_ENV
+          echo "GREEN_PORT=$GREEN_PORT" >> $GITHUB_ENV
+          
           cat <<EOF > ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env
 
           # Docker Hub info from Github Secrets
@@ -166,9 +184,14 @@ jobs:
           SERVER_LOGS_PATH=${{ secrets.SERVER_LOGS_PATH }}
           EOF
 
-      - name: Stop and remove existing containers
+      - name: Start the new (green/blue) environment
         run: |
-          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml down --rmi all
-      - name: Deploy docker container
+          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml -p $GREEN_PORT up -d
+
+      - name: Wait for new environment to be healthy
         run: |
-          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml up -d
+          until sudo docker inspect --format '{{json .State.Status}}' coduo_springboot-app-${GREEN_PORT} | grep "running"; do sleep 5; done
+
+      - name: Stop and remove the old environment
+        run: |
+          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml -p $BLUE_PORT down
