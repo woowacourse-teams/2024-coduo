@@ -186,7 +186,7 @@ jobs:
 
       - name: remove old spring-app image
         run: |
-          sudo docker image rm coduo2024/springboot-app;
+          sudo docker image rm -f coduo2024/springboot-app;
 
       - name: Start the new (green/blue) environment
         run: |
