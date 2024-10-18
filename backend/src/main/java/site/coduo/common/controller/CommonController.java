@@ -8,7 +8,7 @@ public class CommonController {
 
     @GetMapping("/health-check")
     public String healthCheck() {
-        return "Coduo is OK";
+        return "Coduo is OK!";
     }
 
     @GetMapping("/help")
