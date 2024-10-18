@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import site.coduo.retrospect.controller.docs.RetrospectDocs;
 import site.coduo.retrospect.controller.request.CreateRetrospectRequest;
 import site.coduo.retrospect.controller.response.ExistRetrospectWithPairRoomResponse;
 import site.coduo.retrospect.controller.response.FindRetrospectByIdResponse;
@@ -22,7 +23,7 @@ import site.coduo.retrospect.service.RetrospectService;
 
 @RequiredArgsConstructor
 @RestController
-public class RetrospectController {
+public class RetrospectController implements RetrospectDocs {
 
     private final RetrospectService retrospectService;
 
