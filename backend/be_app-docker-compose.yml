@@ -1,14 +1,13 @@
 services:
-
-  springboot:
-    container_name: coduo_springboot-app
+  springboot-green:
+    container_name: coduo_springboot-app-${GREEN_SERVER_BINDING_PORT}
     image: ${DOCKER_REPO_NAME}/springboot-app:test-latest
     platform: linux/arm64
     ports:
-      - ${SERVER_BINDING_PORT}
+      - "${GREEN_SERVER_BINDING_PORT}:${GREEN_SERVER_BINDING_PORT}"
     volumes:
-      - ${SERVER_LOGS_PATH}/springboot-app:/logs
-      - ${SERVER_LOGS_PATH}/springboot-app/backup:/logs/backup
+      - ${SERVER_LOGS_PATH}/springboot-app/green:/logs
+      - ${SERVER_LOGS_PATH}/springboot-app/backup/green:/logs/backup
     environment:
       SPRING_DATASOURCE_REPLICA_MASTER_JDBC-URL: ${MASTER_DB_URL}
       SPRING_DATASOURCE_REPLICA_MASTER_USERNAME: ${MASTER_DB_USERNAME}
@@ -22,6 +21,7 @@ services:
       OAUTH_GITHUB_REDIRECT_URI: ${CLIENT_REDIRECT_URI}
       JWT_SIGN_KEY: ${JWT_KEY}
       EC2_PREFIX: ${INSTANCE_NAME}
+      SERVER_PORT: ${GREEN_SERVER_BINDING_PORT}
     restart: on-failure
     networks:
       - coduo_net
