@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-autofocus */
 import { GithubLogoWhite } from '@/assets';
 
 import Input from '@/components/common/Input/Input';
@@ -33,6 +34,7 @@ const CreateBranchInput = ({ repositoryName, branchName, onBranchName }: CreateB
         <S.InputWrapper>
           <S.ArrowIcon aria-hidden="true" />
           <Input
+            autoFocus
             placeholder="미션에서 사용할 브랜치 이름을 입력해 주세요."
             value={branchName.value}
             status={branchName.status}

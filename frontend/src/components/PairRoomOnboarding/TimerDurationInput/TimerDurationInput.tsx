@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-autofocus */
 import { useState } from 'react';
 
 import { validateTimerDuration } from '@/validations/validateTimerDuration';
@@ -69,6 +70,7 @@ const TimerDurationInput = ({ timerDuration, onTimerDuration }: TimerDurationInp
           </Button>
           {isCustom && (
             <Input
+              autoFocus
               width="20rem"
               $css={S.inputStyles}
               value={timerDuration}
@@ -77,6 +79,7 @@ const TimerDurationInput = ({ timerDuration, onTimerDuration }: TimerDurationInp
               message={!validateTimerDuration(timerDuration) ? '1 이상 99 이하의 숫자를 입력해 주세요.' : ''}
               disabled={!isCustom}
               onChange={handleCustomTime}
+              aria-label="타이머 시간을 분 단위로 입력해주세요."
             />
           )}
         </S.InputContainer>
