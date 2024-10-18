@@ -22,19 +22,15 @@ const CategoryManagementModal = ({
   selectedCategory,
   handleSelectCategory,
 }: CategoryManagementModalProps) => {
-  const closeCategoryManagementModal = () => {
-    closeModal();
-  };
-
   return (
-    <Modal isOpen={isOpen} close={closeCategoryManagementModal} size="45rem">
+    <Modal isOpen={isOpen} close={closeModal} size="45rem">
       <Modal.Header>
         <S.Header>
           <FaFilter />
           <p>카테고리 선택</p>
         </S.Header>
       </Modal.Header>
-      <Modal.CloseButton close={closeCategoryManagementModal} />
+      <Modal.CloseButton close={closeModal} />
       <Modal.Body>
         <S.CategoryList>
           {categories.map((category) => (
