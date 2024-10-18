@@ -76,9 +76,21 @@ export const NavigatorLabel = styled(RoleLabel)`
 `;
 
 export const DriverText = styled.p`
+  overflow: hidden;
+
+  max-width: 10rem;
+
   color: ${({ theme }) => theme.color.secondary[900]};
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export const NavigatorText = styled.p`
+  overflow: hidden;
+
+  max-width: 10rem;
+
   color: ${({ theme }) => theme.color.primary[800]};
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;

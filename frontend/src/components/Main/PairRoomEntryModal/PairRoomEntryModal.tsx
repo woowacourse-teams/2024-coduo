@@ -6,9 +6,9 @@ import { Modal } from '@/components/common/Modal';
 
 import useToastStore from '@/stores/toastStore';
 
-import useInput from '@/hooks/common/useInput';
+import { getPairRoomExists } from '@/apis/pairRoom';
 
-import useGetPairRoom from '@/queries/PairRoom/useGetPairRoom';
+import useInput from '@/hooks/common/useInput';
 
 import { BUTTON_TEXT } from '@/constants/button';
 
@@ -19,23 +19,19 @@ interface PairRoomEntryModal {
 
 const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
   const navigate = useNavigate();
-  const { addToast } = useToastStore();
 
+  const { addToast } = useToastStore();
   const { value, status, message, handleChange } = useInput();
 
-  const { refetch } = useGetPairRoom(value);
-
   const enterPairRoom = async () => {
-    const { error, isFetching, isSuccess } = await refetch();
+    const { exists } = await getPairRoomExists(value);
 
-    if (error) {
-      addToast({ status: 'ERROR', message: '해당 코드와 일치하는 방이 없습니다 🥹' });
+    if (!exists) {
+      addToast({ status: 'ERROR', message: '해당 코드와 일치하는 방이 없습니다.' });
       return;
     }
 
-    if (!isFetching && isSuccess) {
-      navigate(`/room/${value}`);
-    }
+    navigate(`/room/${value}`);
   };
 
   return (
@@ -55,7 +51,7 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
         <Button onClick={closeModal} filled={false}>
           {BUTTON_TEXT.CLOSE}
         </Button>
-        <Button disabled={!value} onClick={() => enterPairRoom()}>
+        <Button disabled={!value} onClick={enterPairRoom}>
           {BUTTON_TEXT.COMPLETE}
         </Button>
       </Modal.Footer>
