@@ -3,6 +3,7 @@ package site.coduo.pairroom.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import java.util.List;
 import java.util.Random;
@@ -200,5 +201,25 @@ class PairRoomServiceTest {
                 .extracting("navigator", "driver", "status", "duration", "remainingTime")
                 .contains(pairRoomEntity.getNavigator(), pairRoomEntity.getDriver(),
                         pairRoomEntity.getStatus().toString(), timer.getDuration(), timer.getRemainingTime());
+    }
+
+    @Test
+    @DisplayName("페어룸이 존재하는지 확인한다.")
+    void exists_pair_room() {
+        //given
+        final AccessCode accessCode = new AccessCode("123456");
+        final PairRoomEntity pairRoomEntity = PairRoomEntity.from(
+                new PairRoom(PairRoomStatus.IN_PROGRESS,
+                        new Pair(new PairName("레디"), new PairName("레모네")),
+                        accessCode
+                ));
+        pairRoomRepository.save(pairRoomEntity);
+
+        //when & then
+        assertAll(
+                () -> assertThat(pairRoomService.existsByAccessCode("not-exist")).isFalse(),
+                () -> assertThat(pairRoomService.existsByAccessCode(accessCode.getValue())).isTrue()
+
+        );
     }
 }

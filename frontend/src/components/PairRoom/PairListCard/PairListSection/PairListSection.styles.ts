@@ -27,5 +27,9 @@ export const PairRole = styled.span<{ $role: Role }>`
 `;
 
 export const PairName = styled.span`
+  overflow: hidden;
+
   font-size: ${({ theme }) => theme.fontSize.base};
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;

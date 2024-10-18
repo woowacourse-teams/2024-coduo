@@ -1,19 +1,20 @@
 package site.coduo.acceptance;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Map;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
-import org.springframework.transaction.annotation.Transactional;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
+import site.coduo.pairroom.service.dto.PairRoomExistResponse;
 
-@Transactional
 class PairRoomAcceptanceTest extends AcceptanceFixture {
 
     static PairRoomCreateResponse createPairRoom(final PairRoomCreateRequest request) {
@@ -97,5 +98,57 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
 
                 .then()
                 .statusCode(204);
+    }
+
+    @Test
+    @DisplayName("페어룸이 존재하면 true를 반환한다.")
+    void exist_pair_room_true() {
+        //given
+        final PairRoomCreateResponse accessCode =
+                createPairRoom(new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "IN_PROGRESS"));
+
+        // when & then
+        final PairRoomExistResponse response = RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .log()
+                .all()
+
+                .when()
+                .queryParam("access_code", accessCode.accessCode())
+                .get("/api/pair-room/exists")
+
+                .then()
+                .statusCode(200)
+                .extract()
+                .as(PairRoomExistResponse.class);
+
+        assertThat(response.exists()).isTrue();
+    }
+
+    @Test
+    @DisplayName("페어룸이 존재하면 false를 반환한다.")
+    void exist_pair_room_false() {
+        //given
+
+        // when & then
+        final PairRoomExistResponse response = RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .log()
+                .all()
+
+                .when()
+                .queryParam("access_code", "babyroom")
+                .get("/api/pair-room/exists")
+
+                .then()
+                .statusCode(200)
+                .extract()
+                .as(PairRoomExistResponse.class);
+
+        assertThat(response.exists()).isFalse();
     }
 }

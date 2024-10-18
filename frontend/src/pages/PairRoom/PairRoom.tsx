@@ -9,7 +9,7 @@ import ReferenceCard from '@/components/PairRoom/ReferenceCard/ReferenceCard';
 import TimerCard from '@/components/PairRoom/TimerCard/TimerCard';
 import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
 
-import { getPairRoom } from '@/apis/pairRoom';
+import { getPairRoomExists } from '@/apis/pairRoom';
 
 import useGetPairRoom from '@/queries/PairRoom/useGetPairRoom';
 import useUpdatePairRoom from '@/queries/PairRoom/useUpdatePairRoom';
@@ -18,18 +18,15 @@ import * as S from './PairRoom.styles';
 
 const PairRoom = () => {
   const navigate = useNavigate();
-
   const { accessCode } = useParams();
 
   useEffect(() => {
     const checkPairRoomExists = async () => {
-      if (!accessCode) return navigate('/404');
+      if (!accessCode) navigate('/error');
 
-      try {
-        await getPairRoom(accessCode);
-      } catch (error) {
-        navigate('/404');
-      }
+      const { exists } = await getPairRoomExists(accessCode || '');
+
+      if (!exists) navigate('/error');
     };
 
     checkPairRoomExists();

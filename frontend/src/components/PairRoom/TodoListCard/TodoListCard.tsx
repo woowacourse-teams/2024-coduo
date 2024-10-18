@@ -46,7 +46,7 @@ const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
                 maxLength={100}
                 placeholder="할 일의 내용을 입력해 주세요."
               />
-              <Button css={S.buttonStyles} type="submit" size="sm" rounded={true} disabled={value === ''}>
+              <Button css={S.buttonStyles} type="submit" size="sm" rounded={true} disabled={value.trim() === ''}>
                 <LuPlus size="1.6rem" />
               </Button>
             </S.Form>

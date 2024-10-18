@@ -26,13 +26,13 @@ public class Member extends BaseTimeEntity {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @Column(name = "ACCESS_TOKEN", nullable = false)
+    @Column(name = "ACCESS_TOKEN", nullable = false, unique = true)
     private String accessToken;
 
     @Column(name = "PROVIDER_LOGIN_ID", nullable = false)
     private String loginId;
 
-    @Column(name = "PROVIDER_USER_ID", nullable = false)
+    @Column(name = "PROVIDER_USER_ID", nullable = false, unique = true)
     private String userId;
 
     @Column(name = "PROFILE_IMAGE")
