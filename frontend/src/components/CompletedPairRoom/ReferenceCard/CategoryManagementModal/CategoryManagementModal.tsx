@@ -1,7 +1,7 @@
 import { FaFilter } from 'react-icons/fa';
 
 import { Modal } from '@/components/common/Modal';
-import CategoryItem from '@/components/CompletedPairRoom/ReferenceCard/CategoryManagementModal/CategoriesEditor/CategoryItem/CategoryItem';
+import CategoryItem from '@/components/CompletedPairRoom/ReferenceCard/CategoryManagementModal/CategoryItem/CategoryItem';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 
 import * as S from './CategoryManagementModal.styles';
