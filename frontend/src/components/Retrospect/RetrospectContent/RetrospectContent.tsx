@@ -31,12 +31,3 @@ const RetrospectContent = ({ questions, answers, readOnly, onChange }: Retrospec
 };
 
 export default RetrospectContent;
-
-// RetrospectForm 에는 label, textarea, 각 입력 상태와 정규식 및 폼 제출 필요
-// RetrospectView 에는 label, 서버에서 받은 답변 list
-// UI 는 active 시 색과 선 색 바뀜
-// RetrospectForm 에 Textarea 컴포넌트 가져와서 RETROSPECT_QUESTIONS.map((question)=>{<Textarea/>})
-// const [answer,setAnswer]= useState()
-// answer = [] 인데 RETROSPECT_QUESTIONS.length 만큼의 값이 있음.
-// setAnswer 시 answer[index] 를 가져와서 수정해줌.
-// RetrospectView 에 Answer 컴포넌트 가져와서 RETROSPECT_QUESTIONS.map((question)=>{<Answer/>})
