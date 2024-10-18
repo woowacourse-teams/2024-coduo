@@ -35,7 +35,6 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
   return (
     <Modal isOpen={isOpen} close={closeModal} size="60rem">
       <Modal.Header title="페어룸 참가하기" />
-      <Modal.CloseButton close={closeModal} />
       <Modal.Body>
         <Input
           placeholder="코드를 입력해 주세요"
@@ -53,6 +52,7 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
           완료
         </Button>
       </Modal.Footer>
+      <Modal.CloseButton close={closeModal} />
     </Modal>
   );
 };
