@@ -42,28 +42,20 @@ class RetrospectServiceTest {
 
     @Autowired
     private JwtProvider jwtProvider;
-
     @Autowired
     private MemberRepository memberRepository;
-
     @Autowired
     private PairRoomRepository pairRoomRepository;
-
     @Autowired
     private PairRoomMemberRepository pairRoomMemberRepository;
-
     @Autowired
     private RetrospectRepository retrospectRepository;
-
     @Autowired
     private RetrospectContentRepository retrospectContentRepository;
-
     @Autowired
     private TimerRepository timerRepository;
-
     @Autowired
     private CategoryRepository categoryRepository;
-
     @Autowired
     private RetrospectService retrospectService;
 
