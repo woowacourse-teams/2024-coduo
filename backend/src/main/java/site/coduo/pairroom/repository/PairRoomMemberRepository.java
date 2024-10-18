@@ -9,4 +9,6 @@ import site.coduo.member.domain.Member;
 public interface PairRoomMemberRepository extends JpaRepository<PairRoomMemberEntity, Long> {
 
     List<PairRoomMemberEntity> findByMember(Member member);
+
+    boolean existsByPairRoomAndMember(PairRoomEntity pairRoom, Member member);
 }
