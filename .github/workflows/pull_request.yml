@@ -1,4 +1,4 @@
-name: PULL REQUEST
+name: pull request
 
 on:
   pull_request:
@@ -11,7 +11,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ vars.SLACK_BRANCH}}
+          ref: ${{vars.SLACK_BRANCH}}
 
       - name: Install jq
         run: sudo apt-get install jq
@@ -43,7 +43,7 @@ jobs:
         id: pull_request_notify
         uses: slackapi/slack-github-action@v1.26.0
         with:
-          channel-id: ${{secrets.SLACK_FE_REVIEW_CHANNEL}}
+          channel-id: ${{secrets.SLACK_BE_REVIEW_CHANNEL}}
           payload: |
             {
               "text": "⌛PR왔다 리뷰해라⌛",

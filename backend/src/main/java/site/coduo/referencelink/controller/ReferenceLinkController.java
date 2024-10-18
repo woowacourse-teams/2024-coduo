@@ -65,7 +65,7 @@ public class ReferenceLinkController implements ReferenceLinkDocs {
             @PathVariable("accessCode") final String accessCodeText,
             @PathVariable("id") final long id
     ) {
-        referenceLinkService.deleteReferenceLink(id);
+        referenceLinkService.deleteReferenceLink(accessCodeText, id);
 
         return ResponseEntity.noContent()
                 .build();
