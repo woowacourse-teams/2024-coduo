@@ -205,8 +205,7 @@ jobs:
 
       - name: Switch NGINX to Green Port
         run: |
-          sudo sed -i "s/listen 808[01];/listen ${GREEN_PORT};/" /etc/nginx/nginx.conf
-          sudo systemctl reload nginx
+          docker exec -it coduo_nginx bash -c "sed -i 's/listen 808[01];/listen ${GREEN_PORT};/' /etc/nginx/nginx.conf && nginx -s reload"
 
       - name: Stop and remove the old environment
         run: |
