@@ -17,7 +17,7 @@ class FindRetrospectByIdResponseTest {
 
     @DisplayName("Retrospect 객체를 입력받으면 DTO로 변환해 반환한다.")
     @Test
-    void createObjectOfRetrospect() {
+    void createObjectFromRetrospect() {
         // Given
         final long id = 1;
         final PairRoom pairRoom = PairRoomFixture.FRAM_LEMONE_ROOM;
@@ -33,7 +33,7 @@ class FindRetrospectByIdResponseTest {
         final Retrospect retrospect = new Retrospect(id, pairRoom, member, retrospectContents);
 
         // When
-        final FindRetrospectByIdResponse response = FindRetrospectByIdResponse.of(retrospect);
+        final FindRetrospectByIdResponse response = FindRetrospectByIdResponse.from(retrospect);
 
         // Then
         assertThat(response).isNotNull();

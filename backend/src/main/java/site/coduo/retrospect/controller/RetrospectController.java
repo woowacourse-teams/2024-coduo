@@ -48,7 +48,7 @@ public class RetrospectController implements RetrospectDocs {
     @GetMapping("/retrospects/{retrospectId}")
     public ResponseEntity<FindRetrospectByIdResponse> findRetrospectById(@PathVariable("retrospectId") final Long retrospectId) {
         final Retrospect retrospect = retrospectService.findRetrospectById(retrospectId);
-        final FindRetrospectByIdResponse response = FindRetrospectByIdResponse.of(retrospect);
+        final FindRetrospectByIdResponse response = FindRetrospectByIdResponse.from(retrospect);
         return ResponseEntity.ok(response);
     }
 
