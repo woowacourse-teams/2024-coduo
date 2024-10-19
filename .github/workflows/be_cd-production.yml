@@ -186,21 +186,27 @@ jobs:
           INSTANCE_NAME=${{ secrets.INSTANCE_B_NAME }}
 
           # Server App
-          SERVER_BINDING_PORT=${{ secrets.PRODUCTION_SERVER_BINDING_PORT }}
+          BLUE_SERVER_BINDING_PORT=${BLUE_PORT}
+          GREEN_SERVER_BINDING_PORT=${GREEN_PORT}
           SERVER_LOGS_PATH=${{ secrets.SERVER_LOGS_PATH }}
           EOF
-
-      - name: remove old spring-app image
-        run: |
-          sudo docker image rm -f coduo2024/springboot-app;
 
       - name: Start the new (green/blue) environment
         run: |
           sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml -p $GREEN_PORT up -d
 
+      - name: remove old spring-app image
+        run: |
+          sudo docker image rm -f coduo2024/springboot-app;
+
       - name: Wait for new environment to be healthy
         run: |
           until sudo docker inspect --format '{{json .State.Status}}' coduo_springboot-app-${GREEN_PORT} | grep "running"; do sleep 5; done
+
+      - name: Switch NGINX to Green Port
+        run: |
+          sudo sed -i "s/listen 808[01];/listen ${GREEN_PORT};/" /etc/nginx/nginx.conf
+          sudo systemctl reload nginx
 
       - name: Stop and remove the old environment
         run: |
