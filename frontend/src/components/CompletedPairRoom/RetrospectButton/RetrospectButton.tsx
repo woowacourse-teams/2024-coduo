@@ -1,7 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 
 import Button from '@/components/common/Button/Button';
+import RetrospectButtonDisabled from '@/components/CompletedPairRoom/RetrospectButton/RetroSpectButtonDisabled';
 
+import { useGetUserPairRoomExists } from '@/queries/CompletedPairRoom/useGetUserPairRoomExists';
 import { useGetUserRetrospectExists } from '@/queries/CompletedPairRoom/useGetUserRetrospectExists';
 
 import * as S from './RetrospectButton.styles';
@@ -14,7 +16,11 @@ interface RetrospectButtonProps {
 
 const RetrospectButton = ({ accessCode }: RetrospectButtonProps) => {
   const navigate = useNavigate();
+  const { data: isUserInPairRoom } = useGetUserPairRoomExists(accessCode);
+
   const { data: isUserRetrospectExist } = useGetUserRetrospectExists(accessCode);
+
+  if (!isUserInPairRoom) return <RetrospectButtonDisabled />;
 
   const handleRetrospectButtonClick = () => {
     if (isUserRetrospectExist) {
