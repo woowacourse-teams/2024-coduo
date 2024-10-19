@@ -44,3 +44,16 @@ export const getMyPairRooms = async (): Promise<GetMyPairRoomsResponse[]> => {
 
   return response.json();
 };
+
+interface GetUserRetrospectExistsRequest {
+  accessCode: string;
+}
+
+export const getUserRetrospectExists = async (accessCode: string): Promise<GetUserRetrospectExistsRequest> => {
+  const response = await fetcher.get({
+    url: `${API_URL}/member/${accessCode}/exists`,
+    errorMessage: ERROR_MESSAGES.GET_USER_RETROSPECT_EXISTS,
+  });
+
+  return await response.json();
+};
