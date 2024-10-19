@@ -1,7 +1,7 @@
 package site.coduo.retrospect.domain;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import lombok.Getter;
 import site.coduo.retrospect.exception.InvalidRetrospectContentException;
@@ -24,16 +24,19 @@ public class RetrospectContents {
         }
 
         if (values.size() != RETROSPECT_CONTENTS_SIZE) {
-            throw new InvalidRetrospectContentException("회고 내용 개수는 " + RETROSPECT_CONTENTS_SIZE + "개여야 합니다. - " + values.size());
+            throw new InvalidRetrospectContentException(
+                    "회고 내용 개수는 " + RETROSPECT_CONTENTS_SIZE + "개여야 합니다. - " + values.size());
         }
     }
 
     public static RetrospectContents of(final List<String> answers) {
         validateAnswers(answers);
         final List<RetrospectAnswer> retrospectAnswers = answers.stream().map(RetrospectAnswer::new).toList();
-        final List<RetrospectContent> retrospectContents = IntStream.range(0, answers.size())
-                .mapToObj(index -> convertRetrospectContent(retrospectAnswers, index))
-                .toList();
+        final List<RetrospectContent> retrospectContents = new ArrayList<>();
+        for (int i = 0; i < answers.size(); i++) {
+            retrospectContents.add(convertRetrospectContent(retrospectAnswers, i));
+        }
+
         return new RetrospectContents(retrospectContents);
     }
 
@@ -43,7 +46,8 @@ public class RetrospectContents {
         }
     }
 
-    private static RetrospectContent convertRetrospectContent(final List<RetrospectAnswer> retrospectAnswers, final int index) {
+    private static RetrospectContent convertRetrospectContent(final List<RetrospectAnswer> retrospectAnswers,
+                                                              final int index) {
         final RetrospectQuestionType retrospectQuestionType = RetrospectQuestionType.findByIndex(index);
         return new RetrospectContent(retrospectQuestionType, retrospectAnswers.get(index));
     }
