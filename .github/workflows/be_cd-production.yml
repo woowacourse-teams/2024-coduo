@@ -119,7 +119,7 @@ jobs:
         
       - name: Wait for new environment to be healthy
         run: |
-          until sudo docker inspect --format '{{json .State.Status}}' coduo_springboot-app-${GREEN_PORT} | grep "running"; do sleep 5; done
+          until curl -sf http://localhost:${GREEN_PORT}/api/actuator/health | grep "UP"; do sleep 5; done
 
       - name: Reload NGINX
         run: |
@@ -200,7 +200,7 @@ jobs:
 
       - name: Wait for new environment to be healthy
         run: |
-          until sudo docker inspect --format '{{json .State.Status}}' coduo_springboot-app-${GREEN_PORT} | grep "running"; do sleep 5; done
+          until curl -sf http://localhost:${GREEN_PORT}/api/actuator/health | grep "UP"; do sleep 5; done
 
       - name: Reload NGINX 
         run: |
