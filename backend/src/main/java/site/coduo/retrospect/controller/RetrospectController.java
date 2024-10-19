@@ -41,7 +41,7 @@ public class RetrospectController implements RetrospectDocs {
     @GetMapping("/retrospects")
     public ResponseEntity<FindRetrospectsResponse> findRetrospects(@CookieValue(SIGN_IN_COOKIE_NAME) final String credentialToken) {
         final List<Retrospect> retrospects = retrospectService.findAllRetrospectsByMember(credentialToken);
-        final FindRetrospectsResponse response = FindRetrospectsResponse.of(retrospects);
+        final FindRetrospectsResponse response = FindRetrospectsResponse.from(retrospects);
         return ResponseEntity.ok(response);
     }
 

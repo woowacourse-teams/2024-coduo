@@ -6,7 +6,7 @@ import site.coduo.retrospect.domain.Retrospect;
 
 public record FindRetrospectsResponse(List<Data> retrospects) {
 
-    public static FindRetrospectsResponse of(List<Retrospect> retrospects) {
+    public static FindRetrospectsResponse from(List<Retrospect> retrospects) {
         final List<Data> data = retrospects.stream()
                 .map(retrospect -> new Data(
                         retrospect.getId(),
