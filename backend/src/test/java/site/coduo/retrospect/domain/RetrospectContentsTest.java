@@ -8,6 +8,8 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import site.coduo.retrospect.exception.InvalidRetrospectContentException;
+
 class RetrospectContentsTest {
 
     @DisplayName("유효한 회고 내용 값들을 입력하면 객체를 생성한다.")
@@ -33,7 +35,7 @@ class RetrospectContentsTest {
     void validateRetrospectContentsIsNull() {
         // When & Then
         assertThatThrownBy(() -> new RetrospectContents(null))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(InvalidRetrospectContentException.class)
                 .hasMessage("회고 문항 내용들로 null을 입력할 수 없습니다.");
     }
 
@@ -48,7 +50,7 @@ class RetrospectContentsTest {
 
         // When & Then
         assertThatThrownBy(() -> new RetrospectContents(input))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(InvalidRetrospectContentException.class)
                 .hasMessage("회고 내용 개수는 4개여야 합니다. - " + input.size());
     }
 
@@ -70,7 +72,7 @@ class RetrospectContentsTest {
     void validateRetrospectContentStringsIsNull() {
         // When & Then
         assertThatThrownBy(() -> RetrospectContents.of(null))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(InvalidRetrospectContentException.class)
                 .hasMessage("회고 문항 내용 문자열 값들로 null을 입력할 수 없습니다.");
     }
 

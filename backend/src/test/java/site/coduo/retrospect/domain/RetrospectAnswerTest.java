@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 
+import site.coduo.retrospect.exception.InvalidRetrospectContentException;
+
 class RetrospectAnswerTest {
 
     @DisplayName("유효한 회고 답변 값이 입력되면 객체를 생성한다.")
@@ -29,7 +31,7 @@ class RetrospectAnswerTest {
     void validateValueIsNull(final String input) {
         // When & Then
         assertThatThrownBy(() -> new RetrospectAnswer(input))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(InvalidRetrospectContentException.class)
                 .hasMessage("회고 답변 내용으로 null 혹은 공백을 입력할 수 없습니다. - " + input);
     }
 
@@ -41,7 +43,7 @@ class RetrospectAnswerTest {
 
         // When & Then
         assertThatThrownBy(() -> new RetrospectAnswer(input))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(InvalidRetrospectContentException.class)
                 .hasMessage("회고 답변 길이는 1000자 이하여야 합니다. - " + input.length());
     }
 }

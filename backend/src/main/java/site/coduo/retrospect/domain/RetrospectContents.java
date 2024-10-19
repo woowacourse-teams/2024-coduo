@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import lombok.Getter;
+import site.coduo.retrospect.exception.InvalidRetrospectContentException;
 
 @Getter
 public class RetrospectContents {
@@ -19,11 +20,11 @@ public class RetrospectContents {
 
     private void validateValues(final List<RetrospectContent> values) {
         if (values == null) {
-            throw new IllegalArgumentException("회고 문항 내용들로 null을 입력할 수 없습니다.");
+            throw new InvalidRetrospectContentException("회고 문항 내용들로 null을 입력할 수 없습니다.");
         }
 
         if (values.size() != RETROSPECT_CONTENTS_SIZE) {
-            throw new IllegalArgumentException("회고 내용 개수는 " + RETROSPECT_CONTENTS_SIZE + "개여야 합니다. - " + values.size());
+            throw new InvalidRetrospectContentException("회고 내용 개수는 " + RETROSPECT_CONTENTS_SIZE + "개여야 합니다. - " + values.size());
         }
     }
 
@@ -38,7 +39,7 @@ public class RetrospectContents {
 
     private static void validateAnswers(final List<String> answers) {
         if (answers == null) {
-            throw new IllegalArgumentException("회고 문항 내용 문자열 값들로 null을 입력할 수 없습니다.");
+            throw new InvalidRetrospectContentException("회고 문항 내용 문자열 값들로 null을 입력할 수 없습니다.");
         }
     }
 

@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import site.coduo.fixture.PairRoomFixture;
 import site.coduo.member.domain.Member;
 import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.retrospect.exception.InvalidRetrospectContentException;
+import site.coduo.retrospect.exception.InvalidRetrospectInputValueException;
 
 class RetrospectTest {
 
@@ -98,7 +100,7 @@ class RetrospectTest {
 
         // When & Then
         assertThatThrownBy(() -> new Retrospect(id, null, member, retrospectContents))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(InvalidRetrospectInputValueException.class)
                 .hasMessage("페어룸 객체로 null을 입력할 수 없습니다.");
     }
 
@@ -113,7 +115,7 @@ class RetrospectTest {
 
         // When & Then
         assertThatThrownBy(() -> new Retrospect(id, pairRoom, null, retrospectContents))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(InvalidRetrospectInputValueException.class)
                 .hasMessage("회원 객체로 null을 입력할 수 없습니다.");
     }
 
@@ -133,7 +135,7 @@ class RetrospectTest {
 
         // When & Then
         assertThatThrownBy(() -> new Retrospect(id, pairRoom, member, null))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(InvalidRetrospectContentException.class)
                 .hasMessage("회고 내용들로 null을 입력할 수 없습니다.");
     }
 }

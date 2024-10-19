@@ -3,6 +3,8 @@ package site.coduo.retrospect.domain;
 import lombok.Getter;
 import site.coduo.member.domain.Member;
 import site.coduo.pairroom.domain.PairRoom;
+import site.coduo.retrospect.exception.InvalidRetrospectContentException;
+import site.coduo.retrospect.exception.InvalidRetrospectInputValueException;
 
 @Getter
 public class Retrospect {
@@ -47,19 +49,19 @@ public class Retrospect {
 
     private void validatePairRoom(final PairRoom pairRoom) {
         if (pairRoom == null) {
-            throw new IllegalArgumentException("페어룸 객체로 null을 입력할 수 없습니다.");
+            throw new InvalidRetrospectInputValueException("페어룸 객체로 null을 입력할 수 없습니다.");
         }
     }
 
     private void validateMember(final Member member) {
         if (member == null) {
-            throw new IllegalArgumentException("회원 객체로 null을 입력할 수 없습니다.");
+            throw new InvalidRetrospectInputValueException("회원 객체로 null을 입력할 수 없습니다.");
         }
     }
 
     private void validateContents(final RetrospectContents contents) {
         if (contents == null) {
-            throw new IllegalArgumentException("회고 내용들로 null을 입력할 수 없습니다.");
+            throw new InvalidRetrospectContentException("회고 내용들로 null을 입력할 수 없습니다.");
         }
     }
 }

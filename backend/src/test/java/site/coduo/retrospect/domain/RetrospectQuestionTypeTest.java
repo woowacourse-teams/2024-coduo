@@ -11,6 +11,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import site.coduo.retrospect.exception.InvalidRetrospectQuestionTypeException;
+
 class RetrospectQuestionTypeTest {
 
     @DisplayName("인덱스가 입력되면 대응되는 값을 찾아 반환한다.")
@@ -41,7 +43,7 @@ class RetrospectQuestionTypeTest {
 
         // When & Then
         assertThatThrownBy(() -> RetrospectQuestionType.findByIndex(input))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(InvalidRetrospectQuestionTypeException.class)
                 .hasMessage("입력된 인덱스에 일치하는 회고 문항 타입이 존재하지 않습니다. - " + input);
     }
 }

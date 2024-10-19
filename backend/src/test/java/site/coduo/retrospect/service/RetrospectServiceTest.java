@@ -24,6 +24,8 @@ import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
+import site.coduo.pairroom.exception.PairRoomMemberNotJoinException;
+import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomMemberEntity;
 import site.coduo.pairroom.repository.PairRoomMemberRepository;
@@ -31,6 +33,8 @@ import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.repository.CategoryRepository;
 import site.coduo.retrospect.domain.Retrospect;
 import site.coduo.retrospect.domain.RetrospectContent;
+import site.coduo.retrospect.exception.NotRetrospectOwnerAccessException;
+import site.coduo.retrospect.exception.RetrospectNotFoundException;
 import site.coduo.retrospect.repository.RetrospectContentEntity;
 import site.coduo.retrospect.repository.RetrospectContentRepository;
 import site.coduo.retrospect.repository.RetrospectEntity;
@@ -129,7 +133,7 @@ class RetrospectServiceTest {
 
         // When & Then
         assertThatThrownBy(() -> retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers))
-                .isInstanceOf(EntityNotFoundException.class)
+                .isInstanceOf(PairRoomNotFoundException.class)
                 .hasMessage("입력된 페어룸 접근 코드에 대응되는 페어룸이 존재하지 않습니다. - " + pairRoomAccessCode);
     }
 
@@ -170,7 +174,7 @@ class RetrospectServiceTest {
 
         // When & Then
         assertThatThrownBy(() -> retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(PairRoomMemberNotJoinException.class)
                 .hasMessage("입력된 페어룸, 사용자가 서로 참조되어 있지 않습니다.");
     }
 
@@ -252,7 +256,7 @@ class RetrospectServiceTest {
     void findRetrospectByNotExistId() {
         // When & Then
         assertThatThrownBy(() -> retrospectService.findRetrospectById(-1L))
-                .isInstanceOf(EntityNotFoundException.class)
+                .isInstanceOf(RetrospectNotFoundException.class)
                 .hasMessage("해당 아이디에 일치하는 회고 데이터가 존재하지 않습니다.");
     }
 
@@ -288,7 +292,7 @@ class RetrospectServiceTest {
 
         // Then
         assertThatThrownBy(() -> retrospectService.findRetrospectById(targetId))
-                .isInstanceOf(EntityNotFoundException.class)
+                .isInstanceOf(RetrospectNotFoundException.class)
                 .hasMessage("해당 아이디에 일치하는 회고 데이터가 존재하지 않습니다.");
     }
 
@@ -297,7 +301,7 @@ class RetrospectServiceTest {
     void deleteRetrospectByNotExistId() {
         // When & Then
         assertThatThrownBy(() -> retrospectService.findRetrospectById(-1L))
-                .isInstanceOf(EntityNotFoundException.class)
+                .isInstanceOf(RetrospectNotFoundException.class)
                 .hasMessage("해당 아이디에 일치하는 회고 데이터가 존재하지 않습니다.");
     }
 
@@ -340,7 +344,7 @@ class RetrospectServiceTest {
         final String otherCredentialToken = jwtProvider.sign(other.getUserId());
         final Long targetId = savedRetrospectEntity.getId();
         assertThatThrownBy(() -> retrospectService.deleteRetrospect(otherCredentialToken, targetId))
-                .isInstanceOf(IllegalStateException.class)
+                .isInstanceOf(NotRetrospectOwnerAccessException.class)
                 .hasMessage("본인 소유가 아닌 회고는 삭제할 수 없습니다.");
     }
 
