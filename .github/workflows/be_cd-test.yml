@@ -119,9 +119,8 @@ jobs:
         run: |
           until curl -sf http://localhost:${GREEN_PORT}/api/actuator/health | grep "UP"; do sleep 5; done
 
-      - name: Switch NGINX to Green Port
+      - name: Reload NGINX 
         run: |
-          sudo sed -i "s/listen 808[01];/listen ${GREEN_PORT};/" /etc/nginx/nginx.conf
           sudo systemctl reload nginx
 
       - name: Stop and remove the old environment
