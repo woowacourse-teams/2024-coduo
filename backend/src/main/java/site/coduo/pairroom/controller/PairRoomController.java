@@ -103,7 +103,7 @@ public class PairRoomController implements PairRoomDocs {
 
     @GetMapping("/member/{accessCode}/exists")
     public ResponseEntity<ExistMemberInPairRoomResponse> existMemberInPairRoom(
-            @CookieValue("coduo_whoami") final String credentialToken,
+            @CookieValue(SIGN_IN_COOKIE_NAME) final String credentialToken,
             @PathVariable("accessCode") final String pairRoomAccessCode
     ) {
         final boolean existMemberInPairRoom = pairRoomService.existMemberInPairRoom(credentialToken, pairRoomAccessCode);

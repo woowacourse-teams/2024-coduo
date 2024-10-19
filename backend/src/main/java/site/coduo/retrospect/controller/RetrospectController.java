@@ -1,5 +1,7 @@
 package site.coduo.retrospect.controller;
 
+import static site.coduo.common.config.web.filter.SignInCookieFilter.SIGN_IN_COOKIE_NAME;
+
 import java.net.URI;
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class RetrospectController implements RetrospectDocs {
 
     @PostMapping("/retrospects")
     public ResponseEntity<Void> createRetrospect(
-            @CookieValue("coduo_whoami") final String credentialToken,
+            @CookieValue(SIGN_IN_COOKIE_NAME) final String credentialToken,
             @RequestBody CreateRetrospectRequest request
     ) {
         retrospectService.createRetrospect(credentialToken, request.pairRoomAccessCode(), request.answers());
@@ -37,7 +39,7 @@ public class RetrospectController implements RetrospectDocs {
     }
 
     @GetMapping("/retrospects")
-    public ResponseEntity<FindRetrospectsResponse> findRetrospects(@CookieValue("coduo_whoami") final String credentialToken) {
+    public ResponseEntity<FindRetrospectsResponse> findRetrospects(@CookieValue(SIGN_IN_COOKIE_NAME) final String credentialToken) {
         final List<Retrospect> retrospects = retrospectService.findAllRetrospectsByMember(credentialToken);
         final FindRetrospectsResponse response = FindRetrospectsResponse.of(retrospects);
         return ResponseEntity.ok(response);
@@ -52,7 +54,7 @@ public class RetrospectController implements RetrospectDocs {
 
     @DeleteMapping("/retrospects/{retrospectId}")
     public ResponseEntity<Void> deleteRetrospect(
-            @CookieValue("coduo_whoami") final String credentialToken,
+            @CookieValue(SIGN_IN_COOKIE_NAME) final String credentialToken,
             @PathVariable("retrospectId") final Long retrospectId
     ) {
         retrospectService.deleteRetrospect(credentialToken, retrospectId);
@@ -61,7 +63,7 @@ public class RetrospectController implements RetrospectDocs {
 
     @GetMapping("/member/retrospect/{accessCode}/exists")
     public ResponseEntity<ExistRetrospectWithPairRoomResponse> existRetrospectWithPairRoom(
-            @CookieValue("coduo_whoami") final String credentialToken,
+            @CookieValue(SIGN_IN_COOKIE_NAME) final String credentialToken,
             @PathVariable("accessCode") final String pairRoomAccessCode
     ) {
         final boolean existRetrospect = retrospectService.existRetrospectWithPairRoom(credentialToken, pairRoomAccessCode);
