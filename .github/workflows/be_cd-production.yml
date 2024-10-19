@@ -121,9 +121,8 @@ jobs:
         run: |
           until sudo docker inspect --format '{{json .State.Status}}' coduo_springboot-app-${GREEN_PORT} | grep "running"; do sleep 5; done
 
-      - name: Switch NGINX to Green Port
+      - name: Reload NGINX
         run: |
-          sudo sed -i "s/listen 808[01];/listen ${GREEN_PORT};/" /etc/nginx/nginx.conf
           sudo systemctl reload nginx
 
       - name: Stop and remove the old environment
@@ -203,10 +202,9 @@ jobs:
         run: |
           until sudo docker inspect --format '{{json .State.Status}}' coduo_springboot-app-${GREEN_PORT} | grep "running"; do sleep 5; done
 
-      - name: Switch NGINX to Green Port
+      - name: Reload NGINX 
         run: |
-          sudo sed -i "s/listen 808[01];/listen ${GREEN_PORT};/" /etc/nginx/nginx.conf
-          sudo docker exec -i coduo_nginx bash -c "nginx -s reload"
+          sudo systemctl reload nginx
 
       - name: Stop and remove the old environment
         run: |
