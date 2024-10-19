@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import Loading from '@/pages/Loading/Loading';
 
@@ -19,13 +19,14 @@ import * as S from './PairRoom.styles';
 
 const PairRoom = () => {
   const { accessCode } = useParams();
-
+  const navigate = useNavigate();
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
 
   const {
     driver: latestDriver,
     navigator: latestNavigator,
+    status,
     missionUrl,
     duration,
     remainingTime,
@@ -34,6 +35,9 @@ const PairRoom = () => {
   const { handleUpdatePairRole } = useUpdatePairRoom(accessCode || '');
 
   useEffect(() => {
+    if (status === 'COMPLETED') {
+      navigate(`/pair-room/${accessCode}/completed`);
+    }
     setDriver(latestDriver);
     setNavigator(latestNavigator);
   }, [latestDriver, latestNavigator]);
