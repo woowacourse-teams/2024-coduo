@@ -134,7 +134,7 @@ public class PairRoomService {
     }
 
     private PairRoomEntity findPairRoom(final String pairRoomAccessCode) {
-        if (pairRoomAccessCode == null || pairRoomAccessCode.isEmpty()) {
+        if (pairRoomAccessCode == null || pairRoomAccessCode.isBlank()) {
             throw new IllegalArgumentException("페어룸 접근 코드로 null 혹은 빈 값이 입력될 수 없습니다.");
         }
 
