@@ -6,7 +6,7 @@ import Loading from '@/pages/Loading/Loading';
 
 import { ScrollAnimationContainer } from '@/components/common/Animation/ScrollAnimationContainer';
 import ReferenceCard from '@/components/CompletedPairRoom/ReferenceCard/ReferenceCard';
-import RetrospectButton from '@/components/CompletedPairRoom/RetrospectButton/RetroSpectButton';
+import RetrospectButton from '@/components/CompletedPairRoom/RetrospectButton/RetrospectButton';
 import RetrospectButtonDisabled from '@/components/CompletedPairRoom/RetrospectButton/RetroSpectButtonDisabled';
 import TodoListCard from '@/components/CompletedPairRoom/TodoListCard/TodoListCard';
 

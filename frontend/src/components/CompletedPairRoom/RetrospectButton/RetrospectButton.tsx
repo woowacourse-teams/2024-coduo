@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import Button from '@/components/common/Button/Button';
 import RetrospectButtonDisabled from '@/components/CompletedPairRoom/RetrospectButton/RetroSpectButtonDisabled';
 
+import { getUserRetrospects } from '@/apis/retrospect';
+
 import { useGetUserPairRoomExists } from '@/queries/CompletedPairRoom/useGetUserPairRoomExists';
 import { useGetUserRetrospectExists } from '@/queries/CompletedPairRoom/useGetUserRetrospectExists';
 
 import * as S from './RetrospectButton.styles';
-
-const id = 1; //TODO: 회고 api 연동 후 삭제
 
 interface RetrospectButtonProps {
   accessCode: string;
@@ -22,9 +22,13 @@ const RetrospectButton = ({ accessCode }: RetrospectButtonProps) => {
 
   if (!isUserInPairRoom) return <RetrospectButtonDisabled />;
 
-  const handleRetrospectButtonClick = () => {
+  const handleRetrospectButtonClick = async () => {
     if (isUserRetrospectExist) {
-      navigate(`/retrospect/${id}`);
+      const data = await getUserRetrospects(accessCode);
+      const retrospectId = data.retrospects.find(
+        (retrospect) => retrospect.pairRoomAccessCode === accessCode,
+      )?.retrospectId;
+      navigate(`/retrospect/${retrospectId}`);
     } else {
       navigate(`/retrospect`, { state: { accessCode } });
     }
