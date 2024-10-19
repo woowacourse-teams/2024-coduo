@@ -51,7 +51,7 @@ interface GetUserRetrospectExistsRequest {
 
 export const getUserRetrospectExists = async (accessCode: string): Promise<GetUserRetrospectExistsRequest> => {
   const response = await fetcher.get({
-    url: `${API_URL}/member/${accessCode}/exists`,
+    url: `${API_URL}/member/retrospect/${accessCode}/exists`,
     errorMessage: ERROR_MESSAGES.GET_USER_RETROSPECT_EXISTS,
   });
 
