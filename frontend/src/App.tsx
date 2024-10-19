@@ -85,11 +85,15 @@ const App = () => {
                 </Suspense>
               ),
             },
+            {
+              path: ':accessCode/completed',
+              element: (
+                <Suspense fallback={<Loading />}>
+                  <CompletedPairRoom />
+                </Suspense>
+              ),
+            },
           ],
-        },
-        {
-          path: 'room/:accessCode/completed',
-          element: <CompletedPairRoom />,
         },
         {
           path: 'sign-up',
