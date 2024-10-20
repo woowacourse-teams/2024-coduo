@@ -19,9 +19,8 @@ import site.coduo.member.service.dto.auth.SignUpRequest;
 @Tag(name = "인증/인가 API")
 public interface AuthControllerDocs {
 
-    @Operation(summary = "로그아웃 요청을 한다..")
-    @ApiResponse(responseCode = "200", description = "회원 정보(유저이름)을 등록한다.", content
-            = @Content(schema = @Schema(contentMediaType = MediaType.APPLICATION_JSON_VALUE)))
+    @Operation(summary = "로그아웃 요청을 한다.")
+    @ApiResponse(responseCode = "200", description = "로그아웃 요청 성공.")
     @ApiResponse(responseCode = "401", description = "인증 실패",
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = ApiErrorResponse.class)))
