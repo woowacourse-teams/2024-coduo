@@ -131,7 +131,7 @@ jobs:
       
       - name: Delete Dangling docker images
         run: |
-          sudo docker image prune
+          sudo docker image prune -a -f
           
   deployB:
     environment: production
@@ -216,4 +216,4 @@ jobs:
       
       - name: Delete Dangling docker images
         run: |
-          sudo docker image prune
+          sudo docker image prune -a -f
