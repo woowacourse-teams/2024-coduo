@@ -1,5 +1,5 @@
 import http from 'k6/http';
-import { sleep, check } from 'k6';
+import {check} from 'k6';
 import {BASE_URL} from "./config.js";
 
 export function makeTodo(accessCode) {
@@ -18,10 +18,6 @@ export function makeTodo(accessCode) {
     check(res, {
         'Create todo status was 201': (r) => r.status === 201,
     });
-
-    getTodos(accessCode).forEach(todo => {
-        deleteTodo(todo.id);
-    })
 }
 
 export function getTodos(accessCode) {
