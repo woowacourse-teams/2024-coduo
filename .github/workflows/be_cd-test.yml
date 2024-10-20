@@ -104,3 +104,7 @@ jobs:
       - name: Deploy docker container
         run: |
           sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml up -d
+
+      - name: Delete Dangling docker images
+        run: |
+          sudo docker image prune
