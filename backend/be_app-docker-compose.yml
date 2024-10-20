@@ -7,8 +7,8 @@ services:
     ports:
       - "${GREEN_SERVER_BINDING_PORT}:${GREEN_SERVER_BINDING_PORT}"
     volumes:
-      - ${SERVER_LOGS_PATH}/springboot-app/green:/logs
-      - ${SERVER_LOGS_PATH}/springboot-app/backup/green:/logs/backup
+      - ${SERVER_LOGS_PATH}/springboot-app:/logs
+      - ${SERVER_LOGS_PATH}/springboot-app/backup:/logs/backup
     environment:
       SPRING_DATASOURCE_REPLICA_MASTER_JDBC-URL: ${MASTER_DB_URL}
       SPRING_DATASOURCE_REPLICA_MASTER_USERNAME: ${MASTER_DB_USERNAME}
