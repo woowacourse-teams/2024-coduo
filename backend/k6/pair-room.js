@@ -9,7 +9,7 @@ export const options = {
     duration: '10s',
 }
 
-export default function createPairRoom() {
+export function createPairRoom() {
     const url =  BASE_URL+'pair-room';
     const payload = JSON.stringify({
         "navigator": "hello",
@@ -32,13 +32,7 @@ export default function createPairRoom() {
         'Create room status was 201': (r) => r.status === 201,
     });
 
-    getPairRoomInfo(body.accessCode);
-    checkRoomExist(body.accessCode);
-    changePairRoomStatus(body.accessCode);
-    swapNavAndDriver(body.accessCode);
-    makeTodo(body.accessCode);
-    deletePairRoom(body.accessCode);
-    getMyRooms(CODUO_WHO_AM_I);
+    return body;
 }
 
 export function changePairRoomStatus(accessCode) {
