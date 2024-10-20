@@ -1,8 +1,7 @@
 import http from 'k6/http';
-import { check } from 'k6';
+import {check} from 'k6';
 import {makeTodo} from "./todo.js";
 import {BASE_URL, CODUO_WHO_AM_I} from "./config.js";
-
 
 
 export const options = {
@@ -94,7 +93,7 @@ export function getPairRoomInfo(accessCode) {
     const res = http.get(url, payload, param);
 
     check(res, {
-        'Get room info status was 204': (r) => r.status === 200,
+        'Get room info status was 200': (r) => r.status === 200,
     });
 }
 
@@ -103,7 +102,7 @@ export function checkRoomExist(accessCode) {
     const res = http.get(url);
 
     check(res, {
-        'Check room exist status was 204': (r) => r.status === 200,
+        'Check room exist status was 200': (r) => r.status === 200,
     });
 }
 
