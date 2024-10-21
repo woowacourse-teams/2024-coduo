@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.member.controller.docs.MemberControllerDocs;
+import site.coduo.member.domain.Member;
 import site.coduo.member.service.MemberService;
-import site.coduo.member.service.dto.member.MemberExistsResponse;
+import site.coduo.member.service.dto.member.MemberNameResponse;
 import site.coduo.member.service.dto.member.MemberReadResponse;
 
 @RequiredArgsConstructor
@@ -29,9 +30,9 @@ public class MemberController implements MemberControllerDocs {
     }
 
     @GetMapping("/member/exists")
-    public ResponseEntity<MemberExistsResponse> existsMember(@RequestParam("user_id") String userId) {
-        final boolean existsMember = memberService.existsMember(userId);
-        final MemberExistsResponse response = new MemberExistsResponse(existsMember);
+    public ResponseEntity<MemberNameResponse> existsMember(@RequestParam("user_id") String userId) {
+        final Member member = memberService.findMember(userId);
+        final MemberNameResponse response = new MemberNameResponse(member.getUsername());
 
         return ResponseEntity.ok(response);
     }

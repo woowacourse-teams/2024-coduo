@@ -115,7 +115,8 @@ public class PairRoomController implements PairRoomDocs {
             @CookieValue(SIGN_IN_COOKIE_NAME) final String credentialToken,
             @PathVariable("accessCode") final String pairRoomAccessCode
     ) {
-        final boolean existMemberInPairRoom = pairRoomService.existMemberInPairRoom(credentialToken, pairRoomAccessCode);
+        final boolean existMemberInPairRoom = pairRoomService.existMemberInPairRoom(credentialToken,
+                pairRoomAccessCode);
         final ExistMemberInPairRoomResponse response = new ExistMemberInPairRoomResponse(existMemberInPairRoom);
         return ResponseEntity.ok(response);
     }
