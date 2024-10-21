@@ -72,10 +72,6 @@ public class Member extends BaseTimeEntity {
         this.deletedAt = LocalDateTime.now();
     }
 
-    public boolean isDeleted() {
-        return deletedAt != null;
-    }
-
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -91,5 +87,18 @@ public class Member extends BaseTimeEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+               "id=" + id +
+               ", accessToken='" + accessToken + '\'' +
+               ", loginId='" + loginId + '\'' +
+               ", userId='" + userId + '\'' +
+               ", profileImage='" + profileImage + '\'' +
+               ", username='" + username + '\'' +
+               ", deletedAt=" + deletedAt +
+               '}';
     }
 }

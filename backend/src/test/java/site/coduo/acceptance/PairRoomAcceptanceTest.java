@@ -2,6 +2,9 @@ package site.coduo.acceptance;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
+import static org.hamcrest.Matchers.hasSize;
+
+import static site.coduo.common.config.web.filter.SignInCookieFilter.SIGN_IN_COOKIE_NAME;
 
 import java.util.Map;
 
@@ -15,6 +18,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import site.coduo.fixture.PairRoomCreateRequestFixture;
 import site.coduo.member.domain.Member;
 import site.coduo.member.infrastructure.security.JwtProvider;
 import site.coduo.pairroom.domain.MissionUrl;
@@ -33,6 +37,9 @@ import site.coduo.pairroom.service.dto.PairRoomExistResponse;
 
 class PairRoomAcceptanceTest extends AcceptanceFixture {
 
+    @Autowired
+    private JwtProvider jwtProvider;
+
     static PairRoomCreateResponse createPairRoom(final PairRoomCreateRequest request) {
         return RestAssured
                 .given()
@@ -49,9 +56,6 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     }
 
     @Autowired
-    private JwtProvider jwtProvider;
-
-    @Autowired
     private PairRoomRepository pairRoomRepository;
     @Autowired
     private PairRoomMemberRepository pairRoomMemberRepository;
@@ -61,8 +65,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     void show_pair_room() {
         //given
         final PairRoomCreateResponse pairRoomUrl =
-                createPairRoom(
-                        new PairRoomCreateRequest("레디", "프람", 10000L, 10000L, "https://missionUrl.xxx"));
+                createPairRoom(PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST);
 
         //when & then
         RestAssured
@@ -85,8 +88,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     void update_pair_room_status() {
         //given
         final PairRoomCreateResponse accessCode =
-                createPairRoom(
-                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx"));
+                createPairRoom(PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST);
         final Map<String, String> status = Map.of("status", PairRoomStatus.IN_PROGRESS.name());
 
         // when & then
@@ -111,8 +113,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     void update_driver_navigator() {
         // given
         final PairRoomCreateResponse accessCode =
-                createPairRoom(
-                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx"));
+                createPairRoom(PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST);
 
         // when & then
         RestAssured
@@ -132,8 +133,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     void exist_pair_room_true() {
         //given
         final PairRoomCreateResponse accessCode =
-                createPairRoom(
-                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx"));
+                createPairRoom(PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST);
 
         // when & then
         final PairRoomExistResponse response = RestAssured
@@ -184,9 +184,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     @DisplayName("페어룸을 삭제한다.")
     void delete_pair_room() {
         // given
-        final PairRoomCreateResponse accessCode =
-                createPairRoom(
-                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx"));
+        final PairRoomCreateResponse accessCode = createPairRoom(PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST);
 
         // when & then
         RestAssured
@@ -199,6 +197,60 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
 
                 .then()
                 .statusCode(204);
+    }
+
+    @Test
+    @DisplayName("깃허브 id로 추가된 사용자가 자신의 페어룸 목록에서 페어룸을 확인할 수 있다.")
+    void add_pair_and_find_my_pair_room() {
+        //given
+        final Member pairRoomCreator = Member.builder()
+                .userId("idA")
+                .accessToken(jwtProvider.sign("idA"))
+                .loginId("login")
+                .username("username")
+                .profileImage("some image")
+                .build();
+
+        final Member addPair = Member.builder()
+                .userId("idB")
+                .accessToken(jwtProvider.sign("idB"))
+                .loginId("login")
+                .username("username")
+                .profileImage("some image")
+                .build();
+
+        memberRepository.save(pairRoomCreator);
+        memberRepository.save(addPair);
+
+        final PairRoomCreateRequest request = new PairRoomCreateRequest("navi", "dri", addPair.getUserId(), 60000L,
+                60000L, "");
+
+        RestAssured
+                .given()
+                .cookie(SIGN_IN_COOKIE_NAME, pairRoomCreator.getAccessToken())
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .body(request)
+
+                .when()
+                .post("/api/pair-room")
+
+                .then()
+                .statusCode(201);
+
+        //when && then
+        RestAssured
+                .given()
+                .cookie(SIGN_IN_COOKIE_NAME, addPair.getAccessToken())
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+
+                .when()
+                .get("/api/my-pair-rooms")
+
+                .then()
+                .statusCode(200)
+                .body("$", hasSize(1));
     }
 
     @DisplayName("특정 회원이 특정 페어룸에 존재하는지 여부를 조회한다.")

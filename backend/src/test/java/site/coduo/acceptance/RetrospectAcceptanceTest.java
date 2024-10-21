@@ -1,13 +1,11 @@
 package site.coduo.acceptance;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.*;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import java.util.List;
 import java.util.Map;
 
-import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,7 +142,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
         // Then
         assertSoftly(softly -> {
             softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-            softly.assertThat((String)response.jsonPath().get("message")).isEqualTo("잘못된 회고 내용입니다.");
+            softly.assertThat((String) response.jsonPath().get("message")).isEqualTo("잘못된 회고 내용입니다.");
         });
     }
 
@@ -415,7 +413,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
 
         // Then
         assertThat(response.statusCode()).isEqualTo(HttpStatus.FORBIDDEN.value());
-        assertThat((String)response.jsonPath().get("message")).isEqualTo("회고 소유자 외 접근할 수 없는 작업입니다.");
+        assertThat((String) response.jsonPath().get("message")).isEqualTo("회고 소유자 외 접근할 수 없는 작업입니다.");
     }
 
     @DisplayName("특정 회원이 특정 페어룸에 작성한 회고가 존재하는지 여부를 조회한다.")

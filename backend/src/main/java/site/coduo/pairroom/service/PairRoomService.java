@@ -44,18 +44,26 @@ public class PairRoomService {
     private final UUIDAccessCodeGenerator uuidAccessCodeGenerator;
 
     @Transactional
-    public String savePairRoom(final PairRoomCreateRequest request, @Nullable final String token) {
+    public String savePairRoom(final PairRoomCreateRequest request, @Nullable final String loginToken) {
         final PairRoom pairRoom = createPairRoom(request);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.save(PairRoomEntity.from(pairRoom));
 
         final Timer timer = new Timer(pairRoom.getAccessCode(), request.timerDuration(), request.timerRemainingTime());
         timerRepository.save(new TimerEntity(timer, pairRoomEntity));
 
-        if (token != null) {
-            final Member member = memberService.findMemberByCredential(token);
+        if (isRegisteredMember(loginToken)) {
+            final Member member = memberService.findMemberByCredential(loginToken);
+            pairRoomMemberRepository.save(new PairRoomMemberEntity(pairRoomEntity, member));
+        }
+        if (isRegisteredMember(request.pairId())) {
+            final Member member = memberService.findMember(request.pairId());
             pairRoomMemberRepository.save(new PairRoomMemberEntity(pairRoomEntity, member));
         }
         return pairRoom.getAccessCodeText();
+    }
+
+    private boolean isRegisteredMember(final String value) {
+        return value != null;
     }
 
     public boolean existsByAccessCode(final String accessCode) {
