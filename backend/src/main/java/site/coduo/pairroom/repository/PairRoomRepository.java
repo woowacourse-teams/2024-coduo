@@ -22,7 +22,9 @@ public interface PairRoomRepository extends JpaRepository<PairRoomEntity, Long> 
                 .orElseThrow(() -> new PairRoomNotFoundException("존재하지 않는 페어룸 접근 코드입니다."));
     }
 
-    boolean existsByAccessCode(String generatedAccessCode);
+    boolean existsByAccessCode(String accessCodeText);
+
+    boolean existsByEasyAccessCode(String accessCodeText);
 
     boolean existsByAccessCodeAndStatusNot(String accessCode, PairRoomStatus status);
 }

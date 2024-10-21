@@ -18,7 +18,9 @@ import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
-import site.coduo.pairroom.domain.accesscode.UUIDAccessCodeGenerator;
+import site.coduo.pairroom.domain.accesscode.generator.AccessCodeGenerator;
+import site.coduo.pairroom.domain.accesscode.generator.EasyAccessCodeGenerator;
+import site.coduo.pairroom.domain.accesscode.generator.UUIDAccessCodeGenerator;
 import site.coduo.pairroom.exception.DeletePairRoomException;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomMemberEntity;
@@ -41,7 +43,6 @@ public class PairRoomService {
     private final TimerRepository timerRepository;
     private final PairRoomMemberRepository pairRoomMemberRepository;
     private final MemberService memberService;
-    private final UUIDAccessCodeGenerator uuidAccessCodeGenerator;
 
     @Transactional
     public String savePairRoom(final PairRoomCreateRequest request, @Nullable final String loginToken) {
@@ -71,19 +72,30 @@ public class PairRoomService {
     }
 
     private PairRoom createPairRoom(final PairRoomCreateRequest request) {
-        final AccessCode accessCode = generateAccessCode();
+        final AccessCode uuidAccessCode = generateAccessCode(new UUIDAccessCodeGenerator());
+        final AccessCode easyAccessCode = generateAccessCode(
+                new EasyAccessCodeGenerator(request.driver(), request.navigator())
+        );
         final PairRoomStatus status = PairRoomStatus.IN_PROGRESS;
         final Pair pair = new Pair(new PairName(request.navigator()), new PairName(request.driver()));
         final MissionUrl missionUrl = new MissionUrl(request.missionUrl());
-        return new PairRoom(status, pair, missionUrl, accessCode);
+        return new PairRoom(status, pair, missionUrl, uuidAccessCode, easyAccessCode);
     }
 
-    private AccessCode generateAccessCode() {
-        final String generatedAccessCode = uuidAccessCodeGenerator.generate();
-        if (pairRoomRepository.existsByAccessCode(generatedAccessCode)) {
-            return generateAccessCode();
+    private AccessCode generateAccessCode(final AccessCodeGenerator accessCodeGenerator) {
+        final String generatedAccessCode = accessCodeGenerator.generate();
+        if (isAlreadyExistAccessCode(accessCodeGenerator, generatedAccessCode)) {
+            return generateAccessCode(accessCodeGenerator);
         }
         return new AccessCode(generatedAccessCode);
+    }
+
+    private boolean isAlreadyExistAccessCode(final AccessCodeGenerator AccessCodeGenerator,
+                                             final String generatedAccessCode) {
+        if (AccessCodeGenerator.isEasyAccessCodeGenerator()) {
+            return pairRoomRepository.existsByEasyAccessCode(generatedAccessCode);
+        }
+        return pairRoomRepository.existsByAccessCode(generatedAccessCode);
     }
 
     @Transactional

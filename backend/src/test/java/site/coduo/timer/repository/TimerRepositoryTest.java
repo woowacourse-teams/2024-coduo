@@ -2,6 +2,9 @@ package site.coduo.timer.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import static site.coduo.fixture.AccessCodeFixture.ALPHABET_ACCESS_CODE;
+import static site.coduo.fixture.AccessCodeFixture.EASY_ACCESS_CODE_FRAM_LEMONE;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +17,6 @@ import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
-import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.timer.domain.Timer;
@@ -43,7 +45,8 @@ class TimerRepositoryTest {
                 PairRoomStatus.IN_PROGRESS,
                 new Pair(new PairName("레머네"), new PairName("프람")),
                 new MissionUrl("https://missionUrl.xxx"),
-                new AccessCode("hello1")
+                ALPHABET_ACCESS_CODE,
+                EASY_ACCESS_CODE_FRAM_LEMONE
         );
         final PairRoomEntity entity = site.coduo.pairroom.repository.PairRoomEntity.from(
                 pairRoom);

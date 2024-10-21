@@ -50,19 +50,24 @@ public class PairRoomEntity extends BaseTimeEntity {
     @Column(name = "ACCESS_CODE", nullable = false, unique = true)
     private String accessCode;
 
+    @Column(name = "EASY_ACCESS_CODE", nullable = false, unique = true)
+    private String easyAccessCode;
+
     @Builder
     private PairRoomEntity(final Long id,
                            final PairRoomStatus status,
                            final String navigator,
                            final String driver,
                            final String missionUrl,
-                           final String accessCode) {
+                           final String accessCode,
+                           final String easyAccessCode) {
         this.id = id;
         this.status = status;
         this.navigator = navigator;
         this.driver = driver;
         this.missionUrl = missionUrl;
         this.accessCode = accessCode;
+        this.easyAccessCode = easyAccessCode;
     }
 
     public static PairRoomEntity from(final PairRoom pairRoom) {
@@ -72,7 +77,8 @@ public class PairRoomEntity extends BaseTimeEntity {
                 pairRoom.getNavigatorName(),
                 pairRoom.getDriverName(),
                 pairRoom.getMissionUrl(),
-                pairRoom.getAccessCodeText()
+                pairRoom.getAccessCodeText(),
+                pairRoom.getEasyAccessCodeText()
         );
     }
 
@@ -81,7 +87,8 @@ public class PairRoomEntity extends BaseTimeEntity {
                 status,
                 new Pair(new PairName(navigator), new PairName(driver)),
                 new MissionUrl(missionUrl),
-                new AccessCode(accessCode)
+                new AccessCode(accessCode),
+                new AccessCode(easyAccessCode)
         );
     }
 
@@ -125,6 +132,7 @@ public class PairRoomEntity extends BaseTimeEntity {
                 ", driver='" + driver + '\'' +
                 ", missionUrl='" + missionUrl + '\'' +
                 ", accessCode='" + accessCode + '\'' +
+                ", easyAccessCode='" + easyAccessCode + '\'' +
                 '}';
     }
 }

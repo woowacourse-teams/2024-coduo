@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 import static site.coduo.fixture.AccessCodeFixture.ACCESS_CODE;
+import static site.coduo.fixture.AccessCodeFixture.EASY_ACCESS_CODE_FRAM_LEMONE;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ class PairRoomEntityTest {
         final MissionUrl missionUrl = new MissionUrl("https://missionUrl.xxx");
 
         // when & then
-        assertThatCode(() -> new PairRoom(pairRoomStatus, pair, missionUrl, ACCESS_CODE))
+        assertThatCode(() -> new PairRoom(pairRoomStatus, pair, missionUrl, ACCESS_CODE, EASY_ACCESS_CODE_FRAM_LEMONE))
                 .doesNotThrowAnyException();
     }
 
@@ -36,7 +37,8 @@ class PairRoomEntityTest {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("navi"), new PairName("dri")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("access"))
+                        new AccessCode("access"),
+                        EASY_ACCESS_CODE_FRAM_LEMONE)
         );
 
         // when
@@ -56,7 +58,8 @@ class PairRoomEntityTest {
                 new PairRoom(PairRoomStatus.DELETED,
                         new Pair(new PairName("navi"), new PairName("dri")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("access"))
+                        new AccessCode("access"),
+                        EASY_ACCESS_CODE_FRAM_LEMONE)
         );
 
         // When
@@ -74,7 +77,8 @@ class PairRoomEntityTest {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("navi"), new PairName("dri")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("access"))
+                        new AccessCode("access"),
+                        EASY_ACCESS_CODE_FRAM_LEMONE)
         );
 
         // When
