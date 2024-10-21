@@ -1,7 +1,6 @@
 import http from 'k6/http';
 import {check} from 'k6';
-import {makeTodo} from "./todo.js";
-import {BASE_URL, CODUO_WHO_AM_I} from "./config.js";
+import {BASE_URL} from "./config.js";
 
 
 export const options = {
@@ -10,7 +9,7 @@ export const options = {
 }
 
 export function createPairRoom() {
-    const url =  BASE_URL+'pair-room';
+    const url =  `${BASE_URL}pair-room`;
     const payload = JSON.stringify({
         "navigator": "hello",
         "driver": "world",
@@ -64,7 +63,7 @@ export function swapNavAndDriver(accessCode) {
 }
 
 export function deletePairRoom(accessCode) {
-    const url = BASE_URL+ 'pair-room/' + accessCode;
+    const url = `${BASE_URL}pair-room/${accessCode}`;
     const res = http.del(url);
 
     check(res, {

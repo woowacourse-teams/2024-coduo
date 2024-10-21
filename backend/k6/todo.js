@@ -3,7 +3,7 @@ import {check} from 'k6';
 import {BASE_URL} from "./config.js";
 
 export function makeTodo(accessCode) {
-    const url = BASE_URL+ accessCode + '/todos';
+    const url = `${BASE_URL}${accessCode}/todos`;
     const payload = JSON.stringify({
         "content": "내가 해야할 것"
     });
@@ -21,7 +21,7 @@ export function makeTodo(accessCode) {
 }
 
 export function getTodos(accessCode) {
-    const url = BASE_URL + accessCode + '/todos';
+    const url = `${BASE_URL}${accessCode}/todos`;
     const res = http.get(url);
 
     check(res, {
@@ -77,7 +77,7 @@ export function completeTodo(todoId) {
 }
 
 export function deleteTodo(todoId) {
-    const url = BASE_URL+'todos/' + todoId;
+    const url = `${BASE_URL}todos/${todoId}`;
     const res = http.del(url);
 
     check(res, {
