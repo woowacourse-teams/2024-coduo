@@ -57,4 +57,8 @@ public class MemberService {
 
         member.delete();
     }
+
+    public boolean existsMember(final String userId) {
+        return memberRepository.existsByUserIdAndDeletedAtIsNull(userId);
+    }
 }
