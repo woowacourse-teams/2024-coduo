@@ -40,8 +40,8 @@ jobs:
 
       - name: Image build and push
         run: |
-          docker build --build-arg PROFILE=prod --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_REPO_NAME }}/springboot-app --platform linux/arm64 .
-          docker push ${{ secrets.DOCKER_REPO_NAME }}/springboot-app
+          docker build --build-arg PROFILE=prod --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_REPO_NAME }}/springboot-app:latest --platform linux/arm64 .
+          docker push ${{ secrets.DOCKER_REPO_NAME }}/springboot-app:latest
 
       - name: Upload docker-compose yaml script to artifact
         uses: actions/upload-artifact@v4
@@ -81,6 +81,7 @@ jobs:
 
           # Docker Hub info from Github Secrets
           DOCKER_REPO_NAME=${{ secrets.DOCKER_REPO_NAME }}
+          DOCKER_IMAGE_VERSION=latest
 
           # DB Configuration secrets info from Github Secrets
           MYSQL_TIME_ZONE=${{ secrets.MYSQL_TIME_ZONE }}
@@ -164,6 +165,7 @@ jobs:
           cat <<EOF > ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env
 
           # Docker Hub info from Github Secrets
+          DOCKER_IMAGE_VERSION=latest
           DOCKER_REPO_NAME=${{ secrets.DOCKER_REPO_NAME }}
 
            # DB Configuration secrets info from Github Secrets
