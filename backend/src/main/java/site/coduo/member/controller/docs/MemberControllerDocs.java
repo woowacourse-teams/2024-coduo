@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import site.coduo.common.controller.response.ApiErrorResponse;
+import site.coduo.member.service.dto.member.MemberNameResponse;
 import site.coduo.member.service.dto.member.MemberReadResponse;
 
 @Tag(name = "회원 API")
@@ -39,4 +40,20 @@ public interface MemberControllerDocs {
                     description = "사용자가 인증에 성공하면 서버에서 발급하는 쿠키",
                     schema = @Schema(type = "string")
             ) String token);
+
+    @ApiResponse(responseCode = "200", description = "회원 가입 정보를 조회한다.",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = MemberNameResponse.class)))
+    @ApiResponse(responseCode = "404", description = "회원이 존재하지 않음",
+                content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                schema = @Schema(implementation = ApiErrorResponse.class)))
+    ResponseEntity<MemberNameResponse> existsMember(
+            @Parameter(
+                    in = ParameterIn.QUERY,
+                    name = "user_id",
+                    description = "조회할 회원의 ID",
+                    required = true,
+                    schema = @Schema(type = "string")
+            )
+            String userId);
 }

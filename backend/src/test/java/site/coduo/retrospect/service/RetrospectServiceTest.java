@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import jakarta.persistence.EntityNotFoundException;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -284,7 +282,8 @@ class RetrospectServiceTest {
         final String pairRoomAccessCode = "123456";
         final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
         retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
-        final RetrospectEntity savedRetrospectEntity = retrospectRepository.findByPairRoomAndMember(savedPairRoom, savedMember).get();
+        final RetrospectEntity savedRetrospectEntity = retrospectRepository.findByPairRoomAndMember(savedPairRoom,
+                savedMember).get();
 
         // When
         final Long targetId = savedRetrospectEntity.getId();
@@ -338,7 +337,8 @@ class RetrospectServiceTest {
         final String pairRoomAccessCode = "123456";
         final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
         retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
-        final RetrospectEntity savedRetrospectEntity = retrospectRepository.findByPairRoomAndMember(savedPairRoom, owner).get();
+        final RetrospectEntity savedRetrospectEntity = retrospectRepository.findByPairRoomAndMember(savedPairRoom,
+                owner).get();
 
         // When & Then
         final String otherCredentialToken = jwtProvider.sign(other.getUserId());
