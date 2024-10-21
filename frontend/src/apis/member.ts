@@ -48,7 +48,14 @@ export const getMyPairRooms = async (): Promise<GetMyPairRoomsResponse[]> => {
 interface GetUserIsInPairRoomRequest {
   accessCode: string;
 }
-export const getUserIsInPairRoom = async (accessCode: string): Promise<GetUserIsInPairRoomRequest> => {
+
+interface GetUserIsInPairRoomResponse {
+  exists: boolean;
+}
+
+export const getUserIsInPairRoom = async ({
+  accessCode,
+}: GetUserIsInPairRoomRequest): Promise<GetUserIsInPairRoomResponse> => {
   const response = await fetcher.get({
     url: `${API_URL}/member/${accessCode}/exists`,
     errorMessage: ERROR_MESSAGES.GET_USER_IS_IN_PAIR_ROOM,
@@ -60,7 +67,12 @@ export const getUserIsInPairRoom = async (accessCode: string): Promise<GetUserIs
 interface GetUserRetrospectExistsRequest {
   accessCode: string;
 }
-export const getUserRetrospectExists = async (accessCode: string): Promise<GetUserRetrospectExistsRequest> => {
+interface GetUserRetrospectExistsResponse {
+  existRetrospect: boolean;
+}
+export const getUserRetrospectExists = async ({
+  accessCode,
+}: GetUserRetrospectExistsRequest): Promise<GetUserRetrospectExistsResponse> => {
   const response = await fetcher.get({
     url: `${API_URL}/member/retrospect/${accessCode}/exists`,
     errorMessage: ERROR_MESSAGES.GET_USER_RETROSPECT_EXISTS,
