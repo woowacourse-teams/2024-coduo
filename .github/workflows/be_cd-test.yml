@@ -41,7 +41,7 @@ jobs:
       - name: Image build and push
         run: |
           docker build --build-arg PROFILE=test --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_REPO_NAME }}/springboot-app --platform linux/arm64 .
-          docker push ${{ secrets.DOCKER_REPO_NAME }}/springboot-app
+          docker push ${{ secrets.DOCKER_REPO_NAME }}/springboot-app:test-latest
 
       - name: Upload docker-compose yaml script to artifact
         uses: actions/upload-artifact@v4
@@ -79,6 +79,7 @@ jobs:
 
           # Docker Hub info from Github Secrets
           DOCKER_REPO_NAME=${{ secrets.DOCKER_REPO_NAME }}
+          DOCKER_IMAGE_VERSION=test-latest
 
           # DB Configuration secrets info from Github Secrets
           MASTER_DB_URL=${{ secrets.TEST_SERVER_DB_URL }}
