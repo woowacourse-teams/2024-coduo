@@ -1,7 +1,7 @@
 services:
   springboot-green:
     container_name: coduo_springboot-app-${GREEN_SERVER_BINDING_PORT}
-    image: ${DOCKER_REPO_NAME}/springboot-app
+    image: ${DOCKER_REPO_NAME}/springboot-app: ${DOCKER_IMAGE_VERSION}
     platform: linux/arm64
     ports:
       - "${GREEN_SERVER_BINDING_PORT}:${GREEN_SERVER_BINDING_PORT}"
