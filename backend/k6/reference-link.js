@@ -19,9 +19,6 @@ export function createReferenceLink(accessCode) {
     check(res, {
         'Create reference link status was 201': (r) => r.status === 201,
     });
-
-    getReferenceLink(body.accessCode);
-    deleteReferenceLink(body.accessCode, 1);
 }
 
 export function getReferenceLink(accessCode) {
