@@ -12,7 +12,7 @@ interface PairNameInputProps {
 
 const PairNameInput = ({ firstPairName, secondPairName, onFirstPair, onSecondPair }: PairNameInputProps) => {
   return (
-    <S.Layout>
+    <S.Layout aria-label="총 3개의 설정 항목 중 1번째 항목입니다.">
       <S.TitleContainer>
         <S.Title>이름 입력</S.Title>
         <S.SubTitle>나와 페어의 이름을 입력해 주세요.</S.SubTitle>

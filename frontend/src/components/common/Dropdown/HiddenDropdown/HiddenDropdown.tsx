@@ -22,7 +22,6 @@ const HiddenDropdown = ({ options, selectedOption, handleSelect, valueOptions }:
             {option}
           </option>
         ))}
-
       {valueOptions &&
         !valueOptions.every((option) => option.value === '') &&
         valueOptions.map((option) => (

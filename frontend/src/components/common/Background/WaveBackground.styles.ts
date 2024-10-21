@@ -1,5 +1,7 @@
 import styled, { keyframes } from 'styled-components';
 
+import { Z_INDEX } from '@/constants/style';
+
 const drift = keyframes`
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
@@ -9,7 +11,7 @@ export const WaveBackground = styled.div`
   overflow: hidden;
 
   position: fixed;
-  z-index: -1;
+  z-index: ${Z_INDEX.MINUS};
 
   width: 100vw;
   height: calc(100vh - 7rem);

@@ -28,6 +28,7 @@ const useGetPairRoom = (accessCode: string) => {
   return {
     driver: pairRoom?.driver || '',
     navigator: pairRoom?.navigator || '',
+    status: pairRoom?.status || '',
     missionUrl: pairRoom?.missionUrl || '',
     duration: timer?.duration || 0,
     remainingTime: timer?.remainingTime || 0,

@@ -7,8 +7,6 @@ import { Modal } from '@/components/common/Modal';
 
 import useCopyClipBoard from '@/hooks/common/useCopyClipboard';
 
-import { BUTTON_TEXT } from '@/constants/button';
-
 import * as S from '../PairRoomCreateModal.styles';
 
 interface PairRoomCreateCompleteProps {
@@ -36,7 +34,7 @@ const PairRoomCreateComplete = ({ accessCode, closeModal }: PairRoomCreateComple
       </S.ModalBodyWrapper>
       <Modal.Footer>
         <Button onClick={closeModal} filled={false}>
-          {BUTTON_TEXT.CLOSE}
+          닫기
         </Button>
         <Link to={`/room/${accessCode}/onboarding`}>
           <Button>이동</Button>

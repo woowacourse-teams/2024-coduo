@@ -24,7 +24,7 @@ const MissionSettingSection = ({ repositoryName, onRepositoryName, onCreateBranc
   };
 
   return (
-    <S.Layout>
+    <S.Layout aria-label="해당 섹션에서는 미션 레포지토리를 선택하고 브랜치 이름을 설정할 수 있습니다.">
       <MissionSelectInput onSelect={handleSelectMission} />
       {moveIndex >= 1 && (
         <CreateBranchInput repositoryName={repositoryName} branchName={branchName} onBranchName={handleBranchName} />

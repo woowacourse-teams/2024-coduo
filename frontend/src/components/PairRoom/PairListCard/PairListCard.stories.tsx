@@ -16,6 +16,5 @@ export const Default: Story = {
     roomCode: 'IUUIASDFJK',
     driver: '퍼렁',
     navigator: '포롱',
-    onRoomDelete: () => alert('방이 삭제되었습니다.'),
   },
 };

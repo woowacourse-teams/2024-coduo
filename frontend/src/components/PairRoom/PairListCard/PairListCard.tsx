@@ -1,11 +1,15 @@
 import { useState } from 'react';
 
-// import DeleteButton from '@/components/PairRoom/PairListCard/DeleteButton/DeleteButton';
+import CompleteRoomButton from '@/components/PairRoom/PairListCard/CompleteRoomButton/CompleteRoomButton';
 import Header from '@/components/PairRoom/PairListCard/Header/Header';
 import PairListSection from '@/components/PairRoom/PairListCard/PairListSection/PairListSection';
 import RepositorySection from '@/components/PairRoom/PairListCard/RepositorySection/RepositorySection';
 import RoomCodeSection from '@/components/PairRoom/PairListCard/RoomCodeSection/RoomCodeSection';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
+
+import useUserStore from '@/stores/userStore';
+
+import useCompletePairRoom from '@/queries/PairRoom/useCompletePairRoom';
 
 import * as S from './PairListCard.styles';
 
@@ -14,14 +18,14 @@ interface PairListCardProps {
   navigator: string;
   missionUrl: string;
   roomCode: string;
-  onRoomDelete?: () => void;
 }
 
 const PairListCard = ({ driver, navigator, missionUrl, roomCode }: PairListCardProps) => {
   const [isOpen, setIsOpen] = useState(true);
+  const { handleCompletePairRoom } = useCompletePairRoom(roomCode);
 
   const toggleOpen = () => setIsOpen(!isOpen);
-
+  const { userStatus } = useUserStore();
   return (
     <S.Layout $isOpen={isOpen}>
       <PairRoomCard>
@@ -30,7 +34,11 @@ const PairListCard = ({ driver, navigator, missionUrl, roomCode }: PairListCardP
           <RoomCodeSection isOpen={isOpen} roomCode={roomCode} />
           {missionUrl !== '' && <RepositorySection isOpen={isOpen} missionUrl={missionUrl} />}
           <PairListSection isOpen={isOpen} driver={driver} navigator={navigator} />
-          {/* <DeleteButton isOpen={isOpen} onRoomDelete={onRoomDelete} /> */}
+          {userStatus === 'SIGNED_IN' ? (
+            <CompleteRoomButton isOpen={isOpen} onClick={() => handleCompletePairRoom(roomCode)} />
+          ) : (
+            <CompleteRoomButton disabled={true} isOpen={isOpen} onClick={() => handleCompletePairRoom(roomCode)} />
+          )}
         </S.Sidebar>
       </PairRoomCard>
     </S.Layout>

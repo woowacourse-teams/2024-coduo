@@ -8,7 +8,7 @@ interface CloseButtonProps {
 
 const CloseButton = ({ close }: CloseButtonProps) => {
   return (
-    <S.Button onClick={close}>
+    <S.Button role="button" aria-label="모달 닫기" onClick={close}>
       <MdClose size="3rem" color="#CCC" />
     </S.Button>
   );

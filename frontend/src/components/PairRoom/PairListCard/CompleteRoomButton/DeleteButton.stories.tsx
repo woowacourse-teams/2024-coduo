@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import DeleteButton from './DeleteButton';
+import DeleteButton from './CompleteRoomButton';
 
 const meta = {
   title: 'component/PairRoom/PairListCard/DeleteButton',
@@ -14,13 +14,13 @@ type Story = StoryObj<typeof DeleteButton>;
 export const Default: Story = {
   args: {
     isOpen: true,
-    onRoomDelete: () => alert('Room deleted'),
+    onClick: () => alert('페어룸 종료하기'),
   },
 };
 
 export const Closed: Story = {
   args: {
     isOpen: false,
-    onRoomDelete: () => alert('Room deleted'),
+    onClick: () => alert('페어룸 종료하기'),
   },
 };

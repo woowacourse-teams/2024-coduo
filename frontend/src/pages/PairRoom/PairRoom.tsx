@@ -10,8 +10,6 @@ import ReferenceCard from '@/components/PairRoom/ReferenceCard/ReferenceCard';
 import TimerCard from '@/components/PairRoom/TimerCard/TimerCard';
 import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
 
-import { getPairRoomExists } from '@/apis/pairRoom';
-
 import useModal from '@/hooks/common/useModal';
 
 import useGetPairRoom from '@/queries/PairRoom/useGetPairRoom';
@@ -20,27 +18,15 @@ import useUpdatePairRoom from '@/queries/PairRoom/useUpdatePairRoom';
 import * as S from './PairRoom.styles';
 
 const PairRoom = () => {
-  const navigate = useNavigate();
   const { accessCode } = useParams();
-
-  useEffect(() => {
-    const checkPairRoomExists = async () => {
-      if (!accessCode) navigate('/error');
-
-      const { exists } = await getPairRoomExists(accessCode || '');
-
-      if (!exists) navigate('/error');
-    };
-
-    checkPairRoomExists();
-  }, [accessCode]);
-
+  const navigate = useNavigate();
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
 
   const {
     driver: latestDriver,
     navigator: latestNavigator,
+    status,
     missionUrl,
     duration,
     remainingTime,
@@ -49,6 +35,9 @@ const PairRoom = () => {
   const { handleUpdatePairRole } = useUpdatePairRoom(accessCode || '');
 
   useEffect(() => {
+    if (status === 'COMPLETED') {
+      navigate(`/room/${accessCode}/completed`, { state: { valid: true }, replace: true });
+    }
     setDriver(latestDriver);
     setNavigator(latestNavigator);
   }, [latestDriver, latestNavigator]);
@@ -63,13 +52,7 @@ const PairRoom = () => {
 
   return (
     <S.Layout>
-      <PairListCard
-        driver={driver}
-        navigator={navigator}
-        missionUrl={missionUrl}
-        roomCode={accessCode || ''}
-        onRoomDelete={() => {}}
-      />
+      <PairListCard driver={driver} navigator={navigator} missionUrl={missionUrl} roomCode={accessCode || ''} />
       <S.Container>
         <PairRoleCard driver={driver} navigator={navigator} />
         <TimerCard

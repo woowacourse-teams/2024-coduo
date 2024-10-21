@@ -10,4 +10,8 @@ export const QUERY_KEYS = {
   GET_SIGN_IN: 'getSignIn',
   GET_SIGN_OUT: 'getSignOut',
   GET_TODOS: 'getTodos',
+  GET_RETROSPECT_ANSWER: 'getRetrospectAnswer',
+  GET_USER_IS_IN_PAIR_ROOM: 'getUserIsInPairRoom',
+  GET_USER_RETROSPECT_EXISTS: 'getUserRetrospectExists',
+  GET_USER_RETROSPECTS: 'getUserRetrospects',
 };
