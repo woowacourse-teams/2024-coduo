@@ -21,7 +21,6 @@ import site.coduo.pairroom.service.dto.PairRoomReadRequest;
 import site.coduo.pairroom.service.dto.PairRoomReadResponse;
 import site.coduo.pairroom.service.dto.PairRoomStatusUpdateRequest;
 import site.coduo.pairroom.service.dto.PairUpdateRequest;
-import site.coduo.retrospect.controller.response.ExistRetrospectWithPairRoomResponse;
 
 @Tag(name = "페어룸 API")
 public interface PairRoomDocs {
@@ -85,7 +84,7 @@ public interface PairRoomDocs {
     @ApiResponse(responseCode = "200", description = "페어룸 존재 여부", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
             schema = @Schema(implementation = PairRoomExistResponse.class)))
     ResponseEntity<PairRoomExistResponse> pairRoomExists(String accessCode);
-  
+
     @Operation(summary = "페어룸을 삭제한다.")
     @ApiResponse(responseCode = "204", description = "페어룸 삭제 성공")
     ResponseEntity<Void> deletePairRoom(
