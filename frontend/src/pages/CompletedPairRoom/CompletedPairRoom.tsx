@@ -1,44 +1,25 @@
-import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { GithubLogoWhite } from '@/assets';
 
 import Loading from '@/pages/Loading/Loading';
 
 import { ScrollAnimationContainer } from '@/components/common/Animation/ScrollAnimationContainer';
-import Button from '@/components/common/Button/Button';
 import ReferenceCard from '@/components/CompletedPairRoom/ReferenceCard/ReferenceCard';
+import RetrospectButton from '@/components/CompletedPairRoom/RetrospectButton/RetrospectButton';
+import RetrospectButtonDisabled from '@/components/CompletedPairRoom/RetrospectButton/RetroSpectButtonDisabled';
 import TodoListCard from '@/components/CompletedPairRoom/TodoListCard/TodoListCard';
 
 import useUserStore from '@/stores/userStore';
-
-import { getPairRoomExists } from '@/apis/pairRoom';
 
 import useGetPairRoom from '@/queries/PairRoom/useGetPairRoom';
 
 import * as S from './CompletedPairRoom.styles';
 
 const CompletedPairRoom = () => {
-  const navigate = useNavigate();
   const { accessCode } = useParams();
 
   const { userStatus } = useUserStore();
-
-  useEffect(() => {
-    const checkPairRoomExists = async () => {
-      if (!accessCode) navigate('/error');
-
-      const { exists } = await getPairRoomExists(accessCode || '');
-
-      if (!exists) navigate('/error');
-    };
-    checkPairRoomExists();
-  }, [accessCode]);
-
-  const handleRetrospectWriting = () => {
-    // navigate(''); TODO: 회고 작성 페이지로 이동
-  };
-
   const { driver, navigator, missionUrl, isFetching } = useGetPairRoom(accessCode || '');
 
   if (isFetching) {
@@ -66,22 +47,11 @@ const CompletedPairRoom = () => {
           )}
         </ScrollAnimationContainer>
         <ScrollAnimationContainer animationDirection="right" animationDelay={0.4}>
-          <S.ButtonPromptContainer>
-            <Button
-              size="lg"
-              disabled={userStatus === 'SIGNED_IN' ? false : true}
-              onClick={() => {
-                handleRetrospectWriting();
-              }}
-            >
-              회고 작성
-            </Button>
-            <S.ButtonPrompt>
-              {userStatus === 'SIGNED_IN'
-                ? '이번 페어 프로그래밍은 어떠셨나요? 회고를 작성해주세요.'
-                : '로그인 후 페어룸에 참여하면 회고를 작성할 수 있어요.'}
-            </S.ButtonPrompt>
-          </S.ButtonPromptContainer>
+          {userStatus === 'SIGNED_IN' ? (
+            <RetrospectButton accessCode={accessCode || ''} />
+          ) : (
+            <RetrospectButtonDisabled />
+          )}
         </ScrollAnimationContainer>
       </S.CompletedPairRoomInformationContainer>
       <ScrollAnimationContainer animationDirection="top" animationDelay={0.4}>
