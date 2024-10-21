@@ -28,7 +28,7 @@ public class MemberController implements MemberControllerDocs {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/exists")
+    @GetMapping("/member/exists")
     public ResponseEntity<MemberExistsResponse> existsMember(@RequestParam("user_id") String userId) {
         final boolean existsMember = memberService.existsMember(userId);
         final MemberExistsResponse response = new MemberExistsResponse(existsMember);
