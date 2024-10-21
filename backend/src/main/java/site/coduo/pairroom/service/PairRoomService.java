@@ -66,13 +66,6 @@ public class PairRoomService {
         return value != null;
     }
 
-    @Transactional
-    public void addPair(final String accessCode, final String userId) {
-        final Member member = memberService.findMember(userId);
-        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
-        pairRoomMemberRepository.save(new PairRoomMemberEntity(pairRoomEntity, member));
-    }
-
     public boolean existsByAccessCode(final String accessCode) {
         return pairRoomRepository.existsByAccessCodeAndStatusNot(accessCode, PairRoomStatus.DELETED);
     }

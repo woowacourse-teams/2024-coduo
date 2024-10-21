@@ -50,14 +50,6 @@ public class PairRoomController implements PairRoomDocs {
                 .body(response);
     }
 
-    @PatchMapping("/pair-room/pair")
-    public ResponseEntity<Void> updatePair(@Valid @RequestBody final PairUpdateRequest request) {
-        pairRoomService.addPair(request.accessCode(), request.userId());
-
-        return ResponseEntity.noContent()
-                .build();
-    }
-
     @PatchMapping("/pair-room/{accessCode}/pair-swap")
     public ResponseEntity<Void> updatePairRole(@PathVariable("accessCode") final String accessCode) {
         pairRoomService.updateNavigatorWithDriver(accessCode);
