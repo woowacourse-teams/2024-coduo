@@ -1,4 +1,4 @@
-// import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import Button from '@/components/common/Button/Button';
 import Question from '@/components/Retrospect/Question/Question';
@@ -14,9 +14,8 @@ import { RETROSPECT_QUESTIONS } from '@/constants/retrospect';
 import * as S from './RetrospectForm.styles';
 
 const RetrospectForm = () => {
-  // const location = useLocation();
-  // const accessCode = location.state.accessCode;
-  const accessCode = '12314';
+  const location = useLocation();
+  const accessCode = location.state.accessCode;
 
   const { answers, handleChange, hasEmptyField, handleSubmit } = useInputAnswer(accessCode);
 
