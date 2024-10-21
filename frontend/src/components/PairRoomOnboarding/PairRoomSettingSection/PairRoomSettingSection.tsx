@@ -43,7 +43,7 @@ const PairRoomSettingSection = ({ repositoryName }: PairRoomSettingSectionProps)
   };
 
   return (
-    <S.Layout aria-label="여기서는 페어 이름 입력, 역할 설정, 타이머 시간을 설정할 수 있습니다.">
+    <S.Layout aria-label="해당 섹션에서는 당신과 페어의 이름, 드라이버와 네비게이터, 타이머 시간을 설정할 수 있습니다.">
       <PairNameInput
         firstPairName={firstPairName}
         secondPairName={secondPairName}

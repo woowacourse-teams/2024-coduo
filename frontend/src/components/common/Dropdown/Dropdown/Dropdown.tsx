@@ -13,10 +13,11 @@ export interface Option {
   id: string;
   value: string;
 }
+
 interface DropdownProps {
   placeholder: string;
-  valueOptions?: Option[];
   options?: string[];
+  valueOptions?: Option[];
   selectedOption?: string;
   width?: string;
   height?: string;
@@ -51,6 +52,7 @@ const Dropdown = ({
     event.stopPropagation();
     setIsOpen((prev) => !prev);
   };
+
   return (
     <S.Layout $width={width} ref={dropdownRef} $height={height}>
       <HiddenDropdown
@@ -75,7 +77,6 @@ const Dropdown = ({
             <S.Icon $isOpen={isOpen} size={theme.iconSize.md} $direction={direction} />
           </S.OpenButton>
         )}
-
         {options && !options.some((option) => option === '') && isOpen && (
           <S.ItemList $height={height} $direction={direction}>
             {options.map((option, index) => (
@@ -95,7 +96,6 @@ const Dropdown = ({
             ))}
           </S.ItemList>
         )}
-
         {valueOptions && !valueOptions.some((option) => option.value === '') && isOpen && (
           <S.ItemList $height={height} $direction={direction}>
             {valueOptions.map((option, index) => (

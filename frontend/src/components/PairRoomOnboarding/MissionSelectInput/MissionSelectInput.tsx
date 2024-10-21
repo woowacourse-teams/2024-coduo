@@ -14,9 +14,9 @@ const MissionSelectInput = ({ onSelect }: MissionSelectInputProps) => {
   const { repositories, isFetching } = useGetRepositories();
 
   return (
-    <S.Layout>
-      <S.HeaderContainer aria-label="구현해 볼 미션 레포지토리를 선택해 주세요. 미션을 선택하면 해당 미션 레포지토리에 원하는 이름으로 브랜치를 생성할 수 있어요.">
-        <S.TitleContainer role="presentation">
+    <S.Layout aria-label="총 2개의 설정 항목 중 1번째 항목입니다.">
+      <S.HeaderContainer>
+        <S.TitleContainer>
           <S.Title>미션 선택</S.Title>
           <S.SubTitle>구현해 볼 미션 레포지토리를 선택해 주세요.</S.SubTitle>
         </S.TitleContainer>
