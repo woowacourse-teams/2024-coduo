@@ -9,8 +9,6 @@ import usePairRoomInformation from '@/hooks/PairRoomOnboarding/usePairRoomInform
 
 import useAddPairRoom from '@/queries/Main/useAddPairRoom';
 
-import { BUTTON_TEXT } from '@/constants/button';
-
 import * as S from './PairRoomSettingSection.styles';
 
 interface PairRoomSettingSectionProps {
@@ -45,7 +43,7 @@ const PairRoomSettingSection = ({ repositoryName }: PairRoomSettingSectionProps)
   };
 
   return (
-    <S.Layout>
+    <S.Layout aria-label="해당 섹션에서는 당신과 페어의 이름, 드라이버와 네비게이터, 타이머 시간을 설정할 수 있습니다.">
       <PairNameInput
         firstPairName={firstPairName}
         secondPairName={secondPairName}
@@ -65,7 +63,7 @@ const PairRoomSettingSection = ({ repositoryName }: PairRoomSettingSectionProps)
       {moveIndex >= 3 && (
         <S.ButtonWrapper>
           <Button disabled={validationList.some((valid) => !valid)} onClick={handleSuccess}>
-            {BUTTON_TEXT.COMPLETE}
+            완료
           </Button>
         </S.ButtonWrapper>
       )}

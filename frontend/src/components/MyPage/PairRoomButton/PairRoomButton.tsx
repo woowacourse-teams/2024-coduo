@@ -38,7 +38,7 @@ const PairRoomButton = ({ driver, navigator, status, accessCode }: PairRoomButto
         <Spinner />
       ) : (
         <>
-          <S.LinkWrapper to={`/room/${accessCode}`}>
+          <S.LinkWrapper to={`/room/${accessCode}`} state={{ valid: true }} replace={true}>
             <S.PairRoomButton $status={status}>
               <S.RoleTextContainer>
                 <S.RoleText $status={status}>

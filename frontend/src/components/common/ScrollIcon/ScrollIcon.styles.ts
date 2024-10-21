@@ -1,6 +1,8 @@
 import { RiArrowDownDoubleLine } from 'react-icons/ri';
 import styled, { css, keyframes } from 'styled-components';
 
+import { Z_INDEX } from '@/constants/style';
+
 const bounce = keyframes`
   0%, 20%, 50%, 80%, 100% {
     transform: translateY(0);
@@ -37,7 +39,7 @@ export const Layout = styled.div<{ $isBottom: boolean }>`
   position: fixed;
   bottom: 2rem;
   left: calc(50% - 3rem);
-  z-index: 10;
+  z-index: ${Z_INDEX.PLUS};
 
   padding: 1.5rem;
   border-radius: 3rem;
