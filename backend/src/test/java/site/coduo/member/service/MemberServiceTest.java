@@ -120,9 +120,8 @@ class MemberServiceTest {
     @DisplayName("user id로 회원을 조회한다.")
     void find_by_user_id() {
         //given
-        final String userId = "targetUserId";
         final Member member = Member.builder()
-                .userId(userId)
+                .userId("targetUserId")
                 .accessToken("access")
                 .loginId("login")
                 .username("username")
@@ -132,7 +131,7 @@ class MemberServiceTest {
         final Member saved = memberRepository.save(member);
 
         //when
-        final Member find = memberService.findMember(userId);
+        final Member find = memberService.findMember(member.getLoginId());
 
         //then
         assertThat(find).isEqualTo(saved);
