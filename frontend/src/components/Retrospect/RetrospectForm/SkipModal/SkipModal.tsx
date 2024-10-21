@@ -21,7 +21,9 @@ const SkipModal = ({ closeModal, isModalOpen, accessCode }: SkipModalProps) => {
         <Button onClick={closeModal} filled={false}>
           취소
         </Button>
-        <Button onClick={() => navigate(`/room/${accessCode}`, { replace: true })}>확인</Button>
+        <Button onClick={() => navigate(`/room/${accessCode}/completed`, { state: { valid: true }, replace: true })}>
+          확인
+        </Button>
       </Modal.Footer>
     </Modal>
   );
