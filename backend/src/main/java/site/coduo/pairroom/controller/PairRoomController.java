@@ -30,7 +30,6 @@ import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
 import site.coduo.pairroom.service.dto.PairRoomReadRequest;
 import site.coduo.pairroom.service.dto.PairRoomReadResponse;
 import site.coduo.pairroom.service.dto.PairRoomStatusUpdateRequest;
-import site.coduo.pairroom.service.dto.PairUpdateRequest;
 
 @Slf4j
 @RequiredArgsConstructor

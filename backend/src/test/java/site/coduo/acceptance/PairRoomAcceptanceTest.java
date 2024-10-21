@@ -34,7 +34,6 @@ import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
 import site.coduo.pairroom.service.dto.PairRoomExistResponse;
-import site.coduo.pairroom.service.dto.PairUpdateRequest;
 
 class PairRoomAcceptanceTest extends AcceptanceFixture {
 
@@ -201,71 +200,20 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     }
 
     @Test
-    @DisplayName("user id로 페어를 등록한다.")
-    void add_pair() {
-        //given
-        final String userId = "redddy";
-        final Member member = Member.builder()
-                .userId(userId)
-                .accessToken("access")
-                .loginId("login")
-                .username("username")
-                .profileImage("some image")
-                .build();
-
-        final String loginToken = jwtProvider.sign(member.getUserId());
-        memberRepository.save(member);
-
-        final PairRoomCreateResponse createPairRoomResponse = RestAssured
-                .given()
-                .cookie(SIGN_IN_COOKIE_NAME, loginToken)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .accept(MediaType.APPLICATION_JSON_VALUE)
-                .body(PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST)
-
-                .when()
-                .post("/api/pair-room")
-
-                .then()
-                .extract()
-                .as(PairRoomCreateResponse.class);
-
-        //when && then
-        final PairUpdateRequest pairUpdateRequest = new PairUpdateRequest(createPairRoomResponse.accessCode(), userId);
-
-        RestAssured
-                .given()
-                .cookie(SIGN_IN_COOKIE_NAME, loginToken)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .accept(MediaType.APPLICATION_JSON_VALUE)
-                .body(pairUpdateRequest)
-
-                .when()
-                .patch("/api/pair-room/pair")
-
-                .then()
-                .statusCode(204);
-    }
-
-
-    @Test
     @DisplayName("깃허브 id로 추가된 사용자가 자신의 페어룸 목록에서 페어룸을 확인할 수 있다.")
     void add_pair_and_find_my_pair_room() {
         //given
-        final String pairRoomCreatorId = "idA";
-        final String addPairId = "idB";
-
         final Member pairRoomCreator = Member.builder()
-                .userId(pairRoomCreatorId)
-                .accessToken("access_aa")
+                .userId("idA")
+                .accessToken(jwtProvider.sign("idA"))
                 .loginId("login")
                 .username("username")
                 .profileImage("some image")
                 .build();
 
         final Member addPair = Member.builder()
-                .userId(addPairId)
-                .accessToken("access_bb")
+                .userId("idB")
+                .accessToken(jwtProvider.sign("idB"))
                 .loginId("login")
                 .username("username")
                 .profileImage("some image")
@@ -274,43 +222,26 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
         memberRepository.save(pairRoomCreator);
         memberRepository.save(addPair);
 
-        final String pairRoomCreatorToken = jwtProvider.sign(pairRoomCreator.getUserId());
-        final String addPairToken = jwtProvider.sign(addPair.getUserId());
+        final PairRoomCreateRequest request = new PairRoomCreateRequest("navi", "dri", addPair.getUserId(), 60000L,
+                60000L, "");
 
-        final PairRoomCreateResponse createPairRoomResponse = RestAssured
+        RestAssured
                 .given()
-                .cookie(SIGN_IN_COOKIE_NAME, pairRoomCreatorToken)
+                .cookie(SIGN_IN_COOKIE_NAME, pairRoomCreator.getAccessToken())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .body(PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST)
+                .body(request)
 
                 .when()
                 .post("/api/pair-room")
 
                 .then()
-                .extract()
-                .as(PairRoomCreateResponse.class);
-
-        final PairUpdateRequest pairUpdateRequest = new PairUpdateRequest(createPairRoomResponse.accessCode(),
-                addPairId);
-
-        RestAssured
-                .given()
-                .cookie(SIGN_IN_COOKIE_NAME, pairRoomCreatorToken)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .accept(MediaType.APPLICATION_JSON_VALUE)
-                .body(pairUpdateRequest)
-
-                .when()
-                .patch("/api/pair-room/pair")
-
-                .then()
-                .statusCode(204);
+                .statusCode(201);
 
         //when && then
         RestAssured
                 .given()
-                .cookie(SIGN_IN_COOKIE_NAME, addPairToken)
+                .cookie(SIGN_IN_COOKIE_NAME, addPair.getAccessToken())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
 
@@ -320,7 +251,6 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .then()
                 .statusCode(200)
                 .body("$", hasSize(1));
-
     }
 
     @DisplayName("특정 회원이 특정 페어룸에 존재하는지 여부를 조회한다.")
