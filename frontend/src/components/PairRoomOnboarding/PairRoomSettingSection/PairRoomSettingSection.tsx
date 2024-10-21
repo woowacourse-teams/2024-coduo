@@ -19,23 +19,23 @@ interface PairRoomSettingSectionProps {
 
 const PairRoomSettingSection = ({ repositoryName }: PairRoomSettingSectionProps) => {
   const {
-    firstPairName,
-    secondPairName,
+    userPairName,
     pairId,
+    pairName,
     driver,
     navigator,
     timerDuration,
-    isPairNameValid,
+    isPairRoomNameValid,
     isPairRoleValid,
     isTimerDurationValid,
-    handleFirstPairName,
-    handleSecondPairName,
+    handleUserPairName,
+    handlePairName,
     handlePairData,
     handlePairRole,
     handleTimerDuration,
   } = usePairRoomInformation();
 
-  const validationList = [useDebounce(isPairNameValid, 500), isPairRoleValid, isTimerDurationValid];
+  const validationList = [useDebounce(isPairRoomNameValid, 500), isPairRoleValid, isTimerDurationValid];
 
   const { moveIndex } = useAutoMoveIndex(0, validationList);
   const { isModalOpen, openModal, closeModal } = useModal();
@@ -50,20 +50,20 @@ const PairRoomSettingSection = ({ repositoryName }: PairRoomSettingSectionProps)
   return (
     <S.Layout>
       <PairNameInput
-        firstPairName={firstPairName}
-        secondPairName={secondPairName}
-        onFirstPair={handleFirstPairName}
-        onSecondPair={handleSecondPairName}
+        userPairName={userPairName}
+        pairName={pairName}
+        onUserPairName={handleUserPairName}
+        onPairName={handlePairName}
         openAddPairModal={openModal}
       />
       <AddPairModal isOpen={isModalOpen} closeModal={closeModal} onPairData={handlePairData} />
       {moveIndex >= 1 && (
         <PairRoleInput
-          firstPair={firstPairName.value}
-          secondPair={secondPairName.value}
+          userPairName={userPairName.value}
+          pairName={pairName.value}
           driver={driver}
           navigator={navigator}
-          onRole={handlePairRole}
+          onPairRole={handlePairRole}
         />
       )}
       {moveIndex >= 2 && <TimerDurationInput timerDuration={timerDuration} onTimerDuration={handleTimerDuration} />}

@@ -12,12 +12,13 @@ export type Role = 'DRIVER' | 'NAVIGATOR';
 const usePairRoomInformation = () => {
   const { username, userStatus } = useUserStore();
 
-  const [firstPairName, setFirstPairName] = useState<InputType>({
+  const [userPairName, setUserPairName] = useState<InputType>({
     value: userStatus === 'SIGNED_IN' ? username : '',
     status: 'DEFAULT' as InputStatus,
     message: '',
   });
-  const [secondPairName, setSecondPairName] = useState<InputType>({
+
+  const [pairName, setPairName] = useState<InputType>({
     value: '',
     status: 'DEFAULT' as InputStatus,
     message: '',
@@ -28,83 +29,83 @@ const usePairRoomInformation = () => {
   const [navigator, setNavigator] = useState('');
   const [timerDuration, setTimerDuration] = useState('');
 
-  const isPairNameValid =
-    firstPairName.value !== '' &&
-    secondPairName.value !== '' &&
-    firstPairName.status !== 'ERROR' &&
-    secondPairName.status !== 'ERROR';
+  const isPairRoomNameValid =
+    userPairName.value !== '' &&
+    pairName.value !== '' &&
+    userPairName.status !== 'ERROR' &&
+    pairName.status !== 'ERROR';
 
   const isPairRoleValid = driver !== '' && navigator !== '';
   const isTimerDurationValid = timerDuration !== '' && validateTimerDuration(timerDuration);
 
-  const handlePairName = (firstPairName: string, secondPairName: string) => {
-    const isValidFirstPairName = validateName(firstPairName);
-    const isValidSecondPairName = validateName(secondPairName);
+  const handlePairRoomName = (userPairName: string, pairName: string) => {
+    const isValidUserPairName = validateName(userPairName);
+    const isValidPairName = validateName(pairName);
 
-    const isDuplicateName = validateDuplicateName(firstPairName, secondPairName);
+    const isDuplicateName = validateDuplicateName(userPairName, pairName);
 
-    setFirstPairName({
-      value: firstPairName,
-      status: isValidFirstPairName.status !== 'ERROR' ? isDuplicateName.status : isValidFirstPairName.status,
-      message: isValidFirstPairName.status !== 'ERROR' ? isDuplicateName.message : isValidFirstPairName.message,
+    setUserPairName({
+      value: userPairName,
+      status: isValidUserPairName.status !== 'ERROR' ? isDuplicateName.status : isValidUserPairName.status,
+      message: isValidUserPairName.status !== 'ERROR' ? isDuplicateName.message : isValidUserPairName.message,
     });
 
-    setSecondPairName({
-      value: secondPairName,
-      status: isValidSecondPairName.status !== 'ERROR' ? isDuplicateName.status : isValidSecondPairName.status,
-      message: isValidSecondPairName.status !== 'ERROR' ? isDuplicateName.message : isValidSecondPairName.message,
+    setPairName({
+      value: pairName,
+      status: isValidPairName.status !== 'ERROR' ? isDuplicateName.status : isValidPairName.status,
+      message: isValidPairName.status !== 'ERROR' ? isDuplicateName.message : isValidPairName.message,
     });
   };
 
-  const handleFirstPairName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (firstPairName.value === driver || firstPairName.value === navigator) {
+  const handleUserPairName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (userPairName.value === driver || userPairName.value === navigator) {
       setDriver('');
       setNavigator('');
     }
 
-    handlePairName(event.target.value, secondPairName.value);
+    handlePairRoomName(event.target.value, pairName.value);
   };
 
-  const handleSecondPairName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (secondPairName.value === driver || secondPairName.value === navigator) {
+  const handlePairName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (pairName.value === driver || pairName.value === navigator) {
       setDriver('');
       setNavigator('');
     }
 
-    handlePairName(firstPairName.value, event.target.value);
+    handlePairRoomName(userPairName.value, event.target.value);
   };
 
   const handlePairData = (pairId: string, pairName: string) => {
     setPairId(pairId);
-    setSecondPairName((prev) => ({ ...prev, value: pairName }));
+    setPairName((prev) => ({ ...prev, value: pairName }));
   };
 
-  const handlePairRole = (pairName: string, role: Role) => {
-    const otherPair = firstPairName.value === pairName ? secondPairName.value : firstPairName.value;
+  const handlePairRole = (name: string, role: Role) => {
+    const otherPair = userPairName.value === name ? name : userPairName.value;
 
     if (role === 'DRIVER') {
-      setDriver(pairName);
+      setDriver(name);
       setNavigator(otherPair);
     } else {
       setDriver(otherPair);
-      setNavigator(pairName);
+      setNavigator(name);
     }
   };
 
   const handleTimerDuration = (timerDuration: string) => setTimerDuration(timerDuration);
 
   return {
-    firstPairName,
-    secondPairName,
+    userPairName,
     pairId,
+    pairName,
     driver,
     navigator,
     timerDuration,
-    isPairNameValid,
+    isPairRoomNameValid,
     isPairRoleValid,
     isTimerDurationValid,
-    handleFirstPairName,
-    handleSecondPairName,
+    handleUserPairName,
+    handlePairName,
     handlePairData,
     handlePairRole,
     handleTimerDuration,

@@ -9,18 +9,18 @@ import { InputType } from '@/components/common/Input/Input.type';
 import * as S from './PairNameInput.styles';
 
 interface PairNameInputProps {
-  firstPairName: InputType;
-  secondPairName: InputType;
-  onFirstPair: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onSecondPair: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  userPairName: InputType;
+  pairName: InputType;
+  onUserPairName: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onPairName: (event: React.ChangeEvent<HTMLInputElement>) => void;
   openAddPairModal: () => void;
 }
 
 const PairNameInput = ({
-  firstPairName,
-  secondPairName,
-  onFirstPair,
-  onSecondPair,
+  userPairName,
+  pairName,
+  onUserPairName,
+  onPairName,
   openAddPairModal,
 }: PairNameInputProps) => {
   const [isInputOpen, setIsInputOpen] = useState(false);
@@ -35,10 +35,10 @@ const PairNameInput = ({
         <S.Label>나의 이름은 무엇인가요?</S.Label>
         <Input
           placeholder="이름을 입력해주세요"
-          value={firstPairName.value}
-          status={firstPairName.status}
-          message={firstPairName.message}
-          onChange={onFirstPair}
+          value={userPairName.value}
+          status={userPairName.status}
+          message={userPairName.message}
+          onChange={onUserPairName}
         />
       </S.InputContainer>
       <S.InputContainer>
@@ -47,10 +47,10 @@ const PairNameInput = ({
           <S.InputWrapper>
             <Input
               placeholder="이름을 입력해주세요"
-              value={secondPairName.value}
-              status={secondPairName.status}
-              message={secondPairName.message}
-              onChange={onSecondPair}
+              value={pairName.value}
+              status={pairName.status}
+              message={pairName.message}
+              onChange={onPairName}
             />
             <Button css={S.buttonStyles} onClick={() => setIsInputOpen(false)}>
               취소
