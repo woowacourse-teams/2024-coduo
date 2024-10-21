@@ -1,6 +1,9 @@
-package site.coduo.pairroom.domain.accesscode;
+package site.coduo.pairroom.domain.accesscode.generator;
 
-public class AccessCodeGenerator {
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+public class EasyAccessCodeGenerator implements AccessCodeGenerator {
 
     private static final String POST_POSITION_WITH_FINAL_CONSONANT = "과";
     private static final String POST_POSITION_WITHOUT_FINAL_CONSONANT = "와";
@@ -10,34 +13,43 @@ public class AccessCodeGenerator {
     private static final int FINAL_CONSONANT_COUNT = 28;
     private static final int NO_FINAL_CONSONANT = 0;
 
-    public static String generate(final String driver, final String navigator) {
+    private final String driver;
+    private final String navigator;
+
+    @Override
+    public String generate() {
         final Adjective driverAdjective = Adjective.pickRandom();
         return driverAdjective + driver +
-                getPostposition(driver) +
+                getPostposition() +
                 pickNavigatorAdjective(driverAdjective) + navigator;
     }
 
-    private static String getPostposition(final String name) {
-        final char lastChar = name.charAt(name.length() - 1);
+    private String getPostposition() {
+        final char lastChar = driver.charAt(driver.length() - 1);
         if (isKorean(lastChar) && hasFinalConsonant(lastChar)) {
             return POST_POSITION_WITH_FINAL_CONSONANT + BLANK;
         }
         return POST_POSITION_WITHOUT_FINAL_CONSONANT + BLANK;
     }
 
-    private static boolean isKorean(final char c) {
+    private boolean isKorean(final char c) {
         return c >= KOREAN_SYLLABLE_START && c <= KOREAN_SYLLABLE_END;
     }
 
-    private static boolean hasFinalConsonant(final char c) {
+    private boolean hasFinalConsonant(final char c) {
         return (c - KOREAN_SYLLABLE_START) % FINAL_CONSONANT_COUNT > NO_FINAL_CONSONANT;
     }
 
-    private static Adjective pickNavigatorAdjective(final Adjective driverAdjective) {
+    private Adjective pickNavigatorAdjective(final Adjective driverAdjective) {
         final Adjective adjective = Adjective.pickRandom();
         if (adjective == driverAdjective) {
             return pickNavigatorAdjective(driverAdjective);
         }
         return adjective;
+    }
+
+    @Override
+    public boolean isEasyAccessCodeGenerator() {
+        return true;
     }
 }

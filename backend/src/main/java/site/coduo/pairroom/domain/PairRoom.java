@@ -14,6 +14,7 @@ public class PairRoom {
     private final Pair pair;
     private final MissionUrl missionUrl;
     private final AccessCode accessCode;
+    private final AccessCode easyAccessCode;
 
     public String getAccessCodeText() {
         return accessCode.getValue();
@@ -29,6 +30,10 @@ public class PairRoom {
 
     public String getMissionUrl() {
         return missionUrl.getValue();
+    }
+
+    public String getEasyAccessCodeText() {
+        return easyAccessCode.getValue();
     }
 
     @Override
@@ -55,6 +60,7 @@ public class PairRoom {
                 ", pair=" + pair +
                 ", missionUrl=" + missionUrl +
                 ", accessCode=" + accessCode +
+                ", easyAccessCode=" + easyAccessCode +
                 '}';
     }
 }

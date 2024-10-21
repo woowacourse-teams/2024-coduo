@@ -1,4 +1,4 @@
-package site.coduo.pairroom.domain.accesscode;
+package site.coduo.pairroom.domain.accesscode.generator;
 
 import java.util.Arrays;
 import java.util.List;

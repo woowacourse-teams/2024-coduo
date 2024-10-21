@@ -2,6 +2,9 @@ package site.coduo.fixture;
 
 import static site.coduo.fixture.AccessCodeFixture.ACCESS_CODE;
 import static site.coduo.fixture.AccessCodeFixture.ALPHABET_ACCESS_CODE;
+import static site.coduo.fixture.AccessCodeFixture.EASY_ACCESS_CODE_FRAM_LEMONE;
+import static site.coduo.fixture.AccessCodeFixture.EASY_ACCESS_CODE_INK_REDDY;
+import static site.coduo.fixture.AccessCodeFixture.EASY_ACCESS_CODE_KELLY_LEMONE;
 import static site.coduo.fixture.AccessCodeFixture.NUMBER_ACCESS_CODE;
 
 import site.coduo.pairroom.domain.MissionUrl;
@@ -19,7 +22,8 @@ public class PairRoomFixture {
                     new PairName("레디")
             ),
             new MissionUrl("https://github.com/coduo-missions/coduo-javascript-rps"),
-            ACCESS_CODE);
+            ACCESS_CODE,
+            EASY_ACCESS_CODE_INK_REDDY);
 
     public static final PairRoom FRAM_LEMONE_ROOM = new PairRoom(
             PairRoomStatus.IN_PROGRESS,
@@ -28,7 +32,8 @@ public class PairRoomFixture {
                     new PairName("레모네")
             ),
             new MissionUrl("https://github.com/coduo-missions/coduo-javascript-rps"),
-            ALPHABET_ACCESS_CODE);
+            ALPHABET_ACCESS_CODE,
+            EASY_ACCESS_CODE_FRAM_LEMONE);
 
     public static final PairRoom KELY_LEMONE_ROOM = new PairRoom(
             PairRoomStatus.IN_PROGRESS,
@@ -37,6 +42,7 @@ public class PairRoomFixture {
                     new PairName("레모네")
             ),
             new MissionUrl("https://github.com/coduo-missions/coduo-javascript-rps"),
-            NUMBER_ACCESS_CODE
+            NUMBER_ACCESS_CODE,
+            EASY_ACCESS_CODE_KELLY_LEMONE
     );
 }
