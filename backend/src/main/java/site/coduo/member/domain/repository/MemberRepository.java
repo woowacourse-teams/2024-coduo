@@ -23,7 +23,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
         final Member member = findByUserId(userId)
                 .orElseThrow(() -> new MemberNotFoundException(String.format("%s는 찾을 수 없는 회원 아이디입니다.", userId)));
         if (member.isDeleted()) {
-            throw new MemberNotFoundException(String.format("%s는 삭제된 회원입니다.", userId));
+            throw new MemberNotFoundException(String.format("%s는 탈퇴한 회원입니다.", userId));
         }
         return member;
     }
