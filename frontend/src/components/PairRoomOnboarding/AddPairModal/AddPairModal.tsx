@@ -4,15 +4,23 @@ import { Modal } from '@/components/common/Modal';
 
 import useInput from '@/hooks/common/useInput';
 
+import useGetMemberName from '@/queries/PairRoomOnboarding/useGetMemberName';
+
 import { validatePairInfo } from '@/validations/validatePairName';
 
 interface AddPairModalProps {
   isOpen: boolean;
   closeModal: () => void;
+  onPairData: (pairId: string, pairName: string) => void;
 }
 
-const AddPairModal = ({ isOpen, closeModal }: AddPairModalProps) => {
+const AddPairModal = ({ isOpen, closeModal, onPairData }: AddPairModalProps) => {
   const { value, status, message, handleChange, resetValue } = useInput();
+
+  const { handleGetMemberName } = useGetMemberName((pairName) => {
+    onPairData(value, pairName);
+    handleCloseModal();
+  });
 
   const handleCloseModal = () => {
     resetValue();
@@ -36,7 +44,9 @@ const AddPairModal = ({ isOpen, closeModal }: AddPairModalProps) => {
         <Button onClick={handleCloseModal} filled={false}>
           닫기
         </Button>
-        <Button disabled={validatePairInfo(value).status === 'ERROR'}>연동하기</Button>
+        <Button disabled={value.trim() === '' || status === 'ERROR'} onClick={() => handleGetMemberName(value)}>
+          연동하기
+        </Button>
       </Modal.Footer>
       <Modal.CloseButton close={handleCloseModal} />
     </Modal>

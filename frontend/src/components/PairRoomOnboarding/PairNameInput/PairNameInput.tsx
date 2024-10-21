@@ -5,9 +5,6 @@ import { LogoIcon } from '@/assets';
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import { InputType } from '@/components/common/Input/Input.type';
-import AddPairModal from '@/components/PairRoomOnboarding/AddPairModal/AddPairModal';
-
-import useModal from '@/hooks/common/useModal';
 
 import * as S from './PairNameInput.styles';
 
@@ -16,12 +13,17 @@ interface PairNameInputProps {
   secondPairName: InputType;
   onFirstPair: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSecondPair: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  openAddPairModal: () => void;
 }
 
-const PairNameInput = ({ firstPairName, secondPairName, onFirstPair, onSecondPair }: PairNameInputProps) => {
+const PairNameInput = ({
+  firstPairName,
+  secondPairName,
+  onFirstPair,
+  onSecondPair,
+  openAddPairModal,
+}: PairNameInputProps) => {
   const [isInputOpen, setIsInputOpen] = useState(false);
-
-  const { isModalOpen, openModal, closeModal } = useModal();
 
   return (
     <S.Layout>
@@ -56,7 +58,7 @@ const PairNameInput = ({ firstPairName, secondPairName, onFirstPair, onSecondPai
           </S.InputWrapper>
         ) : (
           <>
-            <S.AddButton onClick={openModal}>
+            <S.AddButton onClick={openAddPairModal}>
               <div>
                 <img src={LogoIcon} alt="" />
               </div>
@@ -66,7 +68,6 @@ const PairNameInput = ({ firstPairName, secondPairName, onFirstPair, onSecondPai
           </>
         )}
       </S.InputContainer>
-      <AddPairModal isOpen={isModalOpen} closeModal={closeModal} />
     </S.Layout>
   );
 };

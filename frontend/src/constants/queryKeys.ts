@@ -10,4 +10,5 @@ export const QUERY_KEYS = {
   GET_SIGN_IN: 'getSignIn',
   GET_SIGN_OUT: 'getSignOut',
   GET_TODOS: 'getTodos',
+  GET_MEMBER_NAME: 'getMemberName',
 };

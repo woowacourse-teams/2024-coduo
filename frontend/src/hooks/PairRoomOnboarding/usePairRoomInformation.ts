@@ -1,11 +1,11 @@
 import { useState } from 'react';
 
-import { validateName, validateDuplicateName } from '@/validations/validatePairName';
-import { validateTimerDuration } from '@/validations/validateTimerDuration';
-
 import { InputType, InputStatus } from '@/components/common/Input/Input.type';
 
 import useUserStore from '@/stores/userStore';
+
+import { validateName, validateDuplicateName } from '@/validations/validatePairName';
+import { validateTimerDuration } from '@/validations/validateTimerDuration';
 
 export type Role = 'DRIVER' | 'NAVIGATOR';
 
@@ -23,6 +23,7 @@ const usePairRoomInformation = () => {
     message: '',
   });
 
+  const [pairId, setPairId] = useState('');
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
   const [timerDuration, setTimerDuration] = useState('');
@@ -34,7 +35,6 @@ const usePairRoomInformation = () => {
     secondPairName.status !== 'ERROR';
 
   const isPairRoleValid = driver !== '' && navigator !== '';
-
   const isTimerDurationValid = timerDuration !== '' && validateTimerDuration(timerDuration);
 
   const handlePairName = (firstPairName: string, secondPairName: string) => {
@@ -74,6 +74,11 @@ const usePairRoomInformation = () => {
     handlePairName(firstPairName.value, event.target.value);
   };
 
+  const handlePairData = (pairId: string, pairName: string) => {
+    setPairId(pairId);
+    setSecondPairName((prev) => ({ ...prev, value: pairName }));
+  };
+
   const handlePairRole = (pairName: string, role: Role) => {
     const otherPair = firstPairName.value === pairName ? secondPairName.value : firstPairName.value;
 
@@ -91,6 +96,7 @@ const usePairRoomInformation = () => {
   return {
     firstPairName,
     secondPairName,
+    pairId,
     driver,
     navigator,
     timerDuration,
@@ -99,6 +105,7 @@ const usePairRoomInformation = () => {
     isTimerDurationValid,
     handleFirstPairName,
     handleSecondPairName,
+    handlePairData,
     handlePairRole,
     handleTimerDuration,
   };

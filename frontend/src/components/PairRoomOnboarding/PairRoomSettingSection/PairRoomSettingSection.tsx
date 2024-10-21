@@ -1,9 +1,11 @@
 import Button from '@/components/common/Button/Button';
+import AddPairModal from '@/components/PairRoomOnboarding/AddPairModal/AddPairModal';
 import PairNameInput from '@/components/PairRoomOnboarding/PairNameInput/PairNameInput';
 import PairRoleInput from '@/components/PairRoomOnboarding/PairRoleInput/PairRoleInput';
 import TimerDurationInput from '@/components/PairRoomOnboarding/TimerDurationInput/TimerDurationInput';
 
 import useDebounce from '@/hooks/common/useDebounce';
+import useModal from '@/hooks/common/useModal';
 import useAutoMoveIndex from '@/hooks/PairRoomOnboarding/useAutoMoveIndex';
 import usePairRoomInformation from '@/hooks/PairRoomOnboarding/usePairRoomInformation';
 
@@ -19,6 +21,7 @@ const PairRoomSettingSection = ({ repositoryName }: PairRoomSettingSectionProps)
   const {
     firstPairName,
     secondPairName,
+    pairId,
     driver,
     navigator,
     timerDuration,
@@ -27,6 +30,7 @@ const PairRoomSettingSection = ({ repositoryName }: PairRoomSettingSectionProps)
     isTimerDurationValid,
     handleFirstPairName,
     handleSecondPairName,
+    handlePairData,
     handlePairRole,
     handleTimerDuration,
   } = usePairRoomInformation();
@@ -34,12 +38,13 @@ const PairRoomSettingSection = ({ repositoryName }: PairRoomSettingSectionProps)
   const validationList = [useDebounce(isPairNameValid, 500), isPairRoleValid, isTimerDurationValid];
 
   const { moveIndex } = useAutoMoveIndex(0, validationList);
+  const { isModalOpen, openModal, closeModal } = useModal();
 
   const { handleAddPairRoom } = useAddPairRoom();
 
   const handleSuccess = () => {
     const missionUrl = repositoryName !== '' ? `https://github.com/coduo-missions/${repositoryName}` : '';
-    handleAddPairRoom(driver, navigator, missionUrl, timerDuration);
+    handleAddPairRoom(pairId, driver, navigator, missionUrl, timerDuration);
   };
 
   return (
@@ -49,7 +54,9 @@ const PairRoomSettingSection = ({ repositoryName }: PairRoomSettingSectionProps)
         secondPairName={secondPairName}
         onFirstPair={handleFirstPairName}
         onSecondPair={handleSecondPairName}
+        openAddPairModal={openModal}
       />
+      <AddPairModal isOpen={isModalOpen} closeModal={closeModal} onPairData={handlePairData} />
       {moveIndex >= 1 && (
         <PairRoleInput
           firstPair={firstPairName.value}
