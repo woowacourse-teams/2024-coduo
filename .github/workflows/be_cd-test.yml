@@ -79,6 +79,7 @@ jobs:
 
           # Docker Hub info from Github Secrets
           DOCKER_REPO_NAME=${{ secrets.DOCKER_REPO_NAME }}
+          DOCKER_IMAGE_VERSION=test-latest
 
           # DB Configuration secrets info from Github Secrets
           MASTER_DB_URL=${{ secrets.TEST_SERVER_DB_URL }}
