@@ -75,8 +75,9 @@ interface UpdatePairRoomStatusRequest {
 
 export const updatePairRoomStatus = async ({ accessCode }: UpdatePairRoomStatusRequest) => {
   await fetcher.patch({
-    url: `${API_URL}/pair-room/${accessCode}/complete`,
+    url: `${API_URL}/pair-room/${accessCode}/status`,
     errorMessage: ERROR_MESSAGES.UPDATE_PAIR_ROOM_STATUS,
+    body: JSON.stringify({ status: 'COMPLETED' }),
   });
 };
 
