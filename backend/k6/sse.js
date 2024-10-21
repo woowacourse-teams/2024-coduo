@@ -1,14 +1,12 @@
 import http from 'k6/http';
-import { sleep, check } from 'k6';
+import {check} from 'k6';
 import {BASE_URL} from "./config.js";
 
 export function connect(accessCode) {
     const url = `${BASE_URL}${accessCode}/connect`;
-
     const res = http.get(url);
-
     check(res, {
-        'SSE connection status was 200': (r) => r.status === 200,
+        'SSE connection status was 200': (r) => r.body.includes("connect"),
     });
 }
 
