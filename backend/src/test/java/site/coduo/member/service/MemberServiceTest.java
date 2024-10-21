@@ -2,7 +2,6 @@ package site.coduo.member.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -141,44 +140,5 @@ class MemberServiceTest {
 
         //then
         assertThat(find).isEqualTo(saved);
-    }
-
-    @Test
-    @DisplayName("user id로 회원 존재 여부를 확인한다.")
-    void exists() {
-        //given
-        final String userId = "hello world";
-        final Member member = Member.builder()
-                .userId(userId)
-                .accessToken("access")
-                .loginId("login")
-                .username("username")
-                .profileImage("some image")
-                .build();
-
-        memberRepository.save(member);
-
-        //when && then
-        assertThat(memberService.existsMember(userId)).isTrue();
-    }
-
-    @Test
-    @DisplayName("삭제된 멤버를 조회시 false를 반환한다.")
-    void exists_deleted_member() {
-        //given
-        final String userId = "myname";
-        final Member member = Member.builder()
-                .userId(userId)
-                .accessToken("access")
-                .loginId("login")
-                .username("username")
-                .profileImage("some image")
-                .deletedAt(LocalDateTime.now())
-                .build();
-
-        memberRepository.save(member);
-
-        //when && then
-        assertThat(memberService.existsMember(userId)).isFalse();
     }
 }

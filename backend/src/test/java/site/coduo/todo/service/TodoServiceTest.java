@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import site.coduo.fixture.PairRoomCreateRequestFixture;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
@@ -69,7 +70,7 @@ class TodoServiceTest {
     void createTodo() {
         // Given
         final String accessCode = pairRoomService.savePairRoom(
-                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "https://missionUrl.xxx"), null);
+                PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST, null);
         final String content = "content!";
 
         // When
@@ -91,7 +92,7 @@ class TodoServiceTest {
     void createPairRoomWithNotFoundPairRoomId() {
         // Given
         pairRoomService.savePairRoom(
-                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "https://missionUrl.xxx"), null);
+                PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST, null);
         final String content = "content!";
 
         // When & Then
@@ -105,7 +106,7 @@ class TodoServiceTest {
     void updateTodoContent() {
         // Given
         final String accessCode = pairRoomService.savePairRoom(
-                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "https://missionUrl.xxx"), null);
+                PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST, null);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final String content = "content!";
@@ -133,7 +134,7 @@ class TodoServiceTest {
     void updateTodoContentWithNotFoundTodoId() {
         // Given
         final String accessCode = pairRoomService.savePairRoom(
-                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "https://missionUrl.xxx"), null);
+                PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST, null);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final String content = "content!";
@@ -157,7 +158,7 @@ class TodoServiceTest {
     void toggleTodoChecked() {
         // Given
         final String accessCode = pairRoomService.savePairRoom(
-                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "https://missionUrl.xxx"), null);
+                PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST, null);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final String content = "content!";
@@ -183,7 +184,7 @@ class TodoServiceTest {
     void toggleTodoCheckedWithNotFoundTodoId() {
         // Given
         final String accessCode = pairRoomService.savePairRoom(
-                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "https://missionUrl.xxx"), null);
+                PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST, null);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final String content = "content!";
@@ -206,7 +207,7 @@ class TodoServiceTest {
     void deleteTodo() {
         // Given
         final String accessCode = pairRoomService.savePairRoom(
-                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "https://missionUrl.xxx"), null);
+                PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST, null);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final String content = "content!";
@@ -233,7 +234,7 @@ class TodoServiceTest {
     void getAll() {
         // Given
         final String accessCode = pairRoomService.savePairRoom(
-                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "https://missionUrl.xxx"), null);
+                PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST, null);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final List<Todo> todos = List.of(
@@ -270,7 +271,7 @@ class TodoServiceTest {
     void getAllOrderBySortWithNotExistPairRoomId() {
         // Given
         final String accessCode = pairRoomService.savePairRoom(
-                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "https://missionUrl.xxx"), null);
+                PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST, null);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final List<Todo> todos = List.of(
@@ -298,7 +299,7 @@ class TodoServiceTest {
     void updateTodoSort(final int destinationSort, final List<String> expect) {
         // Given
         final String accessCode = pairRoomService.savePairRoom(
-                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "https://missionUrl.xxx"), null);
+                PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST, null);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final List<Todo> todos = List.of(
@@ -335,7 +336,7 @@ class TodoServiceTest {
     void updateTodoSortWithNotExistPairRoomId() {
         // Given
         final String accessCode = pairRoomService.savePairRoom(
-                new PairRoomCreateRequest("A", "B", 60_000, 60_000, "https://missionUrl.xxx"), null);
+                PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST, null);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final List<Todo> todos = List.of(

@@ -18,6 +18,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import site.coduo.fixture.PairRoomCreateRequestFixture;
 import site.coduo.member.domain.Member;
 import site.coduo.member.infrastructure.security.JwtProvider;
 import site.coduo.pairroom.domain.MissionUrl;
@@ -65,8 +66,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     void show_pair_room() {
         //given
         final PairRoomCreateResponse pairRoomUrl =
-                createPairRoom(
-                        new PairRoomCreateRequest("레디", "프람", 10000L, 10000L, "https://missionUrl.xxx"));
+                createPairRoom(PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST);
 
         //when & then
         RestAssured
@@ -89,8 +89,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     void update_pair_room_status() {
         //given
         final PairRoomCreateResponse accessCode =
-                createPairRoom(
-                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx"));
+                createPairRoom(PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST);
         final Map<String, String> status = Map.of("status", PairRoomStatus.IN_PROGRESS.name());
 
         // when & then
@@ -115,8 +114,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     void update_driver_navigator() {
         // given
         final PairRoomCreateResponse accessCode =
-                createPairRoom(
-                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx"));
+                createPairRoom(PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST);
 
         // when & then
         RestAssured
@@ -136,8 +134,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     void exist_pair_room_true() {
         //given
         final PairRoomCreateResponse accessCode =
-                createPairRoom(
-                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx"));
+                createPairRoom(PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST);
 
         // when & then
         final PairRoomExistResponse response = RestAssured
@@ -188,9 +185,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     @DisplayName("페어룸을 삭제한다.")
     void delete_pair_room() {
         // given
-        final PairRoomCreateResponse accessCode =
-                createPairRoom(
-                        new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx"));
+        final PairRoomCreateResponse accessCode = createPairRoom(PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST);
 
         // when & then
         RestAssured
@@ -221,15 +216,12 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
         final String loginToken = jwtProvider.sign(member.getUserId());
         memberRepository.save(member);
 
-        final PairRoomCreateRequest pairRoomCreateRequest = new PairRoomCreateRequest("레디", "프람", 1000L, 100L,
-                "https://missionUrl.xxx");
-
         final PairRoomCreateResponse createPairRoomResponse = RestAssured
                 .given()
                 .cookie(SIGN_IN_COOKIE_NAME, loginToken)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .body(pairRoomCreateRequest)
+                .body(PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST)
 
                 .when()
                 .post("/api/pair-room")
@@ -285,15 +277,12 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
         final String pairRoomCreatorToken = jwtProvider.sign(pairRoomCreator.getUserId());
         final String addPairToken = jwtProvider.sign(addPair.getUserId());
 
-        final PairRoomCreateRequest pairRoomCreateRequest = new PairRoomCreateRequest("레디", "프람", 1000L, 100L,
-                "https://missionUrl.xxx");
-
         final PairRoomCreateResponse createPairRoomResponse = RestAssured
                 .given()
                 .cookie(SIGN_IN_COOKIE_NAME, pairRoomCreatorToken)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .body(pairRoomCreateRequest)
+                .body(PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST)
 
                 .when()
                 .post("/api/pair-room")
