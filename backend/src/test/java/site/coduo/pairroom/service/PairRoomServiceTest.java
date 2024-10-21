@@ -331,4 +331,41 @@ class PairRoomServiceTest {
                 .isInstanceOf(EntityNotFoundException.class)
                 .hasMessage("입력된 페어룸 접근 코드에 대응되는 페어룸이 존재하지 않습니다. - no-code");
     }
+
+    @Test
+    @DisplayName("페어가 회원가입한 유저인 경우 페어의 나의 페이지에서도 조회가 가능하다.")
+    void createPairRoomRegisteredPair() {
+        //given
+        final Member me = memberRepository.save(
+                Member.builder()
+                        .userId("pairA")
+                        .accessToken(jwtProvider.sign("pairA"))
+                        .loginId("pairA")
+                        .username("pairNameA")
+                        .profileImage("some image")
+                        .build()
+        );
+
+        final Member pair = memberRepository.save(
+                Member.builder()
+                        .userId("pairB")
+                        .accessToken(jwtProvider.sign("pairB"))
+                        .loginId("pairB")
+                        .username("pairNameB")
+                        .profileImage("some image")
+                        .build()
+        );
+
+        final PairRoomCreateRequest request = new PairRoomCreateRequest("navi", "dri", pair.getUserId(),
+                60000L, 60000L, "");
+
+        //when
+        pairRoomService.savePairRoom(request, me.getAccessToken());
+
+        //then
+        final List<PairRoomMemberEntity> mine = pairRoomMemberRepository.findByMember(me);
+        final List<PairRoomMemberEntity> pairsList = pairRoomMemberRepository.findByMember(pair);
+        assertThat(mine).hasSize(1);
+        assertThat(pairsList).hasSize(1);
+    }
 }

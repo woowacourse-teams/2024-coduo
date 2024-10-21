@@ -22,7 +22,6 @@ import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroom.service.PairRoomService;
-import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.todo.domain.Todo;
 import site.coduo.todo.domain.TodoContent;
 import site.coduo.todo.exception.TodoNotFoundException;
