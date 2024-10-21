@@ -46,8 +46,8 @@ public class MemberService {
         return memberRepository.fetchByUserId(userId);
     }
 
-    public Member findMember(final String userId) {
-        return memberRepository.fetchByUserId(userId);
+    public Member findMember(final String loginId) {
+        return memberRepository.fetchByLoginId(loginId);
     }
 
     @Transactional

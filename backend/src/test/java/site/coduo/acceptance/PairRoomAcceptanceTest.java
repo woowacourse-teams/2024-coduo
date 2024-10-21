@@ -206,23 +206,23 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
         final Member pairRoomCreator = Member.builder()
                 .userId("idA")
                 .accessToken(jwtProvider.sign("idA"))
-                .loginId("login")
-                .username("username")
+                .loginId("loginAA")
+                .username("redddy")
                 .profileImage("some image")
                 .build();
 
         final Member addPair = Member.builder()
                 .userId("idB")
                 .accessToken(jwtProvider.sign("idB"))
-                .loginId("login")
-                .username("username")
+                .loginId("loginBB")
+                .username("hash")
                 .profileImage("some image")
                 .build();
 
         memberRepository.save(pairRoomCreator);
         memberRepository.save(addPair);
 
-        final PairRoomCreateRequest request = new PairRoomCreateRequest("navi", "dri", addPair.getUserId(), 60000L,
+        final PairRoomCreateRequest request = new PairRoomCreateRequest("navi", "dri", addPair.getLoginId(), 60000L,
                 60000L, "");
 
         RestAssured

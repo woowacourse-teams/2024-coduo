@@ -12,6 +12,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Optional<Member> findByUserIdAndDeletedAtIsNull(String userId);
 
+    Optional<Member> findByLoginIdAndDeletedAtIsNull(String loginId);
+
     List<Member> findByDeletedAtIsNull();
 
     @Override
@@ -23,6 +25,12 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
         return findByUserIdAndDeletedAtIsNull(userId)
                 .orElseThrow(() -> new MemberNotFoundException(String.format("%s는 찾을 수 없는 회원 아이디입니다.", userId)));
+    }
+
+    default Member fetchByLoginId(final String loginId) {
+
+        return findByLoginIdAndDeletedAtIsNull(loginId)
+                .orElseThrow(() -> new MemberNotFoundException(String.format("%s는 찾을 수 없는 회원입니다.", loginId)));
     }
 
     boolean existsByUserIdAndDeletedAtIsNull(String userId);
