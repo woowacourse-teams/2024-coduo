@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import site.coduo.pairroom.controller.dto.request.ExistMemberInPairRoomResponse;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
 import site.coduo.pairroom.service.dto.PairRoomExistResponse;
@@ -20,6 +21,7 @@ import site.coduo.pairroom.service.dto.PairRoomReadRequest;
 import site.coduo.pairroom.service.dto.PairRoomReadResponse;
 import site.coduo.pairroom.service.dto.PairRoomStatusUpdateRequest;
 import site.coduo.pairroom.service.dto.PairUpdateRequest;
+import site.coduo.retrospect.controller.response.ExistRetrospectWithPairRoomResponse;
 
 @Tag(name = "페어룸 API")
 public interface PairRoomDocs {
@@ -83,11 +85,21 @@ public interface PairRoomDocs {
     @ApiResponse(responseCode = "200", description = "페어룸 존재 여부", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
             schema = @Schema(implementation = PairRoomExistResponse.class)))
     ResponseEntity<PairRoomExistResponse> pairRoomExists(String accessCode);
-
+  
     @Operation(summary = "페어룸을 삭제한다.")
     @ApiResponse(responseCode = "204", description = "페어룸 삭제 성공")
     ResponseEntity<Void> deletePairRoom(
             @Parameter(description = "페어룸 접근 코드", required = true)
             String accessCode
+    );
+
+    @Operation(summary = "특정 회원이 특정 페어룸에 존재하는지 여부를 조회한다.")
+    @ApiResponse(responseCode = "200", description = "회원 페어룸 참여 여부 조회 성공", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+            schema = @Schema(implementation = ExistMemberInPairRoomResponse.class)))
+    ResponseEntity<ExistMemberInPairRoomResponse> existMemberInPairRoom(
+            @Parameter(description = "사용자 식별 보안 코드 (쿠키)", required = true)
+            String credentialToken,
+            @Parameter(description = "페어룸 접근 코드", required = true)
+            String pairRoomAccessCode
     );
 }

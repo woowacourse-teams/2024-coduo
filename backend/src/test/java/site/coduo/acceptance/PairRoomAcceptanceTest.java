@@ -1,6 +1,7 @@
 package site.coduo.acceptance;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.hamcrest.Matchers.hasSize;
 
 import static site.coduo.common.config.web.filter.SignInCookieFilter.SIGN_IN_COOKIE_NAME;
@@ -10,13 +11,25 @@ import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.response.ExtractableResponse;
+import io.restassured.response.Response;
 import site.coduo.member.domain.Member;
 import site.coduo.member.infrastructure.security.JwtProvider;
+import site.coduo.pairroom.domain.MissionUrl;
+import site.coduo.pairroom.domain.Pair;
+import site.coduo.pairroom.domain.PairName;
+import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
+import site.coduo.pairroom.domain.accesscode.AccessCode;
+import site.coduo.pairroom.repository.PairRoomEntity;
+import site.coduo.pairroom.repository.PairRoomMemberEntity;
+import site.coduo.pairroom.repository.PairRoomMemberRepository;
+import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
 import site.coduo.pairroom.service.dto.PairRoomExistResponse;
@@ -41,6 +54,11 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .extract()
                 .as(PairRoomCreateResponse.class);
     }
+
+    @Autowired
+    private PairRoomRepository pairRoomRepository;
+    @Autowired
+    private PairRoomMemberRepository pairRoomMemberRepository;
 
     @Test
     @DisplayName("페어룸 요청 시 정보를 반환한다.")
@@ -314,5 +332,48 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .statusCode(200)
                 .body("$", hasSize(1));
 
+    }
+
+    @DisplayName("특정 회원이 특정 페어룸에 존재하는지 여부를 조회한다.")
+    @Test
+    void existMemberInPairRoom() {
+        // Given
+        final Member savedMember = memberRepository.save(
+                Member.builder()
+                        .userId("userid")
+                        .accessToken("access")
+                        .loginId("login")
+                        .username("username")
+                        .profileImage("some image")
+                        .build()
+        );
+        final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
+                new PairRoom(PairRoomStatus.IN_PROGRESS,
+                        new Pair(new PairName("레디"), new PairName("파슬리")),
+                        new MissionUrl("https://missionUrl.xxx"),
+                        new AccessCode("ac"))
+        ));
+        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
+
+        // When
+        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        final ExtractableResponse<Response> response = RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .cookies(Map.of("coduo_whoami", credentialToken))
+
+                .when()
+                .get("/api/member/ac/exists")
+
+                .then()
+                .log().all()
+                .extract();
+
+        // Then
+        assertSoftly(softly -> {
+            softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+            softly.assertThat((Boolean) response.jsonPath().get("exists")).isEqualTo(true);
+        });
     }
 }
