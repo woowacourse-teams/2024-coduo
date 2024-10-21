@@ -5,7 +5,7 @@ import RetrospectButtonDisabled from '@/components/CompletedPairRoom/RetrospectB
 
 import { getUserRetrospects } from '@/apis/retrospect';
 
-import { useGetUserPairRoomExists } from '@/queries/CompletedPairRoom/useGetUserPairRoomExists';
+import { useGetUserIsInPairRoom } from '@/queries/CompletedPairRoom/useGetUserIsInPairRoom';
 import { useGetUserRetrospectExists } from '@/queries/CompletedPairRoom/useGetUserRetrospectExists';
 
 import * as S from './RetrospectButton.styles';
@@ -16,7 +16,7 @@ interface RetrospectButtonProps {
 
 const RetrospectButton = ({ accessCode }: RetrospectButtonProps) => {
   const navigate = useNavigate();
-  const { data: isUserInPairRoom } = useGetUserPairRoomExists(accessCode);
+  const { data: isUserInPairRoom } = useGetUserIsInPairRoom(accessCode);
 
   const { data: isUserRetrospectExist } = useGetUserRetrospectExists(accessCode);
 
