@@ -20,7 +20,7 @@ interface PairListCardProps {
 
 const PairListCard = ({ driver, navigator, missionUrl, roomCode }: PairListCardProps) => {
   const [isOpen, setIsOpen] = useState(true);
-  const { handleCompletePairRoom } = useCompletePairRoom();
+  const { handleCompletePairRoom } = useCompletePairRoom(roomCode);
 
   const toggleOpen = () => setIsOpen(!isOpen);
 
