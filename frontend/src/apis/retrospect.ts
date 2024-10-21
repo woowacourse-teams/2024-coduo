@@ -6,13 +6,13 @@ const API_URL = process.env.REACT_APP_API_URL;
 
 interface AddRetrospectRequest {
   pairRoomAccessCode: string;
-  answers: string[];
+  answer: string[];
 }
 
-export const addRetrospect = async ({ pairRoomAccessCode, answers }: AddRetrospectRequest) => {
+export const addRetrospect = async ({ pairRoomAccessCode, answer }: AddRetrospectRequest) => {
   const response = await fetcher.post({
     url: `${API_URL}/retrospects`,
-    body: JSON.stringify({ pairRoomAccessCode, answers }),
+    body: JSON.stringify({ pairRoomAccessCode, answer }),
     errorMessage: ERROR_MESSAGES.ADD_RETROSPECT,
   });
 

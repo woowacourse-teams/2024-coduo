@@ -17,7 +17,7 @@ const RetrospectForm = () => {
   const location = useLocation();
   const accessCode = location.state.accessCode;
 
-  const { answers, handleChange, hasEmptyField, handleSubmit } = useInputAnswer(accessCode);
+  const { answer, handleChange, hasEmptyField, handleSubmit } = useInputAnswer(accessCode);
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
@@ -32,7 +32,7 @@ const RetrospectForm = () => {
               key={question.id}
               placeholder="질문에 대한 답변을 작성해주세요."
               id={question.id}
-              value={answers[index]}
+              value={answer[index]}
               onChange={(event) => handleChange(index, event.target.value)}
             />
           </Question>
