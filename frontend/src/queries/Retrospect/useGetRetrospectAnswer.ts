@@ -13,5 +13,5 @@ export const useGetRetrospectAnswer = (retrospectId: string) => {
 
   const { pairRoomAccessCode, answer } = data;
 
-  return { pairRoomAccessCode, answer };
+  return { accessCode: pairRoomAccessCode, answer };
 };
