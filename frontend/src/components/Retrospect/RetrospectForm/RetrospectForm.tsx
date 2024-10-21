@@ -1,9 +1,12 @@
 // import { useLocation } from 'react-router-dom';
 
 import Button from '@/components/common/Button/Button';
-import RetrospectContent from '@/components/Retrospect/RetrospectContent/RetrospectContent';
+import Question from '@/components/Retrospect/Question/Question';
+import SkipModal from '@/components/Retrospect/RetrospectForm/SkipModal/SkipModal';
 import RetrospectHeader from '@/components/Retrospect/RetrospectHeader/RetrospectHeader';
 
+import useModal from '@/hooks/common/useModal';
+import usePreventPageRefresh from '@/hooks/common/usePreventPageRefresh';
 import useInputAnswer from '@/hooks/Retrospect/useInputAnswer';
 
 import { RETROSPECT_QUESTIONS } from '@/constants/retrospect';
@@ -12,29 +15,35 @@ import * as S from './RetrospectForm.styles';
 
 const RetrospectForm = () => {
   // const location = useLocation();
-  // const pairRoomAccessCode = location.state.accessCode;
-  const pairRoomAccessCode = '12314';
+  // const accessCode = location.state.accessCode;
+  const accessCode = '12314';
 
-  const { answers, handleChange, hasEmptyField, handleSubmit } = useInputAnswer(pairRoomAccessCode);
+  const { answers, handleChange, hasEmptyField, handleSubmit } = useInputAnswer(accessCode);
 
-  const renderAnswer = (index: number, id: string) => (
-    <S.Textarea
-      placeholder="질문에 대한 답변을 작성해주세요."
-      id={id}
-      value={answers[index]}
-      onChange={(event) => handleChange(index, event.target.value)}
-    />
-  );
+  const { isModalOpen, openModal, closeModal } = useModal();
 
+  usePreventPageRefresh();
   return (
     <>
-      <RetrospectHeader readOnly={false} accessCode={pairRoomAccessCode} />
+      <RetrospectHeader readOnly={false} accessCode={accessCode} onClick={openModal} />
       <S.LayoutForm onSubmit={handleSubmit}>
-        <RetrospectContent questions={RETROSPECT_QUESTIONS} renderAnswer={renderAnswer} />
+        {RETROSPECT_QUESTIONS.map((question, index) => (
+          <Question key={question.id} id={question.id} question={question.value}>
+            <S.Textarea
+              key={question.id}
+              placeholder="질문에 대한 답변을 작성해주세요."
+              id={question.id}
+              value={answers[index]}
+              onChange={(event) => handleChange(index, event.target.value)}
+            />
+          </Question>
+        ))}
+
         <Button disabled={hasEmptyField()} type="submit" css={S.SubmitButton}>
           작성 완료
         </Button>
       </S.LayoutForm>
+      <SkipModal isModalOpen={isModalOpen} closeModal={closeModal} accessCode={accessCode} />
     </>
   );
 };
