@@ -1,6 +1,7 @@
 import fetcher from '@/apis/fetcher';
 
 import { ERROR_MESSAGES } from '@/constants/message';
+
 const API_URL = process.env.REACT_APP_API_URL;
 
 interface AddRetrospectRequest {
@@ -31,6 +32,23 @@ export const getRetrospectAnswer = async ({ retrospectId }: GetRetrospectRequest
   const response = await fetcher.get({
     url: `${API_URL}/retrospect/${retrospectId}`,
     errorMessage: ERROR_MESSAGES.GET_RETROSPECT,
+  });
+
+
+export interface Retrospect {
+  retrospectId: number;
+  pairRoomAccessCode: string;
+  answer: string;
+}
+
+interface GetUserRetrospectsRequest {
+  retrospects: Retrospect[];
+}
+
+export const getUserRetrospects = async (accessCode: string): Promise<GetUserRetrospectsRequest> => {
+  const response = await fetcher.get({
+    url: `/retrospects/${accessCode}`,
+    errorMessage: ERROR_MESSAGES.GET_USER_RETROSPECTS,
   });
 
   return await response.json();

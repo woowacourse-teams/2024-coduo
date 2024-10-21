@@ -44,3 +44,27 @@ export const getMyPairRooms = async (): Promise<GetMyPairRoomsResponse[]> => {
 
   return response.json();
 };
+
+interface GetUserIsInPairRoomRequest {
+  accessCode: string;
+}
+export const getUserIsInPairRoom = async (accessCode: string): Promise<GetUserIsInPairRoomRequest> => {
+  const response = await fetcher.get({
+    url: `${API_URL}/member/${accessCode}/exists`,
+    errorMessage: ERROR_MESSAGES.GET_USER_IS_IN_PAIR_ROOM,
+  });
+
+  return await response.json();
+};
+
+interface GetUserRetrospectExistsRequest {
+  accessCode: string;
+}
+export const getUserRetrospectExists = async (accessCode: string): Promise<GetUserRetrospectExistsRequest> => {
+  const response = await fetcher.get({
+    url: `${API_URL}/member/retrospect/${accessCode}/exists`,
+    errorMessage: ERROR_MESSAGES.GET_USER_RETROSPECT_EXISTS,
+  });
+
+  return await response.json();
+};
