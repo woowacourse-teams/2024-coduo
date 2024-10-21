@@ -3,7 +3,6 @@ import { GithubLogoWhite } from '@/assets';
 
 import Input from '@/components/common/Input/Input';
 import { InputType } from '@/components/common/Input/Input.type';
-import { HiddenMessage } from '@/components/common/WebAccessibility/WebAccessibility.styles';
 
 import useGetBranches from '@/queries/PairRoomOnboarding/useGetBranches';
 
@@ -19,10 +18,8 @@ const CreateBranchInput = ({ repositoryName, branchName, onBranchName }: CreateB
   const { branches } = useGetBranches(repositoryName);
 
   return (
-    <S.Layout>
-      <HiddenMessage aria-live="polite">{branchName.value && `${branchName.value}`}</HiddenMessage>
-      <HiddenMessage aria-live="polite">{branchName.message && `${branchName.message}`}</HiddenMessage>
-      <S.TitleContainer aria-hidden="true">
+    <S.Layout aria-label={`${repositoryName} 레포지토리가 선택되었습니다. 총 2개의 설정 항목 중 2번째 항목입니다.`}>
+      <S.TitleContainer>
         <S.Title>{repositoryName}</S.Title>
         <S.SubTitle>미션을 시작할 브랜치 이름을 입력해 주세요.</S.SubTitle>
       </S.TitleContainer>
