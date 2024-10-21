@@ -11,7 +11,7 @@ interface AddRetrospectRequest {
 
 export const addRetrospect = async ({ pairRoomAccessCode, answers }: AddRetrospectRequest) => {
   const response = await fetcher.post({
-    url: `${API_URL}/retrospect`,
+    url: `${API_URL}/retrospects`,
     body: JSON.stringify({ pairRoomAccessCode, answers }),
     errorMessage: ERROR_MESSAGES.ADD_RETROSPECT,
   });
@@ -30,7 +30,7 @@ interface GetRetrospectResponse {
 
 export const getRetrospectAnswer = async ({ retrospectId }: GetRetrospectRequest): Promise<GetRetrospectResponse> => {
   const response = await fetcher.get({
-    url: `${API_URL}/retrospect/${retrospectId}`,
+    url: `${API_URL}/retrospects/${retrospectId}`,
     errorMessage: ERROR_MESSAGES.GET_RETROSPECT,
   });
 
