@@ -3,15 +3,10 @@ import styled, { css } from 'styled-components';
 export const buttonStyles = css`
   width: 8rem;
   height: 4rem;
-
-  font-size: ${({ theme }) => theme.fontSize.md};
-`;
-
-export const cancelButtonStyles = css`
-  ${buttonStyles};
   border-color: ${({ theme }) => theme.color.black[50]};
 
   background-color: ${({ theme }) => theme.color.black[50]};
+  font-size: ${({ theme }) => theme.fontSize.md};
 `;
 
 export const Layout = styled.div`

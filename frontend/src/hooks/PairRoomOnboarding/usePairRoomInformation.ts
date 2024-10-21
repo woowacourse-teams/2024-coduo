@@ -5,11 +5,15 @@ import { validateTimerDuration } from '@/validations/validateTimerDuration';
 
 import { InputType, InputStatus } from '@/components/common/Input/Input.type';
 
+import useUserStore from '@/stores/userStore';
+
 export type Role = 'DRIVER' | 'NAVIGATOR';
 
 const usePairRoomInformation = () => {
+  const { username, userStatus } = useUserStore();
+
   const [firstPairName, setFirstPairName] = useState<InputType>({
-    value: '',
+    value: userStatus === 'SIGNED_IN' ? username : '',
     status: 'DEFAULT' as InputStatus,
     message: '',
   });
