@@ -10,12 +10,15 @@ import static site.coduo.fixture.AccessCodeFixture.EASY_ACCESS_CODE_FRAM_LEMONE;
 import java.util.List;
 import java.util.Random;
 
+import jakarta.persistence.EntityNotFoundException;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import site.coduo.fixture.PairRoomCreateRequestFixture;
 import site.coduo.member.domain.Member;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.infrastructure.security.JwtProvider;
@@ -28,6 +31,8 @@ import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.exception.DeletePairRoomException;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.repository.PairRoomEntity;
+import site.coduo.pairroom.repository.PairRoomMemberEntity;
+import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
@@ -50,13 +55,14 @@ class PairRoomServiceTest {
     private TimerRepository timerRepository;
     @Autowired
     private PairRoomRepository pairRoomRepository;
+    @Autowired
+    private PairRoomMemberRepository pairRoomMemberRepository;
 
     @Test
     @DisplayName("페어룸을 생성한다.")
     void create_pair_room() {
         // given
-        final PairRoomCreateRequest request =
-                new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx");
+        final PairRoomCreateRequest request = PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST;
 
         // when
         final String accessCode = pairRoomService.savePairRoom(request, null);
@@ -70,8 +76,7 @@ class PairRoomServiceTest {
     @DisplayName("페어룸을 생성할때 타이머도 함께 생성된다.")
     void create_timer_when_create_pair_room() {
         // given
-        final PairRoomCreateRequest request =
-                new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx");
+        final PairRoomCreateRequest request = PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST;
 
         // when
         pairRoomService.savePairRoom(request, null);
@@ -96,9 +101,7 @@ class PairRoomServiceTest {
     @DisplayName("삭제된 페어룸의 접근 코드를 찾으면 예외가 발생한다.")
     void throw_exception_when_find_delete_pair_room_access_code() {
         // given
-        final PairRoomCreateRequest request =
-                new PairRoomCreateRequest("레디", "프람", 1000L, 100L,
-                        "https://missionUrl.xxx");
+        final PairRoomCreateRequest request = PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST;
         final String accessCode = pairRoomService.savePairRoom(request, null);
 
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
@@ -113,8 +116,7 @@ class PairRoomServiceTest {
     @DisplayName("페어룸 상태를 변경한다.")
     void update_pair_room_status() {
         // given
-        final PairRoomCreateRequest request =
-                new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx");
+        final PairRoomCreateRequest request = PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST;
         final String accessCode = pairRoomService.savePairRoom(request, null);
 
         // when
@@ -129,8 +131,7 @@ class PairRoomServiceTest {
     @DisplayName("삭제된 페어룸 상태를 변경하려고 하면 예외를 발생시킨다.")
     void update_delete_pair_room_status() {
         // given
-        final PairRoomCreateRequest request =
-                new PairRoomCreateRequest("레디", "프람", 1000L, 100L, "https://missionUrl.xxx");
+        final PairRoomCreateRequest request = PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST;
         final String accessCode = pairRoomService.savePairRoom(request, null);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
         pairRoomEntity.updateStatus(PairRoomStatus.DELETED);
@@ -187,16 +188,14 @@ class PairRoomServiceTest {
         final Member memberA = createMember("reddevilmidzy");
         final Member memberB = createMember("test");
 
-        final PairRoomCreateRequest pairRoomCreateRequest = new PairRoomCreateRequest("레디", "잉크", 1, 1,
-                "https://missionUrl.xxx");
+        final PairRoomCreateRequest pairRoomCreateRequest = PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST;
 
         final String accessCodeA_1 = pairRoomService.savePairRoom(pairRoomCreateRequest, memberA.getAccessToken());
         final String accessCodeA_2 = pairRoomService.savePairRoom(pairRoomCreateRequest, memberA.getAccessToken());
         final String accessCodeB_1 = pairRoomService.savePairRoom(pairRoomCreateRequest, memberB.getAccessToken());
         pairRoomService.savePairRoom(pairRoomCreateRequest, null);
 
-        final PairRoomCreateRequest deletePairRoomCreateRequest = new PairRoomCreateRequest("레디", "잉크", 1, 1,
-                "https://missionUrl.xxx");
+        final PairRoomCreateRequest deletePairRoomCreateRequest = PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST;
         final String accessToken1 = pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getAccessToken());
         final String accessToken2 = pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getAccessToken());
         final String accessToken3 = pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getAccessToken());
@@ -287,5 +286,92 @@ class PairRoomServiceTest {
                 () -> assertThat(pairRoomService.existsByAccessCode(accessCode.getValue())).isTrue()
 
         );
+    }
+
+    @DisplayName("특정 회원이 특정 페어룸에 존재하는지 여부를 반환한다.")
+    @Test
+    void existMemberInPairRoom() {
+        // Given
+        final Member savedMember = memberRepository.save(
+                Member.builder()
+                        .userId("userid")
+                        .accessToken("access")
+                        .loginId("login")
+                        .username("username")
+                        .profileImage("some image")
+                        .build()
+        );
+        final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
+                new PairRoom(PairRoomStatus.IN_PROGRESS,
+                        new Pair(new PairName("레디"), new PairName("파슬리")),
+                        new MissionUrl("https://missionUrl.xxx"),
+                        new AccessCode("123456"))
+        ));
+        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
+
+        // When
+        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        final boolean existMemberInPairRoom = pairRoomService.existMemberInPairRoom(credentialToken, "123456");
+
+        // Then
+        assertThat(existMemberInPairRoom).isTrue();
+    }
+
+    @DisplayName("존재하지 않은 페어룸의 코드가 입력되면 예외를 발생시킨다.")
+    @Test
+    void existMemberInPairRoomWithNotExistRoomCode() {
+        // Given
+        final Member savedMember = memberRepository.save(
+                Member.builder()
+                        .userId("userid")
+                        .accessToken("access")
+                        .loginId("login")
+                        .username("username")
+                        .profileImage("some image")
+                        .build()
+        );
+
+        // When & Then
+        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        assertThatThrownBy(() -> pairRoomService.existMemberInPairRoom(credentialToken, "no-code"))
+                .isInstanceOf(EntityNotFoundException.class)
+                .hasMessage("입력된 페어룸 접근 코드에 대응되는 페어룸이 존재하지 않습니다. - no-code");
+    }
+
+    @Test
+    @DisplayName("페어가 회원가입한 유저인 경우 페어의 나의 페이지에서도 조회가 가능하다.")
+    void createPairRoomRegisteredPair() {
+        //given
+        final Member me = memberRepository.save(
+                Member.builder()
+                        .userId("pairA")
+                        .accessToken(jwtProvider.sign("pairA"))
+                        .loginId("pairA")
+                        .username("pairNameA")
+                        .profileImage("some image")
+                        .build()
+        );
+
+        final Member pair = memberRepository.save(
+                Member.builder()
+                        .userId("pairB")
+                        .accessToken(jwtProvider.sign("pairB"))
+                        .loginId("pairB")
+                        .username("pairNameB")
+                        .profileImage("some image")
+                        .build()
+        );
+
+        final PairRoomCreateRequest request = new PairRoomCreateRequest("navi", "dri", pair.getUserId(),
+                60000L, 60000L, "");
+
+        //when
+        pairRoomService.savePairRoom(request, me.getAccessToken());
+
+        //then
+        final List<PairRoomMemberEntity> mine = pairRoomMemberRepository.findByMember(me);
+        final List<PairRoomMemberEntity> pairsList = pairRoomMemberRepository.findByMember(pair);
+        assertThat(mine).hasSize(1);
+        assertThat(pairsList).hasSize(1);
     }
 }

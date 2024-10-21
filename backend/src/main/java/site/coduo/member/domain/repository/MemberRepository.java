@@ -10,7 +10,9 @@ import site.coduo.member.exception.MemberNotFoundException;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    Optional<Member> findByUserId(String userId);
+    Optional<Member> findByUserIdAndDeletedAtIsNull(String userId);
+
+    Optional<Member> findByLoginIdAndDeletedAtIsNull(String loginId);
 
     List<Member> findByDeletedAtIsNull();
 
@@ -20,14 +22,16 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     }
 
     default Member fetchByUserId(final String userId) {
-        final Member member = findByUserId(userId)
+
+        return findByUserIdAndDeletedAtIsNull(userId)
                 .orElseThrow(() -> new MemberNotFoundException(String.format("%s는 찾을 수 없는 회원 아이디입니다.", userId)));
-        if (member.isDeleted()) {
-            throw new MemberNotFoundException(String.format("%s는 삭제된 회원입니다.", userId));
-        }
-        return member;
     }
 
-    boolean existsByUserId(String userId);
+    default Member fetchByLoginId(final String loginId) {
 
+        return findByLoginIdAndDeletedAtIsNull(loginId)
+                .orElseThrow(() -> new MemberNotFoundException(String.format("%s는 찾을 수 없는 회원입니다.", loginId)));
+    }
+
+    boolean existsByUserIdAndDeletedAtIsNull(String userId);
 }

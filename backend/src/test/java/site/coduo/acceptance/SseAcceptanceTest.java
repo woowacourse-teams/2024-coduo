@@ -6,6 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import io.restassured.RestAssured;
+import site.coduo.fixture.PairRoomCreateRequestFixture;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 
 class SseAcceptanceTest extends AcceptanceFixture {
@@ -27,8 +28,7 @@ class SseAcceptanceTest extends AcceptanceFixture {
     @DisplayName("페어룸에 접속하여 SSE connection을 생성한다.")
     void create_sse_connection() {
         // given
-        final PairRoomCreateRequest request = new PairRoomCreateRequest("프람", "레모네", 10000L,
-                10000L, "https://missionUrl.xxx");
+        final PairRoomCreateRequest request = PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST;
         final String accessCode = createPairRoom(request).accessCode();
 
         // when & then
@@ -48,13 +48,7 @@ class SseAcceptanceTest extends AcceptanceFixture {
     @DisplayName("페어룸의 모든 SSE connection을 종료한다.")
     void delete_sse_connection() {
         // given
-        final PairRoomCreateRequest request = new PairRoomCreateRequest(
-                "해시",
-                "잉크",
-                1000L,
-                1000L,
-                "https://missionUrl.xxx"
-        );
+        final PairRoomCreateRequest request = PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST;
         final String accessCode = createPairRoom(request).accessCode();
         createConnect(accessCode);
 

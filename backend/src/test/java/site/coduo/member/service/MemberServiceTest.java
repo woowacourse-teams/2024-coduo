@@ -115,4 +115,25 @@ class MemberServiceTest {
         final List<Member> afterDelete = memberRepository.findAll();
         assertThat(afterDelete).hasSize(beforeDelete.size() - 1);
     }
+
+    @Test
+    @DisplayName("user id로 회원을 조회한다.")
+    void find_by_user_id() {
+        //given
+        final Member member = Member.builder()
+                .userId("targetUserId")
+                .accessToken("access")
+                .loginId("login")
+                .username("username")
+                .profileImage("some image")
+                .build();
+
+        final Member saved = memberRepository.save(member);
+
+        //when
+        final Member find = memberService.findMember(member.getLoginId());
+
+        //then
+        assertThat(find).isEqualTo(saved);
+    }
 }
