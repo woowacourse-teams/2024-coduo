@@ -17,6 +17,7 @@ import Main from '@/pages/Main/Main';
 import MyPage from '@/pages/MyPage/MyPage';
 import PairRoomOnboarding from '@/pages/PairRoomOnboarding/PairRoomOnboarding';
 import PrivateRoutes from '@/pages/PrivateRoutes';
+import Retrospect from '@/pages/Retrospect/Retrospect';
 import SignUp from '@/pages/SignUp/SignUp';
 
 import HowToPair from '@/components/Landing/HowToPair/HowToPair';
@@ -71,7 +72,11 @@ const App = () => {
         },
         {
           path: 'onboarding',
-          element: <PairRoomOnboarding />,
+          element: (
+            <Suspense fallback={<Loading />}>
+              <PairRoomOnboarding />
+            </Suspense>
+          ),
         },
         {
           path: 'room',
@@ -110,6 +115,14 @@ const App = () => {
         {
           path: 'my-page',
           element: <MyPage />,
+        },
+        {
+          path: 'retrospect',
+          element: <Retrospect readOnly={false} />,
+        },
+        {
+          path: 'retrospect/:retrospectId',
+          element: <Retrospect />,
         },
         {
           path: 'error',
