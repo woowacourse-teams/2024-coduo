@@ -1,0 +1,3 @@
+export const BASE_URL = 'https://api-test.coduo.site/api/';
+export const CODUO_WHO_AM_I = 'eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3Mjk0MTIzNzEsInN1YiI6IjE3NzU5NTkyMyJ9.G_4JrUINNKMsYh0NhFMxKnhXTU9e9DwkN5vMejo2Qrlg4qL_M0mWil3q5DXzhOPUi2eotLD93JYCnKL7-KluVg';
+export const CODUO_WHO_AM_I_B = 'eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3Mjk0MTg3NTUsInN1YiI6IjExMTU2ODYxOSJ9.tp5cNp7wSk_0T4HLEOVWj_MmOcStUOXZ8Fnx7bryTvFG0SaiCNP77kEvY_2dWn4pMVlEbqF6QT3bGGpdC9gl7Q'
