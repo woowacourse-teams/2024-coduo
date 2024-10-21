@@ -34,6 +34,8 @@ export const getRetrospectAnswer = async ({ retrospectId }: GetRetrospectRequest
     errorMessage: ERROR_MESSAGES.GET_RETROSPECT,
   });
 
+  return await response.json();
+};
 
 export interface Retrospect {
   retrospectId: number;
