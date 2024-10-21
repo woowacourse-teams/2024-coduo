@@ -36,7 +36,7 @@ const PairRoom = () => {
 
   useEffect(() => {
     if (status === 'COMPLETED') {
-      navigate(`/pair-room/${accessCode}/completed`);
+      navigate(`/room/${accessCode}/completed`, { state: { valid: true }, replace: true });
     }
     setDriver(latestDriver);
     setNavigator(latestNavigator);
