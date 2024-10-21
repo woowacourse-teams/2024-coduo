@@ -13,7 +13,7 @@ export const Layout = styled.div`
 export const Header = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.2rem;
 `;
 
 export const Title = styled.div`

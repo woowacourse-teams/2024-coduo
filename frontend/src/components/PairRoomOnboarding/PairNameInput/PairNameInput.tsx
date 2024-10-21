@@ -19,7 +19,7 @@ interface PairNameInputProps {
 }
 
 const PairNameInput = ({ firstPairName, secondPairName, onFirstPair, onSecondPair }: PairNameInputProps) => {
-  const [isPairInputOpen, setIsPairInputOpen] = useState(false);
+  const [isInputOpen, setIsInputOpen] = useState(false);
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
@@ -31,19 +31,17 @@ const PairNameInput = ({ firstPairName, secondPairName, onFirstPair, onSecondPai
       </S.TitleContainer>
       <S.InputContainer>
         <S.Label>나의 이름은 무엇인가요?</S.Label>
-        <S.InputWrapper>
-          <Input
-            placeholder="이름을 입력해주세요"
-            value={firstPairName.value}
-            status={firstPairName.status}
-            message={firstPairName.message}
-            onChange={onFirstPair}
-          />
-        </S.InputWrapper>
+        <Input
+          placeholder="이름을 입력해주세요"
+          value={firstPairName.value}
+          status={firstPairName.status}
+          message={firstPairName.message}
+          onChange={onFirstPair}
+        />
       </S.InputContainer>
       <S.InputContainer>
         <S.Label>함께할 페어의 이름은 무엇인가요?</S.Label>
-        {isPairInputOpen ? (
+        {isInputOpen ? (
           <S.InputWrapper>
             <Input
               placeholder="이름을 입력해주세요"
@@ -52,23 +50,23 @@ const PairNameInput = ({ firstPairName, secondPairName, onFirstPair, onSecondPai
               message={secondPairName.message}
               onChange={onSecondPair}
             />
-            <Button css={S.buttonStyles} onClick={() => setIsPairInputOpen(false)}>
+            <Button css={S.buttonStyles} onClick={() => setIsInputOpen(false)}>
               취소
             </Button>
           </S.InputWrapper>
         ) : (
           <>
             <S.AddButton onClick={openModal}>
-              <S.Logo>
+              <div>
                 <img src={LogoIcon} alt="" />
-              </S.Logo>
-              <S.AddText>페어 정보 연동하기</S.AddText>
+              </div>
+              <p>페어 정보 연동하기</p>
             </S.AddButton>
-            <S.TextButton onClick={() => setIsPairInputOpen(true)}>연동 없이 시작하기</S.TextButton>
+            <S.TextButton onClick={() => setIsInputOpen(true)}>연동 없이 시작하기</S.TextButton>
           </>
         )}
       </S.InputContainer>
-      <AddPairModal isOpen={isModalOpen} close={closeModal} />
+      <AddPairModal isOpen={isModalOpen} closeModal={closeModal} />
     </S.Layout>
   );
 };
