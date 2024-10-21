@@ -7,6 +7,8 @@ import RepositorySection from '@/components/PairRoom/PairListCard/RepositorySect
 import RoomCodeSection from '@/components/PairRoom/PairListCard/RoomCodeSection/RoomCodeSection';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 
+import useUserStore from '@/stores/userStore';
+
 import useCompletePairRoom from '@/queries/PairRoom/useCompletePairRoom';
 
 import * as S from './PairListCard.styles';
@@ -23,7 +25,7 @@ const PairListCard = ({ driver, navigator, missionUrl, roomCode }: PairListCardP
   const { handleCompletePairRoom } = useCompletePairRoom(roomCode);
 
   const toggleOpen = () => setIsOpen(!isOpen);
-
+  const { userStatus } = useUserStore();
   return (
     <S.Layout $isOpen={isOpen}>
       <PairRoomCard>
@@ -32,7 +34,11 @@ const PairListCard = ({ driver, navigator, missionUrl, roomCode }: PairListCardP
           <RoomCodeSection isOpen={isOpen} roomCode={roomCode} />
           {missionUrl !== '' && <RepositorySection isOpen={isOpen} missionUrl={missionUrl} />}
           <PairListSection isOpen={isOpen} driver={driver} navigator={navigator} />
-          <CompleteRoomButton isOpen={isOpen} onClick={() => handleCompletePairRoom(roomCode)} />
+          {userStatus === 'SIGNED_IN' ? (
+            <CompleteRoomButton isOpen={isOpen} onClick={() => handleCompletePairRoom(roomCode)} />
+          ) : (
+            <CompleteRoomButton disabled={true} isOpen={isOpen} onClick={() => handleCompletePairRoom(roomCode)} />
+          )}
         </S.Sidebar>
       </PairRoomCard>
     </S.Layout>
