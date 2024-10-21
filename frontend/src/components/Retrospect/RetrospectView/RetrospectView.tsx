@@ -11,9 +11,8 @@ import * as S from './RetrospectView.styles';
 
 const RetrospectView = () => {
   const navigate = useNavigate();
-  const params = useParams();
-  const retrospectId = params.retrospectId || '';
-  const { accessCode, answer } = useGetRetrospectAnswer(retrospectId);
+  const { retrospectId } = useParams();
+  const { accessCode, answer } = useGetRetrospectAnswer(retrospectId || '');
 
   return (
     <>

@@ -1,11 +1,8 @@
-import { ReactNode } from 'react';
-
 import * as S from './Question.styles';
 
-interface QuestionProps {
+interface QuestionProps extends React.PropsWithChildren {
   id: string;
   question: string;
-  children: ReactNode;
 }
 
 const Question = ({ id, question, children }: QuestionProps) => (

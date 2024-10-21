@@ -7,8 +7,8 @@ interface RetrospectHeaderProps {
 }
 
 const RetrospectHeader = ({ readOnly, onClick }: RetrospectHeaderProps) => {
-  const getHeaderProps = (isReadOnly: boolean) => {
-    if (isReadOnly)
+  const getHeaderProps = (readOnly: boolean) => {
+    if (readOnly)
       return {
         title: '"방제목" 에서의 회고입니다!',
         buttonText: '페어룸으로 이동',
