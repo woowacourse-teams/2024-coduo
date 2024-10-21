@@ -108,11 +108,11 @@ jobs:
           
       - name: remove old spring-app image
         run: |
-          sudo docker image rm -f coduo2024/springboot-app;
+          sudo docker image rm -f coduo2024/springboot-app:test-latest;
 
       - name: Start the new (green/blue) environment
         run: |
-          sudo docker-compose --pull --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml -p $GREEN_PORT up -d
+          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml -p $GREEN_PORT up -d
 
       - name: Wait for new environment to be healthy
         run: |
