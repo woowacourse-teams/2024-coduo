@@ -52,6 +52,14 @@ public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
                 .body(new ApiErrorResponse(CommonApiError.INVALID_ARGUMENT_ERROR.getMessage()));
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ApiErrorResponse> handleIllegalStateException(final IllegalStateException e) {
+        log.warn(e.getMessage(), e);
+
+        return ResponseEntity.status(CommonApiError.INVALID_ARGUMENT_ERROR.getHttpStatus())
+                .body(new ApiErrorResponse(CommonApiError.INVALID_ARGUMENT_ERROR.getMessage()));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiErrorResponse> handleException(final Exception e) {
         log.error(e.getMessage(), e);
