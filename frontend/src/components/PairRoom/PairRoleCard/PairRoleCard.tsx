@@ -14,7 +14,7 @@ const PairRoleCard = ({ driver, navigator }: PairRoleCardProps) => {
       <PairRoomCard>
         <S.RoleBoxContainer>
           <S.DriverBox>
-            <S.RoleIcon aria-hidden={true}>💻</S.RoleIcon>
+            <S.RoleIcon aria-hidden="true">💻</S.RoleIcon>
             <S.RoleTextContainer aria-label={`현재 드라이버는 ${driver}입니다.`}>
               <Tooltip
                 direction="top"
@@ -35,7 +35,7 @@ const PairRoleCard = ({ driver, navigator }: PairRoleCardProps) => {
               </Tooltip>
               <S.NavigatorText>{navigator}</S.NavigatorText>
             </S.RoleTextContainer>
-            <S.RoleIcon aria-hidden={true}>🧭</S.RoleIcon>
+            <S.RoleIcon aria-hidden="true">🧭</S.RoleIcon>
           </S.NavigatorBox>
         </S.RoleBoxContainer>
       </PairRoomCard>
