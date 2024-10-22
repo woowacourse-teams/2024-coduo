@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import Button from '@/components/common/Button/Button';
 import Question from '@/components/Retrospect/Question/Question';
 import SkipModal from '@/components/Retrospect/RetrospectForm/SkipModal/SkipModal';
+import TextArea from '@/components/Retrospect/RetrospectForm/Textarea/Textarea';
 import RetrospectHeader from '@/components/Retrospect/RetrospectHeader/RetrospectHeader';
 
 import useModal from '@/hooks/common/useModal';
@@ -16,8 +17,7 @@ import * as S from './RetrospectForm.styles';
 const RetrospectForm = () => {
   const location = useLocation();
   const accessCode = location.state.accessCode;
-
-  const { answer, handleChange, hasEmptyField, handleSubmit } = useInputAnswer(accessCode);
+  const { answers, handleChange, hasEmptyField, handleSubmit } = useInputAnswer(accessCode);
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
@@ -27,13 +27,14 @@ const RetrospectForm = () => {
       <RetrospectHeader readOnly={false} accessCode={accessCode} onClick={openModal} />
       <S.LayoutForm onSubmit={handleSubmit}>
         {RETROSPECT_QUESTIONS.map((question, index) => (
-          <Question key={question.id} id={question.id} question={question.value}>
-            <S.Textarea
+          <Question key={question.id} id={question.id} title={question.title} subtitle={question.subtitle}>
+            <TextArea
               key={question.id}
-              placeholder="질문에 대한 답변을 작성해주세요."
               id={question.id}
-              value={answer[index]}
+              value={answers[index]}
               onChange={(event) => handleChange(index, event.target.value)}
+              placeholder="질문에 대한 답변을 작성해주세요."
+              charNumber={`${answers[index].length} / 500`}
             />
           </Question>
         ))}
