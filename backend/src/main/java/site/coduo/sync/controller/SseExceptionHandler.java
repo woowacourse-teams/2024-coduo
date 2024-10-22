@@ -1,5 +1,7 @@
 package site.coduo.sync.controller;
 
+import java.io.IOException;
+
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
@@ -67,6 +69,11 @@ public class SseExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleSyncException(final SyncException e) {
         log.warn(e.getMessage());
         return buildErrorResponse(SseApiError.SYNC_FAILED);
+    }
+
+    @ExceptionHandler(IOException.class)
+    public void handleIOException(final IOException e) {
+        log.info(e.getMessage());
     }
 
     private ResponseEntity<ApiErrorResponse> buildErrorResponse(final SseApiError error) {
