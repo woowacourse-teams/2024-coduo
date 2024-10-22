@@ -9,6 +9,8 @@ import org.jsoup.nodes.Document;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class OpenGraphTest {
 
@@ -19,11 +21,11 @@ class OpenGraphTest {
     void fill_default_value_when_no_open_graph_properties_in_document() {
         // given
         final String htmlString = "<HTML>"
-                + "<HEAD>"
-                + "</HEAD>"
-                + "<BODY>"
-                + "</BODY>"
-                + "</HTML>";
+                                  + "<HEAD>"
+                                  + "</HEAD>"
+                                  + "<BODY>"
+                                  + "</BODY>"
+                                  + "</HTML>";
         final Document document = Jsoup.parse(htmlString);
 
         // when
@@ -47,14 +49,14 @@ class OpenGraphTest {
         void create_open_graph_with_null_headTitle() {
             // given
             final String htmlString = "<HTML>"
-                    + "<HEAD>"
-                    + "<meta property=\"og:title\" content=\"Open Graph Title Hello\">"
-                    + "<meta property=\"og:description\" content=\"Description Hello\">"
-                    + "<meta property=\"og:image\" content=\"Image Hello\">"
-                    + "</HEAD>"
-                    + "<BODY>"
-                    + "</BODY>"
-                    + "</HTML>";
+                                      + "<HEAD>"
+                                      + "<meta property=\"og:title\" content=\"Open Graph Title Hello\">"
+                                      + "<meta property=\"og:description\" content=\"Description Hello\">"
+                                      + "<meta property=\"og:image\" content=\"Image Hello\">"
+                                      + "</HEAD>"
+                                      + "<BODY>"
+                                      + "</BODY>"
+                                      + "</HTML>";
             final Document document = Jsoup.parse(htmlString);
             final OpenGraph openGraph = OpenGraph.from(document);
 
@@ -72,14 +74,14 @@ class OpenGraphTest {
         void create_open_graph_with_null_openGraphTitle() {
             // given
             final String htmlString = "<HTML>"
-                    + "<HEAD>"
-                    + "<TITLE>Jsoup Test</TITLE>"
-                    + "<meta property=\"og:description\" content=\"Description Hello\">"
-                    + "<meta property=\"og:image\" content=\"Image Hello\">"
-                    + "</HEAD>"
-                    + "<BODY>"
-                    + "</BODY>"
-                    + "</HTML>";
+                                      + "<HEAD>"
+                                      + "<TITLE>Jsoup Test</TITLE>"
+                                      + "<meta property=\"og:description\" content=\"Description Hello\">"
+                                      + "<meta property=\"og:image\" content=\"Image Hello\">"
+                                      + "</HEAD>"
+                                      + "<BODY>"
+                                      + "</BODY>"
+                                      + "</HTML>";
             final Document document = Jsoup.parse(htmlString);
             final OpenGraph openGraph = OpenGraph.from(document);
 
@@ -97,14 +99,14 @@ class OpenGraphTest {
         void create_open_graph_with_null_description() {
             // given
             final String htmlString = "<HTML>"
-                    + "<HEAD>"
-                    + "<TITLE>Jsoup Test</TITLE>"
-                    + "<meta property=\"og:title\" content=\"Open Graph Title Hello\">"
-                    + "<meta property=\"og:image\" content=\"Image Hello\">"
-                    + "</HEAD>"
-                    + "<BODY>"
-                    + "</BODY>"
-                    + "</HTML>";
+                                      + "<HEAD>"
+                                      + "<TITLE>Jsoup Test</TITLE>"
+                                      + "<meta property=\"og:title\" content=\"Open Graph Title Hello\">"
+                                      + "<meta property=\"og:image\" content=\"Image Hello\">"
+                                      + "</HEAD>"
+                                      + "<BODY>"
+                                      + "</BODY>"
+                                      + "</HTML>";
             final Document document = Jsoup.parse(htmlString);
             final OpenGraph openGraph = OpenGraph.from(document);
 
@@ -122,14 +124,14 @@ class OpenGraphTest {
         void create_open_graph_with_null_image() {
             // given
             final String htmlString = "<HTML>"
-                    + "<HEAD>"
-                    + "<TITLE>Jsoup Test</TITLE>"
-                    + "<meta property=\"og:title\" content=\"Open Graph Title Hello\">"
-                    + "<meta property=\"og:description\" content=\"Description Hello\">"
-                    + "</HEAD>"
-                    + "<BODY>"
-                    + "</BODY>"
-                    + "</HTML>";
+                                      + "<HEAD>"
+                                      + "<TITLE>Jsoup Test</TITLE>"
+                                      + "<meta property=\"og:title\" content=\"Open Graph Title Hello\">"
+                                      + "<meta property=\"og:description\" content=\"Description Hello\">"
+                                      + "</HEAD>"
+                                      + "<BODY>"
+                                      + "</BODY>"
+                                      + "</HTML>";
             final Document document = Jsoup.parse(htmlString);
             final OpenGraph openGraph = OpenGraph.from(document);
 
@@ -141,5 +143,21 @@ class OpenGraphTest {
                     () -> assertThat(openGraph.getImage()).isEqualTo(DEFAULT_VALUE)
             );
         }
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {51, 100})
+    @DisplayName("description이 50자 넘어가면 50자를 잘라서 저장한다.")
+    void truncate_description(final int repeatCount) {
+        //given
+        final OpenGraph openGraph = OpenGraph.builder()
+                .openGraphTitle("my page title")
+                .headTitle("my header")
+                .description("1".repeat(repeatCount))
+                .image("")
+                .build();
+
+        //when && then
+        assertThat(openGraph.getDescription()).hasSize(50);
     }
 }
