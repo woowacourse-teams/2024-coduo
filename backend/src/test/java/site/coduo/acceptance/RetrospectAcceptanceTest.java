@@ -3,6 +3,8 @@ package site.coduo.acceptance;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
+import static site.coduo.fixture.AccessCodeFixture.EASY_ACCESS_CODE_INK_REDDY;
+
 import java.util.List;
 import java.util.Map;
 
@@ -72,7 +74,8 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
+                        new AccessCode("123456"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(
                 new PairRoomMemberEntity(savedPairRoom, savedMember));
@@ -115,7 +118,8 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
+                        new AccessCode("123456"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(
                 new PairRoomMemberEntity(savedPairRoom, savedMember));
@@ -163,7 +167,8 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("ac"))
+                        new AccessCode("ac"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
@@ -218,7 +223,8 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("ac"))
+                        new AccessCode("ac"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
 
@@ -271,7 +277,8 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("ac"))
+                        new AccessCode("ac"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
 
@@ -322,7 +329,8 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("ac"))
+                        new AccessCode("ac"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
 
@@ -381,7 +389,8 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
+                        new AccessCode("123456"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(
                 new PairRoomMemberEntity(savedPairRoom, owner));
@@ -433,7 +442,8 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("ac"))
+                        new AccessCode("ac"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
 

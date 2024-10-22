@@ -6,6 +6,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import static site.coduo.fixture.AccessCodeFixture.EASY_ACCESS_CODE_FRAM_LEMONE;
+import static site.coduo.fixture.AccessCodeFixture.EASY_ACCESS_CODE_INK_REDDY;
 
 import java.util.List;
 import java.util.Random;
@@ -305,7 +306,8 @@ class PairRoomServiceTest {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
+                        new AccessCode("123456"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
 
