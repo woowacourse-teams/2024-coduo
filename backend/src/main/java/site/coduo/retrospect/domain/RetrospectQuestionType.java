@@ -13,7 +13,6 @@ public enum RetrospectQuestionType {
     FOURTH(3),
     FIFTH(4),
     SIXTH(5),
-    SEVENTH(6),
     ;
 
     private final int index;
@@ -26,6 +25,7 @@ public enum RetrospectQuestionType {
         return Arrays.stream(RetrospectQuestionType.values())
                 .filter(type -> type.getIndex() == index)
                 .findAny()
-                .orElseThrow(() -> new InvalidRetrospectQuestionTypeException("입력된 인덱스에 일치하는 회고 문항 타입이 존재하지 않습니다. - " + index));
+                .orElseThrow(() -> new InvalidRetrospectQuestionTypeException(
+                        "입력된 인덱스에 일치하는 회고 문항 타입이 존재하지 않습니다. - " + index));
     }
 }
