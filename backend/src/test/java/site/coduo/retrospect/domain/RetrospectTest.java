@@ -30,7 +30,7 @@ class RetrospectTest {
                 .profileImage("some image")
                 .build();
         final RetrospectContents retrospectContents = RetrospectContents.of(
-                List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4"));
+                List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4", "회고 답변5", "회고 답변6"));
 
         // When
         final Retrospect retrospect = new Retrospect(id, pairRoom, member, retrospectContents);
@@ -52,7 +52,7 @@ class RetrospectTest {
                 .profileImage("some image")
                 .build();
         final RetrospectContents retrospectContents = RetrospectContents.of(
-                List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4"));
+                List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4", "회고 답변5", "회고 답변6"));
 
         // When
         final Retrospect retrospect = new Retrospect(pairRoom, member, retrospectContents);
@@ -75,7 +75,7 @@ class RetrospectTest {
                 .profileImage("some image")
                 .build();
         final RetrospectContents retrospectContents = RetrospectContents.of(
-                List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4"));
+                List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4", "회고 답변5", "회고 답변6"));
                 
         // When & Then
         assertThatThrownBy(() -> new Retrospect(id, pairRoom, member, retrospectContents))
@@ -96,7 +96,7 @@ class RetrospectTest {
                 .profileImage("some image")
                 .build();
         final RetrospectContents retrospectContents = RetrospectContents.of(
-                List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4"));
+                List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4", "회고 답변5", "회고 답변6"));
 
         // When & Then
         assertThatThrownBy(() -> new Retrospect(id, null, member, retrospectContents))
@@ -111,7 +111,7 @@ class RetrospectTest {
         final long id = 1;
         final PairRoom pairRoom = PairRoomFixture.FRAM_LEMONE_ROOM;
         final RetrospectContents retrospectContents = RetrospectContents.of(
-                List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4"));
+                List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4", "회고 답변5", "회고 답변6"));
 
         // When & Then
         assertThatThrownBy(() -> new Retrospect(id, pairRoom, null, retrospectContents))

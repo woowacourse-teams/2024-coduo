@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import site.coduo.fixture.RetrospectCreateRequestFixture;
 import site.coduo.member.domain.Member;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.infrastructure.security.JwtProvider;
@@ -59,29 +60,12 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
     @Test
     void createRetrospect() {
         // Given
-        final Member savedMember = memberRepository.save(
-                Member.builder()
-                        .userId("userid")
-                        .accessToken("access")
-                        .loginId("login")
-                        .username("username")
-                        .profileImage("some image")
-                        .build()
-        );
-        final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
-                new PairRoom(PairRoomStatus.IN_PROGRESS,
-                        new Pair(new PairName("레디"), new PairName("파슬리")),
-                        new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
-        ));
-        pairRoomMemberRepository.save(
-                new PairRoomMemberEntity(savedPairRoom, savedMember));
+        final PairRoomEntity savedPairRoom = saveTestPairRoom();
+        final Member savedMember = saveTestMember();
+        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
 
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
-        final CreateRetrospectRequest request = new CreateRetrospectRequest(
-                "123456",
-                List.of("회고 답변 1", "회고 답변 2", "회고 답변 3", "회고 답변 4")
-        );
+        final CreateRetrospectRequest request = RetrospectCreateRequestFixture.setCreateRequest();
 
         // When && Then
         RestAssured
@@ -102,30 +86,13 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
     @Test
     void createRequestWithInvalidRetrospectContent() {
         // Given
-        final Member savedMember = memberRepository.save(
-                Member.builder()
-                        .userId("userid")
-                        .accessToken("access")
-                        .loginId("login")
-                        .username("username")
-                        .profileImage("some image")
-                        .build()
-        );
-        final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
-                new PairRoom(PairRoomStatus.IN_PROGRESS,
-                        new Pair(new PairName("레디"), new PairName("파슬리")),
-                        new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
-        ));
-        pairRoomMemberRepository.save(
-                new PairRoomMemberEntity(savedPairRoom, savedMember));
+        final PairRoomEntity savedPairRoom = saveTestPairRoom();
+        final Member savedMember = saveTestMember();
+        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
 
         // When
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
-        final CreateRetrospectRequest request = new CreateRetrospectRequest(
-                "123456",
-                List.of("", "회고 답변 2", "회고 답변 3", "회고 답변 4")
-        );
+        final CreateRetrospectRequest request = RetrospectCreateRequestFixture.setWrongCreateRequest();
         final ExtractableResponse<Response> response = RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -150,33 +117,14 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
     @Test
     void findRetrospects() {
         // Given
-        final Member savedMember = memberRepository.save(
-                Member.builder()
-                        .userId("userid")
-                        .accessToken("access")
-                        .loginId("login")
-                        .username("username")
-                        .profileImage("some image")
-                        .build()
-        );
-        final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
-                new PairRoom(PairRoomStatus.IN_PROGRESS,
-                        new Pair(new PairName("레디"), new PairName("파슬리")),
-                        new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("ac"))
-        ));
+        final PairRoomEntity savedPairRoom = saveTestPairRoom();
+        final Member savedMember = saveTestMember();
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
-        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
-
         final RetrospectEntity retrospectEntity = retrospectRepository.save(
                 new RetrospectEntity(savedPairRoom, savedMember));
-        final List<RetrospectContentEntity> retrospectContentEntities = List.of(
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FIRST, "답변1"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.SECOND, "답변2"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.THIRD, "답변3"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변4")
-        );
-        retrospectContentRepository.saveAll(retrospectContentEntities);
+        saveRetrospectContents(retrospectEntity);
+
+        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
 
         // When
         final ExtractableResponse<Response> response = RestAssured
@@ -188,7 +136,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 .when()
                 .get("/api/retrospects")
 
-                .then()
+                .then().log().all()
                 .extract();
 
         // Then
@@ -196,7 +144,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
             softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
             softly.assertThat((List) response.jsonPath().get("retrospects")).hasSize(1);
             softly.assertThat((int) response.jsonPath().get("retrospects[0].retrospectId")).isEqualTo(0);
-            softly.assertThat((String) response.jsonPath().get("retrospects[0].pairRoomAccessCode")).isEqualTo("ac");
+            softly.assertThat((String) response.jsonPath().get("retrospects[0].accessCode")).isEqualTo("ac");
             softly.assertThat((String) response.jsonPath().get("retrospects[0].answer")).isEqualTo("답변1");
         });
     }
@@ -205,32 +153,13 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
     @Test
     void findRetrospectById() {
         // Given
-        final Member savedMember = memberRepository.save(
-                Member.builder()
-                        .userId("userid")
-                        .accessToken("access")
-                        .loginId("login")
-                        .username("username")
-                        .profileImage("some image")
-                        .build()
-        );
-        final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
-                new PairRoom(PairRoomStatus.IN_PROGRESS,
-                        new Pair(new PairName("레디"), new PairName("파슬리")),
-                        new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("ac"))
-        ));
+        final PairRoomEntity savedPairRoom = saveTestPairRoom();
+        final Member savedMember = saveTestMember();
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
 
         final RetrospectEntity retrospectEntity = retrospectRepository.save(
                 new RetrospectEntity(savedPairRoom, savedMember));
-        final List<RetrospectContentEntity> retrospectContentEntities = List.of(
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FIRST, "답변1"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.SECOND, "답변2"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.THIRD, "답변3"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변4")
-        );
-        retrospectContentRepository.saveAll(retrospectContentEntities);
+        saveRetrospectContents(retrospectEntity);
 
         // When
         final long targetId = retrospectEntity.getId();
@@ -246,10 +175,10 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 .extract();
 
         // Then
-        final List<String> expect = List.of("답변1", "답변2", "답변3", "답변4");
+        final List<String> expect = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6");
         assertSoftly(softly -> {
             softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-            softly.assertThat((String) response.jsonPath().get("pairRoomAccessCode")).isEqualTo("ac");
+            softly.assertThat((String) response.jsonPath().get("accessCode")).isEqualTo("ac");
             softly.assertThat((List) response.jsonPath().get("answers")).isEqualTo(expect);
         });
     }
@@ -258,35 +187,15 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
     @Test
     void findNotExistRetrospect() {
         // Given
-        final Member savedMember = memberRepository.save(
-                Member.builder()
-                        .userId("userid")
-                        .accessToken("access")
-                        .loginId("login")
-                        .username("username")
-                        .profileImage("some image")
-                        .build()
-        );
-        final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
-                new PairRoom(PairRoomStatus.IN_PROGRESS,
-                        new Pair(new PairName("레디"), new PairName("파슬리")),
-                        new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("ac"))
-        ));
+        final PairRoomEntity savedPairRoom = saveTestPairRoom();
+        final Member savedMember = saveTestMember();
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
 
         final RetrospectEntity retrospectEntity = retrospectRepository.save(
                 new RetrospectEntity(savedPairRoom, savedMember));
-        final List<RetrospectContentEntity> retrospectContentEntities = List.of(
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FIRST, "답변1"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.SECOND, "답변2"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.THIRD, "답변3"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변4")
-        );
-        retrospectContentRepository.saveAll(retrospectContentEntities);
+        saveRetrospectContents(retrospectEntity);
 
         // When
-        final long targetId = retrospectEntity.getId();
         final ExtractableResponse<Response> response = RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -309,32 +218,13 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
     @Test
     void deleteRetrospect() {
         // Given
-        final Member savedMember = memberRepository.save(
-                Member.builder()
-                        .userId("userid")
-                        .accessToken("access")
-                        .loginId("login")
-                        .username("username")
-                        .profileImage("some image")
-                        .build()
-        );
-        final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
-                new PairRoom(PairRoomStatus.IN_PROGRESS,
-                        new Pair(new PairName("레디"), new PairName("파슬리")),
-                        new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("ac"))
-        ));
+        final PairRoomEntity savedPairRoom = saveTestPairRoom();
+        final Member savedMember = saveTestMember();
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
 
         final RetrospectEntity retrospectEntity = retrospectRepository.save(
                 new RetrospectEntity(savedPairRoom, savedMember));
-        final List<RetrospectContentEntity> retrospectContentEntities = List.of(
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FIRST, "답변1"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.SECOND, "답변2"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.THIRD, "답변3"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변4")
-        );
-        retrospectContentRepository.saveAll(retrospectContentEntities);
+        saveRetrospectContents(retrospectEntity);
 
         // When
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
@@ -359,15 +249,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
     @Test
     void notOwnerAccessToForbiddenJon() {
         // Given
-        final Member owner = memberRepository.save(
-                Member.builder()
-                        .userId("userid1")
-                        .accessToken("access1")
-                        .loginId("login1")
-                        .username("username1")
-                        .profileImage("some image1")
-                        .build()
-        );
+        final Member owner = saveTestMember();
         final Member other = memberRepository.save(
                 Member.builder()
                         .userId("userid2")
@@ -377,24 +259,11 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                         .profileImage("some image2")
                         .build()
         );
-        final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
-                new PairRoom(PairRoomStatus.IN_PROGRESS,
-                        new Pair(new PairName("레디"), new PairName("파슬리")),
-                        new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
-        ));
-        pairRoomMemberRepository.save(
-                new PairRoomMemberEntity(savedPairRoom, owner));
-
+        final PairRoomEntity savedPairRoom = saveTestPairRoom();
+        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, owner));
         final RetrospectEntity retrospectEntity = retrospectRepository.save(
                 new RetrospectEntity(savedPairRoom, owner));
-        final List<RetrospectContentEntity> retrospectContentEntities = List.of(
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FIRST, "답변1"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.SECOND, "답변2"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.THIRD, "답변3"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변4")
-        );
-        retrospectContentRepository.saveAll(retrospectContentEntities);
+        saveRetrospectContents(retrospectEntity);
 
         // When
         final String credentialToken = jwtProvider.sign(other.getUserId());
@@ -420,32 +289,13 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
     @Test
     void existRetrospectWithPairRoom() {
         // Given
-        final Member savedMember = memberRepository.save(
-                Member.builder()
-                        .userId("userid")
-                        .accessToken("access")
-                        .loginId("login")
-                        .username("username")
-                        .profileImage("some image")
-                        .build()
-        );
-        final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
-                new PairRoom(PairRoomStatus.IN_PROGRESS,
-                        new Pair(new PairName("레디"), new PairName("파슬리")),
-                        new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("ac"))
-        ));
+        final PairRoomEntity savedPairRoom = saveTestPairRoom();
+        final Member savedMember = saveTestMember();
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
 
         final RetrospectEntity retrospectEntity = retrospectRepository.save(
                 new RetrospectEntity(savedPairRoom, savedMember));
-        final List<RetrospectContentEntity> retrospectContentEntities = List.of(
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FIRST, "답변1"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.SECOND, "답변2"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.THIRD, "답변3"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변4")
-        );
-        retrospectContentRepository.saveAll(retrospectContentEntities);
+        saveRetrospectContents(retrospectEntity);
 
         // When
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
@@ -467,5 +317,41 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
             softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
             softly.assertThat((Boolean) response.jsonPath().get("existRetrospect")).isEqualTo(true);
         });
+    }
+
+    private Member saveTestMember() {
+        return memberRepository.save(
+                Member.builder()
+                        .userId("userid")
+                        .accessToken("access")
+                        .loginId("login")
+                        .username("username")
+                        .profileImage("some image")
+                        .build()
+        );
+    }
+
+    private PairRoomEntity saveTestPairRoom() {
+        return pairRoomRepository.save(PairRoomEntity.from(
+                new PairRoom(
+                        PairRoomStatus.IN_PROGRESS,
+                        new Pair(new PairName("레디"), new PairName("파슬리")),
+                        new MissionUrl("https://missionUrl.xxx"),
+                        new AccessCode("ac"),
+                        new AccessCode("ac")
+                )
+        ));
+    }
+
+    private void saveRetrospectContents(final RetrospectEntity retrospect) {
+        final List<RetrospectContentEntity> retrospectContentEntities = List.of(
+                new RetrospectContentEntity(retrospect, RetrospectQuestionType.FIRST, "답변1"),
+                new RetrospectContentEntity(retrospect, RetrospectQuestionType.SECOND, "답변2"),
+                new RetrospectContentEntity(retrospect, RetrospectQuestionType.THIRD, "답변3"),
+                new RetrospectContentEntity(retrospect, RetrospectQuestionType.FOURTH, "답변4"),
+                new RetrospectContentEntity(retrospect, RetrospectQuestionType.FOURTH, "답변5"),
+                new RetrospectContentEntity(retrospect, RetrospectQuestionType.FOURTH, "답변6")
+        );
+        retrospectContentRepository.saveAll(retrospectContentEntities);
     }
 }

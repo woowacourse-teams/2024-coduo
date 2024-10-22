@@ -3,6 +3,8 @@ package site.coduo.retrospect.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import static site.coduo.fixture.AccessCodeFixture.EASY_ACCESS_CODE_INK_REDDY;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -89,14 +91,15 @@ class RetrospectServiceTest {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
+                        new AccessCode("123456"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(
                 new PairRoomMemberEntity(savedPairRoom, savedMember));
 
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
         final String pairRoomAccessCode = "123456";
-        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
+        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6");
 
         // When
         retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
@@ -127,7 +130,7 @@ class RetrospectServiceTest {
 
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
         final String pairRoomAccessCode = "kelly-code";
-        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
+        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6", "답변7");
 
         // When & Then
         assertThatThrownBy(() -> retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers))
@@ -161,14 +164,15 @@ class RetrospectServiceTest {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
+                        new AccessCode("123456"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(
                 new PairRoomMemberEntity(savedPairRoom, savedMember1));
 
         final String credentialToken = jwtProvider.sign(savedMember2.getUserId());
         final String pairRoomAccessCode = "123456";
-        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
+        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6", "답변7");
 
         // When & Then
         assertThatThrownBy(() -> retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers))
@@ -193,13 +197,14 @@ class RetrospectServiceTest {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
+                        new AccessCode("123456"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(
                 new PairRoomMemberEntity(savedPairRoom, savedMember));
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
         final String pairRoomAccessCode = "123456";
-        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
+        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6");
         retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
 
         // When
@@ -231,12 +236,13 @@ class RetrospectServiceTest {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
+                        new AccessCode("123456"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
         final String pairRoomAccessCode = "123456";
-        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
+        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6");
         retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
         final RetrospectEntity savedRetrospectEntity = retrospectRepository.findByPairRoomAndMember(savedPairRoom,
                 savedMember).get();
@@ -275,12 +281,13 @@ class RetrospectServiceTest {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
+                        new AccessCode("123456"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
         final String pairRoomAccessCode = "123456";
-        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
+        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6");
         retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
         final RetrospectEntity savedRetrospectEntity = retrospectRepository.findByPairRoomAndMember(savedPairRoom,
                 savedMember).get();
@@ -330,12 +337,13 @@ class RetrospectServiceTest {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
+                        new AccessCode("123456"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, owner));
         final String credentialToken = jwtProvider.sign(owner.getUserId());
         final String pairRoomAccessCode = "123456";
-        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
+        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6");
         retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
         final RetrospectEntity savedRetrospectEntity = retrospectRepository.findByPairRoomAndMember(savedPairRoom,
                 owner).get();
@@ -364,12 +372,13 @@ class RetrospectServiceTest {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
+                        new AccessCode("123456"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
         final String pairRoomAccessCode = "123456";
-        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
+        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6");
         retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
         retrospectRepository.findByPairRoomAndMember(savedPairRoom, savedMember).get();
 

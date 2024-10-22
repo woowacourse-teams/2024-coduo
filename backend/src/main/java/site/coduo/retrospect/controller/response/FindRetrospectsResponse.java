@@ -26,7 +26,7 @@ public record FindRetrospectsResponse(
             @Schema(description = "회고 아이디", example = "1")
             Long retrospectId,
             @Schema(description = "페어룸 접근 코드")
-            String pairRoomAccessCode,
+            String accessCode,
             @Schema(description = "첫번째 회고 답변", example = "답변1")
             String answer
     ){}
