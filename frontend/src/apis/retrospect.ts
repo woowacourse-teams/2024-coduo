@@ -5,14 +5,14 @@ import { ERROR_MESSAGES } from '@/constants/message';
 const API_URL = process.env.REACT_APP_API_URL;
 
 interface AddRetrospectRequest {
-  pairRoomAccessCode: string;
-  answer: string[];
+  accessCode: string;
+  answers: string[];
 }
 
-export const addRetrospect = async ({ pairRoomAccessCode, answer }: AddRetrospectRequest) => {
+export const addRetrospect = async ({ accessCode, answers }: AddRetrospectRequest) => {
   const response = await fetcher.post({
     url: `${API_URL}/retrospects`,
-    body: JSON.stringify({ pairRoomAccessCode, answer }),
+    body: JSON.stringify({ accessCode, answers }),
     errorMessage: ERROR_MESSAGES.ADD_RETROSPECT,
   });
 
@@ -24,8 +24,8 @@ interface GetRetrospectRequest {
 }
 
 interface GetRetrospectResponse {
-  pairRoomAccessCode: string;
-  answer: string[];
+  accessCode: string;
+  answers: string[];
 }
 
 export const getRetrospectAnswer = async ({ retrospectId }: GetRetrospectRequest): Promise<GetRetrospectResponse> => {
@@ -39,7 +39,7 @@ export const getRetrospectAnswer = async ({ retrospectId }: GetRetrospectRequest
 
 export interface Retrospect {
   retrospectId: number;
-  pairRoomAccessCode: string;
+  accessCode: string;
   answer: string;
 }
 
