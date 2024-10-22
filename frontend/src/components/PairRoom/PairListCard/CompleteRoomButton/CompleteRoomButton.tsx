@@ -10,7 +10,11 @@ interface CompleteRoomButtonProps {
 
 const CompleteRoomButton = ({ isOpen, onClick, disabled = false }: CompleteRoomButtonProps) => {
   return (
-    <S.Layout onClick={onClick} disabled={disabled}>
+    <S.Layout
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={disabled ? '로그인 후 페어룸에 참여하면 방을 종료할 수 있습니다. ' : '클릭 시 페어룸이 종료됩니다.'}
+    >
       {disabled ? (
         <S.StyledTooltip message="로그인 후 페어룸에 참여하면 방을 종료할 수 있습니다." direction="top">
           <ImExit size="1.5rem" />
