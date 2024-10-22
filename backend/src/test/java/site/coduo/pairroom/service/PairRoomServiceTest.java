@@ -5,6 +5,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import static site.coduo.fixture.AccessCodeFixture.EASY_ACCESS_CODE_FRAM_LEMONE;
+import static site.coduo.fixture.AccessCodeFixture.EASY_ACCESS_CODE_INK_REDDY;
+
 import java.util.List;
 import java.util.Random;
 
@@ -147,7 +150,8 @@ class PairRoomServiceTest {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("fram"), new PairName("lemonL")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("1234"))
+                        new AccessCode("1234"),
+                        new AccessCode("fram와 lemonL"))
         );
         pairRoomRepository.save(entity);
 
@@ -168,7 +172,8 @@ class PairRoomServiceTest {
                 new PairRoom(PairRoomStatus.DELETED,
                         new Pair(new PairName("fram"), new PairName("lemonL")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("1234"))
+                        new AccessCode("1234"),
+                        new AccessCode("fram와 lemonL"))
         );
         pairRoomRepository.save(entity);
 
@@ -240,7 +245,8 @@ class PairRoomServiceTest {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
+                        new AccessCode("123456"),
+                        EASY_ACCESS_CODE_FRAM_LEMONE)
         );
         final Timer timer = new Timer(
                 new AccessCode(pairRoomEntity.getAccessCode()),
@@ -270,7 +276,8 @@ class PairRoomServiceTest {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("레모네")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        accessCode
+                        accessCode,
+                        EASY_ACCESS_CODE_FRAM_LEMONE
                 ));
         pairRoomRepository.save(pairRoomEntity);
 
@@ -299,7 +306,8 @@ class PairRoomServiceTest {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
+                        new AccessCode("123456"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
 

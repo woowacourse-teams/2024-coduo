@@ -4,6 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import static site.coduo.fixture.AccessCodeFixture.EASY_ACCESS_CODE_FRAM_LEMONE;
+import static site.coduo.fixture.AccessCodeFixture.NUMBER_ACCESS_CODE;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +15,6 @@ import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
-import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.timer.exception.InvalidTimerException;
 
 class TimerTest {
@@ -76,7 +78,8 @@ class TimerTest {
                 PairRoomStatus.IN_PROGRESS,
                 new Pair(new PairName(navigator), new PairName(driver)),
                 new MissionUrl("https://missionUrl.xxx"),
-                new AccessCode("123456")
+                NUMBER_ACCESS_CODE,
+                EASY_ACCESS_CODE_FRAM_LEMONE
         );
     }
 }
