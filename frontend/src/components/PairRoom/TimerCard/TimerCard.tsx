@@ -38,7 +38,7 @@ const TimerCard = ({ accessCode, defaultTime, defaultTimeleft, onTimerStop }: Ti
           $progress={(timeLeft / defaultTime) * 100}
           aria-label={`현재 남은 시간은 ${minutes}분 ${seconds}초 입니다.`}
         >
-          <S.Timer aria-live="polite" aria-label={`${minutes}분 ${seconds}초`}>
+          <S.Timer aria-label={`${minutes}분 ${seconds}초`}>
             <S.TimerTextContainer aria-hidden="true">
               <S.TimerText>{minutes}</S.TimerText>
               분(m)

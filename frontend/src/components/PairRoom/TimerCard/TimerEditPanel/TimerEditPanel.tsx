@@ -54,7 +54,7 @@ const TimerEditPanel = ({ isActive }: TimerEditPanelProps) => {
 
   return (
     <S.Layout>
-      <S.Icon onClick={handleButtonClick} aria-label="타이머 시간 수정 버튼" />
+      <S.Icon role="button" onClick={handleButtonClick} aria-label="타이머 시간 수정 버튼" />
       {isPanelOpen && (
         <S.Panel ref={panelRef}>
           <S.Title>타이머 시간 변경</S.Title>
