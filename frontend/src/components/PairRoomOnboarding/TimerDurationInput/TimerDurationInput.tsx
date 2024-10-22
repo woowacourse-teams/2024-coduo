@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-autofocus */
 import { useState } from 'react';
 
 import Button from '@/components/common/Button/Button';
@@ -37,7 +38,7 @@ const TimerDurationInput = ({ timerDuration, onTimerDuration }: TimerDurationInp
   };
 
   return (
-    <S.Layout>
+    <S.Layout aria-label="총 3개의 설정 항목 중 3번째 항목입니다.">
       <S.HeaderContainer>
         <S.TitleContainer>
           <S.Title>타이머 설정</S.Title>
@@ -67,6 +68,8 @@ const TimerDurationInput = ({ timerDuration, onTimerDuration }: TimerDurationInp
           </Button>
           {isCustom && (
             <Input
+              autoFocus
+              aria-label="타이머 시간을 분 단위로 입력해 주세요."
               width="20rem"
               $css={S.inputStyles}
               value={timerDuration}

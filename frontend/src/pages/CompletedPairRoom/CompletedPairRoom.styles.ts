@@ -43,19 +43,19 @@ export const PairInfo = styled.p`
 
   background-color: ${({ theme }) => theme.color.black[30]};
   color: ${({ theme }) => theme.color.black[70]};
-  font-size: ${({ theme }) => theme.fontSize.md};
+  font-size: ${({ theme }) => theme.fontSize.lg};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
 
 export const FirstPair = styled.p`
   color: ${({ theme }) => theme.color.primary[600]};
-  font-size: ${({ theme }) => theme.fontSize.md};
+  font-size: ${({ theme }) => theme.fontSize.lg};
   font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;
 
 export const SecondPair = styled.p`
   color: ${({ theme }) => theme.color.secondary[600]};
-  font-size: ${({ theme }) => theme.fontSize.md};
+  font-size: ${({ theme }) => theme.fontSize.lg};
   font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;
 
@@ -77,15 +77,4 @@ export const RepositoryLink = styled.a`
 export const GithubLogo = styled.img`
   width: 2rem;
   height: 2rem;
-`;
-
-export const ButtonPromptContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-`;
-export const ButtonPrompt = styled.div`
-  color: ${({ theme }) => theme.color.black[70]};
-  font-size: ${({ theme }) => theme.fontSize.sm};
 `;

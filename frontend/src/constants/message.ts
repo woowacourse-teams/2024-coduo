@@ -17,5 +17,10 @@ export const ERROR_MESSAGES = {
   CHECK_USER_LOGIN: '로그인 여부를 확인하지 못했습니다. 다시 시도해 주세요.',
   GET_MEMBER: '회원 정보를 가져오지 못했습니다. 다시 시도해 주세요.',
   DELETE_MEMBER: '회원 탈퇴에 실패했습니다. 다시 시도해 주세요.',
+  ADD_RETROSPECT: '회고를 작성하지 못했어요. 다시 시도해 주세요.',
+  GET_RETROSPECT: '회고 내용을 불러오지 못했어요. 새로고침 해 주세요.',
   UPDATE_PAIR_ROOM_STATUS: '페어 프로그래밍을 완료하는 데 실패했습니다. 다시 시도해 주세요.',
+  GET_USER_IS_IN_PAIR_ROOM: '페어룸 참여 여부를 확인하지 못했습니다. 다시 시도해 주세요.',
+  GET_USER_RETROSPECTS: '회고 정보를 가져오지 못했습니다. 다시 시도해 주세요.',
+  GET_USER_RETROSPECT_EXISTS: '회고 작성 여부를 확인하지 못했습니다. 다시 시도해 주세요.',
 };

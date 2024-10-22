@@ -14,7 +14,7 @@ const MissionSelectInput = ({ onSelect }: MissionSelectInputProps) => {
   const { repositories, isFetching } = useGetRepositories();
 
   return (
-    <S.Layout>
+    <S.Layout aria-label="총 2개의 설정 항목 중 1번째 항목입니다.">
       <S.HeaderContainer>
         <S.TitleContainer>
           <S.Title>미션 선택</S.Title>
