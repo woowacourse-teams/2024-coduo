@@ -45,14 +45,13 @@ public class SseEventStream implements EventStream {
                     .data(SUCCESS_MESSAGE)
                     .reconnectTime(1));
         } catch (final IOException e) {
-            throw new SseConnectionFailureException("SSE 연결이 실패했습니다.");
+            sseEmitter.completeWithError(new SseConnectionFailureException("SSE 연결이 실패했습니다."));
         }
         return sseEmitter;
     }
 
     @Override
     public void flush(final String name, final String message) {
-
         final String eventId = String.valueOf(id.incrementAndGet());
         try {
             sseEmitter.send(SseEmitter.event()
@@ -61,6 +60,7 @@ public class SseEventStream implements EventStream {
                     .data(message)
             );
         } catch (final IOException ignored) {
+            sseEmitter.completeWithError(new SseConnectionFailureException("SSE flush에 실패했습니다."));
         }
     }
 
