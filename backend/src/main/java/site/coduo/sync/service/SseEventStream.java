@@ -60,7 +60,7 @@ public class SseEventStream implements EventStream {
                     .data(message)
             );
         } catch (final IOException ignored) {
-            sseEmitter.completeWithError(new SseConnectionFailureException("SSE flush에 실패했습니다."));
+            sseEmitter.complete();
         }
     }
 
