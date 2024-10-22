@@ -81,7 +81,7 @@ const usePairRoomInformation = () => {
   };
 
   const handlePairRole = (name: string, role: Role) => {
-    const otherPair = userPairName.value === name ? name : userPairName.value;
+    const otherPair = userPairName.value === name ? pairName.value : userPairName.value;
 
     if (role === 'DRIVER') {
       setDriver(name);
