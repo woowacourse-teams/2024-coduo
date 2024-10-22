@@ -9,7 +9,7 @@ import site.coduo.retrospect.exception.InvalidRetrospectContentException;
 @Getter
 public class RetrospectContents {
 
-    private static final int RETROSPECT_CONTENTS_SIZE = 4;
+    private static final int RETROSPECT_CONTENTS_SIZE = 7;
 
     private final List<RetrospectContent> values;
 

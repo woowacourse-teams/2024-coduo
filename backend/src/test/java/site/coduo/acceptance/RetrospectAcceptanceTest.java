@@ -80,7 +80,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
         final CreateRetrospectRequest request = new CreateRetrospectRequest(
                 "123456",
-                List.of("회고 답변 1", "회고 답변 2", "회고 답변 3", "회고 답변 4")
+                List.of("회고 답변 1", "회고 답변 2", "회고 답변 3", "회고 답변 4", "회고 답변5", "회고 답변6", "회고 답변7")
         );
 
         // When && Then
@@ -124,7 +124,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
         final CreateRetrospectRequest request = new CreateRetrospectRequest(
                 "123456",
-                List.of("", "회고 답변 2", "회고 답변 3", "회고 답변 4")
+                List.of("", "회고 답변 2", "회고 답변 3", "회고 답변 4", "회고 답변5", "회고 답변6", "회고 답변7")
         );
         final ExtractableResponse<Response> response = RestAssured
                 .given()
@@ -174,7 +174,10 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FIRST, "답변1"),
                 new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.SECOND, "답변2"),
                 new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.THIRD, "답변3"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변4")
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변4"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변5"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변6"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변7")
         );
         retrospectContentRepository.saveAll(retrospectContentEntities);
 
@@ -228,7 +231,10 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FIRST, "답변1"),
                 new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.SECOND, "답변2"),
                 new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.THIRD, "답변3"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변4")
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변4"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변5"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변6"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변7")
         );
         retrospectContentRepository.saveAll(retrospectContentEntities);
 
@@ -246,7 +252,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 .extract();
 
         // Then
-        final List<String> expect = List.of("답변1", "답변2", "답변3", "답변4");
+        final List<String> expect = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6", "답변7");
         assertSoftly(softly -> {
             softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
             softly.assertThat((String) response.jsonPath().get("pairRoomAccessCode")).isEqualTo("ac");
@@ -281,7 +287,10 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FIRST, "답변1"),
                 new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.SECOND, "답변2"),
                 new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.THIRD, "답변3"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변4")
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변4"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변5"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변6"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변7")
         );
         retrospectContentRepository.saveAll(retrospectContentEntities);
 
@@ -332,7 +341,10 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FIRST, "답변1"),
                 new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.SECOND, "답변2"),
                 new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.THIRD, "답변3"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변4")
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변4"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변5"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변6"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변7")
         );
         retrospectContentRepository.saveAll(retrospectContentEntities);
 
@@ -392,7 +404,10 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FIRST, "답변1"),
                 new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.SECOND, "답변2"),
                 new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.THIRD, "답변3"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변4")
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변4"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변5"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변6"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변7")
         );
         retrospectContentRepository.saveAll(retrospectContentEntities);
 
@@ -443,7 +458,10 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FIRST, "답변1"),
                 new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.SECOND, "답변2"),
                 new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.THIRD, "답변3"),
-                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변4")
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변4"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변5"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변6"),
+                new RetrospectContentEntity(retrospectEntity, RetrospectQuestionType.FOURTH, "답변7")
         );
         retrospectContentRepository.saveAll(retrospectContentEntities);
 
