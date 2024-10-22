@@ -1,5 +1,6 @@
 package site.coduo.sync.service;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
@@ -66,15 +67,17 @@ class EventStreamsRegistryTest {
     }
 
     @Test
-    @DisplayName("키에 해당하는 커넥션이 유무를 확인할때 해당 키가 없으면 예외를 던진다.")
-    void throw_exception_when_check_contain_connection_with_unsaved_key() {
+    @DisplayName("키에 해당하는 커넥션이 유무를 확인할때 해당 키가 없으면 false를 반환한다.")
+    void check_has_no_connection_with_unsaved_key() {
         // given
         final EventStreamsRegistry eventStreamsRegistry = new EventStreamsRegistry();
         final String key = "tes";
 
-        // when & then
-        assertThatThrownBy(() -> eventStreamsRegistry.hasNoStreams(key))
-                .isInstanceOf(NotFoundSseConnectionException.class);
+        // when
+        final boolean hasNoKeyAndEmpty = eventStreamsRegistry.hasNoStreams(key);
+
+        // then
+        assertThat(hasNoKeyAndEmpty).isTrue();
     }
 
     @Test
