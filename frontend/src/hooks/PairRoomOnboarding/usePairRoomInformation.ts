@@ -38,7 +38,7 @@ const usePairRoomInformation = () => {
   const isPairRoleValid = driver !== '' && navigator !== '';
   const isTimerDurationValid = timerDuration !== '' && validateTimerDuration(timerDuration);
 
-  const handlePairRoomName = (userPairName: string, pairName: string) => {
+  const updatePairNames = (userPairName: string, pairName: string) => {
     const isValidUserPairName = validateName(userPairName);
     const isValidPairName = validateName(pairName);
 
@@ -63,7 +63,7 @@ const usePairRoomInformation = () => {
       setNavigator('');
     }
 
-    handlePairRoomName(event.target.value, pairName.value);
+    updatePairNames(event.target.value, pairName.value);
   };
 
   const handlePairName = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,12 +72,12 @@ const usePairRoomInformation = () => {
       setNavigator('');
     }
 
-    handlePairRoomName(userPairName.value, event.target.value);
+    updatePairNames(userPairName.value, event.target.value);
   };
 
   const handlePairData = (pairId: string, pairName: string) => {
     setPairId(pairId);
-    handlePairRoomName(userPairName.value, pairName);
+    updatePairNames(userPairName.value, pairName);
   };
 
   const handlePairRole = (name: string, role: Role) => {
