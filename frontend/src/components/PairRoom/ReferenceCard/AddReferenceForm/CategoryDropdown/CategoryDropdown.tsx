@@ -1,7 +1,5 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 
-import { validateCategory } from '@/validations/validateCategory';
-
 import Dropdown from '@/components/common/Dropdown/Dropdown/Dropdown';
 import Input from '@/components/common/Input/Input';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
@@ -12,6 +10,8 @@ import useInput from '@/hooks/common/useInput';
 import { DEFAULT_CATEGORY_VALUE } from '@/hooks/PairRoom/useCategories';
 
 import { useAddCategory } from '@/queries/PairRoom/category/mutation';
+
+import { validateCategory } from '@/validations/validateCategory';
 
 interface CategoryDropdownProp {
   categories: Category[];

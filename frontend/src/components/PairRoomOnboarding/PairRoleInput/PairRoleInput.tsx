@@ -9,14 +9,14 @@ import type { Role } from '@/hooks/PairRoomOnboarding/usePairRoomInformation';
 import * as S from './PairRoleInput.styles';
 
 interface PairRoleInputProps {
-  firstPair: string;
-  secondPair: string;
+  userPairName: string;
+  pairName: string;
   driver: string;
   navigator: string;
-  onRole: (pairName: string, role: Role) => void;
+  onPairRole: (name: string, role: Role) => void;
 }
 
-const PairRoleInput = ({ firstPair, secondPair, driver, navigator, onRole }: PairRoleInputProps) => {
+const PairRoleInput = ({ userPairName, pairName, driver, navigator, onPairRole }: PairRoleInputProps) => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
@@ -44,18 +44,18 @@ const PairRoleInput = ({ firstPair, secondPair, driver, navigator, onRole }: Pai
           <S.DropdownLabel>드라이버</S.DropdownLabel>
           <Dropdown
             placeholder={'이름을 선택해주세요.'}
-            options={[firstPair, secondPair]}
+            options={[userPairName, pairName]}
             selectedOption={driver}
-            onSelect={(name) => onRole(name, 'DRIVER')}
+            onSelect={(name) => onPairRole(name, 'DRIVER')}
           />
         </S.DropdownWrapper>
         <S.DropdownWrapper>
           <S.DropdownLabel>내비게이터</S.DropdownLabel>
           <Dropdown
             placeholder={'이름을 선택해주세요.'}
-            options={[firstPair, secondPair]}
+            options={[userPairName, pairName]}
             selectedOption={navigator}
-            onSelect={(name) => onRole(name, 'NAVIGATOR')}
+            onSelect={(name) => onPairRole(name, 'NAVIGATOR')}
           />
         </S.DropdownWrapper>
       </S.DropdownContainer>

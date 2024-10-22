@@ -1,8 +1,6 @@
 import { FaFilter } from 'react-icons/fa';
 import { LuPlus } from 'react-icons/lu';
 
-import { validateCategory } from '@/validations/validateCategory';
-
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import { Message } from '@/components/common/Input/Input.styles';
@@ -13,6 +11,8 @@ import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type
 import useInput from '@/hooks/common/useInput';
 
 import { useAddCategory } from '@/queries/PairRoom/category/mutation';
+
+import { validateCategory } from '@/validations/validateCategory';
 
 import * as S from './CategoryManagementModal.styles';
 

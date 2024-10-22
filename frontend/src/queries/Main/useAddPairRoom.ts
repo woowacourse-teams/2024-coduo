@@ -17,8 +17,15 @@ const useAddPairRoom = () => {
     onSuccess: (accessCode) => navigate(`/room/${accessCode}`, { state: { valid: true }, replace: true }),
   });
 
-  const handleAddPairRoom = async (driver: string, navigator: string, missionUrl: string, timerDuration: string) => {
+  const handleAddPairRoom = async (
+    pairId: string,
+    driver: string,
+    navigator: string,
+    missionUrl: string,
+    timerDuration: string,
+  ) => {
     return mutate({
+      pairId,
       driver,
       navigator,
       missionUrl,

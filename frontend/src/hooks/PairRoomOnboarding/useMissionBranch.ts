@@ -1,6 +1,6 @@
-import { validateBranchName } from '@/validations/validateBranchName';
-
 import useInput from '@/hooks/common/useInput';
+
+import { validateBranchName } from '@/validations/validateBranchName';
 
 const useMissionBranch = () => {
   const { value, status, message, handleChange, resetValue } = useInput();

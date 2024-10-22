@@ -78,16 +78,10 @@ module.exports = {
             position: 'after',
           },
           {
-            pattern: '@/validations/**',
-            group: 'internal',
-            position: 'after',
-          },
-          {
             pattern: '@/components/**',
             group: 'internal',
             position: 'after',
           },
-
           {
             pattern: '@/common/**',
             group: 'internal',
@@ -115,6 +109,11 @@ module.exports = {
           },
           {
             pattern: '@/utils/**',
+            group: 'internal',
+            position: 'after',
+          },
+          {
+            pattern: '@/validations/**',
             group: 'internal',
             position: 'after',
           },
