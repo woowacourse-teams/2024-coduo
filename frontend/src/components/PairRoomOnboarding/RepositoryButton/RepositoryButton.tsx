@@ -28,8 +28,12 @@ const RepositoryButton = ({ id, name, onSelect }: RepositoryButtonProps) => {
           {name}
         </S.InfoContainer>
       </Button>
-      <S.RepositoryLink to={`https://github.com/coduo-missions/${name}`} target="_blank">
-        레포지토리로 이동하기
+      <S.RepositoryLink
+        to={`https://github.com/coduo-missions/${name}`}
+        target="_blank"
+        aria-label={`${name} 레포지토리로 이동하기`}
+      >
+        리포지토리로 이동하기
         <IoIosArrowForward />
       </S.RepositoryLink>
     </S.Layout>
