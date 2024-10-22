@@ -5,6 +5,7 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.hamcrest.Matchers.hasSize;
 
 import static site.coduo.common.config.web.filter.SignInCookieFilter.SIGN_IN_COOKIE_NAME;
+import static site.coduo.fixture.AccessCodeFixture.EASY_ACCESS_CODE_INK_REDDY;
 
 import java.util.Map;
 
@@ -39,6 +40,10 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
 
     @Autowired
     private JwtProvider jwtProvider;
+    @Autowired
+    private PairRoomRepository pairRoomRepository;
+    @Autowired
+    private PairRoomMemberRepository pairRoomMemberRepository;
 
     static PairRoomCreateResponse createPairRoom(final PairRoomCreateRequest request) {
         return RestAssured
@@ -54,11 +59,6 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .extract()
                 .as(PairRoomCreateResponse.class);
     }
-
-    @Autowired
-    private PairRoomRepository pairRoomRepository;
-    @Autowired
-    private PairRoomMemberRepository pairRoomMemberRepository;
 
     @Test
     @DisplayName("페어룸 요청 시 정보를 반환한다.")
@@ -270,7 +270,8 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("ac"))
+                        new AccessCode("ac"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
 
