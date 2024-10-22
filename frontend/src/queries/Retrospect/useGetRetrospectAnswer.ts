@@ -11,7 +11,7 @@ export const useGetRetrospectAnswer = (retrospectId: string) => {
     retry: false,
   });
 
-  const { pairRoomAccessCode, answer } = data;
+  const { accessCode, answers } = data;
 
-  return { accessCode: pairRoomAccessCode, answer };
+  return { accessCode, answers };
 };
