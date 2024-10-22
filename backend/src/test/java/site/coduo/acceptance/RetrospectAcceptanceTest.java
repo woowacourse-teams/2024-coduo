@@ -199,7 +199,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
             softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
             softly.assertThat((List) response.jsonPath().get("retrospects")).hasSize(1);
             softly.assertThat((int) response.jsonPath().get("retrospects[0].retrospectId")).isEqualTo(0);
-            softly.assertThat((String) response.jsonPath().get("retrospects[0].pairRoomAccessCode")).isEqualTo("ac");
+            softly.assertThat((String) response.jsonPath().get("retrospects[0].accessCode")).isEqualTo("ac");
             softly.assertThat((String) response.jsonPath().get("retrospects[0].answer")).isEqualTo("답변1");
         });
     }
@@ -255,7 +255,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
         final List<String> expect = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6", "답변7");
         assertSoftly(softly -> {
             softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-            softly.assertThat((String) response.jsonPath().get("pairRoomAccessCode")).isEqualTo("ac");
+            softly.assertThat((String) response.jsonPath().get("accessCode")).isEqualTo("ac");
             softly.assertThat((List) response.jsonPath().get("answers")).isEqualTo(expect);
         });
     }
