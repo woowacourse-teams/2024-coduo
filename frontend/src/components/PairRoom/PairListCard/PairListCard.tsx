@@ -22,12 +22,14 @@ interface PairListCardProps {
 
 const PairListCard = ({ driver, navigator, missionUrl, roomCode }: PairListCardProps) => {
   const [isOpen, setIsOpen] = useState(true);
+
+  const { userStatus } = useUserStore();
   const { handleCompletePairRoom } = useCompletePairRoom(roomCode);
 
   const toggleOpen = () => setIsOpen(!isOpen);
-  const { userStatus } = useUserStore();
+
   return (
-    <S.Layout $isOpen={isOpen}>
+    <S.Layout $isOpen={isOpen} aria-label="페어 목록">
       <PairRoomCard>
         <Header isOpen={isOpen} toggleOpen={toggleOpen} />
         <S.Sidebar>

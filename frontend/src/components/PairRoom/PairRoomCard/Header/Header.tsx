@@ -1,7 +1,7 @@
 import * as S from './Header.styles';
 
 interface HeaderProps {
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   secondIcon?: React.ReactNode;
   title: string;
   isOpen?: boolean;
