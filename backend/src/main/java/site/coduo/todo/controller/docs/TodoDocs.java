@@ -57,6 +57,7 @@ public interface TodoDocs {
     );
 
     @Operation(summary = "투두를 삭제한다.")
+    @ApiResponse(responseCode = "204", description = "투두 삭제 성공")
     ResponseEntity<Void> deleteTodo(
             @Parameter(description = "삭제할 투두 id")
             @PathVariable("todoId") final long todoId

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -59,8 +60,8 @@ public interface PairRoomDocs {
     );
 
     @Operation(summary = "자신의 페어룸을 조회한다.")
-    @ApiResponse(responseCode = "200", description = "페어룸 조회 성공", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-            schema = @Schema(implementation = PairRoomMemberResponse.class)))
+    @ApiResponse(responseCode = "200", description = "페어룸 조회 성공", content = @Content(
+            array = @ArraySchema(schema = @Schema(implementation = PairRoomMemberResponse.class))))
     ResponseEntity<List<PairRoomMemberResponse>> getPairRooms(
             @Parameter(
                     in = ParameterIn.COOKIE,
