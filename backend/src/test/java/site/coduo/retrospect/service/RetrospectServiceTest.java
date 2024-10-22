@@ -99,7 +99,7 @@ class RetrospectServiceTest {
 
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
         final String pairRoomAccessCode = "123456";
-        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
+        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6");
 
         // When
         retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
@@ -130,7 +130,7 @@ class RetrospectServiceTest {
 
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
         final String pairRoomAccessCode = "kelly-code";
-        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
+        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6", "답변7");
 
         // When & Then
         assertThatThrownBy(() -> retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers))
@@ -172,7 +172,7 @@ class RetrospectServiceTest {
 
         final String credentialToken = jwtProvider.sign(savedMember2.getUserId());
         final String pairRoomAccessCode = "123456";
-        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
+        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6", "답변7");
 
         // When & Then
         assertThatThrownBy(() -> retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers))
@@ -204,7 +204,7 @@ class RetrospectServiceTest {
                 new PairRoomMemberEntity(savedPairRoom, savedMember));
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
         final String pairRoomAccessCode = "123456";
-        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
+        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6");
         retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
 
         // When
@@ -242,7 +242,7 @@ class RetrospectServiceTest {
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
         final String pairRoomAccessCode = "123456";
-        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
+        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6");
         retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
         final RetrospectEntity savedRetrospectEntity = retrospectRepository.findByPairRoomAndMember(savedPairRoom,
                 savedMember).get();
@@ -287,7 +287,7 @@ class RetrospectServiceTest {
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
         final String pairRoomAccessCode = "123456";
-        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
+        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6");
         retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
         final RetrospectEntity savedRetrospectEntity = retrospectRepository.findByPairRoomAndMember(savedPairRoom,
                 savedMember).get();
@@ -343,7 +343,7 @@ class RetrospectServiceTest {
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, owner));
         final String credentialToken = jwtProvider.sign(owner.getUserId());
         final String pairRoomAccessCode = "123456";
-        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
+        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6");
         retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
         final RetrospectEntity savedRetrospectEntity = retrospectRepository.findByPairRoomAndMember(savedPairRoom,
                 owner).get();
@@ -378,7 +378,7 @@ class RetrospectServiceTest {
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
         final String pairRoomAccessCode = "123456";
-        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4");
+        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6");
         retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
         retrospectRepository.findByPairRoomAndMember(savedPairRoom, savedMember).get();
 
