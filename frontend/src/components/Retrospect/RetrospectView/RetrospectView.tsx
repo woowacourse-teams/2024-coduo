@@ -12,7 +12,7 @@ import * as S from './RetrospectView.styles';
 const RetrospectView = () => {
   const navigate = useNavigate();
   const { retrospectId } = useParams();
-  const { accessCode, answer } = useGetRetrospectAnswer(retrospectId || '');
+  const { accessCode, answers } = useGetRetrospectAnswer(retrospectId || '');
 
   return (
     <>
@@ -22,8 +22,8 @@ const RetrospectView = () => {
         accessCode={accessCode}
       />
       {RETROSPECT_QUESTIONS.map((question, index) => (
-        <Question key={question.id} id={question.id} question={question.value}>
-          <S.Text>{answer[index]}</S.Text>;
+        <Question key={question.id} id={question.id} title={question.title} subtitle={question.subtitle}>
+          <S.Text>{answers[index]}</S.Text>
         </Question>
       ))}
     </>

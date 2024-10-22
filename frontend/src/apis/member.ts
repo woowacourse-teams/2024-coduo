@@ -21,6 +21,15 @@ export const getMember = async (): Promise<{ username: string }> => {
   return response.json();
 };
 
+export const getMemberName = async (userId: string): Promise<{ memberName: string }> => {
+  const response = await fetcher.get({
+    url: `${API_URL}/member/exists?user_id=${userId}`,
+    errorMessage: ERROR_MESSAGES.GET_MEMBER,
+  });
+
+  return response.json();
+};
+
 export const deleteMember = async () => {
   await fetcher.delete({
     url: `${API_URL}/member`,

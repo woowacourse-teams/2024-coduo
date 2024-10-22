@@ -1,8 +1,6 @@
 import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { validateTimerDuration } from '@/validations/validateTimerDuration';
-
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 
@@ -13,6 +11,8 @@ import useInput from '@/hooks/common/useInput';
 import useModal from '@/hooks/common/useModal';
 
 import useUpdateDuration from '@/queries/PairRoom/useUpdateDuration';
+
+import { validateTimerDuration } from '@/validations/validateTimerDuration';
 
 import * as S from './TimerEditPanel.styles';
 

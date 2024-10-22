@@ -14,3 +14,8 @@ export const validateDuplicateName = (firstPairName: string, secondPairName: str
 
   return { status: 'DEFAULT' as InputStatus, message: '' };
 };
+
+export const validatePairInfo = (info: string) => {
+  if (info.trim() === '') return { status: 'ERROR' as InputStatus, message: '값을 입력해 주세요.' };
+  return { status: 'DEFAULT' as InputStatus, message: '' };
+};

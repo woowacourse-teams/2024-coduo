@@ -25,9 +25,7 @@ const RetrospectButton = ({ accessCode }: RetrospectButtonProps) => {
   const handleRetrospectButtonClick = async () => {
     if (isUserRetrospectExist) {
       const data = await getUserRetrospects(accessCode);
-      const retrospectId = data.retrospects.find(
-        (retrospect) => retrospect.pairRoomAccessCode === accessCode,
-      )?.retrospectId;
+      const retrospectId = data.retrospects.find((retrospect) => retrospect.accessCode === accessCode)?.retrospectId;
       navigate(`/retrospect/${retrospectId}`);
     } else {
       navigate(`/retrospect`, { state: { accessCode } });

@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { LogoIconWithTitle } from '@/assets';
 
-import { validateName } from '@/validations/validatePairName';
-
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 
@@ -12,6 +10,8 @@ import useUserStore from '@/stores/userStore';
 
 import useInput from '@/hooks/common/useInput';
 import useSignUpHandler from '@/hooks/member/useSignUpHandler';
+
+import { validateName } from '@/validations/validatePairName';
 
 import * as S from './SignUp.styles';
 

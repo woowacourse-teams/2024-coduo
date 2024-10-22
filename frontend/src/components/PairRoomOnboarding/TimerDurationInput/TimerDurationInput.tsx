@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 import { useState } from 'react';
 
-import { validateTimerDuration } from '@/validations/validateTimerDuration';
-
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import InformationBox from '@/components/PairRoomOnboarding/InformationBox/InformationBox';
+
+import { validateTimerDuration } from '@/validations/validateTimerDuration';
 
 import * as S from './TimerDurationInput.styles';
 
