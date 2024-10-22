@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { LogoIcon } from '@/assets';
 
@@ -10,6 +10,7 @@ import * as S from './PairNameInput.styles';
 
 interface PairNameInputProps {
   userPairName: InputType;
+  pairId: string;
   pairName: InputType;
   onUserPairName: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onPairName: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -18,12 +19,17 @@ interface PairNameInputProps {
 
 const PairNameInput = ({
   userPairName,
+  pairId,
   pairName,
   onUserPairName,
   onPairName,
   openAddPairModal,
 }: PairNameInputProps) => {
-  const [isInputOpen, setIsInputOpen] = useState(false);
+  const [isInputOpen, setIsInputOpen] = useState(!!pairId);
+
+  useEffect(() => {
+    if (pairId !== '') setIsInputOpen(true);
+  }, [pairId]);
 
   return (
     <S.Layout>
@@ -52,9 +58,11 @@ const PairNameInput = ({
               message={pairName.message}
               onChange={onPairName}
             />
-            <Button css={S.buttonStyles} onClick={() => setIsInputOpen(false)}>
-              취소
-            </Button>
+            {!pairId && (
+              <Button css={S.buttonStyles} onClick={() => setIsInputOpen(false)}>
+                취소
+              </Button>
+            )}
           </S.InputWrapper>
         ) : (
           <>

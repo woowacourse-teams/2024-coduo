@@ -77,7 +77,7 @@ const usePairRoomInformation = () => {
 
   const handlePairData = (pairId: string, pairName: string) => {
     setPairId(pairId);
-    setPairName((prev) => ({ ...prev, value: pairName }));
+    handlePairRoomName(userPairName.value, pairName);
   };
 
   const handlePairRole = (name: string, role: Role) => {

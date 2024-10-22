@@ -2,9 +2,11 @@ import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import { Modal } from '@/components/common/Modal';
 
-import useInput from '@/hooks/common/useInput';
+import useToastStore from '@/stores/toastStore';
 
-import useGetMemberName from '@/queries/PairRoomOnboarding/useGetMemberName';
+import { getMemberName } from '@/apis/member';
+
+import useInput from '@/hooks/common/useInput';
 
 import { validatePairInfo } from '@/validations/validatePairName';
 
@@ -16,15 +18,24 @@ interface AddPairModalProps {
 
 const AddPairModal = ({ isOpen, closeModal, onPairData }: AddPairModalProps) => {
   const { value, status, message, handleChange, resetValue } = useInput();
-
-  const { handleGetMemberName } = useGetMemberName((pairName) => {
-    onPairData(value, pairName);
-    handleCloseModal();
-  });
+  const { addToast } = useToastStore();
 
   const handleCloseModal = () => {
     resetValue();
     closeModal();
+  };
+
+  const connectPairData = async (pairId: string) => {
+    try {
+      const { memberName } = await getMemberName(pairId);
+      onPairData(pairId, memberName);
+      handleCloseModal();
+      addToast({ status: 'SUCCESS', message: '페어 정보 연동에 성공했습니다.' });
+    } catch (error) {
+      if (error instanceof Error) {
+        addToast({ status: 'ERROR', message: '회원 정보가 없습니다. 아이디를 다시 확인해 주세요.' });
+      }
+    }
   };
 
   return (
@@ -44,7 +55,7 @@ const AddPairModal = ({ isOpen, closeModal, onPairData }: AddPairModalProps) => 
         <Button onClick={handleCloseModal} filled={false}>
           닫기
         </Button>
-        <Button disabled={value.trim() === '' || status === 'ERROR'} onClick={() => handleGetMemberName(value)}>
+        <Button disabled={value.trim() === '' || status === 'ERROR'} onClick={() => connectPairData(value)}>
           연동하기
         </Button>
       </Modal.Footer>

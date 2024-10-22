@@ -51,6 +51,7 @@ const PairRoomSettingSection = ({ repositoryName }: PairRoomSettingSectionProps)
     <S.Layout>
       <PairNameInput
         userPairName={userPairName}
+        pairId={pairId}
         pairName={pairName}
         onUserPairName={handleUserPairName}
         onPairName={handlePairName}
