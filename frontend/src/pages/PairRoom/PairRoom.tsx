@@ -18,10 +18,14 @@ import useUpdatePairRoom from '@/queries/PairRoom/useUpdatePairRoom';
 import * as S from './PairRoom.styles';
 
 const PairRoom = () => {
-  const { accessCode } = useParams();
   const navigate = useNavigate();
+  const { accessCode } = useParams();
+
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
+  const [isCardOpen, setIsCardOpen] = useState(false);
+
+  const { isModalOpen, closeModal } = useModal(true);
 
   const {
     driver: latestDriver,
@@ -32,19 +36,17 @@ const PairRoom = () => {
     remainingTime,
     isFetching,
   } = useGetPairRoom(accessCode || '');
+
   const { handleUpdatePairRole } = useUpdatePairRoom(accessCode || '');
 
   useEffect(() => {
-    if (status === 'COMPLETED') {
-      navigate(`/room/${accessCode}/completed`, { state: { valid: true }, replace: true });
-    }
+    if (status === 'COMPLETED') navigate(`/room/${accessCode}/completed`, { state: { valid: true }, replace: true });
+  }, [status]);
+
+  useEffect(() => {
     setDriver(latestDriver);
     setNavigator(latestNavigator);
   }, [latestDriver, latestNavigator]);
-
-  const [isCardOpen, setIsCardOpen] = useState(false);
-
-  const { isModalOpen, closeModal } = useModal(true);
 
   if (isFetching) {
     return <Loading />;
