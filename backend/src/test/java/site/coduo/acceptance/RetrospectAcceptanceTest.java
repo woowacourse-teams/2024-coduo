@@ -3,6 +3,8 @@ package site.coduo.acceptance;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
+import static site.coduo.fixture.AccessCodeFixture.EASY_ACCESS_CODE_INK_REDDY;
+
 import java.util.List;
 import java.util.Map;
 
@@ -63,7 +65,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
         final PairRoomEntity savedPairRoom = saveTestPairRoom();
         final Member savedMember = saveTestMember();
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
-
+      
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
         final CreateRetrospectRequest request = RetrospectCreateRequestFixture.setCreateRequest();
 
@@ -260,7 +262,6 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
         );
         final PairRoomEntity savedPairRoom = saveTestPairRoom();
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, owner));
-
         final RetrospectEntity retrospectEntity = retrospectRepository.save(
                 new RetrospectEntity(savedPairRoom, owner));
         saveRetrospectContents(retrospectEntity);

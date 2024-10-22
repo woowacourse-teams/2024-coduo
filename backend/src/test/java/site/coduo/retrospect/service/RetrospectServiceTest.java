@@ -3,6 +3,8 @@ package site.coduo.retrospect.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import static site.coduo.fixture.AccessCodeFixture.EASY_ACCESS_CODE_INK_REDDY;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -89,7 +91,8 @@ class RetrospectServiceTest {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
+                        new AccessCode("123456"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(
                 new PairRoomMemberEntity(savedPairRoom, savedMember));
@@ -161,7 +164,8 @@ class RetrospectServiceTest {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
+                        new AccessCode("123456"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(
                 new PairRoomMemberEntity(savedPairRoom, savedMember1));
@@ -193,7 +197,8 @@ class RetrospectServiceTest {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
+                        new AccessCode("123456"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(
                 new PairRoomMemberEntity(savedPairRoom, savedMember));
@@ -231,7 +236,8 @@ class RetrospectServiceTest {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
+                        new AccessCode("123456"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
@@ -275,7 +281,8 @@ class RetrospectServiceTest {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
+                        new AccessCode("123456"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
@@ -330,7 +337,8 @@ class RetrospectServiceTest {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
+                        new AccessCode("123456"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, owner));
         final String credentialToken = jwtProvider.sign(owner.getUserId());
@@ -364,7 +372,8 @@ class RetrospectServiceTest {
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("123456"))
+                        new AccessCode("123456"),
+                        EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
