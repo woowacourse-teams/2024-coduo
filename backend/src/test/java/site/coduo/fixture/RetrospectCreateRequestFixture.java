@@ -9,14 +9,14 @@ public class RetrospectCreateRequestFixture {
     public static CreateRetrospectRequest setCreateRequest() {
         return new CreateRetrospectRequest(
                 "ac",
-                List.of("회고 답변 1", "회고 답변 2", "회고 답변 3", "회고 답변 4", "회고 답변5", "회고 답변6", "회고 답변7")
+                List.of("회고 답변 1", "회고 답변 2", "회고 답변 3", "회고 답변 4", "회고 답변5", "회고 답변6")
         );
     }
 
     public static CreateRetrospectRequest setWrongCreateRequest() {
         return new CreateRetrospectRequest(
                 "ac",
-                List.of("", "회고 답변 2", "회고 답변 3", "회고 답변 4", "회고 답변5", "회고 답변6", "회고 답변7")
+                List.of("", "회고 답변 2", "회고 답변 3", "회고 답변 4", "회고 답변5", "회고 답변6")
         );
     }
 }

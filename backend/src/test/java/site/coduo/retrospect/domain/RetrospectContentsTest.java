@@ -22,8 +22,7 @@ class RetrospectContentsTest {
                 new RetrospectContent(RetrospectQuestionType.THIRD, new RetrospectAnswer("답변3")),
                 new RetrospectContent(RetrospectQuestionType.FOURTH, new RetrospectAnswer("답변4")),
                 new RetrospectContent(RetrospectQuestionType.FOURTH, new RetrospectAnswer("답변5")),
-                new RetrospectContent(RetrospectQuestionType.FOURTH, new RetrospectAnswer("답변6")),
-                new RetrospectContent(RetrospectQuestionType.FOURTH, new RetrospectAnswer("답변7"))
+                new RetrospectContent(RetrospectQuestionType.FOURTH, new RetrospectAnswer("답변6"))
         );
 
         // When
@@ -54,14 +53,14 @@ class RetrospectContentsTest {
         // When & Then
         assertThatThrownBy(() -> new RetrospectContents(input))
                 .isInstanceOf(InvalidRetrospectContentException.class)
-                .hasMessage("회고 내용 개수는 7개여야 합니다. - " + input.size());
+                .hasMessage("회고 내용 개수는 6개여야 합니다. - " + input.size());
     }
 
     @DisplayName("유효한 회고 내용 문자열 값들이 입력되면 객체를 생성한다.")
     @Test
     void createObjectOfRetrospectContentStrings() {
         // Given
-        final List<String> input = List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4", "회고 답변5", "회고 답변6", "회고 답변7");
+        final List<String> input = List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4", "회고 답변5", "회고 답변6");
 
         // When
         final RetrospectContents retrospectContents = RetrospectContents.of(input);
@@ -83,7 +82,7 @@ class RetrospectContentsTest {
     @Test
     void getFirst() {
         // Given
-        final RetrospectContents retrospectContents = RetrospectContents.of(List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4", "회고 답변5", "회고 답변6", "회고 답변7"));
+        final RetrospectContents retrospectContents = RetrospectContents.of(List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4", "회고 답변5", "회고 답변6"));
 
         // When
         final RetrospectContent first = retrospectContents.getFirst();

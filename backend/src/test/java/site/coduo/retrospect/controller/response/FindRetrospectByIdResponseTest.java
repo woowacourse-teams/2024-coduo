@@ -29,7 +29,7 @@ class FindRetrospectByIdResponseTest {
                 .profileImage("some image")
                 .build();
         final RetrospectContents retrospectContents = RetrospectContents.of(
-                List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4", "회고 답변5", "회고 답변6", "회고 답변7"));
+                List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4", "회고 답변5", "회고 답변6"));
         final Retrospect retrospect = new Retrospect(id, pairRoom, member, retrospectContents);
 
         // When

@@ -3,8 +3,6 @@ package site.coduo.acceptance;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
-import static site.coduo.fixture.AccessCodeFixture.EASY_ACCESS_CODE_INK_REDDY;
-
 import java.util.List;
 import java.util.Map;
 
@@ -65,7 +63,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
         final PairRoomEntity savedPairRoom = saveTestPairRoom();
         final Member savedMember = saveTestMember();
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
-      
+
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
         final CreateRetrospectRequest request = RetrospectCreateRequestFixture.setCreateRequest();
 
@@ -122,7 +120,8 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
         final PairRoomEntity savedPairRoom = saveTestPairRoom();
         final Member savedMember = saveTestMember();
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
-        final RetrospectEntity retrospectEntity = retrospectRepository.save(new RetrospectEntity(savedPairRoom, savedMember));
+        final RetrospectEntity retrospectEntity = retrospectRepository.save(
+                new RetrospectEntity(savedPairRoom, savedMember));
         saveRetrospectContents(retrospectEntity);
 
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
@@ -176,7 +175,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 .extract();
 
         // Then
-        final List<String> expect = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6", "답변7");
+        final List<String> expect = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6");
         assertSoftly(softly -> {
             softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
             softly.assertThat((String) response.jsonPath().get("accessCode")).isEqualTo("ac");
@@ -334,10 +333,13 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
 
     private PairRoomEntity saveTestPairRoom() {
         return pairRoomRepository.save(PairRoomEntity.from(
-                new PairRoom(PairRoomStatus.IN_PROGRESS,
+                new PairRoom(
+                        PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
-                        new AccessCode("ac"))
+                        new AccessCode("ac"),
+                        new AccessCode("ac")
+                )
         ));
     }
 
@@ -348,8 +350,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 new RetrospectContentEntity(retrospect, RetrospectQuestionType.THIRD, "답변3"),
                 new RetrospectContentEntity(retrospect, RetrospectQuestionType.FOURTH, "답변4"),
                 new RetrospectContentEntity(retrospect, RetrospectQuestionType.FOURTH, "답변5"),
-                new RetrospectContentEntity(retrospect, RetrospectQuestionType.FOURTH, "답변6"),
-                new RetrospectContentEntity(retrospect, RetrospectQuestionType.FOURTH, "답변7")
+                new RetrospectContentEntity(retrospect, RetrospectQuestionType.FOURTH, "답변6")
         );
         retrospectContentRepository.saveAll(retrospectContentEntities);
     }
