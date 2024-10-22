@@ -16,17 +16,13 @@ const useInputAnswer = (accessCode: string) => {
     setAnswers(newAnswer);
   };
 
-  const hasEmptyField = () => {
-    return answers.some((item) => item.replace(/\s/g, '') === '');
-  };
-
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     await mutateAsync({ accessCode, answers }).then(() => navigate(`/room/${accessCode}/completed`));
   };
 
-  return { answers, handleChange, hasEmptyField, handleSubmit };
+  return { answers, handleChange, handleSubmit };
 };
 
 export default useInputAnswer;

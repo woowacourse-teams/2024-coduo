@@ -23,7 +23,7 @@ const RetrospectView = () => {
       />
       {RETROSPECT_QUESTIONS.map((question, index) => (
         <Question key={question.id} id={question.id} title={question.title} subtitle={question.subtitle}>
-          <S.Text>{answers[index]}</S.Text>;
+          <S.Text>{answers[index]}</S.Text>
         </Question>
       ))}
     </>

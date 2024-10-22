@@ -17,7 +17,8 @@ import * as S from './RetrospectForm.styles';
 const RetrospectForm = () => {
   const location = useLocation();
   const accessCode = location.state.accessCode;
-  const { answers, handleChange, hasEmptyField, handleSubmit } = useInputAnswer(accessCode);
+
+  const { answers, handleChange, handleSubmit } = useInputAnswer(accessCode);
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
@@ -39,7 +40,7 @@ const RetrospectForm = () => {
           </Question>
         ))}
 
-        <Button disabled={hasEmptyField()} type="submit" css={S.SubmitButton}>
+        <Button type="submit" css={S.SubmitButton}>
           작성 완료
         </Button>
       </S.LayoutForm>
