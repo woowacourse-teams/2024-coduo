@@ -53,8 +53,7 @@ const MyPageContent = () => {
         >
           {myRetrospects?.map((retrospect) => (
             <RetrospectButton
-              key={retrospect.retrospectId}
-              retrospectId={retrospect.retrospectId}
+              key={retrospect.accessCode}
               answer={retrospect.answer}
               accessCode={retrospect.accessCode}
             />

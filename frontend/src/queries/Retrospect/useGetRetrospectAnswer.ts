@@ -4,14 +4,14 @@ import { getRetrospectAnswer } from '@/apis/retrospect';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-export const useGetRetrospectAnswer = (retrospectId: string) => {
+export const useGetRetrospectAnswer = (accessCode: string) => {
   const { data } = useSuspenseQuery({
     queryKey: [QUERY_KEYS.GET_RETROSPECT_ANSWER],
-    queryFn: () => getRetrospectAnswer({ retrospectId }),
+    queryFn: () => getRetrospectAnswer({ accessCode }),
     retry: false,
   });
 
-  const { accessCode, answers } = data;
+  const answers = data.answers;
 
-  return { accessCode, answers };
+  return answers;
 };

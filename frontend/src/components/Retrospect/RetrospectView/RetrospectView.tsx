@@ -11,15 +11,15 @@ import * as S from './RetrospectView.styles';
 
 const RetrospectView = () => {
   const navigate = useNavigate();
-  const { retrospectId } = useParams();
-  const { accessCode, answers } = useGetRetrospectAnswer(retrospectId || '');
+  const { accessCode } = useParams();
+  const answers = useGetRetrospectAnswer(accessCode || '');
 
   return (
     <>
       <RetrospectHeader
         onClick={() => navigate(`/room/${accessCode}`, { replace: true })}
         readOnly={true}
-        accessCode={accessCode}
+        accessCode={accessCode || ''}
       />
       {RETROSPECT_QUESTIONS.map((question, index) => (
         <Question key={question.id} id={question.id} title={question.title} subtitle={question.subtitle}>

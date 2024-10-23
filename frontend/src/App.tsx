@@ -98,6 +98,10 @@ const App = () => {
                 </Suspense>
               ),
             },
+            {
+              path: ':accessCode/retrospect',
+              element: <Retrospect />,
+            },
           ],
         },
         {
@@ -120,10 +124,7 @@ const App = () => {
           path: 'retrospect',
           element: <Retrospect readOnly={false} />,
         },
-        {
-          path: 'retrospect/:retrospectId',
-          element: <Retrospect />,
-        },
+
         {
           path: 'error',
           element: <Error />,

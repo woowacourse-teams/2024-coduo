@@ -18,32 +18,30 @@ export const addRetrospect = async ({ accessCode, answers }: AddRetrospectReques
 };
 
 interface GetRetrospectRequest {
-  retrospectId: string;
+  accessCode: string;
 }
 
 interface GetRetrospectResponse {
-  accessCode: string;
   answers: string[];
 }
 
-export const getRetrospectAnswer = async ({ retrospectId }: GetRetrospectRequest): Promise<GetRetrospectResponse> => {
+export const getRetrospectAnswer = async ({ accessCode }: GetRetrospectRequest): Promise<GetRetrospectResponse> => {
   const response = await fetcher.get({
-    url: `${API_URL}/retrospects/${retrospectId}`,
+    url: `${API_URL}/retrospects/${accessCode}`,
     errorMessage: ERROR_MESSAGES.GET_RETROSPECT,
   });
 
   return await response.json();
 };
 
-export const deleteRetrospectAnswer = async ({ retrospectId }: GetRetrospectRequest) => {
+export const deleteRetrospectAnswer = async ({ accessCode }: GetRetrospectRequest) => {
   await fetcher.delete({
-    url: `${API_URL}/retrospects/${retrospectId}`,
+    url: `${API_URL}/retrospects/${accessCode}`,
     errorMessage: ERROR_MESSAGES.DELETE_RETROSPECT,
   });
 };
 
 export interface Retrospect {
-  retrospectId: string;
   accessCode: string;
   answer: string;
 }
