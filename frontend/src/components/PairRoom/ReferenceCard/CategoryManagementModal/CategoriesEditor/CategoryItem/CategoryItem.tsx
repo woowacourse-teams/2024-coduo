@@ -1,5 +1,4 @@
 import Input from '@/components/common/Input/Input';
-import { Message } from '@/components/common/Input/Input.styles';
 import IconButton from '@/components/PairRoom/ReferenceCard/CategoryManagementModal/CategoriesEditor/CategoryItem/IconButton/IconButton';
 import ReadonlyCategoryItem from '@/components/PairRoom/ReferenceCard/CategoryManagementModal/CategoriesEditor/CategoryItem/ReadonlyCategoryItem/ReadonlyCategoryItem';
 
@@ -47,12 +46,10 @@ const CategoryItem = ({
               value={categoryInputData.value}
               onChange={(event) => actions.editCategory(event, categoryName)}
               status={categoryInputData.status}
+              message={categoryInputData.message}
               height="4.4rem"
               width="28rem"
             />
-            {categoryInputData.message && (
-              <Message $status={categoryInputData.status}>{categoryInputData.message}</Message>
-            )}
           </S.Container>
           <S.CategoryIconsContainer>
             <IconButton type="submit" icon="CHECK" />

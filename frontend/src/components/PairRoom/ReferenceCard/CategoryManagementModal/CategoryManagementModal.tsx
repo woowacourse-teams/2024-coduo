@@ -3,7 +3,6 @@ import { LuPlus } from 'react-icons/lu';
 
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
-import { Message } from '@/components/common/Input/Input.styles';
 import { Modal } from '@/components/common/Modal';
 import CategoriesEditor from '@/components/PairRoom/ReferenceCard/CategoryManagementModal/CategoriesEditor/CategoriesEditor';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
@@ -67,7 +66,6 @@ const CategoryManagementModal = ({
           closeModal={closeCategoryManagementModal}
         />
       </Modal.Body>
-
       <S.Footer onSubmit={handleAddCategorySubmit}>
         <S.AddNewCategoryInput>
           <Input
@@ -75,6 +73,7 @@ const CategoryManagementModal = ({
             placeholder="+ 새로운 카테고리를 입력해주세요."
             onChange={(event) => handleChange(event, validateCategory(event.target.value, isCategoryExist))}
             status={status}
+            message={message}
             $css={S.inputStyles}
           />
           <Button
@@ -87,7 +86,6 @@ const CategoryManagementModal = ({
             <LuPlus size="1.6rem" />
           </Button>
         </S.AddNewCategoryInput>
-        <Message $status={status}>{message}</Message>
       </S.Footer>
     </Modal>
   );

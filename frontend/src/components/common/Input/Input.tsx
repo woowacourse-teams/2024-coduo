@@ -6,21 +6,23 @@ import * as S from '@/components/common/Input/Input.styles';
 import type { InputStatus } from '@/components/common/Input/Input.type';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  $css?: ReturnType<typeof css>;
-  width?: string;
-  height?: string;
   label?: string;
   status?: InputStatus;
   message?: string;
+
+  $css?: ReturnType<typeof css>;
+  width?: string;
+  height?: string;
 }
+
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ width = '100%', status = 'DEFAULT', message, label, height = '4.8rem', ...props }: InputProps, ref) => {
     return (
       <S.Layout $width={width}>
         {label && <S.Label htmlFor={props.id}>{label}</S.Label>}
-        <S.Input ref={ref} $status={status} $height={height} {...props} />
+        <S.Input ref={ref} $status={status} $width={width} $height={height} {...props} />
         {message && (
-          <S.Message role="alert" aria-live="assertive" aria-atomic="true" $status={status}>
+          <S.Message role="alert" aria-live="assertive" aria-atomic="true" $height={height} $status={status}>
             {message}
           </S.Message>
         )}
