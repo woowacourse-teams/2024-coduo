@@ -11,6 +11,7 @@ import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.todo.domain.Todo;
 import site.coduo.todo.domain.TodoSort;
+import site.coduo.todo.domain.TodoSortComparator;
 import site.coduo.todo.exception.TodoNotFoundException;
 import site.coduo.todo.repository.TodoEntity;
 import site.coduo.todo.repository.TodoRepository;
@@ -31,9 +32,10 @@ public class TodoService {
         final PairRoomEntity pairRoom = pairRoomRepository.findByAccessCode(accessCode)
                 .orElseThrow(() -> new PairRoomNotFoundException("해당 Access Code의 페어룸은 존재하지 않습니다. - " + accessCode));
 
-        return todoRepository.findAllByPairRoomEntityOrderBySortAsc(pairRoom)
+        return todoRepository.findAllByPairRoomEntity(pairRoom)
                 .stream()
                 .map(TodoEntity::toDomain)
+                .sorted(new TodoSortComparator())
                 .toList();
     }
 
@@ -71,9 +73,10 @@ public class TodoService {
         final TodoEntity targetTodo = todoRepository.findById(targetTodoId)
                 .orElseThrow(() -> new TodoNotFoundException("존재하지 않은 todo id입니다." + targetTodoId));
         final List<Todo> allByPairRoom = todoRepository
-                .findAllByPairRoomEntityOrderBySortAsc(targetTodo.getPairRoomEntity())
+                .findAllByPairRoomEntity(targetTodo.getPairRoomEntity())
                 .stream()
                 .map(TodoEntity::toDomain)
+                .sorted(new TodoSortComparator())
                 .toList();
 
         final Todo updated = targetTodo.toDomain().updateSort(allByPairRoom, destinationSort);
