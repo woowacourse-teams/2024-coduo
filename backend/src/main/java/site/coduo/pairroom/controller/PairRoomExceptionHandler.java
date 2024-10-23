@@ -1,7 +1,5 @@
 package site.coduo.pairroom.controller;
 
-import java.util.InvalidPropertiesFormatException;
-
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +12,10 @@ import site.coduo.pairroom.controller.error.PairRoomApiError;
 import site.coduo.pairroom.exception.DuplicatePairNameException;
 import site.coduo.pairroom.exception.InvalidAccessCodeException;
 import site.coduo.pairroom.exception.InvalidNameFormatException;
+import site.coduo.pairroom.exception.InvalidPairRoomStatusException;
+import site.coduo.pairroom.exception.InvalidRoomNameFormatException;
 import site.coduo.pairroom.exception.PairRoomException;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
-import site.coduo.pairroom.exception.InvalidPairRoomStatusException;
 
 @Slf4j
 @RestControllerAdvice
@@ -40,16 +39,26 @@ public class PairRoomExceptionHandler {
     }
 
     @ExceptionHandler(InvalidNameFormatException.class)
-    public ResponseEntity<ApiErrorResponse> handleInvalidPropertiesFormatException(
-            final InvalidPropertiesFormatException e) {
+    public ResponseEntity<ApiErrorResponse> handleInvalidNameFormatException(
+            final InvalidNameFormatException e) {
         log.warn(e.getMessage());
 
-        return ResponseEntity.status(PairRoomApiError.INVALID_PROPERTIES_FORMAT.getHttpStatus())
-                .body(new ApiErrorResponse(PairRoomApiError.INVALID_PROPERTIES_FORMAT.getMessage()));
+        return ResponseEntity.status(PairRoomApiError.INVALID_PAIR_NAME.getHttpStatus())
+                .body(new ApiErrorResponse(PairRoomApiError.INVALID_PAIR_NAME.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidRoomNameFormatException.class)
+    public ResponseEntity<ApiErrorResponse> handleInvalidRoomNameFormatException(
+            final InvalidRoomNameFormatException e) {
+        log.warn(e.getMessage());
+
+        return ResponseEntity.status(PairRoomApiError.INVALID_ROOM_NAME.getHttpStatus())
+                .body(new ApiErrorResponse(PairRoomApiError.INVALID_ROOM_NAME.getMessage()));
     }
 
     @ExceptionHandler(InvalidPairRoomStatusException.class)
-    public ResponseEntity<ApiErrorResponse> handlePairRoomStatusNotFoundException(final InvalidPairRoomStatusException e) {
+    public ResponseEntity<ApiErrorResponse> handlePairRoomStatusNotFoundException(
+            final InvalidPairRoomStatusException e) {
         log.warn(e.getMessage());
 
         return ResponseEntity.status(PairRoomApiError.INVALID_PROPERTIES_FORMAT.getHttpStatus())

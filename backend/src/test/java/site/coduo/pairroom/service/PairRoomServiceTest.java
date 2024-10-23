@@ -28,6 +28,7 @@ import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
+import site.coduo.pairroom.domain.RoomName;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.exception.DeletePairRoomException;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
@@ -151,7 +152,8 @@ class PairRoomServiceTest {
                         new Pair(new PairName("fram"), new PairName("lemonL")),
                         new MissionUrl("https://missionUrl.xxx"),
                         new AccessCode("1234"),
-                        new AccessCode("fram와 lemonL"))
+                        new AccessCode("fram와 lemonL"),
+                        new RoomName("방 이름"))
         );
         pairRoomRepository.save(entity);
 
@@ -173,7 +175,8 @@ class PairRoomServiceTest {
                         new Pair(new PairName("fram"), new PairName("lemonL")),
                         new MissionUrl("https://missionUrl.xxx"),
                         new AccessCode("1234"),
-                        new AccessCode("fram와 lemonL"))
+                        new AccessCode("fram와 lemonL"),
+                        new RoomName("방 이름"))
         );
         pairRoomRepository.save(entity);
 
@@ -246,7 +249,8 @@ class PairRoomServiceTest {
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
                         new AccessCode("123456"),
-                        EASY_ACCESS_CODE_FRAM_LEMONE)
+                        EASY_ACCESS_CODE_FRAM_LEMONE,
+                        new RoomName("방 이름"))
         );
         final Timer timer = new Timer(
                 new AccessCode(pairRoomEntity.getAccessCode()),
@@ -277,7 +281,8 @@ class PairRoomServiceTest {
                         new Pair(new PairName("레디"), new PairName("레모네")),
                         new MissionUrl("https://missionUrl.xxx"),
                         accessCode,
-                        EASY_ACCESS_CODE_FRAM_LEMONE
+                        EASY_ACCESS_CODE_FRAM_LEMONE,
+                        new RoomName("방 이름")
                 ));
         pairRoomRepository.save(pairRoomEntity);
 
@@ -307,7 +312,8 @@ class PairRoomServiceTest {
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
                         new AccessCode("123456"),
-                        EASY_ACCESS_CODE_INK_REDDY)
+                        EASY_ACCESS_CODE_INK_REDDY,
+                        new RoomName("방 이름"))
         ));
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
 
@@ -375,5 +381,20 @@ class PairRoomServiceTest {
         final List<PairRoomMemberEntity> pairsList = pairRoomMemberRepository.findByMember(pair);
         assertThat(mine).hasSize(1);
         assertThat(pairsList).hasSize(1);
+    }
+
+    @DisplayName("드라이버와 페어의 이름에 '의 페어룸'을 붙여 방 이름 기본값을 설정한다")
+    @Test
+    void make_default_room_name_by_pair_names() {
+        //given
+        final PairRoomCreateRequest request = PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST;
+
+        //when
+        final String generatedAccessCode = pairRoomService.savePairRoom(request, null);
+
+        //then
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(generatedAccessCode);
+        final String roomName = pairRoomEntity.getRoomName();
+        assertThat(roomName).contains("레디", "프람").endsWith("의 페어룸");
     }
 }

@@ -15,6 +15,7 @@ import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
+import site.coduo.pairroom.domain.RoomName;
 import site.coduo.timer.exception.InvalidTimerException;
 
 class TimerTest {
@@ -79,7 +80,8 @@ class TimerTest {
                 new Pair(new PairName(navigator), new PairName(driver)),
                 new MissionUrl("https://missionUrl.xxx"),
                 NUMBER_ACCESS_CODE,
-                EASY_ACCESS_CODE_FRAM_LEMONE
+                EASY_ACCESS_CODE_FRAM_LEMONE,
+                new RoomName("방 이름")
         );
     }
 }

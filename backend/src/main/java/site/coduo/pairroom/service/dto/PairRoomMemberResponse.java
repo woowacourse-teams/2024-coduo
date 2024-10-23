@@ -7,11 +7,13 @@ public record PairRoomMemberResponse(
         String status,
         String navigator,
         String driver,
-        String accessCode
+        String accessCode,
+        String easyAccessCode,
+        String roomName
 ) {
 
     public static PairRoomMemberResponse from(final PairRoomEntity pairRoom) {
         return new PairRoomMemberResponse(pairRoom.getId(), pairRoom.getStatus().name(), pairRoom.getNavigator(),
-                pairRoom.getDriver(), pairRoom.getAccessCode());
+                pairRoom.getDriver(), pairRoom.getAccessCode(), pairRoom.getEasyAccessCode(), pairRoom.getRoomName());
     }
 }

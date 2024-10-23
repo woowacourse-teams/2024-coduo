@@ -27,6 +27,7 @@ import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
+import site.coduo.pairroom.domain.RoomName;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomMemberEntity;
@@ -34,6 +35,7 @@ import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
+import site.coduo.pairroom.service.dto.PairRoomExistByEasyAccessCodeResponse;
 import site.coduo.pairroom.service.dto.PairRoomExistResponse;
 
 class PairRoomAcceptanceTest extends AcceptanceFixture {
@@ -181,6 +183,69 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     }
 
     @Test
+    @DisplayName("페어 이름 액세스코드를 사용하여 페어룸이 존재하면 true와 accessCode 를 반환한다.")
+    void exist_pair_room_by_easy_access_code_true() {
+        //given
+        final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
+                new PairRoom(PairRoomStatus.IN_PROGRESS,
+                        new Pair(new PairName("잉크"), new PairName("레디")),
+                        new MissionUrl("https://missionUrl.xxx"),
+                        new AccessCode("ac"),
+                        EASY_ACCESS_CODE_INK_REDDY,
+                        new RoomName("방 이름"))));
+
+        // when & then
+        final PairRoomExistByEasyAccessCodeResponse response = RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .log()
+                .all()
+
+                .when()
+                .queryParam("easy_access_code", savedPairRoom.getEasyAccessCode())
+                .get("/api/pair-room/exists/easy")
+
+                .then()
+                .statusCode(200)
+                .extract()
+                .as(PairRoomExistByEasyAccessCodeResponse.class);
+
+        assertSoftly(softly -> {
+            softly.assertThat(response.exists()).isTrue();
+            softly.assertThat(response.accessCode()).isEqualTo(savedPairRoom.getAccessCode());
+        });
+    }
+
+    @Test
+    @DisplayName("페어 이름 액세스코드를 사용하여 페어룸이 존재하지 않으면 false와 null을 반환한다.")
+    void not_exist_pair_room_by_easy_access_code_false() {
+        //given
+
+        // when & then
+        final PairRoomExistByEasyAccessCodeResponse response = RestAssured
+                .given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .log()
+                .all()
+
+                .when()
+                .queryParam("easy_access_code", "easy access code")
+                .get("/api/pair-room/exists/easy")
+
+                .then()
+                .statusCode(200)
+                .extract()
+                .as(PairRoomExistByEasyAccessCodeResponse.class);
+
+        assertSoftly(softly -> {
+            softly.assertThat(response.exists()).isFalse();
+            softly.assertThat(response.accessCode()).isNull();
+        });
+    }
+
+    @Test
     @DisplayName("페어룸을 삭제한다.")
     void delete_pair_room() {
         // given
@@ -271,7 +336,8 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
                         new AccessCode("ac"),
-                        EASY_ACCESS_CODE_INK_REDDY)
+                        EASY_ACCESS_CODE_INK_REDDY,
+                        new RoomName("방 이름"))
         ));
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
 
@@ -295,5 +361,33 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
             softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
             softly.assertThat((Boolean) response.jsonPath().get("exists")).isEqualTo(true);
         });
+    }
+
+    @Test
+    @DisplayName("방 이름을 변경한다.")
+    void update_room_name() {
+        //given
+        final PairRoomCreateResponse accessCode =
+                createPairRoom(PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST);
+        final Map<String, String> status = Map.of("roomName", "changeRoomName");
+
+        // when & then
+        RestAssured
+                .given()
+                .log()
+                .all()
+                .contentType(ContentType.JSON)
+                .body(status)
+
+                .when()
+                .patch("/api/pair-room/{accessCode}/room-name", accessCode.accessCode())
+
+                .then()
+                .log()
+                .all()
+                .statusCode(204);
+
+        final String changedRoomName = pairRoomRepository.findByAccessCode(accessCode.accessCode()).get().getRoomName();
+        assertThat(changedRoomName).isEqualTo("changeRoomName");
     }
 }

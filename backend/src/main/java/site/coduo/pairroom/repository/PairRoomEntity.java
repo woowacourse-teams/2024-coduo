@@ -21,6 +21,7 @@ import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
+import site.coduo.pairroom.domain.RoomName;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 
 @Getter
@@ -53,6 +54,9 @@ public class PairRoomEntity extends BaseTimeEntity {
     @Column(name = "EASY_ACCESS_CODE", nullable = false, unique = true)
     private String easyAccessCode;
 
+    @Column(name = "ROOM_NAME", nullable = false)
+    private String roomName;
+
     @Builder
     private PairRoomEntity(final Long id,
                            final PairRoomStatus status,
@@ -60,7 +64,8 @@ public class PairRoomEntity extends BaseTimeEntity {
                            final String driver,
                            final String missionUrl,
                            final String accessCode,
-                           final String easyAccessCode) {
+                           final String easyAccessCode,
+                           final String roomName) {
         this.id = id;
         this.status = status;
         this.navigator = navigator;
@@ -68,6 +73,7 @@ public class PairRoomEntity extends BaseTimeEntity {
         this.missionUrl = missionUrl;
         this.accessCode = accessCode;
         this.easyAccessCode = easyAccessCode;
+        this.roomName = roomName;
     }
 
     public static PairRoomEntity from(final PairRoom pairRoom) {
@@ -78,7 +84,8 @@ public class PairRoomEntity extends BaseTimeEntity {
                 pairRoom.getDriverName(),
                 pairRoom.getMissionUrl(),
                 pairRoom.getAccessCodeText(),
-                pairRoom.getEasyAccessCodeText()
+                pairRoom.getEasyAccessCodeText(),
+                pairRoom.getRoomName()
         );
     }
 
@@ -88,12 +95,17 @@ public class PairRoomEntity extends BaseTimeEntity {
                 new Pair(new PairName(navigator), new PairName(driver)),
                 new MissionUrl(missionUrl),
                 new AccessCode(accessCode),
-                new AccessCode(easyAccessCode)
+                new AccessCode(easyAccessCode),
+                new RoomName(roomName)
         );
     }
 
     public void updateStatus(final PairRoomStatus status) {
         this.status = status;
+    }
+
+    public void updateRoomName(final RoomName roomName) {
+        this.roomName = roomName.getValue();
     }
 
     public void swapNavigatorWithDriver() {
@@ -133,6 +145,7 @@ public class PairRoomEntity extends BaseTimeEntity {
                 ", missionUrl='" + missionUrl + '\'' +
                 ", accessCode='" + accessCode + '\'' +
                 ", easyAccessCode='" + easyAccessCode + '\'' +
+                ", roomName='" + roomName + '\'' +
                 '}';
     }
 }

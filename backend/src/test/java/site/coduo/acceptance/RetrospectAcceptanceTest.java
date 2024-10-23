@@ -24,6 +24,7 @@ import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
+import site.coduo.pairroom.domain.RoomName;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomMemberEntity;
@@ -307,7 +308,8 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                         new Pair(new PairName("레디"), new PairName("파슬리")),
                         new MissionUrl("https://missionUrl.xxx"),
                         new AccessCode("ac"),
-                        new AccessCode("ac")
+                        new AccessCode("ac"),
+                        new RoomName("testRoom")
                 )
         ));
     }

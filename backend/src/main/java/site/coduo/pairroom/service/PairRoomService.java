@@ -1,6 +1,7 @@
 package site.coduo.pairroom.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,6 +18,7 @@ import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
+import site.coduo.pairroom.domain.RoomName;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.domain.accesscode.generator.AccessCodeGenerator;
 import site.coduo.pairroom.domain.accesscode.generator.EasyAccessCodeGenerator;
@@ -27,6 +29,7 @@ import site.coduo.pairroom.repository.PairRoomMemberEntity;
 import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
+import site.coduo.pairroom.service.dto.PairRoomExistByEasyAccessCodeResponse;
 import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
 import site.coduo.pairroom.service.dto.PairRoomReadResponse;
 import site.coduo.timer.domain.Timer;
@@ -72,6 +75,13 @@ public class PairRoomService {
         return pairRoomRepository.existsByAccessCodeAndStatusNot(accessCode, PairRoomStatus.DELETED);
     }
 
+    public PairRoomExistByEasyAccessCodeResponse existsByEasyAccessCode(final String easyAccessCode) {
+        final Optional<PairRoomEntity> pairRoom = pairRoomRepository.findByEasyAccessCode(easyAccessCode);
+        return pairRoom.map(
+                        pairRoomEntity -> new PairRoomExistByEasyAccessCodeResponse(true, pairRoomEntity.getAccessCode()))
+                .orElseGet(() -> new PairRoomExistByEasyAccessCodeResponse(false, null));
+    }
+
     private PairRoom createPairRoom(final PairRoomCreateRequest request) {
         final AccessCode uuidAccessCode = generateAccessCode(uuidAccessCodeGenerator);
         final AccessCode easyAccessCode = generateAccessCode(
@@ -80,7 +90,8 @@ public class PairRoomService {
         final PairRoomStatus status = PairRoomStatus.IN_PROGRESS;
         final Pair pair = new Pair(new PairName(request.navigator()), new PairName(request.driver()));
         final MissionUrl missionUrl = new MissionUrl(request.missionUrl());
-        return new PairRoom(status, pair, missionUrl, uuidAccessCode, easyAccessCode);
+        final RoomName roomName = RoomName.makeDefaultRoomNameFrom(easyAccessCode.getValue());
+        return new PairRoom(status, pair, missionUrl, uuidAccessCode, easyAccessCode, roomName);
     }
 
     private AccessCode generateAccessCode(final AccessCodeGenerator accessCodeGenerator) {
@@ -162,5 +173,12 @@ public class PairRoomService {
         return pairRoomRepository.findByAccessCode(pairRoomAccessCode)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "입력된 페어룸 접근 코드에 대응되는 페어룸이 존재하지 않습니다. - " + pairRoomAccessCode));
+    }
+
+    @Transactional
+    public void updatePairRoomName(final String accessCode, final String roomName) {
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
+        final RoomName updateRoomName = new RoomName(roomName);
+        pairRoomEntity.updateRoomName(updateRoomName);
     }
 }

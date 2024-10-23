@@ -22,7 +22,13 @@ public record PairRoomReadResponse(
         long remainingTime,
 
         @Schema(description = "미션 리포지토리 링크", example = "https://github.com/coduo-missions/coduo-javascript-rps")
-        String missionUrl
+        String missionUrl,
+
+        @Schema(description = "페어 이름 액세스 코드", example = "짓궂은프람과 언짢은레모네")
+        String easyAccessCode,
+
+        @Schema(description = "방 이름", example = "짓궂은프람과 언짢은레모네의 페어룸")
+        String roomName
 ) {
 
     public static PairRoomReadResponse of(final PairRoom pairRoom, final Timer timer) {
@@ -32,7 +38,9 @@ public record PairRoomReadResponse(
                 pairRoom.getStatus().name(),
                 timer.getDuration(),
                 timer.getRemainingTime(),
-                pairRoom.getMissionUrl()
+                pairRoom.getMissionUrl(),
+                pairRoom.getEasyAccessCodeText(),
+                pairRoom.getRoomName()
         );
     }
 }

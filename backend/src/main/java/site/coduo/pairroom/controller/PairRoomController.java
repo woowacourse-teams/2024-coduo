@@ -25,8 +25,10 @@ import site.coduo.pairroom.controller.dto.request.ExistMemberInPairRoomResponse;
 import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
+import site.coduo.pairroom.service.dto.PairRoomExistByEasyAccessCodeResponse;
 import site.coduo.pairroom.service.dto.PairRoomExistResponse;
 import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
+import site.coduo.pairroom.service.dto.PairRoomNameUpdateRequest;
 import site.coduo.pairroom.service.dto.PairRoomReadRequest;
 import site.coduo.pairroom.service.dto.PairRoomReadResponse;
 import site.coduo.pairroom.service.dto.PairRoomStatusUpdateRequest;
@@ -95,6 +97,14 @@ public class PairRoomController implements PairRoomDocs {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/pair-room/exists/easy")
+    public ResponseEntity<PairRoomExistByEasyAccessCodeResponse> pairRoomExistsByEasyAccessCode(
+            @RequestParam("easy_access_code") final String easyAccessCode) {
+        final PairRoomExistByEasyAccessCodeResponse response = pairRoomService.existsByEasyAccessCode(easyAccessCode);
+
+        return ResponseEntity.ok(response);
+    }
+
     @DeleteMapping("/pair-room/{accessCode}")
     public ResponseEntity<Void> deletePairRoom(@PathVariable("accessCode") final String accessCode) {
         pairRoomService.deletePairRoom(accessCode);
@@ -110,5 +120,15 @@ public class PairRoomController implements PairRoomDocs {
                 pairRoomAccessCode);
         final ExistMemberInPairRoomResponse response = new ExistMemberInPairRoomResponse(existMemberInPairRoom);
         return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/pair-room/{accessCode}/room-name")
+    public ResponseEntity<Void> updatePairRoomName(
+            @PathVariable("accessCode") final String accessCode,
+            @Valid @RequestBody PairRoomNameUpdateRequest pairRoomNameUpdateRequest) {
+        pairRoomService.updatePairRoomName(accessCode, pairRoomNameUpdateRequest.roomName());
+
+        return ResponseEntity.noContent()
+                .build();
     }
 }

@@ -18,6 +18,7 @@ import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
+import site.coduo.pairroom.domain.RoomName;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 
 @SpringBootTest
@@ -64,7 +65,7 @@ class PairRoomEntityRepositoryTest {
         final AccessCode code = new AccessCode("code");
         final MissionUrl missionUrl = new MissionUrl("https://missionUrl.xxx");
         final PairRoom pairRoom = new PairRoom(PairRoomStatus.IN_PROGRESS, pair, missionUrl, code,
-                EASY_ACCESS_CODE_FRAM_LEMONE);
+                EASY_ACCESS_CODE_FRAM_LEMONE, new RoomName("방 이름"));
         pairRoomRepository.save(PairRoomEntity.from(pairRoom));
 
         // when
