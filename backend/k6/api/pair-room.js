@@ -3,10 +3,6 @@ import { check } from 'k6';
 import {makeTodo} from "./todo.js";
 import {BASE_URL, CODUO_WHO_AM_I} from "./config.js";
 
-export const options = {
-    vus: 10,
-    duration: '10s',
-}
 export function createPairRoomWithLogin(token) {
     const url =  BASE_URL+'pair-room';
     const payload = JSON.stringify({
@@ -41,12 +37,12 @@ export function createPairRoomWithLogin(token) {
 export function createPairRoom() {
     const url =  BASE_URL+'pair-room';
     const payload = JSON.stringify({
-        "navigator": Math.random().toString().substring(2,5),
-        "driver": "world",
-        "pairId": "koust6u",
+        "navigator": Math.random().toString().substring(2,10),
+        "driver": Math.random().toString().substring(2,10),
         "timerDuration": 100000,
         "timerRemainingTime": 70000,
-        "missionUrl": "https://api-test.coduo.site/api/some-url"
+        "missionUrl": "http://naver.com",
+        "status": "IN_PROGRESS",
     });
 
     const param = {

@@ -3,12 +3,12 @@ import {connect, disconnect, sseStart} from "../api/sse.js";
 import {changePairRoomStatus, createPairRoom, getPairRoomInfo, swapNavAndDriver} from "../api/pair-room.js";
 import {getTodos, makeTodo} from "../api/todo.js";
 import {createReferenceLink, getReferenceLink} from "../api/reference-link.js";
-import {getTimer, stopTimer} from "../api/timer.js";
+import {getTimer, startTimer, stopTimer} from "../api/timer.js";
 import {createCategory} from "../api/category.js";
 
 export const options = {
     stages: [
-        { duration: '4m', target: 100 },
+        { duration: '4m', target: 50 },
         { duration: '4m', target: 100 },
         { duration: '4m', target: 150 },
         { duration: '4m', target: 200 },
@@ -19,11 +19,12 @@ export const options = {
 export default async function () {
     const accessCode = createPairRoom().accessCode;
     sleep(1);
-    sseStart(accessCode,60).then();
+    sseStart(accessCode,1).then();
     getTodos(accessCode);
     getReferenceLink(accessCode);
     getTimer(accessCode);
 
+    startTimer(accessCode);
     sleep(1);
     createReferenceLink(accessCode);
     sleep(1);
@@ -37,11 +38,6 @@ export default async function () {
         sleep(1);
     }
     sleep(1);
-    for (let i = 0; i < 5; i++) {
-        createReferenceLink(accessCode);
-        sleep(1);
-    }
-    sleep(60);
     swapNavAndDriver(accessCode);
     changePairRoomStatus(accessCode);
     sleep(1);

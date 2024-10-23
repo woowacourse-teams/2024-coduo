@@ -6,7 +6,6 @@ export function createCategory(accessCode) {
     const url = `${BASE_URL}${accessCode}/category`;
 
     let category = Math.random().toString().substring(2, 12);
-
     const payload = JSON.stringify({
         "value": category
     });

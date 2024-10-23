@@ -5,7 +5,7 @@ import {BASE_URL} from "./config.js";
 export function makeTodo(accessCode) {
     const url = BASE_URL+ accessCode + '/todos';
     const payload = JSON.stringify({
-        "content": Math.random().toString().substring(2, 5)
+        "content": Math.random().toString().substring(2, 50)
     });
 
     const param = {
