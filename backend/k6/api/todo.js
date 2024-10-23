@@ -5,7 +5,7 @@ import {BASE_URL} from "./config.js";
 export function makeTodo(accessCode) {
     const url = BASE_URL+ accessCode + '/todos';
     const payload = JSON.stringify({
-        "content": "내가 해야할 것"
+        "content": Math.random().toString().substring(2, 5)
     });
 
     const param = {
@@ -18,8 +18,6 @@ export function makeTodo(accessCode) {
     check(res, {
         'Create todo status was 201': (r) => r.status === 201,
     });
-
-    return JSON.parse(res);
 }
 
 export function getTodos(accessCode) {

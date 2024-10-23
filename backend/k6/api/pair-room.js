@@ -12,8 +12,9 @@ export function createPairRoomWithLogin(token) {
     const payload = JSON.stringify({
         "navigator": "hello",
         "driver": "world",
+        "pairId": "김민종",
         "timerDuration": 100000,
-        "timerRemainingTime": 10000,
+        "timerRemainingTime": 70000,
         "missionUrl": "https://api-test.coduo.site/api/some-url"
     });
 
@@ -40,10 +41,11 @@ export function createPairRoomWithLogin(token) {
 export function createPairRoom() {
     const url =  BASE_URL+'pair-room';
     const payload = JSON.stringify({
-        "navigator": "hello",
+        "navigator": Math.random().toString().substring(2,5),
         "driver": "world",
+        "pairId": "koust6u",
         "timerDuration": 100000,
-        "timerRemainingTime": 10000,
+        "timerRemainingTime": 70000,
         "missionUrl": "https://api-test.coduo.site/api/some-url"
     });
 

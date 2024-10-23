@@ -3,9 +3,12 @@ import {check} from 'k6';
 import {BASE_URL} from "./config.js";
 
 export function createCategory(accessCode) {
-    const url = `${BASE_URL}/${accessCode}/category`;
+    const url = `${BASE_URL}${accessCode}/category`;
+
+    let category = Math.random().toString().substring(2, 12);
+
     const payload = JSON.stringify({
-        "value": "카테고리1"
+        "value": category
     });
     const param = {
         headers: {
