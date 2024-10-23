@@ -102,6 +102,10 @@ const App = () => {
               path: ':accessCode/retrospect',
               element: <Retrospect />,
             },
+            {
+              path: ':accessCode/retrospectForm',
+              element: <Retrospect readOnly={false} />,
+            },
           ],
         },
         {
@@ -119,10 +123,6 @@ const App = () => {
         {
           path: 'my-page',
           element: <MyPage />,
-        },
-        {
-          path: 'retrospect',
-          element: <Retrospect readOnly={false} />,
         },
 
         {

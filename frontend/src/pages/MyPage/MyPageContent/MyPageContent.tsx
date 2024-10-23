@@ -24,6 +24,7 @@ const MyPageContent = () => {
 
   const myPairRoomLength = myPairRoomList?.length || 0;
   const myRetrospectsLength = myRetrospects?.length || 0;
+
   return (
     <>
       <MyPageTab

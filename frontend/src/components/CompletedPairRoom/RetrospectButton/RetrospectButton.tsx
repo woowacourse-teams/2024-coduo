@@ -24,7 +24,7 @@ const RetrospectButton = ({ accessCode }: RetrospectButtonProps) => {
     if (isUserRetrospectExist) {
       navigate(`/room/${accessCode}/retrospect`, { state: { valid: true } });
     } else {
-      navigate(`/retrospect`, { state: { accessCode } });
+      navigate(`/room/${accessCode}/retrospectForm`, { state: { valid: true } });
     }
   };
   return (
