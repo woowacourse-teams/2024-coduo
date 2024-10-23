@@ -10,13 +10,11 @@ interface AddRetrospectRequest {
 }
 
 export const addRetrospect = async ({ accessCode, answers }: AddRetrospectRequest) => {
-  const response = await fetcher.post({
+  await fetcher.post({
     url: `${API_URL}/retrospects`,
     body: JSON.stringify({ accessCode, answers }),
     errorMessage: ERROR_MESSAGES.ADD_RETROSPECT,
   });
-
-  return await response.json();
 };
 
 interface GetRetrospectRequest {
