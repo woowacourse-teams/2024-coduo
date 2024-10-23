@@ -24,7 +24,7 @@ const RetrospectButton = ({ accessCode }: RetrospectButtonProps) => {
 
   const handleRetrospectButtonClick = async () => {
     if (isUserRetrospectExist) {
-      const data = await getUserRetrospects(accessCode);
+      const data = await getUserRetrospects();
       const retrospectId = data.retrospects.find((retrospect) => retrospect.accessCode === accessCode)?.retrospectId;
       navigate(`/retrospect/${retrospectId}`);
     } else {
