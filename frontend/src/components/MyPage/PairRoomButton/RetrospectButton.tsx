@@ -29,6 +29,9 @@ const RetrospectButton = ({ accessCode, answer }: RetrospectButtonProps) => {
     closeModal();
   };
 
+  const splitAnswer = (answer: string): string => {
+    return answer.length > 10 ? answer.slice(0, 10) + '...' : answer;
+  };
   return (
     <S.Layout>
       {isPending ? (
@@ -40,7 +43,7 @@ const RetrospectButton = ({ accessCode, answer }: RetrospectButtonProps) => {
               <S.RoleTextContainer>
                 <S.RoleText $status="IN_PROGRESS">
                   <span>{accessCode}</span>
-                  {answer}
+                  {splitAnswer(answer)}
                 </S.RoleText>
               </S.RoleTextContainer>
               <S.ConnectText>
