@@ -19,7 +19,9 @@ const useInputAnswer = (accessCode: string) => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    await mutateAsync({ accessCode, answers }).then(() => navigate(`/room/${accessCode}/completed`));
+    await mutateAsync({ accessCode, answers }).then(() =>
+      navigate(`/room/${accessCode}/completed`, { state: { valid: true } }),
+    );
   };
 
   return { answers, handleChange, handleSubmit };
