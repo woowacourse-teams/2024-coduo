@@ -41,11 +41,7 @@ export interface Retrospect {
   answer: string;
 }
 
-interface GetUserRetrospectsRequest {
-  retrospects: Retrospect[];
-}
-
-export const getUserRetrospects = async (accessCode: string): Promise<GetUserRetrospectsRequest> => {
+export const getUserRetrospects = async (accessCode: string): Promise<{ retrospects: Retrospect[] }> => {
   const response = await fetcher.get({
     url: `${API_URL}/retrospects/${accessCode}`,
     errorMessage: ERROR_MESSAGES.GET_USER_RETROSPECTS,
