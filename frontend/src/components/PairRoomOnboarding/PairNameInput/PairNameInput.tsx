@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-autofocus */
 import { useState, useEffect } from 'react';
 
 import { LogoIcon } from '@/assets';
@@ -52,6 +53,7 @@ const PairNameInput = ({
         {isInputOpen ? (
           <S.InputWrapper>
             <Input
+              autoFocus
               placeholder="이름을 입력해주세요"
               value={pairName.value}
               status={pairName.status}
@@ -66,8 +68,11 @@ const PairNameInput = ({
           </S.InputWrapper>
         ) : (
           <>
-            <S.AddButton onClick={openAddPairModal}>
-              <div>
+            <S.AddButton
+              aria-label="페어 정보 연동하기 버튼, 클릭하시면 페어 정보 연동 모달이 열립니다."
+              onClick={openAddPairModal}
+            >
+              <div aria-hidden="true">
                 <img src={LogoIcon} alt="" />
               </div>
               <p>페어 정보 연동하기</p>
