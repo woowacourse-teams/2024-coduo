@@ -23,4 +23,5 @@ export const ERROR_MESSAGES = {
   GET_USER_IS_IN_PAIR_ROOM: '페어룸 참여 여부를 확인하지 못했습니다. 다시 시도해 주세요.',
   GET_USER_RETROSPECTS: '회고 정보를 가져오지 못했습니다. 다시 시도해 주세요.',
   GET_USER_RETROSPECT_EXISTS: '회고 작성 여부를 확인하지 못했습니다. 다시 시도해 주세요.',
+  DELETE_RETROSPECT: '회고를 삭제하지 못했어요',
 };

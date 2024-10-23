@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Question from '@/components/Retrospect/Question/Question';
 import RetrospectHeader from '@/components/Retrospect/RetrospectHeader/RetrospectHeader';
@@ -9,17 +9,19 @@ import { RETROSPECT_QUESTIONS } from '@/constants/retrospect';
 
 import * as S from './RetrospectView.styles';
 
-const RetrospectView = () => {
+interface RetrospectViewProps {
+  accessCode: string;
+}
+const RetrospectView = ({ accessCode }: RetrospectViewProps) => {
   const navigate = useNavigate();
-  const { retrospectId } = useParams();
-  const { accessCode, answers } = useGetRetrospectAnswer(retrospectId || '');
+  const answers = useGetRetrospectAnswer(accessCode || '');
 
   return (
     <>
       <RetrospectHeader
-        onClick={() => navigate(`/room/${accessCode}`, { replace: true })}
+        onClick={() => navigate(`/room/${accessCode}`, { state: { valid: true } })}
         readOnly={true}
-        accessCode={accessCode}
+        accessCode={accessCode || ''}
       />
       {RETROSPECT_QUESTIONS.map((question, index) => (
         <Question key={question.id} id={question.id} title={question.title} subtitle={question.subtitle}>

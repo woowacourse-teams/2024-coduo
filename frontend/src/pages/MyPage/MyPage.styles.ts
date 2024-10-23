@@ -44,12 +44,8 @@ export const SubTitle = styled.p`
 export const ListWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 2.4rem;
-
-  h2 {
-    font-size: ${({ theme }) => theme.fontSize.h4};
-    font-weight: ${({ theme }) => theme.fontWeight.medium};
-  }
 `;
 
 export const List = styled.div`
@@ -63,11 +59,6 @@ export const AllText = styled.p`
 
   color: ${({ theme }) => theme.color.black[70]};
   font-size: ${({ theme }) => theme.fontSize.md};
-`;
-
-export const EmptyText = styled.p`
-  color: ${({ theme }) => theme.color.black[70]};
-  font-size: ${({ theme }) => theme.fontSize.base};
 `;
 
 export const LeaveButton = styled.button`
@@ -87,4 +78,9 @@ export const LeaveButton = styled.button`
     color: ${({ theme }) => theme.color.black[70]};
     font-size: ${({ theme }) => theme.fontSize.md};
   }
+`;
+
+export const BottomLine = styled.div`
+  margin: 1rem 0;
+  border: 1px solid ${({ theme }) => theme.color.black[30]};
 `;

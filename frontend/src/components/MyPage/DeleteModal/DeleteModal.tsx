@@ -1,21 +1,24 @@
 import { Modal } from '@/components/common/Modal';
 
-import * as S from './PariRoomDeleteModal.styles';
+import * as S from './DeleteModal.styles';
 
-interface PairRoomDeleteModalProps {
+interface DeleteModalProps {
   isOpen: boolean;
   closeModal: () => void;
   handleDeletePairRoom: () => void;
+  description: string;
+  dangerText: string;
 }
 
-const PairRoomDeleteModal = ({ isOpen, closeModal, handleDeletePairRoom }: PairRoomDeleteModalProps) => {
+const DeleteModal = ({ description, dangerText, isOpen, closeModal, handleDeletePairRoom }: DeleteModalProps) => {
   return (
     <Modal isOpen={isOpen} close={closeModal} size="sm">
       <Modal.CloseButton close={closeModal} />
       <Modal.Body>
         <S.Description>
-          투두 리스트, 레퍼런스 링크 등<br />
-          <S.DangerText> 모든 데이터가 삭제</S.DangerText>됩니다.
+          {description}
+          <br />
+          <S.DangerText> {dangerText}</S.DangerText>됩니다.
         </S.Description>
       </Modal.Body>
       <Modal.Footer position="CENTER">
@@ -30,4 +33,4 @@ const PairRoomDeleteModal = ({ isOpen, closeModal, handleDeletePairRoom }: PairR
   );
 };
 
-export default PairRoomDeleteModal;
+export default DeleteModal;
