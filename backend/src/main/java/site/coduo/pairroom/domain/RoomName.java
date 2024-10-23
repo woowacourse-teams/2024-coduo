@@ -1,7 +1,7 @@
 package site.coduo.pairroom.domain;
 
 import lombok.Getter;
-import site.coduo.pairroom.exception.InvalidNameFormatException;
+import site.coduo.pairroom.exception.InvalidRoomNameFormatException;
 
 @Getter
 public class RoomName {
@@ -25,13 +25,13 @@ public class RoomName {
 
     private void validateEmpty(final String value) {
         if (value == null || value.isBlank()) {
-            throw new InvalidNameFormatException("페어룸 이름이 비어있습니다.");
+            throw new InvalidRoomNameFormatException("페어룸 이름이 비어있습니다.");
         }
     }
 
     private void validateLength(final String value) {
         if (value.length() > MAX_LENGTH) {
-            throw new InvalidNameFormatException(String.format("페어룸 이름은 %d자 이하여야 합니다.", MAX_LENGTH));
+            throw new InvalidRoomNameFormatException(String.format("페어룸 이름은 %d자 이하여야 합니다.", MAX_LENGTH));
         }
     }
 }

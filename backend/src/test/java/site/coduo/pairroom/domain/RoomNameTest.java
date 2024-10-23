@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 
-import site.coduo.pairroom.exception.InvalidNameFormatException;
+import site.coduo.pairroom.exception.InvalidRoomNameFormatException;
 
 public class RoomNameTest {
 
@@ -20,7 +20,7 @@ public class RoomNameTest {
 
         // when & then
         assertThatThrownBy(() -> new RoomName(invalidName))
-                .isExactlyInstanceOf(InvalidNameFormatException.class);
+                .isExactlyInstanceOf(InvalidRoomNameFormatException.class);
     }
 
     @Test
@@ -54,7 +54,7 @@ public class RoomNameTest {
     @DisplayName("방 이름 생성 시 빈 이름이 입력되면 예외를 발생시킨다.")
     void throw_exception_when_create_room_name_with_blank_parameters(final String name) {
         assertThatThrownBy(() -> new RoomName(name))
-                .isInstanceOf(InvalidNameFormatException.class);
+                .isInstanceOf(InvalidRoomNameFormatException.class);
     }
 
     @DisplayName("'의 페어룸'을 붙여 방 이름 기본값을 만든다.")
