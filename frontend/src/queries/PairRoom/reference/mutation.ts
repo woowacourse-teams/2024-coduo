@@ -8,6 +8,7 @@ import { QUERY_KEYS } from '@/constants/queryKeys';
 
 export const useAddReferenceLink = () => {
   const queryClient = useQueryClient();
+
   const { addToast } = useToastStore();
 
   return useMutation({
@@ -19,6 +20,7 @@ export const useAddReferenceLink = () => {
 
 export const useDeleteReferenceLink = () => {
   const queryClient = useQueryClient();
+
   const { addToast } = useToastStore();
 
   return useMutation({
