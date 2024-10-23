@@ -29,7 +29,7 @@ public class RetrospectContents {
         }
     }
 
-    public static RetrospectContents of(final List<String> answers) {
+    public static RetrospectContents from(final List<String> answers) {
         validateAnswers(answers);
         final List<RetrospectAnswer> retrospectAnswers = answers.stream().map(RetrospectAnswer::new).toList();
         final List<RetrospectContent> retrospectContents = new ArrayList<>();

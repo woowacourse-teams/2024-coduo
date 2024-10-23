@@ -15,24 +15,25 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
+import site.coduo.pairroom.repository.PairRoomMemberEntity;
 import site.coduo.retrospect.domain.RetrospectAnswer;
 import site.coduo.retrospect.domain.RetrospectContent;
 import site.coduo.retrospect.domain.RetrospectQuestionType;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "RETROSPECT_CONTENT")
+@Table(name = "RETROSPECT")
 @Entity
-//todo RetrospectV2Entity로 대체
-public class RetrospectContentEntity {
+public class RetrospectV2Entity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "RETROSPECT_ID")
-    private RetrospectEntity retrospect;
+    @JoinColumn(name = "PAIR_ROOM_MEMBER_ID")
+    private PairRoomMemberEntity pairRoomMember;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "QUESTION_TYPE", nullable = false)
@@ -41,22 +42,10 @@ public class RetrospectContentEntity {
     @Column(name = "CONTENT", length = 1000)
     private String content;
 
-    public RetrospectContentEntity(
-            final RetrospectEntity retrospect,
-            final RetrospectQuestionType questionType,
-            final String content
-    ) {
-        this(0L, retrospect, questionType, content);
-    }
-
-    public RetrospectContentEntity(
-            final Long id,
-            final RetrospectEntity retrospect,
-            final RetrospectQuestionType questionType,
-            final String content
-    ) {
-        this.id = id;
-        this.retrospect = retrospect;
+    public RetrospectV2Entity(final PairRoomMemberEntity pairRoomMember,
+                              final RetrospectQuestionType questionType,
+                              final String content) {
+        this.pairRoomMember = pairRoomMember;
         this.questionType = questionType;
         this.content = content;
     }

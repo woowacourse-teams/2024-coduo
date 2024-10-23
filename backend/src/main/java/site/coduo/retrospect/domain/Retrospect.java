@@ -9,6 +9,7 @@ import site.coduo.retrospect.exception.InvalidRetrospectInputValueException;
 @Getter
 public class Retrospect {
 
+    //TODO 이거 쓰지 말아야함 RetrospectV2로 대체
     private static final long DEFAULT_ID = 0;
 
     private final long id;

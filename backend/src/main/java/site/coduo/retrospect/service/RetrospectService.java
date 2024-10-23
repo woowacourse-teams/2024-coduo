@@ -8,24 +8,27 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import site.coduo.member.domain.Member;
 import site.coduo.member.service.MemberService;
-import site.coduo.pairroom.exception.PairRoomMemberNotJoinException;
-import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.repository.PairRoomEntity;
+import site.coduo.pairroom.repository.PairRoomMemberEntity;
 import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.retrospect.domain.Retrospect;
 import site.coduo.retrospect.domain.RetrospectContent;
 import site.coduo.retrospect.domain.RetrospectContents;
+import site.coduo.retrospect.domain.RetrospectV2;
 import site.coduo.retrospect.exception.NotRetrospectOwnerAccessException;
 import site.coduo.retrospect.exception.RetrospectNotFoundException;
 import site.coduo.retrospect.repository.RetrospectContentEntity;
 import site.coduo.retrospect.repository.RetrospectContentRepository;
 import site.coduo.retrospect.repository.RetrospectEntity;
 import site.coduo.retrospect.repository.RetrospectRepository;
+import site.coduo.retrospect.repository.RetrospectV2Entity;
+import site.coduo.retrospect.repository.RetrospectV2Repository;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
+//TODO 해당 서비스는 회고를 저장하는 서비스
 public class RetrospectService {
 
     private final PairRoomRepository pairRoomRepository;
@@ -33,6 +36,7 @@ public class RetrospectService {
     private final RetrospectRepository retrospectRepository;
     private final RetrospectContentRepository retrospectContentRepository;
     private final MemberService memberService;
+    private final RetrospectV2Repository retrospectV2Repository;
 
     @Transactional
     public void createRetrospect(
@@ -40,61 +44,46 @@ public class RetrospectService {
             final String pairRoomAccessCode,
             final List<String> answers
     ) {
-        final PairRoomEntity pairRoom = findPairRoom(pairRoomAccessCode);
-        final Member member = findMember(credentialToken);
-        checkMemberIsJoinInPairRoom(member, pairRoom);
-        createRetrospect(pairRoom, member, answers);
-    }
-
-    private PairRoomEntity findPairRoom(final String pairRoomAccessCode) {
-        if (pairRoomAccessCode == null || pairRoomAccessCode.isEmpty()) {
-            throw new IllegalArgumentException("페어룸 접근 코드로 null 혹은 빈 값이 입력될 수 없습니다.");
-        }
-
-        return pairRoomRepository.findByAccessCode(pairRoomAccessCode)
-                .orElseThrow(() -> new PairRoomNotFoundException(
-                        "입력된 페어룸 접근 코드에 대응되는 페어룸이 존재하지 않습니다. - " + pairRoomAccessCode));
-    }
-
-    private Member findMember(final String credentialToken) {
-        if (credentialToken == null) {
-            throw new IllegalArgumentException("보안 토큰으로 null이 입력될 수 없습니다.");
-        }
-
-        return memberService.findMemberByCredential(credentialToken);
-    }
-
-    private void checkMemberIsJoinInPairRoom(final Member member, final PairRoomEntity pairRoom) {
-        if (!pairRoomMemberRepository.existsByPairRoomAndMember(pairRoom, member)) {
-            throw new PairRoomMemberNotJoinException("입력된 페어룸, 사용자가 서로 참조되어 있지 않습니다.");
-        }
-    }
-
-    private void createRetrospect(
-            final PairRoomEntity pairRoom,
-            final Member member,
-            final List<String> answers
-    ) {
-        final RetrospectContents retrospectContents = RetrospectContents.of(answers);
-        final Retrospect retrospect = new Retrospect(pairRoom.toDomain(), member, retrospectContents);
-        final RetrospectEntity savedRetrospectEntity = retrospectRepository.save(
-                new RetrospectEntity(pairRoom, member));
-        createRetrospectContents(retrospect, savedRetrospectEntity);
-    }
-
-    private void createRetrospectContents(final Retrospect retrospect, final RetrospectEntity retrospectEntity) {
-        final List<RetrospectContentEntity> retrospectContentEntities = retrospect.getContents().getValues()
+        final PairRoomEntity pairRoom = pairRoomRepository.fetchByAccessCode(pairRoomAccessCode);
+        final Member member = memberService.findMemberByCredential(credentialToken);
+        final PairRoomMemberEntity pairRoomMember = pairRoomMemberRepository.findByPairRoomAndMember(pairRoom, member);
+        final RetrospectContents retrospectContents = RetrospectContents.from(answers);
+        final RetrospectV2 retrospect = new RetrospectV2(retrospectContents);
+        final List<RetrospectV2Entity> retrospectContentEntities = retrospect.getContents().getValues()
                 .stream()
-                .map(retrospectContent -> new RetrospectContentEntity(
-                        retrospectEntity,
-                        retrospectContent.getQuestionType(),
+                .map(retrospectContent -> new RetrospectV2Entity(pairRoomMember, retrospectContent.getQuestionType(),
                         retrospectContent.getAnswer().getValue()))
                 .toList();
-        retrospectContentRepository.saveAll(retrospectContentEntities);
+        retrospectV2Repository.saveAll(retrospectContentEntities);
+//        createRetrospect(pairRoom, member, answers);
     }
+//
+//    private void createRetrospect(
+//            final PairRoomEntity pairRoom,
+//            final Member member,
+//            final List<String> answers
+//    ) {
+//        final RetrospectContents retrospectContents = RetrospectContents.from(answers);
+//
+//        final Retrospect retrospect = new Retrospect(pairRoom.toDomain(), member, retrospectContents);
+//        final RetrospectEntity savedRetrospectEntity = retrospectRepository.save(
+//                new RetrospectEntity(pairRoom, member));
+//        createRetrospectContents(retrospect, savedRetrospectEntity);
+//    }
+//
+//    private void createRetrospectContents(final Retrospect retrospect, final RetrospectEntity retrospectEntity) {
+//        final List<RetrospectContentEntity> retrospectContentEntities = retrospect.getContents().getValues()
+//                .stream()
+//                .map(retrospectContent -> new RetrospectContentEntity(
+//                        retrospectEntity,
+//                        retrospectContent.getQuestionType(),
+//                        retrospectContent.getAnswer().getValue()))
+//                .toList();
+//        retrospectContentRepository.saveAll(retrospectContentEntities);
+//    }
 
     public List<Retrospect> findAllRetrospectsByMember(final String credentialToken) {
-        final Member member = findMember(credentialToken);
+        final Member member = memberService.findMemberByCredential(credentialToken);
         final List<RetrospectEntity> retrospectEntities = retrospectRepository.findAllByMember(member);
 
         return retrospectEntities.stream()
@@ -116,6 +105,24 @@ public class RetrospectService {
         );
     }
 
+    public RetrospectV2 findRetrospectByAccessCode(final String credentialToken, final String accessCode) {
+        // TODO 액세스 코드로 pairRoomMember 찾기.
+
+        final Member member = memberService.findMemberByCredential(credentialToken);
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
+        final PairRoomMemberEntity pairRoomMember = pairRoomMemberRepository.findByPairRoomAndMember(
+                pairRoomEntity, member);
+
+        final List<RetrospectV2Entity> allByPairRoomMember = retrospectV2Repository.findAllByPairRoomMember(
+                pairRoomMember);
+
+        final List<RetrospectContent> retrospectContents = allByPairRoomMember.stream()
+                .map(RetrospectV2Entity::toDomain)
+                .toList();
+
+        return new RetrospectV2(new RetrospectContents(retrospectContents));
+    }
+
     public Retrospect findRetrospectById(final Long retrospectId) {
         final RetrospectEntity retrospectEntity = retrospectRepository.findById(retrospectId)
                 .orElseThrow(() -> new RetrospectNotFoundException("해당 아이디에 일치하는 회고 데이터가 존재하지 않습니다."));
@@ -132,15 +139,15 @@ public class RetrospectService {
     }
 
     private void checkRetrospectOwner(final RetrospectEntity retrospectEntity, final String credentialToken) {
-        final Member client = findMember(credentialToken);
+        final Member client = memberService.findMemberByCredential(credentialToken);
         if (retrospectEntity.getMember() != client) {
             throw new NotRetrospectOwnerAccessException("본인 소유가 아닌 회고는 삭제할 수 없습니다.");
         }
     }
 
     public boolean existRetrospectWithPairRoom(final String credentialToken, final String pairRoomAccessCode) {
-        final Member member = findMember(credentialToken);
-        final PairRoomEntity pairRoom = findPairRoom(pairRoomAccessCode);
+        final Member member = memberService.findMemberByCredential(credentialToken);
+        final PairRoomEntity pairRoom = pairRoomRepository.fetchByAccessCode(pairRoomAccessCode);
         return retrospectRepository.existsByMemberAndPairRoom(member, pairRoom);
     }
 }

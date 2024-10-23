@@ -63,7 +63,7 @@ class RetrospectContentsTest {
         final List<String> input = List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4", "회고 답변5", "회고 답변6");
 
         // When
-        final RetrospectContents retrospectContents = RetrospectContents.of(input);
+        final RetrospectContents retrospectContents = RetrospectContents.from(input);
 
         // Then
         assertThat(retrospectContents).isNotNull();
@@ -73,7 +73,7 @@ class RetrospectContentsTest {
     @Test
     void validateRetrospectContentStringsIsNull() {
         // When & Then
-        assertThatThrownBy(() -> RetrospectContents.of(null))
+        assertThatThrownBy(() -> RetrospectContents.from(null))
                 .isInstanceOf(InvalidRetrospectContentException.class)
                 .hasMessage("회고 문항 내용 문자열 값들로 null을 입력할 수 없습니다.");
     }
@@ -82,7 +82,7 @@ class RetrospectContentsTest {
     @Test
     void getFirst() {
         // Given
-        final RetrospectContents retrospectContents = RetrospectContents.of(List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4", "회고 답변5", "회고 답변6"));
+        final RetrospectContents retrospectContents = RetrospectContents.from(List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4", "회고 답변5", "회고 답변6"));
 
         // When
         final RetrospectContent first = retrospectContents.getFirst();

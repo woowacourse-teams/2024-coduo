@@ -29,7 +29,7 @@ class RetrospectTest {
                 .username("username")
                 .profileImage("some image")
                 .build();
-        final RetrospectContents retrospectContents = RetrospectContents.of(
+        final RetrospectContents retrospectContents = RetrospectContents.from(
                 List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4", "회고 답변5", "회고 답변6"));
 
         // When
@@ -51,7 +51,7 @@ class RetrospectTest {
                 .username("username")
                 .profileImage("some image")
                 .build();
-        final RetrospectContents retrospectContents = RetrospectContents.of(
+        final RetrospectContents retrospectContents = RetrospectContents.from(
                 List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4", "회고 답변5", "회고 답변6"));
 
         // When
@@ -74,7 +74,7 @@ class RetrospectTest {
                 .username("username")
                 .profileImage("some image")
                 .build();
-        final RetrospectContents retrospectContents = RetrospectContents.of(
+        final RetrospectContents retrospectContents = RetrospectContents.from(
                 List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4", "회고 답변5", "회고 답변6"));
                 
         // When & Then
@@ -95,7 +95,7 @@ class RetrospectTest {
                 .username("username")
                 .profileImage("some image")
                 .build();
-        final RetrospectContents retrospectContents = RetrospectContents.of(
+        final RetrospectContents retrospectContents = RetrospectContents.from(
                 List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4", "회고 답변5", "회고 답변6"));
 
         // When & Then
@@ -110,7 +110,7 @@ class RetrospectTest {
         // Given
         final long id = 1;
         final PairRoom pairRoom = PairRoomFixture.FRAM_LEMONE_ROOM;
-        final RetrospectContents retrospectContents = RetrospectContents.of(
+        final RetrospectContents retrospectContents = RetrospectContents.from(
                 List.of("회고 답변1", "회고 답변2", "회고 답변3", "회고 답변4", "회고 답변5", "회고 답변6"));
 
         // When & Then

@@ -10,5 +10,8 @@ public interface PairRoomMemberRepository extends JpaRepository<PairRoomMemberEn
 
     List<PairRoomMemberEntity> findByMember(Member member);
 
+    //TODO 두개 이상이면 안됨
+    PairRoomMemberEntity findByPairRoomAndMember(PairRoomEntity pairRoom, Member member);
+
     boolean existsByPairRoomAndMember(PairRoomEntity pairRoom, Member member);
 }

@@ -20,6 +20,7 @@ import site.coduo.pairroom.repository.PairRoomEntity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "RETROSPECT")
 @Entity
+//TODO 없어져야 할 거 pairRoomMember로 대체 가능
 public class RetrospectEntity extends BaseTimeEntity {
 
     @Id
