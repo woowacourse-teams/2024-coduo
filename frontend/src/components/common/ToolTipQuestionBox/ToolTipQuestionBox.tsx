@@ -20,7 +20,7 @@ const ToolTipQuestionBox = ({
 }: ToolTipQuestionBoxProps) => {
   return (
     <Tooltip direction={boxDirection} color={boxColor} {...props}>
-      <S.QuestionIcon $color={color} />
+      <S.QuestionIcon $color={color} role="presentation" />
     </Tooltip>
   );
 };

@@ -17,7 +17,7 @@ const Tooltip = ({
   children,
 }: React.PropsWithChildren<ToolTipProps>) => {
   return (
-    <S.Box>
+    <S.Box role="tooltip" aria-label={message}>
       {children}
       <S.Content className="tooltip" $color={color} $direction={direction}>
         {message}

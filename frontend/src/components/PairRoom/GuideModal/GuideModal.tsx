@@ -40,10 +40,10 @@ const GuideModal = ({ isOpen, close, accessCode }: GuideModalProps) => {
       <Modal.CloseButton close={close} />
       <S.Layout>
         <S.Title>페어 프로그래밍을 시작하기 전에...</S.Title>
-        <S.List>
+        <S.List aria-label="페어 프로그래밍을 시작하기 전에 아래의 항목들을 체크해 주세요.">
           <S.Item>
             <S.Question>
-              <FaCheck />
+              <FaCheck role="presentation" />
               브라우저 알림을 허용하셨나요?
             </S.Question>
             <S.Description>
@@ -55,7 +55,7 @@ const GuideModal = ({ isOpen, close, accessCode }: GuideModalProps) => {
           </S.Item>
           <S.Item>
             <S.Question>
-              <FaCheck />
+              <FaCheck role="presentation" />
               사용 중인 기기의 소리가 켜져 있나요?
             </S.Question>
             <S.Description>
@@ -67,7 +67,7 @@ const GuideModal = ({ isOpen, close, accessCode }: GuideModalProps) => {
           </S.Item>
           <S.Item>
             <S.Question>
-              <FaCheck />
+              <FaCheck role="presentation" />
               페어룸 코드를 복사하셨나요?
             </S.Question>
             <S.Description>
