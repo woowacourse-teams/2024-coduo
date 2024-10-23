@@ -13,6 +13,6 @@ public class CommonController {
 
     @GetMapping("/help")
     public String help() {
-        return "히히히";
+        return "히히히히";
     }
 }
