@@ -10,12 +10,11 @@ import { useDeleteRetrospect } from '@/queries/Retrospect/useDeleteRetrospect';
 import * as S from './PairRoomButton.styles';
 
 interface RetrospectButtonProps {
-  retrospectId: string;
   answer: string;
   accessCode: string;
 }
 
-const RetrospectButton = ({ retrospectId, accessCode, answer }: RetrospectButtonProps) => {
+const RetrospectButton = ({ accessCode, answer }: RetrospectButtonProps) => {
   const { openModal, closeModal, isModalOpen } = useModal();
   const { mutate, isPending } = useDeleteRetrospect();
 
@@ -26,7 +25,7 @@ const RetrospectButton = ({ retrospectId, accessCode, answer }: RetrospectButton
   };
 
   const handleDeletePairRoom = async () => {
-    mutate({ retrospectId });
+    mutate({ accessCode });
     closeModal();
   };
 
@@ -36,7 +35,7 @@ const RetrospectButton = ({ retrospectId, accessCode, answer }: RetrospectButton
         <Spinner />
       ) : (
         <>
-          <S.LinkWrapper to={`/retrospect/${retrospectId}`}>
+          <S.LinkWrapper to={`room/${accessCode}/retrospect`} state={{ valid: true }}>
             <S.PairRoomButton $status="IN_PROGRESS">
               <S.RoleTextContainer>
                 <S.RoleText $status="IN_PROGRESS">

@@ -24,6 +24,7 @@ const MyPageContent = () => {
 
   const myPairRoomLength = myPairRoomList?.length || 0;
   const myRetrospectsLength = myRetrospects?.length || 0;
+
   return (
     <>
       <MyPageTab
@@ -53,8 +54,7 @@ const MyPageContent = () => {
         >
           {myRetrospects?.map((retrospect) => (
             <RetrospectButton
-              key={retrospect.retrospectId}
-              retrospectId={retrospect.retrospectId}
+              key={retrospect.accessCode}
               answer={retrospect.answer}
               accessCode={retrospect.accessCode}
             />

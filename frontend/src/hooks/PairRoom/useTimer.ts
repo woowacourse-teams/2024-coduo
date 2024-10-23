@@ -54,7 +54,7 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
 
     const handleStatus = (event: MessageEvent) => {
       if (event.data === 'complete') {
-        navigate(`/retrospect`, { state: { accessCode } });
+        navigate(`/room/${accessCode}/retrospectForm`, { state: { valid: true } });
         addToast({ status: 'WARNING', message: '페어룸이 종료되었습니다.' });
         return;
       }

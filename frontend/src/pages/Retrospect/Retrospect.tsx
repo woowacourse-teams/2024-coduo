@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import { useParams } from 'react-router-dom';
 
 import Loading from '@/pages/Loading/Loading';
 
@@ -12,15 +13,17 @@ interface RetrospectProps {
 }
 
 const Retrospect = ({ readOnly = true }: RetrospectProps) => {
+  const { accessCode } = useParams();
+
   return (
     <S.Layout>
       <S.Container>
         {readOnly ? (
           <Suspense fallback={<Loading />}>
-            <RetrospectView />
+            <RetrospectView accessCode={accessCode || ''} />
           </Suspense>
         ) : (
-          <RetrospectForm />
+          <RetrospectForm accessCode={accessCode || ''} />
         )}
       </S.Container>
     </S.Layout>
