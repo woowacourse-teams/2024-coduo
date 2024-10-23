@@ -11,6 +11,8 @@ spring:
         jdbc-url: ${DB_URL}
         username: ${DB_USERNAME}
         password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 20
 
 
   jpa:
@@ -42,7 +44,6 @@ oauth:
     client-id: ${CLIENT_ID}
     client-secret: ${CLIENT_SECRET}
     redirect-uri: ${CLIENT_REDIRECT_URI}
-
 front:
   url: test.coduo.site
 
