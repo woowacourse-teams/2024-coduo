@@ -44,12 +44,13 @@ const AddReferenceForm = ({ accessCode, categories, getCategoryNameById, isCateg
         />
         <Button
           css={S.buttonStyles}
+          aria-label="링크 추가하기 버튼"
           type="submit"
           size="sm"
           rounded={true}
           disabled={value.trim() === '' || status !== 'DEFAULT'}
         >
-          <LuPlus size="1.6rem" />
+          <LuPlus size="1.6rem" role="presentation" />
         </Button>
       </S.Form>
     </S.Layout>

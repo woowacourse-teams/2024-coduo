@@ -21,17 +21,15 @@ const Header = ({
   onButtonClick,
 }: React.PropsWithChildren<HeaderProps>) => {
   return (
-    <S.Layout onClick={toggleIsOpen}>
+    <S.Layout
+      aria-label={isOpen ? '링크 카드 열림' : '링크 카드 닫힘, 클릭하시면 링크 카드가 열립니다.'}
+      onClick={toggleIsOpen}
+    >
       <S.Container>
         {isOpen ? (
-          <IoIosLink size={theme.fontSize.h6} color={theme.color.primary[600]} aria-label="레퍼런스 링크 카드 열림" />
+          <IoIosLink size={theme.fontSize.h6} color={theme.color.primary[600]} role="presentation" />
         ) : (
-          <IoIosArrowUp
-            size={theme.fontSize.h6}
-            color={theme.color.primary[600]}
-            aria-label="레퍼런스 링크 카드 열기"
-            aria-roledescription="button"
-          />
+          <IoIosArrowUp size={theme.fontSize.h6} color={theme.color.primary[600]} role="presentation" />
         )}
         <p>링크</p>
         <ToolTipQuestionBox
@@ -42,6 +40,7 @@ const Header = ({
       </S.Container>
       <Button
         css={S.buttonStyles}
+        aria-label={`현재 카테고리는 ${selectedFilteringCategoryName} 입니다. 클릭하시면 카테고리 선택 모달이 열립니다.`}
         size="sm"
         rounded={true}
         onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
