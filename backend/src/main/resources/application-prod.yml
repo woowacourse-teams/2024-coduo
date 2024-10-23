@@ -38,6 +38,7 @@ management:
 
 server:
   tomcat:
+    accept-count: 300
     mbeanregistry:
       enabled: true
 
