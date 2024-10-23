@@ -24,9 +24,14 @@ const Header = ({
     <S.Layout onClick={toggleIsOpen}>
       <S.Container>
         {isOpen ? (
-          <IoIosLink size={theme.fontSize.h6} color={theme.color.primary[600]} />
+          <IoIosLink size={theme.fontSize.h6} color={theme.color.primary[600]} aria-label="레퍼런스 링크 카드 열림" />
         ) : (
-          <IoIosArrowUp size={theme.fontSize.h6} color={theme.color.primary[600]} />
+          <IoIosArrowUp
+            size={theme.fontSize.h6}
+            color={theme.color.primary[600]}
+            aria-label="레퍼런스 링크 카드 열기"
+            aria-roledescription="button"
+          />
         )}
         <p>링크</p>
         <ToolTipQuestionBox

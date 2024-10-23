@@ -15,9 +15,14 @@ const Header = ({ isOpen, toggleIsOpen }: React.PropsWithChildren<HeaderProps>) 
   return (
     <S.Layout onClick={toggleIsOpen}>
       {isOpen ? (
-        <IoIosCheckbox size={theme.fontSize.h6} color={theme.color.primary[600]} />
+        <IoIosCheckbox size={theme.fontSize.h6} color={theme.color.primary[600]} aria-label="투두 리스트 카드 열림" />
       ) : (
-        <IoIosArrowDown size={theme.fontSize.h6} color={theme.color.primary[600]} />
+        <IoIosArrowDown
+          size={theme.fontSize.h6}
+          color={theme.color.primary[600]}
+          aria-label="투두 리스트 카드 열기"
+          aria-roledescription="button"
+        />
       )}
       <p>투두 리스트</p>
       <ToolTipQuestionBox
