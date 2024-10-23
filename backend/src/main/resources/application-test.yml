@@ -37,6 +37,9 @@ server:
   tomcat:
     mbeanregistry:
       enabled: true
+    threads:
+      max: 300
+
 oauth:
   github:
     client-id: ${CLIENT_ID}
