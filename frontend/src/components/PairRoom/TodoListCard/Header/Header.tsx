@@ -13,11 +13,14 @@ interface HeaderProps {
 
 const Header = ({ isOpen, toggleIsOpen }: React.PropsWithChildren<HeaderProps>) => {
   return (
-    <S.Layout onClick={toggleIsOpen}>
+    <S.Layout
+      aria-label={isOpen ? '투두 리스트 카드 열림' : '투두 리스트 카드 닫힘, 클릭하시면 투두 리스트 카드가 열립니다.'}
+      onClick={toggleIsOpen}
+    >
       {isOpen ? (
-        <IoIosCheckbox size={theme.fontSize.h6} color={theme.color.primary[600]} />
+        <IoIosCheckbox size={theme.fontSize.h6} color={theme.color.primary[600]} role="presentation" />
       ) : (
-        <IoIosArrowDown size={theme.fontSize.h6} color={theme.color.primary[600]} />
+        <IoIosArrowDown size={theme.fontSize.h6} color={theme.color.primary[600]} role="presentation" />
       )}
       <p>투두 리스트</p>
       <ToolTipQuestionBox

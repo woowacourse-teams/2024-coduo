@@ -6,7 +6,7 @@ export const Layout = styled.div`
   gap: 0.5rem;
 `;
 
-export const Title = styled.h3`
+export const Title = styled.h2`
   color: ${({ theme }) => theme.color.primary[700]};
   font-size: ${({ theme }) => theme.fontSize.h3};
   font-weight: ${({ theme }) => theme.fontWeight.medium};

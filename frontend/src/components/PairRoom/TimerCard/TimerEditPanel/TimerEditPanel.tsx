@@ -54,11 +54,11 @@ const TimerEditPanel = ({ isActive }: TimerEditPanelProps) => {
 
   return (
     <S.Layout>
-      <S.Icon onClick={handleButtonClick} />
+      <S.Icon role="button" onClick={handleButtonClick} aria-label="타이머 시간 수정 버튼" />
       {isPanelOpen && (
         <S.Panel ref={panelRef}>
           <S.Title>타이머 시간 변경</S.Title>
-          <S.Form onSubmit={handleSubmit}>
+          <S.Form onSubmit={handleSubmit} aria-label="타이머 시간을 분 단위로 입력해 주세요.">
             <Input id="timer" value={value} placeholder="타이머 시간 (분)" onChange={handleChange} />
             <S.ButtonContainer>
               <Button type="button" color="secondary" size="sm" filled={false} rounded={true} onClick={closePanel}>
