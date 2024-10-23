@@ -34,7 +34,7 @@ public class RetrospectController implements RetrospectDocs {
             @CookieValue(SIGN_IN_COOKIE_NAME) final String credentialToken,
             @RequestBody CreateRetrospectRequest request
     ) {
-        retrospectService.createRetrospect(credentialToken, request.pairRoomAccessCode(), request.answers());
+        retrospectService.createRetrospect(credentialToken, request.accessCode(), request.answers());
         return ResponseEntity.created(URI.create("/")).build();
     }
 

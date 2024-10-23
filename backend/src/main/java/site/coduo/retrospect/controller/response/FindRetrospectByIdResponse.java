@@ -8,7 +8,7 @@ import site.coduo.retrospect.domain.Retrospect;
 @Schema(description = "특정 회고 id 조회 응답 바디")
 public record FindRetrospectByIdResponse(
         @Schema(description = "페어룸 접근 코드")
-        String pairRoomAccessCode,
+        String accessCode,
         @Schema(description = "회고 내용")
         List<String> answers
 ) {
