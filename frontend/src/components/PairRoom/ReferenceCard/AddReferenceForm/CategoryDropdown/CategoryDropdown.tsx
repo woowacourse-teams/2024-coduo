@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/no-autofocus */
-
 import Dropdown from '@/components/common/Dropdown/Dropdown/Dropdown';
 import Input from '@/components/common/Input/Input';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
