@@ -35,16 +35,4 @@ class RetrospectContentTest {
                 .isInstanceOf(InvalidRetrospectContentException.class)
                 .hasMessage("회고 문항 유형 객체로 null이 입력될 수 없습니다.");
     }
-
-    @DisplayName("회고 답변으로 null이 입력되면 예외를 발생시킨다.")
-    @Test
-    void inputNullForRetrospectAnswer() {
-        // Given
-        final RetrospectQuestionType retrospectQuestionType = RetrospectQuestionType.FIRST;
-
-        // When & Then
-        assertThatThrownBy(() -> new RetrospectContent(retrospectQuestionType, null))
-                .isInstanceOf(InvalidRetrospectContentException.class)
-                .hasMessage("회고 답변 객체로 null을 입력할 수 없습니다.");
-    }
 }

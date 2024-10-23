@@ -37,7 +37,7 @@ public class RetrospectContentEntity {
     @Column(name = "QUESTION_TYPE", nullable = false)
     private RetrospectQuestionType questionType;
 
-    @Column(name = "CONTENT", length = 1100, nullable = false)
+    @Column(name = "CONTENT", length = 1000)
     private String content;
 
     public RetrospectContentEntity(

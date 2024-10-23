@@ -82,37 +82,6 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 .statusCode(HttpStatus.CREATED.value());
     }
 
-    @DisplayName("잘못된 회고 내용과 함께 회고 생성 요청을 하면 예외를 반환받는다.")
-    @Test
-    void createRequestWithInvalidRetrospectContent() {
-        // Given
-        final PairRoomEntity savedPairRoom = saveTestPairRoom();
-        final Member savedMember = saveTestMember();
-        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
-
-        // When
-        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
-        final CreateRetrospectRequest request = RetrospectCreateRequestFixture.setWrongCreateRequest();
-        final ExtractableResponse<Response> response = RestAssured
-                .given()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .accept(MediaType.APPLICATION_JSON_VALUE)
-                .cookies(Map.of("coduo_whoami", credentialToken))
-                .body(request)
-
-                .when()
-                .post("/api/retrospects")
-
-                .then()
-                .extract();
-
-        // Then
-        assertSoftly(softly -> {
-            softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-            softly.assertThat((String) response.jsonPath().get("message")).isEqualTo("잘못된 회고 내용입니다.");
-        });
-    }
-
     @DisplayName("특정 사용자의 모든 회고 데이터를 조회한다.")
     @Test
     void findRetrospects() {
