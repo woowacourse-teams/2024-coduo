@@ -1,5 +1,6 @@
 package site.coduo.pairroom.domain.accesscode.generator;
 
+
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

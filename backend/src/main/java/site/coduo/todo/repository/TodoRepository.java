@@ -14,7 +14,7 @@ public interface TodoRepository extends JpaRepository<TodoEntity, Long> {
         return findById(id).orElseThrow(() -> new TodoNotFoundException("존재하지 않은 todo id입니다." + id));
     }
 
-    List<TodoEntity> findAllByPairRoomEntityOrderBySortAsc(PairRoomEntity pairRoomEntity);
+    List<TodoEntity> findAllByPairRoomEntity(PairRoomEntity pairRoomEntity);
 
     Optional<TodoEntity> findTopByPairRoomEntityOrderBySortDesc(PairRoomEntity pairRoomEntity);
 }

@@ -46,6 +46,7 @@ public class PairRoomService {
     private final TimerRepository timerRepository;
     private final PairRoomMemberRepository pairRoomMemberRepository;
     private final MemberService memberService;
+    private final UUIDAccessCodeGenerator uuidAccessCodeGenerator;
 
     @Transactional
     public String savePairRoom(final PairRoomCreateRequest request, @Nullable final String loginToken) {
@@ -82,7 +83,7 @@ public class PairRoomService {
     }
 
     private PairRoom createPairRoom(final PairRoomCreateRequest request) {
-        final AccessCode uuidAccessCode = generateAccessCode(new UUIDAccessCodeGenerator());
+        final AccessCode uuidAccessCode = generateAccessCode(uuidAccessCodeGenerator);
         final AccessCode easyAccessCode = generateAccessCode(
                 new EasyAccessCodeGenerator(request.driver(), request.navigator())
         );
@@ -101,9 +102,9 @@ public class PairRoomService {
         return new AccessCode(generatedAccessCode);
     }
 
-    private boolean isAlreadyExistAccessCode(final AccessCodeGenerator AccessCodeGenerator,
+    private boolean isAlreadyExistAccessCode(final AccessCodeGenerator accessCodeGenerator,
                                              final String generatedAccessCode) {
-        if (AccessCodeGenerator.isEasyAccessCodeGenerator()) {
+        if (accessCodeGenerator.isEasyAccessCodeGenerator()) {
             return pairRoomRepository.existsByEasyAccessCode(generatedAccessCode);
         }
         return pairRoomRepository.existsByAccessCode(generatedAccessCode);

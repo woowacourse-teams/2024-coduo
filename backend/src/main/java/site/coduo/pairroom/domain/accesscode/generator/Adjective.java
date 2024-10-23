@@ -1,11 +1,8 @@
 package site.coduo.pairroom.domain.accesscode.generator;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
 public enum Adjective {
-
     가엾은,
     거친,
     검은,
@@ -117,9 +114,11 @@ public enum Adjective {
     힘겨운,
     ;
 
+    private static final int LENGTH = Adjective.values().length;
+    private static final Adjective[] VALUE = Adjective.values();
+    private static final Random random = new Random();
+
     public static Adjective pickRandom() {
-        final List<Adjective> values = Arrays.asList(Adjective.values());
-        final int randomIndex = ThreadLocalRandom.current().nextInt(values.size());
-        return values.get(randomIndex);
+        return VALUE[random.nextInt(LENGTH)];
     }
 }
