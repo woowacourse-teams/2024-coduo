@@ -78,7 +78,7 @@ const CategoryManagementModal = ({
             $css={S.inputStyles}
           />
           <Button
-            css={S.buttonStyles}
+            $css={S.buttonStyles}
             type="submit"
             size="sm"
             rounded={true}

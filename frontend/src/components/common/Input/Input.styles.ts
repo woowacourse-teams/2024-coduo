@@ -37,7 +37,6 @@ const inputStatusMessageCss = {
   ERROR: css`
     color: ${({ theme }) => theme.color.danger[600]};
   `,
-
   SUCCESS: css`
     color: ${({ theme }) => theme.color.success[700]};
   `,

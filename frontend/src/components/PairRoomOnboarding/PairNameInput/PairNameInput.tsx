@@ -61,7 +61,7 @@ const PairNameInput = ({
               onChange={onPairName}
             />
             {!pairId && (
-              <Button css={S.buttonStyles} onClick={() => setIsInputOpen(false)}>
+              <Button $css={S.buttonStyles} onClick={() => setIsInputOpen(false)}>
                 취소
               </Button>
             )}

@@ -43,7 +43,7 @@ const AddReferenceForm = ({ accessCode, categories, getCategoryNameById, isCateg
           onChange={handleChange}
         />
         <Button
-          css={S.buttonStyles}
+          $css={S.buttonStyles}
           aria-label="링크 추가하기 버튼"
           type="submit"
           size="sm"

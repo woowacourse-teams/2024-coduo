@@ -6,12 +6,12 @@ import * as S from '@/components/common/Input/Input.styles';
 import type { InputStatus } from '@/components/common/Input/Input.type';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  $css?: ReturnType<typeof css>;
   width?: string;
   height?: string;
-  status?: InputStatus;
   label?: string;
+  status?: InputStatus;
   message?: string;
-  $css?: ReturnType<typeof css>;
 }
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ width = '100%', status = 'DEFAULT', message, label, height = '4.8rem', ...props }: InputProps, ref) => {
@@ -29,6 +29,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   },
 );
 
-Input.displayName = 'InputComponent';
+Input.displayName = 'Input';
 
 export default Input;

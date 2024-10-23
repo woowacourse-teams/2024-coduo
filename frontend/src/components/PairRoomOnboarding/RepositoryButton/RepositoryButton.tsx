@@ -16,7 +16,7 @@ const RepositoryButton = ({ id, name, onSelect }: RepositoryButtonProps) => {
   return (
     <S.Layout>
       <Button
-        css={S.buttonStyles}
+        $css={S.buttonStyles}
         key={id}
         name={name}
         filled={false}
