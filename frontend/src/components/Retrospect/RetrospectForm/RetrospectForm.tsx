@@ -1,5 +1,3 @@
-import { useLocation } from 'react-router-dom';
-
 import Button from '@/components/common/Button/Button';
 import Question from '@/components/Retrospect/Question/Question';
 import SkipModal from '@/components/Retrospect/RetrospectForm/SkipModal/SkipModal';
@@ -14,10 +12,10 @@ import { RETROSPECT_QUESTIONS } from '@/constants/retrospect';
 
 import * as S from './RetrospectForm.styles';
 
-const RetrospectForm = () => {
-  const location = useLocation();
-  const accessCode = location.state.accessCode;
-
+interface RetrospectFormProps {
+  accessCode: string;
+}
+const RetrospectForm = ({ accessCode }: RetrospectFormProps) => {
   const { answers, handleChange, handleSubmit } = useInputAnswer(accessCode);
 
   const { isModalOpen, openModal, closeModal } = useModal();
