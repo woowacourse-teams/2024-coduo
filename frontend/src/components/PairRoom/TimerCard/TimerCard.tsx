@@ -36,6 +36,7 @@ const TimerCard = ({ accessCode, defaultTime, defaultTimeleft, onTimerStop }: Ti
       <S.Layout aria-label="타이머">
         <S.ProgressBar
           $progress={(timeLeft / defaultTime) * 100}
+          role="timer"
           aria-label={`현재 남은 시간은 ${minutes}분 ${seconds}초 입니다.`}
         >
           <S.Timer aria-label={`${minutes}분 ${seconds}초`}>
