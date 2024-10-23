@@ -35,7 +35,7 @@ const RetrospectForm = () => {
               value={answers[index]}
               onChange={(event) => handleChange(index, event.target.value)}
               placeholder="질문에 대한 답변을 작성해주세요."
-              charNumber={`${answers[index].length} / 500`}
+              charNumber={`${answers[index].length} / 1000`}
             />
           </Question>
         ))}

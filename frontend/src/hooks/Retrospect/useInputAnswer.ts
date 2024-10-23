@@ -10,7 +10,7 @@ const useInputAnswer = (accessCode: string) => {
   const { mutateAsync } = useAddRetrospect();
   const navigate = useNavigate();
   const handleChange = (index: number, value: string) => {
-    if (value.length > 500) return;
+    if (value.length > 1000) return;
     const newAnswer = [...answers];
     newAnswer[index] = value;
     setAnswers(newAnswer);
