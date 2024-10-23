@@ -10,7 +10,7 @@ import useInput from '@/hooks/common/useInput';
 
 import { useAddCategory } from '@/queries/PairRoom/category/mutation';
 
-import { validateCategory } from '@/validations/validateCategory';
+import { validateCategoryName } from '@/validations/validateCategory';
 
 import * as S from './CategoryManagementModal.styles';
 
@@ -37,11 +37,6 @@ const CategoryManagementModal = ({
 
   const addCategory = useAddCategory();
 
-  const closeCategoryManagementModal = () => {
-    resetValue();
-    closeModal();
-  };
-
   const handleAddCategorySubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
@@ -50,39 +45,42 @@ const CategoryManagementModal = ({
     addCategory.mutateAsync({ category: value, accessCode }).then(() => resetValue());
   };
 
+  const handleCloseModal = () => {
+    resetValue();
+    closeModal();
+  };
+
   return (
-    <Modal isOpen={isOpen} close={closeCategoryManagementModal} size="50rem">
+    <Modal isOpen={isOpen} close={handleCloseModal} size="50rem">
       <Modal.Header>
         <S.Header>
           <p>카테고리 선택하기</p>
         </S.Header>
       </Modal.Header>
-      <Modal.CloseButton close={closeCategoryManagementModal} />
       <Modal.Body>
         <S.CategoryList>
           {categories.map((category) => (
             <CategoryItem
-              closeModal={closeModal}
-              accessCode={accessCode}
               key={category.id}
-              categoryName={category.value}
-              categoryId={category.id}
               isChecked={category.id === selectedCategory}
+              accessCode={accessCode}
+              closeModal={handleCloseModal}
+              categoryId={category.id}
+              categoryName={category.value}
               handleSelectCategory={handleSelectCategory}
             />
           ))}
         </S.CategoryList>
       </Modal.Body>
-      <S.Footer onSubmit={handleAddCategorySubmit}>
-        <S.AddNewCategoryInput>
+      <S.Form onSubmit={handleAddCategorySubmit}>
+        <S.InputContainer>
           <Input
             value={value}
-            placeholder="+ 새로운 카테고리를 입력해주세요."
-            height="4rem"
-            onChange={(event) => handleChange(event, validateCategory(event.target.value, isCategoryExist))}
+            placeholder="추가할 카테고리를 입력해 주세요."
+            height="4.4rem"
             status={status}
             message={message}
-            $css={S.inputStyles}
+            onChange={(event) => handleChange(event, validateCategoryName(event.target.value, isCategoryExist))}
           />
           <Button
             $css={S.buttonStyles}
@@ -93,8 +91,9 @@ const CategoryManagementModal = ({
           >
             <LuPlus size="1.6rem" />
           </Button>
-        </S.AddNewCategoryInput>
-      </S.Footer>
+        </S.InputContainer>
+      </S.Form>
+      <Modal.CloseButton close={handleCloseModal} />
     </Modal>
   );
 };

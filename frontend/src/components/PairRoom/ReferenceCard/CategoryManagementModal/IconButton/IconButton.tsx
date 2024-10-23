@@ -1,13 +1,12 @@
-import { ButtonHTMLAttributes } from 'react';
-
 import { LuPencil, LuTrash2, LuCheck, LuArrowLeft } from 'react-icons/lu';
 
 import * as S from './IconButton.styles';
 
 type Icon = 'CHECK' | 'EDIT' | 'DELETE' | 'CANCEL';
 
-interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface IconButtonProps {
   icon: Icon;
+  type?: 'button' | 'submit';
   onClick?: () => void;
 }
 
@@ -18,7 +17,7 @@ const ICON_LIST = {
   CANCEL: <LuArrowLeft />,
 };
 
-const IconButton = ({ icon, onClick, ...props }: IconButtonProps) => {
+const IconButton = ({ icon, type = 'button', onClick }: IconButtonProps) => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
 
@@ -26,7 +25,7 @@ const IconButton = ({ icon, onClick, ...props }: IconButtonProps) => {
   };
 
   return (
-    <S.Layout type="button" onClick={handleClick} {...props}>
+    <S.Layout type={type} onClick={handleClick}>
       {ICON_LIST[icon]}
     </S.Layout>
   );

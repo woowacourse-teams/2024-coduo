@@ -25,39 +25,48 @@ const CategoryItem = ({
   closeModal,
   handleSelectCategory,
 }: CategoryItemProps) => {
-  const { isEditing, categoryInputData, actions } = useEditCategory(accessCode, categoryName, categoryId);
+  const {
+    newCategoryName,
+    handleCategoryName,
+    isEditing,
+    startEditing,
+    stopEditing,
+    updateCategoryName,
+    deleteCategoryName,
+  } = useEditCategory(accessCode, categoryId, categoryName);
 
-  const handleUpdateCategory = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    await actions.updateCategory();
+    await updateCategoryName();
   };
 
   const handleDeleteCategory = async () => {
-    await actions.deleteCategory();
+    await deleteCategoryName();
     if (isChecked) handleSelectCategory(DEFAULT_CATEGORY_ID);
   };
 
   const handleCategoryClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    if (event.currentTarget.id === '카테고리' || isChecked) return;
+    if (isChecked) return;
+
     handleSelectCategory(event.currentTarget.id);
     closeModal();
   };
 
   if (isEditing) {
     return (
-      <form onSubmit={handleUpdateCategory}>
+      <form onSubmit={handleSubmit}>
         <S.Layout>
           <Input
             height="4.4rem"
             placeholder="수정할 카테고리 이름을 입력해주세요."
-            value={categoryInputData.value}
-            onChange={(event) => actions.editCategory(event, categoryName)}
-            status={categoryInputData.status}
-            message={categoryInputData.message}
+            value={newCategoryName.value}
+            status={newCategoryName.status}
+            message={newCategoryName.message}
+            onChange={(event) => handleCategoryName(event, categoryName)}
           />
           <S.IconContainer>
             <IconButton icon="CHECK" type="submit" />
-            <IconButton icon="CANCEL" onClick={actions.cancelEditing} />
+            <IconButton icon="CANCEL" onClick={stopEditing} />
           </S.IconContainer>
         </S.Layout>
       </form>
@@ -74,7 +83,7 @@ const CategoryItem = ({
       </S.Container>
       {categoryId !== DEFAULT_CATEGORY_ID && (
         <S.IconContainer>
-          <IconButton onClick={actions.startEditing} icon="EDIT" />
+          <IconButton onClick={startEditing} icon="EDIT" />
           <IconButton onClick={handleDeleteCategory} icon="DELETE" />
         </S.IconContainer>
       )}

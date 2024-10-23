@@ -10,9 +10,9 @@ import { DEFAULT_CATEGORY_VALUE } from '@/hooks/PairRoom/useCategories';
 
 import { useAddCategory } from '@/queries/PairRoom/category/mutation';
 
-import { validateCategory } from '@/validations/validateCategory';
+import { validateCategoryName } from '@/validations/validateCategory';
 
-interface CategoryDropdownProp {
+interface CategoryDropdownProps {
   categories: Category[];
   accessCode: string;
   currentCategoryId: string | null;
@@ -28,7 +28,7 @@ const CategoryDropdown = ({
   handleCurrentCategory,
   getCategoryNameById,
   isCategoryExist,
-}: CategoryDropdownProp) => {
+}: CategoryDropdownProps) => {
   const { value, status, message, handleChange, resetValue } = useInput();
   const { addToast } = useToastStore();
 
@@ -58,7 +58,7 @@ const CategoryDropdown = ({
       >
         <Input
           value={value}
-          onChange={(event) => handleChange(event, validateCategory(event.target.value, isCategoryExist))}
+          onChange={(event) => handleChange(event, validateCategoryName(event.target.value, isCategoryExist))}
           maxLength={15}
           height="4rem"
           status={status}
