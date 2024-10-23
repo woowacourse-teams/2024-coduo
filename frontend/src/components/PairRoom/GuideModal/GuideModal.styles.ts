@@ -34,7 +34,7 @@ export const Layout = styled.div`
   padding: 1rem 0;
 `;
 
-export const Title = styled.h2`
+export const Title = styled.h1`
   font-size: ${({ theme }) => theme.fontSize.h5};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
