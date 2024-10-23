@@ -6,15 +6,17 @@ spring:
         jdbc-url: ${DB_URL}
         username: ${DB_USERNAME}
         password: ${DB_PASSWORD}
+        hikari:
+          maximum-pool-size: 20
+          minimum-idle: 20
       slave:
         driver-class-name: com.mysql.cj.jdbc.Driver
         jdbc-url: ${DB_URL}
         username: ${DB_USERNAME}
         password: ${DB_PASSWORD}
-    hikari:
-      maximum-pool-size: 20
-      minimum-idle: 20
-
+        hikari:
+          maximum-pool-size: 20
+          minimum-idle: 20
 
   jpa:
     database: mysql
