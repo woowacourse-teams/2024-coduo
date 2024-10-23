@@ -24,7 +24,7 @@ const PairListCard = ({ driver, navigator, missionUrl, roomCode }: PairListCardP
   const [isOpen, setIsOpen] = useState(true);
 
   const { userStatus } = useUserStore();
-  const { handleCompletePairRoom } = useCompletePairRoom();
+  const { handleCompletePairRoom } = useCompletePairRoom(roomCode);
 
   const toggleOpen = () => setIsOpen(!isOpen);
 
