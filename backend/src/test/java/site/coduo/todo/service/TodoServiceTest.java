@@ -24,6 +24,7 @@ import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.todo.domain.Todo;
 import site.coduo.todo.domain.TodoContent;
+import site.coduo.todo.domain.TodoSortComparator;
 import site.coduo.todo.exception.TodoNotFoundException;
 import site.coduo.todo.repository.TodoEntity;
 import site.coduo.todo.repository.TodoRepository;
@@ -321,9 +322,10 @@ class TodoServiceTest {
         todoService.updateTodoSort(targetTodoId, destinationSort);
 
         // Then
-        final List<String> orders = todoRepository.findAllByPairRoomEntityOrderBySortAsc(pairRoomEntity)
+        final List<String> orders = todoRepository.findAllByPairRoomEntity(pairRoomEntity)
                 .stream()
                 .map(TodoEntity::toDomain)
+                .sorted(new TodoSortComparator())
                 .map(Todo::getContent)
                 .map(TodoContent::getContent)
                 .toList();

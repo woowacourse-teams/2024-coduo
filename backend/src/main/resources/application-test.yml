@@ -6,11 +6,13 @@ spring:
         jdbc-url: ${DB_URL}
         username: ${DB_USERNAME}
         password: ${DB_PASSWORD}
+        maximum-pool-size: 5
       slave:
         driver-class-name: com.mysql.cj.jdbc.Driver
         jdbc-url: ${DB_URL}
         username: ${DB_USERNAME}
         password: ${DB_PASSWORD}
+        maximum-pool-size: 5
 
 
   jpa:
@@ -37,13 +39,11 @@ server:
   tomcat:
     mbeanregistry:
       enabled: true
-
 oauth:
   github:
     client-id: ${CLIENT_ID}
     client-secret: ${CLIENT_SECRET}
     redirect-uri: ${CLIENT_REDIRECT_URI}
-
 front:
   url: test.coduo.site
 
