@@ -53,7 +53,8 @@ export const Message = styled.p<{ $height: string; $status: InputStatus }>`
   position: absolute;
   top: ${({ $height }) => $height};
 
-  margin-top: 0.8rem;
+  margin-top: 0.6rem;
+  margin-left: 0.2rem;
 
   font-size: ${({ theme }) => theme.fontSize.sm};
 `;
