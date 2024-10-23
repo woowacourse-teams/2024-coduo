@@ -6,13 +6,11 @@ spring:
         jdbc-url: ${DB_URL}
         username: ${DB_USERNAME}
         password: ${DB_PASSWORD}
-        maximum-pool-size: 5
       slave:
         driver-class-name: com.mysql.cj.jdbc.Driver
         jdbc-url: ${DB_URL}
         username: ${DB_USERNAME}
         password: ${DB_PASSWORD}
-        maximum-pool-size: 5
 
 
   jpa:
