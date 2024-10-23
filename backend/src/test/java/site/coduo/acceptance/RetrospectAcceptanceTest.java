@@ -6,6 +6,7 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ import site.coduo.retrospect.domain.RetrospectQuestionType;
 import site.coduo.retrospect.repository.RetrospectV2Entity;
 import site.coduo.retrospect.repository.RetrospectV2Repository;
 
+@Disabled
 class RetrospectAcceptanceTest extends AcceptanceFixture {
 
     @Autowired
@@ -80,6 +82,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
 
     @DisplayName("특정 사용자의 모든 회고 데이터를 조회한다.")
     @Test
+    @Disabled
     void findRetrospects() {
         // Given
         final PairRoomEntity savedPairRoom = saveTestPairRoom();

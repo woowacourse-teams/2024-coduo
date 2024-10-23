@@ -12,9 +12,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import site.coduo.common.controller.response.ApiErrorResponse;
 import site.coduo.retrospect.controller.request.CreateRetrospectRequest;
 import site.coduo.retrospect.controller.response.ExistRetrospectWithPairRoomResponse;
-import site.coduo.retrospect.controller.response.FindRetrospectByIdResponse;
 import site.coduo.retrospect.controller.response.FindRetrospectByIdResponseV2;
-import site.coduo.retrospect.controller.response.FindRetrospectsResponse;
+import site.coduo.retrospect.controller.response.FindRetrospectsResponseV2;
 
 @Tag(name = "회고 API")
 public interface RetrospectV2Docs {
@@ -33,15 +32,15 @@ public interface RetrospectV2Docs {
 
     @Operation(summary = "특정 사용자의 전체 회고 정보를 조회한다.")
     @ApiResponse(responseCode = "200", description = "전체 회고 정보 조회 성공", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-            schema = @Schema(implementation = FindRetrospectsResponse.class)))
-    ResponseEntity<FindRetrospectsResponse> findRetrospects(
+            schema = @Schema(implementation = FindRetrospectsResponseV2.class)))
+    ResponseEntity<FindRetrospectsResponseV2> findRetrospects(
             @Parameter(description = "사용자 식별 보안 코드 (쿠키)", required = true)
             String credentialToken
     );
 
     @Operation(summary = "특정 회고를 상세 조회 한다.")
     @ApiResponse(responseCode = "200", description = "회고 상세 조회 성공", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-            schema = @Schema(implementation = FindRetrospectByIdResponse.class)))
+            schema = @Schema(implementation = FindRetrospectByIdResponseV2.class)))
     @ApiResponse(responseCode = "404", description = "존재하지 않는 회고 조회",
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = ApiErrorResponse.class)))
@@ -62,7 +61,7 @@ public interface RetrospectV2Docs {
     ResponseEntity<Void> deleteRetrospect(
             @Parameter(description = "사용자 식별 보안 코드 (쿠키)", required = true)
             String credentialToken,
-            @Parameter(description = "회고 id", required = true) final Long retrospectId
+            @Parameter(description = "회고 id", required = true) final String accessCode
     );
 
     @Operation(summary = "특정 회원, 특정 페어룸에 속한 회고의 존재 여부를 조회한다.")

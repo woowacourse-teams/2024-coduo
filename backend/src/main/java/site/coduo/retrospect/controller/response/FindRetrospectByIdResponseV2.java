@@ -3,7 +3,6 @@ package site.coduo.retrospect.controller.response;
 import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import site.coduo.retrospect.domain.Retrospect;
 import site.coduo.retrospect.domain.RetrospectV2;
 
 @Schema(description = "특정 회고 id 조회 응답 바디")

@@ -11,13 +11,12 @@ import org.springframework.context.annotation.Import;
 import io.restassured.RestAssured;
 import site.coduo.config.TestConfig;
 import site.coduo.member.domain.repository.MemberRepository;
-import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroom.repository.PairRoomMemberRepository;
+import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.repository.CategoryRepository;
 import site.coduo.referencelink.repository.OpenGraphRepository;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
-import site.coduo.retrospect.repository.RetrospectContentRepository;
-import site.coduo.retrospect.repository.RetrospectRepository;
+import site.coduo.retrospect.repository.RetrospectV2Repository;
 import site.coduo.timer.repository.TimerRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -46,10 +45,7 @@ abstract class AcceptanceFixture {
     private PairRoomMemberRepository pairRoomMemberRepository;
 
     @Autowired
-    private RetrospectRepository retrospectRepository;
-
-    @Autowired
-    private RetrospectContentRepository retrospectContentRepository;
+    private RetrospectV2Repository retrospectV2Repository;
 
     @LocalServerPort
     private int port;
@@ -61,8 +57,7 @@ abstract class AcceptanceFixture {
 
     @AfterEach
     void tearDown() {
-        retrospectContentRepository.deleteAll();
-        retrospectRepository.deleteAll();
+        retrospectV2Repository.deleteAll();
         timerRepository.deleteAll();
         pairRoomMemberRepository.deleteAll();
         memberRepository.deleteAll();

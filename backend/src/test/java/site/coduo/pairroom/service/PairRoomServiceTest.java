@@ -11,8 +11,6 @@ import static site.coduo.fixture.AccessCodeFixture.EASY_ACCESS_CODE_INK_REDDY;
 import java.util.List;
 import java.util.Random;
 
-import jakarta.persistence.EntityNotFoundException;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -336,8 +334,7 @@ class PairRoomServiceTest {
         // When & Then
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
         assertThatThrownBy(() -> pairRoomService.existMemberInPairRoom(credentialToken, "no-code"))
-                .isInstanceOf(EntityNotFoundException.class)
-                .hasMessage("입력된 페어룸 접근 코드에 대응되는 페어룸이 존재하지 않습니다. - no-code");
+                .isInstanceOf(PairRoomNotFoundException.class);
     }
 
     @Test

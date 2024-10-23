@@ -3,7 +3,6 @@ package site.coduo.retrospect.controller;
 import static site.coduo.common.config.web.filter.SignInCookieFilter.SIGN_IN_COOKIE_NAME;
 
 import java.net.URI;
-import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -19,8 +18,7 @@ import site.coduo.retrospect.controller.docs.RetrospectV2Docs;
 import site.coduo.retrospect.controller.request.CreateRetrospectRequest;
 import site.coduo.retrospect.controller.response.ExistRetrospectWithPairRoomResponse;
 import site.coduo.retrospect.controller.response.FindRetrospectByIdResponseV2;
-import site.coduo.retrospect.controller.response.FindRetrospectsResponse;
-import site.coduo.retrospect.domain.Retrospect;
+import site.coduo.retrospect.controller.response.FindRetrospectsResponseV2;
 import site.coduo.retrospect.domain.RetrospectV2;
 import site.coduo.retrospect.service.RetrospectService;
 
@@ -40,10 +38,9 @@ public class RetrospectV2Controller implements RetrospectV2Docs {
     }
 
     @GetMapping("/retrospects")
-    public ResponseEntity<FindRetrospectsResponse> findRetrospects(
+    public ResponseEntity<FindRetrospectsResponseV2> findRetrospects(
             @CookieValue(SIGN_IN_COOKIE_NAME) final String credentialToken) {
-        final List<Retrospect> retrospects = retrospectService.findAllRetrospectsByMember(credentialToken);
-        final FindRetrospectsResponse response = FindRetrospectsResponse.from(retrospects);
+        final FindRetrospectsResponseV2 response = retrospectService.findAllRetrospectsByMember(credentialToken);
         return ResponseEntity.ok(response);
     }
 
@@ -56,12 +53,12 @@ public class RetrospectV2Controller implements RetrospectV2Docs {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/retrospects/{retrospectId}")
+    @DeleteMapping("/retrospects/{accessCode}")
     public ResponseEntity<Void> deleteRetrospect(
             @CookieValue(SIGN_IN_COOKIE_NAME) final String credentialToken,
-            @PathVariable("retrospectId") final Long retrospectId
+            @PathVariable("accessCode") final String accessCode
     ) {
-        retrospectService.deleteRetrospect(credentialToken, retrospectId);
+        retrospectService.deleteRetrospect(credentialToken, accessCode);
         return ResponseEntity.noContent().build();
     }
 
