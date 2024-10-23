@@ -3,24 +3,22 @@ import { IoIosArrowForward } from 'react-icons/io';
 import Spinner from '@/components/common/Spinner/Spinner';
 import DeleteModal from '@/components/MyPage/DeleteModal/DeleteModal';
 
-import { type PairRoomStatus } from '@/apis/pairRoom';
-
 import useModal from '@/hooks/common/useModal';
 
-import useDeletePairRoom from '@/queries/MyPage/useDeleteRoom';
+import { useDeleteRetrospect } from '@/queries/Retrospect/useDeleteRetrospect';
 
 import * as S from './PairRoomButton.styles';
 
-interface PairRoomButtonProps {
-  driver: string;
-  navigator: string;
-  status: PairRoomStatus;
+interface RetrospectButtonProps {
+  retrospectId: string;
+  answer: string;
   accessCode: string;
 }
 
-const PairRoomButton = ({ driver, navigator, status, accessCode }: PairRoomButtonProps) => {
+const RetrospectButton = ({ retrospectId, accessCode, answer }: RetrospectButtonProps) => {
   const { openModal, closeModal, isModalOpen } = useModal();
-  const { mutate, isPending } = useDeletePairRoom();
+  const { mutate, isPending } = useDeleteRetrospect();
+
   const handleOpenDeleteModal = (event: React.MouseEvent<HTMLButtonElement | SVGElement>) => {
     event.preventDefault();
     event.stopPropagation();
@@ -28,7 +26,7 @@ const PairRoomButton = ({ driver, navigator, status, accessCode }: PairRoomButto
   };
 
   const handleDeletePairRoom = async () => {
-    mutate(accessCode);
+    mutate({ retrospectId });
     closeModal();
   };
 
@@ -38,29 +36,24 @@ const PairRoomButton = ({ driver, navigator, status, accessCode }: PairRoomButto
         <Spinner />
       ) : (
         <>
-          <S.LinkWrapper to={`/room/${accessCode}`} state={{ valid: true }} replace={true}>
-            <S.PairRoomButton $status={status}>
+          <S.LinkWrapper to={`/retrospect/${retrospectId}`}>
+            <S.PairRoomButton $status="IN_PROGRESS">
               <S.RoleTextContainer>
-                <S.RoleText $status={status}>
-                  <span>드라이버</span>
-                  {driver}
-                </S.RoleText>
-                <S.RoleText $status={status}>
-                  <span>내비게이터</span>
-                  {navigator}
+                <S.RoleText $status="IN_PROGRESS">
+                  <span>{accessCode}</span>
+                  {answer}
                 </S.RoleText>
               </S.RoleTextContainer>
-              <S.StatusText $status={status}>{status === 'IN_PROGRESS' ? '진행 중' : '진행 완료'}</S.StatusText>
               <S.ConnectText>
-                입장
+                더보기
                 <IoIosArrowForward size="1.8rem" />
               </S.ConnectText>
             </S.PairRoomButton>
           </S.LinkWrapper>
           <S.DeleteButton onClick={handleOpenDeleteModal} />
           <DeleteModal
-            description="투두 리스트, 레퍼런스 링크 등"
-            dangerText="모든 데이터가 삭제"
+            description="해당 회고의"
+            dangerText="모든 내용이 삭제"
             isOpen={isModalOpen}
             closeModal={closeModal}
             handleDeletePairRoom={handleDeletePairRoom}
@@ -71,4 +64,4 @@ const PairRoomButton = ({ driver, navigator, status, accessCode }: PairRoomButto
   );
 };
 
-export default PairRoomButton;
+export default RetrospectButton;

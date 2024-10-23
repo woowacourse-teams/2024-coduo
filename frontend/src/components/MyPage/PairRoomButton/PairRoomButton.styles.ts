@@ -95,7 +95,7 @@ export const ConnectText = styled.div`
   align-items: center;
   gap: 0.4rem;
 
-  width: 10%;
+  width: 11%;
 
   color: ${({ theme }) => theme.color.black[10]};
 
@@ -191,4 +191,10 @@ export const DeleteButton = styled(FaTrashAlt)`
   &:hover {
     color: ${({ theme }) => theme.color.danger[600]};
   }
+`;
+
+export const DangerText = styled.span`
+  color: ${({ theme }) => theme.color.danger[600]};
+  font-size: ${({ theme }) => theme.fontSize.base};
+  line-height: 1.5;
 `;
