@@ -2,20 +2,38 @@ import styled from 'styled-components';
 
 export const Layout = styled.div`
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+
+  width: 100%;
+`;
+
+export const Container = styled.div`
+  display: flex;
   align-items: center;
   gap: 1rem;
 
-  width: 28rem;
+  width: 100%;
+
+  img {
+    width: 2rem;
+    height: 2rem;
+  }
 `;
 
-export const ReadonlyCategoryItem = styled.li<{ $isChecked: boolean }>`
+export const IconContainer = styled.div`
   display: flex;
-  justify-content: space-between;
+  gap: 0.6rem;
+`;
+
+export const Item = styled.li<{ $isChecked: boolean }>`
+  display: flex;
   align-items: center;
 
   width: 100%;
   height: 4.4rem;
-  padding: 0 1rem;
+  padding: 0 1.2rem;
   border: 1px solid ${({ theme }) => theme.color.black[50]};
   border-radius: 0.5rem;
 
@@ -27,11 +45,6 @@ export const ReadonlyCategoryItem = styled.li<{ $isChecked: boolean }>`
 
   &:hover {
     background-color: ${({ theme }) => theme.color.primary[700]};
-    color: ${({ theme }) => theme.color.black[10]};
-  }
-
-  &:active {
-    background-color: ${({ theme }) => theme.color.primary[800]};
     color: ${({ theme }) => theme.color.black[10]};
   }
 `;
