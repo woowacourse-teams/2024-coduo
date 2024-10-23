@@ -25,7 +25,8 @@ class PairRoomEntityTest {
         final MissionUrl missionUrl = new MissionUrl("https://missionUrl.xxx");
 
         // when & then
-        assertThatCode(() -> new PairRoom(pairRoomStatus, pair, missionUrl, ACCESS_CODE, EASY_ACCESS_CODE_FRAM_LEMONE))
+        assertThatCode(() -> new PairRoom(pairRoomStatus, pair, missionUrl, ACCESS_CODE, EASY_ACCESS_CODE_FRAM_LEMONE,
+                new RoomName("방 이름")))
                 .doesNotThrowAnyException();
     }
 
@@ -38,7 +39,8 @@ class PairRoomEntityTest {
                         new Pair(new PairName("navi"), new PairName("dri")),
                         new MissionUrl("https://missionUrl.xxx"),
                         new AccessCode("access"),
-                        EASY_ACCESS_CODE_FRAM_LEMONE)
+                        EASY_ACCESS_CODE_FRAM_LEMONE,
+                        new RoomName("방 이름"))
         );
 
         // when
@@ -59,7 +61,8 @@ class PairRoomEntityTest {
                         new Pair(new PairName("navi"), new PairName("dri")),
                         new MissionUrl("https://missionUrl.xxx"),
                         new AccessCode("access"),
-                        EASY_ACCESS_CODE_FRAM_LEMONE)
+                        EASY_ACCESS_CODE_FRAM_LEMONE,
+                        new RoomName("방 이름"))
         );
 
         // When
@@ -78,7 +81,8 @@ class PairRoomEntityTest {
                         new Pair(new PairName("navi"), new PairName("dri")),
                         new MissionUrl("https://missionUrl.xxx"),
                         new AccessCode("access"),
-                        EASY_ACCESS_CODE_FRAM_LEMONE)
+                        EASY_ACCESS_CODE_FRAM_LEMONE,
+                        new RoomName("방 이름"))
         );
 
         // When

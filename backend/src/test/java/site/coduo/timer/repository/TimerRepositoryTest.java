@@ -17,6 +17,7 @@ import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
+import site.coduo.pairroom.domain.RoomName;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.timer.domain.Timer;
@@ -46,7 +47,8 @@ class TimerRepositoryTest {
                 new Pair(new PairName("레머네"), new PairName("프람")),
                 new MissionUrl("https://missionUrl.xxx"),
                 ALPHABET_ACCESS_CODE,
-                EASY_ACCESS_CODE_FRAM_LEMONE
+                EASY_ACCESS_CODE_FRAM_LEMONE,
+                new RoomName("방 이름")
         );
         final PairRoomEntity entity = site.coduo.pairroom.repository.PairRoomEntity.from(
                 pairRoom);

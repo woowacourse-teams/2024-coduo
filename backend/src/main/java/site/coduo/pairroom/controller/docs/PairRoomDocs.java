@@ -15,8 +15,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import site.coduo.pairroom.controller.dto.request.ExistMemberInPairRoomResponse;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
+import site.coduo.pairroom.service.dto.PairRoomExistByEasyAccessCodeResponse;
 import site.coduo.pairroom.service.dto.PairRoomExistResponse;
 import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
+import site.coduo.pairroom.service.dto.PairRoomNameUpdateRequest;
 import site.coduo.pairroom.service.dto.PairRoomReadRequest;
 import site.coduo.pairroom.service.dto.PairRoomReadResponse;
 import site.coduo.pairroom.service.dto.PairRoomStatusUpdateRequest;
@@ -76,6 +78,11 @@ public interface PairRoomDocs {
             schema = @Schema(implementation = PairRoomExistResponse.class)))
     ResponseEntity<PairRoomExistResponse> pairRoomExists(String accessCode);
 
+    @Operation(summary = "페어 이름 액세스 코드로 페어룸이 존재하는지 조회한다.")
+    @ApiResponse(responseCode = "200", description = "페어룸 존재 여부, 페어룸 접근 코드", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+            schema = @Schema(implementation = PairRoomExistByEasyAccessCodeResponse.class)))
+    ResponseEntity<PairRoomExistByEasyAccessCodeResponse> pairRoomExistsByEasyAccessCode(String easyAccessCode);
+
     @Operation(summary = "페어룸을 삭제한다.")
     @ApiResponse(responseCode = "204", description = "페어룸 삭제 성공")
     ResponseEntity<Void> deletePairRoom(
@@ -91,5 +98,14 @@ public interface PairRoomDocs {
             String credentialToken,
             @Parameter(description = "페어룸 접근 코드", required = true)
             String pairRoomAccessCode
+    );
+
+    @Operation(summary = "페어룸 이름을 변경한다.")
+    @ApiResponse(responseCode = "204", description = "페어룸 이름 변경 성공")
+    ResponseEntity<Void> updatePairRoomName(
+            @Parameter(description = "페어룸 접근 코드", required = true)
+            String accessCode,
+            @Parameter(description = "변경할 페어룸 이름", required = true)
+            PairRoomNameUpdateRequest request
     );
 }
