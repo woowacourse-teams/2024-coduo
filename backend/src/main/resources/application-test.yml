@@ -39,6 +39,7 @@ server:
       enabled: true
     threads:
       max: 150
+    max-connections: 4000
 
 oauth:
   github:
