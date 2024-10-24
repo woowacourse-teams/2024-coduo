@@ -1,8 +1,6 @@
 import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { validateTimerDuration } from '@/validations/validateTimerDuration';
-
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 
@@ -14,7 +12,7 @@ import useModal from '@/hooks/common/useModal';
 
 import useUpdateDuration from '@/queries/PairRoom/useUpdateDuration';
 
-import { BUTTON_TEXT } from '@/constants/button';
+import { validateTimerDuration } from '@/validations/validateTimerDuration';
 
 import * as S from './TimerEditPanel.styles';
 
@@ -56,18 +54,18 @@ const TimerEditPanel = ({ isActive }: TimerEditPanelProps) => {
 
   return (
     <S.Layout>
-      <S.Icon onClick={handleButtonClick} />
+      <S.Icon role="button" onClick={handleButtonClick} aria-label="타이머 시간 수정 버튼" />
       {isPanelOpen && (
         <S.Panel ref={panelRef}>
           <S.Title>타이머 시간 변경</S.Title>
-          <S.Form onSubmit={handleSubmit}>
+          <S.Form onSubmit={handleSubmit} aria-label="타이머 시간을 분 단위로 입력해 주세요.">
             <Input id="timer" value={value} placeholder="타이머 시간 (분)" onChange={handleChange} />
             <S.ButtonContainer>
               <Button type="button" color="secondary" size="sm" filled={false} rounded={true} onClick={closePanel}>
-                {BUTTON_TEXT.CLOSE}
+                닫기
               </Button>
               <Button type="submit" color="secondary" size="sm" rounded={true} disabled={isButtonDisabled}>
-                {BUTTON_TEXT.COMPLETE}
+                완료
               </Button>
             </S.ButtonContainer>
           </S.Form>

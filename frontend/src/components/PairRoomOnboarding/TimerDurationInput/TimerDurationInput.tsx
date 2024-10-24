@@ -1,10 +1,11 @@
+/* eslint-disable jsx-a11y/no-autofocus */
 import { useState } from 'react';
-
-import { validateTimerDuration } from '@/validations/validateTimerDuration';
 
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
 import InformationBox from '@/components/PairRoomOnboarding/InformationBox/InformationBox';
+
+import { validateTimerDuration } from '@/validations/validateTimerDuration';
 
 import * as S from './TimerDurationInput.styles';
 
@@ -37,7 +38,7 @@ const TimerDurationInput = ({ timerDuration, onTimerDuration }: TimerDurationInp
   };
 
   return (
-    <S.Layout>
+    <S.Layout aria-label="총 3개의 설정 항목 중 3번째 항목입니다.">
       <S.HeaderContainer>
         <S.TitleContainer>
           <S.Title>타이머 설정</S.Title>
@@ -67,8 +68,11 @@ const TimerDurationInput = ({ timerDuration, onTimerDuration }: TimerDurationInp
           </Button>
           {isCustom && (
             <Input
-              width="20rem"
+              autoFocus
+              aria-label="타이머 시간을 분 단위로 입력해 주세요."
               $css={S.inputStyles}
+              width="20rem"
+              height="4rem"
               value={timerDuration}
               placeholder="타이머 시간 (분)"
               status={!validateTimerDuration(timerDuration) ? 'ERROR' : 'DEFAULT'}

@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import Button from '@/components/common/Button/Button';
 import { Direction } from '@/components/common/Dropdown/Dropdown/Dropdown';
 
+import { Z_INDEX } from '@/constants/style';
+
 const getDirection = {
   lower: {
     open: 180,
@@ -79,7 +81,7 @@ export const ItemList = styled.ul<{ $height: string; $direction: Direction }>`
   top: ${({ $direction }) => ($direction === 'lower' ? '5rem' : '')};
   bottom: ${({ $direction }) => ($direction === 'lower' ? '' : '5rem')};
   left: 0;
-  z-index: 1000;
+  z-index: ${Z_INDEX.DROPDOWN};
 
   width: 100%;
   max-height: 20rem;

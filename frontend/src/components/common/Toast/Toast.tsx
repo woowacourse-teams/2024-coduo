@@ -18,8 +18,9 @@ const TOAST_IMOJI: Record<Status, string> = {
 
 const Toast = ({ isOpen, isPush, message, status = 'ERROR' }: ToastProps) => {
   return (
-    <S.Layout $isOpen={isOpen} $isPush={isPush} $status={status}>
-      {`${TOAST_IMOJI[status]} ${message}`}
+    <S.Layout role="alert" aria-live="assertive" $isOpen={isOpen} $isPush={isPush} $status={status}>
+      <p aria-hidden="true">{TOAST_IMOJI[status]}</p>
+      <p>{message}</p>
     </S.Layout>
   );
 };

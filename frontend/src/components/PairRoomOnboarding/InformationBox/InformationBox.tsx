@@ -9,9 +9,9 @@ interface InformationBoxProps {
 
 const InformationBox = ({ title, description }: InformationBoxProps) => {
   return (
-    <S.Layout>
+    <S.Layout role="presentation">
       <S.Title>
-        <RiInformation2Line size="2rem" />
+        <RiInformation2Line size="2rem" aria-hidden="true" />
         {title}
       </S.Title>
       <S.Description>{description}</S.Description>

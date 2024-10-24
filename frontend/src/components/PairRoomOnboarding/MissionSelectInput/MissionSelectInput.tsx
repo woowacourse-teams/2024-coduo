@@ -7,14 +7,14 @@ import useGetRepositories from '@/queries/PairRoomOnboarding/useGetRepositories'
 import * as S from './MissionSelectInput.styles';
 
 interface MissionSelectInputProps {
-  onRepositoryName: (repositoryName: string) => void;
+  onSelect: (repositoryName: string) => void;
 }
 
-const MissionSelectInput = ({ onRepositoryName }: MissionSelectInputProps) => {
+const MissionSelectInput = ({ onSelect }: MissionSelectInputProps) => {
   const { repositories, isFetching } = useGetRepositories();
 
   return (
-    <S.Layout>
+    <S.Layout aria-label="총 2개의 설정 항목 중 1번째 항목입니다.">
       <S.HeaderContainer>
         <S.TitleContainer>
           <S.Title>미션 선택</S.Title>
@@ -31,12 +31,7 @@ const MissionSelectInput = ({ onRepositoryName }: MissionSelectInputProps) => {
         ) : (
           repositories.map((repository) => {
             return (
-              <RepositoryButton
-                key={repository.id}
-                id={repository.id}
-                name={repository.name}
-                onSelect={onRepositoryName}
-              />
+              <RepositoryButton key={repository.id} id={repository.id} name={repository.name} onSelect={onSelect} />
             );
           })
         )}

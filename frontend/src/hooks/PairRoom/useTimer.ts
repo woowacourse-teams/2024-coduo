@@ -53,6 +53,12 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
     const sse = getSSEConnection(accessCode);
 
     const handleStatus = (event: MessageEvent) => {
+      if (event.data === 'complete') {
+        navigate(`/room/${accessCode}/retrospectForm`, { state: { valid: true } });
+        addToast({ status: 'WARNING', message: '페어룸이 종료되었습니다.' });
+        return;
+      }
+
       if (event.data === 'start') {
         setIsActive(true);
         addToast({ status: 'SUCCESS', message: '타이머가 시작되었습니다.' });

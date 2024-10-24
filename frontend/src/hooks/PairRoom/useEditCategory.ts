@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-import { validateCategory } from '@/validations/validateCategory';
-
 import useToastStore from '@/stores/toastStore';
 
 import useInput from '@/hooks/common/useInput';
@@ -9,53 +7,54 @@ import useCategories from '@/hooks/PairRoom/useCategories';
 
 import { useDeleteCategory, useUpdateCategory } from '@/queries/PairRoom/category/mutation';
 
-const useEditCategory = (accessCode: string, categoryName: string, categoryId: string) => {
+import { validateCategoryName } from '@/validations/validateCategory';
+
+const useEditCategory = (accessCode: string, categoryId: string, categoryName: string) => {
   const { addToast } = useToastStore();
 
   const [isEditing, setIsEditing] = useState(false);
-  const { value, handleChange, resetValue, message, status } = useInput(categoryName);
-  const { isCategoryExist } = useCategories(accessCode);
 
+  const { value, handleChange, resetValue, message, status } = useInput(categoryName);
+
+  const { isCategoryExist } = useCategories(accessCode);
   const updateCategoryMutation = useUpdateCategory();
   const deleteCategoryMutation = useDeleteCategory();
 
   const startEditing = () => setIsEditing(true);
-  const cancelEditing = () => {
-    setIsEditing(false);
+
+  const stopEditing = () => {
     resetValue();
-  };
-
-  const editCategory = (event: React.ChangeEvent<HTMLInputElement>, prevCategoryName: string) => {
-    handleChange(event, validateCategory(event.target.value, isCategoryExist, prevCategoryName));
-  };
-
-  const updateCategory = async () => {
-    if (value === categoryName) return;
-    if (status === 'ERROR') return;
-    await updateCategoryMutation.mutateAsync({
-      categoryId,
-      updatedCategoryName: value,
-      accessCode,
-    });
     setIsEditing(false);
-    addToast({ status: 'SUCCESS', message: '카테고리 이름이 수정되었어요.' });
   };
 
-  const deleteCategory = async () => {
+  const handleCategoryName = (event: React.ChangeEvent<HTMLInputElement>, prevCategoryName: string) => {
+    handleChange(event, validateCategoryName(event.target.value, isCategoryExist, prevCategoryName));
+  };
+
+  const updateCategoryName = async () => {
+    if (value === categoryName) {
+      stopEditing();
+      return;
+    }
+
+    await updateCategoryMutation.mutateAsync({ categoryId, updatedCategoryName: value, accessCode });
+    addToast({ status: 'SUCCESS', message: '카테고리가 수정되었습니다.' });
+    stopEditing();
+  };
+
+  const deleteCategoryName = async () => {
     await deleteCategoryMutation.mutateAsync({ categoryId, accessCode });
-    addToast({ status: 'SUCCESS', message: '카테고리가 삭제되었어요.' });
+    addToast({ status: 'SUCCESS', message: '카테고리가 삭제되었습니다.' });
   };
 
   return {
+    newCategoryName: { value, message, status },
+    handleCategoryName,
     isEditing,
-    categoryInputData: { value, message, status },
-    actions: {
-      startEditing,
-      cancelEditing,
-      editCategory,
-      updateCategory,
-      deleteCategory,
-    },
+    startEditing,
+    stopEditing,
+    updateCategoryName,
+    deleteCategoryName,
   };
 };
 

@@ -13,10 +13,11 @@ export interface Option {
   id: string;
   value: string;
 }
+
 interface DropdownProps {
   placeholder: string;
-  valueOptions?: Option[];
   options?: string[];
+  valueOptions?: Option[];
   selectedOption?: string;
   width?: string;
   height?: string;
@@ -70,12 +71,12 @@ const Dropdown = ({
             $isSelected={!!selectedOption}
             $isOpen={isOpen}
             onClick={toggleDropdown}
+            aria-label={isOpen ? '드롭다운을 닫습니다' : '드롭다운을 엽니다'}
           >
             {selectedOption || placeholder}
             <S.Icon $isOpen={isOpen} size={theme.iconSize.md} $direction={direction} />
           </S.OpenButton>
         )}
-
         {options && !options.some((option) => option === '') && isOpen && (
           <S.ItemList $height={height} $direction={direction}>
             {options.map((option, index) => (
@@ -95,7 +96,6 @@ const Dropdown = ({
             ))}
           </S.ItemList>
         )}
-
         {valueOptions && !valueOptions.some((option) => option.value === '') && isOpen && (
           <S.ItemList $height={height} $direction={direction}>
             {valueOptions.map((option, index) => (

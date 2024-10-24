@@ -18,45 +18,47 @@ import useSignInHandler from '@/hooks/member/useSignInHandler';
 
 const Landing = () => {
   const navigate = useNavigate();
-  const targetSections: TargetSection[] = [
-    { id: 'landing', position: 'top' },
-    { id: 'how-to-pair', position: 'bottom' },
-  ];
-  useTitleTime();
-  usePreventBackNavigation();
-
   const { userStatus } = useUserStore();
-  const { handleSignInGithub } = useSignInHandler();
 
   useEffect(() => {
     if (userStatus === 'SIGNED_IN') navigate('/main');
   }, [userStatus]);
 
+  const { handleSignInGithub } = useSignInHandler();
+
+  useTitleTime();
+  usePreventBackNavigation();
+
+  const targetSections: TargetSection[] = [
+    { id: 'landing', position: 'top' },
+    { id: 'how-to-pair', position: 'bottom' },
+  ];
+
   return (
     <>
-      <ScrollIcon targetSections={targetSections} />
       <S.Layout id="landing">
         <ScrollAnimationContainer animationDirection="right">
           <S.SubTitle>당신의 첫 번째 페어 프로그래밍,</S.SubTitle>
         </ScrollAnimationContainer>
         <ScrollAnimationContainer animationDirection="right" animationDelay={0.75}>
-          <S.Logo src={LogoIconWithTitle} alt="메인 로고" />
+          <S.Logo src={LogoIconWithTitle} alt="코딩해듀오 로고" />
         </ScrollAnimationContainer>
         <S.ButtonContainer>
           <ScrollAnimationContainer animationDirection="top" animationDelay={2}>
-            <Button css={S.githubButtonStyles} size="xl" filled={false} rounded={true} onClick={handleSignInGithub}>
+            <Button $css={S.githubButtonStyles} size="xl" filled={false} rounded={true} onClick={handleSignInGithub}>
               <img src={GithubLogoWhite} alt="" />
               Github로 로그인
             </Button>
           </ScrollAnimationContainer>
           <ScrollAnimationContainer animationDirection="top" animationDelay={2.1}>
-            <Button size="xl" css={S.buttonStyles} color="primary" rounded={true} onClick={() => navigate('/main')}>
+            <Button size="xl" $css={S.buttonStyles} color="primary" rounded={true} onClick={() => navigate('/main')}>
               회원가입 없이 사용하기
             </Button>
           </ScrollAnimationContainer>
         </S.ButtonContainer>
       </S.Layout>
       <HowToPair />
+      <ScrollIcon targetSections={targetSections} />
     </>
   );
 };

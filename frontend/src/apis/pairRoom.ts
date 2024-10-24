@@ -8,8 +8,9 @@ export type PairRoomStatus = 'IN_PROGRESS' | 'COMPLETED';
 
 export interface GetPairRoomResponse {
   id: number;
-  navigator: string;
   driver: string;
+  navigator: string;
+  missionUrl: string;
   status: PairRoomStatus;
 }
 
@@ -32,16 +33,32 @@ export const getPairRoomExists = async (accessCode: string): Promise<{ exists: b
 };
 
 interface AddPairRoomRequest {
+  pairId: string;
   driver: string;
   navigator: string;
+  missionUrl: string;
   timerDuration: number;
   timerRemainingTime: number;
 }
 
-export const addPairRoom = async ({ driver, navigator, timerDuration, timerRemainingTime }: AddPairRoomRequest) => {
+export const addPairRoom = async ({
+  pairId,
+  driver,
+  navigator,
+  missionUrl,
+  timerDuration,
+  timerRemainingTime,
+}: AddPairRoomRequest) => {
   const response = await fetcher.post({
     url: `${API_URL}/pair-room`,
-    body: JSON.stringify({ driver, navigator, timerDuration, timerRemainingTime, status: 'IN_PROGRESS' }),
+    body: JSON.stringify({
+      pairId: pairId || null,
+      driver,
+      navigator,
+      missionUrl,
+      timerDuration,
+      timerRemainingTime,
+    }),
     errorMessage: '',
   });
 
@@ -58,5 +75,24 @@ export const updatePairRole = async ({ accessCode }: UpdatePairRoleRequest) => {
   await fetcher.patch({
     url: `${API_URL}/pair-room/${accessCode}/pair-swap`,
     errorMessage: '',
+  });
+};
+
+interface UpdatePairRoomStatusRequest {
+  accessCode: string;
+}
+
+export const updatePairRoomStatus = async ({ accessCode }: UpdatePairRoomStatusRequest) => {
+  await fetcher.patch({
+    url: `${API_URL}/pair-room/${accessCode}/status`,
+    errorMessage: ERROR_MESSAGES.UPDATE_PAIR_ROOM_STATUS,
+    body: JSON.stringify({ status: 'COMPLETED' }),
+  });
+};
+
+export const deletePairRoom = async (accessCode: string) => {
+  await fetcher.delete({
+    url: `${API_URL}/pair-room/${accessCode}`,
+    errorMessage: ERROR_MESSAGES.DELETE_PAIR_ROOM,
   });
 };

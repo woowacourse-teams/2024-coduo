@@ -10,11 +10,11 @@ interface PairRoleCardProps {
 
 const PairRoleCard = ({ driver, navigator }: PairRoleCardProps) => {
   return (
-    <S.Layout>
+    <S.Layout aria-label={`현재 드라이버는 ${driver}, 내비게이터는 ${navigator} 입니다.`}>
       <PairRoomCard>
         <S.RoleBoxContainer>
           <S.DriverBox>
-            <S.RoleIcon>💻</S.RoleIcon>
+            <S.RoleIcon aria-hidden="true">💻</S.RoleIcon>
             <S.RoleTextContainer>
               <Tooltip
                 direction="top"
@@ -22,7 +22,6 @@ const PairRoleCard = ({ driver, navigator }: PairRoleCardProps) => {
               >
                 <S.DriverLabel>드라이버</S.DriverLabel>
               </Tooltip>
-
               <S.DriverText>{driver}</S.DriverText>
             </S.RoleTextContainer>
           </S.DriverBox>
@@ -36,7 +35,7 @@ const PairRoleCard = ({ driver, navigator }: PairRoleCardProps) => {
               </Tooltip>
               <S.NavigatorText>{navigator}</S.NavigatorText>
             </S.RoleTextContainer>
-            <S.RoleIcon>🧭</S.RoleIcon>
+            <S.RoleIcon aria-hidden="true">🧭</S.RoleIcon>
           </S.NavigatorBox>
         </S.RoleBoxContainer>
       </PairRoomCard>

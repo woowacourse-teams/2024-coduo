@@ -8,7 +8,7 @@ interface HeaderProps {
 
 const Header = ({ title, subTitle, children }: HeaderProps) => {
   return (
-    <S.Layout>
+    <S.Layout role="presentation">
       <S.Title>{title}</S.Title>
       {subTitle && <S.SubTitle>{subTitle}</S.SubTitle>}
       {children}

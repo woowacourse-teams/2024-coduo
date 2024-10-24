@@ -2,6 +2,8 @@ import styled, { css, keyframes } from 'styled-components';
 
 import { Direction } from '@/components/common/Tooltip/Tooltip.type';
 
+import { Z_INDEX } from '@/constants/style';
+
 const fadeIn = keyframes`
   0% {
     opacity: 0;
@@ -52,8 +54,9 @@ const directionStyle = (direction: Direction, color: string) => {
           top: 100%;
           left: 50%;
 
-          transform: translateX(-50%);
           border-color: ${color} transparent transparent transparent;
+
+          transform: translateX(-50%);
         }
       `;
     case 'bottom':
@@ -68,8 +71,9 @@ const directionStyle = (direction: Direction, color: string) => {
           bottom: 100%;
           left: 50%;
 
-          transform: translateX(-50%);
           border-color: transparent transparent ${color} transparent;
+
+          transform: translateX(-50%);
         }
       `;
     case 'left':
@@ -84,8 +88,9 @@ const directionStyle = (direction: Direction, color: string) => {
           top: 50%;
           left: 100%;
 
-          transform: translateY(-50%);
           border-color: transparent transparent transparent ${color};
+
+          transform: translateY(-50%);
         }
       `;
     case 'right':
@@ -100,8 +105,9 @@ const directionStyle = (direction: Direction, color: string) => {
           top: 50%;
           right: 100%;
 
-          transform: translateY(-50%);
           border-color: transparent ${color} transparent transparent;
+
+          transform: translateY(-50%);
         }
       `;
   }
@@ -111,7 +117,7 @@ export const Content = styled.div<{ $color: string; $direction: Direction }>`
   display: none;
 
   position: absolute;
-  z-index: 100;
+  z-index: ${Z_INDEX.TOOLTIP};
 
   width: fit-content;
   min-width: 20rem;

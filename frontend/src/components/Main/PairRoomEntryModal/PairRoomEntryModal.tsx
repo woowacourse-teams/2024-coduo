@@ -10,8 +10,6 @@ import { getPairRoomExists } from '@/apis/pairRoom';
 
 import useInput from '@/hooks/common/useInput';
 
-import { BUTTON_TEXT } from '@/constants/button';
-
 interface PairRoomEntryModal {
   isOpen: boolean;
   closeModal: () => void;
@@ -31,13 +29,12 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
       return;
     }
 
-    navigate(`/room/${value}`);
+    navigate(`/room/${value}`, { state: { valid: true }, replace: true });
   };
 
   return (
     <Modal isOpen={isOpen} close={closeModal} size="60rem">
       <Modal.Header title="페어룸 참가하기" />
-      <Modal.CloseButton close={closeModal} />
       <Modal.Body>
         <Input
           placeholder="코드를 입력해 주세요"
@@ -49,12 +46,13 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={closeModal} filled={false}>
-          {BUTTON_TEXT.CLOSE}
+          닫기
         </Button>
         <Button disabled={!value} onClick={enterPairRoom}>
-          {BUTTON_TEXT.COMPLETE}
+          완료
         </Button>
       </Modal.Footer>
+      <Modal.CloseButton close={closeModal} />
     </Modal>
   );
 };

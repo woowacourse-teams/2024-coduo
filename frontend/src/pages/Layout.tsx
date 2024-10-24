@@ -9,9 +9,9 @@ const Layout = () => {
   return (
     <S.Layout>
       <Header />
-      <main>
+      <S.Main role="presentation">
         <Outlet />
-      </main>
+      </S.Main>
       <ToastList />
     </S.Layout>
   );

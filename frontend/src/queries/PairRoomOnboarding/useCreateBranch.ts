@@ -9,13 +9,8 @@ const useCreateBranch = () => {
 
   const { mutate, isSuccess } = useMutation({
     mutationFn: createBranch,
-    onSuccess: () => {
-      addToast({ status: 'SUCCESS', message: '브랜치 생성에 성공했습니다.' });
-    },
-    onError: () => {
-      addToast({ status: 'ERROR', message: '브랜치 생성에 실패했습니다.' });
-      //TODO: 추후에 status 분기처리하기
-    },
+    onSuccess: () => addToast({ status: 'SUCCESS', message: '브랜치 생성에 성공했습니다.' }),
+    onError: () => addToast({ status: 'ERROR', message: '브랜치 생성에 실패했습니다.' }),
   });
 
   const handleCreateBranch = async (currentRepository: string, branchName: string) => {
