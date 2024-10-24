@@ -3,6 +3,8 @@ import { CheckBoxChecked, CheckBoxUnchecked } from '@/assets';
 import Input from '@/components/common/Input/Input';
 import IconButton from '@/components/PairRoom/ReferenceCard/CategoryManagementModal/IconButton/IconButton';
 
+import useToastStore from '@/stores/toastStore';
+
 import { DEFAULT_CATEGORY_ID } from '@/hooks/PairRoom/useCategories';
 import useEditCategory from '@/hooks/PairRoom/useEditCategory';
 
@@ -35,6 +37,8 @@ const CategoryItem = ({
     deleteCategoryName,
   } = useEditCategory(accessCode, categoryId, categoryName);
 
+  const { addToast } = useToastStore();
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     await updateCategoryName();
@@ -49,6 +53,7 @@ const CategoryItem = ({
     if (isChecked) return;
 
     handleSelectCategory(event.currentTarget.id);
+    addToast({ status: 'SUCCESS', message: '카테고리가 선택되었어요.' });
     closeModal();
   };
 
