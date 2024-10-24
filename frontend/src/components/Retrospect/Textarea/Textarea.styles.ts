@@ -16,9 +16,9 @@ export const Textarea = styled.textarea`
   border-radius: 0.5rem;
 
   background-color: ${({ theme }) => theme.color.black[20]};
-  color: ${({ theme }) => theme.color.black[70]};
+  color: ${({ theme }) => theme.color.black[80]};
   font-size: ${({ theme }) => theme.fontSize.md};
-  line-height: 1.5;
+  line-height: 1.6;
   resize: vertical;
 
   word-wrap: break-word;
