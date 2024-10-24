@@ -35,6 +35,6 @@ export const UsedCss: Story = {
   args: {
     onClick: () => console.log(),
     children: '확인',
-    css: CustomButton,
+    $css: CustomButton,
   },
 };

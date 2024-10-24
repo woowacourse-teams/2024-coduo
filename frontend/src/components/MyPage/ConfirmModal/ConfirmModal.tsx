@@ -18,10 +18,10 @@ const ConfirmModal = ({ isOpen, onConfirm, close }: ConfirmModalProps) => {
         해당 작업은 다시 복구할 수 없습니다.
       </S.Container>
       <Modal.Footer position="CENTER">
-        <Button css={S.confirmButtonStyles} onClick={onConfirm}>
+        <Button $css={S.confirmButtonStyles} onClick={onConfirm}>
           탈퇴
         </Button>
-        <Button css={S.cancelButtonStyles} onClick={close}>
+        <Button $css={S.cancelButtonStyles} onClick={close}>
           취소
         </Button>
       </Modal.Footer>

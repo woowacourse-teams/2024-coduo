@@ -19,7 +19,7 @@ const Header = ({ selectedFilteringCategoryName, onButtonClick }: React.PropsWit
         <p>링크</p>
       </S.Container>
       <Button
-        css={S.buttonStyles}
+        $css={S.buttonStyles}
         size="sm"
         rounded={true}
         onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {

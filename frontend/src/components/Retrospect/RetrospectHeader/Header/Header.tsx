@@ -12,7 +12,7 @@ const Header = ({ title, buttonText, onButtonClick }: HeaderProps) => {
   return (
     <S.Layout>
       <S.Title>{title}</S.Title>
-      <Button onClick={onButtonClick} filled={false} rounded={true} size="sm" color="primary" css={S.ButtonStyle}>
+      <Button onClick={onButtonClick} filled={false} rounded={true} size="sm" color="primary" $css={S.ButtonStyle}>
         {buttonText}
       </Button>
     </S.Layout>

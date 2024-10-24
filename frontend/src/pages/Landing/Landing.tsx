@@ -45,13 +45,13 @@ const Landing = () => {
         </ScrollAnimationContainer>
         <S.ButtonContainer>
           <ScrollAnimationContainer animationDirection="top" animationDelay={2}>
-            <Button css={S.githubButtonStyles} size="xl" filled={false} rounded={true} onClick={handleSignInGithub}>
+            <Button $css={S.githubButtonStyles} size="xl" filled={false} rounded={true} onClick={handleSignInGithub}>
               <img src={GithubLogoWhite} alt="" />
               Github로 로그인
             </Button>
           </ScrollAnimationContainer>
           <ScrollAnimationContainer animationDirection="top" animationDelay={2.1}>
-            <Button size="xl" css={S.buttonStyles} color="primary" rounded={true} onClick={() => navigate('/main')}>
+            <Button size="xl" $css={S.buttonStyles} color="primary" rounded={true} onClick={() => navigate('/main')}>
               회원가입 없이 사용하기
             </Button>
           </ScrollAnimationContainer>

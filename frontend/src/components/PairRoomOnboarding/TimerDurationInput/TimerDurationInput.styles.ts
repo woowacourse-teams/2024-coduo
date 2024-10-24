@@ -43,6 +43,5 @@ export const InputContainer = styled.div`
 `;
 
 export const inputStyles = css`
-  height: 4rem;
   border-radius: 1rem;
 `;

@@ -17,13 +17,15 @@ export const buttonStyles = css`
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 2rem;
 `;
 
 export const TitleContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  margin-bottom: 1rem;
 `;
 
 export const Title = styled.div`
@@ -42,6 +44,8 @@ export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
+  margin-bottom: 1rem;
 `;
 
 export const InputWrapper = styled.div`
