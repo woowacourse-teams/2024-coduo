@@ -32,7 +32,7 @@ export const Layout = styled.div`
   width: 100%;
 `;
 
-export const Container = styled.div`
+export const Container = styled.div<{ $type: 'SUCCESS' | 'DANGER' }>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -40,7 +40,7 @@ export const Container = styled.div`
 
   padding: 2rem 0 3.4rem;
 
-  color: ${({ theme }) => theme.color.success[700]};
+  color: ${({ theme, $type }) => ($type === 'SUCCESS' ? theme.color.success[700] : theme.color.danger[700])};
   font-size: ${({ theme }) => theme.fontSize.md};
 
   p {

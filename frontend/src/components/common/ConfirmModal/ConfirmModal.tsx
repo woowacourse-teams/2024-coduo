@@ -5,24 +5,36 @@ import * as S from './ConfirmModal.styles';
 
 interface ConfirmModalProps {
   isOpen: boolean;
+  title: string;
+  subTitle: string;
+  confirmText: string;
   onConfirm: () => void;
   close: () => void;
+  type?: 'SUCCESS' | 'DANGER';
 }
 
-const ConfirmModal = ({ isOpen, onConfirm, close }: ConfirmModalProps) => {
+const ConfirmModal = ({
+  isOpen,
+  close,
+  type = 'DANGER',
+  title,
+  subTitle,
+  confirmText,
+  onConfirm,
+}: ConfirmModalProps) => {
   return (
     <Modal isOpen={isOpen} close={close} size="sm">
       <Modal.CloseButton close={close} />
-      <S.Container>
-        <p>정말 종료하시겠습니까?</p>
-        페어룸을 종료해도 기록은 다시 확인할 수 있어요.
+      <S.Container $type={type}>
+        <p>{title}</p>
+        {subTitle}
       </S.Container>
       <Modal.Footer position="CENTER">
         <Button $css={S.cancelButtonStyles} onClick={close}>
           취소
         </Button>
-        <Button $css={S.confirmButtonStyles} onClick={onConfirm}>
-          종료하기
+        <Button $css={S.confirmButtonStyles} onClick={onConfirm} fontSize="1.4rem">
+          {confirmText}
         </Button>
       </Modal.Footer>
     </Modal>

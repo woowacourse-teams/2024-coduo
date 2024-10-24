@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import ConfirmModal from '@/components/PairRoom/ConfirmModal/ConfirmModal';
+import ConfirmModal from '@/components/common/ConfirmModal/ConfirmModal';
 import AccessCodeSection from '@/components/PairRoom/PairListCard/AccessCodeSection/AccessCodeSection';
 import CompleteRoomButton from '@/components/PairRoom/PairListCard/CompleteRoomButton/CompleteRoomButton';
 import Header from '@/components/PairRoom/PairListCard/Header/Header';
@@ -41,7 +41,15 @@ const PairListCard = ({ driver, navigator, missionUrl, accessCode }: PairListCar
           <CompleteRoomButton isOpen={isOpen} openModal={openModal} />
         </S.Sidebar>
       </PairRoomCard>
-      <ConfirmModal isOpen={isModalOpen} onConfirm={handleCompletePairRoom} close={closeModal} />
+      <ConfirmModal
+        isOpen={isModalOpen}
+        close={closeModal}
+        type="SUCCESS"
+        title="정말 종료하시겠습니까?"
+        subTitle="페어룸을 종료해도 기록은 다시 확인할 수 있어요."
+        confirmText="종료하기"
+        onConfirm={handleCompletePairRoom}
+      />
     </S.Layout>
   );
 };
