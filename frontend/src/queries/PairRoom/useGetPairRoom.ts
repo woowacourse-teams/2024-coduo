@@ -11,13 +11,13 @@ const useGetPairRoom = (accessCode: string) => {
     isFetching: isPairRoomFetching,
     isRefetching: isPairRoomReFetching,
   } = useQuery({
-    queryKey: [QUERY_KEYS.GET_PAIR_ROOM],
+    queryKey: [QUERY_KEYS.GET_PAIR_ROOM, accessCode],
     queryFn: () => getPairRoom(accessCode),
     refetchOnWindowFocus: false,
   });
 
   const { data: timer, isFetching: isTimerFetching } = useQuery({
-    queryKey: [QUERY_KEYS.GET_PAIR_ROOM_TIMER],
+    queryKey: [QUERY_KEYS.GET_PAIR_ROOM_TIMER, accessCode],
     queryFn: () => getTimer(accessCode),
     refetchOnWindowFocus: false,
   });
