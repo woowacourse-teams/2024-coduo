@@ -13,13 +13,14 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
 import site.coduo.member.domain.Member;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "PAIR_ROOM_MEMBER")
 @Entity
-public class PairRoomMemberEntity {
+public class PairRoomMemberEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,9 +58,9 @@ public class PairRoomMemberEntity {
     @Override
     public String toString() {
         return "PairRoomMemberEntity{" +
-               "id=" + id +
-               ", pairRoom=" + pairRoom +
-               ", member=" + member +
-               '}';
+                "id=" + id +
+                ", pairRoom=" + pairRoom +
+                ", member=" + member +
+                '}';
     }
 }
