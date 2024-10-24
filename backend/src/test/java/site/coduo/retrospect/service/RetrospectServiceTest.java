@@ -31,6 +31,7 @@ import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.repository.CategoryRepository;
 import site.coduo.retrospect.controller.response.FindRetrospectsResponse;
+import site.coduo.retrospect.exception.MaxRetrospectLimitException;
 import site.coduo.retrospect.repository.RetrospectEntity;
 import site.coduo.retrospect.repository.RetrospectRepository;
 import site.coduo.timer.repository.TimerRepository;
@@ -103,6 +104,40 @@ class RetrospectServiceTest {
 
         assertThat(allByPairRoomMember).isNotEmpty();
     }
+
+    @DisplayName("회고를 두 번 이상 저장하면 예외가 발생한다.")
+    @Test
+    void createTwiceRetrospect() {
+        // Given
+        final Member savedMember = memberRepository.save(
+                Member.builder()
+                        .userId("userid")
+                        .accessToken("access")
+                        .loginId("login")
+                        .username("username")
+                        .profileImage("some image")
+                        .build()
+        );
+        final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
+                new PairRoom(PairRoomStatus.IN_PROGRESS,
+                        new Pair(new PairName("레디"), new PairName("파슬리")),
+                        new MissionUrl("https://missionUrl.xxx"),
+                        new AccessCode("123456"),
+                        EASY_ACCESS_CODE_INK_REDDY)
+        ));
+        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
+
+        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6");
+        retrospectService.createRetrospect(credentialToken, savedPairRoom.getAccessCode(), answers);
+
+        // When && Then
+        assertThatThrownBy(
+                () -> retrospectService.createRetrospect(credentialToken, savedPairRoom.getAccessCode(), answers))
+                .isInstanceOf(MaxRetrospectLimitException.class);
+
+    }
+
 
     @DisplayName("입력된 페어룸 접근 코드에 대응되는 페어룸 정보가 존재하지 않는다면 예외를 발생시킨다.")
     @Test
@@ -300,9 +335,11 @@ class RetrospectServiceTest {
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
 
         // When
-        retrospectService.createRetrospect(credentialToken, savedPairRoom.getAccessCode(), List.of("", "", "", "", "", ""));
+        retrospectService.createRetrospect(credentialToken, savedPairRoom.getAccessCode(),
+                List.of("", "", "", "", "", ""));
 
-        final boolean isExist = retrospectService.existRetrospectWithPairRoom(credentialToken, savedPairRoom.getAccessCode());
+        final boolean isExist = retrospectService.existRetrospectWithPairRoom(credentialToken,
+                savedPairRoom.getAccessCode());
 
         // Then
         assertThat(isExist).isFalse();
@@ -330,10 +367,12 @@ class RetrospectServiceTest {
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
 
-        retrospectService.createRetrospect(credentialToken, savedPairRoom.getAccessCode(), List.of("답변!", "", "", "", "", ""));
+        retrospectService.createRetrospect(credentialToken, savedPairRoom.getAccessCode(),
+                List.of("답변!", "", "", "", "", ""));
 
         // When
-        final boolean isExist = retrospectService.existRetrospectWithPairRoom(credentialToken, savedPairRoom.getAccessCode());
+        final boolean isExist = retrospectService.existRetrospectWithPairRoom(credentialToken,
+                savedPairRoom.getAccessCode());
 
         // Then
         assertThat(isExist).isTrue();
