@@ -46,7 +46,7 @@ const RetrospectButton = ({ accessCode, answer }: RetrospectButtonProps) => {
       <S.LinkWrapper to={`/room/${accessCode}/retrospect`} state={{ valid: true }}>
         <S.PairRoomButton $status="IN_PROGRESS" $color="primary">
           <S.RoleTextContainer>
-            <S.RoleText $status="IN_PROGRESS">
+            <S.RoleText $status="IN_PROGRESS" $color="primary">
               <span>{accessCode}</span>
               {splitAnswer(answer)}
             </S.RoleText>

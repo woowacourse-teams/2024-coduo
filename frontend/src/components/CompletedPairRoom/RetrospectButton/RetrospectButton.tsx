@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
 import Button from '@/components/common/Button/Button';
-import Spinner from '@/components/common/Spinner/Spinner';
 
 import useUserStore from '@/stores/userStore';
 
@@ -22,10 +21,17 @@ const RetrospectButton = ({ accessCode }: RetrospectButtonProps) => {
   const { isUserInPairRoom, isUserInPairRoomFetching } = useGetUserIsInPairRoom(accessCode);
   const { isUserRetrospectExist, isUserRetrospectExistsFetching } = useGetUserRetrospectExists(accessCode);
 
-  const isLoading = isUserInPairRoomFetching || isUserRetrospectExistsFetching;
-  if (isLoading) {
-    return <Spinner size="sm" />;
+  if (isUserInPairRoomFetching || isUserRetrospectExistsFetching) {
+    return (
+      <S.Layout>
+        <Button size="lg" disabled={true}>
+          회고 작성
+        </Button>
+        <S.ButtonPrompt>잠시만 기다려주세요...</S.ButtonPrompt>
+      </S.Layout>
+    );
   }
+
   if (userStatus !== 'SIGNED_IN' || !isUserInPairRoom)
     return (
       <S.Layout>

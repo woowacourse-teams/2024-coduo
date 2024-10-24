@@ -24,8 +24,8 @@ export const Layout = styled.div`
   justify-content: center;
   align-items: center;
 
-  width: 100%;
-  height: 100%;
+  width: fit-content;
+  height: fit-content;
 `;
 
 export const Spinner = styled.div<{ $size: SpinnerSize }>`

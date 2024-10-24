@@ -47,11 +47,11 @@ const PairRoomButton = ({ driver, navigator, status, accessCode }: PairRoomButto
       <S.LinkWrapper to={`/room/${accessCode}`} state={{ valid: true }} replace={true}>
         <S.PairRoomButton $status={status} $color="secondary">
           <S.RoleTextContainer>
-            <S.RoleText $status={status}>
+            <S.RoleText $status={status} $color="secondary">
               <span>드라이버</span>
               {driver}
             </S.RoleText>
-            <S.RoleText $status={status}>
+            <S.RoleText $status={status} $color="secondary">
               <span>내비게이터</span>
               {navigator}
             </S.RoleText>
