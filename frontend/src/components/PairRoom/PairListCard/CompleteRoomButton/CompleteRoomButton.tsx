@@ -12,7 +12,7 @@ interface CompleteRoomButtonProps {
 const CompleteRoomButton = ({ isOpen, openModal }: CompleteRoomButtonProps) => {
   const { userStatus } = useUserStore();
 
-  const isDisabled = userStatus === 'SIGNED_IN';
+  const isDisabled = userStatus !== 'SIGNED_IN';
 
   return (
     <S.Layout
