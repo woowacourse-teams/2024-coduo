@@ -24,6 +24,8 @@ const RetrospectForm = () => {
 
   const { answers, handleChange, handleSubmit } = useInputAnswer(accessCode || '');
 
+  const isAnswersEmpty = answers.every((answer) => !answer.trim());
+
   return (
     <S.Layout>
       <S.Container>
@@ -46,7 +48,7 @@ const RetrospectForm = () => {
               />
             </Question>
           ))}
-          <Button $css={S.buttonStyles} type="submit">
+          <Button $css={S.buttonStyles} type="submit" disabled={isAnswersEmpty}>
             작성 완료
           </Button>
         </S.Form>

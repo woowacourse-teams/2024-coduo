@@ -11,12 +11,17 @@ const useInputAnswer = (accessCode: string) => {
   const { addToast } = useToastStore();
 
   const [answers, setAnswers] = useState<string[]>(Array(RETROSPECT_QUESTIONS.length).fill(''));
+
   const { mutateAsync } = useAddRetrospect();
+
   const navigate = useNavigate();
+
   const handleChange = (index: number, value: string) => {
     if (value.length > 1000) return;
+
     const newAnswer = [...answers];
     newAnswer[index] = value;
+
     setAnswers(newAnswer);
   };
 

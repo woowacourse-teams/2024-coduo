@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Header from '@/components/Retrospect/Header/Header';
 import Question from '@/components/Retrospect/Question/Question';
 
-// import { useGetRetrospectAnswer } from '@/queries/Retrospect/useGetRetrospectAnswer';
+import { useGetRetrospectAnswer } from '@/queries/Retrospect/useGetRetrospectAnswer';
 
 import { RETROSPECT_QUESTIONS } from '@/constants/retrospect';
 
@@ -14,7 +14,7 @@ const RetrospectView = () => {
 
   const navigate = useNavigate();
 
-  // const answers = useGetRetrospectAnswer(accessCode || '');
+  const answers = useGetRetrospectAnswer(accessCode || '');
 
   return (
     <S.Layout>
@@ -25,7 +25,7 @@ const RetrospectView = () => {
           buttonText="페어룸으로 이동"
           onButtonClick={() => navigate(`/room/${accessCode}/completed`, { state: { valid: true }, replace: true })}
         />
-        {RETROSPECT_QUESTIONS.map((question) => (
+        {RETROSPECT_QUESTIONS.map((question, index) => (
           <Question
             key={question.id}
             readonly={true}
@@ -33,7 +33,7 @@ const RetrospectView = () => {
             title={question.title}
             subtitle={question.subtitle}
           >
-            <S.TextWrapper>어쩌구저쩌구저쩌구</S.TextWrapper>
+            <S.TextWrapper>{answers[index]}</S.TextWrapper>
           </Question>
         ))}
       </S.Container>
