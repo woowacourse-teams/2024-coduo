@@ -276,4 +276,34 @@ class RetrospectServiceTest {
         // Then
         assertThat(isExist).isTrue();
     }
+
+
+    @DisplayName("회고를 입력하지 않은 경우 false를 반환한다.")
+    @Test
+    void notExistRetrospectWithPairRoom() {
+        final Member savedMember = memberRepository.save(
+                Member.builder()
+                        .userId("userid")
+                        .accessToken("access")
+                        .loginId("login")
+                        .username("username")
+                        .profileImage("some image")
+                        .build()
+        );
+        final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
+                new PairRoom(PairRoomStatus.IN_PROGRESS,
+                        new Pair(new PairName("레디"), new PairName("파슬리")),
+                        new MissionUrl("https://missionUrl.xxx"),
+                        new AccessCode("123456"),
+                        EASY_ACCESS_CODE_INK_REDDY)
+        ));
+        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
+        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+
+        // When
+        final boolean isExist = retrospectService.existRetrospectWithPairRoom(credentialToken, savedPairRoom.getAccessCode());
+
+        // Then
+        assertThat(isExist).isFalse();
+    }
 }
