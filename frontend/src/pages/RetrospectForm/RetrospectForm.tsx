@@ -1,9 +1,9 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import Button from '@/components/common/Button/Button';
+import ConfirmModal from '@/components/common/ConfirmModal/ConfirmModal';
 import Header from '@/components/Retrospect/Header/Header';
 import Question from '@/components/Retrospect/Question/Question';
-import SkipModal from '@/components/Retrospect/SkipModal/SkipModal';
 import TextArea from '@/components/Retrospect/Textarea/Textarea';
 
 import useModal from '@/hooks/common/useModal';
@@ -15,6 +15,7 @@ import { RETROSPECT_QUESTIONS } from '@/constants/retrospect';
 import * as S from './RetrospectForm.styles';
 
 const RetrospectForm = () => {
+  const navigate = useNavigate();
   const { accessCode } = useParams();
 
   usePreventPageRefresh();
@@ -32,7 +33,7 @@ const RetrospectForm = () => {
           buttonText="나중에 작성하기"
           onButtonClick={openModal}
         />
-        <S.LayoutForm onSubmit={handleSubmit}>
+        <S.Form onSubmit={handleSubmit}>
           {RETROSPECT_QUESTIONS.map((question, index) => (
             <Question key={question.id} id={question.id} title={question.title} subtitle={question.subtitle}>
               <TextArea
@@ -45,12 +46,17 @@ const RetrospectForm = () => {
               />
             </Question>
           ))}
-
-          <Button type="submit" $css={S.SubmitButton}>
+          <Button $css={S.buttonStyles} type="submit">
             작성 완료
           </Button>
-        </S.LayoutForm>
-        <SkipModal isModalOpen={isModalOpen} closeModal={closeModal} accessCode={accessCode || ''} />
+        </S.Form>
+        <ConfirmModal
+          title="나중에 작성하시겠습니까?"
+          subTitle="작성된 내용이 모두 사라질 수 있어요."
+          isOpen={isModalOpen}
+          close={closeModal}
+          onConfirm={() => navigate(`/room/${accessCode}/completed`, { state: { valid: true }, replace: true })}
+        />
       </S.Container>
     </S.Layout>
   );
