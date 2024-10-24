@@ -30,8 +30,12 @@ public class MemberController implements MemberControllerDocs {
     }
 
     @GetMapping("/member/exists")
-    public ResponseEntity<MemberNameResponse> existsMember(@RequestParam("user_id") String userId) {
-        final Member member = memberService.findMember(userId);
+    public ResponseEntity<MemberNameResponse> existsMember(
+            @CookieValue(SIGN_IN_COOKIE_NAME) final String token,
+            @RequestParam("user_id") String userId
+    ) {
+
+        final Member member = memberService.checkAndFindMember(token, userId);
         final MemberNameResponse response = new MemberNameResponse(member.getUsername());
 
         return ResponseEntity.ok(response);

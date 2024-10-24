@@ -45,9 +45,15 @@ public interface MemberControllerDocs {
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = MemberNameResponse.class)))
     @ApiResponse(responseCode = "404", description = "회원이 존재하지 않음",
-                content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                schema = @Schema(implementation = ApiErrorResponse.class)))
+            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = ApiErrorResponse.class)))
     ResponseEntity<MemberNameResponse> existsMember(
+            @Parameter(
+                    in = ParameterIn.COOKIE,
+                    name = "coduo_whoami",
+                    description = "사용자가 인증에 성공하면 서버에서 발급하는 쿠키",
+                    schema = @Schema(type = "string")
+            ) String token,
             @Parameter(
                     in = ParameterIn.QUERY,
                     name = "user_id",

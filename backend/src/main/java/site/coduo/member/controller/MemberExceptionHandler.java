@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import site.coduo.common.controller.response.ApiErrorResponse;
 import site.coduo.member.controller.error.MemberApiError;
 import site.coduo.member.exception.ExternalApiCallException;
+import site.coduo.member.exception.InvalidMemberAddException;
 import site.coduo.member.exception.MemberNotFoundException;
 
 @Slf4j
@@ -23,6 +24,14 @@ public class MemberExceptionHandler {
 
         return ResponseEntity.status(MemberApiError.MEMBER_NOT_FOUND_ERROR.getHttpStatus())
                 .body(new ApiErrorResponse(MemberApiError.MEMBER_NOT_FOUND_ERROR.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidMemberAddException.class)
+    public ResponseEntity<ApiErrorResponse> handlerInvalidMemberAddException(final InvalidMemberAddException e) {
+        log.warn(e.getMessage());
+
+        return ResponseEntity.status(MemberApiError.INVALID_ADD_MEMBER_ERROR.getHttpStatus())
+                .body(new ApiErrorResponse(MemberApiError.INVALID_ADD_MEMBER_ERROR.getMessage()));
     }
 
     @ExceptionHandler(ExternalApiCallException.class)
