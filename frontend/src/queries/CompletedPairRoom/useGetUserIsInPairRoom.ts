@@ -11,5 +11,5 @@ export const useGetUserIsInPairRoom = (accessCode: string) => {
     enabled: !!accessCode,
   });
 
-  return { data: data?.exists };
+  return { isUserInPairRoom: data?.exists };
 };

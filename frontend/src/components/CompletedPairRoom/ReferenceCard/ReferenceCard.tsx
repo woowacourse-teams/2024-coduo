@@ -26,16 +26,13 @@ const ReferenceCard = ({ accessCode }: ReferenceCardProps) => {
   const selectedFilteringCategoryName = getCategoryNameById(selectedFilteringCategoryId) || DEFAULT_CATEGORY_VALUE;
 
   return (
-    <>
-      <S.Layout>
-        <PairRoomCard>
-          <Header selectedFilteringCategoryName={selectedFilteringCategoryName} onButtonClick={openModal} />
-          <S.Body>
-            <ReferenceList references={references} />
-          </S.Body>
-        </PairRoomCard>
-      </S.Layout>
-
+    <S.Layout>
+      <PairRoomCard>
+        <Header selectedFilteringCategoryName={selectedFilteringCategoryName} onButtonClick={openModal} />
+        <S.Body>
+          <ReferenceList references={references} />
+        </S.Body>
+      </PairRoomCard>
       <CategoryManagementModal
         isOpen={isModalOpen}
         closeModal={closeModal}
@@ -44,7 +41,7 @@ const ReferenceCard = ({ accessCode }: ReferenceCardProps) => {
         selectedCategory={selectedFilteringCategoryId}
         handleSelectCategory={(categoryId: string) => setSelectedFilteringCategoryId(categoryId)}
       />
-    </>
+    </S.Layout>
   );
 };
 
