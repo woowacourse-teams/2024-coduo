@@ -53,7 +53,7 @@ const CategoryItem = ({
     if (isChecked) return;
 
     handleSelectCategory(event.currentTarget.id);
-    addToast({ status: 'SUCCESS', message: '카테고리가 선택되었어요.' });
+    addToast({ status: 'SUCCESS', message: `${categoryName}가 선택되었어요.` });
     closeModal();
   };
 
@@ -68,6 +68,7 @@ const CategoryItem = ({
             status={newCategoryName.status}
             message={newCategoryName.message}
             onChange={(event) => handleCategoryName(event, categoryName)}
+            $messageCss={S.CustomInputMessage}
           />
           <S.IconContainer>
             <IconButton icon="CHECK" type="submit" />
