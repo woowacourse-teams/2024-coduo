@@ -16,6 +16,7 @@ const useGetPairRoom = (accessCode: string) => {
     queryFn: () => getPairRoom(accessCode),
     enabled: !!accessCode,
     refetchOnWindowFocus: false,
+    staleTime: 0,
   });
 
   const { data: timer, isFetching: isTimerFetching } = useQuery({
@@ -23,6 +24,7 @@ const useGetPairRoom = (accessCode: string) => {
     queryFn: () => getTimer(accessCode),
     enabled: !!accessCode,
     refetchOnWindowFocus: false,
+    staleTime: 0,
   });
 
   return {
