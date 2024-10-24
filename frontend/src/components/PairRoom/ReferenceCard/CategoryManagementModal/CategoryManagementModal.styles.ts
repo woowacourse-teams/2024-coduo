@@ -19,7 +19,7 @@ export const Header = styled.div`
 export const CategoryList = styled.ul`
   display: flex;
   flex-direction: column-reverse;
-  gap: 1rem;
+  gap: 2rem;
 
   width: 100%;
 `;
