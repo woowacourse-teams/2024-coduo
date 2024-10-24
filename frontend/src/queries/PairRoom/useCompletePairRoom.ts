@@ -8,7 +8,9 @@ import { updatePairRoomStatus } from '@/apis/pairRoom';
 
 const useCompletePairRoom = (accessCode: string) => {
   const { addToast } = useToastStore();
+
   const navigate = useNavigate();
+
   const { mutate } = useMutation({
     mutationFn: updatePairRoomStatus,
     onSuccess: () => {
@@ -18,7 +20,7 @@ const useCompletePairRoom = (accessCode: string) => {
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });
 
-  const handleCompletePairRoom = (accessCode: string) => mutate({ accessCode });
+  const handleCompletePairRoom = () => mutate({ accessCode });
 
   return { handleCompletePairRoom };
 };
