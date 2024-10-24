@@ -8,11 +8,11 @@ public class CommonController {
 
     @GetMapping("/health-check")
     public String healthCheck() {
-        return "Coduo is OK";
+        return "Coduo is OK!";
     }
 
     @GetMapping("/help")
     public String help() {
-        return "에휴";
+        return "히히히히";
     }
 }

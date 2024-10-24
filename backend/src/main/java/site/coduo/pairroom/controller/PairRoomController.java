@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.coduo.pairroom.controller.docs.PairRoomDocs;
+import site.coduo.pairroom.controller.dto.request.ExistMemberInPairRoomResponse;
 import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
@@ -90,6 +92,23 @@ public class PairRoomController implements PairRoomDocs {
         final PairRoomExistResponse response = new PairRoomExistResponse(
                 pairRoomService.existsByAccessCode(accessCode));
 
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/pair-room/{accessCode}")
+    public ResponseEntity<Void> deletePairRoom(@PathVariable("accessCode") final String accessCode) {
+        pairRoomService.deletePairRoom(accessCode);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/member/{accessCode}/exists")
+    public ResponseEntity<ExistMemberInPairRoomResponse> existMemberInPairRoom(
+            @CookieValue(SIGN_IN_COOKIE_NAME) final String credentialToken,
+            @PathVariable("accessCode") final String pairRoomAccessCode
+    ) {
+        final boolean existMemberInPairRoom = pairRoomService.existMemberInPairRoom(credentialToken,
+                pairRoomAccessCode);
+        final ExistMemberInPairRoomResponse response = new ExistMemberInPairRoomResponse(existMemberInPairRoom);
         return ResponseEntity.ok(response);
     }
 }

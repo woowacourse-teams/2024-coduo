@@ -16,6 +16,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
+import site.coduo.pairroom.domain.MissionUrl;
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
@@ -43,17 +44,30 @@ public class PairRoomEntity extends BaseTimeEntity {
     @Column(name = "DRIVER", nullable = false)
     private String driver;
 
+    @Column(name = "MISSION_URL", nullable = false)
+    private String missionUrl;
+
     @Column(name = "ACCESS_CODE", nullable = false, unique = true)
     private String accessCode;
 
+    @Column(name = "EASY_ACCESS_CODE", nullable = false, unique = true)
+    private String easyAccessCode;
+
     @Builder
-    private PairRoomEntity(final Long id, final PairRoomStatus status, final String navigator, final String driver,
-                           final String accessCode) {
+    private PairRoomEntity(final Long id,
+                           final PairRoomStatus status,
+                           final String navigator,
+                           final String driver,
+                           final String missionUrl,
+                           final String accessCode,
+                           final String easyAccessCode) {
         this.id = id;
         this.status = status;
         this.navigator = navigator;
         this.driver = driver;
+        this.missionUrl = missionUrl;
         this.accessCode = accessCode;
+        this.easyAccessCode = easyAccessCode;
     }
 
     public static PairRoomEntity from(final PairRoom pairRoom) {
@@ -62,7 +76,9 @@ public class PairRoomEntity extends BaseTimeEntity {
                 pairRoom.getStatus(),
                 pairRoom.getNavigatorName(),
                 pairRoom.getDriverName(),
-                pairRoom.getAccessCodeText()
+                pairRoom.getMissionUrl(),
+                pairRoom.getAccessCodeText(),
+                pairRoom.getEasyAccessCodeText()
         );
     }
 
@@ -70,7 +86,9 @@ public class PairRoomEntity extends BaseTimeEntity {
         return new PairRoom(
                 status,
                 new Pair(new PairName(navigator), new PairName(driver)),
-                new AccessCode(accessCode)
+                new MissionUrl(missionUrl),
+                new AccessCode(accessCode),
+                new AccessCode(easyAccessCode)
         );
     }
 
@@ -82,6 +100,10 @@ public class PairRoomEntity extends BaseTimeEntity {
         final String temp = this.navigator;
         this.navigator = this.driver;
         this.driver = temp;
+    }
+
+    public boolean isDelete() {
+        return status == PairRoomStatus.DELETED;
     }
 
     @Override
@@ -104,11 +126,13 @@ public class PairRoomEntity extends BaseTimeEntity {
     @Override
     public String toString() {
         return "PairRoomEntity{" +
-               "id=" + id +
-               ", status=" + status +
-               ", navigator='" + navigator + '\'' +
-               ", driver='" + driver + '\'' +
-               ", accessCode='" + accessCode + '\'' +
-               '}';
+                "id=" + id +
+                ", status=" + status +
+                ", navigator='" + navigator + '\'' +
+                ", driver='" + driver + '\'' +
+                ", missionUrl='" + missionUrl + '\'' +
+                ", accessCode='" + accessCode + '\'' +
+                ", easyAccessCode='" + easyAccessCode + '\'' +
+                '}';
     }
 }

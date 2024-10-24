@@ -10,7 +10,7 @@ import site.coduo.member.client.dto.GithubUserRequest;
 import site.coduo.member.client.dto.GithubUserResponse;
 import site.coduo.member.domain.Member;
 import site.coduo.member.domain.repository.MemberRepository;
-import site.coduo.member.exception.MemberNotFoundException;
+import site.coduo.member.exception.InvalidMemberAddException;
 import site.coduo.member.infrastructure.http.Bearer;
 import site.coduo.member.infrastructure.security.JwtProvider;
 import site.coduo.member.service.dto.member.MemberReadResponse;
@@ -36,15 +36,37 @@ public class MemberService {
 
     public MemberReadResponse findMemberNameByCredential(final String token) {
         final String userId = jwtProvider.extractSubject(token);
-        final Member member = memberRepository.findByUserId(userId)
-                .orElseThrow(() -> new MemberNotFoundException(String.format("%s는 찾을 수 없는 회원 아이디입니다.", userId)));
+        final Member member = memberRepository.fetchByUserId(userId);
 
         return new MemberReadResponse(member.getUsername());
     }
 
     public Member findMemberByCredential(final String token) {
         final String userId = jwtProvider.extractSubject(token);
-        return memberRepository.findByUserId(userId)
-                .orElseThrow(() -> new MemberNotFoundException(String.format("%s는 찾을 수 없는 회원 아이디입니다.", userId)));
+
+        return memberRepository.fetchByUserId(userId);
+    }
+
+    public Member findMember(final String loginId) {
+        return memberRepository.fetchByLoginId(loginId);
+    }
+
+    @Transactional
+    public void deleteMember(final String token) {
+        final String userId = jwtProvider.extractSubject(token);
+        final Member member = memberRepository.fetchByUserId(userId);
+
+        member.delete();
+    }
+
+    public Member checkAndFindMember(final String token, final String userId) {
+        final Member loginedMember = findMemberByCredential(token);
+        final Member pairMember = findMember(userId);
+
+        if (loginedMember.equals(pairMember)) {
+            throw new InvalidMemberAddException("자신의 아이디로 페어 정보 연동을 할 수 없습니다.");
+        }
+
+        return pairMember;
     }
 }

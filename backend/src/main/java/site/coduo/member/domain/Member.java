@@ -1,5 +1,6 @@
 package site.coduo.member.domain;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -8,6 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -41,14 +44,19 @@ public class Member extends BaseTimeEntity {
     @Column(name = "USER_NAME")
     private String username;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @Column(name = "DELETED_AT")
+    private LocalDateTime deletedAt;
+
     @Builder
     private Member(final String accessToken, final String loginId, final String userId, final String profileImage,
-                   final String username) {
+                   final String username, final LocalDateTime deletedAt) {
         this.accessToken = accessToken;
         this.loginId = loginId;
         this.userId = userId;
         this.profileImage = profileImage;
         this.username = username;
+        this.deletedAt = deletedAt;
     }
 
     public void update(final Member other) {
@@ -57,6 +65,11 @@ public class Member extends BaseTimeEntity {
         this.userId = other.userId;
         this.profileImage = other.profileImage;
         this.username = other.username;
+        this.deletedAt = other.deletedAt;
+    }
+
+    public void delete() {
+        this.deletedAt = LocalDateTime.now();
     }
 
     @Override
@@ -74,5 +87,18 @@ public class Member extends BaseTimeEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+               "id=" + id +
+               ", accessToken='" + accessToken + '\'' +
+               ", loginId='" + loginId + '\'' +
+               ", userId='" + userId + '\'' +
+               ", profileImage='" + profileImage + '\'' +
+               ", username='" + username + '\'' +
+               ", deletedAt=" + deletedAt +
+               '}';
     }
 }

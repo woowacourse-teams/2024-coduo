@@ -30,20 +30,23 @@ management:
   endpoints:
     web:
       exposure:
-        include: prometheus
+        include: prometheus, health
       base-path: /api/actuator
 
 server:
   tomcat:
     mbeanregistry:
       enabled: true
+    threads:
+      max: 150
+    max-connections: 6000
+    accept-count: 200
 
 oauth:
   github:
     client-id: ${CLIENT_ID}
     client-secret: ${CLIENT_SECRET}
     redirect-uri: ${CLIENT_REDIRECT_URI}
-
 front:
   url: test.coduo.site
 

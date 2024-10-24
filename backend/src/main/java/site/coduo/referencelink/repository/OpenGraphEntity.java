@@ -37,7 +37,7 @@ public class OpenGraphEntity extends BaseTimeEntity {
     @Column(name = "DESCRIPTION", nullable = false)
     private String description;
 
-    @Column(name = "IMAGE", nullable = false)
+    @Column(name = "IMAGE", nullable = false, length = 1024)
     private String image;
 
     @OneToOne

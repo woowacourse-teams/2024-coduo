@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
 import io.restassured.RestAssured;
-import site.coduo.pairroom.domain.PairRoomStatus;
+import site.coduo.fixture.PairRoomCreateRequestFixture;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
 import site.coduo.timer.service.dto.TimerUpdateRequest;
@@ -47,13 +47,7 @@ class TimerAcceptanceTest extends AcceptanceFixture {
     @DisplayName("타이머를 조회한다.")
     void get_timer() {
         // given
-        final String accessCode = createPairRoom(new PairRoomCreateRequest(
-                "켈리",
-                "파란",
-                10000L,
-                10000L,
-                PairRoomStatus.IN_PROGRESS.name())
-        );
+        final String accessCode = createPairRoom(PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST);
 
         // when & then
         RestAssured
@@ -70,13 +64,7 @@ class TimerAcceptanceTest extends AcceptanceFixture {
     @DisplayName("페어룸의 타이머를 업데이트 한다.")
     void update_timer_duration() {
         // given
-        final String accessCode = createPairRoom(new PairRoomCreateRequest(
-                "해시",
-                "파슬리",
-                10000L,
-                10000L,
-                PairRoomStatus.IN_PROGRESS.name())
-        );
+        final String accessCode = createPairRoom(PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST);
         final TimerUpdateRequest request = new TimerUpdateRequest(20000L, 3000L);
         createConnect(accessCode);
         // when & then
@@ -96,8 +84,7 @@ class TimerAcceptanceTest extends AcceptanceFixture {
     @DisplayName("타이머를 시작한다.")
     void start_timer() {
         // given
-        final String accessCode = createPairRoom(new PairRoomCreateRequest("fram", "lemone", 10000L, 10000L,
-                PairRoomStatus.IN_PROGRESS.name()));
+        final String accessCode = createPairRoom(PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST);
         createConnect(accessCode);
 
         // when & then
@@ -115,8 +102,7 @@ class TimerAcceptanceTest extends AcceptanceFixture {
     @DisplayName("타이머를 종료한다.")
     void stop_timer() {
         // given
-        final String accessCode = createPairRoom(new PairRoomCreateRequest("fram", "lemone", 10000L, 10000L,
-                PairRoomStatus.IN_PROGRESS.name()));
+        final String accessCode = createPairRoom(PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST);
         timerStart(accessCode);
 
         // when & then

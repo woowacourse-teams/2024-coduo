@@ -2,6 +2,8 @@ package site.coduo.pairroom.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import static site.coduo.fixture.AccessCodeFixture.EASY_ACCESS_CODE_FRAM_LEMONE;
+
 import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
@@ -10,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import site.coduo.fixture.PairRoomFixture;
+import site.coduo.pairroom.domain.MissionUrl;
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
@@ -27,10 +31,8 @@ class PairRoomEntityRepositoryTest {
     @DisplayName("엑세스 코드를 바탕으로 영속성을 조회한다.- 영속성 존재 O")
     void search_persistence_by_access_code_exists_case() {
         // given
-        final Pair pair = new Pair(new PairName("hello"), new PairName("world"));
-        final PairRoom pairRoom = new PairRoom(PairRoomStatus.IN_PROGRESS, pair, new AccessCode("code"));
-        final PairRoomEntity entity = PairRoomEntity.from(
-                pairRoom);
+        PairRoom pairRoom = PairRoomFixture.KELY_LEMONE_ROOM;
+        final PairRoomEntity entity = PairRoomEntity.from(pairRoom);
         pairRoomRepository.save(entity);
 
         // when
@@ -45,9 +47,7 @@ class PairRoomEntityRepositoryTest {
     @DisplayName("엑세스 코드를 바탕으로 영속성을 조회한다.- 영속성 존재 X")
     void search_persistence_by_access_code_not_exists_case() {
         // given
-        final Pair pair = new Pair(new PairName("hello"), new PairName("world"));
-        final PairRoom pairRoom = new PairRoom(PairRoomStatus.IN_PROGRESS, pair, new AccessCode("code"));
-
+        PairRoom pairRoom = PairRoomFixture.KELY_LEMONE_ROOM;
         // when
         final Optional<PairRoomEntity> persistence = pairRoomRepository.findByAccessCode(
                 pairRoom.getAccessCodeText());
@@ -62,7 +62,9 @@ class PairRoomEntityRepositoryTest {
         // given
         final Pair pair = new Pair(new PairName("hello"), new PairName("world"));
         final AccessCode code = new AccessCode("code");
-        final PairRoom pairRoom = new PairRoom(PairRoomStatus.IN_PROGRESS, pair, code);
+        final MissionUrl missionUrl = new MissionUrl("https://missionUrl.xxx");
+        final PairRoom pairRoom = new PairRoom(PairRoomStatus.IN_PROGRESS, pair, missionUrl, code,
+                EASY_ACCESS_CODE_FRAM_LEMONE);
         pairRoomRepository.save(PairRoomEntity.from(pairRoom));
 
         // when
