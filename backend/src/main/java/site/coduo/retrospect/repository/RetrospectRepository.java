@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import site.coduo.pairroom.repository.PairRoomMemberEntity;
 
-public interface RetrospectV2Repository extends JpaRepository<RetrospectV2Entity, Long> {
+public interface RetrospectRepository extends JpaRepository<RetrospectEntity, Long> {
 
-    List<RetrospectV2Entity> findAllByPairRoomMember(PairRoomMemberEntity pairRoomMember);
+    List<RetrospectEntity> findAllByPairRoomMember(PairRoomMemberEntity pairRoomMember);
 
     void deleteAllByPairRoomMember(PairRoomMemberEntity pairRoomMember);
 

@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class RetrospectV2 {
+public class Retrospect {
 
     private final RetrospectContents contents;
 
@@ -16,7 +16,7 @@ public class RetrospectV2 {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof final RetrospectV2 that)) {
+        if (!(o instanceof final Retrospect that)) {
             return false;
         }
         return Objects.equals(getContents(), that.getContents());

@@ -28,12 +28,12 @@ import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.retrospect.controller.request.CreateRetrospectRequest;
 import site.coduo.retrospect.controller.response.ExistRetrospectWithPairRoomResponse;
-import site.coduo.retrospect.controller.response.FindRetrospectByIdResponseV2;
-import site.coduo.retrospect.controller.response.FindRetrospectResponseV2;
-import site.coduo.retrospect.controller.response.FindRetrospectsResponseV2;
+import site.coduo.retrospect.controller.response.FindRetrospectByIdResponse;
+import site.coduo.retrospect.controller.response.FindRetrospectResponse;
+import site.coduo.retrospect.controller.response.FindRetrospectsResponse;
 import site.coduo.retrospect.domain.RetrospectQuestionType;
-import site.coduo.retrospect.repository.RetrospectV2Entity;
-import site.coduo.retrospect.repository.RetrospectV2Repository;
+import site.coduo.retrospect.repository.RetrospectEntity;
+import site.coduo.retrospect.repository.RetrospectRepository;
 
 class RetrospectAcceptanceTest extends AcceptanceFixture {
 
@@ -50,7 +50,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
     private PairRoomMemberRepository pairRoomMemberRepository;
 
     @Autowired
-    private RetrospectV2Repository retrospectV2Repository;
+    private RetrospectRepository retrospectRepository;
 
     @DisplayName("회고를 생성한다.")
     @Test
@@ -92,7 +92,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
 
         // When
-        final FindRetrospectsResponseV2 response = RestAssured
+        final FindRetrospectsResponse response = RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
@@ -104,10 +104,10 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 .then()
                 .statusCode(200)
                 .extract()
-                .as(FindRetrospectsResponseV2.class);
+                .as(FindRetrospectsResponse.class);
 
-        final FindRetrospectsResponseV2 expected = new FindRetrospectsResponseV2(
-                List.of(new FindRetrospectResponseV2("ac", "답변1")));
+        final FindRetrospectsResponse expected = new FindRetrospectsResponse(
+                List.of(new FindRetrospectResponse("ac", "답변1")));
         // Then
         assertThat(response).isEqualTo(expected);
     }
@@ -126,7 +126,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
 
         // When
 
-        final FindRetrospectByIdResponseV2 response = RestAssured
+        final FindRetrospectByIdResponse response = RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
@@ -138,10 +138,10 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 .then()
                 .statusCode(200)
                 .extract()
-                .as(FindRetrospectByIdResponseV2.class);
+                .as(FindRetrospectByIdResponse.class);
 
         // Then
-        final FindRetrospectByIdResponseV2 expected = new FindRetrospectByIdResponseV2(
+        final FindRetrospectByIdResponse expected = new FindRetrospectByIdResponse(
                 List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6"));
         assertThat(response).isEqualTo(expected);
     }
@@ -279,14 +279,14 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
     }
 
     private void saveRetrospectContents(final PairRoomMemberEntity pairRoomMember) {
-        final List<RetrospectV2Entity> retrospectContentEntities = List.of(
-                new RetrospectV2Entity(pairRoomMember, RetrospectQuestionType.FIRST, "답변1"),
-                new RetrospectV2Entity(pairRoomMember, RetrospectQuestionType.SECOND, "답변2"),
-                new RetrospectV2Entity(pairRoomMember, RetrospectQuestionType.THIRD, "답변3"),
-                new RetrospectV2Entity(pairRoomMember, RetrospectQuestionType.FOURTH, "답변4"),
-                new RetrospectV2Entity(pairRoomMember, RetrospectQuestionType.FOURTH, "답변5"),
-                new RetrospectV2Entity(pairRoomMember, RetrospectQuestionType.FOURTH, "답변6")
+        final List<RetrospectEntity> retrospectContentEntities = List.of(
+                new RetrospectEntity(pairRoomMember, RetrospectQuestionType.FIRST, "답변1"),
+                new RetrospectEntity(pairRoomMember, RetrospectQuestionType.SECOND, "답변2"),
+                new RetrospectEntity(pairRoomMember, RetrospectQuestionType.THIRD, "답변3"),
+                new RetrospectEntity(pairRoomMember, RetrospectQuestionType.FOURTH, "답변4"),
+                new RetrospectEntity(pairRoomMember, RetrospectQuestionType.FOURTH, "답변5"),
+                new RetrospectEntity(pairRoomMember, RetrospectQuestionType.FOURTH, "답변6")
         );
-        retrospectV2Repository.saveAll(retrospectContentEntities);
+        retrospectRepository.saveAll(retrospectContentEntities);
     }
 }

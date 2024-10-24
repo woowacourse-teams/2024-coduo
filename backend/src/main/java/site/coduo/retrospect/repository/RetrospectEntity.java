@@ -25,7 +25,7 @@ import site.coduo.retrospect.domain.RetrospectQuestionType;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "RETROSPECT")
 @Entity
-public class RetrospectV2Entity extends BaseTimeEntity {
+public class RetrospectEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,9 +42,9 @@ public class RetrospectV2Entity extends BaseTimeEntity {
     @Column(name = "CONTENT", length = 1000)
     private String content;
 
-    public RetrospectV2Entity(final PairRoomMemberEntity pairRoomMember,
-                              final RetrospectQuestionType questionType,
-                              final String content) {
+    public RetrospectEntity(final PairRoomMemberEntity pairRoomMember,
+                            final RetrospectQuestionType questionType,
+                            final String content) {
         this.pairRoomMember = pairRoomMember;
         this.questionType = questionType;
         this.content = content;

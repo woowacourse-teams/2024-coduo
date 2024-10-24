@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import site.coduo.retrospect.controller.docs.RetrospectV2Docs;
+import site.coduo.retrospect.controller.docs.RetrospectDocs;
 import site.coduo.retrospect.controller.request.CreateRetrospectRequest;
 import site.coduo.retrospect.controller.response.ExistRetrospectWithPairRoomResponse;
-import site.coduo.retrospect.controller.response.FindRetrospectByIdResponseV2;
-import site.coduo.retrospect.controller.response.FindRetrospectsResponseV2;
-import site.coduo.retrospect.domain.RetrospectV2;
+import site.coduo.retrospect.controller.response.FindRetrospectByIdResponse;
+import site.coduo.retrospect.controller.response.FindRetrospectsResponse;
+import site.coduo.retrospect.domain.Retrospect;
 import site.coduo.retrospect.service.RetrospectService;
 
 @RequiredArgsConstructor
 @RestController
-public class RetrospectV2Controller implements RetrospectV2Docs {
+public class RetrospectController implements RetrospectDocs {
 
     private final RetrospectService retrospectService;
 
@@ -38,18 +38,18 @@ public class RetrospectV2Controller implements RetrospectV2Docs {
     }
 
     @GetMapping("/retrospects")
-    public ResponseEntity<FindRetrospectsResponseV2> findRetrospects(
+    public ResponseEntity<FindRetrospectsResponse> findRetrospects(
             @CookieValue(SIGN_IN_COOKIE_NAME) final String credentialToken) {
-        final FindRetrospectsResponseV2 response = retrospectService.findAllRetrospectsByMember(credentialToken);
+        final FindRetrospectsResponse response = retrospectService.findAllRetrospectsByMember(credentialToken);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/retrospects/{accessCode}")
-    public ResponseEntity<FindRetrospectByIdResponseV2> getRetrospect(
+    public ResponseEntity<FindRetrospectByIdResponse> getRetrospect(
             @CookieValue(SIGN_IN_COOKIE_NAME) final String credentialToken,
             @PathVariable("accessCode") final String accessCode) {
-        final RetrospectV2 retrospect = retrospectService.findRetrospectByAccessCode(credentialToken, accessCode);
-        final FindRetrospectByIdResponseV2 response = FindRetrospectByIdResponseV2.from(retrospect);
+        final Retrospect retrospect = retrospectService.findRetrospectByAccessCode(credentialToken, accessCode);
+        final FindRetrospectByIdResponse response = FindRetrospectByIdResponse.from(retrospect);
         return ResponseEntity.ok(response);
     }
 

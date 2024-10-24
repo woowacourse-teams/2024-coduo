@@ -16,7 +16,7 @@ import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.repository.CategoryRepository;
 import site.coduo.referencelink.repository.OpenGraphRepository;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
-import site.coduo.retrospect.repository.RetrospectV2Repository;
+import site.coduo.retrospect.repository.RetrospectRepository;
 import site.coduo.timer.repository.TimerRepository;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -45,7 +45,7 @@ abstract class AcceptanceFixture {
     private PairRoomMemberRepository pairRoomMemberRepository;
 
     @Autowired
-    private RetrospectV2Repository retrospectV2Repository;
+    private RetrospectRepository retrospectRepository;
 
     @LocalServerPort
     private int port;
@@ -57,7 +57,7 @@ abstract class AcceptanceFixture {
 
     @AfterEach
     void tearDown() {
-        retrospectV2Repository.deleteAll();
+        retrospectRepository.deleteAll();
         timerRepository.deleteAll();
         pairRoomMemberRepository.deleteAll();
         memberRepository.deleteAll();

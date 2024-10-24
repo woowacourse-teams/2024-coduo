@@ -30,9 +30,9 @@ import site.coduo.pairroom.repository.PairRoomMemberEntity;
 import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.repository.CategoryRepository;
-import site.coduo.retrospect.controller.response.FindRetrospectsResponseV2;
-import site.coduo.retrospect.repository.RetrospectV2Entity;
-import site.coduo.retrospect.repository.RetrospectV2Repository;
+import site.coduo.retrospect.controller.response.FindRetrospectsResponse;
+import site.coduo.retrospect.repository.RetrospectEntity;
+import site.coduo.retrospect.repository.RetrospectRepository;
 import site.coduo.timer.repository.TimerRepository;
 
 @SpringBootTest
@@ -52,7 +52,7 @@ class RetrospectServiceTest {
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
-    private RetrospectV2Repository retrospectV2Repository;
+    private RetrospectRepository retrospectRepository;
     @Autowired
     private RetrospectService retrospectService;
 
@@ -60,7 +60,7 @@ class RetrospectServiceTest {
     public void reset() {
         timerRepository.deleteAll();
         categoryRepository.deleteAll();
-        retrospectV2Repository.deleteAll();
+        retrospectRepository.deleteAll();
         pairRoomMemberRepository.deleteAll();
         memberRepository.deleteAll();
         pairRoomRepository.deleteAll();
@@ -98,7 +98,7 @@ class RetrospectServiceTest {
 
         // Then
 
-        final List<RetrospectV2Entity> allByPairRoomMember = retrospectV2Repository.findAllByPairRoomMember(
+        final List<RetrospectEntity> allByPairRoomMember = retrospectRepository.findAllByPairRoomMember(
                 pairRoomMember);
 
         assertThat(allByPairRoomMember).isNotEmpty();
@@ -129,7 +129,6 @@ class RetrospectServiceTest {
 
     @DisplayName("입력된 페어룸, 사용자 데이터가 서로 참조되어 있지 않다면 예외를 발생시킨다.")
     @Test
-//todo 이거 지우기
     void notJoinPairRoomAndMember() {
         // Given
         final Member savedMember1 = memberRepository.save(
@@ -157,8 +156,7 @@ class RetrospectServiceTest {
                         new AccessCode("123456"),
                         EASY_ACCESS_CODE_INK_REDDY)
         ));
-        pairRoomMemberRepository.save(
-                new PairRoomMemberEntity(savedPairRoom, savedMember1));
+        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember1));
 
         final String credentialToken = jwtProvider.sign(savedMember2.getUserId());
         final String pairRoomAccessCode = "123456";
@@ -197,7 +195,7 @@ class RetrospectServiceTest {
         retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
 
         // When
-        final FindRetrospectsResponseV2 allRetrospectsByMember = retrospectService.findAllRetrospectsByMember(
+        final FindRetrospectsResponse allRetrospectsByMember = retrospectService.findAllRetrospectsByMember(
                 credentialToken);
 
         // Then
