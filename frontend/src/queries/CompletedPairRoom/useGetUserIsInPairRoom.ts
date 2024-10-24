@@ -11,5 +11,5 @@ export const useGetUserIsInPairRoom = (accessCode: string) => {
     enabled: !!accessCode,
   });
 
-  return { isUserInPairRoom: data?.exists, isFetching };
+  return { isUserInPairRoom: data?.exists, isUserInPairRoomFetching: isFetching };
 };

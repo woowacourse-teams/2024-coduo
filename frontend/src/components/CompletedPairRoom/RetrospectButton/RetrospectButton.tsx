@@ -19,8 +19,8 @@ const RetrospectButton = ({ accessCode }: RetrospectButtonProps) => {
 
   const { userStatus } = useUserStore();
 
-  const { isUserInPairRoom, isFetching: isUserInPairRoomFetching } = useGetUserIsInPairRoom(accessCode);
-  const { isUserRetrospectExist, isFetching: isUserRetrospectExistsFetching } = useGetUserRetrospectExists(accessCode);
+  const { isUserInPairRoom, isUserInPairRoomFetching } = useGetUserIsInPairRoom(accessCode);
+  const { isUserRetrospectExist, isUserRetrospectExistsFetching } = useGetUserRetrospectExists(accessCode);
 
   const isLoading = isUserInPairRoomFetching || isUserRetrospectExistsFetching;
   if (isLoading) {
