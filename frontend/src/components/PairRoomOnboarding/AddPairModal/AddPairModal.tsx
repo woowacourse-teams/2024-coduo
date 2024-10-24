@@ -10,6 +10,8 @@ import useInput from '@/hooks/common/useInput';
 
 import { validatePairInfo } from '@/validations/validatePairName';
 
+import * as S from './AddPairModal.styles';
+
 interface AddPairModalProps {
   isOpen: boolean;
   closeModal: () => void;
@@ -39,9 +41,9 @@ const AddPairModal = ({ isOpen, closeModal, onPairData }: AddPairModalProps) => 
   };
 
   return (
-    <Modal isOpen={isOpen} close={handleCloseModal} size="60rem">
+    <Modal isOpen={isOpen} close={handleCloseModal} size="60rem" height="30rem">
       <Modal.Header title="페어 정보 연동하기" />
-      <Modal.Body>
+      <S.Body>
         <Input
           placeholder="깃허브 아이디를 입력해 주세요."
           label="페어의 깃허브 아이디"
@@ -50,7 +52,7 @@ const AddPairModal = ({ isOpen, closeModal, onPairData }: AddPairModalProps) => 
           message={message}
           onChange={(event) => handleChange(event, validatePairInfo(event.target.value))}
         />
-      </Modal.Body>
+      </S.Body>
       <Modal.Footer>
         <Button onClick={handleCloseModal} filled={false}>
           닫기
