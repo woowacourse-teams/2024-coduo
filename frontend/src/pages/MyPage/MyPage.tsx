@@ -2,7 +2,7 @@ import { IoIosArrowForward } from 'react-icons/io';
 
 import MyPageContent from '@/pages/MyPage/MyPageContent/MyPageContent';
 
-import ConfirmModal from '@/components/MyPage/ConfirmModal/ConfirmModal';
+import ConfirmModal from '@/components/common/ConfirmModal/ConfirmModal';
 
 import useUserStore from '@/stores/userStore';
 
@@ -37,7 +37,14 @@ const MyPage = () => {
           <IoIosArrowForward size="1.5rem" />
         </S.LeaveButton>
       </S.Container>
-      <ConfirmModal isOpen={isModalOpen} close={closeModal} onConfirm={handleDeleteMember} />
+      <ConfirmModal
+        isOpen={isModalOpen}
+        close={closeModal}
+        title="정말 탈퇴하시겠습니까?"
+        subTitle="해당 작업은 다시 복구할 수 없습니다."
+        confirmText="탈퇴하기"
+        onConfirm={handleDeleteMember}
+      />
     </S.Layout>
   );
 };
