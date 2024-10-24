@@ -38,7 +38,7 @@ server:
     mbeanregistry:
       enabled: true
     threads:
-      max: 200
+      max: 150
 
 oauth:
   github:
