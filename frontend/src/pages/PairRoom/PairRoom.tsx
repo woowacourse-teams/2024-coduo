@@ -20,6 +20,7 @@ import * as S from './PairRoom.styles';
 const PairRoom = () => {
   const navigate = useNavigate();
   const { accessCode } = useParams();
+
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
   const [isCardOpen, setIsCardOpen] = useState(false);
@@ -39,8 +40,7 @@ const PairRoom = () => {
   const { handleUpdatePairRole } = useUpdatePairRoom(accessCode || '');
 
   useEffect(() => {
-    if (!isFetching && status === 'COMPLETED')
-      navigate(`/room/${accessCode}/completed`, { state: { valid: true }, replace: true });
+    if (status === 'COMPLETED') navigate(`/room/${accessCode}/completed`, { state: { valid: true }, replace: true });
   }, [status]);
 
   useEffect(() => {
