@@ -2,8 +2,6 @@ package site.coduo.retrospect.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -117,18 +115,14 @@ public class RetrospectService {
     public boolean existRetrospectWithPairRoom(final String credentialToken, final String pairRoomAccessCode) {
         final Member member = memberService.findMemberByCredential(credentialToken);
         final PairRoomEntity pairRoom = pairRoomRepository.fetchByAccessCode(pairRoomAccessCode);
-        final Optional<PairRoomMemberEntity> byPairRoomAndMember = pairRoomMemberRepository
-                .findByPairRoomAndMember(pairRoom, member);
-        if (byPairRoomAndMember.isEmpty()) {
+        if (!pairRoomMemberRepository.existsByPairRoomAndMember(pairRoom, member)) {
             return false;
         }
-        final PairRoomMemberEntity pairRoomMember = byPairRoomAndMember.get();
+        final PairRoomMemberEntity pairRoomMember = pairRoomMemberRepository.fetchByPairRoomAndMember(pairRoom, member);
         final List<RetrospectEntity> retrospects = retrospectRepository.findAllByPairRoomMember(pairRoomMember);
 
-        return !retrospects.stream()
+        return retrospects.stream()
                 .map(RetrospectEntity::getContent)
-                .filter(Objects::nonNull)
-                .toList()
-                .isEmpty();
+                .anyMatch(content -> !content.isEmpty());
     }
 }
