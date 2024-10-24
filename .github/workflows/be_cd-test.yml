@@ -116,7 +116,15 @@ jobs:
 
       - name: Wait for new environment to be healthy
         run: |
-          until curl -sf http://localhost:${GREEN_PORT}/api/actuator/health | grep "UP"; do sleep 5; done
+          start_time=$(date +%s)
+          end_time=$((start_time + 300))
+          until curl -sf http://localhost:${GREEN_PORT}/api/actuator/health | grep "UP"; do
+            current_time=$(date +%s)
+            if [[ $current_time -gt $end_time ]]; then
+              exit 1
+            fi
+            sleep 5
+          done
 
       - name: Reload NGINX 
         run: |
