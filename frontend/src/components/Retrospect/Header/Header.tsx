@@ -4,15 +4,19 @@ import * as S from './Header.styles';
 
 interface HeaderProps {
   title: string;
+  subTitle: string;
   buttonText: string;
   onButtonClick: () => void;
 }
 
-const Header = ({ title, buttonText, onButtonClick }: HeaderProps) => {
+const Header = ({ title, subTitle, buttonText, onButtonClick }: HeaderProps) => {
   return (
     <S.Layout>
-      <S.Title>{title}</S.Title>
-      <Button filled={false} rounded={true} size="sm" color="primary" $css={S.ButtonStyle} onClick={onButtonClick}>
+      <S.TitleContainer>
+        <S.Title>{title}</S.Title>
+        <S.SubTitle>{subTitle}</S.SubTitle>
+      </S.TitleContainer>
+      <Button $css={S.buttonStyles} filled={false} rounded={true} size="sm" color="primary" onClick={onButtonClick}>
         {buttonText}
       </Button>
     </S.Layout>

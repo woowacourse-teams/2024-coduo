@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 import Button from '@/components/common/Button/Button';
 import Header from '@/components/Retrospect/Header/Header';
 import Question from '@/components/Retrospect/Question/Question';
-import SkipModal from '@/components/Retrospect/RetrospectForm/SkipModal/SkipModal';
-import TextArea from '@/components/Retrospect/RetrospectForm/Textarea/Textarea';
+import SkipModal from '@/components/Retrospect/SkipModal/SkipModal';
+import TextArea from '@/components/Retrospect/Textarea/Textarea';
 
 import useModal from '@/hooks/common/useModal';
 import usePreventPageRefresh from '@/hooks/common/usePreventPageRefresh';
@@ -17,17 +17,18 @@ import * as S from './RetrospectForm.styles';
 const RetrospectForm = () => {
   const { accessCode } = useParams();
 
-  const { answers, handleChange, handleSubmit } = useInputAnswer(accessCode || '');
+  usePreventPageRefresh();
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  usePreventPageRefresh();
+  const { answers, handleChange, handleSubmit } = useInputAnswer(accessCode || '');
 
   return (
     <S.Layout>
       <S.Container>
         <Header
-          title="페어 프로그래밍에 대한 회고를 작성해 보세요!"
+          title="회고 작성하기"
+          subTitle="지금까지 진행한 페어 프로그래밍에 대한 회고를 작성해 보세요!"
           buttonText="나중에 작성하기"
           onButtonClick={openModal}
         />
