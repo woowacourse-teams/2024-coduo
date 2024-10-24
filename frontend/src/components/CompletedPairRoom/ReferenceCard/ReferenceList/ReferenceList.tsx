@@ -21,11 +21,11 @@ const ReferenceList = ({ references }: ReferenceListProps) => {
                 {reference.image ? (
                   <S.Image alt="link" src={reference.image} />
                 ) : (
-                  <S.NoneImage>
+                  <S.EmptyImage>
                     이미지가
                     <br />
                     없습니다
-                  </S.NoneImage>
+                  </S.EmptyImage>
                 )}
                 <S.Box>
                   <S.Title>{reference.openGraphTitle || reference.headTitle}</S.Title>

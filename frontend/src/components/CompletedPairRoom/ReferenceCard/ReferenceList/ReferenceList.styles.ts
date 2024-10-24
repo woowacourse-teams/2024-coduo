@@ -66,7 +66,7 @@ export const Image = styled.img`
   border-top-right-radius: 1.5rem;
 `;
 
-export const NoneImage = styled.div`
+export const EmptyImage = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
