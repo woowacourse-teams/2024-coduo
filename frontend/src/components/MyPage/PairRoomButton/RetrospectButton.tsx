@@ -43,7 +43,7 @@ const RetrospectButton = ({ accessCode, answer }: RetrospectButtonProps) => {
 
   return (
     <S.Layout>
-      <S.LinkWrapper to={`room/${accessCode}/retrospect`} state={{ valid: true }}>
+      <S.LinkWrapper to={`/room/${accessCode}/retrospect`} state={{ valid: true }}>
         <S.PairRoomButton $status="IN_PROGRESS">
           <S.RoleTextContainer>
             <S.RoleText $status="IN_PROGRESS">
