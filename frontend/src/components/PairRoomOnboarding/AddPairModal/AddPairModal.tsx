@@ -35,7 +35,7 @@ const AddPairModal = ({ isOpen, closeModal, onPairData }: AddPairModalProps) => 
       addToast({ status: 'SUCCESS', message: '페어 정보 연동에 성공했습니다.' });
     } catch (error) {
       if (error instanceof Error) {
-        addToast({ status: 'ERROR', message: '회원 정보가 없습니다. 아이디를 다시 확인해 주세요.' });
+        addToast({ status: 'ERROR', message: error.message });
       }
     }
   };
