@@ -102,7 +102,7 @@ export const ConnectText = styled.div`
   transition: color 0.7s ease;
 `;
 
-export const PairRoomButton = styled.button<{ $status: PairRoomStatus }>`
+export const PairRoomButton = styled.button<{ $status: PairRoomStatus; $color: 'secondary' | 'primary' }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -130,14 +130,14 @@ export const PairRoomButton = styled.button<{ $status: PairRoomStatus }>`
     height: 100%;
     border-radius: 1rem;
 
-    background-color: ${({ $status, theme }) =>
-      $status === 'IN_PROGRESS' ? theme.color.secondary[100] : theme.color.black[30]};
-    background-image: ${({ $status, theme }) =>
+    background-color: ${({ $status, $color, theme }) =>
+      $status === 'IN_PROGRESS' ? theme.color[$color][100] : theme.color.black[30]};
+    background-image: ${({ $status, theme, $color }) =>
       $status === 'IN_PROGRESS'
         ? `linear-gradient(
       90deg,
-      ${theme.color.secondary[100]} 0 75%,
-      ${theme.color.secondary[600]} 75% 100%
+      ${theme.color[$color][100]} 0 75%,
+      ${theme.color[$color][600]} 75% 100%
     )`
         : `linear-gradient(
       90deg,

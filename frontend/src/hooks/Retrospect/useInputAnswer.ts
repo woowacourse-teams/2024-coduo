@@ -11,21 +11,28 @@ const useInputAnswer = (accessCode: string) => {
   const { addToast } = useToastStore();
 
   const [answers, setAnswers] = useState<string[]>(Array(RETROSPECT_QUESTIONS.length).fill(''));
-  const { mutateAsync } = useAddRetrospect();
+
+  const { mutateAsync, isPending } = useAddRetrospect();
+
   const navigate = useNavigate();
+
   const handleChange = (index: number, value: string) => {
     if (value.length > 1000) return;
+
     const newAnswer = [...answers];
     newAnswer[index] = value;
+
     setAnswers(newAnswer);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
+    if (isPending) return;
+
     await mutateAsync({ accessCode, answers }).then(() => {
-      addToast({ status: 'SUCCESS', message: '회고 작성 완료!' });
-      navigate(`/room/${accessCode}/completed`, { state: { valid: true } });
+      addToast({ status: 'SUCCESS', message: '회고 작성이 완료되었습니다.' });
+      navigate(`/room/${accessCode}/completed`, { state: { valid: true }, replace: true });
     });
   };
 
