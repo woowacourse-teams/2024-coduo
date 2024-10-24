@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
 import Button from '@/components/common/Button/Button';
-import Spinner from '@/components/common/Spinner/Spinner';
 
 import useUserStore from '@/stores/userStore';
 
@@ -19,13 +18,9 @@ const RetrospectButton = ({ accessCode }: RetrospectButtonProps) => {
 
   const { userStatus } = useUserStore();
 
-  const { isUserInPairRoom, isUserInPairRoomFetching } = useGetUserIsInPairRoom(accessCode);
-  const { isUserRetrospectExist, isUserRetrospectExistsFetching } = useGetUserRetrospectExists(accessCode);
+  const { isUserInPairRoom } = useGetUserIsInPairRoom(accessCode);
+  const { isUserRetrospectExist } = useGetUserRetrospectExists(accessCode);
 
-  const isLoading = isUserInPairRoomFetching || isUserRetrospectExistsFetching;
-  if (isLoading) {
-    return <Spinner size="sm" />;
-  }
   if (userStatus !== 'SIGNED_IN' || !isUserInPairRoom)
     return (
       <S.Layout>
