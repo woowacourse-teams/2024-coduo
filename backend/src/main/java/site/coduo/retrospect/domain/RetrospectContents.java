@@ -23,9 +23,9 @@ public class RetrospectContents {
             throw new InvalidRetrospectContentException("회고 문항 내용들로 null을 입력할 수 없습니다.");
         }
 
-        if (values.size() != RETROSPECT_CONTENTS_SIZE) {
+        if (values.size() > RETROSPECT_CONTENTS_SIZE) {
             throw new InvalidRetrospectContentException(
-                    "회고 내용 개수는 " + RETROSPECT_CONTENTS_SIZE + "개여야 합니다. - " + values.size());
+                    "회고 내용 개수는 " + RETROSPECT_CONTENTS_SIZE + "개 이하여야 합니다. - " + values.size());
         }
     }
 
