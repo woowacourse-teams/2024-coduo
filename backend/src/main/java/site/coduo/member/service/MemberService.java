@@ -10,6 +10,7 @@ import site.coduo.member.client.dto.GithubUserRequest;
 import site.coduo.member.client.dto.GithubUserResponse;
 import site.coduo.member.domain.Member;
 import site.coduo.member.domain.repository.MemberRepository;
+import site.coduo.member.exception.InvalidMemberAddException;
 import site.coduo.member.infrastructure.http.Bearer;
 import site.coduo.member.infrastructure.security.JwtProvider;
 import site.coduo.member.service.dto.member.MemberReadResponse;
@@ -56,5 +57,16 @@ public class MemberService {
         final Member member = memberRepository.fetchByUserId(userId);
 
         member.delete();
+    }
+
+    public Member checkAndFindMember(final String token, final String userId) {
+        final Member loginedMember = findMemberByCredential(token);
+        final Member pairMember = findMember(userId);
+
+        if (loginedMember.equals(pairMember)) {
+            throw new InvalidMemberAddException("자신의 아이디로 페어 정보 연동을 할 수 없습니다.");
+        }
+
+        return pairMember;
     }
 }
