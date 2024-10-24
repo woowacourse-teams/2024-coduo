@@ -29,8 +29,8 @@ const useInputAnswer = (accessCode: string) => {
     event.preventDefault();
 
     await mutateAsync({ accessCode, answers }).then(() => {
-      addToast({ status: 'SUCCESS', message: '회고 작성 완료!' });
-      navigate(`/room/${accessCode}/completed`, { state: { valid: true } });
+      addToast({ status: 'SUCCESS', message: '회고 작성이 완료되었습니다.' });
+      navigate(`/room/${accessCode}/completed`, { state: { valid: true }, replace: true });
     });
   };
 
