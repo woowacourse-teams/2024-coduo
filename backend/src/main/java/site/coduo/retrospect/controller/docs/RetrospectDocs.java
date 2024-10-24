@@ -44,8 +44,10 @@ public interface RetrospectDocs {
     @ApiResponse(responseCode = "404", description = "존재하지 않는 회고 조회",
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = ApiErrorResponse.class)))
-    ResponseEntity<FindRetrospectByIdResponse> findRetrospectById(
-            @Parameter(description = "회고 id", required = true) final Long retrospectId
+    ResponseEntity<FindRetrospectByIdResponse> getRetrospect(
+            @Parameter(description = "사용자 식별 보안 코드 (쿠키)", required = true)
+            String credentialToken,
+            @Parameter(description = "페어룸 accessCode", required = true) final String accessCode
     );
 
     @Operation(summary = "특정 회고를 삭제 한다.")
@@ -59,7 +61,7 @@ public interface RetrospectDocs {
     ResponseEntity<Void> deleteRetrospect(
             @Parameter(description = "사용자 식별 보안 코드 (쿠키)", required = true)
             String credentialToken,
-            @Parameter(description = "회고 id", required = true) final Long retrospectId
+            @Parameter(description = "회고 id", required = true) final String accessCode
     );
 
     @Operation(summary = "특정 회원, 특정 페어룸에 속한 회고의 존재 여부를 조회한다.")

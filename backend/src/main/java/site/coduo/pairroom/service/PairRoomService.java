@@ -3,7 +3,6 @@ package site.coduo.pairroom.service;
 import java.util.List;
 
 import jakarta.annotation.Nullable;
-import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -149,18 +148,8 @@ public class PairRoomService {
     }
 
     public boolean existMemberInPairRoom(final String credentialToken, final String pairRoomAccessCode) {
-        final PairRoomEntity pairRoom = findPairRoom(pairRoomAccessCode);
+        final PairRoomEntity pairRoom = pairRoomRepository.fetchByAccessCode(pairRoomAccessCode);
         final Member member = memberService.findMemberByCredential(credentialToken);
         return pairRoomMemberRepository.existsByPairRoomAndMember(pairRoom, member);
-    }
-
-    private PairRoomEntity findPairRoom(final String pairRoomAccessCode) {
-        if (pairRoomAccessCode == null || pairRoomAccessCode.isBlank()) {
-            throw new IllegalArgumentException("페어룸 접근 코드로 null 혹은 빈 값이 입력될 수 없습니다.");
-        }
-
-        return pairRoomRepository.findByAccessCode(pairRoomAccessCode)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "입력된 페어룸 접근 코드에 대응되는 페어룸이 존재하지 않습니다. - " + pairRoomAccessCode));
     }
 }

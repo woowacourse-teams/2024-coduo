@@ -11,12 +11,11 @@ import org.springframework.context.annotation.Import;
 import io.restassured.RestAssured;
 import site.coduo.config.TestConfig;
 import site.coduo.member.domain.repository.MemberRepository;
-import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroom.repository.PairRoomMemberRepository;
+import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.repository.CategoryRepository;
 import site.coduo.referencelink.repository.OpenGraphRepository;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
-import site.coduo.retrospect.repository.RetrospectContentRepository;
 import site.coduo.retrospect.repository.RetrospectRepository;
 import site.coduo.timer.repository.TimerRepository;
 
@@ -48,9 +47,6 @@ abstract class AcceptanceFixture {
     @Autowired
     private RetrospectRepository retrospectRepository;
 
-    @Autowired
-    private RetrospectContentRepository retrospectContentRepository;
-
     @LocalServerPort
     private int port;
 
@@ -61,7 +57,6 @@ abstract class AcceptanceFixture {
 
     @AfterEach
     void tearDown() {
-        retrospectContentRepository.deleteAll();
         retrospectRepository.deleteAll();
         timerRepository.deleteAll();
         pairRoomMemberRepository.deleteAll();
