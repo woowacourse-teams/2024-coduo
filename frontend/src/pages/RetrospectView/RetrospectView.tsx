@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 
+import Spinner from '@/components/common/Spinner/Spinner';
 import Header from '@/components/Retrospect/Header/Header';
 import Question from '@/components/Retrospect/Question/Question';
 
@@ -14,8 +15,9 @@ const RetrospectView = () => {
 
   const navigate = useNavigate();
 
-  const answers = useGetRetrospectAnswer(accessCode || '');
+  const { answers, isFetching } = useGetRetrospectAnswer(accessCode || '');
 
+  if (isFetching) return <Spinner size="sm" />;
   return (
     <S.Layout>
       <S.Container>
