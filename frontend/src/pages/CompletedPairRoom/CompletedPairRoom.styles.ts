@@ -6,7 +6,7 @@ export const Layout = styled.div`
   align-items: center;
   gap: 4rem;
 
-  min-width: fit-content;
+  width: 100%;
   height: calc(100vh - 7rem);
   min-height: 60rem;
   padding: 2rem;
@@ -20,7 +20,8 @@ export const InfoContainer = styled.div`
   justify-content: space-evenly;
   align-items: center;
 
-  width: 45rem;
+  width: 30%;
+  min-width: 40rem;
   height: calc(100vh - 7rem);
   padding: 2rem;
 `;
@@ -29,7 +30,7 @@ export const CardContainer = styled.div`
   display: flex;
   gap: 2rem;
 
-  width: 100%;
+  width: 70%;
 `;
 
 export const TitleContainer = styled.div`
