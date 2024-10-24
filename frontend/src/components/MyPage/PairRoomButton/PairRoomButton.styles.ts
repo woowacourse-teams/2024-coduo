@@ -71,7 +71,7 @@ export const RoleTextContainer = styled.div`
   width: 50%;
 `;
 
-export const RoleText = styled.p<{ $status: PairRoomStatus }>`
+export const RoleText = styled.p<{ $status: PairRoomStatus; $color: 'secondary' | 'primary' }>`
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -81,7 +81,8 @@ export const RoleText = styled.p<{ $status: PairRoomStatus }>`
   transition: color 0.7s ease;
 
   span {
-    color: ${({ $status, theme }) => ($status === 'IN_PROGRESS' ? theme.color.secondary[600] : theme.color.black[70])};
+    color: ${({ $status, theme, $color }) =>
+      $status === 'IN_PROGRESS' ? theme.color[$color][600] : theme.color.black[70]};
     font-size: ${({ theme }) => theme.fontSize.lg};
     font-weight: ${({ theme }) => theme.fontWeight.medium};
 
