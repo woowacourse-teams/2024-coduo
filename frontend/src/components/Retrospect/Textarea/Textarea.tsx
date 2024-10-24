@@ -10,7 +10,7 @@ const TextArea = ({ id, charNumber, ...props }: TextareaProps) => {
   return (
     <S.Layout>
       <S.Textarea id={id} {...props} />
-      <S.CharNumber>{charNumber}</S.CharNumber>
+      <S.CharNumberText>{charNumber}</S.CharNumberText>
     </S.Layout>
   );
 };

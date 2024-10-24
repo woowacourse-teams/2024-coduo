@@ -7,7 +7,7 @@ interface ConfirmModalProps {
   isOpen: boolean;
   title: string;
   subTitle: string;
-  confirmText: string;
+  confirmText?: string;
   onConfirm: () => void;
   close: () => void;
   type?: 'SUCCESS' | 'DANGER';
@@ -19,7 +19,7 @@ const ConfirmModal = ({
   type = 'DANGER',
   title,
   subTitle,
-  confirmText,
+  confirmText = '확인',
   onConfirm,
 }: ConfirmModalProps) => {
   return (

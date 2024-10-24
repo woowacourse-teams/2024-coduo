@@ -29,3 +29,22 @@ export const Container = styled.div`
     padding: 4rem 4rem 12rem;
   }
 `;
+
+export const TextWrapper = styled.pre`
+  overflow-y: auto;
+
+  width: 100%;
+  margin: 0;
+  padding: 2rem;
+  border: 1px solid ${({ theme }) => theme.color.black[50]};
+  border-radius: 0.5rem;
+
+  background-color: ${({ theme }) => theme.color.black[20]};
+  color: ${({ theme }) => theme.color.black[80]};
+  font-size: ${({ theme }) => theme.fontSize.md};
+  font-weight: ${({ theme }) => theme.fontWeight.light};
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-all;
+  font-family: 'Pretendard Variable', sans-serif !important;
+`;
