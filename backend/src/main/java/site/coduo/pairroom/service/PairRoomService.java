@@ -3,7 +3,6 @@ package site.coduo.pairroom.service;
 import java.util.List;
 
 import jakarta.annotation.Nullable;
-import jakarta.persistence.EntityNotFoundException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

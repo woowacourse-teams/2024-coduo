@@ -1,12 +1,10 @@
 package site.coduo.acceptance;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import java.util.List;
 import java.util.Map;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import io.restassured.RestAssured;
-import io.restassured.response.ExtractableResponse;
-import io.restassured.response.Response;
 import site.coduo.fixture.RetrospectCreateRequestFixture;
 import site.coduo.member.domain.Member;
 import site.coduo.member.domain.repository.MemberRepository;
@@ -32,11 +28,13 @@ import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.retrospect.controller.request.CreateRetrospectRequest;
 import site.coduo.retrospect.controller.response.ExistRetrospectWithPairRoomResponse;
+import site.coduo.retrospect.controller.response.FindRetrospectByIdResponseV2;
+import site.coduo.retrospect.controller.response.FindRetrospectResponseV2;
+import site.coduo.retrospect.controller.response.FindRetrospectsResponseV2;
 import site.coduo.retrospect.domain.RetrospectQuestionType;
 import site.coduo.retrospect.repository.RetrospectV2Entity;
 import site.coduo.retrospect.repository.RetrospectV2Repository;
 
-@Disabled
 class RetrospectAcceptanceTest extends AcceptanceFixture {
 
     @Autowired
@@ -82,7 +80,6 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
 
     @DisplayName("특정 사용자의 모든 회고 데이터를 조회한다.")
     @Test
-    @Disabled
     void findRetrospects() {
         // Given
         final PairRoomEntity savedPairRoom = saveTestPairRoom();
@@ -95,7 +92,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
         final String credentialToken = jwtProvider.sign(savedMember.getUserId());
 
         // When
-        final ExtractableResponse<Response> response = RestAssured
+        final FindRetrospectsResponseV2 response = RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
@@ -104,17 +101,15 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 .when()
                 .get("/api/retrospects")
 
-                .then().log().all()
-                .extract();
+                .then()
+                .statusCode(200)
+                .extract()
+                .as(FindRetrospectsResponseV2.class);
 
+        final FindRetrospectsResponseV2 expected = new FindRetrospectsResponseV2(
+                List.of(new FindRetrospectResponseV2("ac", "답변1")));
         // Then
-        assertSoftly(softly -> {
-            softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-            softly.assertThat((List) response.jsonPath().get("retrospects")).hasSize(1);
-            softly.assertThat((int) response.jsonPath().get("retrospects[0].retrospectId")).isEqualTo(0);
-            softly.assertThat((String) response.jsonPath().get("retrospects[0].accessCode")).isEqualTo("ac");
-            softly.assertThat((String) response.jsonPath().get("retrospects[0].answer")).isEqualTo("답변1");
-        });
+        assertThat(response).isEqualTo(expected);
     }
 
     @DisplayName("특정 아이디의 회고 데이터를 상세 조회한다.")
@@ -125,38 +120,43 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
         final Member savedMember = saveTestMember();
         final PairRoomMemberEntity pairRoomMember = pairRoomMemberRepository.save(
                 new PairRoomMemberEntity(savedPairRoom, savedMember));
+        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
 
         saveRetrospectContents(pairRoomMember);
 
         // When
 
-        final ExtractableResponse<Response> response = RestAssured
+        final FindRetrospectByIdResponseV2 response = RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
+                .cookies(Map.of("coduo_whoami", credentialToken))
 
                 .when()
                 .get("/api/retrospects/{accessCode}", savedPairRoom.getAccessCode())
 
                 .then()
-                .extract();
+                .statusCode(200)
+                .extract()
+                .as(FindRetrospectByIdResponseV2.class);
 
         // Then
-        final List<String> expect = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6");
-        assertSoftly(softly -> {
-            softly.assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-            softly.assertThat((String) response.jsonPath().get("accessCode")).isEqualTo("ac");
-            softly.assertThat((List) response.jsonPath().get("answers")).isEqualTo(expect);
-        });
+        final FindRetrospectByIdResponseV2 expected = new FindRetrospectByIdResponseV2(
+                List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6"));
+        assertThat(response).isEqualTo(expected);
     }
 
     @DisplayName("존재하지 않은 회고를 조회하려하면 404를 반환받는다.")
     @Test
     void findNotExistRetrospect() {
+        final Member savedMember = saveTestMember();
+        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+
         RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
+                .cookies(Map.of("coduo_whoami", credentialToken))
 
                 .when()
                 .get("/api/retrospects/{accessCode}", "IAMnoaccess")
@@ -192,7 +192,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
 
     @DisplayName("소유자외 사용자가 권한 없는 접근을 시도하면 예외를 반환받는다.")
     @Test
-    void notOwnerAccessToForbiddenJon() {
+    void notOwnerAccessFail() {
         // Given
         final Member owner = saveTestMember();
         final Member other = memberRepository.save(
@@ -208,22 +208,19 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, owner));
 
         // When
-        final String credentialToken = jwtProvider.sign(other.getUserId());
-        final ExtractableResponse<Response> response = RestAssured
+        final String otherMemberToken = jwtProvider.sign(other.getUserId());
+
+        RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
-                .cookies(Map.of("coduo_whoami", credentialToken))
+                .cookies(Map.of("coduo_whoami", otherMemberToken))
 
                 .when()
                 .delete("/api/retrospects/{accessCode}", savedPairRoom.getAccessCode())
 
                 .then()
-                .extract();
-
-        // Then
-        assertThat(response.statusCode()).isEqualTo(HttpStatus.FORBIDDEN.value());
-        assertThat((String) response.jsonPath().get("message")).isEqualTo("회고 소유자 외 접근할 수 없는 작업입니다.");
+                .statusCode(400);
     }
 
     @DisplayName("특정 회원이 특정 페어룸에 작성한 회고가 존재하는지 여부를 조회한다.")

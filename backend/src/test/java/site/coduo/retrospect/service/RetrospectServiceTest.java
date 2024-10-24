@@ -8,7 +8,6 @@ import static site.coduo.fixture.AccessCodeFixture.EASY_ACCESS_CODE_INK_REDDY;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
-import site.coduo.pairroom.exception.PairRoomMemberNotJoinException;
+import site.coduo.pairroom.exception.PairRoomMemberNotFoundException;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomMemberEntity;
@@ -32,14 +31,12 @@ import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.repository.CategoryRepository;
 import site.coduo.retrospect.controller.response.FindRetrospectsResponseV2;
-import site.coduo.retrospect.exception.NotRetrospectOwnerAccessException;
 import site.coduo.retrospect.repository.RetrospectV2Entity;
 import site.coduo.retrospect.repository.RetrospectV2Repository;
 import site.coduo.timer.repository.TimerRepository;
 
 @SpringBootTest
 @Transactional
-@Disabled
 class RetrospectServiceTest {
 
     @Autowired
@@ -132,6 +129,7 @@ class RetrospectServiceTest {
 
     @DisplayName("입력된 페어룸, 사용자 데이터가 서로 참조되어 있지 않다면 예외를 발생시킨다.")
     @Test
+//todo 이거 지우기
     void notJoinPairRoomAndMember() {
         // Given
         final Member savedMember1 = memberRepository.save(
@@ -168,13 +166,11 @@ class RetrospectServiceTest {
 
         // When & Then
         assertThatThrownBy(() -> retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers))
-                .isInstanceOf(PairRoomMemberNotJoinException.class)
-                .hasMessage("입력된 페어룸, 사용자가 서로 참조되어 있지 않습니다.");
+                .isInstanceOf(PairRoomMemberNotFoundException.class);
     }
 
     @DisplayName("특정 회원의 모든 회고 데이터를 조회한다.")
     @Test
-    @Disabled
     void findAllRetrospectsByMember() {
         // Given
         final Member savedMember = memberRepository.save(
@@ -251,11 +247,9 @@ class RetrospectServiceTest {
         retrospectService.createRetrospect(ownerCredentialToken, pairRoomAccessCode, answers);
 
         // When & Then
-        //todo 실패
         assertThatThrownBy(
                 () -> retrospectService.deleteRetrospect(otherCredentialToken, savedPairRoom.getAccessCode()))
-                .isInstanceOf(NotRetrospectOwnerAccessException.class)
-                .hasMessage("본인 소유가 아닌 회고는 삭제할 수 없습니다.");
+                .isInstanceOf(PairRoomMemberNotFoundException.class);
     }
 
     @DisplayName("입력된 페어룸, 회원 정보를 가진 회고가 DB에 존재하는지 여부를 반환한다.")
