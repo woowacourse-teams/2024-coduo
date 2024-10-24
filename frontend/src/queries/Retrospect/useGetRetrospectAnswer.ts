@@ -5,7 +5,7 @@ import { getRetrospectAnswer } from '@/apis/retrospect';
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
 export const useGetRetrospectAnswer = (accessCode: string) => {
-  const { data } = useSuspenseQuery({
+  const { data, isFetching } = useSuspenseQuery({
     queryKey: [QUERY_KEYS.GET_RETROSPECT_ANSWER],
     queryFn: () => getRetrospectAnswer({ accessCode }),
     retry: false,
@@ -13,5 +13,5 @@ export const useGetRetrospectAnswer = (accessCode: string) => {
 
   const answers = data.answers;
 
-  return answers;
+  return { answers, isFetching };
 };
