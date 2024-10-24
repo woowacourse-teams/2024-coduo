@@ -12,7 +12,7 @@ const useInputAnswer = (accessCode: string) => {
 
   const [answers, setAnswers] = useState<string[]>(Array(RETROSPECT_QUESTIONS.length).fill(''));
 
-  const { mutateAsync } = useAddRetrospect();
+  const { mutateAsync, isPending } = useAddRetrospect();
 
   const navigate = useNavigate();
 
@@ -27,6 +27,8 @@ const useInputAnswer = (accessCode: string) => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (isPending) return;
 
     await mutateAsync({ accessCode, answers }).then(() => {
       addToast({ status: 'SUCCESS', message: '회고 작성이 완료되었습니다.' });
