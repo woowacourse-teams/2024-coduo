@@ -200,11 +200,6 @@ class RetrospectServiceTest {
 
         // Then
         assertThat(allRetrospectsByMember).isNotNull();
-
-//        final List<RetrospectContent> values = allRetrospectsByMember.retrospects().get(0).;
-//        final Stream<String> findAnswers = values.stream()
-//                .map(retrospectContent -> retrospectContent.getAnswer().getValue());
-//        assertThat(findAnswers).isEqualTo(answers);
     }
 
     @DisplayName("본인 소유가 아닌 회고 삭제 요청이 들어오면 예외를 발생시킨다.")
