@@ -1,6 +1,5 @@
 package site.coduo.retrospect.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -56,27 +55,25 @@ public class RetrospectService {
     public FindRetrospectsResponse findAllRetrospectsByMember(final String credentialToken) {
         final Member member = memberService.findMemberByCredential(credentialToken);
         final List<PairRoomMemberEntity> byMember = pairRoomMemberRepository.findByMember(member);
-        final List<Retrospect> list = byMember.stream().map(this::convertRetrospect)
+
+        final List<FindRetrospectResponse> findRetrospects = byMember.stream()
+                .filter(this::existsAnyRetrospect)
+                .map(this::convertRetrospect)
                 .toList();
 
-        final List<FindRetrospectResponse> result = new ArrayList<>();
-
-        for (int i = 0; i < byMember.size(); i++) {
-            result.add(new FindRetrospectResponse(byMember.get(i).getPairRoom().getAccessCode(),
-                    list.get(i).getContents().getFirst().getAnswer().getValue()));
-        }
-
-        return new FindRetrospectsResponse(result);
+        return new FindRetrospectsResponse(findRetrospects);
     }
 
-    private Retrospect convertRetrospect(final PairRoomMemberEntity pairRoomMember) {
+    private FindRetrospectResponse convertRetrospect(final PairRoomMemberEntity pairRoomMember) {
         final List<RetrospectContent> retrospectContents = retrospectRepository
                 .findAllByPairRoomMember(pairRoomMember)
                 .stream()
                 .map(RetrospectEntity::toDomain)
                 .toList();
 
-        return new Retrospect(new RetrospectContents(retrospectContents));
+        final Retrospect retrospect = new Retrospect(new RetrospectContents(retrospectContents));
+        return new FindRetrospectResponse(pairRoomMember.getPairRoom().getAccessCode(),
+                retrospect.getContents().getFirst().getAnswer().getValue());
     }
 
     public Retrospect findRetrospectByAccessCode(final String credentialToken, final String accessCode) {
@@ -119,6 +116,10 @@ public class RetrospectService {
             return false;
         }
         final PairRoomMemberEntity pairRoomMember = pairRoomMemberRepository.fetchByPairRoomAndMember(pairRoom, member);
+        return existsAnyRetrospect(pairRoomMember);
+    }
+
+    private boolean existsAnyRetrospect(final PairRoomMemberEntity pairRoomMember) {
         final List<RetrospectEntity> retrospects = retrospectRepository.findAllByPairRoomMember(pairRoomMember);
 
         return retrospects.stream()
