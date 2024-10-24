@@ -1,28 +1,29 @@
 package site.coduo.retrospect.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import site.coduo.member.domain.Member;
 import site.coduo.member.service.MemberService;
-import site.coduo.pairroom.exception.PairRoomMemberNotJoinException;
-import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.repository.PairRoomEntity;
+import site.coduo.pairroom.repository.PairRoomMemberEntity;
 import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
+import site.coduo.retrospect.controller.response.FindRetrospectResponse;
+import site.coduo.retrospect.controller.response.FindRetrospectsResponse;
 import site.coduo.retrospect.domain.Retrospect;
 import site.coduo.retrospect.domain.RetrospectContent;
 import site.coduo.retrospect.domain.RetrospectContents;
 import site.coduo.retrospect.exception.NotRetrospectOwnerAccessException;
-import site.coduo.retrospect.exception.RetrospectNotFoundException;
-import site.coduo.retrospect.repository.RetrospectContentEntity;
-import site.coduo.retrospect.repository.RetrospectContentRepository;
 import site.coduo.retrospect.repository.RetrospectEntity;
 import site.coduo.retrospect.repository.RetrospectRepository;
 
+@Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
@@ -30,9 +31,8 @@ public class RetrospectService {
 
     private final PairRoomRepository pairRoomRepository;
     private final PairRoomMemberRepository pairRoomMemberRepository;
-    private final RetrospectRepository retrospectRepository;
-    private final RetrospectContentRepository retrospectContentRepository;
     private final MemberService memberService;
+    private final RetrospectRepository retrospectRepository;
 
     @Transactional
     public void createRetrospect(
@@ -40,107 +40,81 @@ public class RetrospectService {
             final String pairRoomAccessCode,
             final List<String> answers
     ) {
-        final PairRoomEntity pairRoom = findPairRoom(pairRoomAccessCode);
-        final Member member = findMember(credentialToken);
-        checkMemberIsJoinInPairRoom(member, pairRoom);
-        createRetrospect(pairRoom, member, answers);
-    }
-
-    private PairRoomEntity findPairRoom(final String pairRoomAccessCode) {
-        if (pairRoomAccessCode == null || pairRoomAccessCode.isEmpty()) {
-            throw new IllegalArgumentException("페어룸 접근 코드로 null 혹은 빈 값이 입력될 수 없습니다.");
-        }
-
-        return pairRoomRepository.findByAccessCode(pairRoomAccessCode)
-                .orElseThrow(() -> new PairRoomNotFoundException(
-                        "입력된 페어룸 접근 코드에 대응되는 페어룸이 존재하지 않습니다. - " + pairRoomAccessCode));
-    }
-
-    private Member findMember(final String credentialToken) {
-        if (credentialToken == null) {
-            throw new IllegalArgumentException("보안 토큰으로 null이 입력될 수 없습니다.");
-        }
-
-        return memberService.findMemberByCredential(credentialToken);
-    }
-
-    private void checkMemberIsJoinInPairRoom(final Member member, final PairRoomEntity pairRoom) {
-        if (!pairRoomMemberRepository.existsByPairRoomAndMember(pairRoom, member)) {
-            throw new PairRoomMemberNotJoinException("입력된 페어룸, 사용자가 서로 참조되어 있지 않습니다.");
-        }
-    }
-
-    private void createRetrospect(
-            final PairRoomEntity pairRoom,
-            final Member member,
-            final List<String> answers
-    ) {
-        final RetrospectContents retrospectContents = RetrospectContents.of(answers);
-        final Retrospect retrospect = new Retrospect(pairRoom.toDomain(), member, retrospectContents);
-        final RetrospectEntity savedRetrospectEntity = retrospectRepository.save(
-                new RetrospectEntity(pairRoom, member));
-        createRetrospectContents(retrospect, savedRetrospectEntity);
-    }
-
-    private void createRetrospectContents(final Retrospect retrospect, final RetrospectEntity retrospectEntity) {
-        final List<RetrospectContentEntity> retrospectContentEntities = retrospect.getContents().getValues()
+        final PairRoomEntity pairRoom = pairRoomRepository.fetchByAccessCode(pairRoomAccessCode);
+        final Member member = memberService.findMemberByCredential(credentialToken);
+        final PairRoomMemberEntity pairRoomMember = pairRoomMemberRepository.fetchByPairRoomAndMember(pairRoom, member);
+        final RetrospectContents retrospectContents = RetrospectContents.from(answers);
+        final Retrospect retrospect = new Retrospect(retrospectContents);
+        final List<RetrospectEntity> retrospectContentEntities = retrospect.getContents().getValues()
                 .stream()
-                .map(retrospectContent -> new RetrospectContentEntity(
-                        retrospectEntity,
-                        retrospectContent.getQuestionType(),
+                .map(retrospectContent -> new RetrospectEntity(pairRoomMember, retrospectContent.getQuestionType(),
                         retrospectContent.getAnswer().getValue()))
                 .toList();
-        retrospectContentRepository.saveAll(retrospectContentEntities);
+        retrospectRepository.saveAll(retrospectContentEntities);
     }
 
-    public List<Retrospect> findAllRetrospectsByMember(final String credentialToken) {
-        final Member member = findMember(credentialToken);
-        final List<RetrospectEntity> retrospectEntities = retrospectRepository.findAllByMember(member);
-
-        return retrospectEntities.stream()
-                .map(this::convertRetrospect)
+    public FindRetrospectsResponse findAllRetrospectsByMember(final String credentialToken) {
+        final Member member = memberService.findMemberByCredential(credentialToken);
+        final List<PairRoomMemberEntity> byMember = pairRoomMemberRepository.findByMember(member);
+        final List<Retrospect> list = byMember.stream().map(this::convertRetrospect)
                 .toList();
+
+        final List<FindRetrospectResponse> result = new ArrayList<>();
+
+        for (int i = 0; i < byMember.size(); i++) {
+            result.add(new FindRetrospectResponse(byMember.get(i).getPairRoom().getAccessCode(),
+                    list.get(i).getContents().getFirst().getAnswer().getValue()));
+        }
+
+        return new FindRetrospectsResponse(result);
     }
 
-    private Retrospect convertRetrospect(final RetrospectEntity retrospectEntity) {
-        final List<RetrospectContent> retrospectContents = retrospectContentRepository.findAllByRetrospect(
-                        retrospectEntity)
+    private Retrospect convertRetrospect(final PairRoomMemberEntity pairRoomMember) {
+        final List<RetrospectContent> retrospectContents = retrospectRepository
+                .findAllByPairRoomMember(pairRoomMember)
                 .stream()
-                .map(RetrospectContentEntity::toDomain)
+                .map(RetrospectEntity::toDomain)
                 .toList();
 
-        return new Retrospect(
-                retrospectEntity.getPairRoom().toDomain(),
-                retrospectEntity.getMember(),
-                new RetrospectContents(retrospectContents)
-        );
+        return new Retrospect(new RetrospectContents(retrospectContents));
     }
 
-    public Retrospect findRetrospectById(final Long retrospectId) {
-        final RetrospectEntity retrospectEntity = retrospectRepository.findById(retrospectId)
-                .orElseThrow(() -> new RetrospectNotFoundException("해당 아이디에 일치하는 회고 데이터가 존재하지 않습니다."));
-        return convertRetrospect(retrospectEntity);
+    public Retrospect findRetrospectByAccessCode(final String credentialToken, final String accessCode) {
+        final Member member = memberService.findMemberByCredential(credentialToken);
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
+        final PairRoomMemberEntity pairRoomMember = pairRoomMemberRepository.fetchByPairRoomAndMember(
+                pairRoomEntity, member);
+
+        final List<RetrospectEntity> allByPairRoomMember = retrospectRepository.findAllByPairRoomMember(
+                pairRoomMember);
+
+        final List<RetrospectContent> retrospectContents = allByPairRoomMember.stream()
+                .map(RetrospectEntity::toDomain)
+                .toList();
+
+        return new Retrospect(new RetrospectContents(retrospectContents));
     }
 
     @Transactional
-    public void deleteRetrospect(final String credentialToken, Long retrospectId) {
-        final RetrospectEntity retrospectEntity = retrospectRepository.findById(retrospectId)
-                .orElseThrow(() -> new RetrospectNotFoundException("해당 아이디에 일치하는 회고 데이터가 존재하지 않습니다."));
-        checkRetrospectOwner(retrospectEntity, credentialToken);
-        retrospectContentRepository.deleteAllByRetrospect(retrospectEntity);
-        retrospectRepository.delete(retrospectEntity);
+    public void deleteRetrospect(final String credentialToken, final String accessCode) {
+        final Member member = memberService.findMemberByCredential(credentialToken);
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
+        final PairRoomMemberEntity pairRoomMember = pairRoomMemberRepository
+                .fetchByPairRoomAndMember(pairRoomEntity, member);
+        checkRetrospectOwner(pairRoomMember, member);
+        retrospectRepository.deleteAllByPairRoomMember(pairRoomMember);
     }
 
-    private void checkRetrospectOwner(final RetrospectEntity retrospectEntity, final String credentialToken) {
-        final Member client = findMember(credentialToken);
-        if (retrospectEntity.getMember() != client) {
-            throw new NotRetrospectOwnerAccessException("본인 소유가 아닌 회고는 삭제할 수 없습니다.");
+    private void checkRetrospectOwner(final PairRoomMemberEntity pairRoomMember, final Member member) {
+        if (pairRoomMember.getMember().equals(member)) {
+            return;
         }
+        throw new NotRetrospectOwnerAccessException("본인 소유가 아닌 회고는 삭제할 수 없습니다.");
     }
 
     public boolean existRetrospectWithPairRoom(final String credentialToken, final String pairRoomAccessCode) {
-        final Member member = findMember(credentialToken);
-        final PairRoomEntity pairRoom = findPairRoom(pairRoomAccessCode);
-        return retrospectRepository.existsByMemberAndPairRoom(member, pairRoom);
+        final Member member = memberService.findMemberByCredential(credentialToken);
+        final PairRoomEntity pairRoom = pairRoomRepository.fetchByAccessCode(pairRoomAccessCode);
+        return pairRoomMemberRepository.existsByPairRoomAndMember(pairRoom, member);
     }
 }
