@@ -115,6 +115,14 @@ public class RetrospectService {
     public boolean existRetrospectWithPairRoom(final String credentialToken, final String pairRoomAccessCode) {
         final Member member = memberService.findMemberByCredential(credentialToken);
         final PairRoomEntity pairRoom = pairRoomRepository.fetchByAccessCode(pairRoomAccessCode);
-        return pairRoomMemberRepository.existsByPairRoomAndMember(pairRoom, member);
+        if (!pairRoomMemberRepository.existsByPairRoomAndMember(pairRoom, member)) {
+            return false;
+        }
+        final PairRoomMemberEntity pairRoomMember = pairRoomMemberRepository.fetchByPairRoomAndMember(pairRoom, member);
+        final List<RetrospectEntity> retrospects = retrospectRepository.findAllByPairRoomMember(pairRoomMember);
+
+        return retrospects.stream()
+                .map(RetrospectEntity::getContent)
+                .anyMatch(content -> !content.isEmpty());
     }
 }

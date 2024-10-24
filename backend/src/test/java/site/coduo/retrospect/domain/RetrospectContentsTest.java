@@ -47,13 +47,18 @@ class RetrospectContentsTest {
         // Given
         final List<RetrospectContent> input = List.of(
                 new RetrospectContent(RetrospectQuestionType.FIRST, new RetrospectAnswer("답변1")),
+                new RetrospectContent(RetrospectQuestionType.FIRST, new RetrospectAnswer("답변1")),
+                new RetrospectContent(RetrospectQuestionType.FIRST, new RetrospectAnswer("답변1")),
+                new RetrospectContent(RetrospectQuestionType.FIRST, new RetrospectAnswer("답변1")),
+                new RetrospectContent(RetrospectQuestionType.FIRST, new RetrospectAnswer("답변1")),
+                new RetrospectContent(RetrospectQuestionType.FIRST, new RetrospectAnswer("답변1")),
                 new RetrospectContent(RetrospectQuestionType.SECOND, new RetrospectAnswer("답변2"))
         );
 
         // When & Then
         assertThatThrownBy(() -> new RetrospectContents(input))
                 .isInstanceOf(InvalidRetrospectContentException.class)
-                .hasMessage("회고 내용 개수는 6개여야 합니다. - " + input.size());
+                .hasMessage("회고 내용 개수는 6개 이하여야 합니다. - " + input.size());
     }
 
     @DisplayName("유효한 회고 내용 문자열 값들이 입력되면 객체를 생성한다.")
