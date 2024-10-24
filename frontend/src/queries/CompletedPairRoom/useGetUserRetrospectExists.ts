@@ -11,5 +11,5 @@ export const useGetUserRetrospectExists = (accessCode: string) => {
     enabled: !!accessCode,
   });
 
-  return { data: data?.existRetrospect };
+  return { isUserRetrospectExist: data?.existRetrospect };
 };
