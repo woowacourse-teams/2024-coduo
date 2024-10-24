@@ -20,12 +20,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <S.Layout $width={width}>
         {label && <S.Label htmlFor={props.id}>{label}</S.Label>}
-        <S.Input ref={ref} $status={status} $width={width} $height={height} {...props} />
-        {message && (
-          <S.Message role="alert" aria-live="assertive" aria-atomic="true" $height={height} $status={status}>
-            {message}
-          </S.Message>
-        )}
+        <S.Container>
+          <S.Input ref={ref} $status={status} $width={width} $height={height} {...props} />
+          {message && (
+            <S.Message role="alert" aria-live="assertive" aria-atomic="true" $height={height} $status={status}>
+              {message}
+            </S.Message>
+          )}
+        </S.Container>
       </S.Layout>
     );
   },

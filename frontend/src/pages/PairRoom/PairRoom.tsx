@@ -39,7 +39,8 @@ const PairRoom = () => {
   const { handleUpdatePairRole } = useUpdatePairRoom(accessCode || '');
 
   useEffect(() => {
-    if (status === 'COMPLETED') navigate(`/room/${accessCode}/completed`, { state: { valid: true }, replace: true });
+    if (!isFetching && status === 'COMPLETED')
+      navigate(`/room/${accessCode}/completed`, { state: { valid: true }, replace: true });
   }, [status]);
 
   useEffect(() => {
@@ -53,7 +54,7 @@ const PairRoom = () => {
 
   return (
     <S.Layout>
-      <PairListCard driver={driver} navigator={navigator} missionUrl={missionUrl} roomCode={accessCode || ''} />
+      <PairListCard driver={driver} navigator={navigator} missionUrl={missionUrl} accessCode={accessCode || ''} />
       <S.Container>
         <PairRoleCard driver={driver} navigator={navigator} />
         <TimerCard

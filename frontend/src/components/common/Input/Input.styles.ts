@@ -37,9 +37,15 @@ export const Layout = styled.div<{ $width: string }>`
   flex-direction: column;
   gap: 0.8rem;
 
-  position: relative;
-
   width: ${({ $width }) => $width};
+`;
+
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+
+  position: relative;
 `;
 
 export const Label = styled.label`
