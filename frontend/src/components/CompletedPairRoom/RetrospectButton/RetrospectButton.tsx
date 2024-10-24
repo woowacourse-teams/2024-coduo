@@ -24,7 +24,7 @@ const RetrospectButton = ({ accessCode }: RetrospectButtonProps) => {
 
   const isLoading = isUserInPairRoomFetching || isUserRetrospectExistsFetching;
   if (isLoading) {
-    return <Spinner />;
+    return <Spinner size="sm" />;
   }
   if (userStatus !== 'SIGNED_IN' || !isUserInPairRoom)
     return (
