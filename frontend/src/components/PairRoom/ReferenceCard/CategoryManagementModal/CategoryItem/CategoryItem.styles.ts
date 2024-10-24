@@ -48,6 +48,7 @@ export const Item = styled.li<{ $isChecked: boolean }>`
     color: ${({ theme }) => theme.color.black[10]};
   }
 `;
+
 export const CustomInputMessage = css`
   top: 4rem;
 
