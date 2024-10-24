@@ -86,7 +86,7 @@ jobs:
           MASTER_DB_USERNAME=${{ secrets.TEST_SERVER_DB_USERNAME }}
           MASTER_DB_PASSWORD=${{ secrets.TEST_SERVER_DB_PASSWORD }}
           
-          SLAVE_DB_URL=${{ secrets.TEST_SERVER_DB_URL }}
+          SLAVE_DB_URL=${{ secrets.TEST_SERVER_READER_DB_URL }}
           SLAVE_DB_USERNAME=${{ secrets.TEST_SERVER_DB_USERNAME }}
           SLAVE_DB_PASSWORD=${{ secrets.TEST_SERVER_DB_PASSWORD }}
           DDL_AUTO=${{ secrets.DDL_AUTO }}
