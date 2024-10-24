@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Layout = styled.div`
   display: flex;
@@ -47,4 +47,10 @@ export const Item = styled.li<{ $isChecked: boolean }>`
     background-color: ${({ theme }) => theme.color.primary[700]};
     color: ${({ theme }) => theme.color.black[10]};
   }
+`;
+
+export const CustomInputMessage = css`
+  top: 4rem;
+
+  font-size: 1rem;
 `;

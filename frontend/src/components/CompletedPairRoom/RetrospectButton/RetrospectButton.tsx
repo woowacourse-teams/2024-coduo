@@ -18,8 +18,19 @@ const RetrospectButton = ({ accessCode }: RetrospectButtonProps) => {
 
   const { userStatus } = useUserStore();
 
-  const { isUserInPairRoom } = useGetUserIsInPairRoom(accessCode);
-  const { isUserRetrospectExist } = useGetUserRetrospectExists(accessCode);
+  const { isUserInPairRoom, isUserInPairRoomFetching } = useGetUserIsInPairRoom(accessCode);
+  const { isUserRetrospectExist, isUserRetrospectExistsFetching } = useGetUserRetrospectExists(accessCode);
+
+  if (isUserInPairRoomFetching || isUserRetrospectExistsFetching) {
+    return (
+      <S.Layout>
+        <Button size="lg" disabled={true}>
+          회고 작성
+        </Button>
+        <S.ButtonPrompt>잠시만 기다려주세요...</S.ButtonPrompt>
+      </S.Layout>
+    );
+  }
 
   if (userStatus !== 'SIGNED_IN' || !isUserInPairRoom)
     return (

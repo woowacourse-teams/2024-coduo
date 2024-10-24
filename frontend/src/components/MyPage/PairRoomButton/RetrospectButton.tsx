@@ -44,15 +44,15 @@ const RetrospectButton = ({ accessCode, answer }: RetrospectButtonProps) => {
   return (
     <S.Layout>
       <S.LinkWrapper to={`/room/${accessCode}/retrospect`} state={{ valid: true }}>
-        <S.PairRoomButton $status="IN_PROGRESS">
+        <S.PairRoomButton $status="IN_PROGRESS" $color="primary">
           <S.RoleTextContainer>
-            <S.RoleText $status="IN_PROGRESS">
+            <S.RoleText $status="IN_PROGRESS" $color="primary">
               <span>{accessCode}</span>
               {splitAnswer(answer)}
             </S.RoleText>
           </S.RoleTextContainer>
           <S.ConnectText>
-            더보기
+            보기
             <IoIosArrowForward size="1.8rem" />
           </S.ConnectText>
         </S.PairRoomButton>

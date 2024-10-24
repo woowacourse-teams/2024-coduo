@@ -1,5 +1,3 @@
-import { FaFilter } from 'react-icons/fa';
-
 import { Modal } from '@/components/common/Modal';
 import CategoryItem from '@/components/CompletedPairRoom/ReferenceCard/CategoryManagementModal/CategoryItem/CategoryItem';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
@@ -26,7 +24,6 @@ const CategoryManagementModal = ({
     <Modal isOpen={isOpen} close={closeModal} size="45rem">
       <Modal.Header>
         <S.Header>
-          <FaFilter />
           <p>카테고리 선택</p>
         </S.Header>
       </Modal.Header>

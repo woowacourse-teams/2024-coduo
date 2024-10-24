@@ -54,7 +54,7 @@ export const Label = styled.label`
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
 
-export const Message = styled.p<{ $height: string; $status: InputStatus }>`
+export const Message = styled.p<{ $css?: ReturnType<typeof css>; $height: string; $status: InputStatus }>`
   ${({ $status }) => messageStatusStyles[$status]};
   position: absolute;
   top: ${({ $height }) => $height};
@@ -63,6 +63,8 @@ export const Message = styled.p<{ $height: string; $status: InputStatus }>`
   margin-left: 0.2rem;
 
   font-size: ${({ theme }) => theme.fontSize.sm};
+
+  ${({ $css }) => $css}
 `;
 
 export const Input = styled.input<{

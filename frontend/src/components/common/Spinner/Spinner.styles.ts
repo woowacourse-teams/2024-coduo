@@ -19,6 +19,15 @@ const spinnerSizes = {
   xl: '16rem',
 };
 
+export const Layout = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: fit-content;
+  height: fit-content;
+`;
+
 export const Spinner = styled.div<{ $size: SpinnerSize }>`
   display: flex;
   justify-content: center;

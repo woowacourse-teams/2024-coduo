@@ -22,7 +22,7 @@ const PrivateRoutes = () => {
       return;
     }
 
-    const { exists } = await getPairRoomExists(accessCode);
+    const { exists } = await getPairRoomExists(accessCode || '');
 
     if (!exists) {
       setIsValid(false);
