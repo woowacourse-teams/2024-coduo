@@ -1,7 +1,11 @@
 package site.coduo.sync.controller;
 
+import java.io.IOException;
+
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -25,52 +29,58 @@ public class SseExceptionHandler {
     @ExceptionHandler(DuplicateTimestampException.class)
     public ResponseEntity<ApiErrorResponse> handleDuplicateTimestampException(final DuplicateTimestampException e) {
         log.warn(e.getMessage());
-        return ResponseEntity.status(SseApiError.TIMER_START_FAILED.getHttpStatus())
-                .body(new ApiErrorResponse(SseApiError.TIMER_START_FAILED.getMessage()));
+        return buildErrorResponse(SseApiError.TIMER_START_FAILED);
     }
 
     @ExceptionHandler(NotFoundScheduledFutureException.class)
     public ResponseEntity<ApiErrorResponse> handleNotFoundScheduledFutureException(
             final NotFoundScheduledFutureException e) {
         log.warn(e.getMessage());
-        return ResponseEntity.status(SseApiError.TIMER_STOP_FAILED.getHttpStatus())
-                .body(new ApiErrorResponse(SseApiError.TIMER_STOP_FAILED.getMessage()));
+        return buildErrorResponse(SseApiError.TIMER_STOP_FAILED);
     }
 
     @ExceptionHandler(NotFoundSseConnectionException.class)
     public ResponseEntity<ApiErrorResponse> handleNotFoundSseConnectionException(
             final NotFoundSseConnectionException e) {
         log.warn(e.getMessage());
-        return ResponseEntity.status(SseApiError.CONNECTION_NOT_FOUND.getHttpStatus())
-                .body(new ApiErrorResponse(SseApiError.CONNECTION_NOT_FOUND.getMessage()));
+        return buildErrorResponse(SseApiError.CONNECTION_NOT_FOUND);
     }
 
     @ExceptionHandler(NotFoundTimeStampException.class)
     public ResponseEntity<ApiErrorResponse> handleNotFoundTimeStampException(final NotFoundTimeStampException e) {
         log.warn(e.getMessage());
-        return ResponseEntity.status(SseApiError.TIMER_STOP_FAILED.getHttpStatus())
-                .body(new ApiErrorResponse(SseApiError.TIMER_STOP_FAILED.getMessage()));
+        return buildErrorResponse(SseApiError.TIMER_STOP_FAILED);
     }
 
     @ExceptionHandler(SseConnectionDuplicationException.class)
     public ResponseEntity<ApiErrorResponse> handleSseConnectionDuplicationException(
             final SseConnectionDuplicationException e) {
         log.warn(e.getMessage());
-        return ResponseEntity.status(SseApiError.CONNECTION_DUPLICATED.getHttpStatus())
-                .body(new ApiErrorResponse(SseApiError.CONNECTION_DUPLICATED.getMessage()));
+        return buildErrorResponse(SseApiError.CONNECTION_DUPLICATED);
     }
 
     @ExceptionHandler(SseConnectionFailureException.class)
     public ResponseEntity<ApiErrorResponse> handleSseConnectionFailureException(final SseConnectionFailureException e) {
         log.warn(e.getMessage());
-        return ResponseEntity.status(SseApiError.CONNECTION_FAILED.getHttpStatus())
-                .body(new ApiErrorResponse(SseApiError.CONNECTION_FAILED.getMessage()));
+        return buildErrorResponse(SseApiError.CONNECTION_FAILED);
     }
 
     @ExceptionHandler(SyncException.class)
     public ResponseEntity<ApiErrorResponse> handleSyncException(final SyncException e) {
         log.warn(e.getMessage());
-        return ResponseEntity.status(SseApiError.SYNC_FAILED.getHttpStatus())
-                .body(new ApiErrorResponse(SseApiError.SYNC_FAILED.getMessage()));
+        return buildErrorResponse(SseApiError.SYNC_FAILED);
+    }
+
+    @ExceptionHandler(IOException.class)
+    public void handleIOException(final IOException e) {
+        log.info(e.getMessage());
+    }
+
+    private ResponseEntity<ApiErrorResponse> buildErrorResponse(final SseApiError error) {
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        return ResponseEntity.status(error.getHttpStatus())
+                .headers(headers)
+                .body(new ApiErrorResponse(error.getMessage()));
     }
 }
