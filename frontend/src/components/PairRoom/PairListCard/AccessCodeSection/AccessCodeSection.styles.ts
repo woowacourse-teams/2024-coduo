@@ -16,14 +16,14 @@ export const Layout = styled.div<{ $isOpen: boolean }>`
   cursor: pointer;
 `;
 
-export const RoomCodeWrapper = styled.div`
+export const AccessCodeWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 1.2rem;
 `;
 
-export const RoomCodeTitle = styled.span`
+export const AccessCodeTitle = styled.span`
   height: 2rem;
 
   color: ${({ theme }) => theme.color.black[70]};
@@ -31,6 +31,6 @@ export const RoomCodeTitle = styled.span`
   font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;
 
-export const RoomCode = styled.span`
+export const AccessCode = styled.span`
   font-size: ${({ theme }) => theme.fontSize.md};
 `;

@@ -26,5 +26,11 @@ export const Layout = styled.button<{ disabled: boolean }>`
 export const StyledTooltip = styled(Tooltip)`
   display: flex;
   align-items: center;
+  gap: 1.2rem;
+`;
+
+export const TextWrapper = styled.p`
+  display: flex;
+  align-items: center;
   gap: 0.8rem;
 `;

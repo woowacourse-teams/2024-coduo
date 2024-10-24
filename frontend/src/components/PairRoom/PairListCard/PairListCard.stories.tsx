@@ -13,7 +13,7 @@ type Story = StoryObj<typeof PairListCard>;
 
 export const Default: Story = {
   args: {
-    roomCode: 'IUUIASDFJK',
+    accessCode: 'IUUIASDFJK',
     driver: '퍼렁',
     navigator: '포롱',
   },
