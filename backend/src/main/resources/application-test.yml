@@ -37,6 +37,11 @@ server:
   tomcat:
     mbeanregistry:
       enabled: true
+    threads:
+      max: 150
+    max-connections: 6000
+    accept-count: 200
+
 oauth:
   github:
     client-id: ${CLIENT_ID}
