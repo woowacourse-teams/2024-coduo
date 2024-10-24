@@ -8,6 +8,7 @@ import { QUERY_KEYS } from '@/constants/queryKeys';
 
 export const useAddCategory = (onSuccess?: () => void) => {
   const queryClient = useQueryClient();
+
   const { addToast } = useToastStore();
 
   return useMutation({

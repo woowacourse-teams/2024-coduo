@@ -2,17 +2,19 @@ import styled, { css } from 'styled-components';
 
 import type { InputStatus } from '@/components/common/Input/Input.type';
 
-interface InputProps {
-  $status: InputStatus;
-  $height: string;
-  $css?: ReturnType<typeof css>;
-}
+const messageStatusStyles = {
+  DEFAULT: css`
+    color: ${({ theme }) => theme.color.black[80]};
+  `,
+  ERROR: css`
+    color: ${({ theme }) => theme.color.danger[600]};
+  `,
+  SUCCESS: css`
+    color: ${({ theme }) => theme.color.success[700]};
+  `,
+};
 
-interface LayoutProps {
-  $width: string;
-}
-
-const inputStatusCss = {
+const inputStatusStyles = {
   DEFAULT: css`
     border: 1px solid ${({ theme }) => theme.color.black[40]};
 
@@ -30,23 +32,12 @@ const inputStatusCss = {
   `,
 };
 
-const inputStatusMessageCss = {
-  DEFAULT: css`
-    color: ${({ theme }) => theme.color.black[80]};
-  `,
-  ERROR: css`
-    color: ${({ theme }) => theme.color.danger[600]};
-  `,
-
-  SUCCESS: css`
-    color: ${({ theme }) => theme.color.success[700]};
-  `,
-};
-
-export const Layout = styled.div<LayoutProps>`
+export const Layout = styled.div<{ $width: string }>`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+
+  position: relative;
 
   width: ${({ $width }) => $width};
 `;
@@ -57,17 +48,27 @@ export const Label = styled.label`
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
 
-export const Message = styled.p<{ $status: InputStatus }>`
+export const Message = styled.p<{ $height: string; $status: InputStatus }>`
+  ${({ $status }) => messageStatusStyles[$status]};
+  position: absolute;
+  top: ${({ $height }) => $height};
+
+  margin-top: 0.6rem;
+  margin-left: 0.2rem;
+
   font-size: ${({ theme }) => theme.fontSize.sm};
-  ${({ $status }) => inputStatusMessageCss[$status]};
 `;
 
-export const Input = styled.input<InputProps>`
-  ${({ $status }) => inputStatusCss[$status]};
-  ${({ $status }) => inputStatusCss[$status]};
-  width: 100%;
+export const Input = styled.input<{
+  $css?: ReturnType<typeof css>;
+  $width: string;
+  $height: string;
+  $status: InputStatus;
+}>`
+  ${({ $status }) => inputStatusStyles[$status]};
+  width: ${({ $width }) => $width};
   height: ${({ $height }) => $height};
-  padding: 0 1rem;
+  padding: 0 1.2rem;
   border-radius: 0.5rem;
 
   font-size: ${({ theme }) => theme.fontSize.md};
@@ -88,5 +89,5 @@ export const Input = styled.input<InputProps>`
     background-color: ${({ theme }) => theme.color.black[30]};
   }
 
-  ${(props) => props.$css}
+  ${({ $css }) => $css}
 `;

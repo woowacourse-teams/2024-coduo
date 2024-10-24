@@ -1,11 +1,11 @@
-import Reference from '@/components/CompletedPairRoom/ReferenceCard/ReferenceList/Reference/Reference';
+import { Link } from 'react-router-dom';
 
-import type { Link } from '@/apis/referenceLink';
+import type { Reference } from '@/apis/referenceLink';
 
 import * as S from './ReferenceList.styles';
 
 interface ReferenceListProps {
-  references?: Link[];
+  references?: Reference[];
 }
 
 const ReferenceList = ({ references }: ReferenceListProps) => {
@@ -16,13 +16,23 @@ const ReferenceList = ({ references }: ReferenceListProps) => {
       <S.List $columns={references.length}>
         {references.map((reference) => {
           return (
-            <Reference
-              key={reference.id}
-              url={reference.url}
-              image={reference.image}
-              title={reference.openGraphTitle || reference.headTitle}
-              description={reference.description}
-            />
+            <S.Item key={reference.id}>
+              <Link to={reference.url} target="_blank">
+                {reference.image ? (
+                  <S.Image alt="link" src={reference.image} />
+                ) : (
+                  <S.EmptyImage>
+                    이미지가
+                    <br />
+                    없습니다
+                  </S.EmptyImage>
+                )}
+                <S.Box>
+                  <S.Title>{reference.openGraphTitle || reference.headTitle}</S.Title>
+                  <S.Content>{reference.description}</S.Content>
+                </S.Box>
+              </Link>
+            </S.Item>
           );
         })}
       </S.List>

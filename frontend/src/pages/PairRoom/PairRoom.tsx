@@ -20,7 +20,6 @@ import * as S from './PairRoom.styles';
 const PairRoom = () => {
   const navigate = useNavigate();
   const { accessCode } = useParams();
-
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
   const [isCardOpen, setIsCardOpen] = useState(false);

@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const Layout = styled.div`
-  min-width: 49rem;
+  width: 50%;
+  min-width: 45rem;
 `;
 
 export const Body = styled.div`

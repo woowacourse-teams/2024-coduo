@@ -4,7 +4,7 @@ import { ERROR_MESSAGES } from '@/constants/message';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-export interface Link {
+export interface Reference {
   id: number;
   url: string;
   headTitle: string;
@@ -19,7 +19,7 @@ interface GetReferenceLinksRequest {
   categoryId: string;
 }
 
-export const getReferenceLinks = async ({ accessCode, categoryId }: GetReferenceLinksRequest): Promise<Link[]> => {
+export const getReferenceLinks = async ({ accessCode, categoryId }: GetReferenceLinksRequest): Promise<Reference[]> => {
   const categoryParamsUrl = categoryId === '0' ? `` : `?categoryId=${categoryId}`;
 
   const response = await fetcher.get({
@@ -29,7 +29,7 @@ export const getReferenceLinks = async ({ accessCode, categoryId }: GetReference
 
   return await response.json();
 };
-    
+
 interface AddReferenceLinkRequest {
   url: string;
   accessCode: string;

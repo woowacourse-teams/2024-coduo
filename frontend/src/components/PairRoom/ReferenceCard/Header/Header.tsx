@@ -39,7 +39,7 @@ const Header = ({
         />
       </S.Container>
       <Button
-        css={S.buttonStyles}
+        $css={S.buttonStyles}
         aria-label={`현재 카테고리는 ${selectedFilteringCategoryName} 입니다. 클릭하시면 카테고리 선택 모달이 열립니다.`}
         size="sm"
         rounded={true}

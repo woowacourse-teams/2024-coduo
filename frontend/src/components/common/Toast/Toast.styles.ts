@@ -51,6 +51,7 @@ const backgroundMapper: Record<Status, RuleSet<object>> = {
 export const Layout = styled.div<{ $isOpen: boolean; $isPush: boolean; $status: Status }>`
   display: flex;
   align-items: center;
+  gap: 0.8rem;
 
   width: 30rem;
   min-height: 5rem;

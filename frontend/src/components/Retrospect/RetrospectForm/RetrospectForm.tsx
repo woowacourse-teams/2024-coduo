@@ -38,7 +38,7 @@ const RetrospectForm = ({ accessCode }: RetrospectFormProps) => {
           </Question>
         ))}
 
-        <Button type="submit" css={S.SubmitButton}>
+        <Button type="submit" $css={S.SubmitButton}>
           작성 완료
         </Button>
       </S.LayoutForm>

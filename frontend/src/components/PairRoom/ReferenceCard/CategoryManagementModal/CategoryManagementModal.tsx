@@ -1,18 +1,16 @@
-import { FaFilter } from 'react-icons/fa';
 import { LuPlus } from 'react-icons/lu';
 
 import Button from '@/components/common/Button/Button';
 import Input from '@/components/common/Input/Input';
-import { Message } from '@/components/common/Input/Input.styles';
 import { Modal } from '@/components/common/Modal';
-import CategoriesEditor from '@/components/PairRoom/ReferenceCard/CategoryManagementModal/CategoriesEditor/CategoriesEditor';
+import CategoryItem from '@/components/PairRoom/ReferenceCard/CategoryManagementModal/CategoryItem/CategoryItem';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 
 import useInput from '@/hooks/common/useInput';
 
 import { useAddCategory } from '@/queries/PairRoom/category/mutation';
 
-import { validateCategory } from '@/validations/validateCategory';
+import { validateCategoryName } from '@/validations/validateCategory';
 
 import * as S from './CategoryManagementModal.styles';
 
@@ -36,49 +34,56 @@ const CategoryManagementModal = ({
   handleSelectCategory,
 }: CategoryManagementModalProps) => {
   const { value, handleChange, resetValue, message, status } = useInput('');
+
   const addCategory = useAddCategory();
 
-  const closeCategoryManagementModal = () => {
+  const handleAddCategorySubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (status === 'ERROR') return;
+
+    addCategory.mutateAsync({ category: value, accessCode }).then(() => resetValue());
+  };
+
+  const handleCloseModal = () => {
     resetValue();
     closeModal();
   };
 
-  const handleAddCategorySubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    if (status === 'ERROR') return;
-    addCategory.mutateAsync({ category: value, accessCode }).then(() => resetValue());
-  };
-
   return (
-    <Modal isOpen={isOpen} close={closeCategoryManagementModal} size="45rem">
+    <Modal isOpen={isOpen} close={handleCloseModal} size="50rem">
       <Modal.Header>
         <S.Header>
-          <FaFilter />
-          <p>카테고리 선택</p>
+          <p>카테고리 선택하기</p>
         </S.Header>
       </Modal.Header>
-      <Modal.CloseButton close={closeCategoryManagementModal} />
       <Modal.Body>
-        <CategoriesEditor
-          categories={categories}
-          selectedCategory={selectedCategory}
-          handleSelectCategory={handleSelectCategory}
-          accessCode={accessCode}
-          closeModal={closeCategoryManagementModal}
-        />
+        <S.CategoryList>
+          {categories.map((category) => (
+            <CategoryItem
+              key={category.id}
+              isChecked={category.id === selectedCategory}
+              accessCode={accessCode}
+              closeModal={handleCloseModal}
+              categoryId={category.id}
+              categoryName={category.value}
+              handleSelectCategory={handleSelectCategory}
+            />
+          ))}
+        </S.CategoryList>
       </Modal.Body>
-
-      <S.Footer onSubmit={handleAddCategorySubmit}>
-        <S.AddNewCategoryInput>
+      <S.Form onSubmit={handleAddCategorySubmit}>
+        <S.InputContainer>
           <Input
             value={value}
-            placeholder="+ 새로운 카테고리를 입력해주세요."
-            onChange={(event) => handleChange(event, validateCategory(event.target.value, isCategoryExist))}
+            placeholder="추가할 카테고리를 입력해 주세요."
+            height="4.4rem"
             status={status}
-            $css={S.inputStyles}
+            message={message}
+            onChange={(event) => handleChange(event, validateCategoryName(event.target.value, isCategoryExist))}
           />
           <Button
-            css={S.buttonStyles}
+            $css={S.buttonStyles}
             type="submit"
             size="sm"
             rounded={true}
@@ -86,9 +91,9 @@ const CategoryManagementModal = ({
           >
             <LuPlus size="1.6rem" />
           </Button>
-        </S.AddNewCategoryInput>
-        <Message $status={status}>{message}</Message>
-      </S.Footer>
+        </S.InputContainer>
+      </S.Form>
+      <Modal.CloseButton close={handleCloseModal} />
     </Modal>
   );
 };

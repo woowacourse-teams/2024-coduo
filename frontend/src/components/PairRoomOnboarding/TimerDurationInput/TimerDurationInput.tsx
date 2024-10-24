@@ -70,8 +70,9 @@ const TimerDurationInput = ({ timerDuration, onTimerDuration }: TimerDurationInp
             <Input
               autoFocus
               aria-label="타이머 시간을 분 단위로 입력해 주세요."
-              width="20rem"
               $css={S.inputStyles}
+              width="20rem"
+              height="4rem"
               value={timerDuration}
               placeholder="타이머 시간 (분)"
               status={!validateTimerDuration(timerDuration) ? 'ERROR' : 'DEFAULT'}
