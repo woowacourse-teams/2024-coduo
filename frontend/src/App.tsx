@@ -17,7 +17,8 @@ import Main from '@/pages/Main/Main';
 import MyPage from '@/pages/MyPage/MyPage';
 import PairRoomOnboarding from '@/pages/PairRoomOnboarding/PairRoomOnboarding';
 import PrivateRoutes from '@/pages/PrivateRoutes';
-import Retrospect from '@/pages/Retrospect/Retrospect';
+import RetrospectForm from '@/pages/RetrospectForm/RetrospectForm';
+import RetrospectView from '@/pages/RetrospectView/RetrospectView';
 import SignUp from '@/pages/SignUp/SignUp';
 
 import HowToPair from '@/components/Landing/HowToPair/HowToPair';
@@ -100,11 +101,11 @@ const App = () => {
             },
             {
               path: ':accessCode/retrospect',
-              element: <Retrospect />,
+              element: <RetrospectView />,
             },
             {
               path: ':accessCode/retrospectForm',
-              element: <Retrospect readOnly={false} />,
+              element: <RetrospectForm />,
             },
           ],
         },
