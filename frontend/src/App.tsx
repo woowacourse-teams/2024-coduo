@@ -73,11 +73,7 @@ const App = () => {
         },
         {
           path: 'onboarding',
-          element: (
-            <Suspense fallback={<Loading />}>
-              <PairRoomOnboarding />
-            </Suspense>
-          ),
+          element: <PairRoomOnboarding />,
         },
         {
           path: 'room',
@@ -101,11 +97,19 @@ const App = () => {
             },
             {
               path: ':accessCode/retrospect',
-              element: <RetrospectView />,
+              element: (
+                <Suspense fallback={<Loading />}>
+                  <RetrospectView />
+                </Suspense>
+              ),
             },
             {
               path: ':accessCode/retrospectForm',
-              element: <RetrospectForm />,
+              element: (
+                <Suspense fallback={<Loading />}>
+                  <RetrospectForm />
+                </Suspense>
+              ),
             },
           ],
         },
