@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 
-import * as S from '@/components/_common/Dropdown/Dropdown/Dropdown.styles';
-import HiddenDropdown from '@/components/_common/Dropdown/HiddenDropdown/HiddenDropdown';
+import * as S from '@/components/_common/Dropdown/Dropdown.styles';
+import HiddenDropdown from '@/components/_common/Dropdown/HiddenDropdown';
 
 import useClickOutside from '@/hooks/_common/customEvent/useClickOutside';
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import Dropdown from '@/components/_common/Dropdown/Dropdown/Dropdown';
+import Dropdown from '@/components/_common/Dropdown/Dropdown';
 import HiddenMessage from '@/components/_common/HiddenMessage/HiddenMessage';
 import InformationBox from '@/components/PairRoomOnboarding/InformationBox/InformationBox';
 

@@ -2,7 +2,7 @@ import { RiArrowDropDownLine } from 'react-icons/ri';
 import styled from 'styled-components';
 
 import Button from '@/components/_common/Button/Button';
-import { Direction } from '@/components/_common/Dropdown/Dropdown/Dropdown';
+import { Direction } from '@/components/_common/Dropdown/Dropdown';
 
 import { Z_INDEX } from '@/constants/style';
 

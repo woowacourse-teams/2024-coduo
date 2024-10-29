@@ -1,4 +1,4 @@
-import { Option } from '@/components/_common/Dropdown/Dropdown/Dropdown';
+import { Option } from '@/components/_common/Dropdown/Dropdown';
 
 interface HiddenDropdownProps extends React.HTMLAttributes<HTMLSelectElement> {
   options?: string[];
