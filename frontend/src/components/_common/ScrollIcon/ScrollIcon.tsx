@@ -1,4 +1,4 @@
-import useScrollIcon from '@/hooks/_common/useScrollIcon';
+import useScrollIcon from '@/hooks/Landing/useScrollIcon';
 
 import * as S from './ScrollIcon.styles';
 

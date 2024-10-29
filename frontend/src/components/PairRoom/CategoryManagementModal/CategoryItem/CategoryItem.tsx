@@ -1,7 +1,7 @@
 import { CheckBoxChecked, CheckBoxUnchecked } from '@/assets';
 
 import Input from '@/components/_common/Input/Input';
-import IconButton from '@/components/PairRoom/ReferenceCard/CategoryManagementModal/IconButton/IconButton';
+import IconButton from '@/components/PairRoom/CategoryManagementModal/IconButton/IconButton';
 
 import useToastStore from '@/stores/toastStore';
 

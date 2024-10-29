@@ -7,7 +7,7 @@ import Question from '@/components/Retrospect/Question/Question';
 import TextArea from '@/components/Retrospect/Textarea/Textarea';
 
 import useModal from '@/hooks/_common/useModal';
-import usePreventPageRefresh from '@/hooks/_common/usePreventPageRefresh';
+import usePreventPageRefresh from '@/hooks/_common/customEvent/usePreventPageRefresh';
 import useInputAnswer from '@/hooks/Retrospect/useInputAnswer';
 
 import { RETROSPECT_QUESTIONS } from '@/constants/retrospect';

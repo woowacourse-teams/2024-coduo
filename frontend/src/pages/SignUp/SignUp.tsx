@@ -8,8 +8,8 @@ import Input from '@/components/_common/Input/Input';
 
 import useUserStore from '@/stores/userStore';
 
+import useSignUpHandler from '@/hooks/_common/member/useSignUpHandler';
 import useInput from '@/hooks/_common/useInput';
-import useSignUpHandler from '@/hooks/member/useSignUpHandler';
 
 import { validateName } from '@/validations/validatePairName';
 

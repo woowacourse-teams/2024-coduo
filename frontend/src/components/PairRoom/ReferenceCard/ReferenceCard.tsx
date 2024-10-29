@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
+import CategoryManagementModal from '@/components/PairRoom/CategoryManagementModal/CategoryManagementModal';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import AddReferenceForm from '@/components/PairRoom/ReferenceCard/AddReferenceForm/AddReferenceForm';
-import CategoryManagementModal from '@/components/PairRoom/ReferenceCard/CategoryManagementModal/CategoryManagementModal';
 import Header from '@/components/PairRoom/ReferenceCard/Header/Header';
 import ReferenceList from '@/components/PairRoom/ReferenceCard/ReferenceList/ReferenceList';
 

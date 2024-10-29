@@ -1,13 +1,13 @@
 import * as S from '@/pages/Main/Main.styles';
 
-import { ScrollAnimationContainer } from '@/components/_common/Animation/ScrollAnimationContainer';
-import WaveBackground from '@/components/_common/Background/WaveBackground';
 import Button from '@/components/_common/Button/Button';
+import { ScrollAnimationContainer } from '@/components/_common/ScrollAnimationContainer/ScrollAnimationContainer';
 import PairRoomCreateModal from '@/components/Main/PairRoomCreateModal/PairRoomCreateModal';
 import PairRoomEntryModal from '@/components/Main/PairRoomEntryModal/PairRoomEntryModal';
+import WaveBackground from '@/components/Main/WaveBackground/WaveBackground';
 
 import useModal from '@/hooks/_common/useModal';
-import usePreventBackNavigation from '@/hooks/_common/usePreventBackNavigation';
+import usePreventBackNavigation from '@/hooks/_common/customEvent/usePreventBackNavigation';
 
 const Main = () => {
   usePreventBackNavigation();

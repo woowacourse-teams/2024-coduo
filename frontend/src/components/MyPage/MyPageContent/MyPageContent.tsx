@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
 import { CurrentTabType } from '@/pages/MyPage/MyPage.type';
-import ListLayout from '@/pages/MyPage/MyPageContent/ListLayout/ListLayout';
-import MyPageTab from '@/pages/MyPage/MyPageTab/MyPageTab';
 
+import ListLayout from '@/components/MyPage/ListLayout/ListLayout';
+import MyPageTab from '@/components/MyPage/MyPageTab/MyPageTab';
 import PairRoomButton from '@/components/MyPage/PairRoomButton/PairRoomButton';
 import RetrospectButton from '@/components/MyPage/PairRoomButton/RetrospectButton';
 

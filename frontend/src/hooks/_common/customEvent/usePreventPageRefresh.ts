@@ -4,7 +4,6 @@ const usePreventPageRefresh = () => {
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
       event.preventDefault();
-      event.returnValue = '';
     };
 
     window.addEventListener('beforeunload', handleBeforeUnload);

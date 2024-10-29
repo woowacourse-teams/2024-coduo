@@ -1,8 +1,7 @@
 import { IoIosArrowForward } from 'react-icons/io';
 
-import MyPageContent from '@/pages/MyPage/MyPageContent/MyPageContent';
-
 import ConfirmModal from '@/components/_common/ConfirmModal/ConfirmModal';
+import MyPageContent from '@/components/MyPage/MyPageContent/MyPageContent';
 
 import useUserStore from '@/stores/userStore';
 

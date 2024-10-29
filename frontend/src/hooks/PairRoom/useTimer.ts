@@ -9,7 +9,7 @@ import useToastStore from '@/stores/toastStore';
 
 import { getSSEConnection, startTimer, stopTimer } from '@/apis/timer';
 
-import useNotification from '@/hooks/_common/useNotification';
+import useNotification from '@/hooks/PairRoom/useNotification';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 

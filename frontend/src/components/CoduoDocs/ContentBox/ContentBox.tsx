@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { Content } from '@/pages/CoduoDocs/CoduoDocs.type';
 
-import * as S from './FloatingSidebar.styles';
+import * as S from './ContentBox.styles';
 
 interface ContentBoxProps {
   title: string;

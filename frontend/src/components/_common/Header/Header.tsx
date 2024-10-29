@@ -6,8 +6,8 @@ import { LogoIcon } from '@/assets';
 
 import useUserStore from '@/stores/userStore';
 
-import useSignInHandler from '@/hooks/member/useSignInHandler';
-import useSignOutHandler from '@/hooks/member/useSignOutHandler';
+import useSignInHandler from '@/hooks/_common/member/useSignInHandler';
+import useSignOutHandler from '@/hooks/_common/member/useSignOutHandler';
 
 import { theme } from '@/styles/theme';
 

@@ -5,16 +5,16 @@ import { GithubLogoWhite, LogoIconWithTitle } from '@/assets';
 
 import * as S from '@/pages/Landing/Landing.styles';
 
-import { ScrollAnimationContainer } from '@/components/_common/Animation/ScrollAnimationContainer';
 import Button from '@/components/_common/Button/Button';
+import { ScrollAnimationContainer } from '@/components/_common/ScrollAnimationContainer/ScrollAnimationContainer';
 import ScrollIcon, { TargetSection } from '@/components/_common/ScrollIcon/ScrollIcon';
 import HowToPair from '@/components/Landing/HowToPair/HowToPair';
 
 import useUserStore from '@/stores/userStore';
 
-import usePreventBackNavigation from '@/hooks/_common/usePreventBackNavigation';
-import useTitleTime from '@/hooks/_common/useTitleTime';
-import useSignInHandler from '@/hooks/member/useSignInHandler';
+import usePreventBackNavigation from '@/hooks/_common/customEvent/usePreventBackNavigation';
+import useSignInHandler from '@/hooks/_common/member/useSignInHandler';
+import useTitleTime from '@/hooks/PairRoom/useTitleTime';
 
 const Landing = () => {
   const navigate = useNavigate();

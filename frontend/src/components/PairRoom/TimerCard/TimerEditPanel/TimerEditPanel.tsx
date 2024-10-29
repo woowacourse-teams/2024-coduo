@@ -6,7 +6,7 @@ import Input from '@/components/_common/Input/Input';
 
 import useToastStore from '@/stores/toastStore';
 
-import useClickOutside from '@/hooks/_common/useClickOutside';
+import useClickOutside from '@/hooks/_common/customEvent/useClickOutside';
 import useInput from '@/hooks/_common/useInput';
 import useModal from '@/hooks/_common/useModal';
 

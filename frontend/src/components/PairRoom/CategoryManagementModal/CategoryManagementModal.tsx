@@ -3,7 +3,7 @@ import { LuPlus } from 'react-icons/lu';
 import Button from '@/components/_common/Button/Button';
 import Input from '@/components/_common/Input/Input';
 import { Modal } from '@/components/_common/Modal';
-import CategoryItem from '@/components/PairRoom/ReferenceCard/CategoryManagementModal/CategoryItem/CategoryItem';
+import CategoryItem from '@/components/PairRoom/CategoryManagementModal/CategoryItem/CategoryItem';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 
 import useInput from '@/hooks/_common/useInput';
