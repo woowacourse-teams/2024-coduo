@@ -6,8 +6,8 @@ import PairRoomCreateModal from '@/components/Main/PairRoomCreateModal/PairRoomC
 import PairRoomEntryModal from '@/components/Main/PairRoomEntryModal/PairRoomEntryModal';
 import WaveBackground from '@/components/Main/WaveBackground/WaveBackground';
 
-import useModal from '@/hooks/_common/useModal';
 import usePreventBackNavigation from '@/hooks/_common/customEvent/usePreventBackNavigation';
+import useModal from '@/hooks/_common/useModal';
 
 const Main = () => {
   usePreventBackNavigation();

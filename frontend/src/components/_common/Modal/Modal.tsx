@@ -1,9 +1,9 @@
 import { createPortal } from 'react-dom';
 
-import useAriaTrap from '@/hooks/_common/useAriaTrap';
 import useEscapeKey from '@/hooks/_common/customEvent/useEscapeKey';
 import useFocusTrap from '@/hooks/_common/customEvent/useFocusTrap';
 import usePreventScroll from '@/hooks/_common/customEvent/usePreventScroll';
+import useAriaTrap from '@/hooks/_common/useAriaTrap';
 
 import * as S from './Modal.styles';
 import type { Position, Size, BackdropType } from './Modal.type';
