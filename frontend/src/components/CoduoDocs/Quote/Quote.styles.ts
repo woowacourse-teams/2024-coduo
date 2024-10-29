@@ -9,19 +9,19 @@ export const Container = styled.div`
 `;
 
 export const QuoteBar = styled.span`
-  color: ${({ theme }) => theme.color.black[50]};
+  color: ${({ theme }) => theme.color.black[500]};
   font-size: ${({ theme }) => theme.fontSize.h5};
   font-weight: ${({ theme }) => theme.fontWeight.extraBold};
 `;
 
 export const Content = styled.p`
-  color: ${({ theme }) => theme.color.black[90]};
+  color: ${({ theme }) => theme.color.black[900]};
   font-size: ${({ theme }) => theme.fontSize.base};
   font-weight: ${({ theme }) => theme.fontWeight.extraLight};
 `;
 
 export const TextLink = styled.a`
-  color: ${({ theme }) => theme.color.primary[700]};
+  color: ${({ theme }) => theme.color.primary[800]};
   font-size: ${({ theme }) => theme.fontSize.base};
   font-weight: ${({ theme }) => theme.fontWeight.semibold};
   text-decoration: underline;
@@ -29,6 +29,6 @@ export const TextLink = styled.a`
   transition: color 0.2s ease;
 
   &:hover {
-    color: ${({ theme }) => theme.color.primary[800]};
+    color: ${({ theme }) => theme.color.primary[900]};
   }
 `;

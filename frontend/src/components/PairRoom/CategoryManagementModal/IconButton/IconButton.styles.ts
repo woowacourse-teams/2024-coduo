@@ -10,7 +10,7 @@ export const Layout = styled.button`
   padding: 0.5rem;
   border-radius: 0.3rem;
 
-  color: ${({ theme }) => theme.color.primary[700]};
+  color: ${({ theme }) => theme.color.primary[800]};
   font-size: ${({ theme }) => theme.fontSize.base};
 
   transition: all 0.3s;
@@ -18,7 +18,7 @@ export const Layout = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ theme }) => theme.color.black[30]};
-    color: ${({ theme }) => theme.color.primary[800]};
+    background-color: ${({ theme }) => theme.color.black[300]};
+    color: ${({ theme }) => theme.color.primary[900]};
   }
 `;

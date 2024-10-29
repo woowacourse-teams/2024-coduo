@@ -16,7 +16,7 @@ export const Layout = styled.div`
 export const ProgressBar = styled.div.attrs<{ $progress: number }>(({ theme, $progress }) => ({
   style: {
     backgroundImage: `linear-gradient(white, white), 
-      conic-gradient(${theme.color.primary[500]} ${$progress}%, ${theme.color.black[30]} ${$progress}%)`,
+      conic-gradient(${theme.color.primary[600]} ${$progress}%, ${theme.color.black[300]} ${$progress}%)`,
   },
 }))`
   display: flex;
@@ -72,7 +72,7 @@ export const IconButton = styled.button`
 `;
 
 const iconStyle = css<{ $isActive: boolean }>`
-  color: ${({ $isActive, theme }) => ($isActive ? theme.color.secondary[500] : theme.color.black[50])};
+  color: ${({ $isActive, theme }) => ($isActive ? theme.color.secondary[500] : theme.color.black[500])};
 
   cursor: ${({ $isActive }) => ($isActive ? 'pointer' : 'default')};
 `;

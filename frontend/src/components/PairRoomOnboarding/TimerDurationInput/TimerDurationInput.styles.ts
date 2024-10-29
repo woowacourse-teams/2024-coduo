@@ -13,13 +13,13 @@ export const TitleContainer = styled.div`
 `;
 
 export const Title = styled.div`
-  color: ${({ theme }) => theme.color.primary[700]};
+  color: ${({ theme }) => theme.color.primary[800]};
   font-size: ${({ theme }) => theme.fontSize.h5};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
 
 export const SubTitle = styled.div`
-  color: ${({ theme }) => theme.color.primary[600]};
+  color: ${({ theme }) => theme.color.primary[700]};
   font-size: ${({ theme }) => theme.fontSize.lg};
   font-weight: ${({ theme }) => theme.fontWeight.normal};
 `;

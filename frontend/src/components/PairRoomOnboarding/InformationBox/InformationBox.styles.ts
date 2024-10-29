@@ -16,13 +16,13 @@ export const Title = styled.p`
   align-items: center;
   gap: 0.8rem;
 
-  color: ${({ theme }) => theme.color.primary[700]};
+  color: ${({ theme }) => theme.color.primary[800]};
   font-size: ${({ theme }) => theme.fontSize.base};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
 
 export const Description = styled.p`
-  color: ${({ theme }) => theme.color.black[70]};
+  color: ${({ theme }) => theme.color.black[700]};
   font-size: ${({ theme }) => theme.fontSize.md};
   font-weight: ${({ theme }) => theme.fontWeight.normal};
   line-height: 1.6;

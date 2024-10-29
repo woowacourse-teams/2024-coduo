@@ -16,7 +16,7 @@ type Story = StoryObj<typeof Header>;
 
 export const Default: Story = {
   args: {
-    icon: <IoPeople color={theme.color.primary[500]} />,
+    icon: <IoPeople color={theme.color.primary[600]} />,
     title: '제목',
     children: <div>추가 컨텐츠</div>,
   },

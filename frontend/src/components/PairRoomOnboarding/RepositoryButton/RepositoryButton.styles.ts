@@ -7,8 +7,8 @@ export const buttonStyles = css`
   border: 0;
   border-radius: 5px;
 
-  background: ${({ theme }) => theme.color.black[80]};
-  color: ${({ theme }) => theme.color.black[10]};
+  background: ${({ theme }) => theme.color.black[800]};
+  color: ${({ theme }) => theme.color.black[100]};
   font-size: ${({ theme }) => theme.fontSize.md};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
   text-align: right;
@@ -16,8 +16,8 @@ export const buttonStyles = css`
   &:hover {
     border: 0;
 
-    background: ${({ theme }) => theme.color.black[75]};
-    color: ${({ theme }) => theme.color.black[10]};
+    background: ${({ theme }) => theme.color.black[700]};
+    color: ${({ theme }) => theme.color.black[100]};
   }
 `;
 
@@ -52,11 +52,11 @@ export const RepositoryLink = styled(Link)`
   display: flex;
   align-items: center;
 
-  color: ${({ theme }) => theme.color.black[60]};
+  color: ${({ theme }) => theme.color.black[600]};
   font-size: ${({ theme }) => theme.fontSize.sm};
   text-decoration: underline;
 
   &:hover {
-    color: ${({ theme }) => theme.color.black[65]};
+    color: ${({ theme }) => theme.color.black[600]};
   }
 `;

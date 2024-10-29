@@ -13,8 +13,8 @@ interface ToolTipQuestionBoxProps {
 }
 
 const ToolTipQuestionBox = ({
-  color = theme.color.primary[800],
-  boxColor = theme.color.primary[800],
+  color = theme.color.primary[900],
+  boxColor = theme.color.primary[900],
   boxDirection = 'bottom',
   ...props
 }: ToolTipQuestionBoxProps) => {

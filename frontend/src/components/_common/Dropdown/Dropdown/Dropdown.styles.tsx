@@ -41,13 +41,13 @@ export const Layout = styled.div<{ $width: string; $height: string }>`
     font-size: ${({ theme }) => theme.fontSize.md};
 
     &:hover {
-      background-color: ${({ theme }) => theme.color.black[40]};
+      background-color: ${({ theme }) => theme.color.black[400]};
 
       transform: none;
     }
 
     &:active {
-      background-color: ${({ theme }) => theme.color.black[60]};
+      background-color: ${({ theme }) => theme.color.black[600]};
 
       transform: none;
     }
@@ -56,10 +56,10 @@ export const Layout = styled.div<{ $width: string; $height: string }>`
 
 export const OpenButton = styled(Button)<{ $isSelected: boolean; $isOpen: boolean }>`
   border: 1px solid
-    ${({ $isSelected, $isOpen, theme }) => ($isSelected || $isOpen ? theme.color.primary[700] : theme.color.black[50])};
+    ${({ $isSelected, $isOpen, theme }) => ($isSelected || $isOpen ? theme.color.primary[800] : theme.color.black[500])};
 
   background-color: white;
-  color: ${({ $isSelected, theme }) => ($isSelected ? theme.color.primary[700] : theme.color.black[50])};
+  color: ${({ $isSelected, theme }) => ($isSelected ? theme.color.primary[800] : theme.color.black[500])};
 `;
 
 export const Icon = styled(RiArrowDropDownLine)<{ $isOpen: boolean; $direction: Direction }>`
@@ -99,7 +99,7 @@ export const Item = styled(Button)`
   height: 4.8rem;
   border: none;
 
-  color: ${({ theme }) => theme.color.primary[700]};
+  color: ${({ theme }) => theme.color.primary[800]};
 
   &:hover {
     border: none;

@@ -11,7 +11,7 @@ export const Tab = styled.button<{ $isActive: boolean }>`
   cursor: pointer;
 
   p {
-    color: ${({ theme }) => theme.color.black[80]};
+    color: ${({ theme }) => theme.color.black[800]};
     font-size: ${({ theme }) => theme.fontSize.lg};
     font-weight: ${({ theme }) => theme.fontWeight.medium};
   }
@@ -19,10 +19,10 @@ export const Tab = styled.button<{ $isActive: boolean }>`
   ${({ theme, $isActive }) =>
     $isActive &&
     `
-      border-bottom: 2px solid ${theme.color.primary[700]};
+      border-bottom: 2px solid ${theme.color.primary[800]};
       
       p {
-        color: ${theme.color.primary[700]};
+        color: ${theme.color.primary[800]};
       }
     `}
 `;

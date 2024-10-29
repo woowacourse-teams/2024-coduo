@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Title = styled.p`
-  color: ${({ theme }) => theme.color.primary[700]};
+  color: ${({ theme }) => theme.color.primary[800]};
   font-size: ${({ theme }) => theme.fontSize.base};
   font-weight: ${({ theme }) => theme.fontWeight.semibold};
 
@@ -29,7 +29,7 @@ export const ContentList = styled.ul`
 export const ContentItem = styled(Link)<{ $isActive: boolean }>`
   position: relative;
 
-  color: ${({ $isActive, theme }) => ($isActive ? theme.color.black[90] : theme.color.black[60])};
+  color: ${({ $isActive, theme }) => ($isActive ? theme.color.black[900] : theme.color.black[600])};
   font-size: ${({ theme }) => theme.fontSize.lg};
   text-decoration: none;
 
@@ -43,7 +43,7 @@ export const ContentItem = styled(Link)<{ $isActive: boolean }>`
     width: 3px;
     height: 145%;
 
-    background-color: ${({ $isActive, theme }) => ($isActive ? theme.color.secondary[500] : theme.color.black[30])};
+    background-color: ${({ $isActive, theme }) => ($isActive ? theme.color.secondary[500] : theme.color.black[300])};
 
     transition: all 0.2s;
     content: '';

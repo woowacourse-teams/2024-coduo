@@ -13,7 +13,7 @@ interface ToolTipProps {
 const Tooltip = ({
   message,
   direction = 'bottom',
-  color = theme.color.primary[800],
+  color = theme.color.primary[900],
   children,
 }: React.PropsWithChildren<ToolTipProps>) => {
   return (

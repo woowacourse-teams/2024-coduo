@@ -15,7 +15,7 @@ const Header = ({ selectedFilteringCategoryName, onButtonClick }: React.PropsWit
   return (
     <S.Layout>
       <S.Container>
-        <IoIosLink size={theme.fontSize.h6} color={theme.color.primary[600]} />
+        <IoIosLink size={theme.fontSize.h6} color={theme.color.primary[700]} />
         <p>링크</p>
       </S.Container>
       <Button

@@ -16,7 +16,7 @@ export const Icon = styled(IoSettingsOutline)`
   width: 2rem;
   height: 2rem;
 
-  color: ${({ theme }) => theme.color.black[70]};
+  color: ${({ theme }) => theme.color.black[700]};
 
   transition: color 0.2s ease;
 
@@ -40,10 +40,10 @@ const slideDown = keyframes`
 
 export const Panel = styled.div`
   padding: 1.5rem 2rem;
-  border: 1px solid ${({ theme }) => theme.color.black[30]};
+  border: 1px solid ${({ theme }) => theme.color.black[300]};
   border-radius: 1rem;
 
-  background: ${({ theme }) => theme.color.black[10]};
+  background: ${({ theme }) => theme.color.black[100]};
 
   animation: ${slideDown} 0.3s ease-out;
 `;
@@ -51,7 +51,7 @@ export const Panel = styled.div`
 export const Title = styled.p`
   margin-bottom: 0.5rem;
 
-  color: ${({ theme }) => theme.color.black[70]};
+  color: ${({ theme }) => theme.color.black[700]};
   font-size: ${({ theme }) => theme.fontSize.sm};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;

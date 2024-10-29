@@ -4,7 +4,7 @@ import type { InputStatus } from '@/components/_common/Input/Input.type';
 
 const messageStatusStyles = {
   DEFAULT: css`
-    color: ${({ theme }) => theme.color.black[80]};
+    color: ${({ theme }) => theme.color.black[800]};
   `,
   ERROR: css`
     color: ${({ theme }) => theme.color.danger[600]};
@@ -16,14 +16,14 @@ const messageStatusStyles = {
 
 const inputStatusStyles = {
   DEFAULT: css`
-    border: 1px solid ${({ theme }) => theme.color.black[40]};
+    border: 1px solid ${({ theme }) => theme.color.black[400]};
 
-    background-color: ${({ theme }) => theme.color.black[10]};
+    background-color: ${({ theme }) => theme.color.black[100]};
   `,
   ERROR: css`
     border: 1px solid ${({ theme }) => theme.color.danger[600]};
 
-    background-color: ${({ theme }) => theme.color.danger[50]};
+    background-color: ${({ theme }) => theme.color.danger[500]};
   `,
   SUCCESS: css`
     border: 1px solid ${({ theme }) => theme.color.success[600]};
@@ -49,7 +49,7 @@ export const Container = styled.div`
 `;
 
 export const Label = styled.label`
-  color: ${({ theme }) => theme.color.primary[700]};
+  color: ${({ theme }) => theme.color.primary[800]};
   font-size: ${({ theme }) => theme.fontSize.base};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
@@ -82,19 +82,19 @@ export const Input = styled.input<{
   font-size: ${({ theme }) => theme.fontSize.md};
 
   &::placeholder {
-    color: ${({ theme }) => theme.color.black[50]};
+    color: ${({ theme }) => theme.color.black[500]};
   }
 
   &:focus {
-    border: 1px solid ${({ theme }) => theme.color.primary[700]};
+    border: 1px solid ${({ theme }) => theme.color.primary[800]};
 
-    background-color: ${({ theme }) => theme.color.black[10]};
+    background-color: ${({ theme }) => theme.color.black[100]};
   }
 
   &:disabled {
-    border: 1px solid ${({ theme }) => theme.color.black[40]};
+    border: 1px solid ${({ theme }) => theme.color.black[400]};
 
-    background-color: ${({ theme }) => theme.color.black[30]};
+    background-color: ${({ theme }) => theme.color.black[300]};
   }
 
   ${({ $css }) => $css}

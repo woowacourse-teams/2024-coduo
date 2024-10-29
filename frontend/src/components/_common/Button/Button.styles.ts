@@ -46,8 +46,8 @@ export const Button = styled.button<ButtonStyleProp>`
   border: 1px solid ${({ theme, $color }) => theme.color[$color][500]};
   border-radius: ${({ $rounded }) => ($rounded ? '50rem' : '1rem')};
 
-  background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][500] : theme.color.black[10])};
-  color: ${({ $filled, theme, $color }) => ($filled ? theme.color.black[10] : theme.color[$color][500])};
+  background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][500] : theme.color.black[100])};
+  color: ${({ $filled, theme, $color }) => ($filled ? theme.color.black[100] : theme.color[$color][500])};
 
   transition: all 0.2s;
 
@@ -56,8 +56,8 @@ export const Button = styled.button<ButtonStyleProp>`
   &:hover {
     border: 1px solid ${({ theme, $color }) => theme.color[$color][600]};
 
-    background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][600] : theme.color.black[10])};
-    color: ${({ $filled, theme, $color }) => ($filled ? theme.color.black[10] : theme.color[$color][600])};
+    background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][600] : theme.color.black[100])};
+    color: ${({ $filled, theme, $color }) => ($filled ? theme.color.black[100] : theme.color[$color][600])};
 
     transform: ${({ $animation }) => $animation && 'scale(1.01)'};
   }
@@ -65,17 +65,17 @@ export const Button = styled.button<ButtonStyleProp>`
   &:active {
     border: 1px solid ${({ theme, $color }) => theme.color[$color][700]};
 
-    background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][700] : theme.color.black[10])};
-    color: ${({ $filled, theme, $color }) => ($filled ? theme.color.black[10] : theme.color[$color][700])};
+    background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][700] : theme.color.black[100])};
+    color: ${({ $filled, theme, $color }) => ($filled ? theme.color.black[100] : theme.color[$color][700])};
 
     transform: ${($animation) => $animation && 'scale(1.02)'};
   }
 
   &:disabled {
-    border: 1px solid ${({ theme }) => theme.color.black[50]};
+    border: 1px solid ${({ theme }) => theme.color.black[500]};
 
-    background-color: ${({ $filled, theme }) => ($filled ? theme.color.black[50] : theme.color.black[10])};
-    color: ${({ $filled, theme }) => ($filled ? 'white' : theme.color.black[50])};
+    background-color: ${({ $filled, theme }) => ($filled ? theme.color.black[500] : theme.color.black[100])};
+    color: ${({ $filled, theme }) => ($filled ? theme.color.black[100] : theme.color.black[500])};
   }
 
   cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};

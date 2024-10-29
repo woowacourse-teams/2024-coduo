@@ -41,7 +41,7 @@ export const TitleContainer = styled.div`
 `;
 
 export const SubTitle = styled.h2`
-  color: ${({ theme }) => theme.color.primary[800]};
+  color: ${({ theme }) => theme.color.primary[900]};
   font-size: ${({ theme }) => theme.fontSize.h3};
   font-weight: ${({ theme }) => theme.fontWeight.light};
   line-height: 1.4;
@@ -56,7 +56,7 @@ export const SubTitle = styled.h2`
 `;
 
 export const Title = styled.h1`
-  color: ${({ theme }) => theme.color.primary[500]};
+  color: ${({ theme }) => theme.color.primary[600]};
   font-size: 9rem;
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 
@@ -71,7 +71,7 @@ export const Title = styled.h1`
 
 export const Info = styled.p`
   opacity: 0.5;
-  color: ${({ theme }) => theme.color.primary[700]};
+  color: ${({ theme }) => theme.color.primary[800]};
   font-size: ${({ theme }) => theme.fontSize.lg};
   line-height: 1.6;
 

@@ -52,7 +52,7 @@ export const Layout = styled.div<{ $position: Position }>`
 
 const backdropMapper = {
   OPAQUE: css`
-    background: ${({ theme }) => theme.color.black[90]};
+    background: ${({ theme }) => theme.color.black[900]};
     opacity: 0.36;
   `,
   BLUR: css`
@@ -117,7 +117,7 @@ export const Container = styled.div<{
   height: ${({ $height }) => $height && $height};
   padding: 4rem;
 
-  background: ${({ theme }) => theme.color.black[10]};
+  background: ${({ theme }) => theme.color.black[100]};
   box-shadow: ${({ $shadow }) =>
     $shadow &&
     ` 0 3px 6px rgb(0 0 0 / 10%),
