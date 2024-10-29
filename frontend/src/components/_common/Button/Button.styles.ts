@@ -43,11 +43,11 @@ export const Button = styled.button<ButtonStyleProp>`
   justify-content: center;
   align-items: center;
 
-  border: 1px solid ${({ theme, $color }) => theme.color[$color][500]};
+  border: 1px solid ${({ theme, $color }) => theme.color[$color][600]};
   border-radius: ${({ $rounded }) => ($rounded ? '50rem' : '1rem')};
 
-  background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][500] : theme.color.black[100])};
-  color: ${({ $filled, theme, $color }) => ($filled ? theme.color.black[100] : theme.color[$color][500])};
+  background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][600] : theme.color.black[100])};
+  color: ${({ $filled, theme, $color }) => ($filled ? theme.color.black[100] : theme.color[$color][600])};
 
   transition: all 0.2s;
 
@@ -56,17 +56,17 @@ export const Button = styled.button<ButtonStyleProp>`
   &:hover {
     border: 1px solid ${({ theme, $color }) => theme.color[$color][600]};
 
-    background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][600] : theme.color.black[100])};
-    color: ${({ $filled, theme, $color }) => ($filled ? theme.color.black[100] : theme.color[$color][600])};
+    background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][700] : theme.color.black[100])};
+    color: ${({ $filled, theme, $color }) => ($filled ? theme.color.black[100] : theme.color[$color][700])};
 
     transform: ${({ $animation }) => $animation && 'scale(1.01)'};
   }
 
   &:active {
-    border: 1px solid ${({ theme, $color }) => theme.color[$color][700]};
+    border: 1px solid ${({ theme, $color }) => theme.color[$color][800]};
 
-    background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][700] : theme.color.black[100])};
-    color: ${({ $filled, theme, $color }) => ($filled ? theme.color.black[100] : theme.color[$color][700])};
+    background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][800] : theme.color.black[100])};
+    color: ${({ $filled, theme, $color }) => ($filled ? theme.color.black[100] : theme.color[$color][800])};
 
     transform: ${($animation) => $animation && 'scale(1.02)'};
   }
