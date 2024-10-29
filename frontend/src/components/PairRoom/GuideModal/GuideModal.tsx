@@ -4,12 +4,12 @@ import { FaCheck } from 'react-icons/fa6';
 
 import { AlarmSound } from '@/assets';
 
-import Button from '@/components/common/Button/Button';
-import { Modal } from '@/components/common/Modal';
+import Button from '@/components/_common/Button/Button';
+import { Modal } from '@/components/_common/Modal';
 
 import useToastStore from '@/stores/toastStore';
 
-import useCopyClipBoard from '@/hooks/common/useCopyClipboard';
+import useCopyClipBoard from '@/hooks/_common/useCopyClipboard';
 
 import * as S from './GuideModal.styles';
 

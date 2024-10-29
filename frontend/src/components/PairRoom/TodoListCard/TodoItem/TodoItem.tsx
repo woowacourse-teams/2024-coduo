@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import CheckBox from '@/components/common/CheckBox/CheckBox';
+import CheckBox from '@/components/_common/CheckBox/CheckBox';
 
 import { Todo } from '@/apis/todo';
 
-import useCopyClipBoard from '@/hooks/common/useCopyClipboard';
+import useCopyClipBoard from '@/hooks/_common/useCopyClipboard';
 
 import useTodos from '@/queries/PairRoom/useTodos';
 

@@ -1,11 +1,11 @@
 import { LuPlus } from 'react-icons/lu';
 
-import Button from '@/components/common/Button/Button';
-import Input from '@/components/common/Input/Input';
+import Button from '@/components/_common/Button/Button';
+import Input from '@/components/_common/Input/Input';
 import CategoryDropdown from '@/components/PairRoom/ReferenceCard/CategoryDropdown/CategoryDropdown';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 
-import useInput from '@/hooks/common/useInput';
+import useInput from '@/hooks/_common/useInput';
 import useReference from '@/hooks/PairRoom/useReference';
 
 import * as S from './AddReferenceForm.styles';

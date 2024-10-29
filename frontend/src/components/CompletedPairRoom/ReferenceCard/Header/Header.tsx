@@ -1,6 +1,6 @@
 import { IoIosLink } from 'react-icons/io';
 
-import Button from '@/components/common/Button/Button';
+import Button from '@/components/_common/Button/Button';
 
 import { theme } from '@/styles/theme';
 

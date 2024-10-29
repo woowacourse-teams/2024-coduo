@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom';
 
 import { FaRegPaste, FaCheck } from 'react-icons/fa6';
 
-import Button from '@/components/common/Button/Button';
-import { Modal } from '@/components/common/Modal';
+import Button from '@/components/_common/Button/Button';
+import { Modal } from '@/components/_common/Modal';
 
-import useCopyClipBoard from '@/hooks/common/useCopyClipboard';
+import useCopyClipBoard from '@/hooks/_common/useCopyClipboard';
 
 import * as S from '../PairRoomCreateModal.styles';
 

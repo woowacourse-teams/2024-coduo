@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Modal } from '@/components/common/Modal';
+import { Modal } from '@/components/_common/Modal';
 
 import PairRoomCreateComplete from './PairRoomCreateComplete';
 

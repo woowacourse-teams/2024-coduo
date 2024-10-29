@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import type { Status } from '@/components/common/Toast/Toast';
+import type { Status } from '@/components/_common/Toast/Toast';
 
 interface Toast {
   status: Status;

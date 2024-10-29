@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import Dropdown from '@/components/common/Dropdown/Dropdown/Dropdown';
-import HiddenMessage from '@/components/common/HiddenMessage/HiddenMessage';
+import Dropdown from '@/components/_common/Dropdown/Dropdown/Dropdown';
+import HiddenMessage from '@/components/_common/HiddenMessage/HiddenMessage';
 import InformationBox from '@/components/PairRoomOnboarding/InformationBox/InformationBox';
 
 import type { Role } from '@/hooks/PairRoomOnboarding/usePairRoomInformation';

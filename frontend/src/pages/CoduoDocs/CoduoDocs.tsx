@@ -4,7 +4,7 @@ import FloatingSidebar from '@/components/CoduoDocs/FloatingSidebar/FloatingSide
 import Quote from '@/components/CoduoDocs/Quote/Quote';
 import SourceCode from '@/components/CoduoDocs/SourceCode/SourceCode';
 
-import useHashScroll from '@/hooks/common/useHashScroll';
+import useHashScroll from '@/hooks/_common/useHashScroll';
 
 import { ABOUT_PAIR_PROGRAMMING, DOCS_IMAGES, START_CONTENT } from '@/constants/coduoDocs';
 

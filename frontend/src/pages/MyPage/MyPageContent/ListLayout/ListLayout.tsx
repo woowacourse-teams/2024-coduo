@@ -1,4 +1,4 @@
-import Spinner from '@/components/common/Spinner/Spinner';
+import Spinner from '@/components/_common/Spinner/Spinner';
 
 import * as S from './ListLayout.styles';
 

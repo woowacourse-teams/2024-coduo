@@ -2,13 +2,13 @@ import { useParams } from 'react-router-dom';
 
 import { LuPlus } from 'react-icons/lu';
 
-import Button from '@/components/common/Button/Button';
-import Input from '@/components/common/Input/Input';
+import Button from '@/components/_common/Button/Button';
+import Input from '@/components/_common/Input/Input';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import Header from '@/components/PairRoom/TodoListCard/Header/Header';
 import TodoList from '@/components/PairRoom/TodoListCard/TodoList/TodoList';
 
-import useInput from '@/hooks/common/useInput';
+import useInput from '@/hooks/_common/useInput';
 
 import useTodos from '@/queries/PairRoom/useTodos';
 

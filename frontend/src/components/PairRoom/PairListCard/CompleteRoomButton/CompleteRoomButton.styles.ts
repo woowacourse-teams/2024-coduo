@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import Tooltip from '@/components/common/Tooltip/Tooltip';
+import Tooltip from '@/components/_common/Tooltip/Tooltip';
 
 export const Layout = styled.button<{ disabled: boolean }>`
   display: flex;

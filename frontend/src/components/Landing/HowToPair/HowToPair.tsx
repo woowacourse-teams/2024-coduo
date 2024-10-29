@@ -1,6 +1,6 @@
 import { Driver, Navigator } from '@/assets';
 
-import { ScrollAnimationContainer } from '@/components/common/Animation/ScrollAnimationContainer';
+import { ScrollAnimationContainer } from '@/components/_common/Animation/ScrollAnimationContainer';
 
 import * as S from './HowToPair.styles';
 

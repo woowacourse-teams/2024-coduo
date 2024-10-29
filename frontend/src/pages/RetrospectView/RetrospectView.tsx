@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 
-import Spinner from '@/components/common/Spinner/Spinner';
+import Spinner from '@/components/_common/Spinner/Spinner';
 import Header from '@/components/Retrospect/Header/Header';
 import Question from '@/components/Retrospect/Question/Question';
 

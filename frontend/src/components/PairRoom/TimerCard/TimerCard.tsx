@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import TimerEditPanel from '@/components/PairRoom/TimerCard/TimerEditPanel/TimerEditPanel';
 
-import useTitleTime from '@/hooks/common/useTitleTime';
+import useTitleTime from '@/hooks/_common/useTitleTime';
 import useTimer from '@/hooks/PairRoom/useTimer';
 
 import { formatTime } from '@/utils/Timer/formatTime';

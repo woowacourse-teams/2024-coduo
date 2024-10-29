@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
-import Button from '@/components/common/Button/Button';
-import { Modal } from '@/components/common/Modal';
+import Button from '@/components/_common/Button/Button';
+import { Modal } from '@/components/_common/Modal';
 
 import * as S from './PairRoomCreateModal.styles';
 

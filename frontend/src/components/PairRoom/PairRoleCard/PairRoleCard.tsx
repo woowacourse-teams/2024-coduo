@@ -1,4 +1,4 @@
-import Tooltip from '@/components/common/Tooltip/Tooltip';
+import Tooltip from '@/components/_common/Tooltip/Tooltip';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 
 import * as S from './PairRoleCard.styles';

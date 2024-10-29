@@ -1,12 +1,12 @@
-import Button from '@/components/common/Button/Button';
-import Input from '@/components/common/Input/Input';
-import { Modal } from '@/components/common/Modal';
+import Button from '@/components/_common/Button/Button';
+import Input from '@/components/_common/Input/Input';
+import { Modal } from '@/components/_common/Modal';
 
 import useToastStore from '@/stores/toastStore';
 
 import { getMemberName } from '@/apis/member';
 
-import useInput from '@/hooks/common/useInput';
+import useInput from '@/hooks/_common/useInput';
 
 import { validatePairInfo } from '@/validations/validatePairName';
 

@@ -5,7 +5,7 @@ import Header from '@/components/CompletedPairRoom/ReferenceCard/Header/Header';
 import ReferenceList from '@/components/CompletedPairRoom/ReferenceCard/ReferenceList/ReferenceList';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 
-import useModal from '@/hooks/common/useModal';
+import useModal from '@/hooks/_common/useModal';
 import useCategories, { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/hooks/PairRoom/useCategories';
 
 import { useGetReference } from '@/queries/PairRoom/reference/query';

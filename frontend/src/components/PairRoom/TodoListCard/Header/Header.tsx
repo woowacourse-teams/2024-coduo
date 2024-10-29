@@ -1,6 +1,6 @@
 import { IoIosCheckbox, IoIosArrowDown } from 'react-icons/io';
 
-import ToolTipQuestionBox from '@/components/common/ToolTipQuestionBox/ToolTipQuestionBox';
+import ToolTipQuestionBox from '@/components/_common/ToolTipQuestionBox/ToolTipQuestionBox';
 
 import { theme } from '@/styles/theme';
 

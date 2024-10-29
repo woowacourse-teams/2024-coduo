@@ -1,4 +1,4 @@
-import Spinner from '@/components/common/Spinner/Spinner';
+import Spinner from '@/components/_common/Spinner/Spinner';
 import InformationBox from '@/components/PairRoomOnboarding/InformationBox/InformationBox';
 import RepositoryButton from '@/components/PairRoomOnboarding/RepositoryButton/RepositoryButton';
 

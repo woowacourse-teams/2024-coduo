@@ -1,8 +1,8 @@
-import Button from '@/components/common/Button/Button';
+import Button from '@/components/_common/Button/Button';
 import CreateBranchInput from '@/components/PairRoomOnboarding/CreateBranchInput/CreateBranchInput';
 import MissionSelectInput from '@/components/PairRoomOnboarding/MissionSelectInput/MissionSelectInput';
 
-import useDebounce from '@/hooks/common/useDebounce';
+import useDebounce from '@/hooks/_common/useDebounce';
 import useAutoMoveIndex from '@/hooks/PairRoomOnboarding/useAutoMoveIndex';
 import useMissionBranch from '@/hooks/PairRoomOnboarding/useMissionBranch';
 

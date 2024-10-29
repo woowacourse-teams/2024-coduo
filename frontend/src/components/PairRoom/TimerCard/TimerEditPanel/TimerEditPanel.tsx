@@ -1,14 +1,14 @@
 import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
-import Button from '@/components/common/Button/Button';
-import Input from '@/components/common/Input/Input';
+import Button from '@/components/_common/Button/Button';
+import Input from '@/components/_common/Input/Input';
 
 import useToastStore from '@/stores/toastStore';
 
-import useClickOutside from '@/hooks/common/useClickOutside';
-import useInput from '@/hooks/common/useInput';
-import useModal from '@/hooks/common/useModal';
+import useClickOutside from '@/hooks/_common/useClickOutside';
+import useInput from '@/hooks/_common/useInput';
+import useModal from '@/hooks/_common/useModal';
 
 import useUpdateDuration from '@/queries/PairRoom/useUpdateDuration';
 

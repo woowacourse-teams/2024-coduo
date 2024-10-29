@@ -1,6 +1,6 @@
 import { FaRegPaste } from 'react-icons/fa6';
 
-import useCopyClipBoard from '@/hooks/common/useCopyClipboard';
+import useCopyClipBoard from '@/hooks/_common/useCopyClipboard';
 
 import * as S from './AccessCodeSection.styles';
 

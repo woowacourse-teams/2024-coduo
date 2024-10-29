@@ -1,4 +1,4 @@
-import { Modal } from '@/components/common/Modal';
+import { Modal } from '@/components/_common/Modal';
 import CategoryItem from '@/components/CompletedPairRoom/ReferenceCard/CategoryManagementModal/CategoryItem/CategoryItem';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 
