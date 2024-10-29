@@ -1,12 +1,14 @@
+import { DOCS_IMAGES } from '@/assets';
+
+import ContentBox from '@/components/CoduoDocs/ContentBox/ContentBox';
 import DocsImage from '@/components/CoduoDocs/DocsImage/DocsImage';
-import ContentBox from '@/components/CoduoDocs/FloatingSidebar/ContentBox';
 import FloatingSidebar from '@/components/CoduoDocs/FloatingSidebar/FloatingSidebar';
 import Quote from '@/components/CoduoDocs/Quote/Quote';
 import SourceCode from '@/components/CoduoDocs/SourceCode/SourceCode';
 
-import useHashScroll from '@/hooks/common/useHashScroll';
+import useHashScroll from '@/hooks/CoduoDocs/useHashScroll';
 
-import { ABOUT_PAIR_PROGRAMMING, DOCS_IMAGES, START_CONTENT } from '@/constants/coduoDocs';
+import { ABOUT_PAIR_PROGRAMMING, START_CONTENT } from '@/constants/coduoDocs';
 
 import * as S from './CoduoDocs.styles';
 
@@ -29,12 +31,7 @@ const CoduoDocs = () => {
             있는지 소개합니다.
           </S.Content>
 
-          <DocsImage
-            information="1. 방 생성하기"
-            src={DOCS_IMAGES.createRoom}
-            alt="create-room"
-            webpSrc={DOCS_IMAGES.createRoomWebp}
-          >
+          <DocsImage information="1. 방 생성하기" src={DOCS_IMAGES.createRoom} alt="create-room">
             <Quote text="가장 먼저 방을 생성해주세요. 방 만들기 버튼을 누르면 페어 프로그래밍을 진행할 방이 생성됩니다" />
           </DocsImage>
 
@@ -59,20 +56,9 @@ const CoduoDocs = () => {
             information="1. 미션과 함께 시작하기"
             src={DOCS_IMAGES.startWithMission}
             alt="start-with-mission"
-            webpSrc={DOCS_IMAGES.startWithMissionWebp}
           />
-          <DocsImage
-            information="2. 미션 선택하기"
-            src={DOCS_IMAGES.selectMission}
-            alt="check-branch-created"
-            webpSrc={DOCS_IMAGES.selectMissionWebp}
-          />
-          <DocsImage
-            information="3. 브랜치 생성하기"
-            src={DOCS_IMAGES.createBranch}
-            alt="create-branch"
-            webpSrc={DOCS_IMAGES.createBranchWebp}
-          >
+          <DocsImage information="2. 미션 선택하기" src={DOCS_IMAGES.selectMission} alt="check-branch-created" />
+          <DocsImage information="3. 브랜치 생성하기" src={DOCS_IMAGES.createBranch} alt="create-branch">
             <Quote
               text="미션 리포지토리에 생성할 브랜치 이름을 적고, ‘브랜치 생성하기’ 버튼을 눌러주세요. 브랜치 이름은 자신의
               깃허브 ID 로 작성해주세요."
@@ -82,27 +68,16 @@ const CoduoDocs = () => {
             information="4. 생성한 브랜치 확인하기"
             src={DOCS_IMAGES.checkBranchCreated}
             alt="check-branch-created"
-            webpSrc={DOCS_IMAGES.checkBranchCreatedWebp}
           >
             <Quote text="미션 리포지토리에서 자신의 브랜치가 생성되었는지 확인해주세요" />
           </DocsImage>
-          <DocsImage
-            information="5. fork 하기"
-            src={DOCS_IMAGES.forkRepository}
-            alt="fork-repository"
-            webpSrc={DOCS_IMAGES.forkRepositoryWebp}
-          >
+          <DocsImage information="5. fork 하기" src={DOCS_IMAGES.forkRepository} alt="fork-repository">
             <Quote text="상단의 fork 버튼을 눌러 해당 미션을 자신의 리포지토리로 fork 해주세요." />
           </DocsImage>
-          <DocsImage src={DOCS_IMAGES.createFork} alt="create-fork" webpSrc={DOCS_IMAGES.createForkWebp}>
+          <DocsImage src={DOCS_IMAGES.createFork} alt="create-fork">
             <Quote text="Create Fork 버튼을 눌러주세요." />
           </DocsImage>
-          <DocsImage
-            information="6. 로컬로 clone 하기"
-            src={DOCS_IMAGES.clone}
-            alt="clone"
-            webpSrc={DOCS_IMAGES.cloneWebp}
-          >
+          <DocsImage information="6. 로컬로 clone 하기" src={DOCS_IMAGES.clone} alt="clone">
             <Quote text="Github 리포지토리 주소와 아래 명령어를 통해 자신의 컴퓨터에 미션 코드를 불러오세요." />
           </DocsImage>
           <Quote text="터미널을 열어 미션을 진행하고 싶은 폴더 위치에서 아래의 명령어를 실행해주세요." />
@@ -125,7 +100,6 @@ ex) cd java-guessing-number"
               information="1. '그냥 시작할래요' 버튼을 누르면 미션 없이 자유롭게 시작할 수 있습니다."
               src={DOCS_IMAGES.startFree}
               alt="start-free"
-              webpSrc={DOCS_IMAGES.startFreeWebp}
             ></DocsImage>
           </S.ParagraphContainer>
         </S.ImageContainer>
@@ -135,25 +109,18 @@ ex) cd java-guessing-number"
             id={START_CONTENT[3].id}
             src={DOCS_IMAGES.inputName}
             alt="input-name"
-            webpSrc={DOCS_IMAGES.inputNameWebp}
           >
             <Quote text="나의 이름을 입력해 주세요" />
           </DocsImage>
-          <DocsImage src={DOCS_IMAGES.inputPairName} alt="input-pair-name" webpSrc={DOCS_IMAGES.inputPairNameWebp}>
+          <DocsImage src={DOCS_IMAGES.inputPairName} alt="input-pair-name">
             <Quote text="페어의 이름을 입력해 주세요" />
           </DocsImage>
         </S.ImageContainer>
         <S.ImageContainer aria-labelledby={START_CONTENT[4].id}>
-          <DocsImage
-            information="3. 역할 선택하기"
-            id={START_CONTENT[4].id}
-            src={DOCS_IMAGES.setRole}
-            alt="set-role"
-            webpSrc={DOCS_IMAGES.setRoleWebp}
-          >
+          <DocsImage information="3. 역할 선택하기" id={START_CONTENT[4].id} src={DOCS_IMAGES.setRole} alt="set-role">
             <Quote text="설명을 참고하여 드라이버와 내비게이터를 정해주세요." />
           </DocsImage>
-          <DocsImage src={DOCS_IMAGES.selectDriver} alt="select-driver" webpSrc={DOCS_IMAGES.selectDriverWebp}>
+          <DocsImage src={DOCS_IMAGES.selectDriver} alt="select-driver">
             <Quote text="드라이버를 선택해주세요." />
           </DocsImage>
         </S.ImageContainer>
@@ -163,7 +130,6 @@ ex) cd java-guessing-number"
             id={START_CONTENT[5].id}
             src={DOCS_IMAGES.setTimer}
             alt="set-timer"
-            webpSrc={DOCS_IMAGES.setTimerWebp}
           ></DocsImage>
         </S.ImageContainer>
 

@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
+import CategoryManagementModal from '@/components/PairRoom/CategoryManagementModal/CategoryManagementModal';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import AddReferenceForm from '@/components/PairRoom/ReferenceCard/AddReferenceForm/AddReferenceForm';
-import CategoryManagementModal from '@/components/PairRoom/ReferenceCard/CategoryManagementModal/CategoryManagementModal';
 import Header from '@/components/PairRoom/ReferenceCard/Header/Header';
 import ReferenceList from '@/components/PairRoom/ReferenceCard/ReferenceList/ReferenceList';
 
-import useModal from '@/hooks/common/useModal';
+import useModal from '@/hooks/_common/useModal';
 import useCategories, { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/hooks/PairRoom/useCategories';
 
 import { useGetReference } from '@/queries/PairRoom/reference/query';

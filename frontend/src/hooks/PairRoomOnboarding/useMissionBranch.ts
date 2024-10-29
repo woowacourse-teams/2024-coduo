@@ -1,4 +1,4 @@
-import useInput from '@/hooks/common/useInput';
+import useInput from '@/hooks/_common/useInput';
 
 import { validateBranchName } from '@/validations/validateBranchName';
 

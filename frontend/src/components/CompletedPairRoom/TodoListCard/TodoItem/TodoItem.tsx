@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { Todo } from '@/apis/todo';
 
-import useCopyClipBoard from '@/hooks/common/useCopyClipboard';
+import useCopyClipBoard from '@/hooks/_common/useCopyClipboard';
 
 import * as S from './TodoItem.styles';
 

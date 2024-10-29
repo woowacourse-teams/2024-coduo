@@ -1,11 +1,11 @@
-import Button from '@/components/common/Button/Button';
+import Button from '@/components/_common/Button/Button';
 import AddPairModal from '@/components/PairRoomOnboarding/AddPairModal/AddPairModal';
 import PairNameInput from '@/components/PairRoomOnboarding/PairNameInput/PairNameInput';
 import PairRoleInput from '@/components/PairRoomOnboarding/PairRoleInput/PairRoleInput';
 import TimerDurationInput from '@/components/PairRoomOnboarding/TimerDurationInput/TimerDurationInput';
 
-import useDebounce from '@/hooks/common/useDebounce';
-import useModal from '@/hooks/common/useModal';
+import useDebounce from '@/hooks/_common/useDebounce';
+import useModal from '@/hooks/_common/useModal';
 import useAutoMoveIndex from '@/hooks/PairRoomOnboarding/useAutoMoveIndex';
 import usePairRoomInformation from '@/hooks/PairRoomOnboarding/usePairRoomInformation';
 

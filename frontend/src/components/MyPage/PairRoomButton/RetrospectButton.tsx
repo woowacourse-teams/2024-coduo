@@ -1,9 +1,9 @@
 import { IoIosArrowForward } from 'react-icons/io';
 
-import ConfirmModal from '@/components/common/ConfirmModal/ConfirmModal';
-import Spinner from '@/components/common/Spinner/Spinner';
+import ConfirmModal from '@/components/_common/ConfirmModal/ConfirmModal';
+import Spinner from '@/components/_common/Spinner/Spinner';
 
-import useModal from '@/hooks/common/useModal';
+import useModal from '@/hooks/_common/useModal';
 
 import { useDeleteRetrospect } from '@/queries/Retrospect/useDeleteRetrospect';
 

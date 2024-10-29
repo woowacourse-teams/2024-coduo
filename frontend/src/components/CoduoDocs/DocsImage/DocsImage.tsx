@@ -3,20 +3,16 @@ import * as S from './DocsImage.styles';
 interface DocsImageProps {
   information?: string;
   src: string;
-  webpSrc: string;
   alt: string;
   id?: string;
 }
 
-const DocsImage = ({ information, src, alt, webpSrc, id, children }: React.PropsWithChildren<DocsImageProps>) => {
+const DocsImage = ({ information, src, alt, id, children }: React.PropsWithChildren<DocsImageProps>) => {
   return (
     <S.Container>
       {information && <S.Contents id={id}>{information}</S.Contents>}
       {children}
-      <picture>
-        <source srcSet={webpSrc} type="image/webp" />
-        <img src={src} alt={alt} loading="lazy" />
-      </picture>
+      <img src={src} alt={alt} loading="lazy" />
     </S.Container>
   );
 };

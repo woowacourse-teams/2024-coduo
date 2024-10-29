@@ -3,10 +3,10 @@ import { useRef } from 'react';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import TimerEditPanel from '@/components/PairRoom/TimerCard/TimerEditPanel/TimerEditPanel';
 
-import useTitleTime from '@/hooks/common/useTitleTime';
 import useTimer from '@/hooks/PairRoom/useTimer';
+import useTitleTime from '@/hooks/PairRoom/useTitleTime';
 
-import { formatTime } from '@/utils/Timer/formatTime';
+import { formatTime } from '@/utils/formatTime';
 
 import * as S from './TimerCard.styles';
 

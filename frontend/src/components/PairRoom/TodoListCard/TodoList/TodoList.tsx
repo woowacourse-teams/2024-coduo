@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 
 import TodoItem from '@/components/PairRoom/TodoListCard/TodoItem/TodoItem';
 
-import useDragAndDrop from '@/hooks/common/useDragAndDrop';
+import useDragAndDrop from '@/hooks/PairRoom/useDragAndDrop';
 
 import useTodos from '@/queries/PairRoom/useTodos';
 

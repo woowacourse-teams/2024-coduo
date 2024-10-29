@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 import { GithubLogoWhite } from '@/assets';
 
-import Input from '@/components/common/Input/Input';
-import { InputType } from '@/components/common/Input/Input.type';
+import Input from '@/components/_common/Input/Input';
+import { InputType } from '@/components/_common/Input/Input.type';
 
 import useGetBranches from '@/queries/PairRoomOnboarding/useGetBranches';
 

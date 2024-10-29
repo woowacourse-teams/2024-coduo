@@ -3,9 +3,9 @@ import { useState, useEffect } from 'react';
 
 import { LogoIcon } from '@/assets';
 
-import Button from '@/components/common/Button/Button';
-import Input from '@/components/common/Input/Input';
-import { InputType } from '@/components/common/Input/Input.type';
+import Button from '@/components/_common/Button/Button';
+import Input from '@/components/_common/Input/Input';
+import { InputType } from '@/components/_common/Input/Input.type';
 
 import * as S from './PairNameInput.styles';
 

@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 import { useState } from 'react';
 
-import Button from '@/components/common/Button/Button';
-import Input from '@/components/common/Input/Input';
+import Button from '@/components/_common/Button/Button';
+import Input from '@/components/_common/Input/Input';
 import InformationBox from '@/components/PairRoomOnboarding/InformationBox/InformationBox';
 
 import { validateTimerDuration } from '@/validations/validateTimerDuration';

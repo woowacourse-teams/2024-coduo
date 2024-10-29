@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import ConfirmModal from '@/components/common/ConfirmModal/ConfirmModal';
+import ConfirmModal from '@/components/_common/ConfirmModal/ConfirmModal';
 import AccessCodeSection from '@/components/PairRoom/PairListCard/AccessCodeSection/AccessCodeSection';
 import CompleteRoomButton from '@/components/PairRoom/PairListCard/CompleteRoomButton/CompleteRoomButton';
 import Header from '@/components/PairRoom/PairListCard/Header/Header';
@@ -8,7 +8,7 @@ import PairListSection from '@/components/PairRoom/PairListCard/PairListSection/
 import RepositorySection from '@/components/PairRoom/PairListCard/RepositorySection/RepositorySection';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 
-import useModal from '@/hooks/common/useModal';
+import useModal from '@/hooks/_common/useModal';
 
 import useCompletePairRoom from '@/queries/PairRoom/useCompletePairRoom';
 

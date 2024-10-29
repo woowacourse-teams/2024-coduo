@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-import Button from '@/components/common/Button/Button';
+import Button from '@/components/_common/Button/Button';
 
 import useUserStore from '@/stores/userStore';
 

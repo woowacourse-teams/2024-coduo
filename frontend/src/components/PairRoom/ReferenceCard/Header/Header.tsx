@@ -1,7 +1,7 @@
 import { IoIosLink, IoIosArrowUp } from 'react-icons/io';
 
-import Button from '@/components/common/Button/Button';
-import ToolTipQuestionBox from '@/components/common/ToolTipQuestionBox/ToolTipQuestionBox';
+import Button from '@/components/_common/Button/Button';
+import ToolTipQuestionBox from '@/components/_common/ToolTipQuestionBox/ToolTipQuestionBox';
 
 import { theme } from '@/styles/theme';
 

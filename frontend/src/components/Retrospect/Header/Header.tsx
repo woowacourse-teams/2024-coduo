@@ -1,4 +1,4 @@
-import Button from '@/components/common/Button/Button';
+import Button from '@/components/_common/Button/Button';
 
 import * as S from './Header.styles';
 

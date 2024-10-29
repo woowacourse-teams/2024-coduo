@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import useToastStore from '@/stores/toastStore';
 
-import useInput from '@/hooks/common/useInput';
+import useInput from '@/hooks/_common/useInput';
 import useCategories from '@/hooks/PairRoom/useCategories';
 
 import { useDeleteCategory, useUpdateCategory } from '@/queries/PairRoom/category/mutation';

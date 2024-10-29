@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { LogoIconWithTitle } from '@/assets';
 
-import Spinner from '@/components/common/Spinner/Spinner';
+import Spinner from '@/components/_common/Spinner/Spinner';
 
 import useUserStore from '@/stores/userStore';
 

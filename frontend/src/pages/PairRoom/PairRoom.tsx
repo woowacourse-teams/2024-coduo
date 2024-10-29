@@ -10,7 +10,7 @@ import ReferenceCard from '@/components/PairRoom/ReferenceCard/ReferenceCard';
 import TimerCard from '@/components/PairRoom/TimerCard/TimerCard';
 import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
 
-import useModal from '@/hooks/common/useModal';
+import useModal from '@/hooks/_common/useModal';
 
 import useGetPairRoom from '@/queries/PairRoom/useGetPairRoom';
 import useUpdatePairRoom from '@/queries/PairRoom/useUpdatePairRoom';

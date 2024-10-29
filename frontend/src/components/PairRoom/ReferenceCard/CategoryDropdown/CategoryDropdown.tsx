@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/no-autofocus */
-import Dropdown from '@/components/common/Dropdown/Dropdown/Dropdown';
-import Input from '@/components/common/Input/Input';
+import Dropdown from '@/components/_common/Dropdown/Dropdown/Dropdown';
+import Input from '@/components/_common/Input/Input';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 
 import useToastStore from '@/stores/toastStore';
 
-import useInput from '@/hooks/common/useInput';
+import useInput from '@/hooks/_common/useInput';
 import { DEFAULT_CATEGORY_VALUE } from '@/hooks/PairRoom/useCategories';
 
 import { useAddCategory } from '@/queries/PairRoom/category/mutation';
