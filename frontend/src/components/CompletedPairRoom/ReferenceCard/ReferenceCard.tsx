@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import CategoryManagementModal from '@/components/CompletedPairRoom/ReferenceCard/CategoryManagementModal/CategoryManagementModal';
+import CategoryManagementModal from '@/components/CompletedPairRoom/CategoryManagementModal/CategoryManagementModal';
 import Header from '@/components/CompletedPairRoom/ReferenceCard/Header/Header';
 import ReferenceList from '@/components/CompletedPairRoom/ReferenceCard/ReferenceList/ReferenceList';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';

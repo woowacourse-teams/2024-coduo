@@ -1,5 +1,5 @@
 import { Modal } from '@/components/_common/Modal';
-import CategoryItem from '@/components/CompletedPairRoom/ReferenceCard/CategoryManagementModal/CategoryItem/CategoryItem';
+import CategoryItem from '@/components/CompletedPairRoom/CategoryManagementModal/CategoryItem/CategoryItem';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 
 import * as S from './CategoryManagementModal.styles';
