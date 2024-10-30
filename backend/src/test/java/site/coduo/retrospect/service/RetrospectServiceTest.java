@@ -31,7 +31,7 @@ import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.repository.CategoryRepository;
 import site.coduo.retrospect.controller.response.FindRetrospectsResponse;
-import site.coduo.retrospect.exception.MaxRetrospectLimitException;
+import site.coduo.retrospect.exception.DuplicateRetrospectException;
 import site.coduo.retrospect.repository.RetrospectEntity;
 import site.coduo.retrospect.repository.RetrospectRepository;
 import site.coduo.timer.repository.TimerRepository;
@@ -134,7 +134,7 @@ class RetrospectServiceTest {
         // When && Then
         assertThatThrownBy(
                 () -> retrospectService.createRetrospect(credentialToken, savedPairRoom.getAccessCode(), answers))
-                .isInstanceOf(MaxRetrospectLimitException.class);
+                .isInstanceOf(DuplicateRetrospectException.class);
 
     }
 

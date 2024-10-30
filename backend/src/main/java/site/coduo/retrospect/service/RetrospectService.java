@@ -18,7 +18,7 @@ import site.coduo.retrospect.controller.response.FindRetrospectsResponse;
 import site.coduo.retrospect.domain.Retrospect;
 import site.coduo.retrospect.domain.RetrospectContent;
 import site.coduo.retrospect.domain.RetrospectContents;
-import site.coduo.retrospect.exception.MaxRetrospectLimitException;
+import site.coduo.retrospect.exception.DuplicateRetrospectException;
 import site.coduo.retrospect.exception.NotRetrospectOwnerAccessException;
 import site.coduo.retrospect.repository.RetrospectEntity;
 import site.coduo.retrospect.repository.RetrospectRepository;
@@ -44,7 +44,7 @@ public class RetrospectService {
         final Member member = memberService.findMemberByCredential(credentialToken);
         final PairRoomMemberEntity pairRoomMember = pairRoomMemberRepository.fetchByPairRoomAndMember(pairRoom, member);
         if (retrospectRepository.existsRetrospectEntityByPairRoomMember(pairRoomMember)) {
-            throw new MaxRetrospectLimitException("회고가 이미 존재합니다.");
+            throw new DuplicateRetrospectException("해당 페어룸에 대한 사용자의 회고가 이미 존재합니다.");
         }
         final RetrospectContents retrospectContents = RetrospectContents.from(answers);
         final Retrospect retrospect = new Retrospect(retrospectContents);
