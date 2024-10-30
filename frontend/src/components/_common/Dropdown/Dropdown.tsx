@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 
 import * as S from '@/components/_common/Dropdown/Dropdown.styles';
-import HiddenDropdown from '@/components/_common/Dropdown/HiddenDropdown';
+// import HiddenDropdown from '@/components/_common/Dropdown/HiddenDropdown';
 
 import useClickOutside from '@/hooks/_common/customEvent/useClickOutside';
 
@@ -15,27 +15,23 @@ export interface Option {
 }
 
 interface DropdownProps {
-  placeholder: string;
-  options?: string[];
-  valueOptions?: Option[];
+  options: Option[];
   selectedOption?: string;
+  placeholder?: string;
   width?: string;
   height?: string;
   direction?: Direction;
-  onSelect: (option: string) => void;
-  children?: React.ReactNode;
+  onSelect: (optionId: string) => void;
 }
 
 const Dropdown = ({
-  placeholder,
   options,
   selectedOption = '',
+  placeholder = '',
   width = '100%',
   height = '4.8rem',
   direction = 'lower',
   onSelect,
-  children,
-  valueOptions,
 }: DropdownProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -43,9 +39,14 @@ const Dropdown = ({
 
   useClickOutside(dropdownRef, () => setIsOpen(false));
 
-  const handleSelect = (option: string) => {
-    onSelect(option);
+  const handleOptionSelect = (optionId: string) => {
+    onSelect(optionId);
     setIsOpen(false);
+  };
+
+  const handleOptionClick = (event: React.MouseEvent<HTMLElement>, optionId: string) => {
+    event.stopPropagation();
+    handleOptionSelect(optionId);
   };
 
   const toggleDropdown = (event: React.MouseEvent<HTMLElement>) => {
@@ -55,59 +56,28 @@ const Dropdown = ({
 
   return (
     <S.Layout $width={width} ref={dropdownRef} $height={height}>
-      <HiddenDropdown
-        options={options}
-        valueOptions={valueOptions}
-        selectedOption={selectedOption}
-        handleSelect={handleSelect}
-      />
+      {/* <HiddenDropdown valueOptions={valueOptions} selectedOption={selectedOption} handleSelect={handleOptionSelect} /> */}
       <S.DropdownContainer $direction={direction}>
-        {children && isOpen ? (
-          children
-        ) : (
-          <S.OpenButton
-            role="listbox"
-            filled={false}
-            $isSelected={!!selectedOption}
-            $isOpen={isOpen}
-            onClick={toggleDropdown}
-            aria-label={isOpen ? '드롭다운을 닫습니다' : '드롭다운을 엽니다'}
-          >
-            {selectedOption || placeholder}
-            <S.Icon $isOpen={isOpen} size={theme.iconSize.md} $direction={direction} />
-          </S.OpenButton>
-        )}
-        {options && !options.some((option) => option === '') && isOpen && (
+        <S.OpenButton
+          role="listbox"
+          filled={false}
+          $isSelected={!!selectedOption}
+          $isOpen={isOpen}
+          onClick={toggleDropdown}
+          aria-label={isOpen ? '드롭다운을 닫습니다' : '드롭다운을 엽니다'}
+        >
+          {selectedOption || placeholder}
+          <S.Icon $isOpen={isOpen} size={theme.iconSize.md} $direction={direction} />
+        </S.OpenButton>
+        {isOpen && (
           <S.ItemList $height={height} $direction={direction}>
             {options.map((option, index) => (
               <li key={`${option}_${index}`}>
                 <S.Item
                   filled={false}
                   role="option"
-                  aria-selected={selectedOption === option}
-                  onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-                    event.stopPropagation();
-                    handleSelect(option);
-                  }}
-                >
-                  {option}
-                </S.Item>
-              </li>
-            ))}
-          </S.ItemList>
-        )}
-        {valueOptions && !valueOptions.some((option) => option.value === '') && isOpen && (
-          <S.ItemList $height={height} $direction={direction}>
-            {valueOptions.map((option, index) => (
-              <li key={`${option}_${index}`}>
-                <S.Item
-                  filled={false}
-                  role="option"
                   aria-selected={selectedOption === option.value}
-                  onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-                    event.stopPropagation();
-                    handleSelect(option.id);
-                  }}
+                  onClick={(event) => handleOptionClick(event, option.id)}
                 >
                   {option.value}
                 </S.Item>

@@ -4,7 +4,6 @@ interface HiddenDropdownProps extends React.HTMLAttributes<HTMLSelectElement> {
   options?: string[];
   selectedOption?: string;
   valueOptions?: Option[];
-
   handleSelect: (value: string) => void;
 }
 

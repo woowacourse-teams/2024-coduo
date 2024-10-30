@@ -11,12 +11,25 @@ export default meta;
 
 type Story = StoryObj<typeof Dropdown>;
 
-const EXAMPLE_OPTIONS = ['옵션1', '옵션2', '옵션3'];
+const EXAMPLE_OPTIONS = [
+  {
+    id: '1',
+    value: '옵션 1',
+  },
+  {
+    id: '2',
+    value: '옵션 2',
+  },
+  {
+    id: '3',
+    value: '옵션 3',
+  },
+];
 
 export const Default: Story = {
   args: {
-    placeholder: 'This is Dropdown',
+    placeholder: '드롭다운 예시',
     options: EXAMPLE_OPTIONS,
-    onSelect: (option) => alert(`${option}를 선택했습니다.`),
+    onSelect: (optionId) => alert(`${optionId}를 선택했습니다.`),
   },
 };
