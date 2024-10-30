@@ -2,40 +2,106 @@ import styled, { css } from 'styled-components';
 
 import type { ButtonColor, ButtonSize } from '@/components/_common/Button/Button.type';
 
+import { theme } from '@/styles/theme';
+
 interface ButtonStyleProp {
-  $color: ButtonColor;
-  $animation: boolean;
+  $css?: ReturnType<typeof css>;
   $size: ButtonSize;
+  $width?: string;
+  $height?: string;
+  $borderRadius?: string;
+  $fontSize?: string;
+  $color: ButtonColor;
   $filled: boolean;
   $rounded: boolean;
+  $animation: boolean;
   disabled: boolean;
-  $css?: ReturnType<typeof css>;
 }
-const buttonShapes = {
-  sm: css`
-    width: 6rem;
-    height: 3rem;
 
-    font-size: ${({ theme }) => theme.fontSize.sm};
-  `,
-  md: css`
-    width: 10rem;
-    height: 4rem;
+interface ButtonShapesProp {
+  size?: ButtonSize;
+  width?: string;
+  height?: string;
+  fontSize?: string;
+}
 
-    font-size: ${({ theme }) => theme.fontSize.base};
-  `,
-  lg: css`
-    width: 15rem;
-    height: 4rem;
+const buttonShapes = ({ size, width, height, fontSize }: ButtonShapesProp) => {
+  switch (size) {
+    case 'sm':
+      return css`
+        width: ${width || '6rem'};
+        height: ${height || '3rem'};
 
-    font-size: ${({ theme }) => theme.fontSize.base};
-  `,
-  xl: css`
-    width: 24.5rem;
-    height: 6.5rem;
+        font-size: ${fontSize || (({ theme }) => theme.fontSize.sm)};
+      `;
+    case 'md':
+      return css`
+        width: ${width || '10rem'};
+        height: ${height || '4rem'};
 
-    font-size: ${({ theme }) => theme.fontSize.h5};
-  `,
+        font-size: ${fontSize || (({ theme }) => theme.fontSize.md)};
+      `;
+    case 'lg':
+      return css`
+        width: ${width || '15rem'};
+        height: ${height || '4rem'};
+
+        font-size: ${fontSize || (({ theme }) => theme.fontSize.base)};
+      `;
+    case 'xl':
+      return css`
+        width: ${width || '24.5rem'};
+        height: ${height || '6.5rem'};
+
+        font-size: ${fontSize || (({ theme }) => theme.fontSize.h5)};
+      `;
+  }
+};
+
+interface ButtonColorProp {
+  color: ButtonColor;
+  filled: boolean;
+  animation: boolean;
+}
+
+const buttonVisual = ({ color, filled, animation }: ButtonColorProp) => {
+  if (color in theme.color) {
+    const colorKey = color as keyof typeof theme.color;
+    return css`
+      border: 1px solid ${theme.color[colorKey][colorKey === 'primary' ? 600 : 400]};
+
+      background-color: ${filled ? theme.color[colorKey][colorKey === 'primary' ? 600 : 400] : theme.color.black[100]};
+      color: ${filled ? theme.color.black[100] : theme.color[colorKey][colorKey === 'primary' ? 600 : 400]};
+
+      &:hover {
+        border: 1px solid ${theme.color[colorKey][colorKey === 'primary' ? 700 : 500]};
+
+        background-color: ${filled
+          ? theme.color[colorKey][colorKey === 'primary' ? 700 : 500]
+          : theme.color.black[200]};
+
+        transform: ${animation && 'scale(1.01)'};
+      }
+
+      &:active {
+        border: 1px solid ${theme.color[colorKey][colorKey === 'primary' ? 800 : 600]};
+
+        background-color: ${filled
+          ? theme.color[colorKey][colorKey === 'primary' ? 800 : 600]
+          : theme.color.black[300]};
+
+        transform: ${animation && 'scale(1.02)'};
+      }
+
+      &:disabled {
+        border: 1px solid ${theme.color.black[300]};
+
+        background-color: ${theme.color.black[300]};
+        color: ${theme.color.black[100]};
+      }
+    `;
+  }
+  throw new Error('버튼 색상이 올바르지 않습니다.');
 };
 
 export const Button = styled.button<ButtonStyleProp>`
@@ -43,42 +109,16 @@ export const Button = styled.button<ButtonStyleProp>`
   justify-content: center;
   align-items: center;
 
-  border: 1px solid ${({ theme, $color }) => theme.color[$color][600]};
-  border-radius: ${({ $rounded }) => ($rounded ? '50rem' : '1rem')};
-
-  background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][600] : theme.color.black[100])};
-  color: ${({ $filled, theme, $color }) => ($filled ? theme.color.black[100] : theme.color[$color][600])};
+  border-radius: ${({ $rounded, $borderRadius }) => ($borderRadius ? $borderRadius : $rounded ? '50rem' : '0.5rem')};
 
   transition: all 0.2s;
 
-  ${({ $size }) => buttonShapes[$size]}
+  ${({ $size, $width, $height, $fontSize }) =>
+    buttonShapes({ size: $size, width: $width, height: $height, fontSize: $fontSize })}
 
-  &:hover {
-    border: 1px solid ${({ theme, $color }) => theme.color[$color][600]};
+  ${({ $color, $filled, $animation }) => buttonVisual({ color: $color, filled: $filled, animation: $animation })}
 
-    background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][700] : theme.color.black[100])};
-    color: ${({ $filled, theme, $color }) => ($filled ? theme.color.black[100] : theme.color[$color][700])};
-
-    transform: ${({ $animation }) => $animation && 'scale(1.01)'};
-  }
-
-  &:active {
-    border: 1px solid ${({ theme, $color }) => theme.color[$color][800]};
-
-    background-color: ${({ $filled, theme, $color }) => ($filled ? theme.color[$color][800] : theme.color.black[100])};
-    color: ${({ $filled, theme, $color }) => ($filled ? theme.color.black[100] : theme.color[$color][800])};
-
-    transform: ${($animation) => $animation && 'scale(1.02)'};
-  }
-
-  &:disabled {
-    border: 1px solid ${({ theme }) => theme.color.black[500]};
-
-    background-color: ${({ $filled, theme }) => ($filled ? theme.color.black[500] : theme.color.black[100])};
-    color: ${({ $filled, theme }) => ($filled ? theme.color.black[100] : theme.color.black[500])};
-  }
-
-  cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
 
   ${(props) => props.$css}
 `;

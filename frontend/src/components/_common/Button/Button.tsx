@@ -8,21 +8,28 @@ import type { ButtonColor, ButtonSize } from '@/components/_common/Button/Button
 interface ButtonProp extends ButtonHTMLAttributes<HTMLButtonElement> {
   $css?: ReturnType<typeof css>;
   size?: ButtonSize;
+  width?: string;
+  height?: string;
+  borderRadius?: string;
   fontSize?: string;
   color?: ButtonColor;
   filled?: boolean;
   rounded?: boolean;
   animation?: boolean;
+  disabled?: boolean;
 }
 
 const Button = ({
   $css,
-  size = 'lg',
+  size = 'md',
+  width,
+  height,
+  borderRadius,
+  fontSize,
   filled = true,
   rounded = false,
-  animation = true,
+  animation = false,
   color = 'primary',
-  children,
   disabled = false,
   ...props
 }: React.PropsWithChildren<ButtonProp>) => {
@@ -30,6 +37,10 @@ const Button = ({
     <S.Button
       type="button"
       $size={size}
+      $width={width}
+      $height={height}
+      $borderRadius={borderRadius}
+      $fontSize={fontSize}
       $filled={filled}
       $rounded={rounded}
       $animation={animation}
@@ -37,9 +48,7 @@ const Button = ({
       $css={$css}
       disabled={disabled}
       {...props}
-    >
-      {children}
-    </S.Button>
+    ></S.Button>
   );
 };
 
