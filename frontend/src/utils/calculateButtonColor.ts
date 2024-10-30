@@ -59,8 +59,10 @@ export const calculateButtonColor = (color: string, filled: boolean) => {
   const baseLuminance = calculateLuminance(baseColor);
   const adjustmentDirection = baseLuminance > 0.5 ? -1 : 1;
 
-  const hoverColor = adjustBrightness(baseColor, adjustmentDirection * 20);
-  const activeColor = adjustBrightness(hoverColor, adjustmentDirection * 20);
+  const adjustmentAmount = baseLuminance > 0.8 || baseLuminance < 0.2 ? 40 : 20;
+
+  const hoverColor = adjustBrightness(baseColor, adjustmentDirection * adjustmentAmount);
+  const activeColor = adjustBrightness(hoverColor, adjustmentDirection * adjustmentAmount);
 
   return {
     base: css`
