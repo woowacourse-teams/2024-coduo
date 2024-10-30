@@ -64,22 +64,22 @@ export const calculateButtonColor = (color: string, filled: boolean) => {
 
   return {
     base: css`
-      border-color: ${getColor(colorKey === 'primary' ? 600 : 400, baseColor)};
+      border-color: ${getColor(colorKey === 'primary' ? 700 : 400, baseColor)};
 
       background-color: ${filled ? getColor(colorKey === 'primary' ? 600 : 400, baseColor) : theme.color.black[100]};
-      color: ${filled ? theme.color.black[100] : getColor(colorKey === 'primary' ? 600 : 400, baseColor)};
+      color: ${filled ? theme.color.black[100] : getColor(colorKey === 'primary' ? 700 : 400, baseColor)};
     `,
     hover: css`
-      border-color: ${getColor(colorKey === 'primary' ? 700 : 600, hoverColor)};
+      border-color: ${getColor(colorKey === 'primary' ? 800 : 600, hoverColor)};
 
       background-color: ${filled ? getColor(colorKey === 'primary' ? 700 : 600, hoverColor) : theme.color.black[100]};
-      color: ${filled ? theme.color.black[100] : getColor(colorKey === 'primary' ? 700 : 600, hoverColor)};
+      color: ${filled ? theme.color.black[100] : getColor(colorKey === 'primary' ? 800 : 600, hoverColor)};
     `,
     active: css`
-      border-color: ${getColor(colorKey === 'primary' ? 800 : 700, activeColor)};
+      border-color: ${getColor(colorKey === 'primary' ? 900 : 700, activeColor)};
 
       background-color: ${filled ? getColor(colorKey === 'primary' ? 800 : 700, activeColor) : theme.color.black[100]};
-      color: ${filled ? theme.color.black[100] : getColor(colorKey === 'primary' ? 800 : 700, activeColor)};
+      color: ${filled ? theme.color.black[100] : getColor(colorKey === 'primary' ? 900 : 700, activeColor)};
     `,
     disabled: css`
       border-color: ${theme.color.black[300]};

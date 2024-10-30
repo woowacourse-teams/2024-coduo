@@ -119,3 +119,10 @@ CustomColor_light.args = {
   color: '#b4d19b',
   filled: true,
 };
+
+export const Black = Template.bind({});
+Black.args = {
+  size: 'md',
+  color: 'black',
+  filled: true,
+};
