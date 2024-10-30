@@ -11,6 +11,8 @@ interface ButtonStyleProp {
   $height?: string;
   $borderRadius?: string;
   $fontSize?: string;
+  $fontWeight?: string;
+  $textAlign?: string;
   $color: ButtonColor | string;
   $filled: boolean;
   $rounded: boolean;
@@ -23,9 +25,11 @@ interface ButtonShapesProp {
   width?: string;
   height?: string;
   fontSize?: string;
+  fontWeight?: string;
+  textAlign?: string;
 }
 
-const buttonSize = ({ size, width, height, fontSize }: ButtonShapesProp) => {
+const buttonSize = ({ size, width, height, fontSize, fontWeight, textAlign }: ButtonShapesProp) => {
   const defaultSizes = {
     sm: { width: '6rem', height: '3rem', fontSize: 'sm' },
     md: { width: '10rem', height: '4rem', fontSize: 'md' },
@@ -40,6 +44,8 @@ const buttonSize = ({ size, width, height, fontSize }: ButtonShapesProp) => {
     height: ${height || defaultHeight};
 
     font-size: ${fontSize || (({ theme }) => theme.fontSize[defaultFontSize as keyof typeof theme.fontSize])};
+    font-weight: ${fontWeight || 'normal'};
+    text-align: ${textAlign || 'center'};
   `;
 };
 

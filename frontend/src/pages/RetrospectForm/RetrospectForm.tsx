@@ -48,9 +48,11 @@ const RetrospectForm = () => {
               />
             </Question>
           ))}
-          <Button $css={S.buttonStyles} type="submit" disabled={isAnswersEmpty}>
-            작성 완료
-          </Button>
+          <S.ButtonContainer>
+            <Button width="70%" type="submit" disabled={isAnswersEmpty}>
+              작성 완료
+            </Button>
+          </S.ButtonContainer>
         </S.Form>
         <ConfirmModal
           title="나중에 작성하시겠습니까?"

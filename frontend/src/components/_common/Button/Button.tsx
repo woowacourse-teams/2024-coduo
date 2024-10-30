@@ -12,11 +12,14 @@ interface ButtonProp extends ButtonHTMLAttributes<HTMLButtonElement> {
   height?: string;
   borderRadius?: string;
   fontSize?: string;
+  fontWeight?: string;
+  textAlign?: string;
   color?: ButtonColor | string;
   filled?: boolean;
   rounded?: boolean;
   animation?: boolean;
   disabled?: boolean;
+  children: React.ReactNode;
 }
 
 const Button = ({
@@ -26,11 +29,14 @@ const Button = ({
   height,
   borderRadius,
   fontSize,
+  fontWeight,
+  textAlign,
   filled = true,
   rounded = false,
   animation = false,
   color = 'primary',
   disabled = false,
+  children,
   ...props
 }: React.PropsWithChildren<ButtonProp>) => {
   return (
@@ -41,6 +47,8 @@ const Button = ({
       $height={height}
       $borderRadius={borderRadius}
       $fontSize={fontSize}
+      $fontWeight={fontWeight}
+      $textAlign={textAlign}
       $filled={filled}
       $rounded={rounded}
       $animation={animation}
@@ -48,7 +56,9 @@ const Button = ({
       $css={$css}
       disabled={disabled}
       {...props}
-    ></S.Button>
+    >
+      {children}
+    </S.Button>
   );
 };
 

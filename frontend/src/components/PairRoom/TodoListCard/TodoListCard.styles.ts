@@ -5,12 +5,6 @@ export const inputStyles = css`
   border-radius: 0.6rem;
 `;
 
-export const buttonStyles = css`
-  width: 4.4rem;
-  height: 4rem;
-  border-radius: 0.6rem;
-`;
-
 export const Layout = styled.div`
   min-width: 49rem;
 `;

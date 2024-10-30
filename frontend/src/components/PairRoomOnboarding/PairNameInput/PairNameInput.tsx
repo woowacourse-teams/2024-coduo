@@ -68,6 +68,8 @@ const PairNameInput = ({
           </S.InputWrapper>
         ) : (
           <>
+            {' '}
+            {/* TODO: 아이콘버튼 */}
             <S.AddButton
               aria-label="페어 정보 연동하기 버튼, 클릭하시면 페어 정보 연동 모달이 열립니다."
               onClick={openAddPairModal}

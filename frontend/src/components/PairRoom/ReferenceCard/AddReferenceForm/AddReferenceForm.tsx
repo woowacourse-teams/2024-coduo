@@ -43,10 +43,11 @@ const AddReferenceForm = ({ accessCode, categories, isCategoryExist, getCategory
           onChange={handleChange}
         />
         <Button
-          $css={S.buttonStyles}
+          width="4.4rem"
+          height="4rem"
+          borderRadius="0.6rem"
           aria-label="링크 추가하기 버튼"
           type="submit"
-          size="sm"
           rounded={true}
           disabled={value.trim() === '' || status !== 'DEFAULT'}
         >

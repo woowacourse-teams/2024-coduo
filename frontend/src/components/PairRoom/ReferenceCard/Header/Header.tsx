@@ -39,10 +39,9 @@ const Header = ({
         />
       </S.Container>
       <Button
-        $css={S.buttonStyles}
+        width="7rem"
+        height="4rem"
         aria-label={`현재 카테고리는 ${selectedFilteringCategoryName} 입니다. 클릭하시면 카테고리 선택 모달이 열립니다.`}
-        size="sm"
-        rounded={true}
         onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
           event.stopPropagation();
           onButtonClick();

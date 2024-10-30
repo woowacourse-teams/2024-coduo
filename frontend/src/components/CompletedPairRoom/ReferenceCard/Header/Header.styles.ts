@@ -1,10 +1,4 @@
-import styled, { css } from 'styled-components';
-
-export const buttonStyles = css`
-  width: fit-content;
-  min-width: 6rem;
-  padding: 0 1rem;
-`;
+import styled from 'styled-components';
 
 export const Layout = styled.div`
   display: flex;

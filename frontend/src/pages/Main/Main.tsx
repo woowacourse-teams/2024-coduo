@@ -9,6 +9,8 @@ import WaveBackground from '@/components/Main/WaveBackground/WaveBackground';
 import usePreventBackNavigation from '@/hooks/_common/customEvent/usePreventBackNavigation';
 import useModal from '@/hooks/_common/useModal';
 
+import { theme } from '@/styles/theme';
+
 const Main = () => {
   usePreventBackNavigation();
 
@@ -53,12 +55,26 @@ const Main = () => {
         </ScrollAnimationContainer>
         <S.ButtonContainer>
           <ScrollAnimationContainer animationDirection="left" animationDelay={0.2}>
-            <Button size="xl" $css={S.buttonStyles} rounded={true} onClick={openPairRoomCreateModal}>
+            <Button
+              width="22rem"
+              height="6rem"
+              fontSize={theme.fontSize.h6}
+              rounded={true}
+              onClick={openPairRoomCreateModal}
+            >
               페어룸 만들기
             </Button>
           </ScrollAnimationContainer>
           <ScrollAnimationContainer animationDirection="left" animationDelay={0.4}>
-            <Button size="xl" $css={S.buttonStyles} filled={false} rounded={true} onClick={openPairRoomEntryModal}>
+            <Button
+              size="xl"
+              width="22rem"
+              height="6rem"
+              fontSize={theme.fontSize.h6}
+              filled={false}
+              rounded={true}
+              onClick={openPairRoomEntryModal}
+            >
               페어룸 들어가기
             </Button>
           </ScrollAnimationContainer>
