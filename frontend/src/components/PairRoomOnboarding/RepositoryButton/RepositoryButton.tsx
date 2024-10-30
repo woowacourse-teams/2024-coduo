@@ -26,7 +26,6 @@ const RepositoryButton = ({ id, name, onSelect }: RepositoryButtonProps) => {
         textAlign="right"
         key={id}
         name={name}
-        filled={false}
         animation={false}
         onClick={(event) => onSelect(event.currentTarget.name)}
       >
