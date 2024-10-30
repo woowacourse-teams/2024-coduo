@@ -21,6 +21,8 @@ interface DropdownProps {
   placeholder?: string;
   width?: string;
   height?: string;
+  color?: string;
+  fontSize?: string;
   direction?: Direction;
   onSelect: (optionId: string) => void;
 }
@@ -36,6 +38,8 @@ const Dropdown = ({
   placeholder = '',
   width = '100%',
   height = '4.8rem',
+  color = theme.color.primary[800],
+  fontSize = theme.fontSize.md,
   direction = 'LOWER',
   onSelect,
 }: DropdownProps) => {
@@ -62,12 +66,13 @@ const Dropdown = ({
 
   return (
     <S.Layout ref={dropdownRef} $width={width}>
-      <S.Container $direction={direction} $height={height}>
+      <S.Container $direction={direction} $height={height} $color={color} $fontSize={fontSize}>
         <S.OpenButton
           role="listbox"
           aria-label={isOpen ? '드롭다운을 닫습니다' : '드롭다운을 엽니다'}
           $isOpen={isOpen}
           $isSelected={!!selectedOption}
+          $color={color}
           onClick={toggleDropdown}
         >
           {selectedOption || placeholder}

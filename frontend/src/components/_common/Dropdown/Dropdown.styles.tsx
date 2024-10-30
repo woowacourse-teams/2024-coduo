@@ -15,7 +15,7 @@ export const Layout = styled.div<{ $width: string }>`
   background-color: ${theme.color.black[100]};
 `;
 
-export const Container = styled.div<{ $direction: Direction; $height: string }>`
+export const Container = styled.div<{ $direction: Direction; $height: string; $color: string; $fontSize: string }>`
   display: flex;
   flex-direction: ${({ $direction }) => ($direction === 'LOWER' ? 'column' : 'column-reverse')};
 
@@ -25,31 +25,30 @@ export const Container = styled.div<{ $direction: Direction; $height: string }>`
     padding: 1.5rem;
     border-radius: 1rem;
 
-    color: ${theme.color.black[500]};
-    font-size: ${theme.fontSize.md};
+    font-size: ${({ $fontSize }) => $fontSize};
 
     transition: all 0.2s;
 
     &:hover {
       background-color: ${theme.color.black[200]};
-      color: ${theme.color.primary[800]};
+      color: ${({ $color }) => $color};
     }
 
     &:active {
       background-color: ${theme.color.black[300]};
-      color: ${theme.color.primary[800]};
+      color: ${({ $color }) => $color};
     }
   }
 `;
 
-export const OpenButton = styled.button<{ $isOpen: boolean; $isSelected: boolean }>`
+export const OpenButton = styled.button<{ $isOpen: boolean; $isSelected: boolean; $color: string }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  border: 1px solid ${({ $isOpen, $isSelected }) => ($isSelected || $isOpen) && theme.color.primary[800]};
+  border: 1px solid ${({ $isOpen, $isSelected, $color }) => ($isSelected || $isOpen) && $color};
 
-  color: ${({ $isSelected }) => $isSelected && theme.color.primary[800]};
+  color: ${({ $isSelected, $color }) => ($isSelected ? $color : theme.color.black[500])};
 
   svg {
     transform: rotate(${({ $isOpen }) => ($isOpen ? '180' : '0')}deg);
@@ -57,11 +56,11 @@ export const OpenButton = styled.button<{ $isOpen: boolean; $isSelected: boolean
   }
 
   &:hover {
-    border-color: ${theme.color.primary[800]};
+    border-color: ${({ $color }) => $color};
   }
 
   &:active {
-    border-color: ${theme.color.primary[800]};
+    border-color: ${({ $color }) => $color};
   }
 `;
 
@@ -82,4 +81,5 @@ export const ItemList = styled.ul<{ $direction: Direction }>`
   box-shadow:
     0 0 1px grey,
     1px 1px 2px lightgrey;
+  color: ${theme.color.black[500]};
 `;

@@ -1,6 +1,10 @@
+import { useState } from 'react';
+
 import type { Meta, StoryObj } from '@storybook/react';
 
 import Dropdown from '@/components/_common/Dropdown/Dropdown';
+
+import { findValueById } from '@/utils/findOption';
 
 const meta = {
   title: 'component/common/Dropdown',
@@ -30,6 +34,15 @@ export const Default: Story = {
   args: {
     placeholder: '드롭다운 예시',
     options: EXAMPLE_OPTIONS,
-    onSelect: (optionId) => alert(`${optionId}를 선택했습니다.`),
+  },
+  render: (args) => {
+    const [selectedOption, setSelectedOption] = useState('');
+
+    const handleSelect = (optionId: string) => {
+      const value = findValueById(EXAMPLE_OPTIONS, optionId);
+      setSelectedOption(value || '');
+    };
+
+    return <Dropdown {...args} selectedOption={selectedOption} onSelect={handleSelect} />;
   },
 };
