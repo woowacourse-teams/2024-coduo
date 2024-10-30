@@ -7,6 +7,6 @@ export const Layout = styled.div`
   gap: 1rem;
 `;
 export const ButtonPrompt = styled.div`
-  color: ${({ theme }) => theme.color.black[70]};
+  color: ${({ theme }) => theme.color.black[700]};
   font-size: ${({ theme }) => theme.fontSize.sm};
 `;

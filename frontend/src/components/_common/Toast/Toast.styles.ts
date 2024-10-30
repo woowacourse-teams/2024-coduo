@@ -58,7 +58,7 @@ export const Layout = styled.div<{ $isOpen: boolean; $isPush: boolean; $status: 
   padding: 1.2rem 1.8rem;
   border-radius: 1.5rem;
 
-  color: ${({ theme }) => theme.color.black[10]};
+  color: ${({ theme }) => theme.color.black[100]};
   font-size: ${({ theme }) => theme.fontSize.md};
   line-height: 1.5;
 

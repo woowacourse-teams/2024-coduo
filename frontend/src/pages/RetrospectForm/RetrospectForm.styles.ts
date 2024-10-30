@@ -53,7 +53,7 @@ export const Container = styled.div`
   min-width: 76.8rem;
   padding: 4rem 4rem 12rem;
 
-  background-color: ${({ theme }) => theme.color.black[10]};
+  background-color: ${({ theme }) => theme.color.black[100]};
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     width: 100%;

@@ -2,15 +2,15 @@ import styled, { css } from 'styled-components';
 
 export const buttonStyles = css`
   width: 8rem;
-  border-color: ${({ theme }) => theme.color.black[50]};
+  border-color: ${({ theme }) => theme.color.black[500]};
 
-  background-color: ${({ theme }) => theme.color.black[50]};
+  background-color: ${({ theme }) => theme.color.black[500]};
   font-size: ${({ theme }) => theme.fontSize.md};
 
   &:hover {
-    border-color: ${({ theme }) => theme.color.black[60]};
+    border-color: ${({ theme }) => theme.color.black[600]};
 
-    background-color: ${({ theme }) => theme.color.black[60]};
+    background-color: ${({ theme }) => theme.color.black[600]};
   }
 `;
 
@@ -29,13 +29,13 @@ export const TitleContainer = styled.div`
 `;
 
 export const Title = styled.div`
-  color: ${({ theme }) => theme.color.primary[700]};
+  color: ${({ theme }) => theme.color.primary[800]};
   font-size: ${({ theme }) => theme.fontSize.h5};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
 
 export const SubTitle = styled.div`
-  color: ${({ theme }) => theme.color.primary[600]};
+  color: ${({ theme }) => theme.color.primary[700]};
   font-size: ${({ theme }) => theme.fontSize.lg};
   font-weight: ${({ theme }) => theme.fontWeight.normal};
 `;
@@ -55,20 +55,20 @@ export const InputWrapper = styled.div`
 `;
 
 export const Label = styled.p`
-  color: ${({ theme }) => theme.color.primary[700]};
+  color: ${({ theme }) => theme.color.primary[800]};
   font-size: ${({ theme }) => theme.fontSize.base};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
 
 export const TextButton = styled.button`
-  color: ${({ theme }) => theme.color.black[60]};
+  color: ${({ theme }) => theme.color.black[600]};
   font-size: ${({ theme }) => theme.fontSize.sm};
   text-decoration: underline;
 
   transition: all 0.2s;
 
   &:hover {
-    color: ${({ theme }) => theme.color.black[65]};
+    color: ${({ theme }) => theme.color.black[600]};
   }
 `;
 
@@ -85,7 +85,7 @@ export const AddButton = styled.button`
     height: 4rem;
     border-radius: 0.5rem 0 0 0.5rem;
 
-    background-color: ${({ theme }) => theme.color.primary[800]};
+    background-color: ${({ theme }) => theme.color.primary[900]};
 
     transition: all 0.2s;
   }
@@ -98,8 +98,8 @@ export const AddButton = styled.button`
     padding: 1rem 2.5rem;
     border-radius: 0 0.5rem 0.5rem 0;
 
-    background-color: ${({ theme }) => theme.color.primary[500]};
-    color: ${({ theme }) => theme.color.black[10]};
+    background-color: ${({ theme }) => theme.color.primary[600]};
+    color: ${({ theme }) => theme.color.black[100]};
     font-size: ${({ theme }) => theme.fontSize.md};
 
     transition: all 0.2s;
@@ -116,7 +116,7 @@ export const AddButton = styled.button`
     }
 
     p {
-      background-color: ${({ theme }) => theme.color.primary[600]};
+      background-color: ${({ theme }) => theme.color.primary[700]};
 
       transform: scale(1.01);
     }

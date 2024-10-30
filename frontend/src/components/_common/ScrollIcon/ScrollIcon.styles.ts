@@ -58,7 +58,7 @@ export const Layout = styled.div<{ $isBottom: boolean }>`
 `;
 
 export const ScrollIcon = styled(RiArrowDownDoubleLine)<{ $isBottom: boolean }>`
-  color: ${({ theme }) => theme.color.primary[800]};
+  color: ${({ theme }) => theme.color.primary[900]};
 
   transition: transform 0.3s ease-in-out;
   ${getTransformStyle}

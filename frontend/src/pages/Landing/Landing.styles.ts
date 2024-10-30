@@ -12,10 +12,10 @@ export const githubButtonStyles = css`
 
   width: 26rem;
   height: 6rem;
-  border: 1px solid ${({ theme }) => theme.color.black[80]};
+  border: 1px solid ${({ theme }) => theme.color.black[800]};
 
-  background-color: ${({ theme }) => theme.color.black[90]};
-  color: ${({ theme }) => theme.color.black[10]};
+  background-color: ${({ theme }) => theme.color.black[900]};
+  color: ${({ theme }) => theme.color.black[100]};
   font-size: ${({ theme }) => theme.fontSize.h6};
 
   img {
@@ -24,17 +24,17 @@ export const githubButtonStyles = css`
   }
 
   &:hover {
-    border: 1px solid ${({ theme }) => theme.color.black[70]};
+    border: 1px solid ${({ theme }) => theme.color.black[700]};
 
-    background-color: ${({ theme }) => theme.color.black[80]};
-    color: ${({ theme }) => theme.color.black[10]};
+    background-color: ${({ theme }) => theme.color.black[800]};
+    color: ${({ theme }) => theme.color.black[100]};
   }
 
   &:active {
-    border: 1px solid ${({ theme }) => theme.color.black[60]};
+    border: 1px solid ${({ theme }) => theme.color.black[600]};
 
-    background-color: ${({ theme }) => theme.color.black[70]};
-    color: ${({ theme }) => theme.color.black[10]};
+    background-color: ${({ theme }) => theme.color.black[700]};
+    color: ${({ theme }) => theme.color.black[100]};
   }
 `;
 
@@ -54,7 +54,7 @@ export const Layout = styled.div`
     ${({ theme }) => theme.color.secondary[100]},
     ${({ theme }) => theme.color.primary[200]}
   );
-  background-color: ${({ theme }) => theme.color.black[10]};
+  background-color: ${({ theme }) => theme.color.black[100]};
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     padding: 4rem;
@@ -62,7 +62,7 @@ export const Layout = styled.div`
 `;
 
 export const SubTitle = styled.h2`
-  color: ${({ theme }) => theme.color.primary[700]};
+  color: ${({ theme }) => theme.color.primary[800]};
   font-size: ${({ theme }) => theme.fontSize.h3};
   font-weight: ${({ theme }) => theme.fontWeight.normal};
 
@@ -73,7 +73,7 @@ export const SubTitle = styled.h2`
 
 export const Logo = styled.img`
   width: 50rem;
-  filter: drop-shadow(0 0 2rem ${({ theme }) => theme.color.black[10]});
+  filter: drop-shadow(0 0 2rem ${({ theme }) => theme.color.black[100]});
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     width: 40rem;

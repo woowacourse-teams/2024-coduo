@@ -19,24 +19,24 @@ export const expandButton = css`
   height: 4rem;
   border: none;
 
-  background-color: ${({ theme }) => theme.color.black[10]};
-  color: ${({ theme }) => theme.color.black[90]};
+  background-color: ${({ theme }) => theme.color.black[100]};
+  color: ${({ theme }) => theme.color.black[900]};
 
   &:hover {
     border: none;
 
-    background-color: ${({ theme }) => theme.color.black[30]};
+    background-color: ${({ theme }) => theme.color.black[300]};
   }
 
   &:active {
     border: none;
 
-    background-color: ${({ theme }) => theme.color.black[50]};
+    background-color: ${({ theme }) => theme.color.black[500]};
   }
 `;
 
 export const ArrowIcon = styled(IoIosArrowBack)<{ $isOpen: boolean }>`
-  color: ${({ theme }) => theme.color.black[90]};
+  color: ${({ theme }) => theme.color.black[900]};
 
   transform: rotate(${({ $isOpen }) => ($isOpen ? 0 : 180)}deg);
   transition: transform 0.2s ease-in-out;

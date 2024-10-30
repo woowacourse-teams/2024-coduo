@@ -13,7 +13,7 @@ interface HeaderProps {
 
 const Header = ({ isOpen, toggleOpen }: HeaderProps) => (
   <S.Layout
-    icon={isOpen && <IoPeople color={theme.color.primary[500]} role="presentation" />}
+    icon={isOpen && <IoPeople color={theme.color.primary[600]} role="presentation" />}
     title={isOpen ? '페어' : ''}
   >
     <Button $css={S.expandButton} onClick={toggleOpen} aria-label={isOpen ? '목록 접기' : '목록 열기'}>

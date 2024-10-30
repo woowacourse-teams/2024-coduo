@@ -24,7 +24,7 @@ export const TitleContainer = styled.div`
 `;
 
 export const Title = styled.h1`
-  color: ${({ theme }) => theme.color.primary[800]};
+  color: ${({ theme }) => theme.color.primary[900]};
   font-size: ${({ theme }) => theme.fontSize.h1};
   font-weight: bold;
 `;

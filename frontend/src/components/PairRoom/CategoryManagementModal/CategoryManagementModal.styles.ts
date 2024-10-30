@@ -11,7 +11,7 @@ export const Header = styled.div`
   align-items: center;
   gap: 1rem;
 
-  color: ${({ theme }) => theme.color.primary[700]};
+  color: ${({ theme }) => theme.color.primary[800]};
   font-size: ${({ theme }) => theme.fontSize.h5};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;

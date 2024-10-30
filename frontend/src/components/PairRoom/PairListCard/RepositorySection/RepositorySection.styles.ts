@@ -9,7 +9,7 @@ export const Layout = styled.div<{ $isOpen: boolean }>`
   height: 6rem;
   padding: 2rem;
 
-  background-color: ${({ theme }) => theme.color.black[80]};
+  background-color: ${({ theme }) => theme.color.black[800]};
 
   transition: background-color 0.3s ease-out;
 
@@ -24,6 +24,6 @@ export const RepositoryWrapper = styled.div`
 `;
 
 export const RepositoryText = styled.span`
-  color: ${({ theme }) => theme.color.black[10]};
+  color: ${({ theme }) => theme.color.black[100]};
   font-size: ${({ theme }) => theme.fontSize.md};
 `;

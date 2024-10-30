@@ -12,11 +12,11 @@ export const Textarea = styled.textarea`
   min-height: 20rem;
   max-height: 40rem;
   padding: 2rem;
-  border: 1px solid ${({ theme }) => theme.color.black[50]};
+  border: 1px solid ${({ theme }) => theme.color.black[500]};
   border-radius: 0.5rem;
 
-  background-color: ${({ theme }) => theme.color.black[20]};
-  color: ${({ theme }) => theme.color.black[80]};
+  background-color: ${({ theme }) => theme.color.black[200]};
+  color: ${({ theme }) => theme.color.black[800]};
   font-size: ${({ theme }) => theme.fontSize.md};
   line-height: 1.6;
   resize: vertical;
@@ -25,14 +25,14 @@ export const Textarea = styled.textarea`
   overflow-wrap: break-word;
 
   &:focus {
-    border: 1px solid ${({ theme }) => theme.color.primary[600]};
+    border: 1px solid ${({ theme }) => theme.color.primary[700]};
 
-    background-color: ${({ theme }) => theme.color.black[10]};
-    color: ${({ theme }) => theme.color.black[90]};
+    background-color: ${({ theme }) => theme.color.black[100]};
+    color: ${({ theme }) => theme.color.black[900]};
   }
 
   &::placeholder {
-    color: ${({ theme }) => theme.color.black[50]};
+    color: ${({ theme }) => theme.color.black[500]};
   }
 `;
 
@@ -44,7 +44,7 @@ export const CharNumberText = styled.p`
   padding: 0.5rem 1rem;
   border-radius: 1rem;
 
-  background-color: ${({ theme }) => theme.color.black[20]};
-  color: ${({ theme }) => theme.color.primary[600]};
+  background-color: ${({ theme }) => theme.color.black[200]};
+  color: ${({ theme }) => theme.color.primary[700]};
   font-size: ${({ theme }) => theme.fontSize.sm};
 `;

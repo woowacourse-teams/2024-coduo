@@ -81,7 +81,7 @@ export const ButtonContainer = styled.div`
   gap: 0.8rem;
 
   p {
-    color: ${({ theme }) => theme.color.black[60]};
+    color: ${({ theme }) => theme.color.black[600]};
     font-size: ${({ theme }) => theme.fontSize.sm};
   }
 `;

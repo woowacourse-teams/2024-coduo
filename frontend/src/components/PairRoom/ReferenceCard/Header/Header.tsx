@@ -27,14 +27,14 @@ const Header = ({
     >
       <S.Container>
         {isOpen ? (
-          <IoIosLink size={theme.fontSize.h6} color={theme.color.primary[600]} role="presentation" />
+          <IoIosLink size={theme.fontSize.h6} color={theme.color.primary[700]} role="presentation" />
         ) : (
-          <IoIosArrowUp size={theme.fontSize.h6} color={theme.color.primary[600]} role="presentation" />
+          <IoIosArrowUp size={theme.fontSize.h6} color={theme.color.primary[700]} role="presentation" />
         )}
         <p>링크</p>
         <ToolTipQuestionBox
           message="페어 프로그래밍을 진행하면서 도움이 되었던 레퍼런스 링크를 저장해 보세요."
-          color={theme.color.black[50]}
+          color={theme.color.black[500]}
           boxDirection="right"
         />
       </S.Container>

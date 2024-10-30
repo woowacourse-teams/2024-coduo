@@ -20,11 +20,11 @@ export const Content = styled.div`
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ theme }) => theme.color.black[30]};
+    background-color: ${({ theme }) => theme.color.black[300]};
   }
 
   &:active {
-    background-color: ${({ theme }) => theme.color.black[40]};
+    background-color: ${({ theme }) => theme.color.black[400]};
   }
 `;
 export const PairRoomCode = styled.p`
@@ -37,7 +37,7 @@ export const IconBox = styled.div`
   padding-bottom: 0;
   border-radius: 0.5rem;
 
-  color: ${({ theme }) => theme.color.primary[500]};
+  color: ${({ theme }) => theme.color.primary[600]};
 `;
 
 export const ModalBodyWrapper = styled.div`

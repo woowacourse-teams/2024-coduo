@@ -5,21 +5,21 @@ export const confirmButtonStyles = css`
 `;
 
 export const cancelButtonStyles = css`
-  border-color: ${({ theme }) => theme.color.black[40]};
+  border-color: ${({ theme }) => theme.color.black[400]};
 
-  background-color: ${({ theme }) => theme.color.black[40]};
+  background-color: ${({ theme }) => theme.color.black[400]};
   font-size: ${({ theme }) => theme.fontSize.md};
 
   &:hover {
-    border-color: ${({ theme }) => theme.color.black[50]};
+    border-color: ${({ theme }) => theme.color.black[500]};
 
-    background-color: ${({ theme }) => theme.color.black[50]};
+    background-color: ${({ theme }) => theme.color.black[500]};
   }
 
   &:active {
-    border-color: ${({ theme }) => theme.color.black[50]};
+    border-color: ${({ theme }) => theme.color.black[500]};
 
-    background-color: ${({ theme }) => theme.color.black[50]};
+    background-color: ${({ theme }) => theme.color.black[500]};
   }
 `;
 
@@ -44,7 +44,7 @@ export const Container = styled.div<{ $type: 'SUCCESS' | 'DANGER' }>`
   font-size: ${({ theme }) => theme.fontSize.md};
 
   p {
-    color: ${({ theme }) => theme.color.black[90]};
+    color: ${({ theme }) => theme.color.black[900]};
     font-size: ${({ theme }) => theme.fontSize.base};
     font-weight: ${({ theme }) => theme.fontWeight.medium};
   }

@@ -11,7 +11,7 @@ export const PairItem = styled.div`
   height: 6rem;
   padding: 0 1.6rem;
 
-  border-bottom: 1px solid ${({ theme }) => theme.color.black[40]};
+  border-bottom: 1px solid ${({ theme }) => theme.color.black[400]};
 `;
 
 export const PairRole = styled.span<{ $role: Role }>`
@@ -20,7 +20,7 @@ export const PairRole = styled.span<{ $role: Role }>`
   border-radius: 1.2rem;
 
   background-color: ${({ theme, $role }) =>
-    $role === 'DRIVER' ? theme.color.primary[500] : theme.color.secondary[500]};
+    $role === 'DRIVER' ? theme.color.primary[600] : theme.color.secondary[500]};
   color: white;
   font-size: ${({ theme }) => theme.fontSize.sm};
   text-align: center;

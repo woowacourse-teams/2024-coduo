@@ -25,12 +25,12 @@ export const TitleContainer = styled.div`
 `;
 
 export const Title = styled.h1`
-  color: ${({ theme }) => theme.color.primary[800]};
+  color: ${({ theme }) => theme.color.primary[900]};
   font-size: ${({ theme }) => theme.fontSize.h3};
   font-weight: ${({ theme }) => theme.fontWeight.semibold};
 `;
 
 export const SubTitle = styled.h2`
-  color: ${({ theme }) => theme.color.primary[700]};
+  color: ${({ theme }) => theme.color.primary[800]};
   font-size: ${({ theme }) => theme.fontSize.lg};
 `;

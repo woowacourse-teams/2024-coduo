@@ -10,7 +10,7 @@ export const Layout = styled.div<{ $isChecked: boolean; $isIconHovered: boolean 
   padding: 1.6rem;
   border-radius: 1rem;
 
-  background: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[30] : theme.color.secondary[200])};
+  background: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[300] : theme.color.secondary[200])};
   font-size: ${({ theme }) => theme.fontSize.md};
 
   transition: background 0.1s ease;
@@ -39,13 +39,13 @@ export const CopyIcon = styled(AiFillCopy)<{ $isChecked: boolean }>`
   width: 1.7rem;
   height: 1.7rem;
 
-  color: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[50] : theme.color.secondary[500])};
+  color: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[500] : theme.color.secondary[500])};
 
   transition: color 0.1s ease;
 
   cursor: pointer;
 
   &:hover {
-    color: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[60] : theme.color.secondary[600])};
+    color: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[600] : theme.color.secondary[600])};
   }
 `;

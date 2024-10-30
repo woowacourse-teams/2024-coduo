@@ -21,7 +21,7 @@ export const Container = styled.div`
   min-width: 76.8rem;
   padding: 4rem 4rem 12rem;
 
-  background-color: ${({ theme }) => theme.color.black[10]};
+  background-color: ${({ theme }) => theme.color.black[100]};
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     width: 100%;
@@ -36,11 +36,11 @@ export const TextWrapper = styled.pre`
   width: 100%;
   margin: 0;
   padding: 2rem;
-  border: 1px solid ${({ theme }) => theme.color.black[50]};
+  border: 1px solid ${({ theme }) => theme.color.black[500]};
   border-radius: 0.5rem;
 
-  background-color: ${({ theme }) => theme.color.black[20]};
-  color: ${({ theme }) => theme.color.black[80]};
+  background-color: ${({ theme }) => theme.color.black[200]};
+  color: ${({ theme }) => theme.color.black[800]};
   font-size: ${({ theme }) => theme.fontSize.md};
   font-weight: ${({ theme }) => theme.fontWeight.light};
   line-height: 1.6;

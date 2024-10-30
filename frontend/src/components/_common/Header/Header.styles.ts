@@ -16,11 +16,11 @@ export const Layout = styled.div`
   height: 7rem;
   padding: 0 5rem;
 
-  background-color: ${({ theme }) => theme.color.black[10]};
-  color: ${({ theme }) => theme.color.black[80]};
+  background-color: ${({ theme }) => theme.color.black[100]};
+  color: ${({ theme }) => theme.color.black[800]};
   font-size: ${({ theme }) => theme.fontSize.base};
 
-  border-bottom: 0.1rem solid ${({ theme }) => theme.color.black[30]};
+  border-bottom: 0.1rem solid ${({ theme }) => theme.color.black[300]};
 
   a,
   button {
@@ -78,7 +78,7 @@ export const ResponsiveIcon = styled.div`
 export const HowToPairIcon = styled.div`
   display: none;
 
-  color: ${({ theme }) => theme.color.primary[800]};
+  color: ${({ theme }) => theme.color.primary[900]};
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     display: flex;

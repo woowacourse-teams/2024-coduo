@@ -13,13 +13,13 @@ export const TitleContainer = styled.div`
 `;
 
 export const Title = styled.div`
-  color: ${({ theme }) => theme.color.primary[700]};
+  color: ${({ theme }) => theme.color.primary[800]};
   font-size: ${({ theme }) => theme.fontSize.h5};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
 
 export const SubTitle = styled.div`
-  color: ${({ theme }) => theme.color.primary[600]};
+  color: ${({ theme }) => theme.color.primary[700]};
   font-size: ${({ theme }) => theme.fontSize.lg};
   font-weight: ${({ theme }) => theme.fontWeight.normal};
 `;
@@ -63,8 +63,8 @@ export const MissionRepository = styled.div`
   height: 5rem;
   border-radius: 1rem;
 
-  background-color: ${({ theme }) => theme.color.black[80]};
-  color: ${({ theme }) => theme.color.black[10]};
+  background-color: ${({ theme }) => theme.color.black[800]};
+  color: ${({ theme }) => theme.color.black[100]};
 `;
 
 export const MissionBranch = styled.input`
@@ -75,11 +75,11 @@ export const MissionBranch = styled.input`
   width: 80%;
   height: 4rem;
   padding: 0 1rem;
-  border: 2px solid ${({ theme }) => theme.color.black[70]};
+  border: 2px solid ${({ theme }) => theme.color.black[700]};
   border-radius: 1rem;
 
-  background-color: ${({ theme }) => theme.color.black[10]};
-  color: ${({ theme }) => theme.color.black[70]};
+  background-color: ${({ theme }) => theme.color.black[100]};
+  color: ${({ theme }) => theme.color.black[700]};
 `;
 
 export const ModalContainer = styled.div`
