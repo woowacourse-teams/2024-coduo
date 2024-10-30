@@ -1,13 +1,14 @@
 import { useState, useRef } from 'react';
 
-import * as S from '@/components/_common/Dropdown/Dropdown.styles';
-// import HiddenDropdown from '@/components/_common/Dropdown/HiddenDropdown';
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
 import useClickOutside from '@/hooks/_common/customEvent/useClickOutside';
 
 import { theme } from '@/styles/theme';
 
-export type Direction = 'lower' | 'upper';
+import * as S from './Dropdown.styles';
+
+export type Direction = 'LOWER' | 'UPPER';
 
 export interface Option {
   id: string;
@@ -24,13 +25,18 @@ interface DropdownProps {
   onSelect: (optionId: string) => void;
 }
 
+const DIRECTION_ICONS = {
+  LOWER: <IoIosArrowDown size={theme.fontSize.lg} />,
+  UPPER: <IoIosArrowUp size={theme.fontSize.lg} />,
+};
+
 const Dropdown = ({
   options,
   selectedOption = '',
   placeholder = '',
   width = '100%',
   height = '4.8rem',
-  direction = 'lower',
+  direction = 'LOWER',
   onSelect,
 }: DropdownProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -55,37 +61,28 @@ const Dropdown = ({
   };
 
   return (
-    <S.Layout $width={width} ref={dropdownRef} $height={height}>
-      {/* <HiddenDropdown valueOptions={valueOptions} selectedOption={selectedOption} handleSelect={handleOptionSelect} /> */}
-      <S.DropdownContainer $direction={direction}>
+    <S.Layout ref={dropdownRef} $width={width}>
+      <S.Container $direction={direction} $height={height}>
         <S.OpenButton
           role="listbox"
-          filled={false}
-          $isSelected={!!selectedOption}
-          $isOpen={isOpen}
-          onClick={toggleDropdown}
           aria-label={isOpen ? '드롭다운을 닫습니다' : '드롭다운을 엽니다'}
+          $isOpen={isOpen}
+          $isSelected={!!selectedOption}
+          onClick={toggleDropdown}
         >
           {selectedOption || placeholder}
-          <S.Icon $isOpen={isOpen} size={theme.iconSize.md} $direction={direction} />
+          {DIRECTION_ICONS[direction]}
         </S.OpenButton>
         {isOpen && (
-          <S.ItemList $height={height} $direction={direction}>
+          <S.ItemList $direction={direction}>
             {options.map((option, index) => (
-              <li key={`${option}_${index}`}>
-                <S.Item
-                  filled={false}
-                  role="option"
-                  aria-selected={selectedOption === option.value}
-                  onClick={(event) => handleOptionClick(event, option.id)}
-                >
-                  {option.value}
-                </S.Item>
+              <li key={`${option}_${index}`} role="option" aria-selected={selectedOption === option.value}>
+                <button onClick={(event) => handleOptionClick(event, option.id)}>{option.value}</button>
               </li>
             ))}
           </S.ItemList>
         )}
-      </S.DropdownContainer>
+      </S.Container>
     </S.Layout>
   );
 };

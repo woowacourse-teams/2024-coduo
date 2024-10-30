@@ -1,107 +1,85 @@
-import { RiArrowDropDownLine } from 'react-icons/ri';
 import styled from 'styled-components';
 
-import Button from '@/components/_common/Button/Button';
 import { Direction } from '@/components/_common/Dropdown/Dropdown';
 
 import { Z_INDEX } from '@/constants/style';
 
-const getDirection = {
-  lower: {
-    open: 180,
-    close: 0,
-  },
-  upper: {
-    open: 0,
-    close: 180,
-  },
-};
+import { theme } from '@/styles/theme';
 
-export const Layout = styled.div<{ $width: string; $height: string }>`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
+export const Layout = styled.div<{ $width: string }>`
   position: relative;
 
   width: ${({ $width }) => $width};
   height: fit-content;
 
-  button {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  background-color: ${theme.color.black[100]};
+`;
 
+export const Container = styled.div<{ $direction: Direction; $height: string }>`
+  display: flex;
+  flex-direction: ${({ $direction }) => ($direction === 'LOWER' ? 'column' : 'column-reverse')};
+
+  button {
     width: 100%;
     height: ${({ $height }) => $height};
-    padding: 1rem;
-    padding-left: 1.7rem;
-    border-radius: 0.8rem;
+    padding: 1.5rem;
+    border-radius: 1rem;
 
-    font-size: ${({ theme }) => theme.fontSize.md};
+    color: ${theme.color.black[500]};
+    font-size: ${theme.fontSize.md};
+
+    transition: all 0.2s;
 
     &:hover {
-      background-color: ${({ theme }) => theme.color.black[400]};
-
-      transform: none;
+      background-color: ${theme.color.black[200]};
+      color: ${theme.color.primary[800]};
     }
 
     &:active {
-      background-color: ${({ theme }) => theme.color.black[600]};
-
-      transform: none;
+      background-color: ${theme.color.black[300]};
+      color: ${theme.color.primary[800]};
     }
   }
 `;
 
-export const OpenButton = styled(Button)<{ $isSelected: boolean; $isOpen: boolean }>`
-  border: 1px solid
-    ${({ $isSelected, $isOpen, theme }) => ($isSelected || $isOpen ? theme.color.primary[800] : theme.color.black[500])};
-
-  background-color: white;
-  color: ${({ $isSelected, theme }) => ($isSelected ? theme.color.primary[800] : theme.color.black[500])};
-`;
-
-export const Icon = styled(RiArrowDropDownLine)<{ $isOpen: boolean; $direction: Direction }>`
-  transform: rotate(${({ $isOpen, $direction }) => getDirection[$direction][$isOpen ? 'open' : 'close']}deg);
-  transition: transform 0.2s ease-in-out;
-`;
-
-export const DropdownContainer = styled.div<{ $direction: Direction }>`
+export const OpenButton = styled.button<{ $isOpen: boolean; $isSelected: boolean }>`
   display: flex;
-  flex-direction: ${({ $direction }) => ($direction === 'lower' ? 'column' : 'column-reverse')};
+  justify-content: space-between;
+  align-items: center;
+
+  border: 1px solid ${({ $isOpen, $isSelected }) => ($isSelected || $isOpen) && theme.color.primary[800]};
+
+  color: ${({ $isSelected }) => $isSelected && theme.color.primary[800]};
+
+  svg {
+    transform: rotate(${({ $isOpen }) => ($isOpen ? '180' : '0')}deg);
+    transition: transform 0.2s ease-in-out;
+  }
+
+  &:hover {
+    border-color: ${theme.color.primary[800]};
+  }
+
+  &:active {
+    border-color: ${theme.color.primary[800]};
+  }
 `;
 
-export const ItemList = styled.ul<{ $height: string; $direction: Direction }>`
+export const ItemList = styled.ul<{ $direction: Direction }>`
   display: flex;
-  flex-direction: ${({ $direction }) => ($direction === 'lower' ? 'column' : 'column-reverse')};
+  flex-direction: ${({ $direction }) => ($direction === 'LOWER' ? 'column' : 'column-reverse')};
   overflow-y: auto;
 
   position: absolute;
-  top: ${({ $direction }) => ($direction === 'lower' ? '5rem' : '')};
-  bottom: ${({ $direction }) => ($direction === 'lower' ? '' : '5rem')};
-  left: 0;
+  top: ${({ $direction }) => $direction === 'LOWER' && '5.4rem'};
+  bottom: ${({ $direction }) => $direction === 'UPPER' && '5.4rem'};
   z-index: ${Z_INDEX.DROPDOWN};
 
   width: 100%;
   max-height: 20rem;
-  border-radius: 0.8rem;
+  border-radius: 1rem;
 
-  background-color: white;
   box-shadow:
-    0 0 2px grey,
-    1px 1px 3px lightgrey;
-`;
-
-export const Item = styled(Button)`
-  justify-content: flex-start;
-
-  height: 4.8rem;
-  border: none;
-
-  color: ${({ theme }) => theme.color.primary[800]};
-
-  &:hover {
-    border: none;
-  }
+    0 0 1px grey,
+    1px 1px 2px lightgrey;
 `;
