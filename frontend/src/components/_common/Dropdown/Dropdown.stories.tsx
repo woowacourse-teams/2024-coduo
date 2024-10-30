@@ -9,6 +9,9 @@ import { findValueById } from '@/utils/findOption';
 const meta = {
   title: 'component/common/Dropdown',
   component: Dropdown,
+  parameters: {
+    controls: { exclude: ['options', 'selectedOption', 'onSelect'] },
+  },
 } satisfies Meta<typeof Dropdown>;
 
 export default meta;
