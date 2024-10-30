@@ -24,24 +24,31 @@ interface ButtonShapesProp {
   size?: ButtonSize;
   width?: string;
   height?: string;
+  borderRadius?: string;
   fontSize?: string;
   fontWeight?: string;
   textAlign?: string;
 }
 
-const buttonSize = ({ size, width, height, fontSize, fontWeight, textAlign }: ButtonShapesProp) => {
+const buttonSize = ({ size, width, height, borderRadius, fontSize, fontWeight, textAlign }: ButtonShapesProp) => {
   const defaultSizes = {
-    sm: { width: '6rem', height: '3rem', fontSize: 'sm' },
-    md: { width: '10rem', height: '4rem', fontSize: 'md' },
-    lg: { width: '15rem', height: '4rem', fontSize: 'base' },
-    xl: { width: '24.5rem', height: '6.5rem', fontSize: 'h5' },
+    sm: { width: '6rem', height: '3rem', borderRadius: '0.5rem', fontSize: 'sm' },
+    md: { width: '10rem', height: '4rem', borderRadius: '0.5rem', fontSize: 'md' },
+    lg: { width: '15rem', height: '4rem', borderRadius: '1rem', fontSize: 'base' },
+    xl: { width: '24.5rem', height: '6.5rem', borderRadius: '1rem', fontSize: 'h5' },
   };
 
-  const { width: defaultWidth, height: defaultHeight, fontSize: defaultFontSize } = defaultSizes[size || 'md'];
+  const {
+    width: defaultWidth,
+    height: defaultHeight,
+    borderRadius: defaultBorderRadius,
+    fontSize: defaultFontSize,
+  } = defaultSizes[size || 'md'];
 
   return css`
     width: ${width || defaultWidth};
     height: ${height || defaultHeight};
+    border-radius: ${borderRadius || defaultBorderRadius};
 
     font-size: ${fontSize || (({ theme }) => theme.fontSize[defaultFontSize as keyof typeof theme.fontSize])};
     font-weight: ${fontWeight || 'normal'};
@@ -97,8 +104,8 @@ export const Button = styled.button<ButtonStyleProp>`
 
   transition: all 0.2s;
 
-  ${({ $size, $width, $height, $fontSize }) =>
-    buttonSize({ size: $size, width: $width, height: $height, fontSize: $fontSize })}
+  ${({ $size, $width, $height, $borderRadius, $fontSize }) =>
+    buttonSize({ size: $size, width: $width, height: $height, borderRadius: $borderRadius, fontSize: $fontSize })}
 
   ${({ $color, $filled }) => buttonColor({ color: $color, filled: $filled })}
 
