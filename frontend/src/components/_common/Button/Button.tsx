@@ -12,7 +12,7 @@ interface ButtonProp extends ButtonHTMLAttributes<HTMLButtonElement> {
   height?: string;
   borderRadius?: string;
   fontSize?: string;
-  color?: ButtonColor;
+  color?: ButtonColor | string;
   filled?: boolean;
   rounded?: boolean;
   animation?: boolean;

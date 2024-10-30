@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 import type { ButtonColor, ButtonSize } from '@/components/_common/Button/Button.type';
 
-import { theme } from '@/styles/theme';
+import { calculateButtonColor } from '@/utils/calculateButtonColor';
 
 interface ButtonStyleProp {
   $css?: ReturnType<typeof css>;
@@ -11,7 +11,7 @@ interface ButtonStyleProp {
   $height?: string;
   $borderRadius?: string;
   $fontSize?: string;
-  $color: ButtonColor;
+  $color: ButtonColor | string;
   $filled: boolean;
   $rounded: boolean;
   $animation: boolean;
@@ -25,100 +25,80 @@ interface ButtonShapesProp {
   fontSize?: string;
 }
 
-const buttonShapes = ({ size, width, height, fontSize }: ButtonShapesProp) => {
-  switch (size) {
-    case 'sm':
-      return css`
-        width: ${width || '6rem'};
-        height: ${height || '3rem'};
+const buttonSize = ({ size, width, height, fontSize }: ButtonShapesProp) => {
+  const defaultSizes = {
+    sm: { width: '6rem', height: '3rem', fontSize: 'sm' },
+    md: { width: '10rem', height: '4rem', fontSize: 'md' },
+    lg: { width: '15rem', height: '4rem', fontSize: 'base' },
+    xl: { width: '24.5rem', height: '6.5rem', fontSize: 'h5' },
+  };
 
-        font-size: ${fontSize || (({ theme }) => theme.fontSize.sm)};
-      `;
-    case 'md':
-      return css`
-        width: ${width || '10rem'};
-        height: ${height || '4rem'};
+  const { width: defaultWidth, height: defaultHeight, fontSize: defaultFontSize } = defaultSizes[size || 'md'];
 
-        font-size: ${fontSize || (({ theme }) => theme.fontSize.md)};
-      `;
-    case 'lg':
-      return css`
-        width: ${width || '15rem'};
-        height: ${height || '4rem'};
+  return css`
+    width: ${width || defaultWidth};
+    height: ${height || defaultHeight};
 
-        font-size: ${fontSize || (({ theme }) => theme.fontSize.base)};
-      `;
-    case 'xl':
-      return css`
-        width: ${width || '24.5rem'};
-        height: ${height || '6.5rem'};
-
-        font-size: ${fontSize || (({ theme }) => theme.fontSize.h5)};
-      `;
-  }
+    font-size: ${fontSize || (({ theme }) => theme.fontSize[defaultFontSize as keyof typeof theme.fontSize])};
+  `;
 };
 
 interface ButtonColorProp {
-  color: ButtonColor;
+  color: ButtonColor | string;
   filled: boolean;
+}
+
+const buttonColor = ({ color, filled }: ButtonColorProp) => {
+  const { base, hover, active, disabled } = calculateButtonColor(color, filled);
+
+  return css`
+    ${base}
+    &:hover {
+      ${hover}
+    }
+
+    &:active {
+      ${active}
+    }
+
+    &:disabled {
+      ${disabled}
+    }
+  `;
+};
+
+interface ButtonAnimationProp {
   animation: boolean;
 }
 
-const buttonVisual = ({ color, filled, animation }: ButtonColorProp) => {
-  if (color in theme.color) {
-    const colorKey = color as keyof typeof theme.color;
-    return css`
-      border: 1px solid ${theme.color[colorKey][colorKey === 'primary' ? 600 : 400]};
-
-      background-color: ${filled ? theme.color[colorKey][colorKey === 'primary' ? 600 : 400] : theme.color.black[100]};
-      color: ${filled ? theme.color.black[100] : theme.color[colorKey][colorKey === 'primary' ? 600 : 400]};
-
-      &:hover {
-        border: 1px solid ${theme.color[colorKey][colorKey === 'primary' ? 700 : 500]};
-
-        background-color: ${filled
-          ? theme.color[colorKey][colorKey === 'primary' ? 700 : 500]
-          : theme.color.black[200]};
-
-        transform: ${animation && 'scale(1.01)'};
-      }
-
-      &:active {
-        border: 1px solid ${theme.color[colorKey][colorKey === 'primary' ? 800 : 600]};
-
-        background-color: ${filled
-          ? theme.color[colorKey][colorKey === 'primary' ? 800 : 600]
-          : theme.color.black[300]};
-
-        transform: ${animation && 'scale(1.02)'};
-      }
-
-      &:disabled {
-        border: 1px solid ${theme.color.black[300]};
-
-        background-color: ${theme.color.black[300]};
-        color: ${theme.color.black[100]};
-      }
-    `;
+const buttonAnimation = ({ animation }: ButtonAnimationProp) => css`
+  &:hover {
+    transform: ${animation ? 'scale(1.01)' : 'none'};
   }
-  throw new Error('버튼 색상이 올바르지 않습니다.');
-};
+
+  &:active {
+    transform: ${animation ? 'scale(1.02)' : 'none'};
+  }
+`;
 
 export const Button = styled.button<ButtonStyleProp>`
   display: flex;
   justify-content: center;
   align-items: center;
 
-  border-radius: ${({ $rounded, $borderRadius }) => ($borderRadius ? $borderRadius : $rounded ? '50rem' : '0.5rem')};
+  border: 1px solid;
+  border-radius: ${({ $rounded, $borderRadius }) => $borderRadius || ($rounded ? '50rem' : '0.5rem')};
 
   transition: all 0.2s;
 
   ${({ $size, $width, $height, $fontSize }) =>
-    buttonShapes({ size: $size, width: $width, height: $height, fontSize: $fontSize })}
+    buttonSize({ size: $size, width: $width, height: $height, fontSize: $fontSize })}
 
-  ${({ $color, $filled, $animation }) => buttonVisual({ color: $color, filled: $filled, animation: $animation })}
+  ${({ $color, $filled }) => buttonColor({ color: $color, filled: $filled })}
 
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+
+  ${({ $animation }) => $animation && buttonAnimation({ animation: $animation })}
 
   ${(props) => props.$css}
 `;

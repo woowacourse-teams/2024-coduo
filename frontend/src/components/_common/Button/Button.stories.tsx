@@ -14,7 +14,7 @@ interface ButtonProp extends ButtonHTMLAttributes<HTMLButtonElement> {
   height?: string;
   borderRadius?: string;
   fontSize?: string;
-  color?: ButtonColor;
+  color?: ButtonColor | string;
   filled?: boolean;
   rounded?: boolean;
   animation?: boolean;
@@ -22,7 +22,7 @@ interface ButtonProp extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export default {
-  title: 'Common/Button',
+  title: 'component/common/Button',
   component: Button,
   argTypes: {
     size: { control: { type: 'select', options: ['sm', 'md', 'lg'] } },
@@ -36,8 +36,8 @@ export default {
 
 const Template: StoryFn<ButtonProp> = (args: ButtonProp) => <Button {...args}>Button</Button>;
 
-export const Primary = Template.bind({});
-Primary.args = {
+export const Primary_filled = Template.bind({});
+Primary_filled.args = {
   size: 'md',
   color: 'primary',
   filled: true,
@@ -46,12 +46,52 @@ Primary.args = {
   disabled: false,
 };
 
-export const Secondary = Template.bind({});
-Secondary.args = {
+export const Primary_outlined = Template.bind({});
+Primary_outlined.args = {
+  size: 'md',
+  color: 'primary',
+  filled: false,
+  rounded: false,
+  animation: false,
+  disabled: false,
+};
+
+export const Primary_rounded = Template.bind({});
+Primary_rounded.args = {
+  size: 'md',
+  color: 'primary',
+  filled: true,
+  rounded: true,
+  animation: false,
+  disabled: false,
+};
+
+export const Secondary_filled = Template.bind({});
+Secondary_filled.args = {
   size: 'md',
   color: 'secondary',
   filled: true,
   rounded: false,
+  animation: false,
+  disabled: false,
+};
+
+export const Secondary_outlined = Template.bind({});
+Secondary_outlined.args = {
+  size: 'md',
+  color: 'secondary',
+  filled: false,
+  rounded: false,
+  animation: false,
+  disabled: false,
+};
+
+export const Secondary_rounded = Template.bind({});
+Secondary_rounded.args = {
+  size: 'md',
+  color: 'secondary',
+  filled: true,
+  rounded: true,
   animation: false,
   disabled: false,
 };
@@ -64,4 +104,18 @@ Disabled.args = {
   rounded: false,
   animation: false,
   disabled: true,
+};
+
+export const CustomColor_dark = Template.bind({});
+CustomColor_dark.args = {
+  size: 'md',
+  color: '#7632ba',
+  filled: true,
+};
+
+export const CustomColor_light = Template.bind({});
+CustomColor_light.args = {
+  size: 'md',
+  color: '#b4d19b',
+  filled: true,
 };
