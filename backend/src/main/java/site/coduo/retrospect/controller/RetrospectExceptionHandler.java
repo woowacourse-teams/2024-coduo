@@ -50,7 +50,7 @@ public class RetrospectExceptionHandler {
     }
 
     @ExceptionHandler(DuplicateRetrospectException.class)
-    public ResponseEntity<ApiErrorResponse> handleMaxRetrospectLimitException(final DuplicateRetrospectException e) {
+    public ResponseEntity<ApiErrorResponse> handleDuplicateRetrospectException(final DuplicateRetrospectException e) {
         log.warn(e.getMessage());
 
         return ResponseEntity.status(RetrospectApiError.DUPLICATE_RETROSPECT_ERROR.getHttpStatus())
