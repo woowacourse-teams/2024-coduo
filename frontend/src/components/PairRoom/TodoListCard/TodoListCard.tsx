@@ -47,10 +47,11 @@ const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
                 placeholder="할 일의 내용을 입력해 주세요."
               />
               <Button
-                $css={S.buttonStyles}
+                width="4.4rem"
+                height="4rem"
+                borderRadius="0.6rem"
                 type="submit"
                 aria-label="투두 리스트 추가하기"
-                size="sm"
                 rounded={true}
                 disabled={value.trim() === ''}
               >

@@ -12,11 +12,6 @@ export const Layout = styled(PairRoomCard.Header)`
 `;
 
 export const expandButton = css`
-  position: absolute;
-  right: 1rem;
-
-  width: 4rem;
-  height: 4rem;
   border: none;
 
   background-color: ${({ theme }) => theme.color.black[100]};

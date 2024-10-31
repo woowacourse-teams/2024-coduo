@@ -19,8 +19,8 @@ const Header = ({ selectedFilteringCategoryName, onButtonClick }: React.PropsWit
         <p>링크</p>
       </S.Container>
       <Button
-        $css={S.buttonStyles}
         size="sm"
+        width="fit-content"
         rounded={true}
         onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
           event.stopPropagation();

@@ -1,30 +1,4 @@
-import styled, { css } from 'styled-components';
-
-export const buttonStyles = css`
-  width: 9rem;
-  height: 3.2rem;
-  border-color: ${({ theme }) => theme.color.danger[400]};
-  border-radius: 0.8rem;
-
-  background-color: ${({ theme }) => theme.color.danger[400]};
-  font-size: ${({ theme }) => theme.fontSize.md};
-
-  &:hover {
-    border-color: ${({ theme }) => theme.color.danger[500]};
-
-    background-color: ${({ theme }) => theme.color.danger[500]};
-  }
-
-  &:active {
-    border-color: ${({ theme }) => theme.color.danger[500]};
-
-    background-color: ${({ theme }) => theme.color.danger[500]};
-  }
-`;
-
-export const startButtonStyles = css`
-  width: 18rem;
-`;
+import styled from 'styled-components';
 
 export const Layout = styled.div`
   display: flex;

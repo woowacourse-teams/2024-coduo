@@ -1,42 +1,4 @@
-import styled, { css } from 'styled-components';
-
-export const buttonStyles = css`
-  width: 26rem;
-  height: 6rem;
-
-  font-size: ${({ theme }) => theme.fontSize.h6};
-`;
-
-export const githubButtonStyles = css`
-  justify-content: space-evenly;
-
-  width: 26rem;
-  height: 6rem;
-  border: 1px solid ${({ theme }) => theme.color.black[800]};
-
-  background-color: ${({ theme }) => theme.color.black[900]};
-  color: ${({ theme }) => theme.color.black[100]};
-  font-size: ${({ theme }) => theme.fontSize.h6};
-
-  img {
-    width: 3rem;
-    height: 3rem;
-  }
-
-  &:hover {
-    border: 1px solid ${({ theme }) => theme.color.black[700]};
-
-    background-color: ${({ theme }) => theme.color.black[800]};
-    color: ${({ theme }) => theme.color.black[100]};
-  }
-
-  &:active {
-    border: 1px solid ${({ theme }) => theme.color.black[600]};
-
-    background-color: ${({ theme }) => theme.color.black[700]};
-    color: ${({ theme }) => theme.color.black[100]};
-  }
-`;
+import styled from 'styled-components';
 
 export const Layout = styled.div`
   display: flex;

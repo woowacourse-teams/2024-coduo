@@ -1,10 +1,4 @@
-import styled, { css } from 'styled-components';
-
-export const buttonStyles = css`
-  width: 4.8rem;
-  height: 4.4rem;
-  border-radius: 0.6rem;
-`;
+import styled from 'styled-components';
 
 export const Header = styled.div`
   display: flex;

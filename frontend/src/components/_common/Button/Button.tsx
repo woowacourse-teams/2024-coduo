@@ -8,28 +8,47 @@ import type { ButtonColor, ButtonSize } from '@/components/_common/Button/Button
 interface ButtonProp extends ButtonHTMLAttributes<HTMLButtonElement> {
   $css?: ReturnType<typeof css>;
   size?: ButtonSize;
+  width?: string;
+  height?: string;
+  borderRadius?: string;
   fontSize?: string;
-  color?: ButtonColor;
+  fontWeight?: string;
+  textAlign?: string;
+  color?: ButtonColor | string;
   filled?: boolean;
   rounded?: boolean;
   animation?: boolean;
+  disabled?: boolean;
+  children: React.ReactNode;
 }
 
 const Button = ({
   $css,
-  size = 'lg',
+  size = 'md',
+  width,
+  height,
+  borderRadius,
+  fontSize,
+  fontWeight,
+  textAlign,
   filled = true,
   rounded = false,
-  animation = true,
+  animation = false,
   color = 'primary',
-  children,
   disabled = false,
+  children,
   ...props
 }: React.PropsWithChildren<ButtonProp>) => {
   return (
     <S.Button
       type="button"
       $size={size}
+      $width={width}
+      $height={height}
+      $borderRadius={borderRadius}
+      $fontSize={fontSize}
+      $fontWeight={fontWeight}
+      $textAlign={textAlign}
       $filled={filled}
       $rounded={rounded}
       $animation={animation}

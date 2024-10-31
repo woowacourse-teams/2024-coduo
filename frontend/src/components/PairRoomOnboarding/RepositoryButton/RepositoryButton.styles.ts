@@ -1,25 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import styled, { css } from 'styled-components';
-
-export const buttonStyles = css`
-  width: 30rem;
-  border: 0;
-  border-radius: 5px;
-
-  background: ${({ theme }) => theme.color.black[800]};
-  color: ${({ theme }) => theme.color.black[100]};
-  font-size: ${({ theme }) => theme.fontSize.md};
-  font-weight: ${({ theme }) => theme.fontWeight.medium};
-  text-align: right;
-
-  &:hover {
-    border: 0;
-
-    background: ${({ theme }) => theme.color.black[700]};
-    color: ${({ theme }) => theme.color.black[100]};
-  }
-`;
+import styled from 'styled-components';
 
 export const Layout = styled.div`
   display: flex;

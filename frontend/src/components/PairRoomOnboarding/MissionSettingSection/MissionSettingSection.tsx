@@ -31,7 +31,11 @@ const MissionSettingSection = ({ repositoryName, onRepositoryName, onCreateBranc
       )}
       {moveIndex >= 2 && (
         <S.ButtonWrapper>
-          <Button disabled={!isValidBranchName} onClick={() => onCreateBranch(repositoryName, branchName.value)}>
+          <Button
+            width="15rem"
+            disabled={!isValidBranchName}
+            onClick={() => onCreateBranch(repositoryName, branchName.value)}
+          >
             브랜치 생성하기
           </Button>
         </S.ButtonWrapper>

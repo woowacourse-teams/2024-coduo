@@ -1,18 +1,4 @@
-import styled, { css } from 'styled-components';
-
-export const buttonStyles = css`
-  width: 8rem;
-  border-color: ${({ theme }) => theme.color.black[500]};
-
-  background-color: ${({ theme }) => theme.color.black[500]};
-  font-size: ${({ theme }) => theme.fontSize.md};
-
-  &:hover {
-    border-color: ${({ theme }) => theme.color.black[600]};
-
-    background-color: ${({ theme }) => theme.color.black[600]};
-  }
-`;
+import styled from 'styled-components';
 
 export const Layout = styled.div`
   display: flex;

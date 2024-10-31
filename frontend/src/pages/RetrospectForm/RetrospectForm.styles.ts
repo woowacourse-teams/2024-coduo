@@ -1,35 +1,11 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
-const positionFixed = css`
+export const ButtonContainer = styled.div`
   position: fixed;
   bottom: 0;
   left: 50%;
 
   transform: translate(-50%);
-`;
-
-export const buttonStyles = css`
-  ${positionFixed}
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 60%;
-  min-width: 76.8rem;
-  height: 6rem;
-  border-radius: 0;
-
-  &:hover {
-    ${positionFixed}
-  }
-
-  &:active {
-    ${positionFixed}
-  }
-
-  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
-    width: 100%;
-  }
 `;
 
 export const Layout = styled.div`

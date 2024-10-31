@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const InputLayout = styled.div`
   display: flex;
@@ -56,12 +56,4 @@ export const Layout = styled.div`
 
   width: 100%;
   margin-top: 2.5rem;
-`;
-
-export const buttonStyles = css`
-  width: 100%;
-  height: 6rem;
-
-  font-size: ${({ theme }) => theme.fontSize.lg};
-  font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;

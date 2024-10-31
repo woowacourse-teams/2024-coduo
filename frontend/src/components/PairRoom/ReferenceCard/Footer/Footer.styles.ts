@@ -29,9 +29,3 @@ export const inputStyles = css`
   height: 4rem;
   border-radius: 0.6rem;
 `;
-
-export const buttonStyles = css`
-  width: 4.4rem;
-  height: 4rem;
-  border-radius: 0.6rem;
-`;

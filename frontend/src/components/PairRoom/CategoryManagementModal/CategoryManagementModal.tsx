@@ -12,6 +12,8 @@ import { useAddCategory } from '@/queries/PairRoom/category/mutation';
 
 import { validateCategoryName } from '@/validations/validateCategory';
 
+import { theme } from '@/styles/theme';
+
 import * as S from './CategoryManagementModal.styles';
 
 interface CategoryManagementModalProps {
@@ -83,9 +85,10 @@ const CategoryManagementModal = ({
             onChange={(event) => handleChange(event, validateCategoryName(event.target.value, isCategoryExist))}
           />
           <Button
-            $css={S.buttonStyles}
             type="submit"
-            size="sm"
+            width="4.8rem"
+            height="4.4rem"
+            fontSize={theme.fontSize.lg}
             rounded={true}
             disabled={value.trim() === '' || status !== 'DEFAULT'}
           >

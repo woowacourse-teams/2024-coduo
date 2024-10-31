@@ -13,6 +13,8 @@ import useInput from '@/hooks/_common/useInput';
 
 import { validateName } from '@/validations/validatePairName';
 
+import { theme } from '@/styles/theme';
+
 import * as S from './SignUp.styles';
 
 const SignUp = () => {
@@ -56,7 +58,13 @@ const SignUp = () => {
           placeholder="이름(또는 닉네임)을 입력해주세요."
           onChange={handleChange}
         />
-        <Button $css={S.buttonStyles} type="submit" size="lg" disabled={validateName(username).status === 'ERROR'}>
+        <Button
+          width="50rem"
+          fontSize={theme.fontSize.md}
+          type="submit"
+          size="lg"
+          disabled={validateName(username).status === 'ERROR'}
+        >
           계정 만들기 🥳
         </Button>
       </S.Form>

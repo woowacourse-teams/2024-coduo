@@ -1,8 +1,4 @@
-import styled, { css } from 'styled-components';
-
-export const buttonStyles = css`
-  font-size: ${({ theme }) => theme.fontSize.md};
-`;
+import styled from 'styled-components';
 
 export const Layout = styled.div`
   display: flex;
