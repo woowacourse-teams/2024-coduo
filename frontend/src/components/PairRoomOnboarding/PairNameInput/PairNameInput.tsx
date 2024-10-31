@@ -7,6 +7,8 @@ import Button from '@/components/_common/Button/Button';
 import Input from '@/components/_common/Input/Input';
 import { InputType } from '@/components/_common/Input/Input.type';
 
+import { theme } from '@/styles/theme';
+
 import * as S from './PairNameInput.styles';
 
 interface PairNameInputProps {
@@ -61,7 +63,7 @@ const PairNameInput = ({
               onChange={onPairName}
             />
             {!pairId && (
-              <Button $css={S.buttonStyles} onClick={() => setIsInputOpen(false)}>
+              <Button width="8rem" color="black" fontSize={theme.fontSize.md} onClick={() => setIsInputOpen(false)}>
                 취소
               </Button>
             )}

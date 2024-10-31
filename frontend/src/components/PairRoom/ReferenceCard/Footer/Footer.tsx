@@ -63,9 +63,11 @@ const Footer = ({ accessCode, categories }: FooterProps) => {
           onChange={handleChange}
         />
         <Button
-          $css={S.buttonStyles}
-          aria-label="링크 추가하기 버튼"
+          width="4.4rem"
+          height="4rem"
+          borderRadius="0.6rem"
           type="submit"
+          aria-label="링크 추가하기 버튼"
           size="sm"
           rounded={true}
           disabled={value.trim() === '' || status !== 'DEFAULT'}
