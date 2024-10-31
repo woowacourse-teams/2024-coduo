@@ -1,13 +1,15 @@
 import styled, { css } from 'styled-components';
 
-export const Layout = styled.div`
+export const Footer = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
 
   width: 100%;
-  height: 6rem;
+  min-height: 6rem;
   padding: 0 2rem;
+
+  border-top: 1px solid ${({ theme }) => theme.color.black[300]};
 `;
 
 export const Form = styled.form`
