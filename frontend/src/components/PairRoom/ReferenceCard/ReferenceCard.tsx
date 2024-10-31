@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import CategoryManagementModal from '@/components/PairRoom/CategoryManagementModal/CategoryManagementModal';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
-import AddReferenceForm from '@/components/PairRoom/ReferenceCard/AddReferenceForm/AddReferenceForm';
+import Footer from '@/components/PairRoom/ReferenceCard/Footer/Footer';
 import Header from '@/components/PairRoom/ReferenceCard/Header/Header';
 import ReferenceList from '@/components/PairRoom/ReferenceCard/ReferenceList/ReferenceList';
 
@@ -29,29 +29,19 @@ const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps)
   const selectedFilteringCategoryName = getCategoryNameById(selectedFilteringCategoryId) || DEFAULT_CATEGORY_VALUE;
 
   return (
-    <>
-      <S.Layout>
-        <PairRoomCard>
-          <Header
-            isOpen={isOpen}
-            selectedFilteringCategoryName={selectedFilteringCategoryName}
-            toggleIsOpen={toggleIsOpen}
-            onButtonClick={openModal}
-          />
-          <S.Body $isOpen={isOpen}>
-            <ReferenceList references={references} accessCode={accessCode} />
-            <S.Footer>
-              <AddReferenceForm
-                accessCode={accessCode}
-                categories={categories}
-                isCategoryExist={isCategoryExist}
-                getCategoryNameById={getCategoryNameById}
-              />
-            </S.Footer>
-          </S.Body>
-        </PairRoomCard>
-      </S.Layout>
-
+    <S.Layout>
+      <PairRoomCard>
+        <Header
+          isOpen={isOpen}
+          selectedFilteringCategoryName={selectedFilteringCategoryName}
+          toggleIsOpen={toggleIsOpen}
+          onButtonClick={openModal}
+        />
+        <S.Body $isOpen={isOpen}>
+          <ReferenceList references={references} accessCode={accessCode} />
+          <Footer accessCode={accessCode} categories={categories} />
+        </S.Body>
+      </PairRoomCard>
       <CategoryManagementModal
         accessCode={accessCode}
         isOpen={isModalOpen}
@@ -61,7 +51,7 @@ const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps)
         selectedCategory={selectedFilteringCategoryId}
         handleSelectCategory={(categoryId: string) => setSelectedFilteringCategoryId(categoryId)}
       />
-    </>
+    </S.Layout>
   );
 };
 
