@@ -25,6 +25,7 @@ export const Container = styled.div<{ $direction: Direction; $height: string; $c
     padding: 1.5rem;
     border-radius: 1rem;
 
+    background-color: ${theme.color.black[100]};
     font-size: ${({ $fontSize }) => $fontSize};
 
     transition: all 0.2s;
@@ -64,14 +65,14 @@ export const OpenButton = styled.button<{ $isOpen: boolean; $isSelected: boolean
   }
 `;
 
-export const ItemList = styled.ul<{ $direction: Direction }>`
+export const ItemList = styled.ul<{ $direction: Direction; $gap: string }>`
   display: flex;
   flex-direction: ${({ $direction }) => ($direction === 'LOWER' ? 'column' : 'column-reverse')};
   overflow-y: auto;
 
   position: absolute;
-  top: ${({ $direction }) => $direction === 'LOWER' && '5.4rem'};
-  bottom: ${({ $direction }) => $direction === 'UPPER' && '5.4rem'};
+  top: ${({ $direction, $gap }) => $direction === 'LOWER' && $gap};
+  bottom: ${({ $direction, $gap }) => $direction === 'UPPER' && $gap};
   z-index: ${Z_INDEX.DROPDOWN};
 
   width: 100%;
@@ -82,4 +83,9 @@ export const ItemList = styled.ul<{ $direction: Direction }>`
     0 0 1px grey,
     1px 1px 2px lightgrey;
   color: ${theme.color.black[500]};
+
+  button {
+    display: flex;
+    align-items: center;
+  }
 `;

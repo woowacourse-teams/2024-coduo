@@ -21,6 +21,7 @@ interface DropdownProps {
   placeholder?: string;
   width?: string;
   height?: string;
+  gap?: string;
   color?: string;
   fontSize?: string;
   direction?: Direction;
@@ -38,6 +39,7 @@ const Dropdown = ({
   placeholder = '',
   width = '100%',
   height = '4.8rem',
+  gap = '5.4rem',
   color = theme.color.primary[800],
   fontSize = theme.fontSize.md,
   direction = 'LOWER',
@@ -79,7 +81,7 @@ const Dropdown = ({
           {DIRECTION_ICONS[direction]}
         </S.OpenButton>
         {isOpen && (
-          <S.ItemList $direction={direction}>
+          <S.ItemList $direction={direction} $gap={gap}>
             {options.map((option, index) => (
               <li key={`${option}_${index}`} role="option" aria-selected={selectedOption === option.value}>
                 <button onClick={(event) => handleOptionClick(event, option.id)}>{option.value}</button>
