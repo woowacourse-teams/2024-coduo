@@ -20,14 +20,6 @@ const inputStatusStyles = {
   `,
 };
 
-export const Layout = styled.div<{ $gap: string }>`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: ${({ $gap }) => $gap};
-  width: 100%;
-`;
-
 export const InputContainer = styled.div<{
   $css?: ReturnType<typeof css>;
   $width: string;
@@ -37,9 +29,10 @@ export const InputContainer = styled.div<{
   $focusColor: string;
 }>`
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   gap: 1rem;
+
   ${({ $status }) => inputStatusStyles[$status]};
   width: ${({ $width }) => $width};
   height: ${({ $height }) => $height};

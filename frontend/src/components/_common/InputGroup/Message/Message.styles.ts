@@ -16,7 +16,6 @@ const messageStatusStyles = {
 
 export const Message = styled.p<{ $css?: ReturnType<typeof css>; $status: InputStatus; $fontSize: string }>`
   ${({ $status }) => messageStatusStyles[$status]};
-
   font-size: ${({ $fontSize }) => $fontSize};
 
   ${({ $css }) => $css}
