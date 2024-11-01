@@ -1,3 +1,4 @@
+import Content from '@/components/_common/InputGroup/Content/Content';
 import Input from '@/components/_common/InputGroup/Input/Input';
 import Label from '@/components/_common/InputGroup/Label/Label';
 import Message from '@/components/_common/InputGroup/Message/Message';
@@ -8,4 +9,5 @@ export const InputGroup = Object.assign(Layout, {
   Label,
   Input,
   Message,
+  Content,
 });
