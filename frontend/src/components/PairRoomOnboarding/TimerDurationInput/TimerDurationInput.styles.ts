@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const Layout = styled.div`
   display: flex;
@@ -40,8 +40,4 @@ export const ButtonContainer = styled.div`
 export const InputContainer = styled.div`
   display: flex;
   gap: 0.5rem;
-`;
-
-export const inputStyles = css`
-  border-radius: 1rem;
 `;

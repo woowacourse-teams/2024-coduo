@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 import Button from '@/components/_common/Button/Button';
-import Input from '@/components/_common/Input/Input';
+import { InputGroup } from '@/components/_common/InputGroup';
 import InformationBox from '@/components/PairRoomOnboarding/InformationBox/InformationBox';
 
 import { validateTimerDuration } from '@/validations/validateTimerDuration';
@@ -67,19 +67,22 @@ const TimerDurationInput = ({ timerDuration, onTimerDuration }: TimerDurationInp
             직접 설정
           </Button>
           {isCustom && (
-            <Input
-              autoFocus
-              aria-label="타이머 시간을 분 단위로 입력해 주세요."
-              $css={S.inputStyles}
-              width="20rem"
-              height="4rem"
-              value={timerDuration}
-              placeholder="타이머 시간 (분)"
-              status={!validateTimerDuration(timerDuration) ? 'ERROR' : 'DEFAULT'}
-              message={!validateTimerDuration(timerDuration) ? '1 이상 99 이하의 숫자를 입력해 주세요.' : ''}
-              disabled={!isCustom}
-              onChange={handleCustomTime}
-            />
+            <InputGroup gap="0.5rem" width="20rem">
+              <InputGroup.Input
+                autoFocus
+                aria-label="타이머 시간을 분 단위로 입력해 주세요."
+                borderRadius="1rem"
+                height="4rem"
+                value={timerDuration}
+                placeholder="타이머 시간 (분)"
+                status={!validateTimerDuration(timerDuration) ? 'ERROR' : 'DEFAULT'}
+                disabled={!isCustom}
+                onChange={handleCustomTime}
+              />
+              <InputGroup.Message status={!validateTimerDuration(timerDuration) ? 'ERROR' : 'DEFAULT'}>
+                {!validateTimerDuration(timerDuration) ? '1 이상 99 이하의 숫자를 입력해 주세요.' : ''}
+              </InputGroup.Message>
+            </InputGroup>
           )}
         </S.InputContainer>
       </S.ButtonContainer>
