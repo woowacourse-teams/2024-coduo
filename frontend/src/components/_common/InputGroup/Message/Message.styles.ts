@@ -4,7 +4,7 @@ import { InputStatus } from '@/components/_common/InputGroup/Input.type';
 
 const messageStatusStyles = {
   DEFAULT: css`
-    color: ${({ theme }) => theme.color.black[800]};
+    color: ${({ theme }) => theme.color.black[600]};
   `,
   ERROR: css`
     color: ${({ theme }) => theme.color.danger[600]};
