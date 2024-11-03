@@ -26,9 +26,3 @@ export const Form = styled.form`
 
   width: 100%;
 `;
-
-export const InputContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-`;

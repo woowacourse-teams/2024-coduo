@@ -1,6 +1,9 @@
+import { ChangeEvent } from 'react';
+
 import { CheckBoxChecked, CheckBoxUnchecked } from '@/assets';
 
-import Input from '@/components/_common/Input/Input';
+import Input from '@/components/_common/InputGroup/Input/Input';
+import Message from '@/components/_common/InputGroup/Message/Message';
 import IconButton from '@/components/PairRoom/CategoryManagementModal/IconButton/IconButton';
 
 import useToastStore from '@/stores/toastStore';
@@ -59,23 +62,24 @@ const CategoryItem = ({
 
   if (isEditing) {
     return (
-      <form onSubmit={handleSubmit}>
+      <S.Form onSubmit={handleSubmit}>
         <S.Layout>
           <Input
+            status={newCategoryName.status}
             height="4.4rem"
             placeholder="수정할 카테고리 이름을 입력해주세요."
             value={newCategoryName.value}
-            status={newCategoryName.status}
-            message={newCategoryName.message}
-            onChange={(event) => handleCategoryName(event, categoryName)}
-            $messageCss={S.CustomInputMessage}
+            onChange={(event: ChangeEvent<HTMLInputElement>) => handleCategoryName(event, categoryName)}
           />
           <S.IconContainer>
             <IconButton icon="CHECK" type="submit" />
             <IconButton icon="CANCEL" onClick={stopEditing} />
           </S.IconContainer>
         </S.Layout>
-      </form>
+        <Message fontSize="1rem" status={newCategoryName.status}>
+          {newCategoryName.message}
+        </Message>
+      </S.Form>
     );
   }
 
