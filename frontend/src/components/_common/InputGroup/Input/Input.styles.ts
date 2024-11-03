@@ -4,17 +4,17 @@ import type { InputStatus } from '@/components/_common/InputGroup/Input.type';
 
 const inputStatusStyles = {
   DEFAULT: css`
-    border: 1px solid ${({ theme }) => theme.color.black[400]};
+    border: 1.5px solid #e5e5e5;
 
     background-color: ${({ theme }) => theme.color.black[100]};
   `,
   ERROR: css`
-    border: 1px solid ${({ theme }) => theme.color.danger[600]};
+    border: 1.5px solid ${({ theme }) => theme.color.danger[400]};
 
     background-color: ${({ theme }) => theme.color.danger[100]};
   `,
   SUCCESS: css`
-    border: 1px solid ${({ theme }) => theme.color.success[600]};
+    border: 1.5px solid ${({ theme }) => theme.color.success[400]};
 
     background-color: ${({ theme }) => theme.color.success[100]};
   `,
@@ -45,8 +45,8 @@ export const InputContainer = styled.div<{
     color: ${({ theme }) => theme.color.black[500]};
   }
 
-  &:focus {
-    border: 1px solid ${({ $focusColor }) => $focusColor};
+  &:focus-within {
+    border: 1.5px solid ${({ $focusColor }) => $focusColor};
 
     background-color: ${({ theme }) => theme.color.black[100]};
   }
@@ -56,7 +56,6 @@ export const InputContainer = styled.div<{
 
     background-color: ${({ theme }) => theme.color.black[300]};
   }
-
   ${({ $css }) => $css}
 `;
 

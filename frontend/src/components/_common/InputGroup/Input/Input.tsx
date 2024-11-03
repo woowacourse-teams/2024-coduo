@@ -25,7 +25,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       status = 'DEFAULT',
       height = '4.8rem',
       borderRadius = '0.5rem',
-      focusColor = theme.color.primary[800],
+      focusColor = theme.color.primary[700],
       value,
       onReset,
       $css,
@@ -36,15 +36,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   ) => {
     return (
       <S.InputContainer
-        $focusColor={focusColor}
-        ref={ref}
         $status={status}
         $width={width}
         $height={height}
         $borderRadius={borderRadius}
+        $focusColor={focusColor}
         $css={$css}
       >
-        <S.Input value={value} {...props} />
+        <S.Input value={value} ref={ref} {...props} />
         {onReset && value && <button onClick={onReset}>x</button>}
       </S.InputContainer>
     );
