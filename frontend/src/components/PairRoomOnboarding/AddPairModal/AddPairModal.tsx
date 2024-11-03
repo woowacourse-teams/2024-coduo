@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react';
+
 import Button from '@/components/_common/Button/Button';
 import { InputGroup } from '@/components/_common/InputGroup';
 import { Modal } from '@/components/_common/Modal';
@@ -49,7 +51,9 @@ const AddPairModal = ({ isOpen, closeModal, onPairData }: AddPairModalProps) => 
           <InputGroup.Input
             placeholder="깃허브 아이디를 입력해 주세요."
             value={value}
-            onChange={(event) => handleChange(event, validatePairInfo(event.target.value))}
+            onChange={(event: ChangeEvent<HTMLInputElement>) =>
+              handleChange(event, validatePairInfo(event.target.value))
+            }
           />
           <InputGroup.Message status={status}>{message}</InputGroup.Message>
         </InputGroup>
