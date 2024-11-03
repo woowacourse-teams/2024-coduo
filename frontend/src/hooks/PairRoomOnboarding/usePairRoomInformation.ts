@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { InputType, InputStatus } from '@/components/_common/Input/Input.type';
+import { InputType, InputStatus } from '@/components/_common/InputGroup/Input.type';
 
 import useUserStore from '@/stores/userStore';
 

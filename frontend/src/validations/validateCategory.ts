@@ -1,4 +1,4 @@
-import { InputStatus } from '@/components/_common/Input/Input.type';
+import { InputStatus } from '@/components/_common/InputGroup/Input.type';
 
 import { DEFAULT_CATEGORY_VALUE } from '@/hooks/PairRoom/useCategories';
 

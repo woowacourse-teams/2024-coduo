@@ -1,4 +1,4 @@
-import type { InputStatus } from '@/components/_common/Input/Input.type';
+import type { InputStatus } from '@/components/_common/InputGroup/Input.type';
 
 export const validateName = (name: string) => {
   if (name.trim() === '') return { status: 'ERROR' as InputStatus, message: '값을 입력해 주세요.' };
