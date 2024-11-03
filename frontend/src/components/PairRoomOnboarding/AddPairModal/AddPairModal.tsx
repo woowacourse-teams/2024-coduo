@@ -1,5 +1,5 @@
 import Button from '@/components/_common/Button/Button';
-import Input from '@/components/_common/Input/Input';
+import { InputGroup } from '@/components/_common/InputGroup';
 import { Modal } from '@/components/_common/Modal';
 
 import useToastStore from '@/stores/toastStore';
@@ -41,26 +41,28 @@ const AddPairModal = ({ isOpen, closeModal, onPairData }: AddPairModalProps) => 
   };
 
   return (
-    <Modal isOpen={isOpen} close={handleCloseModal} size="60rem" height="30rem">
+    <Modal isOpen={isOpen} close={handleCloseModal} size="60rem" height="34rem">
       <Modal.Header title="페어 정보 연동하기" />
       <S.Body>
-        <Input
-          placeholder="깃허브 아이디를 입력해 주세요."
-          label="페어의 깃허브 아이디"
-          value={value}
-          status={status}
-          message={message}
-          onChange={(event) => handleChange(event, validatePairInfo(event.target.value))}
-        />
+        <InputGroup>
+          <InputGroup.Label>페어의 깃허브 아이디</InputGroup.Label>
+          <InputGroup.Input
+            placeholder="깃허브 아이디를 입력해 주세요."
+            value={value}
+            onChange={(event) => handleChange(event, validatePairInfo(event.target.value))}
+          />
+          <InputGroup.Message status={status}>{message}</InputGroup.Message>
+        </InputGroup>
       </S.Body>
-      <Modal.Footer>
+
+      <S.Footer>
         <Button onClick={handleCloseModal} filled={false}>
           닫기
         </Button>
         <Button disabled={value.trim() === '' || status === 'ERROR'} onClick={() => connectPairData(value)}>
           연동하기
         </Button>
-      </Modal.Footer>
+      </S.Footer>
       <Modal.CloseButton close={handleCloseModal} />
     </Modal>
   );
