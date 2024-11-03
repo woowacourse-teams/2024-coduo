@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const Footer = styled.div`
   display: flex;
@@ -23,9 +23,4 @@ export const Form = styled.form`
 export const ButtonContainer = styled.div`
   display: flex;
   gap: 0.6rem;
-`;
-
-export const inputStyles = css`
-  height: 4rem;
-  border-radius: 0.6rem;
 `;

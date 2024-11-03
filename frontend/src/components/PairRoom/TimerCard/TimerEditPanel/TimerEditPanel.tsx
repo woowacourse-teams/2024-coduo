@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
 import Button from '@/components/_common/Button/Button';
-import Input from '@/components/_common/Input/Input';
+import Input from '@/components/_common/InputGroup/Input/Input';
 
 import useToastStore from '@/stores/toastStore';
 
