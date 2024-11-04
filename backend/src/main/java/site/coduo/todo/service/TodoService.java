@@ -94,7 +94,7 @@ public class TodoService {
 
     private void validateOperationAllow(final PairRoom pairRoom) {
         if (pairRoom.isCompleted()) {
-            throw new OperateNotAllowedException("페어룸이 COMPLETED(종료) 상태이기 때문에 카테고리를 조작할 수 없습니다.");
+            throw new OperateNotAllowedException("페어룸이 COMPLETED(종료) 상태이기 때문에 투두를 조작할 수 없습니다.");
         }
     }
 }
