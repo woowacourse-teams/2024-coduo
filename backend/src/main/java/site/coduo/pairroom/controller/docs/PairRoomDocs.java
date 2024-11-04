@@ -83,6 +83,13 @@ public interface PairRoomDocs {
             String accessCode
     );
 
+    @Operation(summary = "페어룸을 종료한다.")
+    @ApiResponse(responseCode = "204", description = "페어룸 종료 성공")
+    ResponseEntity<Void> completePairRoom(
+            @Parameter(description = "페어룸 접근 코드", required = true)
+            String accessCode
+    );
+
     @Operation(summary = "특정 회원이 특정 페어룸에 존재하는지 여부를 조회한다.")
     @ApiResponse(responseCode = "200", description = "회원 페어룸 참여 여부 조회 성공", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
             schema = @Schema(implementation = ExistMemberInPairRoomResponse.class)))
