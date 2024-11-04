@@ -13,6 +13,7 @@ public class MemberUpdate {
                 .loginId(member.getLoginId())
                 .username(member.getUsername())
                 .userId(member.getUserId())
+                .deletedAt(member.getDeletedAt())
                 .accessToken(accessToken)
                 .build();
 

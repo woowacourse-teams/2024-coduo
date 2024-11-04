@@ -11,8 +11,9 @@ import lombok.Getter;
 @Getter
 public class OpenGraph {
 
-    public static final String DEFAULT_VALUE = "";
     public static final String OPEN_GRAPH_META_TAG_SELECTOR = "meta[property=og:%s]";
+    private static final String DEFAULT_VALUE = "";
+    private static final int DESCRIPTION_MAX_LENGTH = 50;
 
     private final String headTitle;
     private final String openGraphTitle;
@@ -27,7 +28,7 @@ public class OpenGraph {
     ) {
         this.headTitle = headTitle;
         this.openGraphTitle = openGraphTitle;
-        this.description = description;
+        this.description = truncate(description);
         this.image = image;
     }
 
@@ -65,12 +66,18 @@ public class OpenGraph {
                 .build();
     }
 
-
     private static String findMetaTag(final Document document, final String key) {
         final Element element = document.selectFirst(String.format(OPEN_GRAPH_META_TAG_SELECTOR, key));
         if (element == null) {
             return DEFAULT_VALUE;
         }
         return element.attr("content");
+    }
+
+    private String truncate(final String description) {
+        if (description.length() <= DESCRIPTION_MAX_LENGTH) {
+            return description;
+        }
+        return description.substring(0, DESCRIPTION_MAX_LENGTH);
     }
 }

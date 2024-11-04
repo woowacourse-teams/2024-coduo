@@ -1,2 +1,0 @@
-### 로그인 요청하기
-GET http://localhost:8080/api/github/callback?code=abc&state=abcd

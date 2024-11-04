@@ -14,6 +14,7 @@ public class PairRoom {
     private final Pair pair;
     private final MissionUrl missionUrl;
     private final AccessCode accessCode;
+    private final AccessCode easyAccessCode;
 
     public boolean isCompleted() {
         return status == PairRoomStatus.COMPLETED;
@@ -43,6 +44,10 @@ public class PairRoom {
         return accessCode.equals(code);
     }
 
+    public String getEasyAccessCodeText() {
+        return easyAccessCode.getValue();
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -67,6 +72,7 @@ public class PairRoom {
                 ", pair=" + pair +
                 ", missionUrl=" + missionUrl +
                 ", accessCode=" + accessCode +
+                ", easyAccessCode=" + easyAccessCode +
                 '}';
     }
 }

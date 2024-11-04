@@ -31,15 +31,15 @@ public class ReferenceLinkEntity extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "URL", nullable = false)
+    @Column(name = "URL", nullable = false, length = 1024)
     private String url;
 
     @ManyToOne
     @JoinColumn(name = "CATEGORY_ID", nullable = true)
     private CategoryEntity categoryEntity;
 
-    @JoinColumn(name = "PAIR_ROOM_ID", referencedColumnName = "ID", nullable = false)
     @ManyToOne
+    @JoinColumn(name = "PAIR_ROOM_ID", referencedColumnName = "ID", nullable = false)
     private PairRoomEntity pairRoomEntity;
 
     public ReferenceLinkEntity(final ReferenceLink referenceLink, final CategoryEntity categoryEntity,

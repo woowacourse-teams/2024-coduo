@@ -26,11 +26,11 @@ public class AuthService {
         final String accessToken = jwtProvider.extractSubject(encryptedAccessToken);
         final GithubUserResponse userResponse = githubApiClient.getUser(new GithubUserRequest(accessToken));
 
-        memberRepository.findByUserId(userResponse.userId())
+        memberRepository.findByUserIdAndDeletedAtIsNull(userResponse.userId())
                 .ifPresent(member -> new MemberUpdate(member).update(accessToken));
         final String signInToken = jwtProvider.sign(userResponse.userId());
 
-        return new SignInServiceResponse(memberRepository.existsByUserId(userResponse.userId()), signInToken);
+        return new SignInServiceResponse(memberRepository.existsByUserIdAndDeletedAtIsNull(userResponse.userId()), signInToken);
     }
 
     public boolean isSignedIn(final String signInToken) {

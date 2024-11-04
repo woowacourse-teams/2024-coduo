@@ -17,7 +17,9 @@ import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
-import site.coduo.pairroom.domain.accesscode.UUIDAccessCodeGenerator;
+import site.coduo.pairroom.domain.accesscode.generator.AccessCodeGenerator;
+import site.coduo.pairroom.domain.accesscode.generator.EasyAccessCodeGenerator;
+import site.coduo.pairroom.domain.accesscode.generator.UUIDAccessCodeGenerator;
 import site.coduo.pairroom.exception.DeletePairRoomException;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomMemberEntity;
@@ -45,18 +47,26 @@ public class PairRoomService {
     private final SchedulerService schedulerService;
 
     @Transactional
-    public String savePairRoom(final PairRoomCreateRequest request, @Nullable final String token) {
+    public String savePairRoom(final PairRoomCreateRequest request, @Nullable final String loginToken) {
         final PairRoom pairRoom = createPairRoom(request);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.save(PairRoomEntity.from(pairRoom));
 
         final Timer timer = new Timer(pairRoom.getAccessCode(), request.timerDuration(), request.timerRemainingTime());
         timerRepository.save(new TimerEntity(timer, pairRoomEntity));
 
-        if (token != null) {
-            final Member member = memberService.findMemberByCredential(token);
+        if (isRegisteredMember(loginToken)) {
+            final Member member = memberService.findMemberByCredential(loginToken);
+            pairRoomMemberRepository.save(new PairRoomMemberEntity(pairRoomEntity, member));
+        }
+        if (isRegisteredMember(request.pairId())) {
+            final Member member = memberService.findMember(request.pairId());
             pairRoomMemberRepository.save(new PairRoomMemberEntity(pairRoomEntity, member));
         }
         return pairRoom.getAccessCodeText();
+    }
+
+    private boolean isRegisteredMember(final String value) {
+        return value != null;
     }
 
     public boolean existsByAccessCode(final String accessCode) {
@@ -64,19 +74,30 @@ public class PairRoomService {
     }
 
     private PairRoom createPairRoom(final PairRoomCreateRequest request) {
-        final AccessCode accessCode = generateAccessCode();
+        final AccessCode uuidAccessCode = generateAccessCode(uuidAccessCodeGenerator);
+        final AccessCode easyAccessCode = generateAccessCode(
+                new EasyAccessCodeGenerator(request.driver(), request.navigator())
+        );
         final PairRoomStatus status = PairRoomStatus.IN_PROGRESS;
         final Pair pair = new Pair(new PairName(request.navigator()), new PairName(request.driver()));
         final MissionUrl missionUrl = new MissionUrl(request.missionUrl());
-        return new PairRoom(status, pair, missionUrl, accessCode);
+        return new PairRoom(status, pair, missionUrl, uuidAccessCode, easyAccessCode);
     }
 
-    private AccessCode generateAccessCode() {
-        final String generatedAccessCode = uuidAccessCodeGenerator.generate();
-        if (pairRoomRepository.existsByAccessCode(generatedAccessCode)) {
-            return generateAccessCode();
+    private AccessCode generateAccessCode(final AccessCodeGenerator accessCodeGenerator) {
+        final String generatedAccessCode = accessCodeGenerator.generate();
+        if (isAlreadyExistAccessCode(accessCodeGenerator, generatedAccessCode)) {
+            return generateAccessCode(accessCodeGenerator);
         }
         return new AccessCode(generatedAccessCode);
+    }
+
+    private boolean isAlreadyExistAccessCode(final AccessCodeGenerator accessCodeGenerator,
+                                             final String generatedAccessCode) {
+        if (accessCodeGenerator.isEasyAccessCodeGenerator()) {
+            return pairRoomRepository.existsByEasyAccessCode(generatedAccessCode);
+        }
+        return pairRoomRepository.existsByAccessCode(generatedAccessCode);
     }
 
     @Transactional
@@ -135,15 +156,10 @@ public class PairRoomService {
         pairRoomEntity.updateStatus(PairRoomStatus.COMPLETED);
         schedulerService.detach(accessCode);
     }
-
-    public boolean isParticipant(final String token, final String accessCode) {
-        final Member member = memberService.findMemberByCredential(token);
-
-        final List<PairRoomMemberEntity> pairRooms = pairRoomMemberRepository.findByMember(member);
-        return pairRooms.stream()
-                .map(PairRoomMemberEntity::getPairRoom)
-                .filter(pairRoomEntity -> !pairRoomEntity.isDelete())
-                .map(PairRoomEntity::toDomain)
-                .anyMatch(pairRoom -> pairRoom.isSameAccessCode(new AccessCode(accessCode)));
+  
+    public boolean existMemberInPairRoom(final String credentialToken, final String pairRoomAccessCode) {
+        final PairRoomEntity pairRoom = pairRoomRepository.fetchByAccessCode(pairRoomAccessCode);
+        final Member member = memberService.findMemberByCredential(credentialToken);
+        return pairRoomMemberRepository.existsByPairRoomAndMember(pairRoom, member);
     }
 }

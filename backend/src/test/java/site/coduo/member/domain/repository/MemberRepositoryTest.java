@@ -39,7 +39,7 @@ class MemberRepositoryTest {
         memberRepository.save(member);
 
         // when
-        final Optional<Member> find = memberRepository.findByUserId(identifier);
+        final Optional<Member> find = memberRepository.findByUserIdAndDeletedAtIsNull(identifier);
 
         // then
         assertThat(find).hasValue(member);
