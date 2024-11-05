@@ -17,15 +17,11 @@ export const addRetrospect = async ({ accessCode, answers }: AddRetrospectReques
   });
 };
 
-interface GetRetrospectRequest {
-  accessCode: string;
-}
-
 interface GetRetrospectResponse {
   answers: string[];
 }
 
-export const getRetrospectAnswer = async ({ accessCode }: GetRetrospectRequest): Promise<GetRetrospectResponse> => {
+export const getRetrospectAnswers = async (accessCode: string): Promise<GetRetrospectResponse> => {
   const response = await fetcher.get({
     url: `${API_URL}/retrospects/${accessCode}`,
     errorMessage: ERROR_MESSAGES.GET_RETROSPECT,
@@ -34,23 +30,9 @@ export const getRetrospectAnswer = async ({ accessCode }: GetRetrospectRequest):
   return await response.json();
 };
 
-export const deleteRetrospectAnswer = async ({ accessCode }: GetRetrospectRequest) => {
+export const deleteRetrospectAnswer = async ({ accessCode }: { accessCode: string }) => {
   await fetcher.delete({
     url: `${API_URL}/retrospects/${accessCode}`,
     errorMessage: ERROR_MESSAGES.DELETE_RETROSPECT,
   });
-};
-
-export interface Retrospect {
-  accessCode: string;
-  answer: string;
-}
-
-export const getUserRetrospects = async (): Promise<{ retrospects: Retrospect[] }> => {
-  const response = await fetcher.get({
-    url: `${API_URL}/retrospects`,
-    errorMessage: ERROR_MESSAGES.GET_USER_RETROSPECTS,
-  });
-
-  return await response.json();
 };

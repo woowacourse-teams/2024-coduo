@@ -6,17 +6,18 @@ import { deleteRetrospectAnswer } from '@/apis/retrospect';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-export const useDeleteRetrospect = (onSuccess?: () => void) => {
+const useDeleteRetrospect = () => {
   const queryClient = useQueryClient();
 
   const { addToast } = useToastStore();
 
-  return useMutation({
+  const { mutate: deleteRetrospectMutation } = useMutation({
     mutationFn: deleteRetrospectAnswer,
-    onSuccess: () => {
-      onSuccess && onSuccess();
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_MY_RETROSPECTS] });
-    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_MY_RETROSPECTS] }),
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });
+
+  return { deleteRetrospectMutation };
 };
+
+export default useDeleteRetrospect;

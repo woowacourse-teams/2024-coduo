@@ -7,7 +7,7 @@ import type { PairRoomStatus } from '@/apis/pairRoom';
 
 import useModal from '@/hooks/_common/useModal';
 
-import useDeletePairRoom from '@/queries/MyPage/useDeleteRoom';
+import useDeletePairRoom from '@/queries/MyPage/useDeletePairRoom';
 
 import * as S from './PairRoomButton.styles';
 
@@ -21,7 +21,7 @@ interface PairRoomButtonProps {
 const PairRoomButton = ({ driver, navigator, status, accessCode }: PairRoomButtonProps) => {
   const { openModal, closeModal, isModalOpen } = useModal();
 
-  const { mutate, isPending } = useDeletePairRoom();
+  const { deletePairRoomMutation, isPending } = useDeletePairRoom();
 
   const handleOpenDeleteModal = (event: React.MouseEvent<HTMLButtonElement | SVGElement>) => {
     event.preventDefault();
@@ -30,7 +30,7 @@ const PairRoomButton = ({ driver, navigator, status, accessCode }: PairRoomButto
   };
 
   const handleDeletePairRoom = async () => {
-    mutate(accessCode);
+    deletePairRoomMutation({ accessCode });
     closeModal();
   };
 

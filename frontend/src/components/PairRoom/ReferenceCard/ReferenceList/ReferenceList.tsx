@@ -2,17 +2,17 @@ import { Link } from 'react-router-dom';
 
 import type { Reference } from '@/apis/referenceLink';
 
-import { useDeleteReferenceLink } from '@/queries/PairRoom/reference/mutation';
+import useMutateReferences from '@/queries/PairRoom/useMutateReferences';
 
 import * as S from './ReferenceList.styles';
 
 interface ReferenceListProps {
+  references: Reference[];
   accessCode: string;
-  references?: Reference[];
 }
 
-const ReferenceList = ({ accessCode, references }: ReferenceListProps) => {
-  const { mutate } = useDeleteReferenceLink();
+const ReferenceList = ({ references, accessCode }: ReferenceListProps) => {
+  const { deleteReferenceMutation } = useMutateReferences();
 
   if (!references || references.length < 1) return <S.EmptyLayout>저장된 링크가 없습니다.</S.EmptyLayout>;
 
@@ -24,7 +24,7 @@ const ReferenceList = ({ accessCode, references }: ReferenceListProps) => {
         {references.map((reference) => {
           return (
             <S.Item key={reference.id}>
-              <S.DeleteButton onClick={() => mutate({ id: reference.id, accessCode })} />
+              <S.DeleteButton onClick={() => deleteReferenceMutation({ id: reference.id, accessCode })} />
               <Link to={reference.url} target="_blank">
                 {reference.image ? (
                   <S.Image alt="link" src={reference.image} />

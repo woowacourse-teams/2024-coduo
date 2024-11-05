@@ -16,7 +16,7 @@ const MyPage = () => {
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const { handleDeleteMember } = useDeleteMember();
+  const { deleteMemberMutation } = useDeleteMember();
 
   return (
     <S.Layout>
@@ -42,7 +42,7 @@ const MyPage = () => {
         title="정말 탈퇴하시겠습니까?"
         subTitle="해당 작업은 다시 복구할 수 없습니다."
         confirmText="탈퇴하기"
-        onConfirm={handleDeleteMember}
+        onConfirm={deleteMemberMutation}
       />
     </S.Layout>
   );

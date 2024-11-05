@@ -13,7 +13,7 @@ const useDeleteMember = () => {
   const { resetUser } = useUserStore();
   const { addToast } = useToastStore();
 
-  const { mutate: handleDeleteMember, isSuccess } = useMutation({
+  const { mutate: deleteMemberMutation, isSuccess } = useMutation({
     mutationFn: deleteMember,
     onSuccess: () => {
       resetUser();
@@ -23,7 +23,7 @@ const useDeleteMember = () => {
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });
 
-  return { handleDeleteMember, isSuccess };
+  return { deleteMemberMutation, isSuccess };
 };
 
 export default useDeleteMember;

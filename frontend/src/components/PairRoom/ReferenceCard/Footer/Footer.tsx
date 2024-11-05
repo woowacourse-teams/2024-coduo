@@ -9,8 +9,8 @@ import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type
 
 import useInput from '@/hooks/_common/useInput';
 
-import { useAddReferenceLink } from '@/queries/PairRoom/reference/mutation';
 import { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/queries/PairRoom/useCategory';
+import useMutateReferences from '@/queries/PairRoom/useMutateReferences';
 
 import { findValueById } from '@/utils/findOption';
 import { formatLink } from '@/utils/formatLink';
@@ -27,7 +27,7 @@ const Footer = ({ accessCode, categories }: FooterProps) => {
 
   const { value, status, message, handleChange, resetValue } = useInput();
 
-  const { mutateAsync } = useAddReferenceLink();
+  const { addReferenceMutation } = useMutateReferences();
 
   const handleCurrentCategoryId = (categoryId: string | null) => setCurrentCategoryId(categoryId);
 
@@ -35,10 +35,9 @@ const Footer = ({ accessCode, categories }: FooterProps) => {
     event.preventDefault();
 
     const url = formatLink(value);
-
     const categoryId = currentCategoryId === DEFAULT_CATEGORY_ID ? null : currentCategoryId;
 
-    mutateAsync({ url, accessCode, categoryId }).then(resetValue);
+    addReferenceMutation({ url, accessCode, categoryId }, { onSuccess: resetValue });
   };
 
   return (

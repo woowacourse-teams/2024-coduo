@@ -90,7 +90,7 @@ export const updatePairRoomStatus = async ({ accessCode }: UpdatePairRoomStatusR
   });
 };
 
-export const deletePairRoom = async (accessCode: string) => {
+export const deletePairRoom = async ({ accessCode }: { accessCode: string }) => {
   await fetcher.delete({
     url: `${API_URL}/pair-room/${accessCode}`,
     errorMessage: ERROR_MESSAGES.DELETE_PAIR_ROOM,

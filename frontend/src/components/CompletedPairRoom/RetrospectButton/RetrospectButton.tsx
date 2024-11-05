@@ -4,8 +4,8 @@ import Button from '@/components/_common/Button/Button';
 
 import useUserStore from '@/stores/userStore';
 
-import { useGetUserIsInPairRoom } from '@/queries/CompletedPairRoom/useGetUserIsInPairRoom';
-import { useGetUserRetrospectExists } from '@/queries/CompletedPairRoom/useGetUserRetrospectExists';
+import useGetUserIsInPairRoom from '@/queries/CompletedPairRoom/useGetUserIsInPairRoom';
+import useGetUserRetrospectExists from '@/queries/CompletedPairRoom/useGetUserRetrospectExists';
 
 import * as S from './RetrospectButton.styles';
 
