@@ -8,9 +8,9 @@ import Input from '@/components/_common/Input/Input';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 
 import useInput from '@/hooks/_common/useInput';
-import { DEFAULT_CATEGORY_VALUE, DEFAULT_CATEGORY_ID } from '@/hooks/PairRoom/useCategories';
 
 import { useAddReferenceLink } from '@/queries/PairRoom/reference/mutation';
+import { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/queries/PairRoom/useCategory';
 
 import { findValueById } from '@/utils/findOption';
 import { formatLink } from '@/utils/formatLink';

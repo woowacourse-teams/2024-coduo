@@ -5,8 +5,9 @@ import IconButton from '@/components/PairRoom/CategoryManagementModal/IconButton
 
 import useToastStore from '@/stores/toastStore';
 
-import { DEFAULT_CATEGORY_ID } from '@/hooks/PairRoom/useCategories';
 import useEditCategory from '@/hooks/PairRoom/useEditCategory';
+
+import { DEFAULT_CATEGORY_ID } from '@/queries/PairRoom/useCategory';
 
 import * as S from './CategoryItem.styles';
 
@@ -16,7 +17,7 @@ interface CategoryItemProps {
   categoryName: string;
   isChecked: boolean;
   closeModal: () => void;
-  handleSelectCategory: (categoryId: string) => void;
+  handleSelectedCategoryId: (categoryId: string) => void;
 }
 
 const CategoryItem = ({
@@ -25,7 +26,7 @@ const CategoryItem = ({
   categoryName,
   isChecked,
   closeModal,
-  handleSelectCategory,
+  handleSelectedCategoryId,
 }: CategoryItemProps) => {
   const {
     newCategoryName,
@@ -46,13 +47,13 @@ const CategoryItem = ({
 
   const handleDeleteCategory = async () => {
     await deleteCategoryName();
-    if (isChecked) handleSelectCategory(DEFAULT_CATEGORY_ID);
+    if (isChecked) handleSelectedCategoryId(DEFAULT_CATEGORY_ID);
   };
 
   const handleCategoryClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     if (isChecked) return;
 
-    handleSelectCategory(event.currentTarget.id);
+    handleSelectedCategoryId(event.currentTarget.id);
     addToast({ status: 'SUCCESS', message: `${categoryName}가 선택되었어요.` });
     closeModal();
   };

@@ -6,9 +6,11 @@ import ReferenceList from '@/components/CompletedPairRoom/ReferenceCard/Referenc
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 
 import useModal from '@/hooks/_common/useModal';
-import useCategories, { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/hooks/PairRoom/useCategories';
 
 import { useGetReference } from '@/queries/PairRoom/reference/query';
+import useCategory, { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/queries/PairRoom/useCategory';
+
+import { findValueById } from '@/utils/findOption';
 
 import * as S from './ReferenceCard.styles';
 
@@ -17,18 +19,19 @@ interface ReferenceCardProps {
 }
 
 const ReferenceCard = ({ accessCode }: ReferenceCardProps) => {
-  const [selectedFilteringCategoryId, setSelectedFilteringCategoryId] = useState(DEFAULT_CATEGORY_ID);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(DEFAULT_CATEGORY_ID);
+
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const { categories, isCategoryExist, getCategoryNameById } = useCategories(accessCode);
+  const { categories, isCategoryExist } = useCategory(accessCode);
+  const { references } = useGetReference(selectedCategoryId, accessCode);
 
-  const { data: references } = useGetReference(selectedFilteringCategoryId, accessCode);
-  const selectedFilteringCategoryName = getCategoryNameById(selectedFilteringCategoryId) || DEFAULT_CATEGORY_VALUE;
+  const selectedCategoryName = findValueById(categories, selectedCategoryId) || DEFAULT_CATEGORY_VALUE;
 
   return (
     <S.Layout>
       <PairRoomCard>
-        <Header selectedFilteringCategoryName={selectedFilteringCategoryName} onButtonClick={openModal} />
+        <Header selectedCategoryName={selectedCategoryName} onButtonClick={openModal} />
         <S.Body>
           <ReferenceList references={references} />
         </S.Body>
@@ -38,8 +41,8 @@ const ReferenceCard = ({ accessCode }: ReferenceCardProps) => {
         closeModal={closeModal}
         categories={categories}
         isCategoryExist={isCategoryExist}
-        selectedCategory={selectedFilteringCategoryId}
-        handleSelectCategory={(categoryId: string) => setSelectedFilteringCategoryId(categoryId)}
+        selectedCategoryId={selectedCategoryId}
+        handleSelectedCategoryId={(categoryId: string) => setSelectedCategoryId(categoryId)}
       />
     </S.Layout>
   );
