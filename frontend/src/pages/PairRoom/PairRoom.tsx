@@ -13,7 +13,7 @@ import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
 import useModal from '@/hooks/_common/useModal';
 
 import useGetPairRoom from '@/queries/PairRoom/useGetPairRoom';
-import useUpdatePairRoom from '@/queries/PairRoom/useUpdatePairRoom';
+import useMutatePairRoom from '@/queries/PairRoom/useMutatePairRoom';
 
 import * as S from './PairRoom.styles';
 
@@ -37,7 +37,7 @@ const PairRoom = () => {
     isFetching,
   } = useGetPairRoom(accessCode || '');
 
-  const { handleUpdatePairRole } = useUpdatePairRoom(accessCode || '');
+  const { updatePairRoleMutation } = useMutatePairRoom();
 
   useEffect(() => {
     if (status === 'COMPLETED') navigate(`/room/${accessCode}/completed`, { state: { valid: true }, replace: true });
@@ -61,7 +61,7 @@ const PairRoom = () => {
           accessCode={accessCode || ''}
           defaultTime={duration}
           defaultTimeleft={remainingTime}
-          onTimerStop={handleUpdatePairRole}
+          onTimerStop={() => updatePairRoleMutation({ accessCode: accessCode || '' })}
         />
       </S.Container>
       <S.Container>

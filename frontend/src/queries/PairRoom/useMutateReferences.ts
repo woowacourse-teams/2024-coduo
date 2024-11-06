@@ -23,8 +23,8 @@ const useMutateReferences = () => {
   const { mutate: deleteReferenceMutation } = useMutation({
     mutationFn: deleteReferenceLink,
     onSuccess: () => {
-      addToast({ status: 'SUCCESS', message: '카테고리가 삭제되었습니다.' });
-      return queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_CATEGORIES] });
+      addToast({ status: 'SUCCESS', message: '링크가 삭제되었습니다.' });
+      return queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_REFERENCE_LINKS] });
     },
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });

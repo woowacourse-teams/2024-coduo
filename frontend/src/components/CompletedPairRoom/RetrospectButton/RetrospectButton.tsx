@@ -19,7 +19,7 @@ const RetrospectButton = ({ accessCode }: RetrospectButtonProps) => {
   const { userStatus } = useUserStore();
 
   const { isUserInPairRoom, isUserInPairRoomFetching } = useGetUserIsInPairRoom(accessCode);
-  const { isUserRetrospectExist, isUserRetrospectExistsFetching } = useGetUserRetrospectExists(accessCode);
+  const { isUserRetrospectExists, isUserRetrospectExistsFetching } = useGetUserRetrospectExists(accessCode);
 
   if (isUserInPairRoomFetching || isUserRetrospectExistsFetching) {
     return (
@@ -43,7 +43,7 @@ const RetrospectButton = ({ accessCode }: RetrospectButtonProps) => {
     );
 
   const handleRetrospectButtonClick = async () => {
-    if (isUserRetrospectExist) {
+    if (isUserRetrospectExists) {
       navigate(`/room/${accessCode}/retrospect`, { state: { valid: true } });
     } else {
       navigate(`/room/${accessCode}/retrospectForm`, { state: { valid: true } });
@@ -53,10 +53,10 @@ const RetrospectButton = ({ accessCode }: RetrospectButtonProps) => {
   return (
     <S.Layout>
       <Button size="lg" onClick={handleRetrospectButtonClick}>
-        {isUserRetrospectExist ? '회고 확인' : '회고 작성'}
+        {isUserRetrospectExists ? '회고 확인' : '회고 작성'}
       </Button>
       <S.ButtonPrompt>
-        {isUserRetrospectExist
+        {isUserRetrospectExists
           ? '작성된 회고를 확인하러 가볼까요?'
           : '이번 페어 프로그래밍은 어떠셨나요? 회고를 작성해 주세요.'}
       </S.ButtonPrompt>

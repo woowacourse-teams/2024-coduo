@@ -9,7 +9,7 @@ import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type
 
 import useInput from '@/hooks/_common/useInput';
 
-import { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/queries/PairRoom/useCategory';
+import { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/queries/PairRoom/useGetCategories';
 import useMutateReferences from '@/queries/PairRoom/useMutateReferences';
 
 import { findValueById } from '@/utils/findOption';

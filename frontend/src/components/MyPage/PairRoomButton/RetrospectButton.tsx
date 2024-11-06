@@ -4,7 +4,7 @@ import ConfirmModal from '@/components/_common/ConfirmModal/ConfirmModal';
 
 import useModal from '@/hooks/_common/useModal';
 
-import useDeleteRetrospect from '@/queries/MyPage/useDeleteMyRetrospect';
+import useMutateRetrospect from '@/queries/Retrospect/useMutateRetrospect';
 
 import * as S from './PairRoomButton.styles';
 
@@ -16,7 +16,7 @@ interface RetrospectButtonProps {
 const RetrospectButton = ({ accessCode, answer }: RetrospectButtonProps) => {
   const { openModal, closeModal, isModalOpen } = useModal();
 
-  const { deleteRetrospectMutation } = useDeleteRetrospect();
+  const { deleteRetrospectMutation } = useMutateRetrospect();
 
   const handleOpenDeleteModal = (event: React.MouseEvent<HTMLButtonElement | SVGElement>) => {
     event.preventDefault();

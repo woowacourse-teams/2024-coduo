@@ -1,10 +1,14 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import useToastStore from '@/stores/toastStore';
 
-import { addRetrospect } from '@/apis/retrospect';
+import { addRetrospect, deleteRetrospect } from '@/apis/retrospect';
+
+import { QUERY_KEYS } from '@/constants/queryKeys';
 
 const useMutateRetrospect = () => {
+  const queryClient = useQueryClient();
+
   const { addToast } = useToastStore();
 
   const { mutate: addRetrospectMutation } = useMutation({
@@ -13,7 +17,13 @@ const useMutateRetrospect = () => {
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });
 
-  return { addRetrospectMutation };
+  const { mutate: deleteRetrospectMutation } = useMutation({
+    mutationFn: deleteRetrospect,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_MY_RETROSPECTS] }),
+    onError: (error) => addToast({ status: 'ERROR', message: error.message }),
+  });
+
+  return { addRetrospectMutation, deleteRetrospectMutation };
 };
 
 export default useMutateRetrospect;

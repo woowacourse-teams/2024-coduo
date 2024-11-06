@@ -7,7 +7,7 @@ import useUserStore from '@/stores/userStore';
 
 import useModal from '@/hooks/_common/useModal';
 
-import useDeleteMember from '@/queries/MyPage/useDeleteMember';
+import useMutateMember from '@/queries/MyPage/useMutateMember';
 
 import * as S from './MyPage.styles';
 
@@ -16,7 +16,7 @@ const MyPage = () => {
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const { deleteMemberMutation } = useDeleteMember();
+  const { deleteMemberMutation } = useMutateMember();
 
   return (
     <S.Layout>

@@ -8,7 +8,7 @@ import ReferenceList from '@/components/PairRoom/ReferenceCard/ReferenceList/Ref
 
 import useModal from '@/hooks/_common/useModal';
 
-import useCategory, { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/queries/PairRoom/useCategory';
+import useGetCategories, { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/queries/PairRoom/useGetCategories';
 import useGetReferences from '@/queries/PairRoom/useGetReferences';
 
 import { findValueById } from '@/utils/findOption';
@@ -26,7 +26,7 @@ const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps)
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const { categories, isCategoryExist } = useCategory(accessCode);
+  const { categories, isCategoryExist } = useGetCategories(accessCode);
   const { references } = useGetReferences(selectedCategoryId, accessCode);
 
   const selectedCategoryName = findValueById(categories, selectedCategoryId) || DEFAULT_CATEGORY_VALUE;

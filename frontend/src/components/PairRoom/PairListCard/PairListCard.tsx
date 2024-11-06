@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import ConfirmModal from '@/components/_common/ConfirmModal/ConfirmModal';
 import AccessCodeSection from '@/components/PairRoom/PairListCard/AccessCodeSection/AccessCodeSection';
@@ -10,7 +11,7 @@ import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 
 import useModal from '@/hooks/_common/useModal';
 
-import useCompletePairRoom from '@/queries/PairRoom/useCompletePairRoom';
+import useMutatePairRoom from '@/queries/PairRoom/useMutatePairRoom';
 
 import * as S from './PairListCard.styles';
 
@@ -22,11 +23,20 @@ interface PairListCardProps {
 }
 
 const PairListCard = ({ driver, navigator, missionUrl, accessCode }: PairListCardProps) => {
+  const navigate = useNavigate();
+
   const [isOpen, setIsOpen] = useState(true);
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const { handleCompletePairRoom } = useCompletePairRoom(accessCode);
+  const { updatePairRoomStatusMutation } = useMutatePairRoom();
+
+  const handleCompletePairRoom = () => {
+    updatePairRoomStatusMutation(
+      { accessCode },
+      { onSuccess: () => navigate(`/room/${accessCode}/retrospectForm`, { state: { valid: true } }) },
+    );
+  };
 
   const toggleOpen = () => setIsOpen(!isOpen);
 

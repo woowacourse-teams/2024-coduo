@@ -11,7 +11,7 @@ const useGetUserRetrospectExists = (accessCode: string) => {
     enabled: !!accessCode,
   });
 
-  return { isUserRetrospectExist: data?.existRetrospect, isUserRetrospectExistsFetching: isFetching };
+  return { isUserRetrospectExists: data?.existRetrospect, isUserRetrospectExistsFetching: isFetching };
 };
 
 export default useGetUserRetrospectExists;

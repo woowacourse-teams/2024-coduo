@@ -2,14 +2,14 @@ import { useParams } from 'react-router-dom';
 
 import TodoItem from '@/components/CompletedPairRoom/TodoListCard/TodoItem/TodoItem';
 
-import useTodos from '@/queries/PairRoom/useTodos';
+import useGetTodos from '@/queries/PairRoom/useGetTodos';
 
 import * as S from './TodoList.styles';
 
 const TodoList = () => {
   const { accessCode } = useParams();
 
-  const { todos } = useTodos(accessCode || '');
+  const { todos } = useGetTodos(accessCode || '');
 
   return (
     <S.Layout>

@@ -8,7 +8,7 @@ import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type
 
 import useInput from '@/hooks/_common/useInput';
 
-import useCategory from '@/queries/PairRoom/useCategory';
+import useMutateCategories from '@/queries/PairRoom/useMutateCategories';
 
 import { validateCategoryName } from '@/validations/validateCategory';
 
@@ -37,7 +37,7 @@ const CategoryManagementModal = ({
 }: CategoryManagementModalProps) => {
   const { value, handleChange, resetValue, message, status } = useInput('');
 
-  const { addCategoryMutation } = useCategory(accessCode);
+  const { addCategoryMutation } = useMutateCategories();
 
   const handleAddCategorySubmit = (event: React.FormEvent) => {
     event.preventDefault();

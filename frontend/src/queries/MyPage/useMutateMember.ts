@@ -7,7 +7,7 @@ import useUserStore from '@/stores/userStore';
 
 import { deleteMember } from '@/apis/member';
 
-const useDeleteMember = () => {
+const useMutateMember = () => {
   const navigate = useNavigate();
 
   const { resetUser } = useUserStore();
@@ -26,4 +26,4 @@ const useDeleteMember = () => {
   return { deleteMemberMutation, isSuccess };
 };
 
-export default useDeleteMember;
+export default useMutateMember;

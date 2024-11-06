@@ -2,7 +2,8 @@ import { useState } from 'react';
 
 import useInput from '@/hooks/_common/useInput';
 
-import useCategory from '@/queries/PairRoom/useCategory';
+import useGetCategories from '@/queries/PairRoom/useGetCategories';
+import useMutateCategories from '@/queries/PairRoom/useMutateCategories';
 
 import { validateCategoryName } from '@/validations/validateCategory';
 
@@ -11,7 +12,8 @@ const useEditCategory = (accessCode: string, categoryId: string, categoryName: s
 
   const { value, handleChange, resetValue, message, status } = useInput(categoryName);
 
-  const { isCategoryExist, updateCategoryMutation, deleteCategoryMutation } = useCategory(accessCode);
+  const { isCategoryExist } = useGetCategories(accessCode);
+  const { updateCategoryMutation, deleteCategoryMutation } = useMutateCategories();
 
   const startEditing = () => setIsEditing(true);
 
