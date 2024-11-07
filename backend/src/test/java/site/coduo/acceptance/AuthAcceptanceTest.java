@@ -16,12 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import site.coduo.fake.FakeGithubApiClient;
 import site.coduo.fake.FakeGithubOAuthClient;
 import site.coduo.member.domain.Member;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.infrastructure.security.JwtProvider;
-import site.coduo.member.support.MemberDummy;
+import site.coduo.fixture.MemberDummy;
 
 class AuthAcceptanceTest extends AcceptanceFixture {
 

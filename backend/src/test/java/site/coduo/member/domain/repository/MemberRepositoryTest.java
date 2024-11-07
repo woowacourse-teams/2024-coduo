@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import site.coduo.member.domain.Member;
-import site.coduo.member.support.MemberDummy;
+import site.coduo.fixture.MemberDummy;
 
 @SpringBootTest
 class MemberRepositoryTest {

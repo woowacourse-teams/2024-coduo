@@ -1,4 +1,4 @@
-package site.coduo.member.support;
+package site.coduo.fixture;
 
 import site.coduo.member.domain.Member;
 

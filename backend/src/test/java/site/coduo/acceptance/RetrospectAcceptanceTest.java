@@ -16,7 +16,7 @@ import site.coduo.fixture.RetrospectCreateRequestFixture;
 import site.coduo.member.domain.Member;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.infrastructure.security.JwtProvider;
-import site.coduo.member.support.MemberDummy;
+import site.coduo.fixture.MemberDummy;
 import site.coduo.pairroom.domain.MissionUrl;
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;

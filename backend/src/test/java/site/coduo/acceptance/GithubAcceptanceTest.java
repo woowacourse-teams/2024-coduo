@@ -16,11 +16,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 
 import io.restassured.RestAssured;
-import site.coduo.fake.FakeGithubApiClient;
-import site.coduo.fake.FakeGithubOAuthClient;
 import site.coduo.fake.FixedNonceProvider;
 import site.coduo.member.domain.Member;
-import site.coduo.member.support.MemberDummy;
+import site.coduo.fixture.MemberDummy;
 
 class GithubAcceptanceTest extends AcceptanceFixture {
 
