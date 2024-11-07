@@ -29,17 +29,14 @@ public class Member extends BaseTimeEntity {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @Column(name = "ACCESS_TOKEN", nullable = false, unique = true)
-    private String accessToken;
+    @Column(name = "PROVIDER_ACCESS_TOKEN", nullable = false, unique = true)
+    private String providerAccessToken;
 
     @Column(name = "PROVIDER_LOGIN_ID", nullable = false)
-    private String loginId;
+    private String providerLoginId;
 
     @Column(name = "PROVIDER_USER_ID", nullable = false, unique = true)
-    private String userId;
-
-    @Column(name = "PROFILE_IMAGE")
-    private String profileImage;
+    private String providerUserId;
 
     @Column(name = "USER_NAME")
     private String username;
@@ -49,21 +46,22 @@ public class Member extends BaseTimeEntity {
     private LocalDateTime deletedAt;
 
     @Builder
-    private Member(final String accessToken, final String loginId, final String userId, final String profileImage,
-                   final String username, final LocalDateTime deletedAt) {
-        this.accessToken = accessToken;
-        this.loginId = loginId;
-        this.userId = userId;
-        this.profileImage = profileImage;
+    private Member(final String providerAccessToken,
+                   final String providerLoginId,
+                   final String providerUserId,
+                   final String username,
+                   final LocalDateTime deletedAt) {
+        this.providerAccessToken = providerAccessToken;
+        this.providerLoginId = providerLoginId;
+        this.providerUserId = providerUserId;
         this.username = username;
         this.deletedAt = deletedAt;
     }
 
     public void update(final Member other) {
-        this.accessToken = other.accessToken;
-        this.loginId = other.loginId;
-        this.userId = other.userId;
-        this.profileImage = other.profileImage;
+        this.providerAccessToken = other.providerAccessToken;
+        this.providerLoginId = other.providerLoginId;
+        this.providerUserId = other.providerUserId;
         this.username = other.username;
         this.deletedAt = other.deletedAt;
     }
@@ -92,13 +90,12 @@ public class Member extends BaseTimeEntity {
     @Override
     public String toString() {
         return "Member{" +
-               "id=" + id +
-               ", accessToken='" + accessToken + '\'' +
-               ", loginId='" + loginId + '\'' +
-               ", userId='" + userId + '\'' +
-               ", profileImage='" + profileImage + '\'' +
-               ", username='" + username + '\'' +
-               ", deletedAt=" + deletedAt +
-               '}';
+                "id=" + id +
+                ", providerAccessToken='" + providerAccessToken + '\'' +
+                ", providerLoginId='" + providerLoginId + '\'' +
+                ", providerUserId='" + providerUserId + '\'' +
+                ", username='" + username + '\'' +
+                ", deletedAt=" + deletedAt +
+                '}';
     }
 }

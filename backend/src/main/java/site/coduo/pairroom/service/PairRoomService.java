@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.coduo.member.domain.Member;
+import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.service.MemberService;
 import site.coduo.pairroom.domain.MissionUrl;
 import site.coduo.pairroom.domain.Pair;
@@ -42,6 +43,7 @@ public class PairRoomService {
     private final TimerRepository timerRepository;
     private final PairRoomMemberRepository pairRoomMemberRepository;
     private final MemberService memberService;
+    private final MemberRepository memberRepository;
     private final UUIDAccessCodeGenerator uuidAccessCodeGenerator;
 
     @Transactional
@@ -57,7 +59,7 @@ public class PairRoomService {
             pairRoomMemberRepository.save(new PairRoomMemberEntity(pairRoomEntity, member));
         }
         if (isRegisteredMember(request.pairId())) {
-            final Member member = memberService.findMember(request.pairId());
+            final Member member = memberRepository.fetchByProviderLoginId(request.pairId());
             pairRoomMemberRepository.save(new PairRoomMemberEntity(pairRoomEntity, member));
         }
         return pairRoom.getAccessCodeText();

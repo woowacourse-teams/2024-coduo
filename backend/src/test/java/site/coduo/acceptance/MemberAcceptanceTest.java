@@ -13,6 +13,7 @@ import io.restassured.RestAssured;
 import site.coduo.member.domain.Member;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.infrastructure.security.JwtProvider;
+import site.coduo.member.support.MemberDummy;
 
 class MemberAcceptanceTest extends AcceptanceFixture {
 
@@ -26,15 +27,9 @@ class MemberAcceptanceTest extends AcceptanceFixture {
     @DisplayName("회원의 정보를 조회한다.")
     void search_member_info() {
         // given
-        final Member member = Member.builder()
-                .userId("123")
-                .accessToken("access")
-                .loginId("login")
-                .username("username")
-                .profileImage("some image")
-                .build();
+        final Member member = MemberDummy.createDummy();
 
-        final String loginToken = jwtProvider.sign(member.getUserId());
+        final String loginToken = jwtProvider.sign(member.getProviderUserId());
         memberRepository.save(member);
 
         // when & then
@@ -54,15 +49,9 @@ class MemberAcceptanceTest extends AcceptanceFixture {
     @DisplayName("회원을 삭제한다.")
     void delete_member() {
         //given
-        final Member member = Member.builder()
-                .userId("123")
-                .accessToken("access")
-                .loginId("login")
-                .username("username")
-                .profileImage("some image")
-                .build();
+        final Member member = MemberDummy.createDummy();
 
-        final String loginToken = jwtProvider.sign(member.getUserId());
+        final String loginToken = jwtProvider.sign(member.getProviderUserId());
         memberRepository.save(member);
 
         //when && then
@@ -81,15 +70,8 @@ class MemberAcceptanceTest extends AcceptanceFixture {
     @DisplayName("존재하지 않는 회원을 삭제한다.")
     void delete_not_member() {
         //given
-        final Member member = Member.builder()
-                .userId("123")
-                .accessToken("access")
-                .loginId("login")
-                .username("username")
-                .profileImage("some image")
-                .build();
-
-        final String loginToken = jwtProvider.sign(member.getUserId());
+        final Member member = MemberDummy.createDummy();
+        final String loginToken = jwtProvider.sign(member.getProviderUserId());
         memberRepository.save(member);
 
         //when && then

@@ -47,10 +47,6 @@ public class MemberService {
         return memberRepository.fetchByUserId(userId);
     }
 
-    public Member findMember(final String loginId) {
-        return memberRepository.fetchByLoginId(loginId);
-    }
-
     @Transactional
     public void deleteMember(final String token) {
         final String userId = jwtProvider.extractSubject(token);
@@ -59,9 +55,9 @@ public class MemberService {
         member.delete();
     }
 
-    public Member checkAndFindMember(final String token, final String userId) {
+    public Member checkAndFindMember(final String token, final String loginId) {
         final Member loginedMember = findMemberByCredential(token);
-        final Member pairMember = findMember(userId);
+        final Member pairMember = memberRepository.fetchByProviderLoginId(loginId);
 
         if (loginedMember.equals(pairMember)) {
             throw new InvalidMemberAddException("자신의 아이디로 페어 정보 연동을 할 수 없습니다.");

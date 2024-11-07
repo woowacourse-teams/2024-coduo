@@ -9,12 +9,11 @@ public class MemberUpdate {
 
     public void update(final String accessToken) {
         final Member change = Member.builder()
-                .profileImage(member.getProfileImage())
-                .loginId(member.getLoginId())
+                .providerLoginId(member.getProviderLoginId())
                 .username(member.getUsername())
-                .userId(member.getUserId())
+                .providerUserId(member.getProviderUserId())
                 .deletedAt(member.getDeletedAt())
-                .accessToken(accessToken)
+                .providerAccessToken(accessToken)
                 .build();
 
         member.update(change);

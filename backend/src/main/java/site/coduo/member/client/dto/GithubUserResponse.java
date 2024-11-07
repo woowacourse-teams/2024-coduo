@@ -12,12 +12,10 @@ public record GithubUserResponse(@JsonProperty(value = "id") String userId,
 
     public Member toDomain(final Bearer accessToken, final String username) {
         return Member.builder()
-                .profileImage(avatarUrl)
-                .userId(userId)
-                .loginId(longin)
+                .providerUserId(userId)
+                .providerLoginId(longin)
                 .username(username)
-                .accessToken(accessToken.getCredential())
+                .providerAccessToken(accessToken.getCredential())
                 .build();
     }
-
 }

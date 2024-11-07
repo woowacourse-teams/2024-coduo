@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import site.coduo.member.domain.Member;
+import site.coduo.member.support.MemberDummy;
 
 @SpringBootTest
 class MemberRepositoryTest {
@@ -29,17 +30,11 @@ class MemberRepositoryTest {
         // given
         final String identifier = "some id";
 
-        final Member member = Member.builder()
-                .loginId("loginId")
-                .userId(identifier)
-                .profileImage("some photo")
-                .accessToken("some accessCode")
-                .username("some username")
-                .build();
+        final Member member = MemberDummy.createDummy(identifier);
         memberRepository.save(member);
 
         // when
-        final Optional<Member> find = memberRepository.findByUserIdAndDeletedAtIsNull(identifier);
+        final Optional<Member> find = memberRepository.findByProviderUserIdAndDeletedAtIsNull(identifier);
 
         // then
         assertThat(find).hasValue(member);

@@ -15,6 +15,7 @@ import site.coduo.member.domain.Member;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.infrastructure.security.JwtProvider;
 import site.coduo.member.service.dto.SignInServiceResponse;
+import site.coduo.member.support.MemberDummy;
 
 @SpringBootTest
 @Import(TestConfig.class)
@@ -39,7 +40,7 @@ class AuthServiceTest {
     void search_member_by_access_token() {
         // given
         final Member member = createMember("username", FakeGithubApiClient.ACCESS_TOKEN, FakeGithubApiClient.USER_ID);
-        final String sign = jwtProvider.sign(member.getAccessToken());
+        final String sign = jwtProvider.sign(member.getProviderAccessToken());
 
         // when
         final SignInServiceResponse signInToken = authService.createSignInToken(sign);
@@ -63,14 +64,7 @@ class AuthServiceTest {
     }
 
     private Member createMember(final String username, final String accessToken, final String userId) {
-        final Member member = Member.builder()
-                .username(username)
-                .accessToken(accessToken)
-                .loginId("")
-                .userId(userId)
-                .profileImage("")
-                .build();
-
+        final Member member = MemberDummy.createDummy(username, accessToken, userId);
         return memberRepository.save(member);
     }
 
@@ -86,7 +80,7 @@ class AuthServiceTest {
 
         // then
         assertThat(memberRepository.findById(member.getId()).orElseThrow())
-                .extracting("accessToken")
+                .extracting("providerAccessToken")
                 .isEqualTo("change");
     }
 

@@ -16,6 +16,7 @@ import site.coduo.member.domain.Member;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.infrastructure.security.JwtProvider;
 import site.coduo.member.service.dto.member.MemberReadResponse;
+import site.coduo.member.support.MemberDummy;
 
 @SpringBootTest
 @Import(TestConfig.class)
@@ -54,14 +55,8 @@ class MemberServiceTest {
     @DisplayName("로그인 토큰을 바탕으로 회원이름을 조회한다.")
     void search_username_by_login_token() {
         // given
-        final Member member = Member.builder()
-                .userId("userid")
-                .accessToken("access")
-                .loginId("login")
-                .username("username")
-                .profileImage("some image")
-                .build();
-        final String sign = jwtProvider.sign(member.getUserId());
+        final Member member = MemberDummy.createDummy();
+        final String sign = jwtProvider.sign(member.getProviderUserId());
         memberRepository.save(member);
 
         // when
@@ -75,14 +70,8 @@ class MemberServiceTest {
     @DisplayName("로그인 토큰을 바탕으로 회원 엔티티를 조회한다.")
     void search_member_by_login_token() {
         // given
-        final Member member = Member.builder()
-                .userId("userid")
-                .accessToken("access")
-                .loginId("login")
-                .username("username")
-                .profileImage("some image")
-                .build();
-        final String sign = jwtProvider.sign(member.getUserId());
+        final Member member = MemberDummy.createDummy();
+        final String sign = jwtProvider.sign(member.getProviderUserId());
         memberRepository.save(member);
 
         // when
@@ -96,14 +85,8 @@ class MemberServiceTest {
     @DisplayName("회원을 삭제한다.")
     void delete_member() {
         // given
-        final Member member = Member.builder()
-                .userId("userid")
-                .accessToken("access")
-                .loginId("login")
-                .username("username")
-                .profileImage("some image")
-                .build();
-        final String token = jwtProvider.sign(member.getUserId());
+        final Member member = MemberDummy.createDummy();
+        final String token = jwtProvider.sign(member.getProviderUserId());
 
         memberRepository.save(member);
         final List<Member> beforeDelete = memberRepository.findAll();
@@ -114,26 +97,5 @@ class MemberServiceTest {
         //then
         final List<Member> afterDelete = memberRepository.findAll();
         assertThat(afterDelete).hasSize(beforeDelete.size() - 1);
-    }
-
-    @Test
-    @DisplayName("user id로 회원을 조회한다.")
-    void find_by_user_id() {
-        //given
-        final Member member = Member.builder()
-                .userId("targetUserId")
-                .accessToken("access")
-                .loginId("login")
-                .username("username")
-                .profileImage("some image")
-                .build();
-
-        final Member saved = memberRepository.save(member);
-
-        //when
-        final Member find = memberService.findMember(member.getLoginId());
-
-        //then
-        assertThat(find).isEqualTo(saved);
     }
 }

@@ -21,6 +21,7 @@ import site.coduo.fixture.PairRoomCreateRequestFixture;
 import site.coduo.member.domain.Member;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.infrastructure.security.JwtProvider;
+import site.coduo.member.support.MemberDummy;
 import site.coduo.pairroom.domain.MissionUrl;
 import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
@@ -40,8 +41,8 @@ import site.coduo.timer.domain.Timer;
 import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
 
-@Transactional
 @SpringBootTest
+@Transactional
 class PairRoomServiceTest {
 
     @Autowired
@@ -189,15 +190,15 @@ class PairRoomServiceTest {
 
         final PairRoomCreateRequest pairRoomCreateRequest = PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST;
 
-        final String accessCodeA_1 = pairRoomService.savePairRoom(pairRoomCreateRequest, memberA.getAccessToken());
-        final String accessCodeA_2 = pairRoomService.savePairRoom(pairRoomCreateRequest, memberA.getAccessToken());
-        final String accessCodeB_1 = pairRoomService.savePairRoom(pairRoomCreateRequest, memberB.getAccessToken());
+        final String accessCodeA_1 = pairRoomService.savePairRoom(pairRoomCreateRequest, memberA.getProviderAccessToken());
+        final String accessCodeA_2 = pairRoomService.savePairRoom(pairRoomCreateRequest, memberA.getProviderAccessToken());
+        final String accessCodeB_1 = pairRoomService.savePairRoom(pairRoomCreateRequest, memberB.getProviderAccessToken());
         pairRoomService.savePairRoom(pairRoomCreateRequest, null);
 
         final PairRoomCreateRequest deletePairRoomCreateRequest = PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST;
-        final String accessToken1 = pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getAccessToken());
-        final String accessToken2 = pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getAccessToken());
-        final String accessToken3 = pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getAccessToken());
+        final String accessToken1 = pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getProviderAccessToken());
+        final String accessToken2 = pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getProviderAccessToken());
+        final String accessToken3 = pairRoomService.savePairRoom(deletePairRoomCreateRequest, memberA.getProviderAccessToken());
 
         pairRoomRepository.fetchByAccessCode(accessToken1).updateStatus(PairRoomStatus.DELETED);
         pairRoomRepository.fetchByAccessCode(accessToken2).updateStatus(PairRoomStatus.DELETED);
@@ -207,11 +208,11 @@ class PairRoomServiceTest {
         final List<String> memberBExpected = List.of(accessCodeB_1);
 
         //when
-        final List<String> findAccessCodesForMemberA = pairRoomService.findPairRooms(memberA.getAccessToken())
+        final List<String> findAccessCodesForMemberA = pairRoomService.findPairRooms(memberA.getProviderAccessToken())
                 .stream()
                 .map(PairRoomMemberResponse::accessCode)
                 .toList();
-        final List<String> findAccessCodesForMemberB = pairRoomService.findPairRooms(memberB.getAccessToken())
+        final List<String> findAccessCodesForMemberB = pairRoomService.findPairRooms(memberB.getProviderAccessToken())
                 .stream()
                 .map(PairRoomMemberResponse::accessCode)
                 .toList();
@@ -225,13 +226,7 @@ class PairRoomServiceTest {
 
     private Member createMember(final String userId) {
         final String token = jwtProvider.sign(userId);
-        final Member member = Member.builder()
-                .accessToken(token)
-                .loginId("login id")
-                .profileImage("profile image")
-                .username("hello" + new Random().nextInt())
-                .userId(userId)
-                .build();
+        final Member member = MemberDummy.createDummy("hello" + new Random().nextInt(), token, userId);
         return memberRepository.save(member);
     }
 
@@ -291,15 +286,7 @@ class PairRoomServiceTest {
     @Test
     void existMemberInPairRoom() {
         // Given
-        final Member savedMember = memberRepository.save(
-                Member.builder()
-                        .userId("userid")
-                        .accessToken("access")
-                        .loginId("login")
-                        .username("username")
-                        .profileImage("some image")
-                        .build()
-        );
+        final Member savedMember = memberRepository.save(MemberDummy.createDummy());
         final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
@@ -310,7 +297,7 @@ class PairRoomServiceTest {
         pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
 
         // When
-        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        final String credentialToken = jwtProvider.sign(savedMember.getProviderUserId());
         final boolean existMemberInPairRoom = pairRoomService.existMemberInPairRoom(credentialToken, "123456");
 
         // Then
@@ -321,18 +308,10 @@ class PairRoomServiceTest {
     @Test
     void existMemberInPairRoomWithNotExistRoomCode() {
         // Given
-        final Member savedMember = memberRepository.save(
-                Member.builder()
-                        .userId("userid")
-                        .accessToken("access")
-                        .loginId("login")
-                        .username("username")
-                        .profileImage("some image")
-                        .build()
-        );
+        final Member savedMember = memberRepository.save(MemberDummy.createDummy());
 
         // When & Then
-        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        final String credentialToken = jwtProvider.sign(savedMember.getProviderUserId());
         assertThatThrownBy(() -> pairRoomService.existMemberInPairRoom(credentialToken, "no-code"))
                 .isInstanceOf(PairRoomNotFoundException.class);
     }
@@ -341,31 +320,17 @@ class PairRoomServiceTest {
     @DisplayName("페어가 회원가입한 유저인 경우 페어의 나의 페이지에서도 조회가 가능하다.")
     void createPairRoomRegisteredPair() {
         //given
-        final Member me = memberRepository.save(
-                Member.builder()
-                        .userId("pairA")
-                        .accessToken(jwtProvider.sign("pairA"))
-                        .loginId("pairA")
-                        .username("pairNameA")
-                        .profileImage("some image")
-                        .build()
-        );
+        final Member me = MemberDummy.createDummy("pairNameA",jwtProvider.sign("pairA"), "pairA","loginIdA");
+        memberRepository.save(me);
 
-        final Member pair = memberRepository.save(
-                Member.builder()
-                        .userId("pairB")
-                        .accessToken(jwtProvider.sign("pairB"))
-                        .loginId("pairB")
-                        .username("pairNameB")
-                        .profileImage("some image")
-                        .build()
-        );
+        final Member pair =MemberDummy.createDummy("pairNameB",jwtProvider.sign("pairB"), "pairB", "loginIdB");
+        memberRepository.save(pair);
 
-        final PairRoomCreateRequest request = new PairRoomCreateRequest("navi", "dri", pair.getUserId(),
+        final PairRoomCreateRequest request = new PairRoomCreateRequest("navi", "dri", pair.getProviderLoginId(),
                 60000L, 60000L, "");
 
         //when
-        pairRoomService.savePairRoom(request, me.getAccessToken());
+        pairRoomService.savePairRoom(request, me.getProviderAccessToken());
 
         //then
         final List<PairRoomMemberEntity> mine = pairRoomMemberRepository.findByMember(me);
