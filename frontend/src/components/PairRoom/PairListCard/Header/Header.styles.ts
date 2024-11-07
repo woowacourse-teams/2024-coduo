@@ -1,33 +1,12 @@
 import { IoIosArrowBack } from 'react-icons/io';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 
-export const Layout = styled(PairRoomCard.Header)`
-  p {
-    height: 4.8rem;
+export const Layout = styled(PairRoomCard.Header)<{ $isOpen: boolean }>`
+  justify-content: ${({ $isOpen }) => ($isOpen ? 'space-between' : 'center')};
 
-    white-space: nowrap;
-  }
-`;
-
-export const expandButton = css`
-  border: none;
-
-  background-color: ${({ theme }) => theme.color.black[100]};
-  color: ${({ theme }) => theme.color.black[900]};
-
-  &:hover {
-    border: none;
-
-    background-color: ${({ theme }) => theme.color.black[300]};
-  }
-
-  &:active {
-    border: none;
-
-    background-color: ${({ theme }) => theme.color.black[500]};
-  }
+  padding: ${({ $isOpen }) => ($isOpen ? '2rem 1rem 2rem 2rem' : '0')};
 `;
 
 export const ArrowIcon = styled(IoIosArrowBack)<{ $isOpen: boolean }>`

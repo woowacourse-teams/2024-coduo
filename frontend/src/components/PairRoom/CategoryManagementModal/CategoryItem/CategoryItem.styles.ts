@@ -1,3 +1,4 @@
+import { LuArrowLeft, LuCheck, LuPencil, LuTrash2 } from 'react-icons/lu';
 import styled, { css } from 'styled-components';
 
 export const Layout = styled.div`
@@ -53,4 +54,19 @@ export const CustomInputMessage = css`
   top: 4rem;
 
   font-size: 1rem;
+`;
+
+export const EditIcon = styled(LuPencil)`
+  color: ${({ theme }) => theme.color.primary[800]};
+`;
+
+export const CheckIcon = styled(LuCheck)`
+  color: ${({ theme }) => theme.color.primary[800]};
+`;
+
+export const CancelIcon = styled(LuArrowLeft)`
+  color: ${({ theme }) => theme.color.primary[800]};
+`;
+export const DeleteIcon = styled(LuTrash2)`
+  color: ${({ theme }) => theme.color.danger[500]};
 `;

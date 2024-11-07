@@ -1,7 +1,7 @@
 import { CheckBoxChecked, CheckBoxUnchecked } from '@/assets';
 
+import IconButton from '@/components/_common/Button/IconButton/IconButton';
 import Input from '@/components/_common/Input/Input';
-import IconButton from '@/components/PairRoom/CategoryManagementModal/IconButton/IconButton';
 
 import useToastStore from '@/stores/toastStore';
 
@@ -71,8 +71,8 @@ const CategoryItem = ({
             $messageCss={S.CustomInputMessage}
           />
           <S.IconContainer>
-            <IconButton icon="CHECK" type="submit" />
-            <IconButton icon="CANCEL" onClick={stopEditing} />
+            <IconButton icon={<S.CheckIcon />} type="submit" size="2rem" />
+            <IconButton icon={<S.CancelIcon />} onClick={stopEditing} size="2rem" />
           </S.IconContainer>
         </S.Layout>
       </form>
@@ -89,8 +89,8 @@ const CategoryItem = ({
       </S.Container>
       {categoryId !== DEFAULT_CATEGORY_ID && (
         <S.IconContainer>
-          <IconButton onClick={startEditing} icon="EDIT" />
-          <IconButton onClick={handleDeleteCategory} icon="DELETE" />
+          <IconButton onClick={startEditing} icon={<S.EditIcon />} size="2rem" />
+          <IconButton onClick={handleDeleteCategory} icon={<S.DeleteIcon />} size="2rem" />
         </S.IconContainer>
       )}
     </S.Layout>

@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 
+import IconButton from '@/components/_common/Button/IconButton/IconButton';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import TimerEditPanel from '@/components/PairRoom/TimerCard/TimerEditPanel/TimerEditPanel';
 
@@ -52,12 +53,20 @@ const TimerCard = ({ accessCode, defaultTime, defaultTimeleft, onTimerStop }: Ti
           </S.Timer>
         </S.ProgressBar>
         <S.IconContainer>
-          <S.IconButton disabled={isActive} onClick={handleStart} aria-label="타이머 시작하기">
-            <S.PlayIcon $isActive={!isActive} role="presentation" />
-          </S.IconButton>
-          <S.IconButton disabled={!isActive} onClick={handlePause} aria-label="타이머 중지하기">
-            <S.PauseIcon $isActive={isActive} role="presentation" />
-          </S.IconButton>
+          <IconButton
+            icon={<S.PlayIcon $isActive={!isActive} role="presentation" />}
+            isActive={!isActive}
+            disabled={isActive}
+            onClick={handleStart}
+            aria-label="타이머 시작하기"
+          />
+          <IconButton
+            icon={<S.PauseIcon $isActive={isActive} role="presentation" />}
+            isActive={isActive}
+            disabled={!isActive}
+            onClick={handlePause}
+            aria-label="타이머 중지하기"
+          />
         </S.IconContainer>
         <TimerEditPanel isActive={isActive} />
       </S.Layout>

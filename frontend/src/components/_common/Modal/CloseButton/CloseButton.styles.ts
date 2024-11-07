@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import { css } from 'styled-components';
 
-export const Button = styled.button`
+export const button = css`
   position: absolute;
   top: 3.5rem;
   right: 3.5rem;

@@ -6,6 +6,7 @@ interface HeaderProps {
   title: string;
   isOpen?: boolean;
   toggleIsOpen?: () => void;
+  className?: string;
 }
 
 const Header = ({
@@ -15,9 +16,10 @@ const Header = ({
   children,
   isOpen = true,
   toggleIsOpen,
+  ...props
 }: React.PropsWithChildren<HeaderProps>) => {
   return (
-    <S.Layout $isOpen={isOpen} onClick={toggleIsOpen}>
+    <S.Layout $isOpen={isOpen} onClick={toggleIsOpen} {...props}>
       <S.TitleContainer>
         {icon}
         <p>{title}</p>

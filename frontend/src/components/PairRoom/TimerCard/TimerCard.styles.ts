@@ -64,13 +64,6 @@ export const IconContainer = styled.div`
   gap: 5rem;
 `;
 
-export const IconButton = styled.button`
-  width: ${({ theme }) => theme.fontSize.h4};
-
-  background: transparent;
-  font-size: ${({ theme }) => theme.fontSize.h4};
-`;
-
 const iconStyle = css<{ $isActive: boolean }>`
   color: ${({ $isActive, theme }) => ($isActive ? theme.color.secondary[500] : theme.color.black[500])};
 

@@ -12,19 +12,8 @@ export const Layout = styled.div`
   right: 1.5rem;
 `;
 
-export const Icon = styled(IoSettingsOutline)`
-  width: 2rem;
-  height: 2rem;
-
-  color: ${({ theme }) => theme.color.black[700]};
-
-  transition: color 0.2s ease;
-
-  cursor: pointer;
-
-  &:hover {
-    color: ${({ theme }) => theme.color.secondary[600]};
-  }
+export const SettingsIcon = styled(IoSettingsOutline)`
+  color: ${({ theme }) => theme.color.secondary[500]};
 `;
 
 const slideDown = keyframes`

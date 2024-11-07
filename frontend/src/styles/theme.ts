@@ -117,6 +117,13 @@ const iconSize = {
   xl: '5.5rem',
 };
 
+const iconButtonSize = {
+  sm: '4.5rem',
+  md: '5.5rem',
+  lg: '6.5rem',
+  xl: '7.5rem',
+};
+
 export type ColorTypes = typeof color;
 export type FontSizeTypes = typeof fontSize;
 export type FontWeightTypes = typeof fontWeight;
@@ -129,4 +136,5 @@ export const theme: DefaultTheme = {
   fontWeight,
   deviceWidth,
   iconSize,
+  iconButtonSize,
 };
