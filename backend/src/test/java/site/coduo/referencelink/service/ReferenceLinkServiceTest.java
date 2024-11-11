@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import site.coduo.pairroom.domain.accesscode.AccessCode;
+import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.Category;
@@ -138,20 +139,17 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
 
     @DisplayName("액세스코드가 일치하지 않으면 삭제를 시도해도 삭제되지 않는다.")
     @Test
-    void cannot_delete_reference_link_and_open_graph_when_invalid_access_code() throws MalformedURLException {
+    void cannot_delete_reference_link_and_open_graph_when_invalid_access_code() {
         // given
         final ReferenceLinkCreateRequest request =
                 new ReferenceLinkCreateRequest(FakeServer.testUrl, springCategory.getId());
         final ReferenceLinkResponse referenceLink = referenceLinkService.createReferenceLink(
                 pairRoomEntity.getAccessCode(), request);
+        final String invalidAccessCode = "abcdef";
 
-        // when
-        referenceLinkService.deleteReferenceLink("abcdef", referenceLink.id());
-
-        assertAll(
-                () -> assertThat(referenceLinkRepository.findAll()).hasSize(1),
-                () -> assertThat(openGraphRepository.findAll()).hasSize(1)
-        );
+        // when & then
+        assertThatThrownBy(() -> referenceLinkService.deleteReferenceLink(invalidAccessCode, referenceLink.id()))
+                .isExactlyInstanceOf(PairRoomNotFoundException.class);
     }
 
     @Test

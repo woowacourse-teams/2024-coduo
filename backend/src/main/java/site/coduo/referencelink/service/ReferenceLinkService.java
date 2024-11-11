@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
+import site.coduo.pairroom.exception.InactivePairRoomException;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.Category;
@@ -34,10 +35,13 @@ public class ReferenceLinkService {
     private final CategoryRepository categoryRepository;
     private final OpenGraphService openGraphService;
 
-    public ReferenceLinkResponse createReferenceLink(final String accessCodeText,
-                                                     final ReferenceLinkCreateRequest request) {
+    public ReferenceLinkResponse createReferenceLink(
+            final String accessCodeText,
+            final ReferenceLinkCreateRequest request
+    ) {
         final AccessCode accessCode = new AccessCode(accessCodeText);
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
+        checkPairRoomIsActive(pairRoomEntity);
         final URL url = makeUrl(request.url());
         final ReferenceLink referenceLink = new ReferenceLink(url, accessCode);
 
@@ -54,9 +58,10 @@ public class ReferenceLinkService {
         }
     }
 
-    private ReferenceLinkEntity saveReferenceLink(final ReferenceLinkCreateRequest request,
-                                                  final PairRoomEntity pairRoomEntity,
-                                                  final ReferenceLink referenceLink
+    private ReferenceLinkEntity saveReferenceLink(
+            final ReferenceLinkCreateRequest request,
+            final PairRoomEntity pairRoomEntity,
+            final ReferenceLink referenceLink
     ) {
         if (request.categoryId() == null) {
             return referenceLinkRepository.save(new ReferenceLinkEntity(referenceLink, pairRoomEntity));
@@ -118,10 +123,18 @@ public class ReferenceLinkService {
     }
 
     public void deleteReferenceLink(final String accessCodeText, final long id) {
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCodeText);
+        checkPairRoomIsActive(pairRoomEntity);
         final ReferenceLinkEntity referenceLinkEntity = referenceLinkRepository.fetchById(id);
         if (referenceLinkEntity.isSameAccessCode(new AccessCode(accessCodeText))) {
             openGraphService.deleteByReferenceLink(referenceLinkEntity);
             referenceLinkRepository.delete(referenceLinkEntity);
+        }
+    }
+
+    private void checkPairRoomIsActive(final PairRoomEntity pairRoomEntity) {
+        if (!pairRoomEntity.isActive()) {
+            throw new InactivePairRoomException("이미 종료되었거나 삭제된 페어룸의 링크를 조작할 수 없습니다.");
         }
     }
 }

@@ -205,7 +205,6 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                         .build()
         );
         final PairRoomEntity savedPairRoom = saveTestPairRoom();
-        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, owner));
 
         // When
         final String otherMemberToken = jwtProvider.sign(other.getUserId());
@@ -220,7 +219,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
                 .delete("/api/retrospects/{accessCode}", savedPairRoom.getAccessCode())
 
                 .then()
-                .statusCode(400);
+                .statusCode(404);
     }
 
     @DisplayName("특정 회원이 특정 페어룸에 작성한 회고가 존재하는지 여부를 조회한다.")
