@@ -88,7 +88,7 @@ public class PairRoomExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handlePairRoomException(final PairRoomException e) {
         log.warn(e.getMessage());
 
-        return ResponseEntity.status(PairRoomApiError.INVALID_REQUEST.getHttpStatus())
-                .body(new ApiErrorResponse(PairRoomApiError.INVALID_REQUEST.getMessage()));
+        return ResponseEntity.status(PairRoomApiError.INVALID_PAIR_ROOM_REQUEST.getHttpStatus())
+                .body(new ApiErrorResponse(PairRoomApiError.INVALID_PAIR_ROOM_REQUEST.getMessage()));
     }
 }
