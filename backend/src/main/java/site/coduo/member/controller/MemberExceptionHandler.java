@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import lombok.extern.slf4j.Slf4j;
 import site.coduo.common.controller.response.ApiErrorResponse;
 import site.coduo.member.controller.error.MemberApiError;
+import site.coduo.member.exception.AuthenticationException;
 import site.coduo.member.exception.ExternalApiCallException;
 import site.coduo.member.exception.InvalidMemberAddException;
+import site.coduo.member.exception.MemberException;
 import site.coduo.member.exception.MemberNotFoundException;
 
 @Slf4j
@@ -40,5 +42,21 @@ public class MemberExceptionHandler {
 
         return ResponseEntity.status(MemberApiError.API_CALL_FAILURE_ERROR.getHttpStatus())
                 .body(new ApiErrorResponse(MemberApiError.MEMBER_NOT_FOUND_ERROR.getMessage()));
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ApiErrorResponse> handlerAuthenticationException(final AuthenticationException e) {
+        log.error(e.getMessage());
+
+        return ResponseEntity.status(MemberApiError.AUTHENTICATION_ERROR.getHttpStatus())
+                .body(new ApiErrorResponse(MemberApiError.AUTHENTICATION_ERROR.getMessage()));
+    }
+
+    @ExceptionHandler(MemberException.class)
+    public ResponseEntity<ApiErrorResponse> handlerMemberException(final MemberException e) {
+        log.error(e.getMessage());
+
+        return ResponseEntity.status(MemberApiError.INVALID_MEMBER_REQUEST.getHttpStatus())
+                .body(new ApiErrorResponse(MemberApiError.INVALID_MEMBER_REQUEST.getMessage()));
     }
 }
