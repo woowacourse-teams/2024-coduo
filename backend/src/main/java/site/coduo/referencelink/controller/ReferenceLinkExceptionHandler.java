@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import lombok.extern.slf4j.Slf4j;
 import site.coduo.common.controller.response.ApiErrorResponse;
 import site.coduo.referencelink.controller.error.ReferenceLinkApiError;
+import site.coduo.referencelink.exception.CategoryNotFoundException;
+import site.coduo.referencelink.exception.InvalidCategoryException;
 import site.coduo.referencelink.exception.InvalidUrlFormatException;
 import site.coduo.referencelink.exception.ReferenceLinkException;
 
@@ -23,6 +25,22 @@ public class ReferenceLinkExceptionHandler {
 
         return ResponseEntity.status(ReferenceLinkApiError.INVALID_URL_FORMAT.getHttpStatus())
                 .body(new ApiErrorResponse(ReferenceLinkApiError.INVALID_URL_FORMAT.getMessage()));
+    }
+
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleCategoryNotFoundException(final CategoryNotFoundException e) {
+        log.warn(e.getMessage());
+
+        return ResponseEntity.status(ReferenceLinkApiError.CATEGORY_NOT_FOUND.getHttpStatus())
+                .body(new ApiErrorResponse(ReferenceLinkApiError.CATEGORY_NOT_FOUND.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidCategoryException.class)
+    public ResponseEntity<ApiErrorResponse> handleInvalidCategoryException(final InvalidCategoryException e) {
+        log.warn(e.getMessage());
+
+        return ResponseEntity.status(ReferenceLinkApiError.INVALID_CATEGORY_FORMAT.getHttpStatus())
+                .body(new ApiErrorResponse(ReferenceLinkApiError.INVALID_CATEGORY_FORMAT.getMessage()));
     }
 
     @ExceptionHandler(ReferenceLinkException.class)
