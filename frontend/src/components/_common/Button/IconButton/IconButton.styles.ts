@@ -73,7 +73,6 @@ const iconSize = ({ $size }: { $size: string }) => {
 interface IconButtonProps {
   $css?: ReturnType<typeof css>;
   $size: string;
-  $width?: string;
   $isActive?: boolean;
 }
 
