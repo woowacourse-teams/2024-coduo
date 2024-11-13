@@ -22,16 +22,22 @@ const hexColorToInt = (hexDecimalColor: string) => {
   return int;
 };
 
+const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max);
+
 const adjustBrightness = (hexColor: string, amount: number) => {
   const color = hexColor.slice(1);
   const num = parseInt(color, 16);
 
-  const red = (num >> 16) + amount;
-  const blue = ((num >> 8) & 0x00ff) + amount;
-  const green = (num & 0x0000ff) + amount;
+  let red = (num >> 16) + amount;
+  let green = ((num >> 8) & 0x00ff) + amount;
+  let blue = (num & 0x0000ff) + amount;
 
-  const newColor = (green | (blue << 8) | (red << 16)).toString(16);
-  return `#${newColor.padStart(6, '0')}`;
+  red = clamp(red, 0, 255);
+  green = clamp(green, 0, 255);
+  blue = clamp(blue, 0, 255);
+
+  const newColor = (red << 16) | (green << 8) | blue;
+  return `#${newColor.toString(16).padStart(6, '0')}`;
 };
 
 const calculateLuminance = (hexColor: string) => {
