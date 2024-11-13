@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Input from '@/components/_common/InputGroup/Input/Input';
-import { InputStatus } from '@/components/_common/InputGroup/Input.type';
+import Input from '@/components/_common/InputField/Input/Input';
+import { InputStatus } from '@/components/_common/InputField/Input.type';
 
 import useInput from '@/hooks/_common/useInput';
 
 import { theme } from '@/styles/theme';
 
 const meta = {
-  title: 'component/common/InputGroup/Input',
+  title: 'component/common/InputField/Input',
   component: Input,
   argTypes: {
     status: {

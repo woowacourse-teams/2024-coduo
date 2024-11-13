@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 import { GithubLogoWhite } from '@/assets';
 
-import { InputGroup } from '@/components/_common/InputGroup';
-import { InputType } from '@/components/_common/InputGroup/Input.type';
+import { InputField } from '@/components/_common/InputField';
+import { InputType } from '@/components/_common/InputField/Input.type';
 
 import useGetBranches from '@/queries/PairRoomOnboarding/useGetBranches';
 
@@ -30,16 +30,16 @@ const CreateBranchInput = ({ repositoryName, branchName, onBranchName }: CreateB
         </S.RepositoryNameBox>
         <S.InputWrapper>
           <S.ArrowIcon aria-hidden="true" />
-          <InputGroup>
-            <InputGroup.Input
+          <InputField>
+            <InputField.Input
               autoFocus
               placeholder="미션에서 사용할 브랜치 이름을 입력해 주세요."
               value={branchName.value}
               status={branchName.status}
               onChange={(event) => onBranchName(event, branches)}
             />
-            <InputGroup.Message status={branchName.status}>{branchName.message}</InputGroup.Message>
-          </InputGroup>
+            <InputField.Message status={branchName.status}>{branchName.message}</InputField.Message>
+          </InputField>
         </S.InputWrapper>
       </S.InputContainer>
     </S.Layout>

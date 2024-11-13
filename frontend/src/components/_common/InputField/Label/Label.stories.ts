@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Label from '@/components/_common/InputGroup/Label/Label';
+import Label from '@/components/_common/InputField/Label/Label';
 
 const meta = {
-  title: 'component/common/InputGroup/Label',
+  title: 'component/common/InputField/Label',
   component: Label,
 } satisfies Meta<typeof Label>;
 

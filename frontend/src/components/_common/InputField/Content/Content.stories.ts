@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Content from '@/components/_common/InputGroup/Content/Content';
+import Content from '@/components/_common/InputField/Content/Content';
 
 const meta = {
-  title: 'component/common/InputGroup/Content',
+  title: 'component/common/InputField/Content',
   component: Content,
 } satisfies Meta<typeof Content>;
 

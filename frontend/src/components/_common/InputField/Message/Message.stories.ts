@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { InputStatus } from '@/components/_common/InputGroup/Input.type';
-import Message from '@/components/_common/InputGroup/Message/Message';
+import { InputStatus } from '@/components/_common/InputField/Input.type';
+import Message from '@/components/_common/InputField/Message/Message';
 
 const meta = {
-  title: 'component/common/InputGroup/Message',
+  title: 'component/common/InputField/Message',
   component: Message,
   argTypes: {
     status: {

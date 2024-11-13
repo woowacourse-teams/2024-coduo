@@ -3,7 +3,7 @@ import { ChangeEvent } from 'react';
 import { LuPlus } from 'react-icons/lu';
 
 import Button from '@/components/_common/Button/Button';
-import { InputGroup } from '@/components/_common/InputGroup';
+import { InputField } from '@/components/_common/InputField';
 import { Modal } from '@/components/_common/Modal';
 import CategoryItem from '@/components/PairRoom/CategoryManagementModal/CategoryItem/CategoryItem';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
@@ -77,9 +77,9 @@ const CategoryManagementModal = ({
         </S.CategoryList>
       </Modal.Body>
       <S.Form onSubmit={handleAddCategorySubmit}>
-        <InputGroup gap="0.5rem">
-          <InputGroup.Content>
-            <InputGroup.Input
+        <InputField gap="0.5rem">
+          <InputField.Content>
+            <InputField.Input
               value={value}
               placeholder="추가할 카테고리를 입력해 주세요."
               height="4.4rem"
@@ -87,7 +87,7 @@ const CategoryManagementModal = ({
               onChange={(event: ChangeEvent<HTMLInputElement>) =>
                 handleChange(event, validateCategoryName(event.target.value, isCategoryExist))
               }
-            ></InputGroup.Input>
+            ></InputField.Input>
             <Button
               type="submit"
               width="4.8rem"
@@ -99,9 +99,9 @@ const CategoryManagementModal = ({
               <LuPlus size="1.6rem" />
             </Button>
             {/* //TODO: icon button 으로 바꾸기 */}
-          </InputGroup.Content>
-          <InputGroup.Message status={status}>{message}</InputGroup.Message>
-        </InputGroup>
+          </InputField.Content>
+          <InputField.Message status={status}>{message}</InputField.Message>
+        </InputField>
       </S.Form>
       <Modal.CloseButton close={handleCloseModal} />
     </Modal>

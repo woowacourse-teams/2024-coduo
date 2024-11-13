@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { LuPlus } from 'react-icons/lu';
 
 import Button from '@/components/_common/Button/Button';
-import Input from '@/components/_common/InputGroup/Input/Input';
+import Input from '@/components/_common/InputField/Input/Input';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import Header from '@/components/PairRoom/TodoListCard/Header/Header';
 import TodoList from '@/components/PairRoom/TodoListCard/TodoList/TodoList';

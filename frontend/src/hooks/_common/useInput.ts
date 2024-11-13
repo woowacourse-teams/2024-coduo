@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import type { InputStatus } from '@/components/_common/InputGroup/Input.type';
+import type { InputStatus } from '@/components/_common/InputField/Input.type';
 
 const useInput = (initialValue: string = '') => {
   const [value, setValue] = useState(initialValue);

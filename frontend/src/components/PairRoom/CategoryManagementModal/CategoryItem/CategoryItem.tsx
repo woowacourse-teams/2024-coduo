@@ -2,8 +2,8 @@ import { ChangeEvent } from 'react';
 
 import { CheckBoxChecked, CheckBoxUnchecked } from '@/assets';
 
-import Input from '@/components/_common/InputGroup/Input/Input';
-import Message from '@/components/_common/InputGroup/Message/Message';
+import Input from '@/components/_common/InputField/Input/Input';
+import Message from '@/components/_common/InputField/Message/Message';
 import IconButton from '@/components/PairRoom/CategoryManagementModal/IconButton/IconButton';
 
 import useToastStore from '@/stores/toastStore';

@@ -2,7 +2,7 @@
 import { useState } from 'react';
 
 import Button from '@/components/_common/Button/Button';
-import { InputGroup } from '@/components/_common/InputGroup';
+import { InputField } from '@/components/_common/InputField';
 import InformationBox from '@/components/PairRoomOnboarding/InformationBox/InformationBox';
 
 import { validateTimerDuration } from '@/validations/validateTimerDuration';
@@ -67,8 +67,8 @@ const TimerDurationInput = ({ timerDuration, onTimerDuration }: TimerDurationInp
             직접 설정
           </Button>
           {isCustom && (
-            <InputGroup gap="0.5rem" width="20rem">
-              <InputGroup.Input
+            <InputField gap="0.5rem" width="20rem">
+              <InputField.Input
                 autoFocus
                 aria-label="타이머 시간을 분 단위로 입력해 주세요."
                 borderRadius="1rem"
@@ -79,10 +79,10 @@ const TimerDurationInput = ({ timerDuration, onTimerDuration }: TimerDurationInp
                 disabled={!isCustom}
                 onChange={handleCustomTime}
               />
-              <InputGroup.Message status={!validateTimerDuration(timerDuration) ? 'ERROR' : 'DEFAULT'}>
+              <InputField.Message status={!validateTimerDuration(timerDuration) ? 'ERROR' : 'DEFAULT'}>
                 {!validateTimerDuration(timerDuration) ? '1 이상 99 이하의 숫자를 입력해 주세요.' : ''}
-              </InputGroup.Message>
-            </InputGroup>
+              </InputField.Message>
+            </InputField>
           )}
         </S.InputContainer>
       </S.ButtonContainer>

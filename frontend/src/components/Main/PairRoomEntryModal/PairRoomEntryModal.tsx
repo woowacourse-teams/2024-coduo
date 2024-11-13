@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
 import Button from '@/components/_common/Button/Button';
-import { InputGroup } from '@/components/_common/InputGroup';
+import { InputField } from '@/components/_common/InputField';
 import { Modal } from '@/components/_common/Modal';
 
 import useToastStore from '@/stores/toastStore';
@@ -36,15 +36,15 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
     <Modal isOpen={isOpen} close={closeModal} size="60rem">
       <Modal.Header title="페어룸 참가하기" />
       <Modal.Body>
-        <InputGroup>
-          <InputGroup.Label>페어룸 참가 코드</InputGroup.Label>
-          <InputGroup.Input
+        <InputField>
+          <InputField.Label>페어룸 참가 코드</InputField.Label>
+          <InputField.Input
             onChange={handleChange}
             value={value}
             placeholder="코드를 입력해 주세요"
             onReset={() => resetValue()}
           />
-        </InputGroup>
+        </InputField>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={closeModal} filled={false}>

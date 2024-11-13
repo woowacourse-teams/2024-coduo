@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 import { LogoIcon } from '@/assets';
 
 import Button from '@/components/_common/Button/Button';
-import { InputGroup } from '@/components/_common/InputGroup';
-import { InputType } from '@/components/_common/InputGroup/Input.type';
+import { InputField } from '@/components/_common/InputField';
+import { InputType } from '@/components/_common/InputField/Input.type';
 
 import { theme } from '@/styles/theme';
 
@@ -41,26 +41,26 @@ const PairNameInput = ({
         <S.SubTitle>나와 페어의 이름을 입력해 주세요.</S.SubTitle>
       </S.TitleContainer>
 
-      <InputGroup>
-        <InputGroup.Label htmlFor="my-name" color={theme.color.primary[800]}>
+      <InputField>
+        <InputField.Label htmlFor="my-name" color={theme.color.primary[800]}>
           나의 이름은 무엇인가요?
-        </InputGroup.Label>
-        <InputGroup.Input
+        </InputField.Label>
+        <InputField.Input
           id="my-name"
           placeholder="이름을 입력해주세요"
           value={userPairName.value}
           status={userPairName.status}
           onChange={onUserPairName}
         />
-        <InputGroup.Message status={userPairName.status}>{userPairName.message}</InputGroup.Message>
-      </InputGroup>
+        <InputField.Message status={userPairName.status}>{userPairName.message}</InputField.Message>
+      </InputField>
 
-      <InputGroup>
-        <InputGroup.Label htmlFor="pair-name">함께할 페어의 이름은 무엇인가요?</InputGroup.Label>
+      <InputField>
+        <InputField.Label htmlFor="pair-name">함께할 페어의 이름은 무엇인가요?</InputField.Label>
         {isInputOpen ? (
           <>
-            <InputGroup.Content>
-              <InputGroup.Input
+            <InputField.Content>
+              <InputField.Input
                 id="pair-name"
                 autoFocus
                 placeholder="이름을 입력해주세요"
@@ -73,9 +73,9 @@ const PairNameInput = ({
                   취소
                 </Button>
               )}
-            </InputGroup.Content>
+            </InputField.Content>
 
-            <InputGroup.Message status={pairName.status}>{pairName.message}</InputGroup.Message>
+            <InputField.Message status={pairName.status}>{pairName.message}</InputField.Message>
           </>
         ) : (
           <>
@@ -92,7 +92,7 @@ const PairNameInput = ({
             <S.TextButton onClick={() => setIsInputOpen(true)}>연동 없이 시작하기</S.TextButton>
           </>
         )}
-      </InputGroup>
+      </InputField>
     </S.Layout>
   );
 };

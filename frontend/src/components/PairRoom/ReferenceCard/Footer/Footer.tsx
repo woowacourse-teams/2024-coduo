@@ -4,7 +4,7 @@ import { LuPlus } from 'react-icons/lu';
 
 import Button from '@/components/_common/Button/Button';
 import { Dropdown } from '@/components/_common/Dropdown';
-import Input from '@/components/_common/InputGroup/Input/Input';
+import Input from '@/components/_common/InputField/Input/Input';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 
 import useInput from '@/hooks/_common/useInput';

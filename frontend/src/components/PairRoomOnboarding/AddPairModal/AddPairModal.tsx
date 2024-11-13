@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 
 import Button from '@/components/_common/Button/Button';
-import { InputGroup } from '@/components/_common/InputGroup';
+import { InputField } from '@/components/_common/InputField';
 import { Modal } from '@/components/_common/Modal';
 
 import useToastStore from '@/stores/toastStore';
@@ -46,17 +46,17 @@ const AddPairModal = ({ isOpen, closeModal, onPairData }: AddPairModalProps) => 
     <Modal isOpen={isOpen} close={handleCloseModal} size="60rem" height="34rem">
       <Modal.Header title="페어 정보 연동하기" />
       <S.Body>
-        <InputGroup>
-          <InputGroup.Label>페어의 깃허브 아이디</InputGroup.Label>
-          <InputGroup.Input
+        <InputField>
+          <InputField.Label>페어의 깃허브 아이디</InputField.Label>
+          <InputField.Input
             placeholder="깃허브 아이디를 입력해 주세요."
             value={value}
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               handleChange(event, validatePairInfo(event.target.value))
             }
           />
-          <InputGroup.Message status={status}>{message}</InputGroup.Message>
-        </InputGroup>
+          <InputField.Message status={status}>{message}</InputField.Message>
+        </InputField>
       </S.Body>
 
       <S.Footer>
