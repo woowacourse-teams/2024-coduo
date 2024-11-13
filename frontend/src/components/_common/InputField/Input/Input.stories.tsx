@@ -5,8 +5,6 @@ import { InputStatus } from '@/components/_common/InputField/Input.type';
 
 import useInput from '@/hooks/_common/useInput';
 
-import { theme } from '@/styles/theme';
-
 const meta = {
   title: 'component/common/InputField/Input',
   component: Input,
