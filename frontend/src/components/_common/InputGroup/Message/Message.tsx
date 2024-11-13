@@ -13,9 +13,9 @@ interface MessageProps {
 }
 
 const Message = ({
+  $css,
   status = 'DEFAULT',
   fontSize = theme.fontSize.sm,
-  $css,
   children,
 }: React.PropsWithChildren<MessageProps>) => {
   return (
