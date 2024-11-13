@@ -8,16 +8,29 @@ interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
   $css?: ReturnType<typeof css>;
   icon: React.ReactElement<React.JSXElementConstructor<IconType | SVGElement>>;
   size?: 'sm' | 'md' | 'lg' | 'xl' | string;
+  backgroundColor?: string;
   isActive?: boolean;
+  disabled?: boolean;
   onClick?: () => void;
 }
 
-const IconButton = ({ icon, size = 'sm', isActive = true, $css, onClick, ...props }: IconButtonProps) => {
+const IconButton = ({
+  icon,
+  size = 'sm',
+  isActive = true,
+  $css,
+  onClick,
+  backgroundColor = 'black',
+  disabled = false,
+  ...props
+}: IconButtonProps) => {
   return (
     <S.Layout
       $css={$css}
       $size={size}
       $isActive={isActive}
+      $backgroundColor={backgroundColor}
+      disabled={disabled}
       onClick={(event) => {
         event.stopPropagation();
         onClick?.();

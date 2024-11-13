@@ -1,5 +1,9 @@
 import styled, { css } from 'styled-components';
 
+import { ButtonColor } from '@/components/_common/Button/Button.type';
+
+import { calculateButtonColor } from '@/utils/calculateButtonColor';
+
 import { theme } from '@/styles/theme';
 
 const buttonSize = ({ $size }: { $size: string }) => {
@@ -70,10 +74,36 @@ const iconSize = ({ $size }: { $size: string }) => {
   `;
 };
 
+interface BackgroundColorProp {
+  $backgroundColor: ButtonColor | string;
+}
+
+const backgroundColor = ({ $backgroundColor }: BackgroundColorProp) => {
+  const { base, hover, active, disabled } = calculateButtonColor($backgroundColor, true);
+
+  return css`
+    &:disabled {
+      ${disabled}
+    }
+
+    &:not(:disabled) {
+      ${base}
+      &:hover {
+        ${hover}
+      }
+
+      &:active {
+        ${active}
+      }
+    }
+  `;
+};
+
 interface IconButtonProps {
   $css?: ReturnType<typeof css>;
   $size: string;
   $isActive?: boolean;
+  $backgroundColor: string;
 }
 
 export const Layout = styled.button<IconButtonProps>`
@@ -86,19 +116,13 @@ export const Layout = styled.button<IconButtonProps>`
 
   transition: background-color 0.2s ease-in-out;
 
-  cursor: ${({ $isActive }) => ($isActive ? 'pointer' : 'default')};
+  cursor: ${({ $isActive, disabled }) => ($isActive && !disabled ? 'pointer' : 'default')};
 
   ${buttonSize}
 
-  ${({ $css }) => $css}
-  
-  &:hover {
-    background-color: ${({ $isActive }) => $isActive && theme.color.black[200]};
-  }
+  ${({ $backgroundColor }) => backgroundColor({ $backgroundColor })}
 
-  &:active {
-    background-color: ${({ $isActive }) => $isActive && theme.color.black[300]};
-  }
+  ${({ $css }) => $css}
 
   svg {
     ${iconSize}
