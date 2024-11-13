@@ -42,6 +42,12 @@ export const Logo = styled.img`
   }
 `;
 
+export const GithubLogo = styled.img`
+  width: 3rem;
+  height: 3rem;
+  margin-right: 2rem;
+`;
+
 export const ButtonContainer = styled.div`
   display: flex;
   gap: 4rem;

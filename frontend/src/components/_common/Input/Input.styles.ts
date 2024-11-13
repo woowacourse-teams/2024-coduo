@@ -82,7 +82,7 @@ export const Input = styled.input<{
   font-size: ${({ theme }) => theme.fontSize.md};
 
   &::placeholder {
-    color: ${({ theme }) => theme.color.black[200]};
+    color: ${({ theme }) => theme.color.black[300]};
   }
 
   &:focus {

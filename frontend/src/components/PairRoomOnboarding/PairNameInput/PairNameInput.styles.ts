@@ -64,10 +64,11 @@ export const AddButton = styled.button`
 
   p {
     display: flex;
+    justify-content: center;
     align-items: center;
 
+    width: 15rem;
     height: 4rem;
-    padding: 1rem 2.5rem;
     border-radius: 0 0.5rem 0.5rem 0;
 
     background-color: ${({ theme }) => theme.color.primary[600]};
@@ -83,14 +84,8 @@ export const AddButton = styled.button`
   }
 
   &:hover {
-    div {
-      transform: scale(1.01);
-    }
-
     p {
       background-color: ${({ theme }) => theme.color.primary[700]};
-
-      transform: scale(1.01);
     }
   }
 `;

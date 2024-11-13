@@ -54,9 +54,9 @@ const TimerDurationInput = ({ timerDuration, onTimerDuration }: TimerDurationInp
         {OPTIONS.map((option) => (
           <Button
             key={option.value}
-            color="primary"
-            borderRadius="1rem"
             size="md"
+            borderRadius="1rem"
+            color="primary"
             filled={timerDuration === option.value}
             onClick={() => handleOptionTime(option.value)}
           >
@@ -66,9 +66,9 @@ const TimerDurationInput = ({ timerDuration, onTimerDuration }: TimerDurationInp
         <S.InputContainer>
           <Button
             key="직접 설정"
-            color="primary"
-            borderRadius="1rem"
             size="md"
+            borderRadius="1rem"
+            color="primary"
             filled={isCustom}
             onClick={handleIsCustomTime}
           >

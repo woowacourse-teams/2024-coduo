@@ -24,7 +24,7 @@ const slideDown = keyframes`
 
 export const Panel = styled.div`
   padding: 1.5rem 2rem;
-  border: 1px solid ${({ theme }) => theme.color.black[300]};
+  border: 1px solid ${({ theme }) => theme.color.black[100]};
   border-radius: 1rem;
 
   background: ${({ theme }) => theme.color.black[0]};
@@ -35,7 +35,7 @@ export const Panel = styled.div`
 export const Title = styled.p`
   margin-bottom: 0.5rem;
 
-  color: ${({ theme }) => theme.color.black[700]};
+  color: ${({ theme }) => theme.color.black[500]};
   font-size: ${({ theme }) => theme.fontSize.sm};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;

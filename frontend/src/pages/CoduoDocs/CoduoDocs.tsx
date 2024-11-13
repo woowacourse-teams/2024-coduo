@@ -21,7 +21,6 @@ const CoduoDocs = () => {
         <ContentBox activeSection={activeSection} title="시작하기" contents={START_CONTENT} />
         <ContentBox activeSection={activeSection} title="페어 프로그래밍에 대해" contents={ABOUT_PAIR_PROGRAMMING} />
       </FloatingSidebar>
-
       <S.Layout>
         <S.ParagraphContainer aria-labelledby={START_CONTENT[0].id}>
           <S.Title id={START_CONTENT[0].id}>코딩해듀오 시작하기</S.Title>
@@ -30,18 +29,14 @@ const CoduoDocs = () => {
             프로그래밍을 시작하기 위해 필요한 모든 것을 제공하는 서비스입니다. 여기에서는 코딩해듀오를 어떻게 시작할 수
             있는지 소개합니다.
           </S.Content>
-
           <DocsImage information="1. 방 생성하기" src={DOCS_IMAGES.createRoom} alt="create-room">
             <Quote text="가장 먼저 방을 생성해주세요. 방 만들기 버튼을 누르면 페어 프로그래밍을 진행할 방이 생성됩니다" />
           </DocsImage>
-
           <S.Sentence>
             <S.Content>코딩해듀오는 원활한 페어 프로그래밍 진행을 위해 연습 미션을 제공하고 있습니다.</S.Content>
-
             <Quote href="#start-free" linkText="여기부터 읽기" text="미션 없이 자유롭게 시작하려면?" />
           </S.Sentence>
         </S.ParagraphContainer>
-
         <S.ImageContainer aria-labelledby={START_CONTENT[1].id}>
           <S.ParagraphContainer>
             <S.Subtitle id={START_CONTENT[1].id}>미션과 함께 시작하기</S.Subtitle>
@@ -92,7 +87,6 @@ ex) cd java-guessing-number"
           ></SourceCode>
           <S.Content>이제 가저온 프로젝트를 본인이 사용하는 통합 개발 환경(IDE)으로 열어 미션을 진행합니다.</S.Content>
         </S.ImageContainer>
-
         <S.ImageContainer aria-labelledby={START_CONTENT[2].id}>
           <S.ParagraphContainer>
             <S.Subtitle id={START_CONTENT[2].id}>자유롭게 시작하기</S.Subtitle>
@@ -132,7 +126,6 @@ ex) cd java-guessing-number"
             alt="set-timer"
           ></DocsImage>
         </S.ImageContainer>
-
         <S.ParagraphContainer>
           <S.Title>페어 프로그래밍에 대해</S.Title>
           <S.Subtitle id={ABOUT_PAIR_PROGRAMMING[0].id}>페어 프로그래밍이란?</S.Subtitle>
@@ -198,7 +191,6 @@ ex) cd java-guessing-number"
               </S.Content>
             </S.Sentence>
           </S.ParagraphContainer>
-
           <S.Subtitle id={ABOUT_PAIR_PROGRAMMING[1].id}>페어룸이란?</S.Subtitle>
           <S.Content>
             <S.Sentence>

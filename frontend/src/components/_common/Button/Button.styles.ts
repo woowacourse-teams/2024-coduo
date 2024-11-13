@@ -32,10 +32,10 @@ interface ButtonShapesProp {
 
 const buttonSize = ({ size, width, height, borderRadius, fontSize, fontWeight, textAlign }: ButtonShapesProp) => {
   const defaultSizes = {
-    sm: { width: '6rem', height: '3rem', borderRadius: '0.5rem', fontSize: 'sm' },
+    sm: { width: '6rem', height: '3rem', borderRadius: '3rem', fontSize: 'sm' },
     md: { width: '10rem', height: '4rem', borderRadius: '0.5rem', fontSize: 'md' },
     lg: { width: '15rem', height: '4rem', borderRadius: '1rem', fontSize: 'base' },
-    xl: { width: '24.5rem', height: '6.5rem', borderRadius: '1rem', fontSize: 'h5' },
+    xl: { width: '25rem', height: '6rem', borderRadius: '6rem', fontSize: 'h6' },
   };
 
   const {
