@@ -9,8 +9,8 @@ import { theme } from '@/styles/theme';
 import * as S from './Input.styles';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  status?: InputStatus;
   $css?: ReturnType<typeof css>;
+  status?: InputStatus;
   width?: string;
   height?: string;
   borderRadius?: string;
