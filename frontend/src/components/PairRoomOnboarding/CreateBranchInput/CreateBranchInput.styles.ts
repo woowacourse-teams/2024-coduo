@@ -44,7 +44,7 @@ export const RepositoryNameBox = styled.div`
   border-radius: 0.5rem;
 
   background-color: ${({ theme }) => theme.color.black[800]};
-  color: ${({ theme }) => theme.color.black[100]};
+  color: ${({ theme }) => theme.color.black[0]};
   font-size: ${({ theme }) => theme.fontSize.md};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;

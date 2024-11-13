@@ -9,7 +9,7 @@ export const Layout = styled.div<{ $isOpen: boolean }>`
   height: 6rem;
   padding: 2rem;
 
-  background-color: ${({ theme }) => theme.color.black[300]};
+  background-color: ${({ theme }) => theme.color.black[100]};
 
   transition: background-color 0.3s ease-out;
 
@@ -26,7 +26,7 @@ export const AccessCodeWrapper = styled.div`
 export const AccessCodeTitle = styled.span`
   height: 2rem;
 
-  color: ${({ theme }) => theme.color.black[700]};
+  color: ${({ theme }) => theme.color.black[400]};
   font-size: ${({ theme }) => theme.fontSize.base};
   font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;

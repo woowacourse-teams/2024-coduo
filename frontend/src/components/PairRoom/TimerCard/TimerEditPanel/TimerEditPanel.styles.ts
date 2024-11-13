@@ -27,7 +27,7 @@ export const Panel = styled.div`
   border: 1px solid ${({ theme }) => theme.color.black[300]};
   border-radius: 1rem;
 
-  background: ${({ theme }) => theme.color.black[100]};
+  background: ${({ theme }) => theme.color.black[0]};
 
   animation: ${slideDown} 0.3s ease-out;
 `;

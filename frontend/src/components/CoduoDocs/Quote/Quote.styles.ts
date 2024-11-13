@@ -9,7 +9,7 @@ export const Container = styled.div`
 `;
 
 export const QuoteBar = styled.span`
-  color: ${({ theme }) => theme.color.black[500]};
+  color: ${({ theme }) => theme.color.black[200]};
   font-size: ${({ theme }) => theme.fontSize.h5};
   font-weight: ${({ theme }) => theme.fontWeight.extraBold};
 `;

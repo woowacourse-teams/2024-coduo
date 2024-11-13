@@ -29,21 +29,21 @@ export const ContentList = styled.ul`
 export const ContentItem = styled(Link)<{ $isActive: boolean }>`
   position: relative;
 
-  color: ${({ $isActive, theme }) => ($isActive ? theme.color.black[900] : theme.color.black[600])};
-  font-size: ${({ theme }) => theme.fontSize.lg};
+  color: ${({ $isActive, theme }) => ($isActive ? theme.color.black[900] : theme.color.black[300])};
+  font-size: ${({ theme }) => theme.fontSize.base};
   text-decoration: none;
 
   transition: all 0.1s;
 
   &::before {
     position: absolute;
-    top: 0;
+    top: -0.4rem;
     left: -2rem;
 
     width: 3px;
-    height: 145%;
+    height: 140%;
 
-    background-color: ${({ $isActive, theme }) => ($isActive ? theme.color.secondary[500] : theme.color.black[300])};
+    background-color: ${({ $isActive, theme }) => ($isActive ? theme.color.secondary[500] : theme.color.black[200])};
 
     transition: all 0.2s;
     content: '';

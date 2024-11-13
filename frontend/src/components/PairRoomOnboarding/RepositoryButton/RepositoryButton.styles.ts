@@ -33,11 +33,11 @@ export const RepositoryLink = styled(Link)`
   display: flex;
   align-items: center;
 
-  color: ${({ theme }) => theme.color.black[600]};
+  color: ${({ theme }) => theme.color.black[400]};
   font-size: ${({ theme }) => theme.fontSize.sm};
   text-decoration: underline;
 
   &:hover {
-    color: ${({ theme }) => theme.color.black[600]};
+    color: ${({ theme }) => theme.color.black[400]};
   }
 `;

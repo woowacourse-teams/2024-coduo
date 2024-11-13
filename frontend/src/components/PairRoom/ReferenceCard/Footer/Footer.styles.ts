@@ -9,7 +9,7 @@ export const Footer = styled.div`
   min-height: 6rem;
   padding: 0 2rem;
 
-  border-top: 1px solid ${({ theme }) => theme.color.black[300]};
+  border-top: 1px solid ${({ theme }) => theme.color.black[100]};
 `;
 
 export const Form = styled.form`

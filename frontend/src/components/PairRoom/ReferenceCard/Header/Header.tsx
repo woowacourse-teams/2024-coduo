@@ -33,20 +33,20 @@ const Header = ({
     >
       <S.Container>
         {isOpen ? (
-          <IoIosLink size={theme.fontSize.h6} color={theme.color.primary[700]} role="presentation" />
+          <IoIosLink size={theme.fontSize.h6} color={theme.color.primary[600]} role="presentation" />
         ) : (
-          <IoIosArrowUp size={theme.fontSize.h6} color={theme.color.primary[700]} role="presentation" />
+          <IoIosArrowUp size={theme.fontSize.h6} color={theme.color.primary[600]} role="presentation" />
         )}
         <p>링크</p>
         <ToolTipQuestionBox
           message="페어 프로그래밍을 진행하면서 도움이 되었던 레퍼런스 링크를 저장해 보세요."
-          color={theme.color.black[500]}
+          color={theme.color.black[300]}
           boxDirection="right"
         />
       </S.Container>
       <Button
-        width="7rem"
-        height="4rem"
+        size="sm"
+        borderRadius="3rem"
         aria-label={`현재 카테고리는 ${selectedCategoryName} 입니다. 클릭하시면 카테고리 선택 모달이 열립니다.`}
         onClick={handleButtonClick}
       >

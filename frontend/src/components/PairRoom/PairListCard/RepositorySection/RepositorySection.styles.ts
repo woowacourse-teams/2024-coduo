@@ -24,6 +24,6 @@ export const RepositoryWrapper = styled.div`
 `;
 
 export const RepositoryText = styled.span`
-  color: ${({ theme }) => theme.color.black[100]};
+  color: ${({ theme }) => theme.color.black[0]};
   font-size: ${({ theme }) => theme.fontSize.md};
 `;

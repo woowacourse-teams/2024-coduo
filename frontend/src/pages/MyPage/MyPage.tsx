@@ -26,7 +26,6 @@ const MyPage = () => {
           <S.SubTitle>
             <span>{username}</span> 님의 마이 페이지에 오신 걸 환영합니다!
           </S.SubTitle>
-          <S.BottomLine />
         </S.TitleContainer>
         <S.ListWrapper>
           <MyPageContent />

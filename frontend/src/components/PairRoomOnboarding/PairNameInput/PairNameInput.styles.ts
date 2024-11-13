@@ -33,14 +33,14 @@ export const InputWrapper = styled.div`
 `;
 
 export const TextButton = styled.button`
-  color: ${({ theme }) => theme.color.black[600]};
+  color: ${({ theme }) => theme.color.black[300]};
   font-size: ${({ theme }) => theme.fontSize.sm};
   text-decoration: underline;
 
   transition: all 0.2s;
 
   &:hover {
-    color: ${({ theme }) => theme.color.black[600]};
+    color: ${({ theme }) => theme.color.black[400]};
   }
 `;
 
@@ -71,7 +71,7 @@ export const AddButton = styled.button`
     border-radius: 0 0.5rem 0.5rem 0;
 
     background-color: ${({ theme }) => theme.color.primary[600]};
-    color: ${({ theme }) => theme.color.black[100]};
+    color: ${({ theme }) => theme.color.black[0]};
     font-size: ${({ theme }) => theme.fontSize.md};
 
     transition: all 0.2s;

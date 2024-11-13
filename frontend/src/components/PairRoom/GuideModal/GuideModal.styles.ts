@@ -43,7 +43,7 @@ export const Description = styled.div`
   padding: 1rem 1rem 1rem 1.6rem;
   border-radius: 1rem;
 
-  background-color: ${({ theme }) => theme.color.danger[100]};
+  background-color: ${({ theme }) => theme.color.danger[10]};
   font-size: ${({ theme }) => theme.fontSize.md};
   font-weight: ${({ theme }) => theme.fontWeight.light};
 `;
@@ -55,7 +55,7 @@ export const ButtonContainer = styled.div`
   gap: 0.8rem;
 
   p {
-    color: ${({ theme }) => theme.color.black[600]};
+    color: ${({ theme }) => theme.color.black[300]};
     font-size: ${({ theme }) => theme.fontSize.sm};
   }
 `;

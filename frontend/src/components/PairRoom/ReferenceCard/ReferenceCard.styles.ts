@@ -14,7 +14,7 @@ export const Body = styled.div<{ $isOpen: boolean }>`
 
   transition: height 0.3s;
 
-  border-top: ${({ $isOpen, theme }) => $isOpen && `1px solid ${theme.color.black[300]}`};
+  border-top: ${({ $isOpen, theme }) => $isOpen && `1px solid ${theme.color.black[100]}`};
 `;
 
 export const Footer = styled.div`
@@ -26,5 +26,5 @@ export const Footer = styled.div`
   width: 100%;
   min-height: 6rem;
 
-  border-top: 1px solid ${({ theme }) => theme.color.black[300]};
+  border-top: 1px solid ${({ theme }) => theme.color.black[100]};
 `;

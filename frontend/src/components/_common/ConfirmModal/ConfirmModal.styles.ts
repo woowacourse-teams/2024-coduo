@@ -11,15 +11,15 @@ export const cancelButtonStyles = css`
   font-size: ${({ theme }) => theme.fontSize.md};
 
   &:hover {
-    border-color: ${({ theme }) => theme.color.black[500]};
+    border-color: ${({ theme }) => theme.color.black[300]};
 
-    background-color: ${({ theme }) => theme.color.black[500]};
+    background-color: ${({ theme }) => theme.color.black[300]};
   }
 
   &:active {
-    border-color: ${({ theme }) => theme.color.black[500]};
+    border-color: ${({ theme }) => theme.color.black[300]};
 
-    background-color: ${({ theme }) => theme.color.black[500]};
+    background-color: ${({ theme }) => theme.color.black[300]};
   }
 `;
 
@@ -40,7 +40,7 @@ export const Container = styled.div<{ $type: 'SUCCESS' | 'DANGER' }>`
 
   padding: 2rem 0 3.4rem;
 
-  color: ${({ theme, $type }) => ($type === 'SUCCESS' ? theme.color.success[700] : theme.color.danger[600])};
+  color: ${({ theme, $type }) => ($type === 'SUCCESS' ? theme.color.success[700] : theme.color.danger[700])};
   font-size: ${({ theme }) => theme.fontSize.md};
 
   p {

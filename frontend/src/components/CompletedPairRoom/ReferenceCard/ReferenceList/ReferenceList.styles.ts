@@ -41,7 +41,7 @@ export const EmptyLayout = styled.div`
   height: 0;
   padding: 2rem;
 
-  color: ${({ theme }) => theme.color.black[600]};
+  color: ${({ theme }) => theme.color.black[400]};
   font-size: ${({ theme }) => theme.fontSize.md};
 `;
 
@@ -113,7 +113,7 @@ export const Content = styled.p`
   display: -webkit-box;
   overflow: hidden;
 
-  color: ${({ theme }) => theme.color.black[600]};
+  color: ${({ theme }) => theme.color.black[400]};
   font-size: ${({ theme }) => theme.fontSize.xs};
   line-height: 1.5;
   text-overflow: ellipsis;

@@ -9,7 +9,7 @@ export const Layout = styled.div`
   min-height: 60rem;
   padding: 2rem;
 
-  background: ${({ theme }) => theme.color.primary[100]};
+  background: ${({ theme }) => theme.color.primary[50]};
 `;
 
 export const SpinnerContainer = styled.div`
@@ -21,7 +21,7 @@ export const SpinnerContainer = styled.div`
   min-height: 60rem;
   padding: 2rem;
 
-  background: ${({ theme }) => theme.color.primary[100]};
+  background: ${({ theme }) => theme.color.primary[50]};
 `;
 
 export const Container = styled.div`

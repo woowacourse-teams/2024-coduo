@@ -9,7 +9,7 @@ export const Layout = styled.div`
   height: calc(100vh - 7rem);
   padding: 15rem 5rem;
 
-  background-color: ${({ theme }) => theme.color.black[200]};
+  background-color: ${({ theme }) => theme.color.black[50]};
 `;
 
 export const LogoIconWithTitle = styled.img`

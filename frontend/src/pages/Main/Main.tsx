@@ -56,8 +56,8 @@ const Main = () => {
         <S.ButtonContainer>
           <ScrollAnimationContainer animationDirection="left" animationDelay={0.2}>
             <Button
-              width="22rem"
-              height="6rem"
+              size="xl"
+              borderRadius="6rem"
               fontSize={theme.fontSize.h6}
               rounded={true}
               onClick={openPairRoomCreateModal}
@@ -67,8 +67,8 @@ const Main = () => {
           </ScrollAnimationContainer>
           <ScrollAnimationContainer animationDirection="left" animationDelay={0.4}>
             <Button
-              width="22rem"
-              height="6rem"
+              size="xl"
+              borderRadius="6rem"
               fontSize={theme.fontSize.h6}
               filled={false}
               rounded={true}

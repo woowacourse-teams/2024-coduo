@@ -52,7 +52,7 @@ const Landing = () => {
               height="6rem"
               fontSize={theme.fontSize.h6}
               color="#000000"
-              rounded={true}
+              borderRadius="6rem"
               onClick={handleSignInGithub}
             >
               <img src={GithubLogoWhite} alt="" style={{ width: '3rem', height: '3rem', marginRight: '2rem' }} />
@@ -65,7 +65,7 @@ const Landing = () => {
               height="6rem"
               fontSize={theme.fontSize.h6}
               color="primary"
-              rounded={true}
+              borderRadius="6rem"
               onClick={() => navigate('/main')}
             >
               회원가입 없이 사용하기
