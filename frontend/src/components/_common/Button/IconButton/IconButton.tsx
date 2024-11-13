@@ -1,3 +1,4 @@
+import React from 'react';
 import { IconType } from 'react-icons';
 
 import { css } from 'styled-components';
@@ -8,6 +9,7 @@ interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
   $css?: ReturnType<typeof css>;
   icon: React.ReactElement<React.JSXElementConstructor<IconType | SVGElement>>;
   size?: 'sm' | 'md' | 'lg' | 'xl' | string;
+  color?: string;
   backgroundColor?: string;
   isActive?: boolean;
   disabled?: boolean;
@@ -20,6 +22,7 @@ const IconButton = ({
   isActive = true,
   $css,
   onClick,
+  color = 'white',
   backgroundColor = 'black',
   disabled = false,
   ...props
@@ -37,7 +40,7 @@ const IconButton = ({
       }}
       {...props}
     >
-      {icon}
+      {React.cloneElement(icon as React.ReactElement, { style: { color } })}
     </S.Layout>
   );
 };
