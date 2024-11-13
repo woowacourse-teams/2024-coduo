@@ -5,6 +5,8 @@ export const ButtonContainer = styled.div`
   bottom: 0;
   left: 50%;
 
+  width: 60%;
+
   transform: translate(-50%);
 `;
 
@@ -15,7 +17,7 @@ export const Layout = styled.div`
   width: 100%;
   min-height: calc(100vh - 7rem);
 
-  background-color: ${({ theme }) => theme.color.primary[100]};
+  background-color: ${({ theme }) => theme.color.primary[50]};
 `;
 
 export const Container = styled.div`

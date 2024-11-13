@@ -22,7 +22,7 @@ export const Title = styled.p`
 `;
 
 export const Description = styled.p`
-  color: ${({ theme }) => theme.color.black[400]};
+  color: ${({ theme }) => theme.color.black[500]};
   font-size: ${({ theme }) => theme.fontSize.md};
   font-weight: ${({ theme }) => theme.fontWeight.normal};
   line-height: 1.6;

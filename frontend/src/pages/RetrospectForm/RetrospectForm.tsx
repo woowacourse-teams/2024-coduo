@@ -49,7 +49,7 @@ const RetrospectForm = () => {
             </Question>
           ))}
           <S.ButtonContainer>
-            <Button width="70%" type="submit" disabled={isAnswersEmpty}>
+            <Button width="100%" height="5rem" borderRadius="0" type="submit" disabled={isAnswersEmpty}>
               작성 완료
             </Button>
           </S.ButtonContainer>

@@ -9,6 +9,7 @@ export const Layout = styled.div`
 
 export const Textarea = styled.textarea`
   width: 100%;
+  height: 20rem;
   min-height: 20rem;
   max-height: 40rem;
   padding: 2rem;
