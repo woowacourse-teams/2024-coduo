@@ -11,7 +11,7 @@ interface CloseButtonProps {
 const CloseButton = ({ close }: CloseButtonProps) => {
   return (
     <IconButton
-      $css={S.button}
+      $css={S.buttonStyles}
       aria-label="모달 닫기"
       onClick={close}
       icon={<MdClose size="3rem" color="#5F5F5F" />}
