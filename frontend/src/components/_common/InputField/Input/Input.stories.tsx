@@ -43,7 +43,7 @@ const InputWithHook = () => {
       status={status}
       onChange={handleInputChange}
       onReset={resetValue}
-      focusColor={theme.color.secondary[600]}
+      color="PRIMARY"
       placeholder="입력해주세요"
     />
   );
