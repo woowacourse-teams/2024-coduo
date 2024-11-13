@@ -14,7 +14,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   width?: string;
   height?: string;
   borderRadius?: string;
-  focusColor?: 'PRIMARY' | 'SECONDARY';
+  color?: 'PRIMARY' | 'SECONDARY';
   onReset?: () => void;
 }
 
@@ -25,7 +25,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       status = 'DEFAULT',
       height = '4.8rem',
       borderRadius = '0.5rem',
-      focusColor = 'PRIMARY',
+      color = 'PRIMARY',
       value,
       onReset,
       $css,
@@ -40,7 +40,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         $width={width}
         $height={height}
         $borderRadius={borderRadius}
-        $focusColor={focusColor === 'PRIMARY' ? theme.color.primary[700] : theme.color.secondary[700]}
+        $color={color === 'PRIMARY' ? theme.color.primary[700] : theme.color.secondary[700]}
         $css={$css}
       >
         <S.Input value={value} ref={ref} {...props} />

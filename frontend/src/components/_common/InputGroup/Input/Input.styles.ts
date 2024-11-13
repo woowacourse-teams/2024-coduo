@@ -20,14 +20,13 @@ const inputStatusStyles = {
   `,
 };
 
-
 export const InputContainer = styled.div<{
   $css?: ReturnType<typeof css>;
   $width: string;
   $height: string;
   $status: InputStatus;
   $borderRadius: string;
-  $focusColor: string;
+  $color: string;
 }>`
   display: flex;
   justify-content: space-between;
@@ -47,7 +46,7 @@ export const InputContainer = styled.div<{
   }
 
   &:focus-within {
-    border: 1.5px solid ${({ $focusColor }) => $focusColor};
+    border: 1.5px solid ${({ $color }) => $color};
 
     background-color: ${({ theme }) => theme.color.black[100]};
   }
