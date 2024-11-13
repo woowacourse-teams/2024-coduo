@@ -4,7 +4,7 @@ import { getBranches } from '@/apis/github';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-const useGetBranches = (repositoryName: string) => {
+const useBranchesQuery = (repositoryName: string) => {
   const { data } = useQuery({
     queryKey: [QUERY_KEYS.GET_BRANCHES, repositoryName],
     queryFn: () => getBranches(repositoryName),
@@ -13,4 +13,4 @@ const useGetBranches = (repositoryName: string) => {
   return { branches: data?.map((branch) => branch.name) || [] };
 };
 
-export default useGetBranches;
+export default useBranchesQuery;

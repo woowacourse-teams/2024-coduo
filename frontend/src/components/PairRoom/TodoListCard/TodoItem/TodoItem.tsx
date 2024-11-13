@@ -6,7 +6,7 @@ import { Todo } from '@/apis/todo';
 
 import useCopyClipBoard from '@/hooks/_common/useCopyClipboard';
 
-import useMutateTodos from '@/queries/PairRoom/useMutateTodos';
+import useTodosMutation from '@/queries/PairRoom/useTodosMutation';
 
 import * as S from './TodoItem.styles';
 
@@ -22,7 +22,7 @@ const TodoItem = ({ todo, isDraggedOver, onDragStart, onDragEnter, onDrop }: Tod
   const [isIconHovered, setIsIconHovered] = useState(false);
   const [, onCopy] = useCopyClipBoard();
 
-  const { updateCheckedMutation, deleteTodoMutation } = useMutateTodos();
+  const { updateCheckedMutation, deleteTodoMutation } = useTodosMutation();
 
   const { id, isChecked, content } = todo;
 

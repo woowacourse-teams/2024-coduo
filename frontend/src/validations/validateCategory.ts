@@ -1,6 +1,6 @@
 import { InputStatus } from '@/components/_common/Input/Input.type';
 
-import { DEFAULT_CATEGORY_VALUE } from '@/queries/PairRoom/useGetCategories';
+import { DEFAULT_CATEGORY_VALUE } from '@/queries/PairRoom/useCategoriesQuery';
 
 const MAX_CATEGORY_NAME_LENGTH = 10;
 

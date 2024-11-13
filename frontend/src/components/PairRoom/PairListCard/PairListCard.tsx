@@ -11,7 +11,7 @@ import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 
 import useModal from '@/hooks/_common/useModal';
 
-import useMutatePairRoom from '@/queries/PairRoom/useMutatePairRoom';
+import usePairRoomMutation from '@/queries/PairRoom/usePairRoomMutation';
 
 import * as S from './PairListCard.styles';
 
@@ -29,7 +29,7 @@ const PairListCard = ({ driver, navigator, missionUrl, accessCode }: PairListCar
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const { updatePairRoomStatusMutation } = useMutatePairRoom();
+  const { updatePairRoomStatusMutation } = usePairRoomMutation();
 
   const handleCompletePairRoom = () => {
     updatePairRoomStatusMutation(

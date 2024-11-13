@@ -4,7 +4,7 @@ import { getReferenceLinks } from '@/apis/referenceLink';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-const useGetReferences = (categoryId: string, accessCode: string) => {
+const useReferencesQuery = (categoryId: string, accessCode: string) => {
   const { data } = useQuery({
     queryKey: [QUERY_KEYS.GET_REFERENCE_LINKS, categoryId],
     queryFn: () => getReferenceLinks({ accessCode, categoryId }),
@@ -13,4 +13,4 @@ const useGetReferences = (categoryId: string, accessCode: string) => {
   return { references: data };
 };
 
-export default useGetReferences;
+export default useReferencesQuery;

@@ -4,7 +4,7 @@ import { getRetrospect } from '@/apis/retrospect';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-const useGetRetrospect = (accessCode: string) => {
+const useRetrospectQuery = (accessCode: string) => {
   const { data, isFetching } = useQuery({
     queryKey: [QUERY_KEYS.GET_RETROSPECT_ANSWER],
     queryFn: () => getRetrospect(accessCode),
@@ -14,4 +14,4 @@ const useGetRetrospect = (accessCode: string) => {
   return { answers: data?.answers || [], isFetching };
 };
 
-export default useGetRetrospect;
+export default useRetrospectQuery;

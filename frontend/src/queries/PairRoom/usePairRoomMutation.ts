@@ -6,7 +6,7 @@ import { addPairRoom, updatePairRole, updatePairRoomStatus, deletePairRoom } fro
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-const useMutatePairRoom = () => {
+const usePairRoomMutation = () => {
   const queryClient = useQueryClient();
 
   const { addToast } = useToastStore();
@@ -46,4 +46,4 @@ const useMutatePairRoom = () => {
   };
 };
 
-export default useMutatePairRoom;
+export default usePairRoomMutation;

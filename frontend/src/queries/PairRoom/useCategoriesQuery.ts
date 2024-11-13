@@ -12,7 +12,7 @@ const DEFAULT_CATEGORY = {
   value: DEFAULT_CATEGORY_VALUE,
 };
 
-const useGetCategories = (accessCode: string) => {
+const useCategoriesQuery = (accessCode: string) => {
   const { data } = useQuery({
     queryKey: [QUERY_KEYS.GET_CATEGORIES],
     queryFn: () => getCategories(accessCode),
@@ -26,4 +26,4 @@ const useGetCategories = (accessCode: string) => {
   return { categories: [DEFAULT_CATEGORY, ...(data || [])], isCategoryExist };
 };
 
-export default useGetCategories;
+export default useCategoriesQuery;

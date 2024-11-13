@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import useMutateRetrospect from '@/queries/Retrospect/useMutateRetrospect';
+import useRetrospectMutation from '@/queries/Retrospect/useRetrospectMutation';
 
 import { RETROSPECT_QUESTIONS } from '@/constants/retrospect';
 
@@ -10,7 +10,7 @@ const useInputAnswer = (accessCode: string) => {
 
   const [answers, setAnswers] = useState<string[]>(Array(RETROSPECT_QUESTIONS.length).fill(''));
 
-  const { addRetrospectMutation } = useMutateRetrospect();
+  const { addRetrospectMutation } = useRetrospectMutation();
 
   const handleChange = (index: number, value: string) => {
     if (value.length > 1000) return;

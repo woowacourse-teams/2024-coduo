@@ -4,7 +4,7 @@ import Spinner from '@/components/_common/Spinner/Spinner';
 import Header from '@/components/Retrospect/Header/Header';
 import Question from '@/components/Retrospect/Question/Question';
 
-import useGetRetrospect from '@/queries/Retrospect/useGetRetrospect';
+import useRetrospectQuery from '@/queries/Retrospect/useRetrospectQuery';
 
 import { RETROSPECT_QUESTIONS } from '@/constants/retrospect';
 
@@ -15,7 +15,7 @@ const RetrospectView = () => {
 
   const navigate = useNavigate();
 
-  const { answers, isFetching } = useGetRetrospect(accessCode || '');
+  const { answers, isFetching } = useRetrospectQuery(accessCode || '');
 
   if (isFetching) return <Spinner size="sm" />;
 

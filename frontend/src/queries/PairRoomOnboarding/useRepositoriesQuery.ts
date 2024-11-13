@@ -6,7 +6,7 @@ import { QUERY_KEYS } from '@/constants/queryKeys';
 
 const FILTER_KEYWORD = 'coduo';
 
-const useGetRepositories = () => {
+const useRepositoriesQuery = () => {
   const { data, isFetching, error } = useQuery({
     queryKey: [QUERY_KEYS.GET_REPOSITORIES],
     queryFn: () => getRepositories(),
@@ -16,4 +16,4 @@ const useGetRepositories = () => {
   return { repositories: data?.filter((el) => el.name.startsWith(FILTER_KEYWORD)) || [], isFetching, error };
 };
 
-export default useGetRepositories;
+export default useRepositoriesQuery;

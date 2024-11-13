@@ -4,7 +4,7 @@ import useToastStore from '@/stores/toastStore';
 
 import { addBranch, getSHAforMain } from '@/apis/github';
 
-const useAddBranch = () => {
+const useBranchesMutation = () => {
   const { addToast } = useToastStore();
 
   const { mutate, isSuccess } = useMutation({
@@ -24,4 +24,4 @@ const useAddBranch = () => {
   return { handleAddBranch, isSuccess };
 };
 
-export default useAddBranch;
+export default useBranchesMutation;

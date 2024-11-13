@@ -4,7 +4,7 @@ import useToastStore from '@/stores/toastStore';
 
 import { updateDuration } from '@/apis/timer';
 
-const useMutateTimer = () => {
+const useTimerMutation = () => {
   const { addToast } = useToastStore();
 
   const { mutate: updateTimerDurationMutation, isPending } = useMutation({
@@ -16,4 +16,4 @@ const useMutateTimer = () => {
   return { updateTimerDurationMutation, isPending };
 };
 
-export default useMutateTimer;
+export default useTimerMutation;

@@ -6,7 +6,7 @@ import { addReferenceLink, deleteReferenceLink } from '@/apis/referenceLink';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-const useMutateReferences = () => {
+const useReferencesMutation = () => {
   const queryClient = useQueryClient();
 
   const { addToast } = useToastStore();
@@ -35,4 +35,4 @@ const useMutateReferences = () => {
   };
 };
 
-export default useMutateReferences;
+export default useReferencesMutation;

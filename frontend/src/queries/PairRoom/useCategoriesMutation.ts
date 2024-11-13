@@ -6,7 +6,7 @@ import { addCategory, updateCategory, deleteCategory } from '@/apis/category';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-const useMutateCategories = () => {
+const useCategoriesMutation = () => {
   const queryClient = useQueryClient();
 
   const { addToast } = useToastStore();
@@ -38,4 +38,4 @@ const useMutateCategories = () => {
   return { addCategoryMutation, updateCategoryMutation, deleteCategoryMutation };
 };
 
-export default useMutateCategories;
+export default useCategoriesMutation;

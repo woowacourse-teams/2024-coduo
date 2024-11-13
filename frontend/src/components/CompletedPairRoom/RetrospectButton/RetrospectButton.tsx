@@ -4,8 +4,8 @@ import Button from '@/components/_common/Button/Button';
 
 import useUserStore from '@/stores/userStore';
 
-import useGetUserIsInPairRoom from '@/queries/CompletedPairRoom/useGetUserIsInPairRoom';
-import useGetUserRetrospectExists from '@/queries/CompletedPairRoom/useGetUserRetrospectExists';
+import useUserIsInPairRoomQuery from '@/queries/CompletedPairRoom/useUserIsInPairRoomQuery';
+import useUserRetrospectExistsQuery from '@/queries/CompletedPairRoom/useUserRetrospectExistsQuery';
 
 import * as S from './RetrospectButton.styles';
 
@@ -18,8 +18,8 @@ const RetrospectButton = ({ accessCode }: RetrospectButtonProps) => {
 
   const { userStatus } = useUserStore();
 
-  const { isUserInPairRoom, isUserInPairRoomFetching } = useGetUserIsInPairRoom(accessCode);
-  const { isUserRetrospectExists, isUserRetrospectExistsFetching } = useGetUserRetrospectExists(accessCode);
+  const { isUserInPairRoom, isUserInPairRoomFetching } = useUserIsInPairRoomQuery(accessCode);
+  const { isUserRetrospectExists, isUserRetrospectExistsFetching } = useUserRetrospectExistsQuery(accessCode);
 
   if (isUserInPairRoomFetching || isUserRetrospectExistsFetching) {
     return (

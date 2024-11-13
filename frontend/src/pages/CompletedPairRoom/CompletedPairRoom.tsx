@@ -8,14 +8,14 @@ import ReferenceCard from '@/components/CompletedPairRoom/ReferenceCard/Referenc
 import RetrospectButton from '@/components/CompletedPairRoom/RetrospectButton/RetrospectButton';
 import TodoListCard from '@/components/CompletedPairRoom/TodoListCard/TodoListCard';
 
-import useGetPairRoom from '@/queries/PairRoom/useGetPairRoom';
+import usePairRoomQuery from '@/queries/PairRoom/usePairRoomQuery';
 
 import * as S from './CompletedPairRoom.styles';
 
 const CompletedPairRoom = () => {
   const { accessCode } = useParams();
 
-  const { driver, navigator, missionUrl, isFetching } = useGetPairRoom(accessCode || '');
+  const { driver, navigator, missionUrl, isFetching } = usePairRoomQuery(accessCode || '');
 
   if (isFetching) {
     return <Loading />;

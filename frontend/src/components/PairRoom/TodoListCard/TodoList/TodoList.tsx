@@ -4,16 +4,16 @@ import TodoItem from '@/components/PairRoom/TodoListCard/TodoItem/TodoItem';
 
 import useDragAndDrop from '@/hooks/PairRoom/useDragAndDrop';
 
-import useGetTodos from '@/queries/PairRoom/useGetTodos';
-import useMutateTodos from '@/queries/PairRoom/useMutateTodos';
+import useTodosMutation from '@/queries/PairRoom/useTodosMutation';
+import useTodosQuery from '@/queries/PairRoom/useTodosQuery';
 
 import * as S from './TodoList.styles';
 
 const TodoList = () => {
   const { accessCode } = useParams();
 
-  const { todos } = useGetTodos(accessCode || '');
-  const { updateOrderMutation } = useMutateTodos();
+  const { todos } = useTodosQuery(accessCode || '');
+  const { updateOrderMutation } = useTodosMutation();
 
   const handleUpdateOrder = (todoId: number, order: number) => updateOrderMutation({ todoId, order });
 

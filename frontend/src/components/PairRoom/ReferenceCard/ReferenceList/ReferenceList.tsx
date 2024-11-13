@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import type { Reference } from '@/apis/referenceLink';
 
-import useMutateReferences from '@/queries/PairRoom/useMutateReferences';
+import useReferencesMutation from '@/queries/PairRoom/useReferencesMutation';
 
 import * as S from './ReferenceList.styles';
 
@@ -12,7 +12,7 @@ interface ReferenceListProps {
 }
 
 const ReferenceList = ({ references, accessCode }: ReferenceListProps) => {
-  const { deleteReferenceMutation } = useMutateReferences();
+  const { deleteReferenceMutation } = useReferencesMutation();
 
   if (!references || references.length < 1) return <S.EmptyLayout>저장된 링크가 없습니다.</S.EmptyLayout>;
 

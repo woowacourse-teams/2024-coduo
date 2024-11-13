@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import MissionSettingSection from '@/components/PairRoomOnboarding/MissionSettingSection/MissionSettingSection';
 import PairRoomSettingSection from '@/components/PairRoomOnboarding/PairRoomSettingSection/PairRoomSettingSection';
 
-import useAddBranch from '@/queries/PairRoomOnboarding/useAddBranch';
+import useBranchesMutation from '@/queries/PairRoomOnboarding/useBranchesMutation';
 
 import * as S from './PairRoomOnboarding.styles';
 
@@ -15,7 +15,7 @@ const PairRoomOnboarding = () => {
 
   const [repositoryName, setRepositoryName] = useState('');
 
-  const { handleAddBranch, isSuccess } = useAddBranch();
+  const { handleAddBranch, isSuccess } = useBranchesMutation();
 
   const handleRepositoryName = (repositoryName: string) => setRepositoryName(repositoryName);
 

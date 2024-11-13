@@ -4,7 +4,7 @@ import { GithubLogoWhite } from '@/assets';
 import Input from '@/components/_common/Input/Input';
 import { InputType } from '@/components/_common/Input/Input.type';
 
-import useGetBranches from '@/queries/PairRoomOnboarding/useGetBranches';
+import useBranchesQuery from '@/queries/PairRoomOnboarding/useBranchesQuery';
 
 import * as S from './CreateBranchInput.styles';
 
@@ -15,7 +15,7 @@ interface CreateBranchInputProps {
 }
 
 const CreateBranchInput = ({ repositoryName, branchName, onBranchName }: CreateBranchInputProps) => {
-  const { branches } = useGetBranches(repositoryName);
+  const { branches } = useBranchesQuery(repositoryName);
 
   return (
     <S.Layout aria-label={`${repositoryName} 레포지토리가 선택되었습니다. 총 2개의 설정 항목 중 2번째 항목입니다.`}>

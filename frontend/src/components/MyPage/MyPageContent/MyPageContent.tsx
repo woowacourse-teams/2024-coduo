@@ -7,8 +7,8 @@ import MyPageTab from '@/components/MyPage/MyPageTab/MyPageTab';
 import PairRoomButton from '@/components/MyPage/PairRoomButton/PairRoomButton';
 import RetrospectButton from '@/components/MyPage/PairRoomButton/RetrospectButton';
 
-import useGetMyPairRooms from '@/queries/MyPage/useGetMyPairRooms';
-import useGetMyRetrospects from '@/queries/MyPage/useGetMyRetrospects';
+import useMyPairRoomsQuery from '@/queries/MyPage/useMyPairRoomsQuery';
+import useMyRetrospectsQuery from '@/queries/MyPage/useMyRetrospectsQuery';
 
 import { TAB_CONFIG } from '@/constants/mypage';
 
@@ -19,8 +19,8 @@ const MyPageContent = () => {
     setCurrentTab(tabKey);
   };
 
-  const { myPairRooms, isMyPairRoomsFetching } = useGetMyPairRooms();
-  const { myRetrospects, isMyRetrospectsFetching } = useGetMyRetrospects();
+  const { myPairRooms, isMyPairRoomsFetching } = useMyPairRoomsQuery();
+  const { myRetrospects, isMyRetrospectsFetching } = useMyRetrospectsQuery();
 
   const myPairRoomLength = myPairRooms?.length || 0;
   const myRetrospectsLength = myRetrospects?.length || 0;

@@ -4,7 +4,7 @@ import { getUserIsInPairRoom } from '@/apis/member';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-const useGetUserIsInPairRoom = (accessCode: string) => {
+const useUserIsInPairRoomQuery = (accessCode: string) => {
   const { data, isFetching } = useQuery({
     queryKey: [QUERY_KEYS.GET_USER_IS_IN_PAIR_ROOM],
     queryFn: () => getUserIsInPairRoom(accessCode),
@@ -14,4 +14,4 @@ const useGetUserIsInPairRoom = (accessCode: string) => {
   return { isUserInPairRoom: data?.exists, isUserInPairRoomFetching: isFetching };
 };
 
-export default useGetUserIsInPairRoom;
+export default useUserIsInPairRoomQuery;

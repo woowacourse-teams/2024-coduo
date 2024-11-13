@@ -7,7 +7,7 @@ import useToastStore from '@/stores/toastStore';
 
 import useEditCategory from '@/hooks/PairRoom/useEditCategory';
 
-import { DEFAULT_CATEGORY_ID } from '@/queries/PairRoom/useGetCategories';
+import { DEFAULT_CATEGORY_ID } from '@/queries/PairRoom/useCategoriesQuery';
 
 import * as S from './CategoryItem.styles';
 

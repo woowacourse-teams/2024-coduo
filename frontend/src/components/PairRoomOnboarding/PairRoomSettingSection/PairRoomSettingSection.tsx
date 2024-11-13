@@ -11,7 +11,7 @@ import useModal from '@/hooks/_common/useModal';
 import useAutoMoveIndex from '@/hooks/PairRoomOnboarding/useAutoMoveIndex';
 import usePairRoomInformation from '@/hooks/PairRoomOnboarding/usePairRoomInformation';
 
-import useMutatePairRoom from '@/queries/PairRoom/useMutatePairRoom';
+import usePairRoomMutation from '@/queries/PairRoom/usePairRoomMutation';
 
 import * as S from './PairRoomSettingSection.styles';
 
@@ -44,7 +44,7 @@ const PairRoomSettingSection = ({ repositoryName }: PairRoomSettingSectionProps)
   const { moveIndex } = useAutoMoveIndex(0, validationList);
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const { addPairRoomMutation } = useMutatePairRoom();
+  const { addPairRoomMutation } = usePairRoomMutation();
 
   const handleSuccess = () => {
     const missionUrl = repositoryName !== '' ? `https://github.com/coduo-missions/${repositoryName}` : '';

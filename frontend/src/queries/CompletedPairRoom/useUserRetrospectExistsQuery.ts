@@ -4,7 +4,7 @@ import { getUserRetrospectExists } from '@/apis/member';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-const useGetUserRetrospectExists = (accessCode: string) => {
+const useUserRetrospectExistsQuery = (accessCode: string) => {
   const { data, isFetching } = useQuery({
     queryKey: [QUERY_KEYS.GET_USER_RETROSPECT_EXISTS],
     queryFn: () => getUserRetrospectExists(accessCode),
@@ -14,4 +14,4 @@ const useGetUserRetrospectExists = (accessCode: string) => {
   return { isUserRetrospectExists: data?.existRetrospect, isUserRetrospectExistsFetching: isFetching };
 };
 
-export default useGetUserRetrospectExists;
+export default useUserRetrospectExistsQuery;

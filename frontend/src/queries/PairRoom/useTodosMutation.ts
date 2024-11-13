@@ -6,7 +6,7 @@ import { addTodos, updateOrder, updateChecked, updateContents, deleteTodo } from
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-const useMutateTodos = () => {
+const useTodosMutation = () => {
   const queryClient = useQueryClient();
 
   const { addToast } = useToastStore();
@@ -50,4 +50,4 @@ const useMutateTodos = () => {
   };
 };
 
-export default useMutateTodos;
+export default useTodosMutation;

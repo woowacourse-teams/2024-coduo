@@ -6,7 +6,7 @@ import { addRetrospect, deleteRetrospect } from '@/apis/retrospect';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-const useMutateRetrospect = () => {
+const useRetrospectMutation = () => {
   const queryClient = useQueryClient();
 
   const { addToast } = useToastStore();
@@ -26,4 +26,4 @@ const useMutateRetrospect = () => {
   return { addRetrospectMutation, deleteRetrospectMutation };
 };
 
-export default useMutateRetrospect;
+export default useRetrospectMutation;
