@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
 
 import CheckBox from '@/components/_common/CheckBox/CheckBox';
 
@@ -7,7 +6,7 @@ import { Todo } from '@/apis/todo';
 
 import useCopyClipBoard from '@/hooks/_common/useCopyClipboard';
 
-import useTodos from '@/queries/PairRoom/useTodos';
+import useTodosMutation from '@/queries/PairRoom/useTodosMutation';
 
 import * as S from './TodoItem.styles';
 
@@ -20,12 +19,10 @@ interface TodoItemProps {
 }
 
 const TodoItem = ({ todo, isDraggedOver, onDragStart, onDragEnter, onDrop }: TodoItemProps) => {
-  const { accessCode } = useParams();
-
   const [isIconHovered, setIsIconHovered] = useState(false);
   const [, onCopy] = useCopyClipBoard();
 
-  const { handleUpdateChecked, handleDeleteTodo } = useTodos(accessCode || '');
+  const { updateCheckedMutation, deleteTodoMutation } = useTodosMutation();
 
   const { id, isChecked, content } = todo;
 
@@ -41,7 +38,7 @@ const TodoItem = ({ todo, isDraggedOver, onDragStart, onDragEnter, onDrop }: Tod
       onDragEnd={onDrop}
     >
       <S.TodoContainer $isChecked={isChecked}>
-        <CheckBox isChecked={isChecked} onClick={() => handleUpdateChecked(id)} />
+        <CheckBox isChecked={isChecked} onClick={() => updateCheckedMutation({ todoId: id })} />
         <p>{content}</p>
       </S.TodoContainer>
       <S.IconContainer>
@@ -55,7 +52,7 @@ const TodoItem = ({ todo, isDraggedOver, onDragStart, onDragEnter, onDrop }: Tod
           $isChecked={isChecked}
           onMouseEnter={() => setIsIconHovered(true)}
           onMouseLeave={() => setIsIconHovered(false)}
-          onClick={() => handleDeleteTodo(id)}
+          onClick={() => deleteTodoMutation({ todoId: id })}
         />
       </S.IconContainer>
     </S.Layout>

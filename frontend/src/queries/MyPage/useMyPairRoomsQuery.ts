@@ -4,13 +4,15 @@ import { getMyPairRooms } from '@/apis/member';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-export const useMyPairRooms = () => {
+const useMyPairRoomsQuery = () => {
   const { data, isFetching } = useQuery({
     queryKey: [QUERY_KEYS.GET_MY_PAIR_ROOMS],
     queryFn: getMyPairRooms,
-    retry: 0,
+    retry: false,
     refetchOnWindowFocus: false,
   });
 
-  return { myPairRoomList: data, myPairRoomLoading: isFetching };
+  return { myPairRooms: data, isMyPairRoomsFetching: isFetching };
 };
+
+export default useMyPairRoomsQuery;

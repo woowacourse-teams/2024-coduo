@@ -7,8 +7,8 @@ import MyPageTab from '@/components/MyPage/MyPageTab/MyPageTab';
 import PairRoomButton from '@/components/MyPage/PairRoomButton/PairRoomButton';
 import RetrospectButton from '@/components/MyPage/PairRoomButton/RetrospectButton';
 
-import { useMyPairRooms } from '@/queries/MyPage/useMyPairRooms';
-import { useGetRetrospects } from '@/queries/Retrospect/useGetRetrospects';
+import useMyPairRoomsQuery from '@/queries/MyPage/useMyPairRoomsQuery';
+import useMyRetrospectsQuery from '@/queries/MyPage/useMyRetrospectsQuery';
 
 import { TAB_CONFIG } from '@/constants/mypage';
 
@@ -19,10 +19,10 @@ const MyPageContent = () => {
     setCurrentTab(tabKey);
   };
 
-  const { myPairRoomList, myPairRoomLoading } = useMyPairRooms();
-  const { myRetrospects, myRetrospectLoading } = useGetRetrospects();
+  const { myPairRooms, isMyPairRoomsFetching } = useMyPairRoomsQuery();
+  const { myRetrospects, isMyRetrospectsFetching } = useMyRetrospectsQuery();
 
-  const myPairRoomLength = myPairRoomList?.length || 0;
+  const myPairRoomLength = myPairRooms?.length || 0;
   const myRetrospectsLength = myRetrospects?.length || 0;
 
   return (
@@ -34,8 +34,12 @@ const MyPageContent = () => {
       />
 
       {currentTab === TAB_CONFIG[0].key && (
-        <ListLayout length={myPairRoomLength} emptyMessage="생성한 페어룸이 없습니다." isFetching={myPairRoomLoading}>
-          {myPairRoomList?.map((pairRoom) => (
+        <ListLayout
+          length={myPairRoomLength}
+          emptyMessage="생성한 페어룸이 없습니다."
+          isFetching={isMyPairRoomsFetching}
+        >
+          {myPairRooms?.map((pairRoom) => (
             <PairRoomButton
               key={pairRoom.id}
               driver={pairRoom.driver}
@@ -50,7 +54,7 @@ const MyPageContent = () => {
         <ListLayout
           length={myRetrospectsLength}
           emptyMessage="작성한 회고가 없습니다."
-          isFetching={myRetrospectLoading}
+          isFetching={isMyRetrospectsFetching}
         >
           {myRetrospects?.map((retrospect) => (
             <RetrospectButton

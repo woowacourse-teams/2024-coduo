@@ -9,16 +9,22 @@ interface CategoryItemProps {
   categoryId: string;
   isChecked: boolean;
   closeModal: () => void;
-  handleSelectCategory: (categoryId: string) => void;
+  handleSelectedCategoryId: (categoryId: string) => void;
 }
 
-const CategoryItem = ({ closeModal, categoryName, categoryId, isChecked, handleSelectCategory }: CategoryItemProps) => {
+const CategoryItem = ({
+  closeModal,
+  categoryName,
+  categoryId,
+  isChecked,
+  handleSelectedCategoryId,
+}: CategoryItemProps) => {
   const { addToast } = useToastStore();
 
   const handleCategoryClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     if (isChecked) return;
 
-    handleSelectCategory(event.currentTarget.id);
+    handleSelectedCategoryId(event.currentTarget.id);
     addToast({ status: 'SUCCESS', message: `${categoryName}가 선택되었어요.` });
     closeModal();
   };

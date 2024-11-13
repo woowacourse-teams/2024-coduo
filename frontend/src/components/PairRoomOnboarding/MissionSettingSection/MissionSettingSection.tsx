@@ -11,10 +11,10 @@ import * as S from './MissionSettingSection.styles';
 interface MissionSettingSectionProps {
   repositoryName: string;
   onRepositoryName: (repositoryName: string) => void;
-  onCreateBranch: (repositoryName: string, branchName: string) => void;
+  onAddBranch: (repositoryName: string, branchName: string) => void;
 }
 
-const MissionSettingSection = ({ repositoryName, onRepositoryName, onCreateBranch }: MissionSettingSectionProps) => {
+const MissionSettingSection = ({ repositoryName, onRepositoryName, onAddBranch }: MissionSettingSectionProps) => {
   const { branchName, isValidBranchName, resetBranchName, handleBranchName } = useMissionBranch();
   const { moveIndex } = useAutoMoveIndex(0, [repositoryName !== '', useDebounce(isValidBranchName, 500)]);
 
@@ -34,7 +34,7 @@ const MissionSettingSection = ({ repositoryName, onRepositoryName, onCreateBranc
           <Button
             width="15rem"
             disabled={!isValidBranchName}
-            onClick={() => onCreateBranch(repositoryName, branchName.value)}
+            onClick={() => onAddBranch(repositoryName, branchName.value)}
           >
             브랜치 생성하기
           </Button>

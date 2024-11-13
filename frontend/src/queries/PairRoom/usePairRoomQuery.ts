@@ -7,7 +7,7 @@ import { getTimer } from '@/apis/timer';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-const useGetPairRoom = (accessCode: string) => {
+const usePairRoomQuery = (accessCode: string) => {
   const queryClient = useQueryClient();
 
   const {
@@ -41,4 +41,4 @@ const useGetPairRoom = (accessCode: string) => {
   };
 };
 
-export default useGetPairRoom;
+export default usePairRoomQuery;

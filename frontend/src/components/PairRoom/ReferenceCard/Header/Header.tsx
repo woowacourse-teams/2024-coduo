@@ -9,17 +9,23 @@ import * as S from './Header.styles';
 
 interface HeaderProps {
   isOpen: boolean;
-  selectedFilteringCategoryName: string;
+  selectedCategoryName: string;
   toggleIsOpen: () => void;
   onButtonClick: () => void;
 }
 
 const Header = ({
   isOpen,
-  selectedFilteringCategoryName,
+  selectedCategoryName,
   toggleIsOpen,
   onButtonClick,
 }: React.PropsWithChildren<HeaderProps>) => {
+  const handleButtonClick = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    onButtonClick();
+    toggleIsOpen();
+  };
+
   return (
     <S.Layout
       aria-label={isOpen ? '링크 카드 열림' : '링크 카드 닫힘, 클릭하시면 링크 카드가 열립니다.'}
@@ -41,14 +47,10 @@ const Header = ({
       <Button
         width="7rem"
         height="4rem"
-        aria-label={`현재 카테고리는 ${selectedFilteringCategoryName} 입니다. 클릭하시면 카테고리 선택 모달이 열립니다.`}
-        onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-          event.stopPropagation();
-          onButtonClick();
-          toggleIsOpen();
-        }}
+        aria-label={`현재 카테고리는 ${selectedCategoryName} 입니다. 클릭하시면 카테고리 선택 모달이 열립니다.`}
+        onClick={handleButtonClick}
       >
-        {selectedFilteringCategoryName}
+        {selectedCategoryName}
       </Button>
     </S.Layout>
   );

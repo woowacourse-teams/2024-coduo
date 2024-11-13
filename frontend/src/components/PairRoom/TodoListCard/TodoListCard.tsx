@@ -10,7 +10,7 @@ import TodoList from '@/components/PairRoom/TodoListCard/TodoList/TodoList';
 
 import useInput from '@/hooks/_common/useInput';
 
-import useTodos from '@/queries/PairRoom/useTodos';
+import useTodosMutation from '@/queries/PairRoom/useTodosMutation';
 
 import * as S from './TodoListCard.styles';
 
@@ -23,12 +23,11 @@ const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
   const { accessCode } = useParams();
 
   const { value, handleChange, resetValue } = useInput();
-  const { handleAddTodos } = useTodos(accessCode || '');
+  const { addTodosMutation } = useTodosMutation();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleAddTodos(value);
-    resetValue();
+    addTodosMutation({ content: value, accessCode: accessCode || '' }, { onSuccess: resetValue });
   };
 
   return (

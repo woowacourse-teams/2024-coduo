@@ -10,7 +10,7 @@ import useClickOutside from '@/hooks/_common/customEvent/useClickOutside';
 import useInput from '@/hooks/_common/useInput';
 import useModal from '@/hooks/_common/useModal';
 
-import useUpdateDuration from '@/queries/PairRoom/useUpdateDuration';
+import useTimerMutation from '@/queries/PairRoom/useTimerMutation';
 
 import { validateTimerDuration } from '@/validations/validateTimerDuration';
 
@@ -27,7 +27,7 @@ const TimerEditPanel = ({ isActive }: TimerEditPanelProps) => {
 
   const { isModalOpen: isPanelOpen, openModal: openPanel, closeModal: closePanel } = useModal();
   const { value, handleChange, resetValue } = useInput();
-  const { handleUpdateTimerDuration } = useUpdateDuration();
+  const { updateTimerDurationMutation } = useTimerMutation();
 
   const handleButtonClick = () => {
     if (isActive) {
@@ -42,7 +42,7 @@ const TimerEditPanel = ({ isActive }: TimerEditPanelProps) => {
     event.preventDefault();
 
     if (!value || !accessCode) return;
-    handleUpdateTimerDuration(value, accessCode);
+    updateTimerDurationMutation({ duration: value, accessCode });
 
     resetValue();
     closePanel();

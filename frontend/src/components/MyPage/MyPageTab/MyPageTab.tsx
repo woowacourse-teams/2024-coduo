@@ -3,11 +3,13 @@ import { CurrentTabType } from '@/pages/MyPage/MyPage.type';
 import { TAB_CONFIG } from '@/constants/mypage';
 
 import * as S from './MyPageTab.styles';
+
 interface MyPageTabProps {
   length: number[];
   currentTab: CurrentTabType;
   handleTabClick: (tabKey: CurrentTabType) => void;
 }
+
 const MyPageTab = ({ length, currentTab, handleTabClick }: MyPageTabProps) => {
   return (
     <S.Layout>

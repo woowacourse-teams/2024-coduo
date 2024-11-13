@@ -8,7 +8,7 @@ import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type
 
 import useInput from '@/hooks/_common/useInput';
 
-import { useAddCategory } from '@/queries/PairRoom/category/mutation';
+import useCategoriesMutation from '@/queries/PairRoom/useCategoriesMutation';
 
 import { validateCategoryName } from '@/validations/validateCategory';
 
@@ -22,8 +22,8 @@ interface CategoryManagementModalProps {
   closeModal: () => void;
   categories: Category[];
   isCategoryExist: (categoryName: string) => boolean;
-  selectedCategory: string;
-  handleSelectCategory: (categoryId: string) => void;
+  selectedCategoryId: string;
+  handleSelectedCategoryId: (categoryId: string) => void;
 }
 
 const CategoryManagementModal = ({
@@ -32,19 +32,19 @@ const CategoryManagementModal = ({
   closeModal,
   categories,
   isCategoryExist,
-  selectedCategory,
-  handleSelectCategory,
+  selectedCategoryId,
+  handleSelectedCategoryId,
 }: CategoryManagementModalProps) => {
   const { value, handleChange, resetValue, message, status } = useInput('');
 
-  const addCategory = useAddCategory();
+  const { addCategoryMutation } = useCategoriesMutation();
 
   const handleAddCategorySubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (status === 'ERROR') return;
 
-    addCategory.mutateAsync({ category: value, accessCode }).then(() => resetValue());
+    addCategoryMutation({ category: value, accessCode }, { onSuccess: resetValue });
   };
 
   const handleCloseModal = () => {
@@ -64,12 +64,12 @@ const CategoryManagementModal = ({
           {categories.map((category) => (
             <CategoryItem
               key={category.id}
-              isChecked={category.id === selectedCategory}
+              isChecked={category.id === selectedCategoryId}
               accessCode={accessCode}
               closeModal={handleCloseModal}
               categoryId={category.id}
               categoryName={category.value}
-              handleSelectCategory={handleSelectCategory}
+              handleSelectedCategoryId={handleSelectedCategoryId}
             />
           ))}
         </S.CategoryList>
