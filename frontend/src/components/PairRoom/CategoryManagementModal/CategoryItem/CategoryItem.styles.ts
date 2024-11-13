@@ -52,7 +52,7 @@ export const Item = styled.li<{ $isChecked: boolean }>`
   }
 `;
 
-export const Form = styled.form`
+export const LayoutForm = styled.form`
   position: relative;
 
   width: 100%;

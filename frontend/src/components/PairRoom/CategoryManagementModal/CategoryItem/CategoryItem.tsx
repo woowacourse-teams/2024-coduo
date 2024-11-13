@@ -62,7 +62,7 @@ const CategoryItem = ({
 
   if (isEditing) {
     return (
-      <S.Form onSubmit={handleSubmit}>
+      <S.LayoutForm onSubmit={handleSubmit}>
         <S.Layout>
           <Input
             status={newCategoryName.status}
@@ -79,7 +79,7 @@ const CategoryItem = ({
         <Message fontSize="1rem" status={newCategoryName.status}>
           {newCategoryName.message}
         </Message>
-      </S.Form>
+      </S.LayoutForm>
     );
   }
 
