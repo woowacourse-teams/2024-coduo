@@ -1,4 +1,4 @@
-import { forwardRef, InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes } from 'react';
 
 import { css } from 'styled-components';
 
@@ -18,38 +18,30 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   onReset?: () => void;
 }
 
-const Input = forwardRef<HTMLInputElement, InputProps>(
-  (
-    {
-      width = '100%',
-      status = 'DEFAULT',
-      height = '4.8rem',
-      borderRadius = '0.5rem',
-      color = 'PRIMARY',
-      value,
-      onReset,
-      $css,
-
-      ...props
-    }: InputProps,
-    ref,
-  ) => {
-    return (
-      <S.InputContainer
-        $status={status}
-        $width={width}
-        $height={height}
-        $borderRadius={borderRadius}
-        $color={color === 'PRIMARY' ? theme.color.primary[700] : theme.color.secondary[700]}
-        $css={$css}
-      >
-        <S.Input value={value} ref={ref} {...props} />
-        {onReset && value && <button onClick={onReset}>x</button>}
-      </S.InputContainer>
-    );
-  },
-);
-
-Input.displayName = 'Input';
+const Input = ({
+  width = '100%',
+  status = 'DEFAULT',
+  height = '4.8rem',
+  borderRadius = '0.5rem',
+  color = 'PRIMARY',
+  value,
+  onReset,
+  $css,
+  ...props
+}: InputProps) => {
+  return (
+    <S.InputContainer
+      $status={status}
+      $width={width}
+      $height={height}
+      $borderRadius={borderRadius}
+      $color={color === 'PRIMARY' ? theme.color.primary[700] : theme.color.secondary[700]}
+      $css={$css}
+    >
+      <S.Input value={value} {...props} />
+      {onReset && value && <button onClick={onReset}>x</button>}
+    </S.InputContainer>
+  );
+};
 
 export default Input;
