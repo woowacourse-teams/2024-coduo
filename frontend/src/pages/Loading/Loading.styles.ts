@@ -5,6 +5,7 @@ export const Layout = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 2rem;
 
   height: calc(100vh - 7rem);
   padding: 20px;
