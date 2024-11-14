@@ -1,4 +1,4 @@
-import { InputStatus } from '@/components/_common/Input/Input.type';
+import { InputStatus } from '@/components/_common/InputField/Input.type';
 
 import { DEFAULT_CATEGORY_VALUE } from '@/queries/PairRoom/useCategoriesQuery';
 

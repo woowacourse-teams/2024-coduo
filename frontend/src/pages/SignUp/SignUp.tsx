@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { LogoIconWithTitle } from '@/assets';
 
 import Button from '@/components/_common/Button/Button';
-import Input from '@/components/_common/Input/Input';
+import { InputField } from '@/components/_common/InputField';
 
 import useUserStore from '@/stores/userStore';
 
@@ -49,15 +49,17 @@ const SignUp = () => {
       <S.LogoIconWithTitle src={LogoIconWithTitle} alt="logo_icon_with_title" />
       <S.Form onSubmit={handleSubmit}>
         <S.Title>첫 방문이시네요! 당신을 어떻게 불러야 할까요?</S.Title>
-        <Input
-          value={username}
-          status={usernameStatus}
-          message={usernameMessage}
-          width="50rem"
-          title="이름(또는 닉네임)"
-          placeholder="이름(또는 닉네임)을 입력해주세요."
-          onChange={handleChange}
-        />
+        <InputField>
+          <InputField.Input
+            value={username}
+            status={usernameStatus}
+            width="50rem"
+            title="이름(또는 닉네임)"
+            placeholder="이름(또는 닉네임)을 입력해주세요."
+            onChange={handleChange}
+          />
+          <InputField.Message status={usernameStatus}>{usernameMessage}</InputField.Message>
+        </InputField>
         <Button
           width="50rem"
           fontSize={theme.fontSize.md}

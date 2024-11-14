@@ -4,7 +4,7 @@ import { LuPlus } from 'react-icons/lu';
 
 import Button from '@/components/_common/Button/Button';
 import { Dropdown } from '@/components/_common/Dropdown';
-import Input from '@/components/_common/Input/Input';
+import Input from '@/components/_common/InputField/Input/Input';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 
 import useInput from '@/hooks/_common/useInput';
@@ -25,7 +25,7 @@ interface FooterProps {
 const Footer = ({ accessCode, categories }: FooterProps) => {
   const [currentCategoryId, setCurrentCategoryId] = useState<string | null>(null);
 
-  const { value, status, message, handleChange, resetValue } = useInput();
+  const { value, status, handleChange, resetValue } = useInput();
 
   const { addReferenceMutation } = useReferencesMutation();
 
@@ -54,11 +54,11 @@ const Footer = ({ accessCode, categories }: FooterProps) => {
       />
       <S.Form onSubmit={handleSubmit}>
         <Input
-          $css={S.inputStyles}
+          height="4rem"
+          borderRadius="0.6rem"
           placeholder="링크를 입력해주세요."
           value={value}
           status={status}
-          message={message}
           onChange={handleChange}
         />
         <Button

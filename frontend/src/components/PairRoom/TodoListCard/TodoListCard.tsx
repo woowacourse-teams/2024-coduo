@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { LuPlus } from 'react-icons/lu';
 
 import Button from '@/components/_common/Button/Button';
-import Input from '@/components/_common/Input/Input';
+import Input from '@/components/_common/InputField/Input/Input';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import Header from '@/components/PairRoom/TodoListCard/Header/Header';
 import TodoList from '@/components/PairRoom/TodoListCard/TodoList/TodoList';
@@ -39,6 +39,8 @@ const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
           <S.Footer>
             <S.Form onSubmit={handleSubmit}>
               <Input
+                height="4rem"
+                borderRadius="0.6rem"
                 $css={S.inputStyles}
                 value={value}
                 onChange={handleChange}

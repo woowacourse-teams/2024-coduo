@@ -1,7 +1,9 @@
+import { ChangeEvent } from 'react';
+
 import { LuPlus } from 'react-icons/lu';
 
 import Button from '@/components/_common/Button/Button';
-import Input from '@/components/_common/Input/Input';
+import { InputField } from '@/components/_common/InputField';
 import { Modal } from '@/components/_common/Modal';
 import CategoryItem from '@/components/PairRoom/CategoryManagementModal/CategoryItem/CategoryItem';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
@@ -75,26 +77,31 @@ const CategoryManagementModal = ({
         </S.CategoryList>
       </Modal.Body>
       <S.Form onSubmit={handleAddCategorySubmit}>
-        <S.InputContainer>
-          <Input
-            value={value}
-            placeholder="추가할 카테고리를 입력해 주세요."
-            height="4.4rem"
-            status={status}
-            message={message}
-            onChange={(event) => handleChange(event, validateCategoryName(event.target.value, isCategoryExist))}
-          />
-          <Button
-            type="submit"
-            width="4.8rem"
-            height="4.4rem"
-            fontSize={theme.fontSize.lg}
-            rounded={true}
-            disabled={value.trim() === '' || status !== 'DEFAULT'}
-          >
-            <LuPlus size="1.6rem" />
-          </Button>
-        </S.InputContainer>
+        <InputField gap="0.5rem">
+          <InputField.Content>
+            <InputField.Input
+              value={value}
+              placeholder="추가할 카테고리를 입력해 주세요."
+              height="4.4rem"
+              status={status}
+              onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                handleChange(event, validateCategoryName(event.target.value, isCategoryExist))
+              }
+            ></InputField.Input>
+            <Button
+              type="submit"
+              width="4.8rem"
+              height="4.4rem"
+              fontSize={theme.fontSize.lg}
+              rounded={true}
+              disabled={value.trim() === '' || status !== 'DEFAULT'}
+            >
+              <LuPlus size="1.6rem" />
+            </Button>
+            {/* //TODO: icon button 으로 바꾸기 */}
+          </InputField.Content>
+          <InputField.Message status={status}>{message}</InputField.Message>
+        </InputField>
       </S.Form>
       <Modal.CloseButton close={handleCloseModal} />
     </Modal>
