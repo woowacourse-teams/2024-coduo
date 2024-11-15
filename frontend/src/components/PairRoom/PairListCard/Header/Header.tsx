@@ -1,6 +1,6 @@
 import { IoPeople } from 'react-icons/io5';
 
-import IconButton from '@/components/_common/Button/IconButton/IconButton';
+import IconButton from '@/components/_common/IconButton/IconButton';
 
 import { theme } from '@/styles/theme';
 

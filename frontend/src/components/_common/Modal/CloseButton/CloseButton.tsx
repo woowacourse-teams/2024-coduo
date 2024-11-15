@@ -1,6 +1,6 @@
 import { MdClose } from 'react-icons/md';
 
-import IconButton from '@/components/_common/Button/IconButton/IconButton';
+import IconButton from '@/components/_common/IconButton/IconButton';
 
 import * as S from './CloseButton.styles';
 

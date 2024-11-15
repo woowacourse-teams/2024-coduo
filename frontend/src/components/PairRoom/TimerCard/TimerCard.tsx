@@ -2,7 +2,7 @@ import { useRef } from 'react';
 
 import { FaPause, FaPlay } from 'react-icons/fa6';
 
-import IconButton from '@/components/_common/Button/IconButton/IconButton';
+import IconButton from '@/components/_common/IconButton/IconButton';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import TimerEditPanel from '@/components/PairRoom/TimerCard/TimerEditPanel/TimerEditPanel';
 

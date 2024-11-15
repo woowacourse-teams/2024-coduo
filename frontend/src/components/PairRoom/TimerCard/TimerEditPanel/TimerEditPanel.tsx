@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { IoSettingsOutline } from 'react-icons/io5';
 
 import Button from '@/components/_common/Button/Button';
-import IconButton from '@/components/_common/Button/IconButton/IconButton';
+import IconButton from '@/components/_common/IconButton/IconButton';
 import Input from '@/components/_common/Input/Input';
 
 import useToastStore from '@/stores/toastStore';
