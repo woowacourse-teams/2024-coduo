@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import type { InputStatus } from '@/components/_common/InputField/Input.type';
+import type { InputStatus } from '@/components/_common/InputField/InputField.type';
 
 const inputStatusStyles = {
   DEFAULT: css`

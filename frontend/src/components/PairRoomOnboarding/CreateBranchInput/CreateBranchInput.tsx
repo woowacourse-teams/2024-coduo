@@ -2,7 +2,7 @@
 import { GithubLogoWhite } from '@/assets';
 
 import { InputField } from '@/components/_common/InputField';
-import { InputType } from '@/components/_common/InputField/Input.type';
+import { InputType } from '@/components/_common/InputField/InputField.type';
 
 import useBranchesQuery from '@/queries/PairRoomOnboarding/useBranchesQuery';
 

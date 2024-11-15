@@ -2,7 +2,7 @@ import { InputHTMLAttributes } from 'react';
 
 import { css } from 'styled-components';
 
-import type { InputStatus } from '@/components/_common/InputField/Input.type';
+import type { InputStatus } from '@/components/_common/InputField/InputField.type';
 
 import { theme } from '@/styles/theme';
 

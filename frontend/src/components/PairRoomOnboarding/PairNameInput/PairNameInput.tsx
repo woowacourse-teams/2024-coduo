@@ -5,7 +5,7 @@ import { LogoIcon } from '@/assets';
 
 import Button from '@/components/_common/Button/Button';
 import { InputField } from '@/components/_common/InputField';
-import { InputType } from '@/components/_common/InputField/Input.type';
+import { InputType } from '@/components/_common/InputField/InputField.type';
 
 import { theme } from '@/styles/theme';
 

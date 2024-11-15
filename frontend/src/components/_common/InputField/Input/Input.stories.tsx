@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import Input from '@/components/_common/InputField/Input/Input';
-import { InputStatus } from '@/components/_common/InputField/Input.type';
+import { InputStatus } from '@/components/_common/InputField/InputField.type';
 
 import useInput from '@/hooks/_common/useInput';
 
