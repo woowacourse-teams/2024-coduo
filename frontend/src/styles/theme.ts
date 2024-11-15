@@ -111,17 +111,17 @@ const fontWeight = {
 };
 
 const iconSize = {
-  sm: '2.5rem',
-  md: '3.5rem',
-  lg: '4.5rem',
-  xl: '5.5rem',
+  sm: '1.6rem',
+  md: '2rem',
+  lg: '2.4rem',
+  xl: '2.8rem',
 };
 
 const iconButtonSize = {
-  sm: '4.5rem',
-  md: '5.5rem',
-  lg: '6.5rem',
-  xl: '7.5rem',
+  sm: '2.4rem',
+  md: '3rem',
+  lg: '3.6rem',
+  xl: '4.2rem',
 };
 
 export type ColorTypes = typeof color;
