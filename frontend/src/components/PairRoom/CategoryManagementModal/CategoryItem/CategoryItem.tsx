@@ -71,8 +71,8 @@ const CategoryItem = ({
             $messageCss={S.CustomInputMessage}
           />
           <S.IconContainer>
-            <IconButton icon={<S.CheckIcon />} type="submit" size="2rem" />
-            <IconButton icon={<S.CancelIcon />} onClick={stopEditing} size="2rem" />
+            <IconButton icon={<S.CheckIcon />} type="submit" size="md" />
+            <IconButton icon={<S.CancelIcon />} onClick={stopEditing} size="md" />
           </S.IconContainer>
         </S.Layout>
       </form>
@@ -89,8 +89,8 @@ const CategoryItem = ({
       </S.Container>
       {categoryId !== DEFAULT_CATEGORY_ID && (
         <S.IconContainer>
-          <IconButton onClick={startEditing} icon={<S.EditIcon />} size="2rem" />
-          <IconButton onClick={handleDeleteCategory} icon={<S.DeleteIcon />} size="2rem" />
+          <IconButton onClick={startEditing} icon={<S.EditIcon />} size="md" />
+          <IconButton onClick={handleDeleteCategory} icon={<S.DeleteIcon />} size="md" />
         </S.IconContainer>
       )}
     </S.Layout>

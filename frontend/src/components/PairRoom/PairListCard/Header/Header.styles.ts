@@ -10,8 +10,6 @@ export const Layout = styled(PairRoomCard.Header)<{ $isOpen: boolean }>`
 `;
 
 export const ArrowIcon = styled(IoIosArrowBack)<{ $isOpen: boolean }>`
-  color: ${({ theme }) => theme.color.black[900]};
-
   transform: rotate(${({ $isOpen }) => ($isOpen ? 0 : 180)}deg);
   transition: transform 0.2s ease-in-out;
 `;

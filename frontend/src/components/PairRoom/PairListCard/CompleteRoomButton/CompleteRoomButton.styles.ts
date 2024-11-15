@@ -11,6 +11,10 @@ export const Layout = styled.button<{ disabled: boolean }>`
   position: absolute;
   bottom: 0;
 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
   width: 100%;
   height: 6rem;
   margin-top: auto;

@@ -19,7 +19,7 @@ const Header = ({ isOpen, toggleOpen }: HeaderProps) => (
   >
     <IconButton
       icon={<S.ArrowIcon $isOpen={isOpen} />}
-      size="2rem"
+      size="md"
       onClick={toggleOpen}
       aria-label={isOpen ? '목록 접기' : '목록 열기'}
     />

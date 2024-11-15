@@ -1,5 +1,4 @@
-import { FaPause, FaPlay } from 'react-icons/fa6';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const Layout = styled.div`
   display: flex;
@@ -62,18 +61,4 @@ export const TimerText = styled.p`
 export const IconContainer = styled.div`
   display: flex;
   gap: 5rem;
-`;
-
-const iconStyle = css<{ $isActive: boolean }>`
-  color: ${({ $isActive, theme }) => ($isActive ? theme.color.secondary[500] : theme.color.black[500])};
-
-  cursor: ${({ $isActive }) => ($isActive ? 'pointer' : 'default')};
-`;
-
-export const PlayIcon = styled(FaPlay)<{ $isActive: boolean }>`
-  ${iconStyle}
-`;
-
-export const PauseIcon = styled(FaPause)<{ $isActive: boolean }>`
-  ${iconStyle}
 `;

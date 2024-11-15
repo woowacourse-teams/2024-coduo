@@ -14,8 +14,10 @@ const CloseButton = ({ close }: CloseButtonProps) => {
       $css={S.buttonStyles}
       aria-label="모달 닫기"
       onClick={close}
-      icon={<MdClose size="3rem" color="#5F5F5F" />}
-    ></IconButton>
+      color="#5F5F5F"
+      size="xl"
+      icon={<MdClose />}
+    />
   );
 };
 

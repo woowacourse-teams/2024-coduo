@@ -1,4 +1,3 @@
-import { IoSettingsOutline } from 'react-icons/io5';
 import styled, { keyframes } from 'styled-components';
 
 export const Layout = styled.div`
@@ -10,10 +9,6 @@ export const Layout = styled.div`
   position: absolute;
   top: 1.5rem;
   right: 1.5rem;
-`;
-
-export const SettingsIcon = styled(IoSettingsOutline)`
-  color: ${({ theme }) => theme.color.secondary[500]};
 `;
 
 const slideDown = keyframes`
