@@ -7,13 +7,10 @@ export const Layout = styled.button<{ disabled: boolean }>`
   justify-content: center;
   align-items: center;
   gap: 0.8rem;
+  overflow: hidden;
 
   position: absolute;
   bottom: 0;
-
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 
   width: 100%;
   height: 6rem;
@@ -23,6 +20,8 @@ export const Layout = styled.button<{ disabled: boolean }>`
   background-color: ${({ theme, disabled }) => (disabled ? theme.color.black[200] : theme.color.danger[200])};
   color: ${({ theme, disabled }) => (disabled ? theme.color.black[600] : theme.color.danger[600])};
   font-size: ${({ theme }) => theme.fontSize.base};
+  text-overflow: ellipsis;
+  white-space: nowrap;
 
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
 `;

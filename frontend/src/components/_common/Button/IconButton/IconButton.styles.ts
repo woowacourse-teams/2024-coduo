@@ -124,11 +124,14 @@ export const Layout = styled.button<IconButtonProps>`
     ${iconSize}
     color: ${({ $color }) => $color};
   }
+
   &:disabled {
+    background-color: ${theme.color.black[100]};
+
     cursor: default;
+
     svg {
       color: ${theme.color.black[200]};
     }
-    background-color: ${theme.color.black[100]};
   }
 `;
