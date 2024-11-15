@@ -42,7 +42,7 @@ const buttonSize = ({ $size }: { $size: string }) => {
 
 const iconSize = ({ $size }: { $size: string }) => {
   return css`
-    ${(() => {
+    ${() => {
       switch ($size) {
         case 'sm':
           return css`
@@ -70,7 +70,7 @@ const iconSize = ({ $size }: { $size: string }) => {
             height: ${$size};
           `;
       }
-    })()}
+    }}
   `;
 };
 
@@ -79,13 +79,9 @@ interface BackgroundColorProp {
 }
 
 const backgroundColor = ({ $backgroundColor }: BackgroundColorProp) => {
-  const { base, hover, active, disabled } = calculateButtonColor($backgroundColor, true);
+  const { base, hover, active } = calculateButtonColor($backgroundColor, true);
 
   return css`
-    &:disabled {
-      ${disabled}
-    }
-
     &:not(:disabled) {
       ${base}
       &:hover {
@@ -102,7 +98,6 @@ const backgroundColor = ({ $backgroundColor }: BackgroundColorProp) => {
 interface IconButtonProps {
   $css?: ReturnType<typeof css>;
   $size: string;
-  $isActive?: boolean;
   $color?: string;
   $backgroundColor: string;
 }
@@ -117,7 +112,7 @@ export const Layout = styled.button<IconButtonProps>`
 
   transition: background-color 0.2s ease-in-out;
 
-  cursor: ${({ $isActive, disabled }) => ($isActive && !disabled ? 'pointer' : 'default')};
+  cursor: pointer;
 
   ${buttonSize}
 
@@ -128,6 +123,12 @@ export const Layout = styled.button<IconButtonProps>`
   svg {
     ${iconSize}
     color: ${({ $color }) => $color};
-    aspect-ratio: 1;
+  }
+  &:disabled {
+    cursor: default;
+    svg {
+      color: ${theme.color.black[200]};
+    }
+    background-color: ${theme.color.black[100]};
   }
 `;

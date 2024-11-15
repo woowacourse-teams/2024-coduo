@@ -1,13 +1,13 @@
 import { Meta, StoryFn } from '@storybook/react';
-import { FaBeer } from 'react-icons/fa'; // Example icon from react-icons
+import { FaBeer } from 'react-icons/fa';
 
 import IconButton from './IconButton';
 
 interface IconButtonProps {
   icon: React.ReactElement;
   size?: 'sm' | 'md' | 'lg' | 'xl' | string;
+  color?: string;
   backgroundColor?: string;
-  isActive?: boolean;
   disabled?: boolean;
   onClick?: () => void;
 }
@@ -16,9 +16,10 @@ export default {
   title: 'component/common/IconButton',
   component: IconButton,
   argTypes: {
-    size: { control: { type: 'select', options: ['sm', 'md', 'lg', 'xl'] } },
+    size: { control: { type: 'text', options: ['sm', 'md', 'lg', 'xl'] } },
+    color: { control: 'color' },
     backgroundColor: { control: 'color' },
-    isActive: { control: 'boolean' },
+    disabled: { control: 'boolean' },
   },
 } as Meta;
 
@@ -29,12 +30,10 @@ Default.args = {
   icon: <FaBeer />,
 };
 
-export const LargeInactive = Template.bind({});
-LargeInactive.args = {
+export const LargeDisabled = Template.bind({});
+LargeDisabled.args = {
   icon: <FaBeer />,
   size: 'lg',
-  backgroundColor: 'gray',
-  isActive: false,
   disabled: true,
 };
 
@@ -42,6 +41,6 @@ export const CustomColor = Template.bind({});
 CustomColor.args = {
   icon: <FaBeer />,
   size: 'md',
+  color: '#FFFFFF',
   backgroundColor: '#a21321',
-  isActive: true,
 };
