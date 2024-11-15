@@ -27,9 +27,6 @@ const Template: StoryFn<IconButtonProps> = (args: IconButtonProps) => <IconButto
 export const Default = Template.bind({});
 Default.args = {
   icon: <FaBeer />,
-  size: 'md',
-  backgroundColor: 'black',
-  isActive: true,
 };
 
 export const LargeInactive = Template.bind({});

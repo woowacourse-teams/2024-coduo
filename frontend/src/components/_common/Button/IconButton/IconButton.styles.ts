@@ -103,6 +103,7 @@ interface IconButtonProps {
   $css?: ReturnType<typeof css>;
   $size: string;
   $isActive?: boolean;
+  $color?: string;
   $backgroundColor: string;
 }
 
@@ -126,6 +127,7 @@ export const Layout = styled.button<IconButtonProps>`
 
   svg {
     ${iconSize}
+    color: ${({ $color }) => $color};
     aspect-ratio: 1;
   }
 `;

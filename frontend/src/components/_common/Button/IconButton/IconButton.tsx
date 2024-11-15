@@ -22,8 +22,8 @@ const IconButton = ({
   isActive = true,
   $css,
   onClick,
-  color = 'white',
-  backgroundColor = 'black',
+  color = '#000000',
+  backgroundColor = '#FFFFFF',
   disabled = false,
   ...props
 }: IconButtonProps) => {
@@ -32,6 +32,7 @@ const IconButton = ({
       $css={$css}
       $size={size}
       $isActive={isActive}
+      $color={color}
       $backgroundColor={backgroundColor}
       disabled={disabled}
       onClick={(event) => {
@@ -40,7 +41,7 @@ const IconButton = ({
       }}
       {...props}
     >
-      {React.cloneElement(icon as React.ReactElement, { style: { color } })}
+      {icon}
     </S.Layout>
   );
 };
