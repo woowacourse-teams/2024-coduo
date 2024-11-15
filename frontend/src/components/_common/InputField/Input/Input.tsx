@@ -1,5 +1,6 @@
 import { InputHTMLAttributes } from 'react';
 
+import { MdClose } from 'react-icons/md';
 import { css } from 'styled-components';
 
 import type { InputStatus } from '@/components/_common/InputField/InputField.type';
@@ -22,7 +23,7 @@ const Input = ({
   width = '100%',
   status = 'DEFAULT',
   height = '4.8rem',
-  borderRadius = '0.5rem',
+  borderRadius = '1rem',
   color = 'PRIMARY',
   value,
   onReset,
@@ -35,11 +36,15 @@ const Input = ({
       $width={width}
       $height={height}
       $borderRadius={borderRadius}
-      $color={color === 'PRIMARY' ? theme.color.primary[700] : theme.color.secondary[700]}
+      $color={color === 'PRIMARY' ? theme.color.primary[800] : theme.color.secondary[700]}
       $css={$css}
     >
       <S.Input value={value} {...props} />
-      {onReset && value && <button onClick={onReset}>x</button>}
+      {onReset && (
+        <S.ResetButton onClick={onReset}>
+          <MdClose size="1.6rem" color="#CCC" />
+        </S.ResetButton>
+      )}
     </S.InputContainer>
   );
 };

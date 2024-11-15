@@ -4,19 +4,19 @@ import type { InputStatus } from '@/components/_common/InputField/InputField.typ
 
 const inputStatusStyles = {
   DEFAULT: css`
-    border: 1.5px solid #e5e5e5;
+    border: 1px solid ${({ theme }) => theme.color.black[300]};
 
-    background-color: ${({ theme }) => theme.color.black[100]};
+    background-color: ${({ theme }) => theme.color.black[0]};
   `,
   ERROR: css`
-    border: 1.5px solid ${({ theme }) => theme.color.danger[400]};
+    border: 1px solid ${({ theme }) => theme.color.danger[500]};
 
-    background-color: ${({ theme }) => theme.color.danger[100]};
+    background-color: ${({ theme }) => theme.color.danger[10]};
   `,
   SUCCESS: css`
-    border: 1.5px solid ${({ theme }) => theme.color.success[400]};
+    border: 1px solid ${({ theme }) => theme.color.success[500]};
 
-    background-color: ${({ theme }) => theme.color.success[100]};
+    background-color: ${({ theme }) => theme.color.success[10]};
   `,
 };
 
@@ -36,25 +36,21 @@ export const InputContainer = styled.div<{
   ${({ $status }) => inputStatusStyles[$status]};
   width: ${({ $width }) => $width};
   height: ${({ $height }) => $height};
-  padding: 0 1.2rem;
+  padding: 0 1.4rem;
   border-radius: ${({ $borderRadius }) => $borderRadius};
 
   font-size: ${({ theme }) => theme.fontSize.md};
 
-  &::placeholder {
-    color: ${({ theme }) => theme.color.black[500]};
-  }
-
   &:focus-within {
-    border: 1.5px solid ${({ $color }) => $color};
+    border: 1px solid ${({ $color }) => $color};
 
-    background-color: ${({ theme }) => theme.color.black[100]};
+    background-color: ${({ theme }) => theme.color.black[0]};
   }
 
   &:disabled {
-    border: 1px solid ${({ theme }) => theme.color.black[400]};
+    border: 1px solid ${({ theme }) => theme.color.black[300]};
 
-    background-color: ${({ theme }) => theme.color.black[300]};
+    background-color: ${({ theme }) => theme.color.black[50]};
   }
   ${({ $css }) => $css}
 `;
@@ -62,4 +58,13 @@ export const InputContainer = styled.div<{
 export const Input = styled.input`
   width: 100%;
   height: 100%;
+
+  &::placeholder {
+    color: ${({ theme }) => theme.color.black[300]};
+  }
+`;
+
+export const ResetButton = styled.button`
+  display: flex;
+  align-items: center;
 `;

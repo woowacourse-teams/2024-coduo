@@ -104,10 +104,10 @@ ex) cd java-guessing-number"
             src={DOCS_IMAGES.inputName}
             alt="input-name"
           >
-            <Quote text="나의 이름을 입력해 주세요" />
+            <Quote text="나의 이름을 입력해 주세요." />
           </DocsImage>
           <DocsImage src={DOCS_IMAGES.inputPairName} alt="input-pair-name">
-            <Quote text="페어의 이름을 입력해 주세요" />
+            <Quote text="페어의 이름을 입력해 주세요." />
           </DocsImage>
         </S.ImageContainer>
         <S.ImageContainer aria-labelledby={START_CONTENT[4].id}>

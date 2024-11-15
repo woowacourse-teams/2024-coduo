@@ -49,7 +49,7 @@ export const OpenButton = styled.button<{ $isOpen: boolean; $isSelected: boolean
 
   border: 1px solid ${({ $isOpen, $isSelected, $color }) => ($isSelected || $isOpen) && $color};
 
-  color: ${({ $isSelected, $color }) => ($isSelected ? $color : theme.color.black[200])};
+  color: ${({ $isSelected, $color }) => ($isSelected ? $color : theme.color.black[300])};
 
   svg {
     transform: rotate(${({ $isOpen }) => ($isOpen ? '180' : '0')}deg);
@@ -82,7 +82,7 @@ export const ItemList = styled.ul<{ $direction: Direction; $gap: string }>`
   box-shadow:
     0 0 1px grey,
     1px 1px 2px lightgrey;
-  color: ${theme.color.black[300]};
+  color: ${theme.color.black[400]};
 
   button {
     display: flex;

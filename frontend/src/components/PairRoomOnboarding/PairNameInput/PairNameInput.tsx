@@ -46,7 +46,7 @@ const PairNameInput = ({
         </InputField.Label>
         <InputField.Input
           id="my-name"
-          placeholder="이름을 입력해주세요"
+          placeholder="이름을 입력해 주세요."
           value={userPairName.value}
           status={userPairName.status}
           onChange={onUserPairName}
@@ -61,7 +61,7 @@ const PairNameInput = ({
               <InputField.Input
                 id="pair-name"
                 autoFocus
-                placeholder="이름을 입력해주세요"
+                placeholder="이름을 입력해 주세요."
                 value={pairName.value}
                 status={pairName.status}
                 onChange={onPairName}

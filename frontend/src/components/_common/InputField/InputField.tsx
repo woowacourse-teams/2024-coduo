@@ -1,4 +1,4 @@
-import * as S from './Layout.styles';
+import * as S from './InputField.styles';
 
 interface LayoutProps {
   width?: string;
