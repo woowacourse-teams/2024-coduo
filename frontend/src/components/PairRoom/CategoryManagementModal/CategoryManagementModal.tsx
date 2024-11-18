@@ -71,7 +71,7 @@ const CategoryManagementModal = ({
               closeModal={handleCloseModal}
               categoryId={category.id}
               categoryName={category.value}
-              handleSelectedCategoryId={handleSelectedCategoryId}
+              handleSelectCategory={handleSelectedCategoryId}
             />
           ))}
         </S.CategoryList>
@@ -98,7 +98,6 @@ const CategoryManagementModal = ({
             >
               <LuPlus size="1.6rem" />
             </Button>
-            {/* //TODO: icon button 으로 바꾸기 */}
           </InputField.Content>
           <InputField.Message status={status}>{message}</InputField.Message>
         </InputField>

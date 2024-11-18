@@ -1,16 +1,17 @@
-import { ChangeEvent } from 'react';
+import { LuArrowLeft, LuPencil, LuTrash2 } from 'react-icons/lu';
 
 import { CheckBoxChecked, CheckBoxUnchecked } from '@/assets';
 
+import IconButton from '@/components/_common/IconButton/IconButton';
 import Input from '@/components/_common/InputField/Input/Input';
-import Message from '@/components/_common/InputField/Message/Message';
-import IconButton from '@/components/PairRoom/CategoryManagementModal/IconButton/IconButton';
 
 import useToastStore from '@/stores/toastStore';
 
 import useEditCategory from '@/hooks/PairRoom/useEditCategory';
 
 import { DEFAULT_CATEGORY_ID } from '@/queries/PairRoom/useCategoriesQuery';
+
+import { theme } from '@/styles/theme';
 
 import * as S from './CategoryItem.styles';
 
@@ -20,7 +21,7 @@ interface CategoryItemProps {
   categoryName: string;
   isChecked: boolean;
   closeModal: () => void;
-  handleSelectedCategoryId: (categoryId: string) => void;
+  handleSelectCategory: (categoryId: string) => void;
 }
 
 const CategoryItem = ({
@@ -29,7 +30,7 @@ const CategoryItem = ({
   categoryName,
   isChecked,
   closeModal,
-  handleSelectedCategoryId,
+  handleSelectCategory,
 }: CategoryItemProps) => {
   const {
     newCategoryName,
@@ -50,37 +51,34 @@ const CategoryItem = ({
 
   const handleDeleteCategory = async () => {
     await deleteCategoryName();
-    if (isChecked) handleSelectedCategoryId(DEFAULT_CATEGORY_ID);
+    if (isChecked) handleSelectCategory(DEFAULT_CATEGORY_ID);
   };
 
   const handleCategoryClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
     if (isChecked) return;
 
-    handleSelectedCategoryId(event.currentTarget.id);
+    handleSelectCategory(event.currentTarget.id);
     addToast({ status: 'SUCCESS', message: `${categoryName}가 선택되었어요.` });
     closeModal();
   };
 
   if (isEditing) {
     return (
-      <S.LayoutForm onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <S.Layout>
           <Input
-            status={newCategoryName.status}
             height="4.4rem"
             placeholder="수정할 카테고리 이름을 입력해주세요."
             value={newCategoryName.value}
-            onChange={(event: ChangeEvent<HTMLInputElement>) => handleCategoryName(event, categoryName)}
+            status={newCategoryName.status}
+            onChange={(event) => handleCategoryName(event, categoryName)}
           />
           <S.IconContainer>
-            <IconButton icon="CHECK" type="submit" />
-            <IconButton icon="CANCEL" onClick={stopEditing} />
+            <IconButton icon={<LuPencil />} color={theme.color.primary[800]} type="submit" size="md" />
+            <IconButton icon={<LuArrowLeft />} color={theme.color.primary[800]} onClick={stopEditing} size="md" />
           </S.IconContainer>
         </S.Layout>
-        <Message fontSize="1rem" status={newCategoryName.status}>
-          {newCategoryName.message}
-        </Message>
-      </S.LayoutForm>
+      </form>
     );
   }
 
@@ -94,8 +92,8 @@ const CategoryItem = ({
       </S.Container>
       {categoryId !== DEFAULT_CATEGORY_ID && (
         <S.IconContainer>
-          <IconButton onClick={startEditing} icon="EDIT" />
-          <IconButton onClick={handleDeleteCategory} icon="DELETE" />
+          <IconButton onClick={startEditing} icon={<LuPencil />} color={theme.color.primary[800]} size="md" />
+          <IconButton onClick={handleDeleteCategory} icon={<LuTrash2 />} color={theme.color.danger[500]} size="md" />
         </S.IconContainer>
       )}
     </S.Layout>

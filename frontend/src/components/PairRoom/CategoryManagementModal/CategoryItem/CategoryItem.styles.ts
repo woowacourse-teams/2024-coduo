@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Layout = styled.div`
   display: flex;
@@ -7,9 +7,6 @@ export const Layout = styled.div`
   gap: 2rem;
 
   width: 100%;
-  height: 5rem;
-
-  cursor: pointer;
 `;
 
 export const Container = styled.div`
@@ -52,9 +49,8 @@ export const Item = styled.li<{ $isChecked: boolean }>`
   }
 `;
 
-export const LayoutForm = styled.form`
-  position: relative;
+export const customInputMessage = css`
+  top: 4rem;
 
-  width: 100%;
-  height: 5rem;
+  font-size: 1rem;
 `;

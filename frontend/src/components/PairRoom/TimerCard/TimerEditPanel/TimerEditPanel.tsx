@@ -1,7 +1,10 @@
 import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { IoSettingsOutline } from 'react-icons/io5';
+
 import Button from '@/components/_common/Button/Button';
+import IconButton from '@/components/_common/IconButton/IconButton';
 import Input from '@/components/_common/InputField/Input/Input';
 
 import useToastStore from '@/stores/toastStore';
@@ -13,6 +16,8 @@ import useModal from '@/hooks/_common/useModal';
 import useTimerMutation from '@/queries/PairRoom/useTimerMutation';
 
 import { validateTimerDuration } from '@/validations/validateTimerDuration';
+
+import { theme } from '@/styles/theme';
 
 import * as S from './TimerEditPanel.styles';
 
@@ -54,7 +59,13 @@ const TimerEditPanel = ({ isActive }: TimerEditPanelProps) => {
 
   return (
     <S.Layout>
-      <S.Icon role="button" onClick={handleButtonClick} aria-label="타이머 시간 수정 버튼" />
+      <IconButton
+        icon={<IoSettingsOutline />}
+        color={theme.color.secondary[500]}
+        size="md"
+        onClick={handleButtonClick}
+        aria-label="타이머 시간 수정 버튼"
+      />
       {isPanelOpen && (
         <S.Panel ref={panelRef}>
           <S.Title>타이머 시간 변경</S.Title>
