@@ -3,12 +3,13 @@ import { LuArrowLeft, LuPencil, LuTrash2 } from 'react-icons/lu';
 import { CheckBoxChecked, CheckBoxUnchecked } from '@/assets';
 
 import IconButton from '@/components/_common/IconButton/IconButton';
-import Input from '@/components/_common/Input/Input';
+import Input from '@/components/_common/InputField/Input/Input';
 
 import useToastStore from '@/stores/toastStore';
 
-import { DEFAULT_CATEGORY_ID } from '@/hooks/PairRoom/useCategories';
 import useEditCategory from '@/hooks/PairRoom/useEditCategory';
+
+import { DEFAULT_CATEGORY_ID } from '@/queries/PairRoom/useCategoriesQuery';
 
 import { theme } from '@/styles/theme';
 
@@ -70,9 +71,7 @@ const CategoryItem = ({
             placeholder="수정할 카테고리 이름을 입력해주세요."
             value={newCategoryName.value}
             status={newCategoryName.status}
-            message={newCategoryName.message}
             onChange={(event) => handleCategoryName(event, categoryName)}
-            $messageCss={S.customInputMessage}
           />
           <S.IconContainer>
             <IconButton icon={<LuPencil />} color={theme.color.primary[800]} type="submit" size="md" />
