@@ -8,7 +8,6 @@ const TextButton = ({
   text,
   size = 'base',
   $css,
-  onClick,
   color = theme.color.black[800],
   disabled = false,
   underline = false,
@@ -23,10 +22,6 @@ const TextButton = ({
       $underline={underline}
       $opacity={opacity}
       disabled={disabled}
-      onClick={(event) => {
-        event.stopPropagation();
-        onClick && onClick();
-      }}
       {...props}
     >
       {text}

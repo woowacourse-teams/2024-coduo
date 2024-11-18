@@ -7,7 +7,6 @@ export interface TextButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
   size?: ButtonSize;
   color?: string;
   $css?: ReturnType<typeof css>;
-  onClick?: () => void;
   disabled?: boolean;
   underline?: boolean;
   opacity?: boolean;

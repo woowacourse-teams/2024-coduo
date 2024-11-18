@@ -12,32 +12,19 @@ interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
   color?: string;
   backgroundColor?: string;
   disabled?: boolean;
-  onClick?: () => void;
 }
 
 const IconButton = ({
   icon,
   size = 'md',
   $css,
-  onClick,
   color = '#000000',
   backgroundColor = '#FFFFFF',
   disabled = false,
   ...props
 }: IconButtonProps) => {
   return (
-    <S.Layout
-      $css={$css}
-      $size={size}
-      $color={color}
-      $backgroundColor={backgroundColor}
-      disabled={disabled}
-      onClick={(event) => {
-        event.stopPropagation();
-        onClick?.();
-      }}
-      {...props}
-    >
+    <S.Layout $css={$css} $size={size} $color={color} $backgroundColor={backgroundColor} disabled={disabled} {...props}>
       {icon}
     </S.Layout>
   );
