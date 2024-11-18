@@ -22,26 +22,6 @@ export const Layout = styled.div`
 
   border-bottom: 0.1rem solid ${({ theme }) => theme.color.black[300]};
 
-  a,
-  button {
-    justify-content: center;
-    align-items: center;
-
-    transition: all 0.1s;
-
-    cursor: pointer;
-
-    &:hover {
-      opacity: 0.7;
-      text-decoration: underline;
-    }
-
-    &:active {
-      opacity: 0.5;
-      text-decoration: underline;
-    }
-  }
-
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     padding: 0 8vw;
   }
@@ -50,6 +30,16 @@ export const Layout = styled.div`
 export const Logo = styled.img`
   width: 3.6rem;
   height: 3.6rem;
+
+  transition: all 0.1s;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &:active {
+    opacity: 0.5;
+  }
 `;
 
 export const LinkContainer = styled.div`
@@ -72,16 +62,5 @@ export const ResponsiveIcon = styled.div`
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     display: inline;
-  }
-`;
-
-export const HowToPairIcon = styled.div`
-  display: none;
-
-  color: ${({ theme }) => theme.color.primary[900]};
-
-  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
-    display: flex;
-    align-items: center;
   }
 `;
