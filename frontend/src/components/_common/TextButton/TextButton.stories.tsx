@@ -33,5 +33,5 @@ CustomButton.args = {
   size: 'md',
   color: '#a21321',
   underline: true,
-  opacity: true,
+  hoverType: 'DARK',
 };

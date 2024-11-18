@@ -1,7 +1,7 @@
 import { css } from 'styled-components';
 
 type ButtonSize = 'base' | 'sm' | 'md' | 'lg' | 'xl' | string;
-
+export type HoverType = 'LIGHT' | 'DARK';
 export interface TextButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   text: string;
   size?: ButtonSize;
@@ -9,7 +9,7 @@ export interface TextButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
   $css?: ReturnType<typeof css>;
   disabled?: boolean;
   underline?: boolean;
-  opacity?: boolean;
+  hoverType?: HoverType;
 }
 
 export interface StyleTextButtonProps {
@@ -17,5 +17,5 @@ export interface StyleTextButtonProps {
   $color: string;
   $css?: ReturnType<typeof css>;
   $underline: boolean;
-  $opacity: boolean;
+  $hoverType: HoverType;
 }

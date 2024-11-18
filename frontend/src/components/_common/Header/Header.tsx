@@ -29,7 +29,7 @@ const Header = () => {
       </Link>
       <S.LinkContainer>
         <S.ResponsiveLink to="/coduo-docs" aria-label="코딩해듀오 시작하기로 이동">
-          <TextButton text="코딩해듀오 시작하기" opacity={true} />
+          <TextButton text="코딩해듀오 시작하기" />
         </S.ResponsiveLink>
         <S.ResponsiveIcon>
           <Link to="/coduo-docs" aria-label="코딩해듀오 시작하기로 이동">
@@ -38,13 +38,13 @@ const Header = () => {
         </S.ResponsiveIcon>
         {userStatus === 'SIGNED_IN' ? (
           <>
-            <TextButton text="로그아웃" onClick={handleSignOut} opacity={true} />
+            <TextButton text="로그아웃" onClick={handleSignOut} />
             <Link to="/my-page" aria-label={`${username}의 마이페이지로 이동`}>
               <span aria-hidden="true">{username}</span>
             </Link>
           </>
         ) : (
-          <TextButton text="Github로 로그인" onClick={handleSignInGithub} opacity={true} />
+          <TextButton text="Github로 로그인" onClick={handleSignInGithub} />
         )}
       </S.LinkContainer>
     </S.Layout>

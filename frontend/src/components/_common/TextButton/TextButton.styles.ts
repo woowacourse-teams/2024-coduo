@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import { StyleTextButtonProps } from '@/components/_common/TextButton/TextButton.type';
+import { HoverType, StyleTextButtonProps } from '@/components/_common/TextButton/TextButton.type';
 
 import { theme } from '@/styles/theme';
 
@@ -37,8 +37,44 @@ const fontSize = ({ $size }: { $size: string }) => {
   `;
 };
 
+const hoverType = ({ $hoverType }: { $hoverType: HoverType }) => {
+  return css`
+    ${(() => {
+      switch ($hoverType) {
+        case 'DARK':
+          return css`
+            &:hover {
+              filter: brightness(0.8);
+
+              text-decoration: underline;
+            }
+
+            &:active {
+              filter: brightness(0.6);
+
+              text-decoration: underline;
+            }
+          `;
+        case 'LIGHT':
+          return css`
+            &:hover {
+              opacity: 0.7;
+              text-decoration: underline;
+            }
+
+            &:active {
+              opacity: 0.5;
+              text-decoration: underline;
+            }
+          `;
+      }
+    })()}
+  `;
+};
+
 export const Layout = styled.button<StyleTextButtonProps>`
   ${fontSize};
+  ${hoverType}
   justify-content: center;
   align-items: center;
 
@@ -49,16 +85,6 @@ export const Layout = styled.button<StyleTextButtonProps>`
 
   cursor: pointer;
 
-  &:hover {
-    opacity: ${({ $opacity }) => ($opacity ? 0.7 : 1)};
-    text-decoration: underline;
-  }
-
-  &:active {
-    opacity: ${({ $opacity }) => ($opacity ? 0.5 : 1)};
-    text-decoration: underline;
-  }
-
   &:disabled {
     color: ${theme.color.black[500]};
 
@@ -67,11 +93,13 @@ export const Layout = styled.button<StyleTextButtonProps>`
     &:hover {
       opacity: none;
       text-decoration: none;
+      filter: none;
     }
 
     &:active {
       opacity: none;
       text-decoration: none;
+      filter: none;
     }
   }
 

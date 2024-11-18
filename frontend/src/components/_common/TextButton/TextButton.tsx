@@ -11,7 +11,7 @@ const TextButton = ({
   color = theme.color.black[800],
   disabled = false,
   underline = false,
-  opacity = false,
+  hoverType = 'LIGHT',
   ...props
 }: TextButtonProps) => {
   return (
@@ -20,7 +20,7 @@ const TextButton = ({
       $size={size}
       $color={color}
       $underline={underline}
-      $opacity={opacity}
+      $hoverType={hoverType}
       disabled={disabled}
       {...props}
     >

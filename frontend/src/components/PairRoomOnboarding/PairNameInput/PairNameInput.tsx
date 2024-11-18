@@ -94,8 +94,9 @@ const PairNameInput = ({
               text="연동 없이 시작하기"
               onClick={() => setIsInputOpen(true)}
               underline={true}
-              color={theme.color.black[600]}
+              color={theme.color.black[400]}
               size="sm"
+              hoverType="DARK"
             />
           </>
         )}
