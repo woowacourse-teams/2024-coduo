@@ -60,9 +60,19 @@ export const Layout = styled.button<StyleTextButtonProps>`
   }
 
   &:disabled {
-    color: ${theme.color.black[100]};
+    color: ${theme.color.black[500]};
 
     cursor: default;
+
+    &:hover {
+      opacity: none;
+      text-decoration: none;
+    }
+
+    &:active {
+      opacity: none;
+      text-decoration: none;
+    }
   }
 
   ${({ $css }) => $css}
