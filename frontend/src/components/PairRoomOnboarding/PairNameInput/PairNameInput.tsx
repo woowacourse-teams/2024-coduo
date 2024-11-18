@@ -6,6 +6,7 @@ import { LogoIcon } from '@/assets';
 import Button from '@/components/_common/Button/Button';
 import { InputField } from '@/components/_common/InputField';
 import { InputType } from '@/components/_common/InputField/Input.type';
+import TextButton from '@/components/_common/TextButton/TextButton';
 
 import { theme } from '@/styles/theme';
 
@@ -89,7 +90,13 @@ const PairNameInput = ({
               </div>
               <p>페어 정보 연동하기</p>
             </S.AddButton>
-            <S.TextButton onClick={() => setIsInputOpen(true)}>연동 없이 시작하기</S.TextButton>
+            <TextButton
+              text="연동 없이 시작하기"
+              onClick={() => setIsInputOpen(true)}
+              underline={true}
+              color={theme.color.black[600]}
+              size="sm"
+            />
           </>
         )}
       </InputField>
