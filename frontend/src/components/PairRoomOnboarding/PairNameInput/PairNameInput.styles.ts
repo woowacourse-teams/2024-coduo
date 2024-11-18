@@ -26,24 +26,10 @@ export const SubTitle = styled.div`
   font-weight: ${({ theme }) => theme.fontWeight.normal};
 `;
 
-export const InputContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  margin-bottom: 1rem;
-`;
-
 export const InputWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 2rem;
-`;
-
-export const Label = styled.p`
-  color: ${({ theme }) => theme.color.primary[800]};
-  font-size: ${({ theme }) => theme.fontSize.base};
-  font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
 
 export const TextButton = styled.button`

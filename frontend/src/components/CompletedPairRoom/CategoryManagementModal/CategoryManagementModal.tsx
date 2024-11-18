@@ -9,16 +9,16 @@ interface CategoryManagementModalProps {
   closeModal: () => void;
   categories: Category[];
   isCategoryExist: (categoryName: string) => boolean;
-  selectedCategory: string;
-  handleSelectCategory: (categoryId: string) => void;
+  selectedCategoryId: string;
+  handleSelectedCategoryId: (categoryId: string) => void;
 }
 
 const CategoryManagementModal = ({
   isOpen,
   closeModal,
   categories,
-  selectedCategory,
-  handleSelectCategory,
+  selectedCategoryId,
+  handleSelectedCategoryId,
 }: CategoryManagementModalProps) => {
   return (
     <Modal isOpen={isOpen} close={closeModal} size="45rem">
@@ -36,8 +36,8 @@ const CategoryManagementModal = ({
               key={category.id}
               categoryName={category.value}
               categoryId={category.id}
-              isChecked={category.id === selectedCategory}
-              handleSelectCategory={handleSelectCategory}
+              isChecked={category.id === selectedCategoryId}
+              handleSelectedCategoryId={handleSelectedCategoryId}
             />
           ))}
         </S.CategoryList>

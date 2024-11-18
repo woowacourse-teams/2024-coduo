@@ -67,7 +67,6 @@ const Main = () => {
           </ScrollAnimationContainer>
           <ScrollAnimationContainer animationDirection="left" animationDelay={0.4}>
             <Button
-              size="xl"
               width="22rem"
               height="6rem"
               fontSize={theme.fontSize.h6}

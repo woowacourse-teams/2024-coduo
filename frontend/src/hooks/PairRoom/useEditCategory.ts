@@ -1,24 +1,19 @@
 import { useState } from 'react';
 
-import useToastStore from '@/stores/toastStore';
-
 import useInput from '@/hooks/_common/useInput';
-import useCategories from '@/hooks/PairRoom/useCategories';
 
-import { useDeleteCategory, useUpdateCategory } from '@/queries/PairRoom/category/mutation';
+import useCategoriesMutation from '@/queries/PairRoom/useCategoriesMutation';
+import useCategoriesQuery from '@/queries/PairRoom/useCategoriesQuery';
 
 import { validateCategoryName } from '@/validations/validateCategory';
 
 const useEditCategory = (accessCode: string, categoryId: string, categoryName: string) => {
-  const { addToast } = useToastStore();
-
   const [isEditing, setIsEditing] = useState(false);
 
   const { value, handleChange, resetValue, message, status } = useInput(categoryName);
 
-  const { isCategoryExist } = useCategories(accessCode);
-  const updateCategoryMutation = useUpdateCategory();
-  const deleteCategoryMutation = useDeleteCategory();
+  const { isCategoryExist } = useCategoriesQuery(accessCode);
+  const { updateCategoryMutation, deleteCategoryMutation } = useCategoriesMutation();
 
   const startEditing = () => setIsEditing(true);
 
@@ -37,14 +32,12 @@ const useEditCategory = (accessCode: string, categoryId: string, categoryName: s
       return;
     }
 
-    await updateCategoryMutation.mutateAsync({ categoryId, updatedCategoryName: value, accessCode });
-    addToast({ status: 'SUCCESS', message: '카테고리가 수정되었습니다.' });
+    updateCategoryMutation({ categoryId, updatedCategoryName: value, accessCode });
     stopEditing();
   };
 
   const deleteCategoryName = async () => {
-    await deleteCategoryMutation.mutateAsync({ categoryId, accessCode });
-    addToast({ status: 'SUCCESS', message: '카테고리가 삭제되었습니다.' });
+    deleteCategoryMutation({ categoryId, accessCode });
   };
 
   return {

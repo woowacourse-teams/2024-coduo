@@ -3,14 +3,14 @@ import { useParams } from 'react-router-dom';
 import { LuPlus } from 'react-icons/lu';
 
 import Button from '@/components/_common/Button/Button';
-import Input from '@/components/_common/Input/Input';
+import Input from '@/components/_common/InputField/Input/Input';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import Header from '@/components/PairRoom/TodoListCard/Header/Header';
 import TodoList from '@/components/PairRoom/TodoListCard/TodoList/TodoList';
 
 import useInput from '@/hooks/_common/useInput';
 
-import useTodos from '@/queries/PairRoom/useTodos';
+import useTodosMutation from '@/queries/PairRoom/useTodosMutation';
 
 import * as S from './TodoListCard.styles';
 
@@ -23,12 +23,11 @@ const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
   const { accessCode } = useParams();
 
   const { value, handleChange, resetValue } = useInput();
-  const { handleAddTodos } = useTodos(accessCode || '');
+  const { addTodosMutation } = useTodosMutation();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handleAddTodos(value);
-    resetValue();
+    addTodosMutation({ content: value, accessCode: accessCode || '' }, { onSuccess: resetValue });
   };
 
   return (
@@ -40,6 +39,8 @@ const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
           <S.Footer>
             <S.Form onSubmit={handleSubmit}>
               <Input
+                height="4rem"
+                borderRadius="0.6rem"
                 $css={S.inputStyles}
                 value={value}
                 onChange={handleChange}

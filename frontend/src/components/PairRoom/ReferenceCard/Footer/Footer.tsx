@@ -4,13 +4,13 @@ import { LuPlus } from 'react-icons/lu';
 
 import Button from '@/components/_common/Button/Button';
 import { Dropdown } from '@/components/_common/Dropdown';
-import Input from '@/components/_common/Input/Input';
+import Input from '@/components/_common/InputField/Input/Input';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 
 import useInput from '@/hooks/_common/useInput';
-import { DEFAULT_CATEGORY_VALUE, DEFAULT_CATEGORY_ID } from '@/hooks/PairRoom/useCategories';
 
-import { useAddReferenceLink } from '@/queries/PairRoom/reference/mutation';
+import { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/queries/PairRoom/useCategoriesQuery';
+import useReferencesMutation from '@/queries/PairRoom/useReferencesMutation';
 
 import { findValueById } from '@/utils/findOption';
 import { formatLink } from '@/utils/formatLink';
@@ -25,9 +25,9 @@ interface FooterProps {
 const Footer = ({ accessCode, categories }: FooterProps) => {
   const [currentCategoryId, setCurrentCategoryId] = useState<string | null>(null);
 
-  const { value, status, message, handleChange, resetValue } = useInput();
+  const { value, status, handleChange, resetValue } = useInput();
 
-  const { mutateAsync } = useAddReferenceLink();
+  const { addReferenceMutation } = useReferencesMutation();
 
   const handleCurrentCategoryId = (categoryId: string | null) => setCurrentCategoryId(categoryId);
 
@@ -35,10 +35,9 @@ const Footer = ({ accessCode, categories }: FooterProps) => {
     event.preventDefault();
 
     const url = formatLink(value);
-
     const categoryId = currentCategoryId === DEFAULT_CATEGORY_ID ? null : currentCategoryId;
 
-    mutateAsync({ url, accessCode, categoryId }).then(resetValue);
+    addReferenceMutation({ url, accessCode, categoryId }, { onSuccess: resetValue });
   };
 
   return (
@@ -55,11 +54,11 @@ const Footer = ({ accessCode, categories }: FooterProps) => {
       />
       <S.Form onSubmit={handleSubmit}>
         <Input
-          $css={S.inputStyles}
+          height="4rem"
+          borderRadius="0.6rem"
           placeholder="링크를 입력해주세요."
           value={value}
           status={status}
-          message={message}
           onChange={handleChange}
         />
         <Button

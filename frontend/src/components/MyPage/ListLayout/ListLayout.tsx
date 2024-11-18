@@ -4,8 +4,8 @@ import * as S from './ListLayout.styles';
 
 interface ListLayoutProps extends React.PropsWithChildren {
   isFetching: boolean;
-  emptyMessage: string;
   length: number;
+  emptyMessage: string;
 }
 
 const ListLayout = ({ isFetching, length, emptyMessage, children }: ListLayoutProps) => {
