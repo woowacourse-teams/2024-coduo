@@ -2,6 +2,8 @@ import { MdClose } from 'react-icons/md';
 
 import IconButton from '@/components/_common/IconButton/IconButton';
 
+import { theme } from '@/styles/theme';
+
 import * as S from './CloseButton.styles';
 
 interface CloseButtonProps {
@@ -12,11 +14,11 @@ const CloseButton = ({ close }: CloseButtonProps) => {
   return (
     <IconButton
       $css={S.buttonStyles}
-      aria-label="모달 닫기"
-      onClick={close}
-      color="#5F5F5F"
-      size="xl"
       icon={<MdClose />}
+      color={theme.color.black[600]}
+      size="xl"
+      onClick={close}
+      aria-label="모달 닫기"
     />
   );
 };
