@@ -41,9 +41,7 @@ const PairNameInput = ({
         <S.SubTitle>나와 페어의 이름을 입력해 주세요.</S.SubTitle>
       </S.TitleContainer>
       <InputField>
-        <InputField.Label htmlFor="my-name" color={theme.color.primary[800]}>
-          나의 이름은 무엇인가요?
-        </InputField.Label>
+        <InputField.Label htmlFor="my-name">나의 이름은 무엇인가요?</InputField.Label>
         <InputField.Input
           id="my-name"
           placeholder="이름을 입력해 주세요."

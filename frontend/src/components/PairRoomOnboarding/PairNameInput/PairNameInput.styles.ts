@@ -33,14 +33,14 @@ export const InputWrapper = styled.div`
 `;
 
 export const TextButton = styled.button`
-  color: ${({ theme }) => theme.color.black[300]};
+  color: ${({ theme }) => theme.color.black[400]};
   font-size: ${({ theme }) => theme.fontSize.sm};
   text-decoration: underline;
 
   transition: all 0.2s;
 
   &:hover {
-    color: ${({ theme }) => theme.color.black[400]};
+    color: ${({ theme }) => theme.color.black[500]};
   }
 `;
 

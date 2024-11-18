@@ -67,4 +67,16 @@ export const Input = styled.input`
 export const ResetButton = styled.button`
   display: flex;
   align-items: center;
+
+  cursor: pointer;
+
+  svg {
+    color: ${({ theme }) => theme.color.black[300]};
+
+    transition: 0.2s all ease;
+
+    &:hover {
+      color: ${({ theme }) => theme.color.black[400]};
+    }
+  }
 `;

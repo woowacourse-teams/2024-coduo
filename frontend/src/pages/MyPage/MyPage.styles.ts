@@ -75,7 +75,7 @@ export const LeaveButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    color: ${({ theme }) => theme.color.black[700]};
+    color: ${({ theme }) => theme.color.black[500]};
     font-size: ${({ theme }) => theme.fontSize.md};
   }
 `;

@@ -42,7 +42,7 @@ const Input = ({
       <S.Input value={value} {...props} />
       {onReset && (
         <S.ResetButton onClick={onReset}>
-          <MdClose size="1.6rem" color="#CCC" />
+          <MdClose size="1.6rem" />
         </S.ResetButton>
       )}
     </S.InputContainer>
