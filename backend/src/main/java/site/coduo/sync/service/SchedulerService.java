@@ -32,6 +32,7 @@ public class SchedulerService {
         if (schedulerRegistry.isActive(key)) {
             return;
         }
+        // TODO : WS로 전환
         sseService.broadcast(key, "timer", "start");
         if (isInitial(key)) {
             final Timer timer = timerRepository.fetchTimerByAccessCode(key)
@@ -59,11 +60,13 @@ public class SchedulerService {
             stop(key, timer);
             return;
         }
+        // TODO : WS로 전환
         if (sseService.hasNoConnections(key) && schedulerRegistry.has(key)) {
             pause(key);
             return;
         }
         timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
+        // TODO : WS로 전환
         sseService.broadcast(key, "remaining-time", String.valueOf(timer.getRemainingTime()));
     }
 
@@ -75,6 +78,7 @@ public class SchedulerService {
     }
 
     private void stop(final String key, final Timer timer) {
+        // TODO : WS로 전환
         sseService.broadcast(key, "timer", "stop");
         schedulerRegistry.release(key);
         final Timer initalTimer = new Timer(timer.getAccessCode(), timer.getDuration(), timer.getDuration());
