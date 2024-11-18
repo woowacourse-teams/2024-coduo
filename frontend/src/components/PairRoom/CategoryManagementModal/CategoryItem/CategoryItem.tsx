@@ -1,3 +1,5 @@
+import { LuArrowLeft, LuPencil, LuTrash2 } from 'react-icons/lu';
+
 import { CheckBoxChecked, CheckBoxUnchecked } from '@/assets';
 
 import IconButton from '@/components/_common/IconButton/IconButton';
@@ -7,6 +9,8 @@ import useToastStore from '@/stores/toastStore';
 
 import { DEFAULT_CATEGORY_ID } from '@/hooks/PairRoom/useCategories';
 import useEditCategory from '@/hooks/PairRoom/useEditCategory';
+
+import { theme } from '@/styles/theme';
 
 import * as S from './CategoryItem.styles';
 
@@ -68,11 +72,11 @@ const CategoryItem = ({
             status={newCategoryName.status}
             message={newCategoryName.message}
             onChange={(event) => handleCategoryName(event, categoryName)}
-            $messageCss={S.CustomInputMessage}
+            $messageCss={S.customInputMessage}
           />
           <S.IconContainer>
-            <IconButton icon={<S.CheckIcon />} type="submit" size="md" />
-            <IconButton icon={<S.CancelIcon />} onClick={stopEditing} size="md" />
+            <IconButton icon={<LuPencil />} color={theme.color.primary[800]} type="submit" size="md" />
+            <IconButton icon={<LuArrowLeft />} color={theme.color.primary[800]} onClick={stopEditing} size="md" />
           </S.IconContainer>
         </S.Layout>
       </form>
@@ -89,8 +93,8 @@ const CategoryItem = ({
       </S.Container>
       {categoryId !== DEFAULT_CATEGORY_ID && (
         <S.IconContainer>
-          <IconButton onClick={startEditing} icon={<S.EditIcon />} size="md" />
-          <IconButton onClick={handleDeleteCategory} icon={<S.DeleteIcon />} size="md" />
+          <IconButton onClick={startEditing} icon={<LuPencil />} color={theme.color.primary[800]} size="md" />
+          <IconButton onClick={handleDeleteCategory} icon={<LuTrash2 />} color={theme.color.danger[500]} size="md" />
         </S.IconContainer>
       )}
     </S.Layout>
