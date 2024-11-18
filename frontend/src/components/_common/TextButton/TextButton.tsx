@@ -1,5 +1,7 @@
 import { TextButtonProps } from '@/components/_common/TextButton/TextButton.type';
 
+import { theme } from '@/styles/theme';
+
 import * as S from './TextButton.styles';
 
 const TextButton = ({
@@ -7,7 +9,7 @@ const TextButton = ({
   size = 'base',
   $css,
   onClick,
-  color = '#000000',
+  color = theme.color.black[800],
   disabled = false,
   underline = false,
   opacity = false,
