@@ -81,7 +81,7 @@ export const Layout = styled.button<StyleTextButtonProps>`
   color: ${({ $color }) => $color};
   text-decoration: ${({ $underline }) => ($underline ? 'underline' : 'none')};
 
-  transition: all 0.1s;
+  transition: 0.2s;
 
   cursor: pointer;
 
