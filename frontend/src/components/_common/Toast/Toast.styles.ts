@@ -38,13 +38,13 @@ const backgroundMapper: Record<Status, RuleSet<object>> = {
     background-color: ${({ theme }) => theme.color.success[600]};
   `,
   INFO: css`
-    background-color: ${({ theme }) => theme.color.info[600]};
+    background-color: ${({ theme }) => theme.color.info[400]};
   `,
   WARNING: css`
-    background-color: ${({ theme }) => theme.color.warning[600]};
+    background-color: ${({ theme }) => theme.color.warning[500]};
   `,
   ERROR: css`
-    background-color: ${({ theme }) => theme.color.danger[600]};
+    background-color: ${({ theme }) => theme.color.danger[500]};
   `,
 };
 
