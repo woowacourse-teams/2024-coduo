@@ -27,10 +27,7 @@ class QueryAccessCodeParserTest {
     @DisplayName("인코딩된 query에서 accesscode를 추출한다.")
     @Test
     void parseEncodedAccessCode() {
-        // given
         final String encode = URLEncoder.encode("abcde-");
-
-        // when & then
         final String accessCode = QueryAccessCodeParser.parse("user=john&accesscode=" + encode);
         assertThat(accessCode).isEqualTo("abcde-");
     }
