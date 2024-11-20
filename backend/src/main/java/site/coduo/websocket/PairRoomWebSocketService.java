@@ -12,11 +12,11 @@ import lombok.RequiredArgsConstructor;
 public class PairRoomWebSocketService {
 
     private final PairRoomWebSocketSessionStore pairRoomWebSocketSessionStore;
-    private final WebSocketSender webSocketSender;
+    private final WebSocketSender prodWebSocketSender;
 
     public void sendAllPairRoomSessions(final String pairRoomAccessCode, final WebSocketMessage message) {
         final Set<WebSocketSession> sessions = pairRoomWebSocketSessionStore.getSessions(pairRoomAccessCode);
-        webSocketSender.sendMessage(sessions, message);
+        prodWebSocketSender.sendMessage(sessions, message);
     }
 
     public boolean hasNoConnections(final String pairRoomAccessCode) {
