@@ -82,7 +82,7 @@ export const ItemList = styled.ul<{ $direction: Direction; $gap: string }>`
   box-shadow:
     0 0 1px grey,
     1px 1px 2px lightgrey;
-  color: ${theme.color.black[400]};
+  color: ${theme.color.black[500]};
 
   button {
     display: flex;
