@@ -29,7 +29,6 @@ public class SchedulerService {
     private final SchedulerRegistry schedulerRegistry;
     private final TimestampRegistry timestampRegistry;
     private final TimerRepository timerRepository;
-    private final SseService sseService;
 
     public void start(final String key) {
         if (schedulerRegistry.isActive(key)) {
@@ -67,7 +66,8 @@ public class SchedulerService {
             return;
         }
         timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
-        pairRoomWebSocketService.sendAllPairRoomSessions(key, new EventAndDataMessage("remaining-time", String.valueOf(timer.getRemainingTime())));
+        pairRoomWebSocketService.sendAllPairRoomSessions(key,
+                new EventAndDataMessage("remaining-time", String.valueOf(timer.getRemainingTime())));
     }
 
     public void pause(final String key) {
