@@ -2,7 +2,7 @@ package site.coduo.websocket.exception;
 
 public class EmptyQueryException extends WebSocketException {
 
-    public EmptyQueryException(String message) {
+    public EmptyQueryException(final String message) {
         super(message);
     }
 }

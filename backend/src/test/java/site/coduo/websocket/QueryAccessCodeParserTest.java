@@ -44,7 +44,7 @@ class QueryAccessCodeParserTest {
     @DisplayName("accesscode가 비어있으면 예외가 발생한다.")
     @Test
     void throwExceptionWhenAccessCodeIsEmpty() {
-        String query = "user=ink&accesscode=";
+        final String query = "user=ink&accesscode=";
         assertThatThrownBy(() -> QueryAccessCodeParser.parse(query))
                 .isExactlyInstanceOf(NotFoundAccessCodeInQueryException.class)
                 .hasMessageContaining("쿼리에 액세스코드가 존재하지 않습니다.");
