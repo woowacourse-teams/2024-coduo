@@ -21,7 +21,6 @@ const IconButton = ({
   color = '#000000',
   backgroundColor = '#FFFFFF',
   disabled = false,
-  onClick,
   ...props
 }: IconButtonProps) => {
   return (
