@@ -32,18 +32,6 @@ export const InputWrapper = styled.div`
   gap: 2rem;
 `;
 
-export const TextButton = styled.button`
-  color: ${({ theme }) => theme.color.black[400]};
-  font-size: ${({ theme }) => theme.fontSize.sm};
-  text-decoration: underline;
-
-  transition: all 0.2s;
-
-  &:hover {
-    color: ${({ theme }) => theme.color.black[500]};
-  }
-`;
-
 export const AddButton = styled.button`
   display: flex;
   align-items: center;
