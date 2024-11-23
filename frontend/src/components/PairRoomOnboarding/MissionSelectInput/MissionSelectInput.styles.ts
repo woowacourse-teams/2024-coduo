@@ -64,7 +64,7 @@ export const MissionRepository = styled.div`
   border-radius: 1rem;
 
   background-color: ${({ theme }) => theme.color.black[800]};
-  color: ${({ theme }) => theme.color.black[100]};
+  color: ${({ theme }) => theme.color.black[0]};
 `;
 
 export const MissionBranch = styled.input`
@@ -78,7 +78,7 @@ export const MissionBranch = styled.input`
   border: 2px solid ${({ theme }) => theme.color.black[700]};
   border-radius: 1rem;
 
-  background-color: ${({ theme }) => theme.color.black[100]};
+  background-color: ${({ theme }) => theme.color.black[0]};
   color: ${({ theme }) => theme.color.black[700]};
 `;
 

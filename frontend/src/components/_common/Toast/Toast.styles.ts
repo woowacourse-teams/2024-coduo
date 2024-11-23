@@ -35,10 +35,10 @@ const pushDown = keyframes`
 
 const backgroundMapper: Record<Status, RuleSet<object>> = {
   SUCCESS: css`
-    background-color: ${({ theme }) => theme.color.success[500]};
+    background-color: ${({ theme }) => theme.color.success[600]};
   `,
   INFO: css`
-    background-color: ${({ theme }) => theme.color.info[500]};
+    background-color: ${({ theme }) => theme.color.info[400]};
   `,
   WARNING: css`
     background-color: ${({ theme }) => theme.color.warning[500]};
@@ -58,7 +58,7 @@ export const Layout = styled.div<{ $isOpen: boolean; $isPush: boolean; $status: 
   padding: 1.2rem 1.8rem;
   border-radius: 1.5rem;
 
-  color: ${({ theme }) => theme.color.black[100]};
+  color: ${({ theme }) => theme.color.black[0]};
   font-size: ${({ theme }) => theme.fontSize.md};
   line-height: 1.5;
 

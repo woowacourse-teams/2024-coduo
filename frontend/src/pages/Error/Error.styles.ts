@@ -9,7 +9,7 @@ export const Layout = styled.div`
   height: calc(100vh - 7rem);
   padding: 15rem;
 
-  background-color: ${({ theme }) => theme.color.primary[100]};
+  background-color: ${({ theme }) => theme.color.primary[50]};
 `;
 
 export const TitleContainer = styled.div`

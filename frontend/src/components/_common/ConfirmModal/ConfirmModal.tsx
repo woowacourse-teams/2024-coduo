@@ -30,10 +30,10 @@ const ConfirmModal = ({
         {subTitle}
       </S.Container>
       <Modal.Footer position="CENTER">
-        <Button fontSize="1.4rem" color="black" onClick={close}>
+        <Button size="lg" fontSize="1.4rem" color="black" onClick={close}>
           취소
         </Button>
-        <Button fontSize="1.4rem" onClick={onConfirm}>
+        <Button size="lg" fontSize="1.4rem" onClick={onConfirm}>
           {confirmText}
         </Button>
       </Modal.Footer>

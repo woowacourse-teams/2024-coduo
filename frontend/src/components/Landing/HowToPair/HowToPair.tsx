@@ -22,13 +22,12 @@ const HowToPair = () => {
               작업하며 소프트웨어 코드를 작성하는 협업 방식입니다.
             </S.Paragraph>
             <S.Paragraph>
-              페어 프로그래밍에서는 두 사람이 각각 <S.Highlighted>&apos;드라이버&apos;(Driver)</S.Highlighted> 와
-              <S.Highlighted> &apos;내비게이터&apos;(Navigator)</S.Highlighted> 역할을 번갈아 가며 수행합니다:
+              페어 프로그래밍에서는 두 사람이 각각 <S.Highlighted>&apos;드라이버(Driver)&apos;</S.Highlighted> 와
+              <S.Highlighted> &apos;내비게이터(Navigator)&apos;</S.Highlighted> 역할을 번갈아 가며 수행합니다:
             </S.Paragraph>
           </S.SectionText>
         </S.Section>
       </ScrollAnimationContainer>
-
       <ScrollAnimationContainer
         animationDirection="left"
         animationDuration={0.7}
@@ -38,24 +37,22 @@ const HowToPair = () => {
       >
         <S.TextBoxContainer>
           <S.TextBox>
-            <S.Paragraph>
-              <S.Strong>드라이버</S.Strong>
-              <br /> 실제로 코드를 작성하는 사람으로, <br />
-              내비게이터의 설계에 따라
-              <br /> 코드를 타이핑합니다.
-            </S.Paragraph>
+            <S.Strong>드라이버</S.Strong>
+            실제로 코드를 작성하는 사람으로,
+            <br />
+            내비게이터의 설계에 따라
+            <br /> 코드를 타이핑합니다.
           </S.TextBox>
           <S.TextBox>
-            <S.Paragraph>
-              <S.Strong>내비게이터</S.Strong>
-              <br /> 작성된 코드를 실시간으로 검토하고 <br />
-              개선할 부분을 제안하며, <br />
-              코드의 전반적인 구조를 설계합니다.
-            </S.Paragraph>
+            <S.Strong>내비게이터</S.Strong>
+            작성된 코드를 실시간으로 검토하고
+            <br />
+            개선할 부분을 제안하며,
+            <br />
+            코드의 전반적인 구조를 설계합니다.
           </S.TextBox>
         </S.TextBoxContainer>
       </ScrollAnimationContainer>
-
       <ScrollAnimationContainer
         animationDirection="right"
         animationDuration={0.7}
@@ -77,7 +74,6 @@ const HowToPair = () => {
           </S.SectionText>
         </S.Section>
       </ScrollAnimationContainer>
-
       <ScrollAnimationContainer
         animationDirection="left"
         animationDuration={0.7}
@@ -97,7 +93,6 @@ const HowToPair = () => {
           <S.Character alt="" src={Driver} />
         </S.Section>
       </ScrollAnimationContainer>
-
       <ScrollAnimationContainer
         animationDirection="top"
         animationDuration={0.7}

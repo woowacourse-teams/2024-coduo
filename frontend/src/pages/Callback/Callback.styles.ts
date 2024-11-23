@@ -3,24 +3,20 @@ import styled from 'styled-components';
 export const Layout = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 6rem;
+  gap: 2rem;
 
   height: calc(100vh - 7rem);
-  padding: 15rem 5rem;
+  padding: 20px;
 
-  background-color: ${({ theme }) => theme.color.black[200]};
-`;
-
-export const LogoIcon = styled.img`
-  width: 30rem;
-  max-width: 40rem;
+  background-color: ${({ theme }) => theme.color.black[50]};
 `;
 
 export const Title = styled.h1`
+  margin-bottom: 2rem;
+
   color: ${({ theme }) => theme.color.primary[900]};
   font-size: ${({ theme }) => theme.fontSize.h5};
-  font-weight: ${({ theme }) => theme.fontWeight.medium};
-  line-height: 1.5;
-  text-align: center;
+  font-weight: ${({ theme }) => theme.fontWeight.light};
 `;

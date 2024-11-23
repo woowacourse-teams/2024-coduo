@@ -1,6 +1,6 @@
 import { css } from 'styled-components';
 
-import { InputStatus } from '@/components/_common/InputField/Input.type';
+import { InputStatus } from '@/components/_common/InputField/InputField.type';
 
 import { theme } from '@/styles/theme';
 

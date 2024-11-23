@@ -15,9 +15,9 @@ interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
 }
 
 const IconButton = ({
+  $css,
   icon,
   size = 'md',
-  $css,
   color = '#000000',
   backgroundColor = '#FFFFFF',
   disabled = false,

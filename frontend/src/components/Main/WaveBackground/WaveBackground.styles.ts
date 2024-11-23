@@ -37,13 +37,13 @@ const WaveBase = styled.div`
 `;
 
 export const Wave = styled(WaveBase)`
-  background: ${({ theme }) => theme.color.primary[300]};
+  background: ${({ theme }) => theme.color.primary[200]};
 
   animation: ${drift} 40s infinite linear;
 `;
 
 export const WaveTwo = styled(WaveBase)`
-  background: ${({ theme }) => theme.color.primary[200]};
+  background: ${({ theme }) => theme.color.primary[100]};
 
   animation: ${drift} 13s infinite linear;
 `;

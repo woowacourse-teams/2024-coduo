@@ -5,7 +5,7 @@ import { LogoIcon } from '@/assets';
 
 import Button from '@/components/_common/Button/Button';
 import { InputField } from '@/components/_common/InputField';
-import { InputType } from '@/components/_common/InputField/Input.type';
+import { InputType } from '@/components/_common/InputField/InputField.type';
 import TextButton from '@/components/_common/TextButton/TextButton';
 
 import { theme } from '@/styles/theme';
@@ -41,21 +41,17 @@ const PairNameInput = ({
         <S.Title>이름 입력</S.Title>
         <S.SubTitle>나와 페어의 이름을 입력해 주세요.</S.SubTitle>
       </S.TitleContainer>
-
       <InputField>
-        <InputField.Label htmlFor="my-name" color={theme.color.primary[800]}>
-          나의 이름은 무엇인가요?
-        </InputField.Label>
+        <InputField.Label htmlFor="my-name">나의 이름은 무엇인가요?</InputField.Label>
         <InputField.Input
           id="my-name"
-          placeholder="이름을 입력해주세요"
+          placeholder="이름을 입력해 주세요."
           value={userPairName.value}
           status={userPairName.status}
           onChange={onUserPairName}
         />
         <InputField.Message status={userPairName.status}>{userPairName.message}</InputField.Message>
       </InputField>
-
       <InputField>
         <InputField.Label htmlFor="pair-name">함께할 페어의 이름은 무엇인가요?</InputField.Label>
         {isInputOpen ? (
@@ -64,23 +60,26 @@ const PairNameInput = ({
               <InputField.Input
                 id="pair-name"
                 autoFocus
-                placeholder="이름을 입력해주세요"
+                placeholder="이름을 입력해 주세요."
                 value={pairName.value}
                 status={pairName.status}
                 onChange={onPairName}
               />
               {!pairId && (
-                <Button width="8rem" color="black" fontSize={theme.fontSize.md} onClick={() => setIsInputOpen(false)}>
+                <Button
+                  color="primary"
+                  borderRadius="1rem"
+                  fontSize={theme.fontSize.md}
+                  onClick={() => setIsInputOpen(false)}
+                >
                   취소
                 </Button>
               )}
             </InputField.Content>
-
             <InputField.Message status={pairName.status}>{pairName.message}</InputField.Message>
           </>
         ) : (
           <>
-            {/* TODO: 아이콘버튼 */}
             <S.AddButton
               aria-label="페어 정보 연동하기 버튼, 클릭하시면 페어 정보 연동 모달이 열립니다."
               onClick={openAddPairModal}

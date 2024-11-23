@@ -47,10 +47,10 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
         </InputField>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={closeModal} filled={false}>
+        <Button size="lg" onClick={closeModal} filled={false}>
           닫기
         </Button>
-        <Button disabled={!value} onClick={enterPairRoom}>
+        <Button size="lg" disabled={!value} onClick={enterPairRoom}>
           완료
         </Button>
       </Modal.Footer>

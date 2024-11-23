@@ -25,9 +25,9 @@ const commonTextStyles = css`
 const inProgressText = css`
   background: linear-gradient(
     90deg,
-    ${({ theme }) => theme.color.black[600]},
+    ${({ theme }) => theme.color.black[400]},
     ${({ theme }) => theme.color.black[700]},
-    ${({ theme }) => theme.color.black[600]}
+    ${({ theme }) => theme.color.black[400]}
   );
 
   animation: ${flow} 4s linear infinite;
@@ -98,7 +98,7 @@ export const ConnectText = styled.div`
 
   width: 11%;
 
-  color: ${({ theme }) => theme.color.black[100]};
+  color: ${({ theme }) => theme.color.black[0]};
 
   transition: color 0.7s ease;
 `;
@@ -143,7 +143,7 @@ export const PairRoomButton = styled.button<{ $status: PairRoomStatus; $color: '
         : `linear-gradient(
       90deg,
       ${theme.color.black[300]} 0 75%,
-      ${theme.color.black[600]} 75% 100%
+      ${theme.color.black[400]} 75% 100%
     )`};
     background-size: 400% 100%;
 
@@ -169,10 +169,10 @@ export const PairRoomButton = styled.button<{ $status: PairRoomStatus; $color: '
       `}
   }
   &:hover ${RoleText} {
-    color: ${({ theme }) => theme.color.black[200]};
+    color: ${({ theme }) => theme.color.black[50]};
 
     span {
-      color: ${({ theme }) => theme.color.black[100]};
+      color: ${({ theme }) => theme.color.black[0]};
     }
   }
 
@@ -182,7 +182,7 @@ export const PairRoomButton = styled.button<{ $status: PairRoomStatus; $color: '
 `;
 
 export const DeleteButton = styled(FaTrashAlt)`
-  color: ${({ theme }) => theme.color.black[600]};
+  color: ${({ theme }) => theme.color.black[400]};
   font-size: 1.6rem;
 
   transition: color 0.3s ease;

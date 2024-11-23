@@ -24,6 +24,6 @@ export const CountText = styled.p`
 `;
 
 export const EmptyText = styled.p`
-  color: ${({ theme }) => theme.color.black[600]};
+  color: ${({ theme }) => theme.color.black[400]};
   font-size: ${({ theme }) => theme.fontSize.md};
 `;

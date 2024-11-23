@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { InputStatus } from '@/components/_common/InputField/Input.type';
+import { InputStatus } from '@/components/_common/InputField/InputField.type';
 import Message from '@/components/_common/InputField/Message/Message';
 
 const meta = {

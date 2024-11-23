@@ -1,7 +1,7 @@
 import { describe, it, expect } from '@jest/globals';
 import { renderHook, act } from '@testing-library/react';
 
-import type { InputStatus } from '@/components/_common/InputField/Input.type';
+import type { InputStatus } from '@/components/_common/InputField/InputField.type';
 
 import useInput from '@/hooks/_common/useInput';
 

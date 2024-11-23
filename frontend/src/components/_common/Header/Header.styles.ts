@@ -16,11 +16,31 @@ export const Layout = styled.div`
   height: 7rem;
   padding: 0 5rem;
 
-  background-color: ${({ theme }) => theme.color.black[100]};
+  background-color: ${({ theme }) => theme.color.black[0]};
   color: ${({ theme }) => theme.color.black[800]};
   font-size: ${({ theme }) => theme.fontSize.base};
 
-  border-bottom: 0.1rem solid ${({ theme }) => theme.color.black[300]};
+  border-bottom: 0.1rem solid ${({ theme }) => theme.color.black[50]};
+
+  a,
+  button {
+    justify-content: center;
+    align-items: center;
+
+    transition: all 0.2s;
+
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.7;
+      text-decoration: underline;
+    }
+
+    &:active {
+      opacity: 0.5;
+      text-decoration: underline;
+    }
+  }
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     padding: 0 8vw;

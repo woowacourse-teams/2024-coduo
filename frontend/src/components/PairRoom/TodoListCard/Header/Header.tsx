@@ -18,14 +18,14 @@ const Header = ({ isOpen, toggleIsOpen }: React.PropsWithChildren<HeaderProps>) 
       onClick={toggleIsOpen}
     >
       {isOpen ? (
-        <IoIosCheckbox size={theme.fontSize.h6} color={theme.color.primary[700]} role="presentation" />
+        <IoIosCheckbox size={theme.fontSize.h6} color={theme.color.primary[600]} role="presentation" />
       ) : (
-        <IoIosArrowDown size={theme.fontSize.h6} color={theme.color.primary[700]} role="presentation" />
+        <IoIosArrowDown size={theme.fontSize.h6} color={theme.color.primary[600]} role="presentation" />
       )}
       <p>투두 리스트</p>
       <ToolTipQuestionBox
         message="페어 프로그래밍을 위해 필요한 할 일 목록을 작성해 보세요. 할 일을 더욱 효율적으로 관리할 수 있습니다."
-        color={theme.color.black[500]}
+        color={theme.color.black[300]}
         boxDirection="right"
       />
     </S.Layout>

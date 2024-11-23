@@ -1,4 +1,4 @@
-import type { InputStatus } from '@/components/_common/InputField/Input.type';
+import type { InputStatus } from '@/components/_common/InputField/InputField.type';
 
 export const validateBranchName = (name: string, branches: string[]) => {
   if (name.trim() === '') return { status: 'ERROR' as InputStatus, message: '값을 입력해 주세요.' };

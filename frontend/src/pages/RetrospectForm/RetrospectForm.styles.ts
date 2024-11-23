@@ -5,6 +5,8 @@ export const ButtonContainer = styled.div`
   bottom: 0;
   left: 50%;
 
+  width: 60%;
+
   transform: translate(-50%);
 `;
 
@@ -15,7 +17,7 @@ export const Layout = styled.div`
   width: 100%;
   min-height: calc(100vh - 7rem);
 
-  background-color: ${({ theme }) => theme.color.primary[100]};
+  background-color: ${({ theme }) => theme.color.primary[50]};
 `;
 
 export const Container = styled.div`
@@ -29,7 +31,7 @@ export const Container = styled.div`
   min-width: 76.8rem;
   padding: 4rem 4rem 12rem;
 
-  background-color: ${({ theme }) => theme.color.black[100]};
+  background-color: ${({ theme }) => theme.color.black[0]};
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     width: 100%;

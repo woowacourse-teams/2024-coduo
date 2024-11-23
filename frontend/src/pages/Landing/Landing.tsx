@@ -16,7 +16,10 @@ import usePreventBackNavigation from '@/hooks/_common/customEvent/usePreventBack
 import useSignInHandler from '@/hooks/_common/member/useSignInHandler';
 import useTitleTime from '@/hooks/PairRoom/useTitleTime';
 
-import { theme } from '@/styles/theme';
+const targetSections: TargetSection[] = [
+  { id: 'landing', position: 'top' },
+  { id: 'how-to-pair', position: 'bottom' },
+];
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -31,11 +34,6 @@ const Landing = () => {
   useTitleTime();
   usePreventBackNavigation();
 
-  const targetSections: TargetSection[] = [
-    { id: 'landing', position: 'top' },
-    { id: 'how-to-pair', position: 'bottom' },
-  ];
-
   return (
     <>
       <S.Layout id="landing">
@@ -47,27 +45,13 @@ const Landing = () => {
         </ScrollAnimationContainer>
         <S.ButtonContainer>
           <ScrollAnimationContainer animationDirection="top" animationDelay={2}>
-            <Button
-              width="26rem"
-              height="6rem"
-              fontSize={theme.fontSize.h6}
-              color="#000000"
-              rounded={true}
-              onClick={handleSignInGithub}
-            >
-              <img src={GithubLogoWhite} alt="" style={{ width: '3rem', height: '3rem', marginRight: '2rem' }} />
+            <Button size="xl" width="26rem" color="#000000" onClick={handleSignInGithub}>
+              <S.GithubLogo src={GithubLogoWhite} alt="" />
               Github로 로그인
             </Button>
           </ScrollAnimationContainer>
           <ScrollAnimationContainer animationDirection="top" animationDelay={2.1}>
-            <Button
-              width="26rem"
-              height="6rem"
-              fontSize={theme.fontSize.h6}
-              color="primary"
-              rounded={true}
-              onClick={() => navigate('/main')}
-            >
+            <Button size="xl" width="26rem" color="primary" onClick={() => navigate('/main')}>
               회원가입 없이 사용하기
             </Button>
           </ScrollAnimationContainer>

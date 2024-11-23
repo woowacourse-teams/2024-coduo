@@ -68,7 +68,7 @@ const CategoryItem = ({
         <S.Layout>
           <Input
             height="4.4rem"
-            placeholder="수정할 카테고리 이름을 입력해주세요."
+            placeholder="수정할 카테고리 이름을 입력해 주세요."
             value={newCategoryName.value}
             status={newCategoryName.status}
             onChange={(event) => handleCategoryName(event, categoryName)}

@@ -9,7 +9,7 @@ export const Layout = styled.div`
   top: 15rem;
   left: 4%;
 
-  background-color: ${({ theme }) => theme.color.black[100]};
+  background-color: ${({ theme }) => theme.color.black[0]};
 
   @media (width <= 1400px) {
     gap: 1.8rem;

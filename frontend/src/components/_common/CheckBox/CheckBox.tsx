@@ -14,7 +14,7 @@ const CheckBox = ({ isChecked, onClick }: CheckBoxProps) => {
     <S.Layout onClick={onClick}>
       <S.Input type="checkbox" checked={isChecked} readOnly />
       <S.CheckMark $isChecked={isChecked}>
-        {isChecked && <MdCheck size="1.8rem" color={theme.color.black[100]} />}
+        {isChecked && <MdCheck size="1.8rem" color={theme.color.black[0]} />}
       </S.CheckMark>
     </S.Layout>
   );

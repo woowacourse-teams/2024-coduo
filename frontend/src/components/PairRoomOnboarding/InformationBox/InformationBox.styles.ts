@@ -8,7 +8,7 @@ export const Layout = styled.div`
   padding: 2rem;
   border-radius: 1rem;
 
-  background-color: ${({ theme }) => theme.color.primary[100]};
+  background-color: ${({ theme }) => theme.color.primary[50]};
 `;
 
 export const Title = styled.p`
@@ -22,7 +22,7 @@ export const Title = styled.p`
 `;
 
 export const Description = styled.p`
-  color: ${({ theme }) => theme.color.black[700]};
+  color: ${({ theme }) => theme.color.black[500]};
   font-size: ${({ theme }) => theme.fontSize.md};
   font-weight: ${({ theme }) => theme.fontWeight.normal};
   line-height: 1.6;

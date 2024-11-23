@@ -20,7 +20,7 @@ export const Default: Story = {
   render: () => (
     <InputField>
       <InputField.Label>이메일</InputField.Label>
-      <InputField.Input placeholder="이메일을 입력해주세요" status="ERROR" />
+      <InputField.Input placeholder="이메일을 입력해 주세요." status="ERROR" />
       <InputField.Message status="ERROR">이메일 형식이 올바르지 않습니다.</InputField.Message>
     </InputField>
   ),
@@ -31,10 +31,10 @@ export const WithContent: Story = {
     <InputField>
       <InputField.Label>이메일</InputField.Label>
       <InputField.Content>
-        <InputField.Input placeholder="이메일을 입력해주세요" />
+        <InputField.Input placeholder="이메일을 입력해 주세요." />
         <Button>인증하기</Button>
       </InputField.Content>
-      <InputField.Message>인증번호가 발송되었습니다.</InputField.Message>
+      <InputField.Message>인증 번호가 발송되었습니다.</InputField.Message>
     </InputField>
   ),
 };

@@ -17,8 +17,8 @@ export const Layout = styled.button<{ disabled: boolean }>`
   margin-top: auto;
   border-radius: 0 0 2rem 2rem;
 
-  background-color: ${({ theme, disabled }) => (disabled ? theme.color.black[200] : theme.color.danger[200])};
-  color: ${({ theme, disabled }) => (disabled ? theme.color.black[600] : theme.color.danger[600])};
+  background-color: ${({ theme, disabled }) => (disabled ? theme.color.black[100] : theme.color.danger[200])};
+  color: ${({ theme, disabled }) => (disabled ? theme.color.black[400] : theme.color.danger[600])};
   font-size: ${({ theme }) => theme.fontSize.base};
   text-overflow: ellipsis;
   white-space: nowrap;

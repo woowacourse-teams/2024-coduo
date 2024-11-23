@@ -5,11 +5,12 @@ export const Layout = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 2rem;
 
   height: calc(100vh - 7rem);
   padding: 20px;
 
-  background-color: ${({ theme }) => theme.color.black[200]};
+  background-color: ${({ theme }) => theme.color.black[50]};
 `;
 
 export const Title = styled.h1`

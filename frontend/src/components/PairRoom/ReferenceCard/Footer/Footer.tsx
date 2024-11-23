@@ -67,7 +67,6 @@ const Footer = ({ accessCode, categories }: FooterProps) => {
           borderRadius="0.6rem"
           type="submit"
           aria-label="링크 추가하기 버튼"
-          size="sm"
           rounded={true}
           disabled={value.trim() === '' || status !== 'DEFAULT'}
         >

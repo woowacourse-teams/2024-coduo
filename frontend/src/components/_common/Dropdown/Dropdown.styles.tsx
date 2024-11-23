@@ -12,7 +12,7 @@ export const Layout = styled.div<{ $width: string }>`
   width: ${({ $width }) => $width};
   height: fit-content;
 
-  background-color: ${theme.color.black[100]};
+  background-color: ${theme.color.black[0]};
 `;
 
 export const Container = styled.div<{ $direction: Direction; $height: string; $color: string; $fontSize: string }>`
@@ -25,18 +25,18 @@ export const Container = styled.div<{ $direction: Direction; $height: string; $c
     padding: 1.5rem;
     border-radius: 1rem;
 
-    background-color: ${theme.color.black[100]};
+    background-color: ${theme.color.black[0]};
     font-size: ${({ $fontSize }) => $fontSize};
 
     transition: all 0.2s;
 
     &:hover {
-      background-color: ${theme.color.black[200]};
+      background-color: ${theme.color.black[100]};
       color: ${({ $color }) => $color};
     }
 
     &:active {
-      background-color: ${theme.color.black[300]};
+      background-color: ${theme.color.black[50]};
       color: ${({ $color }) => $color};
     }
   }
@@ -49,7 +49,7 @@ export const OpenButton = styled.button<{ $isOpen: boolean; $isSelected: boolean
 
   border: 1px solid ${({ $isOpen, $isSelected, $color }) => ($isSelected || $isOpen) && $color};
 
-  color: ${({ $isSelected, $color }) => ($isSelected ? $color : theme.color.black[500])};
+  color: ${({ $isSelected, $color }) => ($isSelected ? $color : theme.color.black[300])};
 
   svg {
     transform: rotate(${({ $isOpen }) => ($isOpen ? '180' : '0')}deg);

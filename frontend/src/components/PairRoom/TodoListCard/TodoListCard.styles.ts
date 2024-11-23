@@ -18,7 +18,7 @@ export const Body = styled.div<{ $isOpen: boolean }>`
 
   transition: height 0.3s;
 
-  border-top: ${({ $isOpen, theme }) => $isOpen && `1px solid ${theme.color.black[300]}`};
+  border-top: ${({ $isOpen, theme }) => $isOpen && `1px solid ${theme.color.black[100]}`};
 `;
 
 export const Footer = styled.div`
@@ -30,8 +30,8 @@ export const Footer = styled.div`
   min-height: 6rem;
   border-radius: 0 0 1.5rem 1.5rem;
 
-  background-color: ${({ theme }) => theme.color.black[100]};
-  border-top: 1px solid ${({ theme }) => theme.color.black[300]};
+  background-color: ${({ theme }) => theme.color.black[0]};
+  border-top: 1px solid ${({ theme }) => theme.color.black[100]};
 `;
 
 export const Form = styled.form`
@@ -41,24 +41,4 @@ export const Form = styled.form`
 
   width: 100%;
   padding: 0 2rem;
-`;
-
-export const FooterButton = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-
-  width: 100%;
-  height: 6rem;
-  padding: 2rem;
-  border-radius: 0 0 1.5rem 1.5rem;
-
-  color: ${({ theme }) => theme.color.black[700]};
-  font-size: ${({ theme }) => theme.fontSize.base};
-
-  transition: all 0.2s ease 0s;
-
-  &:hover {
-    background-color: ${({ theme }) => theme.color.black[200]};
-  }
 `;

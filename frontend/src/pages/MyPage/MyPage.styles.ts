@@ -67,7 +67,7 @@ export const LeaveButton = styled.button`
   align-items: center;
   gap: 0.4rem;
 
-  color: ${({ theme }) => theme.color.black[600]};
+  color: ${({ theme }) => theme.color.black[400]};
   font-size: ${({ theme }) => theme.fontSize.md};
 
   transition: all 0.2s ease;
@@ -75,7 +75,7 @@ export const LeaveButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    color: ${({ theme }) => theme.color.black[700]};
+    color: ${({ theme }) => theme.color.black[500]};
     font-size: ${({ theme }) => theme.fontSize.md};
   }
 `;

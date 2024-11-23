@@ -85,7 +85,7 @@ const PairRoomSettingSection = ({ repositoryName }: PairRoomSettingSectionProps)
       {moveIndex >= 2 && <TimerDurationInput timerDuration={timerDuration} onTimerDuration={handleTimerDuration} />}
       {moveIndex >= 3 && (
         <S.ButtonWrapper>
-          <Button disabled={validationList.some((valid) => !valid)} onClick={handleSuccess}>
+          <Button size="lg" disabled={validationList.some((valid) => !valid)} onClick={handleSuccess}>
             완료
           </Button>
         </S.ButtonWrapper>

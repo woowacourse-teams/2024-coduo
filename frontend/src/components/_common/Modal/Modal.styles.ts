@@ -117,7 +117,7 @@ export const Container = styled.div<{
   height: ${({ $height }) => $height && $height};
   padding: 4rem;
 
-  background: ${({ theme }) => theme.color.black[100]};
+  background: ${({ theme }) => theme.color.black[0]};
   box-shadow: ${({ $shadow }) =>
     $shadow &&
     ` 0 3px 6px rgb(0 0 0 / 10%),

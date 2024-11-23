@@ -13,10 +13,10 @@ export const Layout = styled.div`
 
   background: linear-gradient(
     140deg,
-    ${({ theme }) => theme.color.secondary[100]},
-    ${({ theme }) => theme.color.primary[200]}
+    ${({ theme }) => theme.color.secondary[50]},
+    ${({ theme }) => theme.color.primary[100]}
   );
-  background-color: ${({ theme }) => theme.color.black[100]};
+  background-color: ${({ theme }) => theme.color.black[0]};
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     padding: 4rem;
@@ -35,11 +35,17 @@ export const SubTitle = styled.h2`
 
 export const Logo = styled.img`
   width: 50rem;
-  filter: drop-shadow(0 0 2rem ${({ theme }) => theme.color.black[100]});
+  filter: drop-shadow(0 0 2rem ${({ theme }) => theme.color.black[0]});
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     width: 40rem;
   }
+`;
+
+export const GithubLogo = styled.img`
+  width: 3rem;
+  height: 3rem;
+  margin-right: 2rem;
 `;
 
 export const ButtonContainer = styled.div`

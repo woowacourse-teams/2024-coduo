@@ -11,7 +11,7 @@ export const Layout = styled.div`
   min-height: 60rem;
   padding: 2rem;
 
-  background: ${({ theme }) => theme.color.black[200]};
+  background: ${({ theme }) => theme.color.black[50]};
 `;
 
 export const InfoContainer = styled.div`
@@ -79,7 +79,7 @@ export const RepositoryButton = styled.button`
   border-radius: 1rem;
 
   background-color: ${({ theme }) => theme.color.black[800]};
-  color: ${({ theme }) => theme.color.black[100]};
+  color: ${({ theme }) => theme.color.black[0]};
   font-size: ${({ theme }) => theme.fontSize.base};
 
   transition: all 0.2s;

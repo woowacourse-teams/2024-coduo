@@ -104,7 +104,7 @@ const GuideModal = ({ isOpen, close, accessCode }: GuideModalProps) => {
         <Modal.Footer position="CENTER">
           <S.ButtonContainer>
             <p>모두 확인하셨나요?</p>
-            <Button width="18rem" onClick={close}>
+            <Button width="18rem" size="lg" onClick={close}>
               시작하기
             </Button>
           </S.ButtonContainer>
