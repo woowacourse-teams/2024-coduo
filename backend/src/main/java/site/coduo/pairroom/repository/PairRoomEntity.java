@@ -102,7 +102,11 @@ public class PairRoomEntity extends BaseTimeEntity {
         this.driver = temp;
     }
 
-    public boolean isDelete() {
+    public boolean isActive() {
+        return status != PairRoomStatus.COMPLETED && status != PairRoomStatus.DELETED;
+    }
+
+    public boolean isDeleted() {
         return status == PairRoomStatus.DELETED;
     }
 

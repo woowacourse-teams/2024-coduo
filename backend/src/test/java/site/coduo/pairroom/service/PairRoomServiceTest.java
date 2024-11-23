@@ -27,7 +27,7 @@ import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
-import site.coduo.pairroom.exception.DeletePairRoomException;
+import site.coduo.pairroom.exception.InactivePairRoomException;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomMemberEntity;
@@ -108,7 +108,7 @@ class PairRoomServiceTest {
 
         // when & then
         assertThatThrownBy(() -> pairRoomService.findPairRoomAndTimer(accessCode))
-                .isExactlyInstanceOf(DeletePairRoomException.class);
+                .isExactlyInstanceOf(InactivePairRoomException.class);
     }
 
     @Test
@@ -137,7 +137,7 @@ class PairRoomServiceTest {
 
         // when & then
         assertThatThrownBy(() -> pairRoomService.updatePairRoomStatus(accessCode, PairRoomStatus.COMPLETED.name()))
-                .isExactlyInstanceOf(DeletePairRoomException.class);
+                .isExactlyInstanceOf(InactivePairRoomException.class);
     }
 
     @Test
@@ -177,7 +177,7 @@ class PairRoomServiceTest {
 
         // when & then
         assertThatThrownBy(() -> pairRoomService.updateNavigatorWithDriver(entity.getAccessCode()))
-                .isExactlyInstanceOf(DeletePairRoomException.class);
+                .isExactlyInstanceOf(InactivePairRoomException.class);
     }
 
     @DisplayName("삭제되지 않은, 멤버의 방 목록을 가져온다.")

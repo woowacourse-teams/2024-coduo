@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import lombok.extern.slf4j.Slf4j;
 import site.coduo.common.controller.response.ApiErrorResponse;
 import site.coduo.retrospect.controller.error.RetrospectApiError;
+import site.coduo.retrospect.exception.DuplicateRetrospectException;
 import site.coduo.retrospect.exception.InvalidRetrospectContentException;
 import site.coduo.retrospect.exception.InvalidRetrospectInputValueException;
 import site.coduo.retrospect.exception.InvalidRetrospectQuestionTypeException;
 import site.coduo.retrospect.exception.NotRetrospectOwnerAccessException;
+import site.coduo.retrospect.exception.RetrospectException;
 import site.coduo.retrospect.exception.RetrospectNotFoundException;
 
 @Slf4j
@@ -47,6 +49,14 @@ public class RetrospectExceptionHandler {
                 .body(new ApiErrorResponse(RetrospectApiError.INVALID_RETROSPECT_QUESTION_TYPE_ERROR.getMessage()));
     }
 
+    @ExceptionHandler(DuplicateRetrospectException.class)
+    public ResponseEntity<ApiErrorResponse> handleDuplicateRetrospectException(final DuplicateRetrospectException e) {
+        log.warn(e.getMessage());
+
+        return ResponseEntity.status(RetrospectApiError.DUPLICATE_RETROSPECT_ERROR.getHttpStatus())
+                .body(new ApiErrorResponse(RetrospectApiError.DUPLICATE_RETROSPECT_ERROR.getMessage()));
+    }
+
     @ExceptionHandler(NotRetrospectOwnerAccessException.class)
     public ResponseEntity<ApiErrorResponse> handleNotRetrospectOwnerAccessException(
             final NotRetrospectOwnerAccessException e) {
@@ -63,5 +73,13 @@ public class RetrospectExceptionHandler {
 
         return ResponseEntity.status(RetrospectApiError.RETROSPECT_NOT_FOUND_ERROR.getHttpStatus())
                 .body(new ApiErrorResponse(RetrospectApiError.RETROSPECT_NOT_FOUND_ERROR.getMessage()));
+    }
+
+    @ExceptionHandler(RetrospectException.class)
+    public ResponseEntity<ApiErrorResponse> handleRetrospectException(final RetrospectException e) {
+        log.warn(e.getMessage());
+
+        return ResponseEntity.status(RetrospectApiError.INVALID_RETROSPECT_REQUEST_ERROR.getHttpStatus())
+                .body(new ApiErrorResponse(RetrospectApiError.INVALID_RETROSPECT_REQUEST_ERROR.getMessage()));
     }
 }
