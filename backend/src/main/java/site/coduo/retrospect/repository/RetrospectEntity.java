@@ -16,7 +16,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
-import site.coduo.pairroom.repository.PairRoomMemberEntity;
+import site.coduo.pairroom.repository.PairRoomMember;
 import site.coduo.retrospect.domain.RetrospectAnswer;
 import site.coduo.retrospect.domain.RetrospectContent;
 import site.coduo.retrospect.domain.RetrospectQuestionType;
@@ -33,7 +33,7 @@ public class RetrospectEntity extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PAIR_ROOM_MEMBER_ID")
-    private PairRoomMemberEntity pairRoomMember;
+    private PairRoomMember pairRoomMember;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "QUESTION_TYPE", nullable = false)
@@ -42,7 +42,7 @@ public class RetrospectEntity extends BaseTimeEntity {
     @Column(name = "CONTENT", length = 1000)
     private String content;
 
-    public RetrospectEntity(final PairRoomMemberEntity pairRoomMember,
+    public RetrospectEntity(final PairRoomMember pairRoomMember,
                             final RetrospectQuestionType questionType,
                             final String content) {
         this.pairRoomMember = pairRoomMember;

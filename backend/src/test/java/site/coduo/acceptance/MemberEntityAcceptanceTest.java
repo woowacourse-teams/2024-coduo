@@ -10,12 +10,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import io.restassured.RestAssured;
-import site.coduo.member.domain.Member;
+import site.coduo.member.domain.repository.MemberEntity;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.infrastructure.security.JwtProvider;
 import site.coduo.fixture.MemberDummy;
 
-class MemberAcceptanceTest extends AcceptanceFixture {
+class MemberEntityAcceptanceTest extends AcceptanceFixture {
 
     @Autowired
     private JwtProvider jwtProvider;
@@ -27,10 +27,10 @@ class MemberAcceptanceTest extends AcceptanceFixture {
     @DisplayName("회원의 정보를 조회한다.")
     void search_member_info() {
         // given
-        final Member member = MemberDummy.createDummy();
+        final MemberEntity memberEntity = MemberDummy.createDummy();
 
-        final String loginToken = jwtProvider.sign(member.getProviderUserId());
-        memberRepository.save(member);
+        final String loginToken = jwtProvider.sign(memberEntity.getProviderUserId());
+        memberRepository.save(memberEntity);
 
         // when & then
         RestAssured
@@ -42,17 +42,17 @@ class MemberAcceptanceTest extends AcceptanceFixture {
 
                 .then()
                 .statusCode(HttpStatus.SC_OK)
-                .body("username", is(member.getUsername()));
+                .body("username", is(memberEntity.getUsername()));
     }
 
     @Test
     @DisplayName("회원을 삭제한다.")
     void delete_member() {
         //given
-        final Member member = MemberDummy.createDummy();
+        final MemberEntity memberEntity = MemberDummy.createDummy();
 
-        final String loginToken = jwtProvider.sign(member.getProviderUserId());
-        memberRepository.save(member);
+        final String loginToken = jwtProvider.sign(memberEntity.getProviderUserId());
+        memberRepository.save(memberEntity);
 
         //when && then
         RestAssured
@@ -70,9 +70,9 @@ class MemberAcceptanceTest extends AcceptanceFixture {
     @DisplayName("존재하지 않는 회원을 삭제한다.")
     void delete_not_member() {
         //given
-        final Member member = MemberDummy.createDummy();
-        final String loginToken = jwtProvider.sign(member.getProviderUserId());
-        memberRepository.save(member);
+        final MemberEntity memberEntity = MemberDummy.createDummy();
+        final String loginToken = jwtProvider.sign(memberEntity.getProviderUserId());
+        memberRepository.save(memberEntity);
 
         //when && then
         RestAssured

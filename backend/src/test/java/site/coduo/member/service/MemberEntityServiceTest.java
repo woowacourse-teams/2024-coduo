@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 
 import site.coduo.config.TestConfig;
-import site.coduo.member.domain.Member;
+import site.coduo.member.domain.repository.MemberEntity;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.infrastructure.security.JwtProvider;
 import site.coduo.member.service.dto.member.MemberReadResponse;
@@ -20,7 +20,7 @@ import site.coduo.fixture.MemberDummy;
 
 @SpringBootTest
 @Import(TestConfig.class)
-class MemberServiceTest {
+class MemberEntityServiceTest {
 
     @Autowired
     private MemberService memberService;
@@ -55,47 +55,47 @@ class MemberServiceTest {
     @DisplayName("로그인 토큰을 바탕으로 회원이름을 조회한다.")
     void search_username_by_login_token() {
         // given
-        final Member member = MemberDummy.createDummy();
-        final String sign = jwtProvider.sign(member.getProviderUserId());
-        memberRepository.save(member);
+        final MemberEntity memberEntity = MemberDummy.createDummy();
+        final String sign = jwtProvider.sign(memberEntity.getProviderUserId());
+        memberRepository.save(memberEntity);
 
         // when
         final MemberReadResponse response = memberService.findMemberNameByCredential(sign);
 
         // then
-        assertThat(response.username()).isEqualTo(member.getUsername());
+        assertThat(response.username()).isEqualTo(memberEntity.getUsername());
     }
 
     @Test
     @DisplayName("로그인 토큰을 바탕으로 회원 엔티티를 조회한다.")
     void search_member_by_login_token() {
         // given
-        final Member member = MemberDummy.createDummy();
-        final String sign = jwtProvider.sign(member.getProviderUserId());
-        memberRepository.save(member);
+        final MemberEntity memberEntity = MemberDummy.createDummy();
+        final String sign = jwtProvider.sign(memberEntity.getProviderUserId());
+        memberRepository.save(memberEntity);
 
         // when
-        final Member findMember = memberService.findMemberByCredential(sign);
+        final MemberEntity findMemberEntity = memberService.findMemberByCredential(sign);
 
         // then
-        assertThat(findMember.getUsername()).isEqualTo(member.getUsername());
+        assertThat(findMemberEntity.getUsername()).isEqualTo(memberEntity.getUsername());
     }
 
     @Test
     @DisplayName("회원을 삭제한다.")
     void delete_member() {
         // given
-        final Member member = MemberDummy.createDummy();
-        final String token = jwtProvider.sign(member.getProviderUserId());
+        final MemberEntity memberEntity = MemberDummy.createDummy();
+        final String token = jwtProvider.sign(memberEntity.getProviderUserId());
 
-        memberRepository.save(member);
-        final List<Member> beforeDelete = memberRepository.findAll();
+        memberRepository.save(memberEntity);
+        final List<MemberEntity> beforeDelete = memberRepository.findAll();
 
         // when
         memberService.deleteMember(token);
 
         //then
-        final List<Member> afterDelete = memberRepository.findAll();
+        final List<MemberEntity> afterDelete = memberRepository.findAll();
         assertThat(afterDelete).hasSize(beforeDelete.size() - 1);
     }
 }

@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import site.coduo.fake.FakeGithubOAuthClient;
-import site.coduo.member.domain.Member;
+import site.coduo.member.domain.repository.MemberEntity;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.infrastructure.security.JwtProvider;
 import site.coduo.fixture.MemberDummy;
@@ -34,9 +34,9 @@ class AuthAcceptanceTest extends AcceptanceFixture {
     @DisplayName("로그인 검증 & 로그인 토큰을 발급한다.")
     void verify_login_and_publish_login_token() {
         final String cookie = GithubAcceptanceTest.createAccessTokenCookie();
-        final Member member = MemberDummy.createDummy("test user", ACCESS_TOKEN.getCredential(), USER_ID, LOGIN_ID);
+        final MemberEntity memberEntity = MemberDummy.createDummy("test user", ACCESS_TOKEN.getCredential(), USER_ID, LOGIN_ID);
 
-        memberRepository.save(member);
+        memberRepository.save(memberEntity);
 
         // when
         RestAssured

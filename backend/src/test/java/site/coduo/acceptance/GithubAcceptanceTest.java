@@ -17,7 +17,7 @@ import org.springframework.http.HttpHeaders;
 
 import io.restassured.RestAssured;
 import site.coduo.fake.FixedNonceProvider;
-import site.coduo.member.domain.Member;
+import site.coduo.member.domain.repository.MemberEntity;
 import site.coduo.fixture.MemberDummy;
 
 class GithubAcceptanceTest extends AcceptanceFixture {
@@ -100,12 +100,12 @@ class GithubAcceptanceTest extends AcceptanceFixture {
     @DisplayName("callback 엔드 포인트가 호출되면 리디렉션을 통해 로그인이 시도된다.")
     void try_login_when_call_callback_end_point() {
         // given
-        final Member member = MemberDummy.createDummy("test user", ACCESS_TOKEN.getCredential(), USER_ID, LOGIN_ID);
+        final MemberEntity memberEntity = MemberDummy.createDummy("test user", ACCESS_TOKEN.getCredential(), USER_ID, LOGIN_ID);
 
         final Map<String, String> query = Map.of("code", "authorization code",
                 "state", FixedNonceProvider.FIXED_VALUE);
 
-        memberRepository.save(member);
+        memberRepository.save(memberEntity);
 
         // when & then
         RestAssured

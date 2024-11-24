@@ -6,15 +6,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import site.coduo.fixture.MemberDummy;
+import site.coduo.member.domain.repository.MemberEntity;
 
-class MemberTest {
+class MemberEntityTest {
 
     @Test
     @DisplayName("회원 정보를 수정한다.")
     void update() {
         // given
-        final Member origin = MemberDummy.createDummy("origin", "origin", "origin");
-        final Member change = MemberDummy.createDummy("change", "change", "change");
+        final MemberEntity origin = MemberDummy.createDummy("origin", "origin", "origin");
+        final MemberEntity change = MemberDummy.createDummy("change", "change", "change");
 
         // when
         origin.update(change);
