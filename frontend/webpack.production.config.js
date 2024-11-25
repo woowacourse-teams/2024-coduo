@@ -1,22 +1,8 @@
 import { merge } from 'webpack-merge';
 import common from './webpack.common.config.js';
 import { sentryWebpackPlugin } from '@sentry/webpack-plugin';
-// import dotenv from 'dotenv';
 import webpack from 'webpack';
 import pkg from './package.json' with { type: 'json' };
-
-// const env = dotenv.config({ path: '.env' }).parsed;
-
-// console.log(env);
-
-// const envKeys = env
-//   ? Object.keys(env).reduce((prev, next) => {
-//       prev[`process.env.${next}`] = JSON.stringify(env[next]);
-//       return prev;
-//     }, {})
-//   : {};
-
-// console.log(envKeys);
 
 const envKeys = {
   'process.env.REACT_APP_API_URL': JSON.stringify(process.env.REACT_APP_API_URL),
