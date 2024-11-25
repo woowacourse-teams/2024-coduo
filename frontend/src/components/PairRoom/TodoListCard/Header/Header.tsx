@@ -1,6 +1,6 @@
 import { IoIosCheckbox, IoIosArrowDown } from 'react-icons/io';
 
-import ToolTipQuestionBox from '@/components/common/ToolTipQuestionBox/ToolTipQuestionBox';
+import ToolTipQuestionBox from '@/components/_common/ToolTipQuestionBox/ToolTipQuestionBox';
 
 import { theme } from '@/styles/theme';
 
@@ -25,7 +25,7 @@ const Header = ({ isOpen, toggleIsOpen }: React.PropsWithChildren<HeaderProps>) 
       <p>투두 리스트</p>
       <ToolTipQuestionBox
         message="페어 프로그래밍을 위해 필요한 할 일 목록을 작성해 보세요. 할 일을 더욱 효율적으로 관리할 수 있습니다."
-        color={theme.color.black[50]}
+        color={theme.color.black[300]}
         boxDirection="right"
       />
     </S.Layout>

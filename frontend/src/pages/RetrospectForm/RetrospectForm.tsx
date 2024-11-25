@@ -1,13 +1,13 @@
 import { useParams, useNavigate } from 'react-router-dom';
 
-import Button from '@/components/common/Button/Button';
-import ConfirmModal from '@/components/common/ConfirmModal/ConfirmModal';
+import Button from '@/components/_common/Button/Button';
+import ConfirmModal from '@/components/_common/ConfirmModal/ConfirmModal';
 import Header from '@/components/Retrospect/Header/Header';
 import Question from '@/components/Retrospect/Question/Question';
 import TextArea from '@/components/Retrospect/Textarea/Textarea';
 
-import useModal from '@/hooks/common/useModal';
-import usePreventPageRefresh from '@/hooks/common/usePreventPageRefresh';
+import usePreventPageRefresh from '@/hooks/_common/customEvent/usePreventPageRefresh';
+import useModal from '@/hooks/_common/useModal';
 import useInputAnswer from '@/hooks/Retrospect/useInputAnswer';
 
 import { RETROSPECT_QUESTIONS } from '@/constants/retrospect';
@@ -48,9 +48,11 @@ const RetrospectForm = () => {
               />
             </Question>
           ))}
-          <Button $css={S.buttonStyles} type="submit" disabled={isAnswersEmpty}>
-            작성 완료
-          </Button>
+          <S.ButtonContainer>
+            <Button width="100%" height="5rem" borderRadius="0" type="submit" disabled={isAnswersEmpty}>
+              작성 완료
+            </Button>
+          </S.ButtonContainer>
         </S.Form>
         <ConfirmModal
           title="나중에 작성하시겠습니까?"

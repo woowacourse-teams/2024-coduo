@@ -18,7 +18,7 @@ export const EmptyLayout = styled.div`
   height: 0;
   padding: 2rem;
 
-  color: ${({ theme }) => theme.color.black[60]};
+  color: ${({ theme }) => theme.color.black[400]};
   font-size: ${({ theme }) => theme.fontSize.md};
 `;
 
@@ -54,7 +54,7 @@ export const Item = styled.div`
 
   width: 17rem;
   height: 20rem;
-  border: 1px solid ${({ theme }) => theme.color.black[30]};
+  border: 1px solid ${({ theme }) => theme.color.black[100]};
   border-radius: 1.5rem;
 `;
 
@@ -75,8 +75,8 @@ export const EmptyImage = styled.div`
   width: 100%;
   height: 10rem;
 
-  background-color: ${({ theme }) => theme.color.black[40]};
-  color: ${({ theme }) => theme.color.black[70]};
+  background-color: ${({ theme }) => theme.color.black[200]};
+  color: ${({ theme }) => theme.color.black[300]};
   font-size: ${({ theme }) => theme.fontSize.sm};
   line-height: 1.3;
 
@@ -114,7 +114,7 @@ export const Content = styled.p`
   display: -webkit-box;
   overflow: hidden;
 
-  color: ${({ theme }) => theme.color.black[60]};
+  color: ${({ theme }) => theme.color.black[400]};
   font-size: ${({ theme }) => theme.fontSize.xs};
   line-height: 1.5;
   text-overflow: ellipsis;
@@ -135,9 +135,9 @@ export const DeleteButton = styled(MdClose)`
   padding: 0.3rem;
   border-radius: 100%;
 
-  background-color: ${({ theme }) => theme.color.black[90]};
+  background-color: ${({ theme }) => theme.color.black[900]};
   opacity: 0.6;
-  color: ${({ theme }) => theme.color.black[20]};
+  color: ${({ theme }) => theme.color.black[50]};
 
   cursor: pointer;
 

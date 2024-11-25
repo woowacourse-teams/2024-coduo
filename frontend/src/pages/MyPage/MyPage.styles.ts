@@ -26,17 +26,17 @@ export const TitleContainer = styled.div`
 `;
 
 export const Title = styled.h1`
-  color: ${({ theme }) => theme.color.black[90]};
+  color: ${({ theme }) => theme.color.black[900]};
   font-size: ${({ theme }) => theme.fontSize.h2};
   font-weight: ${({ theme }) => theme.fontWeight.semibold};
 `;
 
 export const SubTitle = styled.p`
-  color: ${({ theme }) => theme.color.black[90]};
+  color: ${({ theme }) => theme.color.black[900]};
   font-size: ${({ theme }) => theme.fontSize.h6};
 
   span {
-    color: ${({ theme }) => theme.color.primary[600]};
+    color: ${({ theme }) => theme.color.primary[700]};
     font-weight: ${({ theme }) => theme.fontWeight.medium};
   }
 `;
@@ -57,7 +57,7 @@ export const List = styled.div`
 export const AllText = styled.p`
   padding-bottom: 1.6rem;
 
-  color: ${({ theme }) => theme.color.black[70]};
+  color: ${({ theme }) => theme.color.black[700]};
   font-size: ${({ theme }) => theme.fontSize.md};
 `;
 
@@ -67,7 +67,7 @@ export const LeaveButton = styled.button`
   align-items: center;
   gap: 0.4rem;
 
-  color: ${({ theme }) => theme.color.black[60]};
+  color: ${({ theme }) => theme.color.black[400]};
   font-size: ${({ theme }) => theme.fontSize.md};
 
   transition: all 0.2s ease;
@@ -75,12 +75,12 @@ export const LeaveButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    color: ${({ theme }) => theme.color.black[70]};
+    color: ${({ theme }) => theme.color.black[500]};
     font-size: ${({ theme }) => theme.fontSize.md};
   }
 `;
 
 export const BottomLine = styled.div`
   margin: 1rem 0;
-  border: 1px solid ${({ theme }) => theme.color.black[30]};
+  border: 1px solid ${({ theme }) => theme.color.black[300]};
 `;

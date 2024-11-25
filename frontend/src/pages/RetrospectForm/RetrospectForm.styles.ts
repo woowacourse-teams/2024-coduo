@@ -1,35 +1,13 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
-const positionFixed = css`
+export const ButtonContainer = styled.div`
   position: fixed;
   bottom: 0;
   left: 50%;
 
-  transform: translate(-50%);
-`;
-
-export const buttonStyles = css`
-  ${positionFixed}
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   width: 60%;
-  min-width: 76.8rem;
-  height: 6rem;
-  border-radius: 0;
 
-  &:hover {
-    ${positionFixed}
-  }
-
-  &:active {
-    ${positionFixed}
-  }
-
-  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
-    width: 100%;
-  }
+  transform: translate(-50%);
 `;
 
 export const Layout = styled.div`
@@ -39,7 +17,7 @@ export const Layout = styled.div`
   width: 100%;
   min-height: calc(100vh - 7rem);
 
-  background-color: ${({ theme }) => theme.color.primary[100]};
+  background-color: ${({ theme }) => theme.color.primary[50]};
 `;
 
 export const Container = styled.div`
@@ -53,7 +31,7 @@ export const Container = styled.div`
   min-width: 76.8rem;
   padding: 4rem 4rem 12rem;
 
-  background-color: ${({ theme }) => theme.color.black[10]};
+  background-color: ${({ theme }) => theme.color.black[0]};
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     width: 100%;

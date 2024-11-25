@@ -1,30 +1,4 @@
-import styled, { css } from 'styled-components';
-
-export const buttonStyles = css`
-  width: 9rem;
-  height: 3.2rem;
-  border-color: ${({ theme }) => theme.color.danger[400]};
-  border-radius: 0.8rem;
-
-  background-color: ${({ theme }) => theme.color.danger[400]};
-  font-size: ${({ theme }) => theme.fontSize.md};
-
-  &:hover {
-    border-color: ${({ theme }) => theme.color.danger[500]};
-
-    background-color: ${({ theme }) => theme.color.danger[500]};
-  }
-
-  &:active {
-    border-color: ${({ theme }) => theme.color.danger[500]};
-
-    background-color: ${({ theme }) => theme.color.danger[500]};
-  }
-`;
-
-export const startButtonStyles = css`
-  width: 18rem;
-`;
+import styled from 'styled-components';
 
 export const Layout = styled.div`
   display: flex;
@@ -69,7 +43,7 @@ export const Description = styled.div`
   padding: 1rem 1rem 1rem 1.6rem;
   border-radius: 1rem;
 
-  background-color: ${({ theme }) => theme.color.danger[100]};
+  background-color: ${({ theme }) => theme.color.danger[10]};
   font-size: ${({ theme }) => theme.fontSize.md};
   font-weight: ${({ theme }) => theme.fontWeight.light};
 `;
@@ -81,7 +55,7 @@ export const ButtonContainer = styled.div`
   gap: 0.8rem;
 
   p {
-    color: ${({ theme }) => theme.color.black[60]};
+    color: ${({ theme }) => theme.color.black[300]};
     font-size: ${({ theme }) => theme.fontSize.sm};
   }
 `;

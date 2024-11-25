@@ -1,42 +1,4 @@
-import styled, { css } from 'styled-components';
-
-export const buttonStyles = css`
-  width: 26rem;
-  height: 6rem;
-
-  font-size: ${({ theme }) => theme.fontSize.h6};
-`;
-
-export const githubButtonStyles = css`
-  justify-content: space-evenly;
-
-  width: 26rem;
-  height: 6rem;
-  border: 1px solid ${({ theme }) => theme.color.black[80]};
-
-  background-color: ${({ theme }) => theme.color.black[90]};
-  color: ${({ theme }) => theme.color.black[10]};
-  font-size: ${({ theme }) => theme.fontSize.h6};
-
-  img {
-    width: 3rem;
-    height: 3rem;
-  }
-
-  &:hover {
-    border: 1px solid ${({ theme }) => theme.color.black[70]};
-
-    background-color: ${({ theme }) => theme.color.black[80]};
-    color: ${({ theme }) => theme.color.black[10]};
-  }
-
-  &:active {
-    border: 1px solid ${({ theme }) => theme.color.black[60]};
-
-    background-color: ${({ theme }) => theme.color.black[70]};
-    color: ${({ theme }) => theme.color.black[10]};
-  }
-`;
+import styled from 'styled-components';
 
 export const Layout = styled.div`
   display: flex;
@@ -51,10 +13,10 @@ export const Layout = styled.div`
 
   background: linear-gradient(
     140deg,
-    ${({ theme }) => theme.color.secondary[100]},
-    ${({ theme }) => theme.color.primary[200]}
+    ${({ theme }) => theme.color.secondary[50]},
+    ${({ theme }) => theme.color.primary[100]}
   );
-  background-color: ${({ theme }) => theme.color.black[10]};
+  background-color: ${({ theme }) => theme.color.black[0]};
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     padding: 4rem;
@@ -62,7 +24,7 @@ export const Layout = styled.div`
 `;
 
 export const SubTitle = styled.h2`
-  color: ${({ theme }) => theme.color.primary[700]};
+  color: ${({ theme }) => theme.color.primary[800]};
   font-size: ${({ theme }) => theme.fontSize.h3};
   font-weight: ${({ theme }) => theme.fontWeight.normal};
 
@@ -73,11 +35,17 @@ export const SubTitle = styled.h2`
 
 export const Logo = styled.img`
   width: 50rem;
-  filter: drop-shadow(0 0 2rem ${({ theme }) => theme.color.black[10]});
+  filter: drop-shadow(0 0 2rem ${({ theme }) => theme.color.black[0]});
 
   @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
     width: 40rem;
   }
+`;
+
+export const GithubLogo = styled.img`
+  width: 3rem;
+  height: 3rem;
+  margin-right: 2rem;
 `;
 
 export const ButtonContainer = styled.div`

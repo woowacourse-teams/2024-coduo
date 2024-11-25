@@ -1,12 +1,17 @@
 import { useRef } from 'react';
 
+import { FaPause, FaPlay } from 'react-icons/fa6';
+
+import IconButton from '@/components/_common/IconButton/IconButton';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import TimerEditPanel from '@/components/PairRoom/TimerCard/TimerEditPanel/TimerEditPanel';
 
-import useTitleTime from '@/hooks/common/useTitleTime';
 import useTimer from '@/hooks/PairRoom/useTimer';
+import useTitleTime from '@/hooks/PairRoom/useTitleTime';
 
-import { formatTime } from '@/utils/Timer/formatTime';
+import { formatTime } from '@/utils/formatTime';
+
+import { theme } from '@/styles/theme';
 
 import * as S from './TimerCard.styles';
 
@@ -52,12 +57,20 @@ const TimerCard = ({ accessCode, defaultTime, defaultTimeleft, onTimerStop }: Ti
           </S.Timer>
         </S.ProgressBar>
         <S.IconContainer>
-          <S.IconButton disabled={isActive} onClick={handleStart} aria-label="타이머 시작하기">
-            <S.PlayIcon $isActive={!isActive} role="presentation" />
-          </S.IconButton>
-          <S.IconButton disabled={!isActive} onClick={handlePause} aria-label="타이머 중지하기">
-            <S.PauseIcon $isActive={isActive} role="presentation" />
-          </S.IconButton>
+          <IconButton
+            icon={<FaPlay role="presentation" />}
+            color={theme.color.secondary[500]}
+            disabled={isActive}
+            onClick={handleStart}
+            aria-label="타이머 시작하기"
+          />
+          <IconButton
+            icon={<FaPause role="presentation" />}
+            color={theme.color.secondary[500]}
+            disabled={!isActive}
+            onClick={handlePause}
+            aria-label="타이머 중지하기"
+          />
         </S.IconContainer>
         <TimerEditPanel isActive={isActive} />
       </S.Layout>

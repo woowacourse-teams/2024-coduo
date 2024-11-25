@@ -5,16 +5,21 @@ import { GithubLogoWhite, LogoIconWithTitle } from '@/assets';
 
 import * as S from '@/pages/Landing/Landing.styles';
 
-import { ScrollAnimationContainer } from '@/components/common/Animation/ScrollAnimationContainer';
-import Button from '@/components/common/Button/Button';
-import ScrollIcon, { TargetSection } from '@/components/common/ScrollIcon/ScrollIcon';
+import Button from '@/components/_common/Button/Button';
+import { ScrollAnimationContainer } from '@/components/_common/ScrollAnimationContainer/ScrollAnimationContainer';
+import ScrollIcon, { TargetSection } from '@/components/_common/ScrollIcon/ScrollIcon';
 import HowToPair from '@/components/Landing/HowToPair/HowToPair';
 
 import useUserStore from '@/stores/userStore';
 
-import usePreventBackNavigation from '@/hooks/common/usePreventBackNavigation';
-import useTitleTime from '@/hooks/common/useTitleTime';
-import useSignInHandler from '@/hooks/member/useSignInHandler';
+import usePreventBackNavigation from '@/hooks/_common/customEvent/usePreventBackNavigation';
+import useSignInHandler from '@/hooks/_common/member/useSignInHandler';
+import useTitleTime from '@/hooks/PairRoom/useTitleTime';
+
+const targetSections: TargetSection[] = [
+  { id: 'landing', position: 'top' },
+  { id: 'how-to-pair', position: 'bottom' },
+];
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -29,11 +34,6 @@ const Landing = () => {
   useTitleTime();
   usePreventBackNavigation();
 
-  const targetSections: TargetSection[] = [
-    { id: 'landing', position: 'top' },
-    { id: 'how-to-pair', position: 'bottom' },
-  ];
-
   return (
     <>
       <S.Layout id="landing">
@@ -45,13 +45,13 @@ const Landing = () => {
         </ScrollAnimationContainer>
         <S.ButtonContainer>
           <ScrollAnimationContainer animationDirection="top" animationDelay={2}>
-            <Button $css={S.githubButtonStyles} size="xl" filled={false} rounded={true} onClick={handleSignInGithub}>
-              <img src={GithubLogoWhite} alt="" />
+            <Button size="xl" width="26rem" color="#000000" onClick={handleSignInGithub}>
+              <S.GithubLogo src={GithubLogoWhite} alt="" />
               Github로 로그인
             </Button>
           </ScrollAnimationContainer>
           <ScrollAnimationContainer animationDirection="top" animationDelay={2.1}>
-            <Button size="xl" $css={S.buttonStyles} color="primary" rounded={true} onClick={() => navigate('/main')}>
+            <Button size="xl" width="26rem" color="primary" onClick={() => navigate('/main')}>
               회원가입 없이 사용하기
             </Button>
           </ScrollAnimationContainer>

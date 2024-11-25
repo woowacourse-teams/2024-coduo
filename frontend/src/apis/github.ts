@@ -21,13 +21,13 @@ export const getSHAforMain = async (repositoryName: string) => {
   }
 };
 
-interface CreateBranchProps {
+interface AddBranchProps {
   repositoryName: string;
   branchName: string;
   sha: string;
 }
 
-export const createBranch = async ({ repositoryName, branchName, sha }: CreateBranchProps) => {
+export const addBranch = async ({ repositoryName, branchName, sha }: AddBranchProps) => {
   try {
     const result = await octokit.request(`POST /repos/${CODUO_ORGANIZATION}/${repositoryName}/git/refs`, {
       ref: `refs/heads/${branchName}`,

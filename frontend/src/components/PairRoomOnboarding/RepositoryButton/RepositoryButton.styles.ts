@@ -1,25 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import styled, { css } from 'styled-components';
-
-export const buttonStyles = css`
-  width: 30rem;
-  border: 0;
-  border-radius: 5px;
-
-  background: ${({ theme }) => theme.color.black[80]};
-  color: ${({ theme }) => theme.color.black[10]};
-  font-size: ${({ theme }) => theme.fontSize.md};
-  font-weight: ${({ theme }) => theme.fontWeight.medium};
-  text-align: right;
-
-  &:hover {
-    border: 0;
-
-    background: ${({ theme }) => theme.color.black[75]};
-    color: ${({ theme }) => theme.color.black[10]};
-  }
-`;
+import styled from 'styled-components';
 
 export const Layout = styled.div`
   display: flex;
@@ -52,11 +33,11 @@ export const RepositoryLink = styled(Link)`
   display: flex;
   align-items: center;
 
-  color: ${({ theme }) => theme.color.black[60]};
+  color: ${({ theme }) => theme.color.black[400]};
   font-size: ${({ theme }) => theme.fontSize.sm};
   text-decoration: underline;
 
   &:hover {
-    color: ${({ theme }) => theme.color.black[65]};
+    color: ${({ theme }) => theme.color.black[400]};
   }
 `;

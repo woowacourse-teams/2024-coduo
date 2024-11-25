@@ -1,8 +1,8 @@
-import Spinner from '@/components/common/Spinner/Spinner';
+import Spinner from '@/components/_common/Spinner/Spinner';
 import InformationBox from '@/components/PairRoomOnboarding/InformationBox/InformationBox';
 import RepositoryButton from '@/components/PairRoomOnboarding/RepositoryButton/RepositoryButton';
 
-import useGetRepositories from '@/queries/PairRoomOnboarding/useGetRepositories';
+import useRepositoriesQuery from '@/queries/PairRoomOnboarding/useRepositoriesQuery';
 
 import * as S from './MissionSelectInput.styles';
 
@@ -11,7 +11,7 @@ interface MissionSelectInputProps {
 }
 
 const MissionSelectInput = ({ onSelect }: MissionSelectInputProps) => {
-  const { repositories, isFetching } = useGetRepositories();
+  const { repositories, isFetching } = useRepositoriesQuery();
 
   return (
     <S.Layout aria-label="총 2개의 설정 항목 중 1번째 항목입니다.">

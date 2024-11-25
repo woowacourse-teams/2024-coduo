@@ -1,0 +1,28 @@
+import Tooltip from '@/components/_common/Tooltip/Tooltip';
+import { Direction } from '@/components/_common/Tooltip/Tooltip.type';
+
+import { theme } from '@/styles/theme';
+
+import * as S from './ToolTipQuestionBox.styles';
+
+interface ToolTipQuestionBoxProps {
+  message: string;
+  color?: string;
+  boxColor?: string;
+  boxDirection?: Direction;
+}
+
+const ToolTipQuestionBox = ({
+  color = theme.color.primary[900],
+  boxColor = theme.color.primary[900],
+  boxDirection = 'bottom',
+  ...props
+}: ToolTipQuestionBoxProps) => {
+  return (
+    <Tooltip direction={boxDirection} color={boxColor} {...props}>
+      <S.QuestionIcon $color={color} role="presentation" />
+    </Tooltip>
+  );
+};
+
+export default ToolTipQuestionBox;

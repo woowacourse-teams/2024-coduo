@@ -1,9 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { LogoIconWithTitle } from '@/assets';
-
-import Spinner from '@/components/common/Spinner/Spinner';
+import Spinner from '@/components/_common/Spinner/Spinner';
 
 import useUserStore from '@/stores/userStore';
 
@@ -38,8 +36,7 @@ const Callback = () => {
 
   return (
     <S.Layout>
-      <S.LogoIcon src={LogoIconWithTitle} alt="logo" />
-      <S.Title>로그인 중입니다. 잠시만 기다려주세요 😊</S.Title>
+      <S.Title>로그인 중입니다. 잠시만 기다려 주세요 😊</S.Title>
       <Spinner size="md" />
     </S.Layout>
   );

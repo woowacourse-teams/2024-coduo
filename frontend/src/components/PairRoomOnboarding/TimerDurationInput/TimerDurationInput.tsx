@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 import { useState } from 'react';
 
-import Button from '@/components/common/Button/Button';
-import Input from '@/components/common/Input/Input';
+import Button from '@/components/_common/Button/Button';
+import { InputField } from '@/components/_common/InputField';
 import InformationBox from '@/components/PairRoomOnboarding/InformationBox/InformationBox';
 
 import { validateTimerDuration } from '@/validations/validateTimerDuration';
@@ -54,8 +54,9 @@ const TimerDurationInput = ({ timerDuration, onTimerDuration }: TimerDurationInp
         {OPTIONS.map((option) => (
           <Button
             key={option.value}
-            color="primary"
             size="md"
+            borderRadius="1rem"
+            color="primary"
             filled={timerDuration === option.value}
             onClick={() => handleOptionTime(option.value)}
           >
@@ -63,23 +64,33 @@ const TimerDurationInput = ({ timerDuration, onTimerDuration }: TimerDurationInp
           </Button>
         ))}
         <S.InputContainer>
-          <Button key="직접 설정" color="primary" size="md" filled={isCustom} onClick={handleIsCustomTime}>
+          <Button
+            key="직접 설정"
+            size="md"
+            borderRadius="1rem"
+            color="primary"
+            filled={isCustom}
+            onClick={handleIsCustomTime}
+          >
             직접 설정
           </Button>
           {isCustom && (
-            <Input
-              autoFocus
-              aria-label="타이머 시간을 분 단위로 입력해 주세요."
-              $css={S.inputStyles}
-              width="20rem"
-              height="4rem"
-              value={timerDuration}
-              placeholder="타이머 시간 (분)"
-              status={!validateTimerDuration(timerDuration) ? 'ERROR' : 'DEFAULT'}
-              message={!validateTimerDuration(timerDuration) ? '1 이상 99 이하의 숫자를 입력해 주세요.' : ''}
-              disabled={!isCustom}
-              onChange={handleCustomTime}
-            />
+            <InputField gap="0.5rem" width="20rem">
+              <InputField.Input
+                autoFocus
+                aria-label="타이머 시간을 분 단위로 입력해 주세요."
+                borderRadius="1rem"
+                height="4rem"
+                value={timerDuration}
+                placeholder="타이머 시간 (분)"
+                status={!validateTimerDuration(timerDuration) ? 'ERROR' : 'DEFAULT'}
+                disabled={!isCustom}
+                onChange={handleCustomTime}
+              />
+              <InputField.Message status={!validateTimerDuration(timerDuration) ? 'ERROR' : 'DEFAULT'}>
+                {!validateTimerDuration(timerDuration) ? '1 이상 99 이하의 숫자를 입력해 주세요.' : ''}
+              </InputField.Message>
+            </InputField>
           )}
         </S.InputContainer>
       </S.ButtonContainer>

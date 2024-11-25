@@ -6,7 +6,7 @@ export const Container = styled.div`
   gap: 2rem;
 `;
 export const Contents = styled.p`
-  color: ${({ theme }) => theme.color.black[90]};
+  color: ${({ theme }) => theme.color.black[900]};
   font-size: ${({ theme }) => theme.fontSize.lg};
 `;
 

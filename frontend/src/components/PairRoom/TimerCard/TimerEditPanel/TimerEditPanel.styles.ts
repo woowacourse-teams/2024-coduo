@@ -1,4 +1,3 @@
-import { IoSettingsOutline } from 'react-icons/io5';
 import styled, { keyframes } from 'styled-components';
 
 export const Layout = styled.div`
@@ -10,21 +9,6 @@ export const Layout = styled.div`
   position: absolute;
   top: 1.5rem;
   right: 1.5rem;
-`;
-
-export const Icon = styled(IoSettingsOutline)`
-  width: 2rem;
-  height: 2rem;
-
-  color: ${({ theme }) => theme.color.black[70]};
-
-  transition: color 0.2s ease;
-
-  cursor: pointer;
-
-  &:hover {
-    color: ${({ theme }) => theme.color.secondary[600]};
-  }
 `;
 
 const slideDown = keyframes`
@@ -40,10 +24,10 @@ const slideDown = keyframes`
 
 export const Panel = styled.div`
   padding: 1.5rem 2rem;
-  border: 1px solid ${({ theme }) => theme.color.black[30]};
+  border: 1px solid ${({ theme }) => theme.color.black[100]};
   border-radius: 1rem;
 
-  background: ${({ theme }) => theme.color.black[10]};
+  background: ${({ theme }) => theme.color.black[0]};
 
   animation: ${slideDown} 0.3s ease-out;
 `;
@@ -51,7 +35,7 @@ export const Panel = styled.div`
 export const Title = styled.p`
   margin-bottom: 0.5rem;
 
-  color: ${({ theme }) => theme.color.black[70]};
+  color: ${({ theme }) => theme.color.black[500]};
   font-size: ${({ theme }) => theme.fontSize.sm};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;

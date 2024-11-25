@@ -1,11 +1,10 @@
 import { IoIosArrowForward } from 'react-icons/io';
 
-import ConfirmModal from '@/components/common/ConfirmModal/ConfirmModal';
-import Spinner from '@/components/common/Spinner/Spinner';
+import ConfirmModal from '@/components/_common/ConfirmModal/ConfirmModal';
 
-import useModal from '@/hooks/common/useModal';
+import useModal from '@/hooks/_common/useModal';
 
-import { useDeleteRetrospect } from '@/queries/Retrospect/useDeleteRetrospect';
+import useRetrospectMutation from '@/queries/Retrospect/useRetrospectMutation';
 
 import * as S from './PairRoomButton.styles';
 
@@ -16,7 +15,8 @@ interface RetrospectButtonProps {
 
 const RetrospectButton = ({ accessCode, answer }: RetrospectButtonProps) => {
   const { openModal, closeModal, isModalOpen } = useModal();
-  const { mutate, isPending } = useDeleteRetrospect();
+
+  const { deleteRetrospectMutation } = useRetrospectMutation();
 
   const handleOpenDeleteModal = (event: React.MouseEvent<HTMLButtonElement | SVGElement>) => {
     event.preventDefault();
@@ -25,21 +25,13 @@ const RetrospectButton = ({ accessCode, answer }: RetrospectButtonProps) => {
   };
 
   const handleDeletePairRoom = async () => {
-    mutate({ accessCode });
+    deleteRetrospectMutation({ accessCode });
     closeModal();
   };
 
   const splitAnswer = (answer: string): string => {
     return answer.length > 10 ? answer.slice(0, 10) + '...' : answer;
   };
-
-  if (isPending) {
-    return (
-      <S.Layout>
-        <Spinner />
-      </S.Layout>
-    );
-  }
 
   return (
     <S.Layout>
