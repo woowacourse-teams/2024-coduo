@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import webpack from 'webpack';
 import pkg from './package.json' with { type: 'json' };
 
-const env = dotenv.config({ path: '.env.production' }).parsed;
+const env = dotenv.config({ path: '.env' }).parsed;
 
 const envKeys = env
   ? Object.keys(env).reduce((prev, next) => {
