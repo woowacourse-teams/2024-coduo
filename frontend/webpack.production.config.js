@@ -19,7 +19,7 @@ export default merge(common, {
   devtool: 'source-map',
   plugins: [
     sentryWebpackPlugin({
-      authToken: process.env.SENTRY_AUTH_TOKEN,
+      authToken: process.env.REACT_APP_SENTRY_AUTH_TOKEN,
       org: '2024-coduo',
       project: 'coduo2024',
       release: 'Coduo' + process.env.REACT_APP_VERSION,
