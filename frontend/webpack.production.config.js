@@ -7,12 +7,16 @@ import pkg from './package.json' with { type: 'json' };
 
 const env = dotenv.config({ path: '.env' }).parsed;
 
+console.log(env);
+
 const envKeys = env
   ? Object.keys(env).reduce((prev, next) => {
       prev[`process.env.${next}`] = JSON.stringify(env[next]);
       return prev;
     }, {})
   : {};
+
+console.log(envKeys);
 
 export default merge(common, {
   mode: 'production',
