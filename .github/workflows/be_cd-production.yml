@@ -136,7 +136,7 @@ jobs:
           
   deployB:
     environment: production
-    runs-on: production-ec2-B-runner
+    runs-on: coduo-prod-b
     needs: build
     defaults:
       run:
