@@ -51,7 +51,7 @@ jobs:
 
   deployA:
     environment: production
-    runs-on: production-ec2-A-runner
+    runs-on: coduo-prod-a
     needs: build
     defaults:
       run:
