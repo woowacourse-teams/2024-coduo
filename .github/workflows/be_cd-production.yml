@@ -84,6 +84,7 @@ jobs:
           DOCKER_IMAGE_VERSION=latest
 
           # DB Configuration secrets info from Github Secrets
+          MYSQL_DB_NAME=${{ secrets.MYSQL_DB_NAME }}
           MYSQL_TIME_ZONE=${{ secrets.MYSQL_TIME_ZONE }}
           DB_BINDING_PORT=${{ secrets.DB_BINDING_PORT }}
           DOCKER_DATA_PATH=${{ secrets.DOCKER_DATA_PATH }}
