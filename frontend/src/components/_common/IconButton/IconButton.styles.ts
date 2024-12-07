@@ -131,7 +131,7 @@ export const Layout = styled.button<IconButtonProps>`
     cursor: default;
 
     svg {
-      color: ${theme.color.black[200]};
+      color: ${theme.color.black[400]};
     }
   }
 `;
