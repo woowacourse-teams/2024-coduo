@@ -53,7 +53,7 @@ export const PairInfoWrapper = styled.div`
   padding: 1.2rem 1.5rem;
   border-radius: 1rem;
 
-  background-color: ${({ theme }) => theme.color.black[300]};
+  background-color: ${({ theme }) => theme.color.black[200]};
   color: ${({ theme }) => theme.color.black[700]};
   font-size: ${({ theme }) => theme.fontSize.base};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
