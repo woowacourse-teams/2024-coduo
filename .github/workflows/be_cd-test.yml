@@ -111,7 +111,7 @@ jobs:
           
       - name: remove old spring-app image
         run: |
-          sudo docker image rm -f coduo2024/springboot-app:test-latest;
+          sudo docker image rm -f ${{ secrets.DOCKER_REPO_NAME }}/springboot-app;
 
       - name: Start the new (green/blue) environment
         run: |
@@ -131,7 +131,7 @@ jobs:
 
       - name: Delete Dangling docker images
         run: |
-          sudo docker image prune
+          sudo docker image prune -a -f
 
   deployB:
     environment: test
