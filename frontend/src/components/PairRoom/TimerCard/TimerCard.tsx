@@ -59,6 +59,7 @@ const TimerCard = ({ accessCode, defaultTime, defaultTimeleft, onTimerStop }: Ti
         <S.IconContainer>
           <IconButton
             icon={<FaPlay role="presentation" />}
+            size="lg"
             color={theme.color.secondary[500]}
             disabled={isActive}
             onClick={handleStart}
@@ -66,6 +67,7 @@ const TimerCard = ({ accessCode, defaultTime, defaultTimeleft, onTimerStop }: Ti
           />
           <IconButton
             icon={<FaPause role="presentation" />}
+            size="lg"
             color={theme.color.secondary[500]}
             disabled={!isActive}
             onClick={handlePause}
