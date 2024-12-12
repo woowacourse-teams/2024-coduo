@@ -77,6 +77,11 @@ jobs:
 
       - name: Extract secrets as .be_app-env file
         run: |
+          chmod +x ./deploy.sh # 스크립트에 실행 권한 부여 
+          source ./deploy.sh
+          echo "BLUE_PORT=$BLUE_PORT" >> $GITHUB_ENV
+          echo "GREEN_PORT=$GREEN_PORT" >> $GITHUB_ENV
+
           IFS=":" read -r INSTANCE_NAME INSTANCE_PREFIX <<< "${{ matrix.instance }}"
           cat <<EOF > ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env
           DOCKER_IMAGE_VERSION=latest
