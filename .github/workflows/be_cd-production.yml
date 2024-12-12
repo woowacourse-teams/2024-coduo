@@ -67,9 +67,9 @@ jobs:
           path: ${{ github.workspace }}/backend
 
       # 왜 안됨...
-      - name: Ensure target directory exists
-        run: |
-          sudo mkdir -p ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}
+      # - name: Ensure target directory exists
+      #   run: |
+      #     sudo mkdir -p ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}
       
       - name: Move docker-compose YAML
         run: |
