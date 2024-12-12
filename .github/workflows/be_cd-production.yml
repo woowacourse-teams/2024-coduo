@@ -51,11 +51,11 @@ jobs:
 
   deploy:
     environment: production
-    runs-on: coduo-prod
+    runs-on: ${{ matrix.instance }}
     needs: build
     strategy:
       matrix:
-        instance: [ "InstanceA:INSTANCE_A", "InstanceB:INSTANCE_B" ]
+        instance: [ "coduo-prod-a", "coduo-prod-b" ]
     defaults:
       run:
         working-directory: ./backend
