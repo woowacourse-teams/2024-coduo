@@ -2,7 +2,7 @@ name: Coduo Backend Production Server CD
 
 on:
   push:
-    branches: [ "production" ]
+    branches: [ "production", "BE/feature/#977" ]
 
 jobs:
   build:
