@@ -67,9 +67,13 @@ jobs:
           path: ${{ github.workspace }}/backend
 
       # 왜 안됨...
-      # - name: Move docker-compose YAML
-      #   run: |
-      #     sudo mv be_app-docker-compose.yml ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/
+      - name: Ensure target directory exists
+        run: |
+          sudo mkdir -p ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}
+      
+      - name: Move docker-compose YAML
+        run: |
+          sudo mv be_app-docker-compose.yml ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/
 
       - name: Extract secrets as .be_app-env file
         run: |
