@@ -65,6 +65,10 @@ jobs:
         with:
           name: docker-compose
           path: ${{ github.workspace }}/backend
+          
+      - name: Debug Print DOCKER_COMPOSE_YAML_PATH
+        run: |
+          echo "${{ secrets.DOCKER_COMPOSE_YAML_PATH }}"
 
       - name: Move docker-compose YAML
         run: |
