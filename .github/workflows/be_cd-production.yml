@@ -51,7 +51,7 @@ jobs:
 
   deploy:
     environment: production
-    runs-on: ubuntu-latest
+    runs-on: coduo-prod
     needs: build
     strategy:
       matrix:
