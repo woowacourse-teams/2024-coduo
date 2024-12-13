@@ -47,11 +47,10 @@ jobs:
             const reviewer = members.find(entry => entry.githubId === process.env.REVIEW_AUTHOR);
             console.log(`::set-output name=reviewee_slack_id::${reviewee.slackId}`);
             console.log(`::set-output name=reviewer_slack_name::${reviewer.name}`);
-
       - name: Send Slack notification
         uses: slackapi/slack-github-action@v1.22.0
         with:
-          channel-id: ${{secrets.SLACK_FE_REVIEW_CHANNEL}}
+          channel-id: ${{secrets.SLACK_BE_REVIEW_CHANNEL}}
           payload: |
             {
               "text": "리뷰가 도착했어요✉️",

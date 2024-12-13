@@ -19,6 +19,7 @@ const RetrospectView = () => {
 
   if (isFetching) return <Spinner size="sm" />;
 
+  if (isFetching) return <Spinner size="sm" />;
   return (
     <S.Layout>
       <S.Container>

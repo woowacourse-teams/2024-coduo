@@ -1,0 +1,221 @@
+name: Coduo Backend Production Server CD
+
+on:
+  push:
+    branches: [ "production" ]
+
+jobs:
+  build:
+    environment: production
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          cache-write-only: true
+
+      - name: Grant Execute Permission For Gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew bootJar
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_ID }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+      - name: Image build and push
+        run: |
+          docker build --build-arg PROFILE=prod --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_REPO_NAME }}/springboot-app:latest --platform linux/arm64 .
+          docker push ${{ secrets.DOCKER_REPO_NAME }}/springboot-app:latest
+
+      - name: Upload docker-compose yaml script to artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-compose
+          path: ${{ github.workspace }}/backend/be_app-docker-compose.yml
+
+  deployA:
+    environment: production
+    runs-on: production-ec2-A-runner
+    needs: build
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - name: Set docker-compose YAML script to runner
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-compose
+          path: ${{ github.workspace }}/backend
+
+      - name: Move docker-compose YAML
+        run: |
+          sudo mv be_app-docker-compose.yml ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/
+
+      - name: Extract secrets as .be_app-env file
+        run: |
+          echo $(pwd)
+          chmod +x ./deploy.sh # 스크립트에 실행 권한 부여 
+          echo chmod ok
+          source ./deploy.sh
+          echo source ok
+          echo "BLUE_PORT=$BLUE_PORT" >> $GITHUB_ENV
+          echo "GREEN_PORT=$GREEN_PORT" >> $GITHUB_ENV
+          
+          cat <<EOF > ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env
+
+          # Docker Hub info from Github Secrets
+          DOCKER_REPO_NAME=${{ secrets.DOCKER_REPO_NAME }}
+          DOCKER_IMAGE_VERSION=latest
+
+          # DB Configuration secrets info from Github Secrets
+          MYSQL_TIME_ZONE=${{ secrets.MYSQL_TIME_ZONE }}
+          DB_BINDING_PORT=${{ secrets.DB_BINDING_PORT }}
+          DOCKER_DATA_PATH=${{ secrets.DOCKER_DATA_PATH }}
+          MASTER_DB_URL=${{ secrets.MASTER_DB_URL }}
+          MASTER_DB_USERNAME=${{ secrets.MASTER_DB_USERNAME }}
+          MASTER_DB_PASSWORD=${{ secrets.MASTER_DB_PASSWORD }}
+          SLAVE_DB_URL=${{ secrets.SLAVE_DB_URL }}
+          SLAVE_DB_USERNAME=${{ secrets.SLAVE_DB_USERNAME }}
+          SLAVE_DB_PASSWORD=${{ secrets.SLAVE_DB_PASSWORD }}
+          DDL_AUTO=${{ secrets.DDL_AUTO }}
+
+          # OAUTH & JWT
+          CLIENT_ID=${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}
+          CLIENT_REDIRECT_URI=${{ secrets.CLIENT_REDIRECT_URI }}
+          JWT_KEY=${{ secrets.JWT_KEY}}
+          
+          # INSTANCE NAME
+          INSTANCE_NAME=${{ secrets.INSTANCE_A_NAME }}
+          
+          # Server App
+          BLUE_SERVER_BINDING_PORT=${BLUE_PORT}
+          GREEN_SERVER_BINDING_PORT=${GREEN_PORT}
+          SERVER_LOGS_PATH=${{ secrets.SERVER_LOGS_PATH }}
+          EOF
+      
+      - name: remove old spring-app image
+        run: |
+          sudo docker image rm -f ${{ secrets.DOCKER_REPO_NAME }}/springboot-app;
+          
+      - name: Start the new (green/blue) environment
+        run: |
+          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml -p $GREEN_PORT up -d
+        
+      - name: Wait for new environment to be healthy
+        run: |
+          until curl -sf http://localhost:${GREEN_PORT}/api/actuator/health | grep "UP"; do sleep 5; done
+
+      - name: Reload NGINX
+        run: |
+          sudo systemctl reload nginx
+
+      - name: Stop and remove the old environment
+        run: |
+          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml -p $BLUE_PORT down
+      
+      - name: Delete Dangling docker images
+        run: |
+          sudo docker image prune -a -f
+          
+  deployB:
+    environment: production
+    runs-on: production-ec2-B-runner
+    needs: build
+    defaults:
+      run:
+        working-directory: ./backend
+    steps:
+      - name: Set docker-compose YAML script to runner
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-compose
+          path: ${{ github.workspace }}/backend
+
+      - name: Move docker-compose YAML
+        run: |
+          sudo mv be_app-docker-compose.yml ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/
+
+      - name: Extract secrets as .be_app-env file
+        run: |
+          echo $(pwd)
+          chmod +x ./deploy.sh # 스크립트에 실행 권한 부여 
+          echo chmod ok
+          source ./deploy.sh
+          echo source ok
+          echo "BLUE_PORT=$BLUE_PORT" >> $GITHUB_ENV
+          echo "GREEN_PORT=$GREEN_PORT" >> $GITHUB_ENV
+          
+          cat <<EOF > ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env
+
+          # Docker Hub info from Github Secrets
+          DOCKER_IMAGE_VERSION=latest
+          DOCKER_REPO_NAME=${{ secrets.DOCKER_REPO_NAME }}
+
+           # DB Configuration secrets info from Github Secrets
+          MYSQL_DB_NAME=${{ secrets.MYSQL_DB_NAME }}
+          MYSQL_TIME_ZONE=${{ secrets.MYSQL_TIME_ZONE }}
+          DB_BINDING_PORT=${{ secrets.DB_BINDING_PORT }}
+          DOCKER_DATA_PATH=${{ secrets.DOCKER_DATA_PATH }}
+          MASTER_DB_URL=${{ secrets.MASTER_DB_URL }}
+          MASTER_DB_USERNAME=${{ secrets.MASTER_DB_USERNAME }}
+          MASTER_DB_PASSWORD=${{ secrets.MASTER_DB_PASSWORD }}
+          SLAVE_DB_URL=${{ secrets.SLAVE_DB_URL }}
+          SLAVE_DB_USERNAME=${{ secrets.SLAVE_DB_USERNAME }}
+          SLAVE_DB_PASSWORD=${{ secrets.SLAVE_DB_PASSWORD }}
+          DDL_AUTO=${{ secrets.DDL_AUTO }}
+
+          # OAUTH & JWT
+          CLIENT_ID=${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}
+          CLIENT_REDIRECT_URI=${{ secrets.CLIENT_REDIRECT_URI }}
+          JWT_KEY=${{ secrets.JWT_KEY}}
+          
+          # INSTANCE NAME
+          INSTANCE_NAME=${{ secrets.INSTANCE_B_NAME }}
+
+          # Server App
+          BLUE_SERVER_BINDING_PORT=${BLUE_PORT}
+          GREEN_SERVER_BINDING_PORT=${GREEN_PORT}
+          SERVER_LOGS_PATH=${{ secrets.SERVER_LOGS_PATH }}
+          EOF
+
+      - name: remove old spring-app image
+        run: |
+          sudo docker image rm -f ${{ secrets.DOCKER_REPO_NAME }}/springboot-app;
+
+      - name: Start the new (green/blue) environment
+        run: |
+          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml -p $GREEN_PORT up -d
+
+      - name: Wait for new environment to be healthy
+        run: |
+          until curl -sf http://localhost:${GREEN_PORT}/api/actuator/health | grep "UP"; do sleep 5; done
+
+      - name: Reload NGINX 
+        run: |
+          sudo systemctl reload nginx
+
+      - name: Stop and remove the old environment
+        run: |
+          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml -p $BLUE_PORT down
+      
+      - name: Delete Dangling docker images
+        run: |
+          sudo docker image prune -a -f
