@@ -126,12 +126,12 @@ export const Layout = styled.button<IconButtonProps>`
   }
 
   &:disabled {
-    background-color: ${theme.color.black[100]};
+    background-color: transparent;
 
     cursor: default;
 
     svg {
-      color: ${theme.color.black[200]};
+      color: ${theme.color.black[400]};
     }
   }
 `;
