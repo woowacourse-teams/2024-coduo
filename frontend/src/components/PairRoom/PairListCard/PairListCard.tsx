@@ -44,12 +44,10 @@ const PairListCard = ({ driver, navigator, missionUrl, accessCode }: PairListCar
     <S.Layout $isOpen={isOpen} aria-label="페어 목록">
       <PairRoomCard>
         <Header isOpen={isOpen} toggleOpen={toggleOpen} />
-        <S.Sidebar>
-          <AccessCodeSection isOpen={isOpen} accessCode={accessCode} />
-          {missionUrl !== '' && <RepositorySection isOpen={isOpen} missionUrl={missionUrl} />}
-          <PairListSection isOpen={isOpen} driver={driver} navigator={navigator} />
-          <CompleteRoomButton isOpen={isOpen} openModal={openModal} />
-        </S.Sidebar>
+        <AccessCodeSection isOpen={isOpen} accessCode={accessCode} />
+        {missionUrl !== '' && <RepositorySection isOpen={isOpen} missionUrl={missionUrl} />}
+        <PairListSection isOpen={isOpen} driver={driver} navigator={navigator} />
+        <CompleteRoomButton isOpen={isOpen} openModal={openModal} />
       </PairRoomCard>
       <ConfirmModal
         isOpen={isModalOpen}
