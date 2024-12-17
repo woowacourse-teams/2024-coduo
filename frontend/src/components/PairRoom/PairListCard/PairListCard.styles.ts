@@ -14,7 +14,3 @@ export const Layout = styled.div<{ $isOpen: boolean }>`
 
   transition: min-width 0.3s;
 `;
-
-export const Sidebar = styled.div`
-  overflow: hidden;
-`;
