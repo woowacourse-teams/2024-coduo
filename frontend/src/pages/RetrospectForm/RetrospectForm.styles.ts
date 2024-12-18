@@ -1,15 +1,5 @@
 import styled from 'styled-components';
 
-export const ButtonContainer = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-
-  width: 60%;
-
-  transform: translate(-50%);
-`;
-
 export const Layout = styled.div`
   display: flex;
   justify-content: center;
@@ -46,4 +36,19 @@ export const Form = styled.form`
   gap: 4rem;
 
   width: 100%;
+`;
+
+export const ButtonContainer = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+
+  width: 60%;
+  min-width: 76.8rem;
+
+  transform: translate(-50%);
+
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+    width: 100%;
+  }
 `;
