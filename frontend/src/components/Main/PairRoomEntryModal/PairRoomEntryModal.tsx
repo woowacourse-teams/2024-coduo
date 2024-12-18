@@ -8,6 +8,7 @@ import useToastStore from '@/stores/toastStore';
 
 import { getPairRoomExists } from '@/apis/pairRoom';
 
+import useClickEnterKey from '@/hooks/_common/customEvent/useClickEnterKey';
 import useInput from '@/hooks/_common/useInput';
 
 interface PairRoomEntryModal {
@@ -19,7 +20,9 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
   const navigate = useNavigate();
 
   const { addToast } = useToastStore();
+
   const { value, resetValue, handleChange } = useInput();
+  const { buttonRef } = useClickEnterKey(isOpen);
 
   const enterPairRoom = async () => {
     const { exists } = await getPairRoomExists(value);
@@ -50,7 +53,7 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
         <Button size="lg" onClick={closeModal} filled={false}>
           닫기
         </Button>
-        <Button size="lg" disabled={!value} onClick={enterPairRoom}>
+        <Button ref={buttonRef} size="lg" disabled={!value} onClick={enterPairRoom}>
           완료
         </Button>
       </Modal.Footer>
