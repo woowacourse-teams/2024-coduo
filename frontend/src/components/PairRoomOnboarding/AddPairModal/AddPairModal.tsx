@@ -59,7 +59,7 @@ const AddPairModal = ({ isOpen, closeModal, onPairData }: AddPairModalProps) => 
         </InputField>
       </S.Body>
       <S.Footer>
-        <Button onClick={handleCloseModal} filled={false}>
+        <Button size="lg" onClick={handleCloseModal} filled={false}>
           닫기
         </Button>
         <Button size="lg" disabled={value.trim() === '' || status === 'ERROR'} onClick={() => connectPairData(value)}>
