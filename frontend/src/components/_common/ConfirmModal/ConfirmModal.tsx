@@ -23,7 +23,7 @@ const ConfirmModal = ({
   onConfirm,
 }: ConfirmModalProps) => {
   return (
-    <Modal isOpen={isOpen} close={close} size="sm">
+    <Modal isOpen={isOpen} close={close} size="fit-content">
       <Modal.CloseButton close={close} />
       <S.Container $type={type}>
         <p>{title}</p>
