@@ -41,14 +41,29 @@ public class PairRoomWebSocketSessionStore {
 
     public Set<WebSocketSession> getSessions(final String pairRoomAccessCode) {
         validatePairRoomAccessCode(pairRoomAccessCode);
+        checkSessionExists(pairRoomAccessCode);
+        return sessions.get(pairRoomAccessCode);
+    }
+
+    private void checkSessionExists(final String pairRoomAccessCode) {
         if (!sessions.containsKey(pairRoomAccessCode)) {
             throw new NotFoundPairRoomSessionException("해당 페어룸의 세션이 존재하지 않습니다. - " + pairRoomAccessCode);
         }
-        return sessions.get(pairRoomAccessCode);
     }
 
     public boolean hasPairRoomSessions(final String pairRoomAccessCode) {
         validatePairRoomAccessCode(pairRoomAccessCode);
         return sessions.containsKey(pairRoomAccessCode);
+    }
+
+    public void removeSession(final String pairRoomAccessCode, final WebSocketSession session) {
+        validatePairRoomAccessCode(pairRoomAccessCode);
+        checkSessionExists(pairRoomAccessCode);
+
+        final Set<WebSocketSession> pairRoomSessions = sessions.get(pairRoomAccessCode);
+        pairRoomSessions.remove(session);
+        if (pairRoomSessions.isEmpty()) {
+            sessions.remove(pairRoomAccessCode);
+        }
     }
 }

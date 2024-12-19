@@ -18,10 +18,14 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(final WebSocketSession session) {
-        final String query = session.getUri().getQuery();
-        final String pairRoomAccessCode = QueryAccessCodeParser.parse(query);
+        final String pairRoomAccessCode = parsePairRoomAccessCode(session);
         pairRoomWebSocketSessionStore.addSession(pairRoomAccessCode, session);
         log.info("연결 성공 : {}", session.getId());
+    }
+
+    private String parsePairRoomAccessCode(final WebSocketSession session) {
+        final String query = session.getUri().getQuery();
+        return QueryAccessCodeParser.parse(query);
     }
 
     @Override
@@ -36,6 +40,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(final WebSocketSession session, final CloseStatus status) {
+        final String pairRoomAccessCode = parsePairRoomAccessCode(session);
+        pairRoomWebSocketSessionStore.removeSession(pairRoomAccessCode, session);
         log.info("연결 종료 : {}, 상태 : {}", session.getId(), status);
     }
 }

@@ -27,7 +27,9 @@ public class ProdWebSocketSender implements WebSocketSender {
     private void sendMessage(final WebSocketSession session, final WebSocketMessage message) {
         try {
             final TextMessage webSocketMessage = new TextMessage(objectMapper.writeValueAsString(message));
-            session.sendMessage(webSocketMessage);
+            if (session.isOpen()) {
+                session.sendMessage(webSocketMessage);
+            }
         } catch (IOException e) {
             log.error(e.getMessage(), e);
         }
