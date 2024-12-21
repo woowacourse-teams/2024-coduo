@@ -9,6 +9,7 @@ import { Modal } from '@/components/_common/Modal';
 
 import useToastStore from '@/stores/toastStore';
 
+import useClickEnterKey from '@/hooks/_common/customEvent/useClickEnterKey';
 import useCopyClipBoard from '@/hooks/_common/useCopyClipboard';
 
 import { theme } from '@/styles/theme';
@@ -27,6 +28,7 @@ const GuideModal = ({ isOpen, close, accessCode }: GuideModalProps) => {
   const { addToast } = useToastStore();
 
   const [, onCopy] = useCopyClipBoard();
+  const { buttonRef } = useClickEnterKey(isOpen);
 
   const checkPermission = () => {
     if (Notification.permission !== 'granted') {
@@ -104,7 +106,7 @@ const GuideModal = ({ isOpen, close, accessCode }: GuideModalProps) => {
         <Modal.Footer position="CENTER">
           <S.ButtonContainer>
             <p>모두 확인하셨나요?</p>
-            <Button width="18rem" size="lg" onClick={close}>
+            <Button ref={buttonRef} width="18rem" size="lg" onClick={close}>
               시작하기
             </Button>
           </S.ButtonContainer>

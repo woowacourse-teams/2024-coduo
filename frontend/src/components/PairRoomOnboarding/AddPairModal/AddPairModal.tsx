@@ -8,6 +8,7 @@ import useToastStore from '@/stores/toastStore';
 
 import { getMemberName } from '@/apis/member';
 
+import useClickEnterKey from '@/hooks/_common/customEvent/useClickEnterKey';
 import useInput from '@/hooks/_common/useInput';
 
 import { validatePairInfo } from '@/validations/validatePairName';
@@ -21,8 +22,10 @@ interface AddPairModalProps {
 }
 
 const AddPairModal = ({ isOpen, closeModal, onPairData }: AddPairModalProps) => {
-  const { value, status, message, handleChange, resetValue } = useInput();
   const { addToast } = useToastStore();
+
+  const { value, status, message, handleChange, resetValue } = useInput();
+  const { buttonRef } = useClickEnterKey(isOpen);
 
   const handleCloseModal = () => {
     resetValue();
@@ -59,10 +62,15 @@ const AddPairModal = ({ isOpen, closeModal, onPairData }: AddPairModalProps) => 
         </InputField>
       </S.Body>
       <S.Footer>
-        <Button onClick={handleCloseModal} filled={false}>
+        <Button size="lg" onClick={handleCloseModal} filled={false}>
           닫기
         </Button>
-        <Button size="lg" disabled={value.trim() === '' || status === 'ERROR'} onClick={() => connectPairData(value)}>
+        <Button
+          ref={buttonRef}
+          size="lg"
+          disabled={value.trim() === '' || status === 'ERROR'}
+          onClick={() => connectPairData(value)}
+        >
           연동하기
         </Button>
       </S.Footer>
