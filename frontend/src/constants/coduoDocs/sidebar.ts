@@ -31,7 +31,7 @@ export const START_WITH_MISSION = [
 
 export const START_FREE = [
   {
-    id: 'start-without-mission',
+    id: 'start-free',
     subtitle: '미션 없이 시작하기',
   },
   {

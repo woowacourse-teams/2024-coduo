@@ -1,11 +1,11 @@
-const HOW_TO_START = [
+export const HOW_TO_START = [
   {
     id: 'coduo-guide',
     title: '코딩해듀오 사용가이드',
     content: `코딩해듀오 문서에 오신 것을 환영합니다! 
             코딩해듀오는 페어 프로그래밍을 처음 접하는 사용자가 페어프로그래밍을 시작하기 위해 필요한 모든 것을 제공하는 서비스입니다. 
             여기에서는 코딩해듀오를 어떻게 시작할 수 있는지 소개합니다.`,
-    images: [
+    steps: [
       {
         title: '1. 방 생성하기',
         src: 'https://res.cloudinary.com/dtxv2v5kx/image/upload/v1734855075/coduo-start.webp',
@@ -23,7 +23,7 @@ const HOW_TO_START = [
       linkText: '미션 레포지토리로 이동',
       text: '미션 레포지토리에서 미션을 미리 확인해 보세요.',
     },
-    images: [
+    steps: [
       {
         title: '1. 미션과 함께 시작하기',
         src: 'https://res.cloudinary.com/dtxv2v5kx/image/upload/v1734855172/start-with-mission.webp',
@@ -71,7 +71,7 @@ const HOW_TO_START = [
   {
     id: 'start-free',
     subtitle: '자유롭게 시작하기',
-    images: [
+    steps: [
       {
         title: '1. 미션 없이 시작하기',
         src: 'https://res.cloudinary.com/dtxv2v5kx/image/upload/v1734868518/start-free.webp',
@@ -104,5 +104,3 @@ const HOW_TO_START = [
     ],
   },
 ];
-
-export { HOW_TO_START };
