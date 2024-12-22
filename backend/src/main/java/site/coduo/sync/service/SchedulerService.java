@@ -62,7 +62,7 @@ public class SchedulerService {
             return;
         }
         if (pairRoomWebSocketService.hasNoConnections(key) && schedulerRegistry.has(key)) {
-            pause(key);
+            pauseTimer(key);
             return;
         }
         timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
@@ -70,11 +70,15 @@ public class SchedulerService {
                 new EventAndDataMessage("remaining-time", String.valueOf(timer.getRemainingTime())));
     }
 
-    public void pause(final String key) {
+    private void pauseTimer(final String key) {
         if (schedulerRegistry.isActive(key)) {
-            pairRoomWebSocketService.sendAllPairRoomSessions(key, new EventAndDataMessage("timer", "pause"));
             schedulerRegistry.release(key);
         }
+    }
+
+    public void pause(final String key) {
+        pauseTimer(key);
+        pairRoomWebSocketService.sendAllPairRoomSessions(key, new EventAndDataMessage("timer", "pause"));
     }
 
     private void stop(final String key, final Timer timer) {
