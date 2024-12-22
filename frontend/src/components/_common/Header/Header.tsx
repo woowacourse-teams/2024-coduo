@@ -28,11 +28,11 @@ const Header = () => {
         <S.Logo src={LogoIcon} alt="" />
       </Link>
       <S.LinkContainer>
-        <S.ResponsiveLink to="/coduo-docs" aria-label="코딩해듀오 시작하기로 이동">
-          <TextButton text="코딩해듀오 시작하기" />
+        <S.ResponsiveLink to="/coduo-docs" aria-label="코딩해듀오 가이드북으로 이동">
+          <TextButton text="코딩해듀오 가이드북" />
         </S.ResponsiveLink>
         <S.ResponsiveIcon>
-          <Link to="/coduo-docs" aria-label="코딩해듀오 시작하기로 이동">
+          <Link to="/coduo-docs" aria-label="코딩해듀오 가이드북으로 이동">
             <IconButton icon={<FaBook size={theme.iconSize.sm} aria-hidden="true" />} size="sm" />
           </Link>
         </S.ResponsiveIcon>
