@@ -11,11 +11,11 @@ export const Container = styled.div`
   padding: 3rem 4rem;
   border-radius: 0.5rem;
 
-  background-color: ${({ theme }) => theme.color.black[200]};
+  background-color: ${({ theme }) => theme.color.black[800]};
 `;
 
 export const Content = styled.p`
-  color: ${({ theme }) => theme.color.black[900]};
+  color: ${({ theme }) => theme.color.black[100]};
   font-size: ${({ theme }) => theme.fontSize.base};
   line-height: 1.8;
   white-space: pre-wrap;

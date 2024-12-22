@@ -7,7 +7,7 @@ interface QuoteProps {
   isNewBrowserOpen?: boolean;
 }
 
-const Quote = ({ text, href, linkText, isNewBrowserOpen = false }: QuoteProps) => {
+const Quote = ({ text, href, linkText, isNewBrowserOpen = true }: QuoteProps) => {
   return (
     <S.Container>
       <S.QuoteBar>|</S.QuoteBar>

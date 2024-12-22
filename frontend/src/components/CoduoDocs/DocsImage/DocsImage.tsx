@@ -1,19 +1,34 @@
+import Quote from '@/components/CoduoDocs/Quote/Quote';
+import SourceCode from '@/components/CoduoDocs/SourceCode/SourceCode';
+
 import * as S from './DocsImage.styles';
 
-interface DocsImageProps {
-  information?: string;
-  src: string;
-  alt: string;
+interface Data {
+  title?: string;
+  src?: string;
   id?: string;
+  info?: string;
+  sourceCode?: string[];
 }
 
-const DocsImage = ({ information, src, alt, id, children }: React.PropsWithChildren<DocsImageProps>) => {
+interface DocsImageProps {
+  images?: Data[];
+}
+
+const DocsImage = ({ images }: DocsImageProps) => {
   return (
-    <S.Container>
-      {information && <S.Contents id={id}>{information}</S.Contents>}
-      {children}
-      <img src={src} alt={alt} loading="lazy" />
-    </S.Container>
+    <>
+      {images?.map((data, index) => {
+        return (
+          <S.Container key={index} id={data.id}>
+            {data.title && <S.Contents>{data.title}</S.Contents>}
+            {data.info && <Quote text={data.info} />}
+            {data.src && <S.Image src={data.src} alt={data.id} />}
+            {data.sourceCode?.map((sourceCode, index) => <SourceCode key={index} code={sourceCode}></SourceCode>)}
+          </S.Container>
+        );
+      })}
+    </>
   );
 };
 
