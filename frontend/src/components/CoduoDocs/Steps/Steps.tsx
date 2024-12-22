@@ -1,7 +1,7 @@
 import Quote from '@/components/CoduoDocs/Quote/Quote';
 import SourceCode from '@/components/CoduoDocs/SourceCode/SourceCode';
 
-import * as S from './DocsImage.styles';
+import * as S from './Steps.styles';
 
 interface Data {
   title?: string;
@@ -12,13 +12,13 @@ interface Data {
 }
 
 interface DocsImageProps {
-  images?: Data[];
+  steps?: Data[];
 }
 
-const DocsImage = ({ images }: DocsImageProps) => {
+const Steps = ({ steps }: DocsImageProps) => {
   return (
     <>
-      {images?.map((data, index) => {
+      {steps?.map((data, index) => {
         return (
           <S.Container key={index} id={data.id}>
             {data.title && <S.Contents>{data.title}</S.Contents>}
@@ -32,4 +32,4 @@ const DocsImage = ({ images }: DocsImageProps) => {
   );
 };
 
-export default DocsImage;
+export default Steps;
