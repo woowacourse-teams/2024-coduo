@@ -6,7 +6,7 @@ export const Layout = styled.div`
   gap: 2.3rem;
 
   position: fixed;
-  top: 15rem;
+  top: 12rem;
   left: 4%;
 
   background-color: ${({ theme }) => theme.color.black[0]};
