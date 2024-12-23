@@ -4,6 +4,8 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+
+  margin-top: 3rem;
 `;
 export const Contents = styled.p`
   color: ${({ theme }) => theme.color.black[900]};
@@ -11,13 +13,12 @@ export const Contents = styled.p`
 `;
 
 export const Image = styled.img`
-  width: 90rem;
-  height: 50rem;
+  width: 80rem;
+
   object-fit: cover;
   object-position: center;
 
   @media (width <= 1000px) {
     width: 60rem;
-    height: 30rem;
   }
 `;
