@@ -81,7 +81,7 @@ export const HOW_TO_START = [
       {
         title: '2. 이름 입력하기 ',
         src: 'https://res.cloudinary.com/dtxv2v5kx/image/upload/v1734868518/link-pair.webp',
-        id: 'link-pair',
+        id: 'input-pair-name',
         info: '사용할 이름을 입력해 줍니다. 페어 정보 연동하기 버튼을 누르면 코딩해듀오에 가입 되어 있는 페어의 아이디를 연동할 수 있습니다.',
       },
       {

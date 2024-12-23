@@ -35,7 +35,7 @@ export const START_FREE = [
     subtitle: '미션 없이 시작하기',
   },
   {
-    id: 'link-pair',
+    id: 'input-pair-name',
     subtitle: '이름 입력하기',
   },
   {
