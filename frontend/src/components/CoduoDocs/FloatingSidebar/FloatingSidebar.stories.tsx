@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import ContentBox from '@/components/CoduoDocs/ContentBox/ContentBox';
 import FloatingSidebar from '@/components/CoduoDocs/FloatingSidebar/FloatingSidebar';
 
-import { START_CONTENT } from '@/constants/coduoDocs';
+import { PAIR_PROGRAMMING_CONCEPT } from '@/constants/coduoDocs';
 
 const meta = {
   title: 'component/CoduoDocs/FloatingSidebar',
@@ -17,7 +17,7 @@ type Story = StoryObj<typeof FloatingSidebar>;
 export const Default: Story = {
   render: () => (
     <FloatingSidebar>
-      <ContentBox title="시작하기" contents={START_CONTENT} activeSection="input-name" />
+      <ContentBox title="시작하기" contents={PAIR_PROGRAMMING_CONCEPT} activeSection="input-name" />
     </FloatingSidebar>
   ),
 };

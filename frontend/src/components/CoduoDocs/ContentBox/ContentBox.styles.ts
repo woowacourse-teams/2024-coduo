@@ -41,7 +41,7 @@ export const ContentItem = styled(Link)<{ $isActive: boolean }>`
     left: -2rem;
 
     width: 3px;
-    height: 140%;
+    height: 160%;
 
     background-color: ${({ $isActive, theme }) => ($isActive ? theme.color.secondary[500] : theme.color.black[200])};
 

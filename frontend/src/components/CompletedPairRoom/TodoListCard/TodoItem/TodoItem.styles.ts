@@ -10,7 +10,7 @@ export const Layout = styled.div<{ $isChecked: boolean; $isIconHovered: boolean 
   padding: 1.6rem;
   border-radius: 1rem;
 
-  background: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[300] : theme.color.secondary[200])};
+  background: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[200] : theme.color.secondary[100])};
   font-size: ${({ theme }) => theme.fontSize.md};
 
   transition: background 0.1s ease;

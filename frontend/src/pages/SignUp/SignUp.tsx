@@ -62,9 +62,9 @@ const SignUp = () => {
         </InputField>
         <Button
           width="50rem"
+          height="10rem"
           fontSize={theme.fontSize.md}
           type="submit"
-          size="lg"
           disabled={validateName(username).status === 'ERROR'}
         >
           계정 만들기 🥳

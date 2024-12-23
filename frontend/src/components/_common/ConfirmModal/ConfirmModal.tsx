@@ -1,6 +1,8 @@
 import Button from '@/components/_common/Button/Button';
 import { Modal } from '@/components/_common/Modal';
 
+import useClickEnterKey from '@/hooks/_common/customEvent/useClickEnterKey';
+
 import * as S from './ConfirmModal.styles';
 
 interface ConfirmModalProps {
@@ -22,8 +24,10 @@ const ConfirmModal = ({
   confirmText = '확인',
   onConfirm,
 }: ConfirmModalProps) => {
+  const { buttonRef } = useClickEnterKey(isOpen);
+
   return (
-    <Modal isOpen={isOpen} close={close} size="sm">
+    <Modal isOpen={isOpen} close={close} size="fit-content">
       <Modal.CloseButton close={close} />
       <S.Container $type={type}>
         <p>{title}</p>
@@ -33,7 +37,7 @@ const ConfirmModal = ({
         <Button size="lg" fontSize="1.4rem" color="black" onClick={close}>
           취소
         </Button>
-        <Button size="lg" fontSize="1.4rem" onClick={onConfirm}>
+        <Button ref={buttonRef} size="lg" fontSize="1.4rem" onClick={onConfirm}>
           {confirmText}
         </Button>
       </Modal.Footer>

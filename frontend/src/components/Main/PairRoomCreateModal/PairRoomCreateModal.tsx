@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import Button from '@/components/_common/Button/Button';
 import { Modal } from '@/components/_common/Modal';
 
+import useClickEnterKey from '@/hooks/_common/customEvent/useClickEnterKey';
+
 import { theme } from '@/styles/theme';
 
 import * as S from './PairRoomCreateModal.styles';
@@ -13,6 +15,8 @@ interface PairRoomCreateModalProps {
 }
 
 const PairRoomCreateModal = ({ isOpen, closeModal }: PairRoomCreateModalProps) => {
+  const { buttonRef } = useClickEnterKey(isOpen);
+
   return (
     <Modal isOpen={isOpen} close={closeModal} size="60rem">
       <Modal.Header title="페어룸 선택" subTitle="어떤 방식으로 페어룸을 만들까요?" />
@@ -26,7 +30,7 @@ const PairRoomCreateModal = ({ isOpen, closeModal }: PairRoomCreateModalProps) =
           to="/onboarding?mission=true"
           aria-label="코딩해듀오가 깃허브 리포지토리로 제공하는 미션과 함께 시작할래요"
         >
-          <Button size="lg" width="100%" height="6rem" fontSize={theme.fontSize.lg} color="secondary">
+          <Button ref={buttonRef} size="lg" width="100%" height="6rem" fontSize={theme.fontSize.lg} color="secondary">
             미션과 함께 시작할래요
           </Button>
         </Link>

@@ -72,11 +72,11 @@ const RoleLabel = styled.div`
 `;
 
 export const DriverLabel = styled(RoleLabel)`
-  background-color: ${({ theme }) => theme.color.secondary[600]};
+  background-color: ${({ theme }) => theme.color.secondary[500]};
 `;
 
 export const NavigatorLabel = styled(RoleLabel)`
-  background-color: ${({ theme }) => theme.color.primary[800]};
+  background-color: ${({ theme }) => theme.color.primary[600]};
 `;
 
 export const DriverText = styled.p`

@@ -157,7 +157,7 @@ export const PairRoomButton = styled.button<{ $status: PairRoomStatus; $color: '
 
   &:hover::before {
     background-position: 105.8% 0;
-    opacity: 1;
+    opacity: 0.9;
   }
 
   &:hover ${StatusText} {
