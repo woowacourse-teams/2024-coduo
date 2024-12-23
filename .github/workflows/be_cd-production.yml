@@ -51,11 +51,11 @@ jobs:
 
   deploy:
     environment: production
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.instance }}
     needs: build
     strategy:
       matrix:
-        instance: [ "InstanceA:INSTANCE_A", "InstanceB:INSTANCE_B" ]
+        instance: [ "coduo-prod-a", "coduo-prod-b" ]
     defaults:
       run:
         working-directory: ./backend
@@ -65,18 +65,35 @@ jobs:
         with:
           name: docker-compose
           path: ${{ github.workspace }}/backend
-
+      
       - name: Move docker-compose YAML
         run: |
           sudo mv be_app-docker-compose.yml ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/
 
+      - name: Run deploy script
+        run: |
+          chmod +x ./deploy.sh
+          source ./deploy.sh
+          echo "BLUE_PORT=$BLUE_PORT" >> $GITHUB_ENV
+          echo "GREEN_PORT=$GREEN_PORT" >> $GITHUB_ENV
+
       - name: Extract secrets as .be_app-env file
         run: |
-          IFS=":" read -r INSTANCE_NAME INSTANCE_PREFIX <<< "${{ matrix.instance }}"
+          if [ "${{ matrix.instance }}" = "coduo-prod-a" ]; then
+            INSTANCE_NAME=${{ secrets.INSTANCE_A_NAME }}
+          elif [ "${{ matrix.instance }}" = "coduo-prod-b" ]; then
+            INSTANCE_NAME=${{ secrets.INSTANCE_B_NAME }}
+          else
+            echo "Unknown instance: ${{ matrix.instance }}"
+            exit 1
+          fi
+
           cat <<EOF > ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env
+          # Docker Hub info from Github Secrets
           DOCKER_IMAGE_VERSION=latest
           DOCKER_REPO_NAME=${{ secrets.DOCKER_REPO_NAME }}
 
+          # DB Configuration secrets info from Github Secrets
           MYSQL_TIME_ZONE=${{ secrets.MYSQL_TIME_ZONE }}
           DB_BINDING_PORT=${{ secrets.DB_BINDING_PORT }}
           DOCKER_DATA_PATH=${{ secrets.DOCKER_DATA_PATH }}
@@ -88,12 +105,16 @@ jobs:
           SLAVE_DB_PASSWORD=${{ secrets.SLAVE_DB_PASSWORD }}
           DDL_AUTO=${{ secrets.DDL_AUTO }}
 
+          # OAUTH & JWT
           CLIENT_ID=${{ secrets.CLIENT_ID }}
           CLIENT_SECRET=${{ secrets.CLIENT_SECRET }}
           CLIENT_REDIRECT_URI=${{ secrets.CLIENT_REDIRECT_URI }}
           JWT_KEY=${{ secrets.JWT_KEY }}
-
+          
+          # INSTANCE NAME
           INSTANCE_NAME=$INSTANCE_NAME
+          
+          # Server App
           BLUE_SERVER_BINDING_PORT=$BLUE_PORT
           GREEN_SERVER_BINDING_PORT=$GREEN_PORT
           SERVER_LOGS_PATH=${{ secrets.SERVER_LOGS_PATH }}
