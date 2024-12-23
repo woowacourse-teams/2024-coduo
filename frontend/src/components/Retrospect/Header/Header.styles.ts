@@ -1,17 +1,4 @@
-import styled, { css } from 'styled-components';
-
-export const buttonStyles = css`
-  width: 11rem;
-  border-color: ${({ theme }) => theme.color.secondary[600]};
-
-  color: ${({ theme }) => theme.color.secondary[600]};
-
-  &:hover {
-    border-color: ${({ theme }) => theme.color.secondary[700]};
-
-    color: ${({ theme }) => theme.color.secondary[700]};
-  }
-`;
+import styled from 'styled-components';
 
 export const Layout = styled.div`
   display: flex;
@@ -25,12 +12,12 @@ export const TitleContainer = styled.div`
 `;
 
 export const Title = styled.h1`
-  color: ${({ theme }) => theme.color.primary[800]};
+  color: ${({ theme }) => theme.color.primary[900]};
   font-size: ${({ theme }) => theme.fontSize.h3};
   font-weight: ${({ theme }) => theme.fontWeight.semibold};
 `;
 
 export const SubTitle = styled.h2`
-  color: ${({ theme }) => theme.color.primary[700]};
+  color: ${({ theme }) => theme.color.primary[800]};
   font-size: ${({ theme }) => theme.fontSize.lg};
 `;

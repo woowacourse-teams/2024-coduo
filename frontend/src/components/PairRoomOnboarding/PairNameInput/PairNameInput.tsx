@@ -3,9 +3,12 @@ import { useState, useEffect } from 'react';
 
 import { LogoIcon } from '@/assets';
 
-import Button from '@/components/common/Button/Button';
-import Input from '@/components/common/Input/Input';
-import { InputType } from '@/components/common/Input/Input.type';
+import Button from '@/components/_common/Button/Button';
+import { InputField } from '@/components/_common/InputField';
+import { InputType } from '@/components/_common/InputField/InputField.type';
+import TextButton from '@/components/_common/TextButton/TextButton';
+
+import { theme } from '@/styles/theme';
 
 import * as S from './PairNameInput.styles';
 
@@ -38,34 +41,43 @@ const PairNameInput = ({
         <S.Title>이름 입력</S.Title>
         <S.SubTitle>나와 페어의 이름을 입력해 주세요.</S.SubTitle>
       </S.TitleContainer>
-      <S.InputContainer>
-        <S.Label>나의 이름은 무엇인가요?</S.Label>
-        <Input
-          placeholder="이름을 입력해주세요"
+      <InputField>
+        <InputField.Label htmlFor="my-name">나의 이름은 무엇인가요?</InputField.Label>
+        <InputField.Input
+          id="my-name"
+          placeholder="이름을 입력해 주세요."
           value={userPairName.value}
           status={userPairName.status}
-          message={userPairName.message}
           onChange={onUserPairName}
         />
-      </S.InputContainer>
-      <S.InputContainer>
-        <S.Label>함께할 페어의 이름은 무엇인가요?</S.Label>
+        <InputField.Message status={userPairName.status}>{userPairName.message}</InputField.Message>
+      </InputField>
+      <InputField>
+        <InputField.Label htmlFor="pair-name">함께할 페어의 이름은 무엇인가요?</InputField.Label>
         {isInputOpen ? (
-          <S.InputWrapper>
-            <Input
-              autoFocus
-              placeholder="이름을 입력해주세요"
-              value={pairName.value}
-              status={pairName.status}
-              message={pairName.message}
-              onChange={onPairName}
-            />
-            {!pairId && (
-              <Button $css={S.buttonStyles} onClick={() => setIsInputOpen(false)}>
-                취소
-              </Button>
-            )}
-          </S.InputWrapper>
+          <>
+            <InputField.Content>
+              <InputField.Input
+                id="pair-name"
+                autoFocus
+                placeholder="이름을 입력해 주세요."
+                value={pairName.value}
+                status={pairName.status}
+                onChange={onPairName}
+              />
+              {!pairId && (
+                <Button
+                  color="primary"
+                  borderRadius="1rem"
+                  fontSize={theme.fontSize.md}
+                  onClick={() => setIsInputOpen(false)}
+                >
+                  취소
+                </Button>
+              )}
+            </InputField.Content>
+            <InputField.Message status={pairName.status}>{pairName.message}</InputField.Message>
+          </>
         ) : (
           <>
             <S.AddButton
@@ -77,10 +89,17 @@ const PairNameInput = ({
               </div>
               <p>페어 정보 연동하기</p>
             </S.AddButton>
-            <S.TextButton onClick={() => setIsInputOpen(true)}>연동 없이 시작하기</S.TextButton>
+            <TextButton
+              text="연동 없이 시작하기"
+              onClick={() => setIsInputOpen(true)}
+              underline={true}
+              color={theme.color.black[400]}
+              size="sm"
+              hoverType="DARK"
+            />
           </>
         )}
-      </S.InputContainer>
+      </InputField>
     </S.Layout>
   );
 };

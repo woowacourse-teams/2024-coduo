@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 
-import Dropdown from '@/components/common/Dropdown/Dropdown/Dropdown';
-import HiddenMessage from '@/components/common/HiddenMessage/HiddenMessage';
+import { Dropdown } from '@/components/_common/Dropdown';
+import HiddenMessage from '@/components/_common/HiddenMessage/HiddenMessage';
 import InformationBox from '@/components/PairRoomOnboarding/InformationBox/InformationBox';
 
 import type { Role } from '@/hooks/PairRoomOnboarding/usePairRoomInformation';
+
+import { findValueById } from '@/utils/findOption';
 
 import * as S from './PairRoleInput.styles';
 
@@ -25,6 +27,21 @@ const PairRoleInput = ({ userPairName, pairName, driver, navigator, onPairRole }
     }
   }, [driver, navigator]);
 
+  const nameOptions = [
+    {
+      id: '1',
+      value: userPairName,
+    },
+    {
+      id: '2',
+      value: pairName,
+    },
+  ];
+
+  const handleSelect = (optionId: string, role: Role) => {
+    onPairRole(findValueById(nameOptions, optionId) || '', role);
+  };
+
   return (
     <S.Layout aria-label="총 3개의 설정 항목 중 2번째 항목입니다.">
       <HiddenMessage aria-live="polite">{message}</HiddenMessage>
@@ -41,21 +58,21 @@ const PairRoleInput = ({ userPairName, pairName, driver, navigator, onPairRole }
       </S.HeaderContainer>
       <S.DropdownContainer>
         <S.DropdownWrapper>
-          <S.DropdownLabel>드라이버</S.DropdownLabel>
+          <Dropdown.Label message="드라이버" />
           <Dropdown
-            placeholder={'이름을 선택해주세요.'}
-            options={[userPairName, pairName]}
+            placeholder="이름을 선택해주세요."
+            options={nameOptions}
             selectedOption={driver}
-            onSelect={(name) => onPairRole(name, 'DRIVER')}
+            onSelect={(optionId) => handleSelect(optionId, 'DRIVER')}
           />
         </S.DropdownWrapper>
         <S.DropdownWrapper>
-          <S.DropdownLabel>내비게이터</S.DropdownLabel>
+          <Dropdown.Label message="내비게이터" />
           <Dropdown
-            placeholder={'이름을 선택해주세요.'}
-            options={[userPairName, pairName]}
+            placeholder="이름을 선택해주세요."
+            options={nameOptions}
             selectedOption={navigator}
-            onSelect={(name) => onPairRole(name, 'NAVIGATOR')}
+            onSelect={(optionId) => handleSelect(optionId, 'NAVIGATOR')}
           />
         </S.DropdownWrapper>
       </S.DropdownContainer>

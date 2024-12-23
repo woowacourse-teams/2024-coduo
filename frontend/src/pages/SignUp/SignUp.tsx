@@ -3,15 +3,17 @@ import { useNavigate } from 'react-router-dom';
 
 import { LogoIconWithTitle } from '@/assets';
 
-import Button from '@/components/common/Button/Button';
-import Input from '@/components/common/Input/Input';
+import Button from '@/components/_common/Button/Button';
+import { InputField } from '@/components/_common/InputField';
 
 import useUserStore from '@/stores/userStore';
 
-import useInput from '@/hooks/common/useInput';
-import useSignUpHandler from '@/hooks/member/useSignUpHandler';
+import useSignUpHandler from '@/hooks/_common/member/useSignUpHandler';
+import useInput from '@/hooks/_common/useInput';
 
 import { validateName } from '@/validations/validatePairName';
+
+import { theme } from '@/styles/theme';
 
 import * as S from './SignUp.styles';
 
@@ -47,16 +49,24 @@ const SignUp = () => {
       <S.LogoIconWithTitle src={LogoIconWithTitle} alt="logo_icon_with_title" />
       <S.Form onSubmit={handleSubmit}>
         <S.Title>첫 방문이시네요! 당신을 어떻게 불러야 할까요?</S.Title>
-        <Input
-          value={username}
-          status={usernameStatus}
-          message={usernameMessage}
+        <InputField>
+          <InputField.Input
+            value={username}
+            status={usernameStatus}
+            width="50rem"
+            title="이름(또는 닉네임)"
+            placeholder="이름(또는 닉네임)을 입력해주세요."
+            onChange={handleChange}
+          />
+          <InputField.Message status={usernameStatus}>{usernameMessage}</InputField.Message>
+        </InputField>
+        <Button
           width="50rem"
-          title="이름(또는 닉네임)"
-          placeholder="이름(또는 닉네임)을 입력해주세요."
-          onChange={handleChange}
-        />
-        <Button $css={S.buttonStyles} type="submit" size="lg" disabled={validateName(username).status === 'ERROR'}>
+          height="10rem"
+          fontSize={theme.fontSize.md}
+          type="submit"
+          disabled={validateName(username).status === 'ERROR'}
+        >
           계정 만들기 🥳
         </Button>
       </S.Form>

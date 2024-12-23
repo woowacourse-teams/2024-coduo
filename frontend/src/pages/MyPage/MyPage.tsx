@@ -1,14 +1,13 @@
 import { IoIosArrowForward } from 'react-icons/io';
 
-import MyPageContent from '@/pages/MyPage/MyPageContent/MyPageContent';
-
-import ConfirmModal from '@/components/common/ConfirmModal/ConfirmModal';
+import ConfirmModal from '@/components/_common/ConfirmModal/ConfirmModal';
+import MyPageContent from '@/components/MyPage/MyPageContent/MyPageContent';
 
 import useUserStore from '@/stores/userStore';
 
-import useModal from '@/hooks/common/useModal';
+import useModal from '@/hooks/_common/useModal';
 
-import useDeleteMember from '@/queries/MyPage/useDeleteMember';
+import useMemberMutation from '@/queries/MyPage/useMemberMutation';
 
 import * as S from './MyPage.styles';
 
@@ -17,7 +16,7 @@ const MyPage = () => {
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const { handleDeleteMember } = useDeleteMember();
+  const { deleteMemberMutation } = useMemberMutation();
 
   return (
     <S.Layout>
@@ -27,7 +26,6 @@ const MyPage = () => {
           <S.SubTitle>
             <span>{username}</span> 님의 마이 페이지에 오신 걸 환영합니다!
           </S.SubTitle>
-          <S.BottomLine />
         </S.TitleContainer>
         <S.ListWrapper>
           <MyPageContent />
@@ -43,7 +41,7 @@ const MyPage = () => {
         title="정말 탈퇴하시겠습니까?"
         subTitle="해당 작업은 다시 복구할 수 없습니다."
         confirmText="탈퇴하기"
-        onConfirm={handleDeleteMember}
+        onConfirm={deleteMemberMutation}
       />
     </S.Layout>
   );

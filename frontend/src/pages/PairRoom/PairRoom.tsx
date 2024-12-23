@@ -10,10 +10,10 @@ import ReferenceCard from '@/components/PairRoom/ReferenceCard/ReferenceCard';
 import TimerCard from '@/components/PairRoom/TimerCard/TimerCard';
 import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
 
-import useModal from '@/hooks/common/useModal';
+import useModal from '@/hooks/_common/useModal';
 
-import useGetPairRoom from '@/queries/PairRoom/useGetPairRoom';
-import useUpdatePairRoom from '@/queries/PairRoom/useUpdatePairRoom';
+import usePairRoomMutation from '@/queries/PairRoom/usePairRoomMutation';
+import usePairRoomQuery from '@/queries/PairRoom/usePairRoomQuery';
 
 import * as S from './PairRoom.styles';
 
@@ -35,9 +35,9 @@ const PairRoom = () => {
     duration,
     remainingTime,
     isFetching,
-  } = useGetPairRoom(accessCode || '');
+  } = usePairRoomQuery(accessCode || '');
 
-  const { handleUpdatePairRole } = useUpdatePairRoom(accessCode || '');
+  const { updatePairRoleMutation } = usePairRoomMutation();
 
   useEffect(() => {
     if (status === 'COMPLETED') navigate(`/room/${accessCode}/completed`, { state: { valid: true }, replace: true });
@@ -61,7 +61,7 @@ const PairRoom = () => {
           accessCode={accessCode || ''}
           defaultTime={duration}
           defaultTimeleft={remainingTime}
-          onTimerStop={handleUpdatePairRole}
+          onTimerStop={() => updatePairRoleMutation({ accessCode: accessCode || '' })}
         />
       </S.Container>
       <S.Container>

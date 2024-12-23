@@ -17,7 +17,7 @@ type Story = StoryObj<typeof PairRoomCard>;
 
 const CHILDREN_EXAMPLE = (
   <>
-    <Header icon={<IoPeople color={theme.color.primary[500]} />} title="제목" />
+    <Header icon={<IoPeople color={theme.color.primary[600]} />} title="제목" />
     <div style={{ padding: '4rem', fontSize: theme.fontSize.base }}>본문</div>
   </>
 );

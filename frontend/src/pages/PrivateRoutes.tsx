@@ -16,6 +16,16 @@ const PrivateRoutes = () => {
   const { addToast } = useToastStore();
 
   const validateAccess = async () => {
+    if (location.state?.from === '/my-page') {
+      setIsValid(true);
+      return;
+    }
+
+    if (location.state?.from === `/${accessCode}/retrospectForm`) {
+      setIsValid(true);
+      return;
+    }
+
     if (!accessCode || !location.state?.valid) {
       setIsValid(false);
       addToast({ status: 'ERROR', message: '유효하지 않은 접근입니다. 올바른 경로로 접근해 주세요.' });

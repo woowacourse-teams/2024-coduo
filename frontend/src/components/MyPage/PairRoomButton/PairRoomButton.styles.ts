@@ -25,9 +25,9 @@ const commonTextStyles = css`
 const inProgressText = css`
   background: linear-gradient(
     90deg,
-    ${({ theme }) => theme.color.black[60]},
-    ${({ theme }) => theme.color.black[70]},
-    ${({ theme }) => theme.color.black[60]}
+    ${({ theme }) => theme.color.black[400]},
+    ${({ theme }) => theme.color.black[700]},
+    ${({ theme }) => theme.color.black[400]}
   );
 
   animation: ${flow} 4s linear infinite;
@@ -52,7 +52,7 @@ export const StatusText = styled.p<{ $status: PairRoomStatus }>`
   width: 15%;
 
   ${commonTextStyles}
-  color: ${({ $status, theme }) => ($status === 'IN_PROGRESS' ? 'transparent' : theme.color.black[70])};
+  color: ${({ $status, theme }) => ($status === 'IN_PROGRESS' ? 'transparent' : theme.color.black[700])};
   letter-spacing: 0.15rem;
   text-align: left;
 
@@ -82,7 +82,7 @@ export const RoleText = styled.p<{ $status: PairRoomStatus; $color: 'secondary' 
 
   span {
     color: ${({ $status, theme, $color }) =>
-      $status === 'IN_PROGRESS' ? theme.color[$color][600] : theme.color.black[70]};
+      $status === 'IN_PROGRESS' ? theme.color[$color][600] : theme.color.black[700]};
     font-size: ${({ theme }) => theme.fontSize.lg};
     font-weight: ${({ theme }) => theme.fontWeight.medium};
 
@@ -98,7 +98,7 @@ export const ConnectText = styled.div`
 
   width: 11%;
 
-  color: ${({ theme }) => theme.color.black[10]};
+  color: ${({ theme }) => theme.color.black[0]};
 
   transition: color 0.7s ease;
 `;
@@ -132,7 +132,7 @@ export const PairRoomButton = styled.button<{ $status: PairRoomStatus; $color: '
     border-radius: 1rem;
 
     background-color: ${({ $status, $color, theme }) =>
-      $status === 'IN_PROGRESS' ? theme.color[$color][100] : theme.color.black[30]};
+      $status === 'IN_PROGRESS' ? theme.color[$color][100] : theme.color.black[300]};
     background-image: ${({ $status, theme, $color }) =>
       $status === 'IN_PROGRESS'
         ? `linear-gradient(
@@ -142,8 +142,8 @@ export const PairRoomButton = styled.button<{ $status: PairRoomStatus; $color: '
     )`
         : `linear-gradient(
       90deg,
-      ${theme.color.black[30]} 0 75%,
-      ${theme.color.black[60]} 75% 100%
+      ${theme.color.black[300]} 0 75%,
+      ${theme.color.black[400]} 75% 100%
     )`};
     background-size: 400% 100%;
 
@@ -157,7 +157,7 @@ export const PairRoomButton = styled.button<{ $status: PairRoomStatus; $color: '
 
   &:hover::before {
     background-position: 105.8% 0;
-    opacity: 1;
+    opacity: 0.9;
   }
 
   &:hover ${StatusText} {
@@ -169,20 +169,20 @@ export const PairRoomButton = styled.button<{ $status: PairRoomStatus; $color: '
       `}
   }
   &:hover ${RoleText} {
-    color: ${({ theme }) => theme.color.black[20]};
+    color: ${({ theme }) => theme.color.black[50]};
 
     span {
-      color: ${({ theme }) => theme.color.black[10]};
+      color: ${({ theme }) => theme.color.black[0]};
     }
   }
 
   &:hover ${ConnectText} {
-    color: ${({ theme }) => theme.color.black[70]};
+    color: ${({ theme }) => theme.color.black[700]};
   }
 `;
 
 export const DeleteButton = styled(FaTrashAlt)`
-  color: ${({ theme }) => theme.color.black[60]};
+  color: ${({ theme }) => theme.color.black[400]};
   font-size: 1.6rem;
 
   transition: color 0.3s ease;

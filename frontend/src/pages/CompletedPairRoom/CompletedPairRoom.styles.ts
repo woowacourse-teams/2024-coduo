@@ -11,7 +11,7 @@ export const Layout = styled.div`
   min-height: 60rem;
   padding: 2rem;
 
-  background: ${({ theme }) => theme.color.black[20]};
+  background: ${({ theme }) => theme.color.black[50]};
 `;
 
 export const InfoContainer = styled.div`
@@ -40,7 +40,7 @@ export const TitleContainer = styled.div`
 `;
 
 export const Title = styled.div`
-  color: ${({ theme }) => theme.color.black[80]};
+  color: ${({ theme }) => theme.color.black[800]};
   font-size: ${({ theme }) => theme.fontSize.h2};
   font-weight: ${({ theme }) => theme.fontWeight.bold};
 `;
@@ -53,14 +53,14 @@ export const PairInfoWrapper = styled.div`
   padding: 1.2rem 1.5rem;
   border-radius: 1rem;
 
-  background-color: ${({ theme }) => theme.color.black[30]};
-  color: ${({ theme }) => theme.color.black[70]};
+  background-color: ${({ theme }) => theme.color.black[200]};
+  color: ${({ theme }) => theme.color.black[700]};
   font-size: ${({ theme }) => theme.fontSize.base};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;
 
 export const FirstPair = styled.span`
-  color: ${({ theme }) => theme.color.primary[600]};
+  color: ${({ theme }) => theme.color.primary[700]};
 `;
 
 export const SecondPair = styled.span`
@@ -78,14 +78,14 @@ export const RepositoryButton = styled.button`
   padding: 1rem 2rem;
   border-radius: 1rem;
 
-  background-color: ${({ theme }) => theme.color.black[80]};
-  color: ${({ theme }) => theme.color.black[10]};
+  background-color: ${({ theme }) => theme.color.black[800]};
+  color: ${({ theme }) => theme.color.black[0]};
   font-size: ${({ theme }) => theme.fontSize.base};
 
   transition: all 0.2s;
 
   &:hover {
-    background-color: ${({ theme }) => theme.color.black[90]};
+    background-color: ${({ theme }) => theme.color.black[900]};
 
     transform: scale(1.01);
   }

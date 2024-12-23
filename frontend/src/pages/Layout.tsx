@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 
-import Header from '@/components/common/Header/Header';
-import ToastList from '@/components/common/ToastList/ToastList';
+import Header from '@/components/_common/Header/Header';
+import ToastList from '@/components/_common/ToastList/ToastList';
 
 import * as S from './Layout.styles';
 

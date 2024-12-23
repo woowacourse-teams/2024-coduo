@@ -1,14 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 
-import Button from '@/components/common/Button/Button';
-import Input from '@/components/common/Input/Input';
-import { Modal } from '@/components/common/Modal';
+import Button from '@/components/_common/Button/Button';
+import { InputField } from '@/components/_common/InputField';
+import { Modal } from '@/components/_common/Modal';
 
 import useToastStore from '@/stores/toastStore';
 
 import { getPairRoomExists } from '@/apis/pairRoom';
 
-import useInput from '@/hooks/common/useInput';
+import useClickEnterKey from '@/hooks/_common/customEvent/useClickEnterKey';
+import useInput from '@/hooks/_common/useInput';
 
 interface PairRoomEntryModal {
   isOpen: boolean;
@@ -19,7 +20,9 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
   const navigate = useNavigate();
 
   const { addToast } = useToastStore();
-  const { value, status, message, handleChange } = useInput();
+
+  const { value, resetValue, handleChange } = useInput();
+  const { buttonRef } = useClickEnterKey(isOpen);
 
   const enterPairRoom = async () => {
     const { exists } = await getPairRoomExists(value);
@@ -36,19 +39,21 @@ const PairRoomEntryModal = ({ isOpen, closeModal }: PairRoomEntryModal) => {
     <Modal isOpen={isOpen} close={closeModal} size="60rem">
       <Modal.Header title="페어룸 참가하기" />
       <Modal.Body>
-        <Input
-          placeholder="코드를 입력해 주세요"
-          label="페어룸 참가 코드"
-          status={status}
-          message={message}
-          onChange={handleChange}
-        />
+        <InputField>
+          <InputField.Label>페어룸 참가 코드</InputField.Label>
+          <InputField.Input
+            onChange={handleChange}
+            value={value}
+            placeholder="코드를 입력해 주세요"
+            onReset={() => resetValue()}
+          />
+        </InputField>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={closeModal} filled={false}>
+        <Button size="lg" onClick={closeModal} filled={false}>
           닫기
         </Button>
-        <Button disabled={!value} onClick={enterPairRoom}>
+        <Button ref={buttonRef} size="lg" disabled={!value} onClick={enterPairRoom}>
           완료
         </Button>
       </Modal.Footer>

@@ -1,0 +1,86 @@
+import { Link } from 'react-router-dom';
+
+import styled from 'styled-components';
+
+import { Z_INDEX } from '@/constants/style';
+
+export const Layout = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  position: fixed;
+  z-index: ${Z_INDEX.HEADER};
+
+  width: 100%;
+  height: 7rem;
+  padding: 0 5rem;
+
+  background-color: ${({ theme }) => theme.color.black[0]};
+  color: ${({ theme }) => theme.color.black[800]};
+  font-size: ${({ theme }) => theme.fontSize.base};
+
+  border-bottom: 0.1rem solid ${({ theme }) => theme.color.black[50]};
+
+  a,
+  button {
+    justify-content: center;
+    align-items: center;
+
+    transition: all 0.2s;
+
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.7;
+      text-decoration: underline;
+    }
+
+    &:active {
+      opacity: 0.5;
+      text-decoration: underline;
+    }
+  }
+
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+    padding: 0 8vw;
+  }
+`;
+
+export const Logo = styled.img`
+  width: 3.6rem;
+  height: 3.6rem;
+
+  transition: all 0.1s;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &:active {
+    opacity: 0.5;
+  }
+`;
+
+export const LinkContainer = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 1.4rem;
+`;
+
+export const ResponsiveLink = styled(Link)`
+  display: inline;
+
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+    display: none;
+  }
+`;
+
+export const ResponsiveIcon = styled.div`
+  display: none;
+
+  @media (max-width: ${({ theme }) => theme.deviceWidth.mobile}) {
+    display: inline;
+  }
+`;

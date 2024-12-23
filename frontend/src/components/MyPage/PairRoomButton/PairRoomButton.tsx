@@ -1,13 +1,13 @@
 import { IoIosArrowForward } from 'react-icons/io';
 
-import ConfirmModal from '@/components/common/ConfirmModal/ConfirmModal';
-import Spinner from '@/components/common/Spinner/Spinner';
+import ConfirmModal from '@/components/_common/ConfirmModal/ConfirmModal';
+import Spinner from '@/components/_common/Spinner/Spinner';
 
 import type { PairRoomStatus } from '@/apis/pairRoom';
 
-import useModal from '@/hooks/common/useModal';
+import useModal from '@/hooks/_common/useModal';
 
-import useDeletePairRoom from '@/queries/MyPage/useDeleteRoom';
+import usePairRoomMutation from '@/queries/PairRoom/usePairRoomMutation';
 
 import * as S from './PairRoomButton.styles';
 
@@ -21,7 +21,7 @@ interface PairRoomButtonProps {
 const PairRoomButton = ({ driver, navigator, status, accessCode }: PairRoomButtonProps) => {
   const { openModal, closeModal, isModalOpen } = useModal();
 
-  const { mutate, isPending } = useDeletePairRoom();
+  const { deletePairRoomMutation, isDeletePairRoomPending } = usePairRoomMutation();
 
   const handleOpenDeleteModal = (event: React.MouseEvent<HTMLButtonElement | SVGElement>) => {
     event.preventDefault();
@@ -30,11 +30,11 @@ const PairRoomButton = ({ driver, navigator, status, accessCode }: PairRoomButto
   };
 
   const handleDeletePairRoom = async () => {
-    mutate(accessCode);
+    deletePairRoomMutation({ accessCode });
     closeModal();
   };
 
-  if (isPending) {
+  if (isDeletePairRoomPending) {
     return (
       <S.Layout>
         <Spinner />

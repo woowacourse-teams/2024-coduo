@@ -4,12 +4,15 @@ import { FaCheck } from 'react-icons/fa6';
 
 import { AlarmSound } from '@/assets';
 
-import Button from '@/components/common/Button/Button';
-import { Modal } from '@/components/common/Modal';
+import Button from '@/components/_common/Button/Button';
+import { Modal } from '@/components/_common/Modal';
 
 import useToastStore from '@/stores/toastStore';
 
-import useCopyClipBoard from '@/hooks/common/useCopyClipboard';
+import useClickEnterKey from '@/hooks/_common/customEvent/useClickEnterKey';
+import useCopyClipBoard from '@/hooks/_common/useCopyClipboard';
+
+import { theme } from '@/styles/theme';
 
 import * as S from './GuideModal.styles';
 
@@ -25,6 +28,7 @@ const GuideModal = ({ isOpen, close, accessCode }: GuideModalProps) => {
   const { addToast } = useToastStore();
 
   const [, onCopy] = useCopyClipBoard();
+  const { buttonRef } = useClickEnterKey(isOpen);
 
   const checkPermission = () => {
     if (Notification.permission !== 'granted') {
@@ -48,7 +52,14 @@ const GuideModal = ({ isOpen, close, accessCode }: GuideModalProps) => {
             </S.Question>
             <S.Description>
               브라우저 알림을 허용하지 않으면 타이머 종료 시 올바르게 알림을 제공할 수 없어요.
-              <Button $css={S.buttonStyles} onClick={checkPermission}>
+              <Button
+                width="9rem"
+                height="3.2rem"
+                color="danger"
+                borderRadius="0.8rem"
+                fontSize={theme.fontSize.md}
+                onClick={checkPermission}
+              >
                 권한 확인
               </Button>
             </S.Description>
@@ -60,7 +71,14 @@ const GuideModal = ({ isOpen, close, accessCode }: GuideModalProps) => {
             </S.Question>
             <S.Description>
               사용 중인 기기의 소리가 꺼져 있다면 타이머 종료 시 알람 소리를 들으실 수 없어요.
-              <Button $css={S.buttonStyles} onClick={() => alarmAudio.current.play()}>
+              <Button
+                width="9rem"
+                height="3.2rem"
+                color="danger"
+                borderRadius="0.8rem"
+                fontSize={theme.fontSize.md}
+                onClick={() => alarmAudio.current.play()}
+              >
                 소리 확인
               </Button>
             </S.Description>
@@ -72,7 +90,14 @@ const GuideModal = ({ isOpen, close, accessCode }: GuideModalProps) => {
             </S.Question>
             <S.Description>
               페어에게 페어룸 코드를 전달하여 페어룸에 들어올 수 있도록 해주세요.
-              <Button $css={S.buttonStyles} onClick={() => onCopy(accessCode)}>
+              <Button
+                width="9rem"
+                height="3.2rem"
+                color="danger"
+                borderRadius="0.8rem"
+                fontSize={theme.fontSize.md}
+                onClick={() => onCopy(accessCode)}
+              >
                 코드 복사
               </Button>
             </S.Description>
@@ -81,7 +106,7 @@ const GuideModal = ({ isOpen, close, accessCode }: GuideModalProps) => {
         <Modal.Footer position="CENTER">
           <S.ButtonContainer>
             <p>모두 확인하셨나요?</p>
-            <Button $css={S.startButtonStyles} onClick={close}>
+            <Button ref={buttonRef} width="18rem" size="lg" onClick={close}>
               시작하기
             </Button>
           </S.ButtonContainer>

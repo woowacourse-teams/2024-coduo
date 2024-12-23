@@ -19,11 +19,11 @@ export const TodoListContainer = styled.div`
 `;
 
 export const CountText = styled.p`
-  color: ${({ theme }) => theme.color.black[70]};
+  color: ${({ theme }) => theme.color.black[300]};
   font-size: ${({ theme }) => theme.fontSize.sm};
 `;
 
 export const EmptyText = styled.p`
-  color: ${({ theme }) => theme.color.black[60]};
+  color: ${({ theme }) => theme.color.black[400]};
   font-size: ${({ theme }) => theme.fontSize.md};
 `;

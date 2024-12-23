@@ -1,4 +1,4 @@
-import Button from '@/components/common/Button/Button';
+import Button from '@/components/_common/Button/Button';
 
 import * as S from './Header.styles';
 
@@ -16,7 +16,7 @@ const Header = ({ title, subTitle, buttonText, onButtonClick }: HeaderProps) => 
         <S.Title>{title}</S.Title>
         <S.SubTitle>{subTitle}</S.SubTitle>
       </S.TitleContainer>
-      <Button $css={S.buttonStyles} filled={false} rounded={true} size="sm" color="primary" onClick={onButtonClick}>
+      <Button width="11rem" color="secondary" filled={false} rounded={true} size="sm" onClick={onButtonClick}>
         {buttonText}
       </Button>
     </S.Layout>

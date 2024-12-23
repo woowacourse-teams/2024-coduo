@@ -1,15 +1,17 @@
 import { useState } from 'react';
 
+import CategoryManagementModal from '@/components/PairRoom/CategoryManagementModal/CategoryManagementModal';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
-import AddReferenceForm from '@/components/PairRoom/ReferenceCard/AddReferenceForm/AddReferenceForm';
-import CategoryManagementModal from '@/components/PairRoom/ReferenceCard/CategoryManagementModal/CategoryManagementModal';
+import Footer from '@/components/PairRoom/ReferenceCard/Footer/Footer';
 import Header from '@/components/PairRoom/ReferenceCard/Header/Header';
 import ReferenceList from '@/components/PairRoom/ReferenceCard/ReferenceList/ReferenceList';
 
-import useModal from '@/hooks/common/useModal';
-import useCategories, { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/hooks/PairRoom/useCategories';
+import useModal from '@/hooks/_common/useModal';
 
-import { useGetReference } from '@/queries/PairRoom/reference/query';
+import useCategoriesQuery, { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/queries/PairRoom/useCategoriesQuery';
+import useReferencesQuery from '@/queries/PairRoom/useReferencesQuery';
+
+import { findValueById } from '@/utils/findOption';
 
 import * as S from './ReferenceCard.styles';
 
@@ -20,48 +22,39 @@ interface ReferenceCardProps {
 }
 
 const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps) => {
-  const [selectedFilteringCategoryId, setSelectedFilteringCategoryId] = useState(DEFAULT_CATEGORY_ID);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(DEFAULT_CATEGORY_ID);
+
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const { categories, isCategoryExist, getCategoryNameById } = useCategories(accessCode);
+  const { categories, isCategoryExist } = useCategoriesQuery(accessCode);
+  const { references } = useReferencesQuery(selectedCategoryId, accessCode);
 
-  const { data: references } = useGetReference(selectedFilteringCategoryId, accessCode);
-  const selectedFilteringCategoryName = getCategoryNameById(selectedFilteringCategoryId) || DEFAULT_CATEGORY_VALUE;
+  const selectedCategoryName = findValueById(categories, selectedCategoryId) || DEFAULT_CATEGORY_VALUE;
 
   return (
-    <>
-      <S.Layout>
-        <PairRoomCard>
-          <Header
-            isOpen={isOpen}
-            selectedFilteringCategoryName={selectedFilteringCategoryName}
-            toggleIsOpen={toggleIsOpen}
-            onButtonClick={openModal}
-          />
-          <S.Body $isOpen={isOpen}>
-            <ReferenceList references={references} accessCode={accessCode} />
-            <S.Footer>
-              <AddReferenceForm
-                accessCode={accessCode}
-                categories={categories}
-                isCategoryExist={isCategoryExist}
-                getCategoryNameById={getCategoryNameById}
-              />
-            </S.Footer>
-          </S.Body>
-        </PairRoomCard>
-      </S.Layout>
-
+    <S.Layout>
+      <PairRoomCard>
+        <Header
+          isOpen={isOpen}
+          selectedCategoryName={selectedCategoryName}
+          toggleIsOpen={toggleIsOpen}
+          onButtonClick={openModal}
+        />
+        <S.Body $isOpen={isOpen}>
+          <ReferenceList references={references || []} accessCode={accessCode} />
+          <Footer accessCode={accessCode} categories={categories} />
+        </S.Body>
+      </PairRoomCard>
       <CategoryManagementModal
         accessCode={accessCode}
         isOpen={isModalOpen}
         closeModal={closeModal}
         categories={categories}
         isCategoryExist={isCategoryExist}
-        selectedCategory={selectedFilteringCategoryId}
-        handleSelectCategory={(categoryId: string) => setSelectedFilteringCategoryId(categoryId)}
+        selectedCategoryId={selectedCategoryId}
+        handleSelectedCategoryId={(categoryId: string) => setSelectedCategoryId(categoryId)}
       />
-    </>
+    </S.Layout>
   );
 };
 

@@ -13,11 +13,11 @@ export const Layout = styled.div<{ $isChecked: boolean; $isIconHovered: boolean;
   background: ${({ $isChecked, $isDraggedOver, theme }) =>
     $isChecked
       ? $isDraggedOver
-        ? theme.color.black[40]
-        : theme.color.black[30]
+        ? theme.color.black[200]
+        : theme.color.black[100]
       : $isDraggedOver
-        ? theme.color.secondary[200]
-        : theme.color.secondary[100]};
+        ? theme.color.secondary[100]
+        : theme.color.secondary[50]};
   font-size: ${({ theme }) => theme.fontSize.md};
 
   transition: background 0.1s ease;
@@ -26,7 +26,7 @@ export const Layout = styled.div<{ $isChecked: boolean; $isIconHovered: boolean;
 
   &:hover {
     background: ${({ $isChecked, $isIconHovered, theme }) =>
-      !$isIconHovered && ($isChecked ? theme.color.black[40] : theme.color.secondary[150])};
+      !$isIconHovered && ($isChecked ? theme.color.black[200] : theme.color.secondary[100])};
   }
 `;
 
@@ -53,12 +53,12 @@ export const CopyIcon = styled(AiFillCopy)<{ $isChecked: boolean }>`
   width: 1.7rem;
   height: 1.7rem;
 
-  color: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[50] : theme.color.secondary[500])};
+  color: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[300] : theme.color.secondary[400])};
 
   transition: color 0.1s ease;
 
   &:hover {
-    color: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[60] : theme.color.secondary[600])};
+    color: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[400] : theme.color.secondary[500])};
   }
 `;
 
@@ -66,11 +66,11 @@ export const DeleteIcon = styled(AiFillDelete)<{ $isChecked: boolean }>`
   width: ${({ theme }) => theme.fontSize.lg};
   height: ${({ theme }) => theme.fontSize.lg};
 
-  color: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[50] : theme.color.secondary[500])};
+  color: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[300] : theme.color.secondary[400])};
 
   transition: color 0.1s ease;
 
   &:hover {
-    color: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[60] : theme.color.secondary[600])};
+    color: ${({ $isChecked, theme }) => ($isChecked ? theme.color.black[400] : theme.color.secondary[400])};
   }
 `;

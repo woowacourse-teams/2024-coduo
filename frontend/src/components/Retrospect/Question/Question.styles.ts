@@ -13,7 +13,7 @@ export const LabelContainer = styled.div`
 `;
 
 export const Label = styled.label`
-  color: ${({ theme }) => theme.color.primary[700]};
+  color: ${({ theme }) => theme.color.primary[800]};
   font-size: ${({ theme }) => theme.fontSize.lg};
   font-weight: ${({ theme }) => theme.fontWeight.medium};
 `;

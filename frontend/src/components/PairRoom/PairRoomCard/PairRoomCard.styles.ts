@@ -8,5 +8,5 @@ export const Layout = styled.div`
   width: 100%;
   border-radius: 1.5rem;
 
-  background: ${({ theme }) => theme.color.black[10]};
+  background: ${({ theme }) => theme.color.black[0]};
 `;

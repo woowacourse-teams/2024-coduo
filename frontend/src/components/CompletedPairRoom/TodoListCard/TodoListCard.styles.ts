@@ -12,5 +12,5 @@ export const Body = styled.div`
 
   height: calc(100vh - 20rem);
 
-  border-top: 1px solid ${({ theme }) => theme.color.black[30]};
+  border-top: 1px solid ${({ theme }) => theme.color.black[300]};
 `;

@@ -1,4 +1,4 @@
-import useCopyClipBoard from '@/hooks/common/useCopyClipboard';
+import useCopyClipBoard from '@/hooks/_common/useCopyClipboard';
 
 import * as S from './SourceCode.styles';
 

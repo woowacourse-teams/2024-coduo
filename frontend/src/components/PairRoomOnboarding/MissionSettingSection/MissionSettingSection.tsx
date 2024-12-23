@@ -1,8 +1,8 @@
-import Button from '@/components/common/Button/Button';
+import Button from '@/components/_common/Button/Button';
 import CreateBranchInput from '@/components/PairRoomOnboarding/CreateBranchInput/CreateBranchInput';
 import MissionSelectInput from '@/components/PairRoomOnboarding/MissionSelectInput/MissionSelectInput';
 
-import useDebounce from '@/hooks/common/useDebounce';
+import useDebounce from '@/hooks/_common/useDebounce';
 import useAutoMoveIndex from '@/hooks/PairRoomOnboarding/useAutoMoveIndex';
 import useMissionBranch from '@/hooks/PairRoomOnboarding/useMissionBranch';
 
@@ -11,10 +11,10 @@ import * as S from './MissionSettingSection.styles';
 interface MissionSettingSectionProps {
   repositoryName: string;
   onRepositoryName: (repositoryName: string) => void;
-  onCreateBranch: (repositoryName: string, branchName: string) => void;
+  onAddBranch: (repositoryName: string, branchName: string) => void;
 }
 
-const MissionSettingSection = ({ repositoryName, onRepositoryName, onCreateBranch }: MissionSettingSectionProps) => {
+const MissionSettingSection = ({ repositoryName, onRepositoryName, onAddBranch }: MissionSettingSectionProps) => {
   const { branchName, isValidBranchName, resetBranchName, handleBranchName } = useMissionBranch();
   const { moveIndex } = useAutoMoveIndex(0, [repositoryName !== '', useDebounce(isValidBranchName, 500)]);
 
@@ -31,7 +31,11 @@ const MissionSettingSection = ({ repositoryName, onRepositoryName, onCreateBranc
       )}
       {moveIndex >= 2 && (
         <S.ButtonWrapper>
-          <Button disabled={!isValidBranchName} onClick={() => onCreateBranch(repositoryName, branchName.value)}>
+          <Button
+            width="15rem"
+            disabled={!isValidBranchName}
+            onClick={() => onAddBranch(repositoryName, branchName.value)}
+          >
             브랜치 생성하기
           </Button>
         </S.ButtonWrapper>

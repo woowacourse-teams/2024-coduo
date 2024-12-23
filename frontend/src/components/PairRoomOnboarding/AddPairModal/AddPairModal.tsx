@@ -1,12 +1,15 @@
-import Button from '@/components/common/Button/Button';
-import Input from '@/components/common/Input/Input';
-import { Modal } from '@/components/common/Modal';
+import { ChangeEvent } from 'react';
+
+import Button from '@/components/_common/Button/Button';
+import { InputField } from '@/components/_common/InputField';
+import { Modal } from '@/components/_common/Modal';
 
 import useToastStore from '@/stores/toastStore';
 
 import { getMemberName } from '@/apis/member';
 
-import useInput from '@/hooks/common/useInput';
+import useClickEnterKey from '@/hooks/_common/customEvent/useClickEnterKey';
+import useInput from '@/hooks/_common/useInput';
 
 import { validatePairInfo } from '@/validations/validatePairName';
 
@@ -19,8 +22,10 @@ interface AddPairModalProps {
 }
 
 const AddPairModal = ({ isOpen, closeModal, onPairData }: AddPairModalProps) => {
-  const { value, status, message, handleChange, resetValue } = useInput();
   const { addToast } = useToastStore();
+
+  const { value, status, message, handleChange, resetValue } = useInput();
+  const { buttonRef } = useClickEnterKey(isOpen);
 
   const handleCloseModal = () => {
     resetValue();
@@ -41,26 +46,34 @@ const AddPairModal = ({ isOpen, closeModal, onPairData }: AddPairModalProps) => 
   };
 
   return (
-    <Modal isOpen={isOpen} close={handleCloseModal} size="60rem" height="30rem">
+    <Modal isOpen={isOpen} close={handleCloseModal} size="60rem" height="34rem">
       <Modal.Header title="페어 정보 연동하기" />
       <S.Body>
-        <Input
-          placeholder="깃허브 아이디를 입력해 주세요."
-          label="페어의 깃허브 아이디"
-          value={value}
-          status={status}
-          message={message}
-          onChange={(event) => handleChange(event, validatePairInfo(event.target.value))}
-        />
+        <InputField>
+          <InputField.Label>페어의 깃허브 아이디</InputField.Label>
+          <InputField.Input
+            placeholder="깃허브 아이디를 입력해 주세요."
+            value={value}
+            onChange={(event: ChangeEvent<HTMLInputElement>) =>
+              handleChange(event, validatePairInfo(event.target.value))
+            }
+          />
+          <InputField.Message status={status}>{message}</InputField.Message>
+        </InputField>
       </S.Body>
-      <Modal.Footer>
-        <Button onClick={handleCloseModal} filled={false}>
+      <S.Footer>
+        <Button size="lg" onClick={handleCloseModal} filled={false}>
           닫기
         </Button>
-        <Button disabled={value.trim() === '' || status === 'ERROR'} onClick={() => connectPairData(value)}>
+        <Button
+          ref={buttonRef}
+          size="lg"
+          disabled={value.trim() === '' || status === 'ERROR'}
+          onClick={() => connectPairData(value)}
+        >
           연동하기
         </Button>
-      </Modal.Footer>
+      </S.Footer>
       <Modal.CloseButton close={handleCloseModal} />
     </Modal>
   );

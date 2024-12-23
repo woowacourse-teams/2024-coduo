@@ -1,13 +1,13 @@
 import * as S from '@/pages/Main/Main.styles';
 
-import { ScrollAnimationContainer } from '@/components/common/Animation/ScrollAnimationContainer';
-import WaveBackground from '@/components/common/Background/WaveBackground';
-import Button from '@/components/common/Button/Button';
+import Button from '@/components/_common/Button/Button';
+import { ScrollAnimationContainer } from '@/components/_common/ScrollAnimationContainer/ScrollAnimationContainer';
 import PairRoomCreateModal from '@/components/Main/PairRoomCreateModal/PairRoomCreateModal';
 import PairRoomEntryModal from '@/components/Main/PairRoomEntryModal/PairRoomEntryModal';
+import WaveBackground from '@/components/Main/WaveBackground/WaveBackground';
 
-import useModal from '@/hooks/common/useModal';
-import usePreventBackNavigation from '@/hooks/common/usePreventBackNavigation';
+import usePreventBackNavigation from '@/hooks/_common/customEvent/usePreventBackNavigation';
+import useModal from '@/hooks/_common/useModal';
 
 const Main = () => {
   usePreventBackNavigation();
@@ -53,12 +53,12 @@ const Main = () => {
         </ScrollAnimationContainer>
         <S.ButtonContainer>
           <ScrollAnimationContainer animationDirection="left" animationDelay={0.2}>
-            <Button size="xl" $css={S.buttonStyles} rounded={true} onClick={openPairRoomCreateModal}>
+            <Button size="xl" borderRadius="6rem" onClick={openPairRoomCreateModal}>
               페어룸 만들기
             </Button>
           </ScrollAnimationContainer>
           <ScrollAnimationContainer animationDirection="left" animationDelay={0.4}>
-            <Button size="xl" $css={S.buttonStyles} filled={false} rounded={true} onClick={openPairRoomEntryModal}>
+            <Button size="xl" borderRadius="6rem" filled={false} onClick={openPairRoomEntryModal}>
               페어룸 들어가기
             </Button>
           </ScrollAnimationContainer>

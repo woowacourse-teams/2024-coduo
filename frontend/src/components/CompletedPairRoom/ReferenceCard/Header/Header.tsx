@@ -1,33 +1,30 @@
 import { IoIosLink } from 'react-icons/io';
 
-import Button from '@/components/common/Button/Button';
+import Button from '@/components/_common/Button/Button';
 
 import { theme } from '@/styles/theme';
 
 import * as S from './Header.styles';
 
 interface HeaderProps {
-  selectedFilteringCategoryName: string;
+  selectedCategoryName: string;
   onButtonClick: () => void;
 }
 
-const Header = ({ selectedFilteringCategoryName, onButtonClick }: React.PropsWithChildren<HeaderProps>) => {
+const Header = ({ selectedCategoryName, onButtonClick }: React.PropsWithChildren<HeaderProps>) => {
+  const handleButtonClick = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    onButtonClick();
+  };
+
   return (
     <S.Layout>
       <S.Container>
-        <IoIosLink size={theme.fontSize.h6} color={theme.color.primary[600]} />
+        <IoIosLink size={theme.fontSize.h6} color={theme.color.primary[700]} />
         <p>링크</p>
       </S.Container>
-      <Button
-        $css={S.buttonStyles}
-        size="sm"
-        rounded={true}
-        onClick={(event: React.MouseEvent<HTMLElement, MouseEvent>) => {
-          event.stopPropagation();
-          onButtonClick();
-        }}
-      >
-        {selectedFilteringCategoryName}
+      <Button size="sm" rounded={true} onClick={handleButtonClick}>
+        {selectedCategoryName}
       </Button>
     </S.Layout>
   );

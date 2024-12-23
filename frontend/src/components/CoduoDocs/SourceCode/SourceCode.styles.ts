@@ -11,11 +11,11 @@ export const Container = styled.div`
   padding: 3rem 4rem;
   border-radius: 0.5rem;
 
-  background-color: ${({ theme }) => theme.color.black[30]};
+  background-color: ${({ theme }) => theme.color.black[800]};
 `;
 
 export const Content = styled.p`
-  color: ${({ theme }) => theme.color.black[90]};
+  color: ${({ theme }) => theme.color.black[100]};
   font-size: ${({ theme }) => theme.fontSize.base};
   line-height: 1.8;
   white-space: pre-wrap;
@@ -27,19 +27,19 @@ export const CopyIcon = styled(AiFillCopy)`
   top: 1rem;
   right: 1rem;
 
-  color: ${({ theme }) => theme.color.black[50]};
+  color: ${({ theme }) => theme.color.black[300]};
   font-size: 2rem;
 
   cursor: pointer;
 
   &:hover {
-    color: ${({ theme }) => theme.color.black[60]};
+    color: ${({ theme }) => theme.color.black[400]};
 
     transform: scale(1.03);
   }
 
   &:active {
-    color: ${({ theme }) => theme.color.black[70]};
+    color: ${({ theme }) => theme.color.black[700]};
 
     transform: scale(1.06);
   }

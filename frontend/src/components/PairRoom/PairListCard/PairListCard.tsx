@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import ConfirmModal from '@/components/common/ConfirmModal/ConfirmModal';
+import ConfirmModal from '@/components/_common/ConfirmModal/ConfirmModal';
 import AccessCodeSection from '@/components/PairRoom/PairListCard/AccessCodeSection/AccessCodeSection';
 import CompleteRoomButton from '@/components/PairRoom/PairListCard/CompleteRoomButton/CompleteRoomButton';
 import Header from '@/components/PairRoom/PairListCard/Header/Header';
@@ -8,9 +9,9 @@ import PairListSection from '@/components/PairRoom/PairListCard/PairListSection/
 import RepositorySection from '@/components/PairRoom/PairListCard/RepositorySection/RepositorySection';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 
-import useModal from '@/hooks/common/useModal';
+import useModal from '@/hooks/_common/useModal';
 
-import useCompletePairRoom from '@/queries/PairRoom/useCompletePairRoom';
+import usePairRoomMutation from '@/queries/PairRoom/usePairRoomMutation';
 
 import * as S from './PairListCard.styles';
 
@@ -22,11 +23,20 @@ interface PairListCardProps {
 }
 
 const PairListCard = ({ driver, navigator, missionUrl, accessCode }: PairListCardProps) => {
+  const navigate = useNavigate();
+
   const [isOpen, setIsOpen] = useState(true);
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const { handleCompletePairRoom } = useCompletePairRoom(accessCode);
+  const { updatePairRoomStatusMutation } = usePairRoomMutation();
+
+  const handleCompletePairRoom = () => {
+    updatePairRoomStatusMutation(
+      { accessCode },
+      { onSuccess: () => navigate(`/room/${accessCode}/retrospectForm`, { state: { valid: true } }) },
+    );
+  };
 
   const toggleOpen = () => setIsOpen(!isOpen);
 
@@ -34,12 +44,10 @@ const PairListCard = ({ driver, navigator, missionUrl, accessCode }: PairListCar
     <S.Layout $isOpen={isOpen} aria-label="페어 목록">
       <PairRoomCard>
         <Header isOpen={isOpen} toggleOpen={toggleOpen} />
-        <S.Sidebar>
-          <AccessCodeSection isOpen={isOpen} accessCode={accessCode} />
-          {missionUrl !== '' && <RepositorySection isOpen={isOpen} missionUrl={missionUrl} />}
-          <PairListSection isOpen={isOpen} driver={driver} navigator={navigator} />
-          <CompleteRoomButton isOpen={isOpen} openModal={openModal} />
-        </S.Sidebar>
+        <AccessCodeSection isOpen={isOpen} accessCode={accessCode} />
+        {missionUrl !== '' && <RepositorySection isOpen={isOpen} missionUrl={missionUrl} />}
+        <PairListSection isOpen={isOpen} driver={driver} navigator={navigator} />
+        <CompleteRoomButton isOpen={isOpen} openModal={openModal} />
       </PairRoomCard>
       <ConfirmModal
         isOpen={isModalOpen}
