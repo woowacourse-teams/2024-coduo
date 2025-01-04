@@ -1,29 +1,29 @@
 import { useRef, useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-// import { useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { AlarmSound } from '@/assets';
 
 import useToastStore from '@/stores/toastStore';
 
-import { getConnection, startTimer, stopTimer } from '@/apis/timer';
+import { getSSEConnection, startTimer, stopTimer } from '@/apis/timer';
 
 import useNotification from '@/hooks/PairRoom/useNotification';
 
-// import { QUERY_KEYS } from '@/constants/queryKeys';
+import { QUERY_KEYS } from '@/constants/queryKeys';
 
-// const STATUS_KEY = 'timer';
-const TIMER_KEY = 'remaining-time';
-// const TIMEOUT_LIMIT = 100;
+const STATUS_SSE_KEY = 'timer';
+const TIME_SSE_KEY = 'remaining-time';
+const TIMEOUT_LIMIT = 100;
 
 const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: number, onTimerStop: () => void) => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const alarmAudio = useRef(new Audio(AlarmSound));
-  // const timeoutCount = useRef(0);
+  const timeoutCount = useRef(0);
 
   const [timeLeft, setTimeLeft] = useState(defaultTimeleft);
   const [isActive, setIsActive] = useState(false);
@@ -50,39 +50,39 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
   };
 
   useEffect(() => {
-    const socket = getConnection(accessCode);
+    const sse = getSSEConnection(accessCode);
 
-    // const handleStatus = (event: MessageEvent) => {
-    //   if (event.data === 'complete') {
-    //     navigate(`/room/${accessCode}/retrospectForm`, { state: { valid: true } });
-    //     addToast({ status: 'WARNING', message: '페어룸이 종료되었습니다.' });
-    //     return;
-    //   }
+    const handleStatus = (event: MessageEvent) => {
+      if (event.data === 'complete') {
+        navigate(`/room/${accessCode}/retrospectForm`, { state: { valid: true } });
+        addToast({ status: 'WARNING', message: '페어룸이 종료되었습니다.' });
+        return;
+      }
 
-    //   if (event.data === 'start') {
-    //     setIsActive(true);
-    //     addToast({ status: 'SUCCESS', message: '타이머가 시작되었습니다.' });
-    //     return;
-    //   }
+      if (event.data === 'start') {
+        setIsActive(true);
+        addToast({ status: 'SUCCESS', message: '타이머가 시작되었습니다.' });
+        return;
+      }
 
-    //   if (event.data === 'running') {
-    //     setIsActive(true);
-    //     addToast({ status: 'SUCCESS', message: '타이머가 진행 중입니다.' });
-    //     return;
-    //   }
+      if (event.data === 'running') {
+        setIsActive(true);
+        addToast({ status: 'SUCCESS', message: '타이머가 진행 중입니다.' });
+        return;
+      }
 
-    //   if (event.data === 'pause') {
-    //     setIsActive(false);
-    //     addToast({ status: 'WARNING', message: '타이머가 일시 정지되었습니다.' });
-    //     return;
-    //   }
+      if (event.data === 'pause') {
+        setIsActive(false);
+        addToast({ status: 'WARNING', message: '타이머가 일시 정지되었습니다.' });
+        return;
+      }
 
-    //   if (event.data === 'update') {
-    //     queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_PAIR_ROOM_TIMER] });
-    //     addToast({ status: 'WARNING', message: '타이머 시간이 변경되었습니다.' });
-    //     return;
-    //   }
-    // };
+      if (event.data === 'update') {
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_PAIR_ROOM_TIMER] });
+        addToast({ status: 'WARNING', message: '타이머 시간이 변경되었습니다.' });
+        return;
+      }
+    };
 
     const handleTimeLeft = (event: MessageEvent) => {
       if (event.data === '0') {
@@ -100,27 +100,20 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
       event.preventDefault();
     };
 
-    socket.onopen = () => {
-      socket.addEventListener(TIMER_KEY, handleTimeLeft as EventListener);
+    sse.addEventListener(TIME_SSE_KEY, handleTimeLeft);
+    sse.addEventListener(STATUS_SSE_KEY, handleStatus);
+
+    sse.onerror = () => {
+      timeoutCount.current += 1;
+      if (timeoutCount.current >= TIMEOUT_LIMIT) navigate('/error');
     };
-
-    socket.onerror = (error) => {
-      console.error('WebSocket connection error:', error);
-    };
-
-    // socket.addEventListener(STATUS_SSE_KEY, handleStatus);
-
-    // sse.onerror = () => {
-    //   timeoutCount.current += 1;
-    //   if (timeoutCount.current >= TIMEOUT_LIMIT) navigate('/error');
-    // };
 
     window.addEventListener('beforeunload', handleBeforeUnload);
 
     return () => {
-      socket.removeEventListener(TIMER_KEY, handleTimeLeft as EventListener);
-      // socket.removeEventListener(STATUS_SSE_KEY, handleStatus);
-      socket.close();
+      sse.removeEventListener(STATUS_SSE_KEY, handleStatus);
+      sse.removeEventListener(TIME_SSE_KEY, handleTimeLeft);
+      sse.close();
 
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
