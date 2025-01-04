@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-// import { useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { AlarmSound } from '@/assets';
 
@@ -11,16 +11,16 @@ import { getConnection, startTimer, stopTimer } from '@/apis/timer';
 
 import useNotification from '@/hooks/PairRoom/useNotification';
 
-// import { QUERY_KEYS } from '@/constants/queryKeys';
+import { QUERY_KEYS } from '@/constants/queryKeys';
 
-// const STATUS_KEY = 'timer';
+const STATUS_KEY = 'timer';
 const TIMER_KEY = 'remaining-time';
 // const TIMEOUT_LIMIT = 100;
 
 const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: number, onTimerStop: () => void) => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const alarmAudio = useRef(new Audio(AlarmSound));
   // const timeoutCount = useRef(0);
@@ -52,37 +52,37 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
   useEffect(() => {
     const socket = getConnection(accessCode);
 
-    // const handleStatus = (event: MessageEvent) => {
-    //   if (event.data === 'complete') {
-    //     navigate(`/room/${accessCode}/retrospectForm`, { state: { valid: true } });
-    //     addToast({ status: 'WARNING', message: '페어룸이 종료되었습니다.' });
-    //     return;
-    //   }
+    const handleStatus = (event: MessageEvent) => {
+      if (event.data === 'complete') {
+        navigate(`/room/${accessCode}/retrospectForm`, { state: { valid: true } });
+        addToast({ status: 'WARNING', message: '페어룸이 종료되었습니다.' });
+        return;
+      }
 
-    //   if (event.data === 'start') {
-    //     setIsActive(true);
-    //     addToast({ status: 'SUCCESS', message: '타이머가 시작되었습니다.' });
-    //     return;
-    //   }
+      if (event.data === 'start') {
+        setIsActive(true);
+        addToast({ status: 'SUCCESS', message: '타이머가 시작되었습니다.' });
+        return;
+      }
 
-    //   if (event.data === 'running') {
-    //     setIsActive(true);
-    //     addToast({ status: 'SUCCESS', message: '타이머가 진행 중입니다.' });
-    //     return;
-    //   }
+      if (event.data === 'running') {
+        setIsActive(true);
+        addToast({ status: 'SUCCESS', message: '타이머가 진행 중입니다.' });
+        return;
+      }
 
-    //   if (event.data === 'pause') {
-    //     setIsActive(false);
-    //     addToast({ status: 'WARNING', message: '타이머가 일시 정지되었습니다.' });
-    //     return;
-    //   }
+      if (event.data === 'pause') {
+        setIsActive(false);
+        addToast({ status: 'WARNING', message: '타이머가 일시 정지되었습니다.' });
+        return;
+      }
 
-    //   if (event.data === 'update') {
-    //     queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_PAIR_ROOM_TIMER] });
-    //     addToast({ status: 'WARNING', message: '타이머 시간이 변경되었습니다.' });
-    //     return;
-    //   }
-    // };
+      if (event.data === 'update') {
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_PAIR_ROOM_TIMER] });
+        addToast({ status: 'WARNING', message: '타이머 시간이 변경되었습니다.' });
+        return;
+      }
+    };
 
     const handleTimeLeft = (event: MessageEvent) => {
       if (event.data === '0') {
@@ -108,7 +108,7 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
       console.error('WebSocket connection error:', error);
     };
 
-    // socket.addEventListener(STATUS_SSE_KEY, handleStatus);
+    socket.addEventListener(STATUS_KEY, handleStatus as EventListener);
 
     // sse.onerror = () => {
     //   timeoutCount.current += 1;
@@ -119,7 +119,7 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
 
     return () => {
       socket.removeEventListener(TIMER_KEY, handleTimeLeft as EventListener);
-      // socket.removeEventListener(STATUS_SSE_KEY, handleStatus);
+      socket.removeEventListener(STATUS_KEY, handleStatus as EventListener);
       socket.close();
 
       window.removeEventListener('beforeunload', handleBeforeUnload);
