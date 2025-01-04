@@ -111,7 +111,7 @@ jobs:
           
       - name: remove old spring-app image
         run: |
-          sudo docker image rm -f ${{ secrets.DOCKER_REPO_NAME }}/springboot-app;
+          sudo docker image rm -f ${{ secrets.DOCKER_REPO_NAME }}/springboot-app:test-latest;
 
       - name: Start the new (green/blue) environment
         run: |
@@ -195,7 +195,7 @@ jobs:
 
       - name: remove old spring-app image
         run: |
-          sudo docker image rm -f ${{ secrets.DOCKER_REPO_NAME }}/springboot-app;
+          sudo docker image rm -f ${{ secrets.DOCKER_REPO_NAME }}/springboot-app:test-latest;
 
       - name: Start the new (green/blue) environment
         run: |
