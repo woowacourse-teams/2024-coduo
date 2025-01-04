@@ -53,31 +53,33 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
     const socket = getConnection(accessCode);
 
     const handleStatus = (event: MessageEvent) => {
-      if (event.data === 'complete') {
+      const eventName = JSON.parse(event.data).event;
+      const eventData = JSON.parse(event.data).data;
+      if (eventName == 'timer' && eventData === 'complete') {
         navigate(`/room/${accessCode}/retrospectForm`, { state: { valid: true } });
         addToast({ status: 'WARNING', message: '페어룸이 종료되었습니다.' });
         return;
       }
 
-      if (event.data === 'start') {
+      if (eventName == 'timer' && eventData === 'start') {
         setIsActive(true);
         addToast({ status: 'SUCCESS', message: '타이머가 시작되었습니다.' });
         return;
       }
 
-      if (event.data === 'running') {
+      if (eventName == 'timer' && eventData === 'running') {
         setIsActive(true);
         addToast({ status: 'SUCCESS', message: '타이머가 진행 중입니다.' });
         return;
       }
 
-      if (event.data === 'pause') {
+      if (eventName == 'timer' && eventData === 'pause') {
         setIsActive(false);
         addToast({ status: 'WARNING', message: '타이머가 일시 정지되었습니다.' });
         return;
       }
 
-      if (event.data === 'update') {
+      if (eventName == 'timer' && eventData === 'update') {
         queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_PAIR_ROOM_TIMER] });
         addToast({ status: 'WARNING', message: '타이머 시간이 변경되었습니다.' });
         return;
@@ -85,14 +87,16 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
     };
 
     const handleTimeLeft = (event: MessageEvent) => {
-      if (event.data === '0') {
+      const eventName = JSON.parse(event.data).event;
+      const eventData = JSON.parse(event.data).data;
+      if (eventName == 'remaining-time' && eventData == '0') {
         handleStop();
         alarmAudio.current.play();
         fireNotification('타이머가 끝났어요!', '드라이버 / 내비게이터 역할을 바꿔 주세요!', {
           requireInteraction: true,
         });
       } else {
-        setTimeLeft(event.data);
+        setTimeLeft(eventData);
       }
     };
 
