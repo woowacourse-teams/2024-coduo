@@ -11,6 +11,7 @@ const envKeys = {
   'process.env.REACT_APP_GA_TRACKING_ID': JSON.stringify(process.env.REACT_APP_GA_TRACKING_ID),
   'process.env.REACT_APP_CLIENT_ID': JSON.stringify(process.env.REACT_APP_CLIENT_ID),
   'process.env.REACT_APP_GITHUB_AUTH': JSON.stringify(process.env.REACT_APP_GITHUB_AUTH),
+  'process.env.REACT_SOCKET_API_URL': JSON.stringify(process.env.REACT_SOCKET_API_URL),
   'process.env.REACT_APP_VERSION': JSON.stringify(pkg.version),
 };
 
