@@ -55,6 +55,7 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
     const handleStatus = (event: MessageEvent) => {
       const eventName = JSON.parse(event.data).event;
       const eventData = JSON.parse(event.data).data;
+      console.log(`${eventName} - ${eventData}`);
       if (eventName == 'timer' && eventData === 'complete') {
         navigate(`/room/${accessCode}/retrospectForm`, { state: { valid: true } });
         addToast({ status: 'WARNING', message: '페어룸이 종료되었습니다.' });
