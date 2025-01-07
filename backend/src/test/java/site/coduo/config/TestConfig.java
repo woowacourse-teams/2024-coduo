@@ -13,7 +13,6 @@ import site.coduo.member.client.GithubApiClient;
 import site.coduo.member.client.GithubOAuthClient;
 import site.coduo.member.infrastructure.security.NonceProvider;
 import site.coduo.referencelink.service.HtmlParser;
-import site.coduo.sync.service.EventStreamsRegistry;
 
 @TestConfiguration
 public class TestConfig {

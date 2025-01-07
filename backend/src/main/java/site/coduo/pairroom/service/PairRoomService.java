@@ -133,7 +133,7 @@ public class PairRoomService {
 
         final List<PairRoomMember> pairRooms = pairRoomMemberRepository.findByMemberEntity(memberEntity);
         final List<PairRoomEntity> pairRoomEntities = pairRooms.stream()
-                .map(PairRoomMemberEntity::getPairRoom)
+                .map(PairRoomMember::getPairRoomEntity)
                 .filter(pairRoomEntity -> !pairRoomEntity.isDeleted())
                 .toList();
 
