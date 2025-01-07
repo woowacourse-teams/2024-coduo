@@ -53,6 +53,7 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
     const socket = getConnection(accessCode);
 
     const handleStatus = (event: MessageEvent) => {
+      console.log(`${event}, type:${typeof event}`);
       const eventName = JSON.parse(event.data).event;
       const eventData = JSON.parse(event.data).data;
       console.log(`${eventName} - ${eventData}`);

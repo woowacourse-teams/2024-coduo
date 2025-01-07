@@ -4,7 +4,6 @@ const API_URL = process.env.REACT_APP_API_URL;
 const SOCKET_URL = process.env.REACT_SOCKET_API_URL;
 
 export const getConnection = (accessCode: string) => {
-  console.log('연결 성공!');
   return new WebSocket(`${SOCKET_URL}/ws-connect?accesscode=${accessCode}`);
 };
 
