@@ -33,8 +33,7 @@ public class ReferenceLinkController implements ReferenceLinkDocs {
             @PathVariable("accessCode") final String accessCodeText,
             @Valid @RequestBody final ReferenceLinkCreateRequest request
     ) {
-        final ReferenceLinkResponse response = referenceLinkService.createReferenceLink(
-                accessCodeText, request);
+        final ReferenceLinkResponse response = referenceLinkService.createReferenceLink(accessCodeText, request);
 
         return ResponseEntity.created(URI.create("/"))
                 .body(response);

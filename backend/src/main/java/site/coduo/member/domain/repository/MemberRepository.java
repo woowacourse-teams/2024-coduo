@@ -5,33 +5,31 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import site.coduo.member.domain.Member;
 import site.coduo.member.exception.MemberNotFoundException;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
 
-    Optional<Member> findByUserIdAndDeletedAtIsNull(String userId);
+    Optional<MemberEntity> findByProviderUserIdAndDeletedAtIsNull(String userId);
 
-    Optional<Member> findByLoginIdAndDeletedAtIsNull(String loginId);
+    Optional<MemberEntity> findByProviderLoginIdAndDeletedAtIsNull(String loginId);
 
-    List<Member> findByDeletedAtIsNull();
+    List<MemberEntity> findByDeletedAtIsNull();
 
     @Override
-    default List<Member> findAll() {
+    default List<MemberEntity> findAll() {
         return findByDeletedAtIsNull();
     }
 
-    default Member fetchByUserId(final String userId) {
+    default MemberEntity fetchByUserId(final String userId) {
 
-        return findByUserIdAndDeletedAtIsNull(userId)
+        return findByProviderUserIdAndDeletedAtIsNull(userId)
                 .orElseThrow(() -> new MemberNotFoundException(String.format("%s는(은) 찾을 수 없는 회원 아이디입니다.", userId)));
     }
 
-    default Member fetchByLoginId(final String loginId) {
-
-        return findByLoginIdAndDeletedAtIsNull(loginId)
+    default MemberEntity fetchByProviderLoginId(final String loginId) {
+        return findByProviderLoginIdAndDeletedAtIsNull(loginId)
                 .orElseThrow(() -> new MemberNotFoundException(String.format("%s는(은) 찾을 수 없는 회원입니다.", loginId)));
     }
 
-    boolean existsByUserIdAndDeletedAtIsNull(String userId);
+    boolean existsByProviderUserIdAndDeletedAtIsNull(String userId);
 }

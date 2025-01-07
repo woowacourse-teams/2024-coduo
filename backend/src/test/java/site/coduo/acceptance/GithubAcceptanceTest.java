@@ -4,6 +4,9 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 
 import static site.coduo.common.config.web.filter.AccessTokenCookieFilter.TEMPORARY_ACCESS_TOKEN_COOKIE_NAME;
+import static site.coduo.fake.FakeGithubApiClient.LOGIN_ID;
+import static site.coduo.fake.FakeGithubApiClient.USER_ID;
+import static site.coduo.fake.FakeGithubOAuthClient.ACCESS_TOKEN;
 
 import java.util.Map;
 
@@ -13,10 +16,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 
 import io.restassured.RestAssured;
-import site.coduo.fake.FakeGithubApiClient;
-import site.coduo.fake.FakeGithubOAuthClient;
 import site.coduo.fake.FixedNonceProvider;
-import site.coduo.member.domain.Member;
+import site.coduo.member.domain.repository.MemberEntity;
+import site.coduo.fixture.MemberDummy;
 
 class GithubAcceptanceTest extends AcceptanceFixture {
 
@@ -98,17 +100,12 @@ class GithubAcceptanceTest extends AcceptanceFixture {
     @DisplayName("callback 엔드 포인트가 호출되면 리디렉션을 통해 로그인이 시도된다.")
     void try_login_when_call_callback_end_point() {
         // given
-        final Member member = Member.builder()
-                .username("test user")
-                .userId(FakeGithubApiClient.USER_ID)
-                .loginId(FakeGithubApiClient.LOGIN_ID)
-                .accessToken(FakeGithubOAuthClient.ACCESS_TOKEN.getCredential())
-                .profileImage(FakeGithubApiClient.PROFILE_IMAGE)
-                .build();
+        final MemberEntity memberEntity = MemberDummy.createDummy("test user", ACCESS_TOKEN.getCredential(), USER_ID, LOGIN_ID);
+
         final Map<String, String> query = Map.of("code", "authorization code",
                 "state", FixedNonceProvider.FIXED_VALUE);
 
-        memberRepository.save(member);
+        memberRepository.save(memberEntity);
 
         // when & then
         RestAssured

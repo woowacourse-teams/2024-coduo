@@ -9,7 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import site.coduo.member.domain.Member;
+import site.coduo.member.domain.repository.MemberEntity;
+import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.service.MemberService;
 import site.coduo.pairroom.domain.MissionUrl;
 import site.coduo.pairroom.domain.Pair;
@@ -22,7 +23,7 @@ import site.coduo.pairroom.domain.accesscode.generator.EasyAccessCodeGenerator;
 import site.coduo.pairroom.domain.accesscode.generator.UUIDAccessCodeGenerator;
 import site.coduo.pairroom.exception.DeletePairRoomException;
 import site.coduo.pairroom.repository.PairRoomEntity;
-import site.coduo.pairroom.repository.PairRoomMemberEntity;
+import site.coduo.pairroom.repository.PairRoomMember;
 import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
@@ -42,6 +43,7 @@ public class PairRoomService {
     private final TimerRepository timerRepository;
     private final PairRoomMemberRepository pairRoomMemberRepository;
     private final MemberService memberService;
+    private final MemberRepository memberRepository;
     private final UUIDAccessCodeGenerator uuidAccessCodeGenerator;
 
     @Transactional
@@ -53,12 +55,12 @@ public class PairRoomService {
         timerRepository.save(new TimerEntity(timer, pairRoomEntity));
 
         if (isRegisteredMember(loginToken)) {
-            final Member member = memberService.findMemberByCredential(loginToken);
-            pairRoomMemberRepository.save(new PairRoomMemberEntity(pairRoomEntity, member));
+            final MemberEntity memberEntity = memberService.findMemberByCredential(loginToken);
+            pairRoomMemberRepository.save(new PairRoomMember(pairRoomEntity, memberEntity));
         }
         if (isRegisteredMember(request.pairId())) {
-            final Member member = memberService.findMember(request.pairId());
-            pairRoomMemberRepository.save(new PairRoomMemberEntity(pairRoomEntity, member));
+            final MemberEntity memberEntity = memberRepository.fetchByProviderLoginId(request.pairId());
+            pairRoomMemberRepository.save(new PairRoomMember(pairRoomEntity, memberEntity));
         }
         return pairRoom.getAccessCodeText();
     }
@@ -127,11 +129,11 @@ public class PairRoomService {
     }
 
     public List<PairRoomMemberResponse> findPairRooms(final String token) {
-        final Member member = memberService.findMemberByCredential(token);
+        final MemberEntity memberEntity = memberService.findMemberByCredential(token);
 
-        final List<PairRoomMemberEntity> pairRooms = pairRoomMemberRepository.findByMember(member);
+        final List<PairRoomMember> pairRooms = pairRoomMemberRepository.findByMemberEntity(memberEntity);
         final List<PairRoomEntity> pairRoomEntities = pairRooms.stream()
-                .map(PairRoomMemberEntity::getPairRoom)
+                .map(PairRoomMember::getPairRoomEntity)
                 .filter(pairRoomEntity -> !pairRoomEntity.isDelete())
                 .toList();
 
@@ -149,7 +151,7 @@ public class PairRoomService {
 
     public boolean existMemberInPairRoom(final String credentialToken, final String pairRoomAccessCode) {
         final PairRoomEntity pairRoom = pairRoomRepository.fetchByAccessCode(pairRoomAccessCode);
-        final Member member = memberService.findMemberByCredential(credentialToken);
-        return pairRoomMemberRepository.existsByPairRoomAndMember(pairRoom, member);
+        final MemberEntity memberEntity = memberService.findMemberByCredential(credentialToken);
+        return pairRoomMemberRepository.existsByPairRoomEntityAndMemberEntity(pairRoom, memberEntity);
     }
 }

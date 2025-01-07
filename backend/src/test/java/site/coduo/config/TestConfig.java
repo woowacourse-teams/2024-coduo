@@ -8,14 +8,22 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import site.coduo.fake.FakeEventStreamRegistry;
 import site.coduo.fake.FakeGithubApiClient;
 import site.coduo.fake.FakeGithubOAuthClient;
+import site.coduo.fake.FakeHtmlParser;
 import site.coduo.fake.FixedNonceProvider;
 import site.coduo.member.client.GithubApiClient;
 import site.coduo.member.client.GithubOAuthClient;
 import site.coduo.member.infrastructure.security.NonceProvider;
+import site.coduo.referencelink.service.HtmlParser;
 import site.coduo.sync.service.EventStreamsRegistry;
 
 @TestConfiguration
 public class TestConfig {
+
+    @Bean
+    @Primary
+    public HtmlParser fakeHtmlParser() {
+        return new FakeHtmlParser();
+    }
 
     @Bean
     @Primary

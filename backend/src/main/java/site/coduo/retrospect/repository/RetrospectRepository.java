@@ -4,14 +4,13 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import site.coduo.pairroom.repository.PairRoomEntity;
-import site.coduo.pairroom.repository.PairRoomMemberEntity;
+import site.coduo.pairroom.repository.PairRoomMember;
 
 public interface RetrospectRepository extends JpaRepository<RetrospectEntity, Long> {
 
-    List<RetrospectEntity> findAllByPairRoomMember(PairRoomMemberEntity pairRoomMember);
+    List<RetrospectEntity> findAllByPairRoomMember(PairRoomMember pairRoomMember);
 
-    void deleteAllByPairRoomMember(PairRoomMemberEntity pairRoomMember);
+    void deleteAllByPairRoomMember(PairRoomMember pairRoomMember);
 
-    boolean existsRetrospectEntityByPairRoomMember(PairRoomMemberEntity pairRoomMember);
+    boolean existsRetrospectEntityByPairRoomMember(PairRoomMember pairRoomMember);
 }

@@ -11,10 +11,11 @@ import org.springframework.context.annotation.Import;
 
 import site.coduo.config.TestConfig;
 import site.coduo.fake.FakeGithubApiClient;
-import site.coduo.member.domain.Member;
+import site.coduo.member.domain.repository.MemberEntity;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.infrastructure.security.JwtProvider;
 import site.coduo.member.service.dto.SignInServiceResponse;
+import site.coduo.fixture.MemberDummy;
 
 @SpringBootTest
 @Import(TestConfig.class)
@@ -38,8 +39,8 @@ class AuthServiceTest {
     @DisplayName("JWT로 감싸진 엑세스 토큰으로 회원을 조회한다.")
     void search_member_by_access_token() {
         // given
-        final Member member = createMember("username", FakeGithubApiClient.ACCESS_TOKEN, FakeGithubApiClient.USER_ID);
-        final String sign = jwtProvider.sign(member.getAccessToken());
+        final MemberEntity memberEntity = createMember("username", FakeGithubApiClient.ACCESS_TOKEN, FakeGithubApiClient.USER_ID);
+        final String sign = jwtProvider.sign(memberEntity.getProviderAccessToken());
 
         // when
         final SignInServiceResponse signInToken = authService.createSignInToken(sign);
@@ -62,31 +63,24 @@ class AuthServiceTest {
         assertThat(signInToken.token()).isEmpty();
     }
 
-    private Member createMember(final String username, final String accessToken, final String userId) {
-        final Member member = Member.builder()
-                .username(username)
-                .accessToken(accessToken)
-                .loginId("")
-                .userId(userId)
-                .profileImage("")
-                .build();
-
-        return memberRepository.save(member);
+    private MemberEntity createMember(final String username, final String accessToken, final String userId) {
+        final MemberEntity memberEntity = MemberDummy.createDummy(username, accessToken, userId);
+        return memberRepository.save(memberEntity);
     }
 
     @Test
     @DisplayName("로그인 토큰을 생성할 때 회원이 엑세스 토큰을 갱신한다.")
     void renewal_member_access_token_when_create_sign_in_token() {
         // given
-        final Member member = createMember("username", "origin", FakeGithubApiClient.USER_ID);
+        final MemberEntity memberEntity = createMember("username", "origin", FakeGithubApiClient.USER_ID);
         final String sign = jwtProvider.sign("change");
 
         // when
         authService.createSignInToken(sign);
 
         // then
-        assertThat(memberRepository.findById(member.getId()).orElseThrow())
-                .extracting("accessToken")
+        assertThat(memberRepository.findById(memberEntity.getId()).orElseThrow())
+                .extracting("providerAccessToken")
                 .isEqualTo("change");
     }
 
