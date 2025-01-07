@@ -19,8 +19,9 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import site.coduo.fixture.MemberDummy;
 import site.coduo.fixture.PairRoomCreateRequestFixture;
-import site.coduo.member.domain.Member;
+import site.coduo.member.domain.repository.MemberEntity;
 import site.coduo.member.infrastructure.security.JwtProvider;
 import site.coduo.pairroom.domain.MissionUrl;
 import site.coduo.pairroom.domain.Pair;
@@ -29,7 +30,7 @@ import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomEntity;
-import site.coduo.pairroom.repository.PairRoomMemberEntity;
+import site.coduo.pairroom.repository.PairRoomMember;
 import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
@@ -205,31 +206,20 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     @DisplayName("깃허브 id로 추가된 사용자가 자신의 페어룸 목록에서 페어룸을 확인할 수 있다.")
     void add_pair_and_find_my_pair_room() {
         //given
-        final Member pairRoomCreator = Member.builder()
-                .userId("idA")
-                .accessToken(jwtProvider.sign("idA"))
-                .loginId("loginAA")
-                .username("redddy")
-                .profileImage("some image")
-                .build();
+        final MemberEntity pairRoomCreator = MemberDummy.createDummy("redddy", jwtProvider.sign("idA"), "idA",
+                "loginAA");
 
-        final Member addPair = Member.builder()
-                .userId("idB")
-                .accessToken(jwtProvider.sign("idB"))
-                .loginId("loginBB")
-                .username("hash")
-                .profileImage("some image")
-                .build();
-
+        final MemberEntity addPair = MemberDummy.createDummy("hash", jwtProvider.sign("idB"), "idB", "loginBB");
         memberRepository.save(pairRoomCreator);
         memberRepository.save(addPair);
 
-        final PairRoomCreateRequest request = new PairRoomCreateRequest("navi", "dri", addPair.getLoginId(), 60000L,
+        final PairRoomCreateRequest request = new PairRoomCreateRequest("navi", "dri", addPair.getProviderLoginId(),
+                60000L,
                 60000L, "");
 
         RestAssured
                 .given()
-                .cookie(SIGN_IN_COOKIE_NAME, pairRoomCreator.getAccessToken())
+                .cookie(SIGN_IN_COOKIE_NAME, pairRoomCreator.getProviderAccessToken())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
                 .body(request)
@@ -243,7 +233,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
         //when && then
         RestAssured
                 .given()
-                .cookie(SIGN_IN_COOKIE_NAME, addPair.getAccessToken())
+                .cookie(SIGN_IN_COOKIE_NAME, addPair.getProviderAccessToken())
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .accept(MediaType.APPLICATION_JSON_VALUE)
 
@@ -259,15 +249,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
     @Test
     void existMemberInPairRoom() {
         // Given
-        final Member savedMember = memberRepository.save(
-                Member.builder()
-                        .userId("userid")
-                        .accessToken("access")
-                        .loginId("login")
-                        .username("username")
-                        .profileImage("some image")
-                        .build()
-        );
+        final MemberEntity savedMemberEntity = memberRepository.save(MemberDummy.createDummy());
         final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
@@ -275,10 +257,10 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                         new AccessCode("ac"),
                         EASY_ACCESS_CODE_INK_REDDY)
         ));
-        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
+        pairRoomMemberRepository.save(new PairRoomMember(savedPairRoom, savedMemberEntity));
 
         // When
-        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        final String credentialToken = jwtProvider.sign(savedMemberEntity.getProviderUserId());
         final ExtractableResponse<Response> response = RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)

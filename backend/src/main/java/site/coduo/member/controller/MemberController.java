@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.member.controller.docs.MemberControllerDocs;
-import site.coduo.member.domain.Member;
+import site.coduo.member.domain.repository.MemberEntity;
 import site.coduo.member.service.MemberService;
 import site.coduo.member.service.dto.member.MemberNameResponse;
 import site.coduo.member.service.dto.member.MemberReadResponse;
@@ -35,8 +35,8 @@ public class MemberController implements MemberControllerDocs {
             @RequestParam("user_id") String userId
     ) {
 
-        final Member member = memberService.checkAndFindMember(token, userId);
-        final MemberNameResponse response = new MemberNameResponse(member.getUsername());
+        final MemberEntity memberEntity = memberService.checkAndFindMember(token, userId);
+        final MemberNameResponse response = new MemberNameResponse(memberEntity.getUsername());
 
         return ResponseEntity.ok(response);
     }

@@ -14,13 +14,13 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import site.coduo.common.infrastructure.audit.entity.BaseTimeEntity;
-import site.coduo.member.domain.Member;
+import site.coduo.member.domain.repository.MemberEntity;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "PAIR_ROOM_MEMBER")
 @Entity
-public class PairRoomMemberEntity extends BaseTimeEntity {
+public class PairRoomMember extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,15 +28,15 @@ public class PairRoomMemberEntity extends BaseTimeEntity {
 
     @ManyToOne
     @JoinColumn(name = "PAIR_ROOM_ID")
-    private PairRoomEntity pairRoom;
+    private PairRoomEntity pairRoomEntity;
 
     @ManyToOne
     @JoinColumn(name = "MEMBER_ID")
-    private Member member;
+    private MemberEntity memberEntity;
 
-    public PairRoomMemberEntity(final PairRoomEntity pairRoom, final Member member) {
-        this.pairRoom = pairRoom;
-        this.member = member;
+    public PairRoomMember(final PairRoomEntity pairRoomEntity, final MemberEntity memberEntity) {
+        this.pairRoomEntity = pairRoomEntity;
+        this.memberEntity = memberEntity;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class PairRoomMemberEntity extends BaseTimeEntity {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof final PairRoomMemberEntity that)) {
+        if (!(o instanceof final PairRoomMember that)) {
             return false;
         }
         return Objects.equals(getId(), that.getId());
@@ -57,10 +57,10 @@ public class PairRoomMemberEntity extends BaseTimeEntity {
 
     @Override
     public String toString() {
-        return "PairRoomMemberEntity{" +
+        return "PairRoomMember{" +
                 "id=" + id +
-                ", pairRoom=" + pairRoom +
-                ", member=" + member +
+                ", pairRoomEntity=" + pairRoomEntity +
+                ", memberEntity=" + memberEntity +
                 '}';
     }
 }

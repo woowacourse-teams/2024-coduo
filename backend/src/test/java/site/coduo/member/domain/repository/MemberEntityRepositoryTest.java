@@ -10,10 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import site.coduo.member.domain.Member;
+import site.coduo.fixture.MemberDummy;
 
 @SpringBootTest
-class MemberRepositoryTest {
+class MemberEntityRepositoryTest {
 
     @Autowired
     private MemberRepository memberRepository;
@@ -29,20 +29,14 @@ class MemberRepositoryTest {
         // given
         final String identifier = "some id";
 
-        final Member member = Member.builder()
-                .loginId("loginId")
-                .userId(identifier)
-                .profileImage("some photo")
-                .accessToken("some accessCode")
-                .username("some username")
-                .build();
-        memberRepository.save(member);
+        final MemberEntity memberEntity = MemberDummy.createDummy(identifier);
+        memberRepository.save(memberEntity);
 
         // when
-        final Optional<Member> find = memberRepository.findByUserIdAndDeletedAtIsNull(identifier);
+        final Optional<MemberEntity> find = memberRepository.findByProviderUserIdAndDeletedAtIsNull(identifier);
 
         // then
-        assertThat(find).hasValue(member);
+        assertThat(find).hasValue(memberEntity);
     }
 
 }

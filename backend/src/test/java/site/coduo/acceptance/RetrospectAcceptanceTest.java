@@ -12,8 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import io.restassured.RestAssured;
+import site.coduo.fixture.MemberDummy;
 import site.coduo.fixture.RetrospectCreateRequestFixture;
-import site.coduo.member.domain.Member;
+import site.coduo.member.domain.repository.MemberEntity;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.infrastructure.security.JwtProvider;
 import site.coduo.pairroom.domain.MissionUrl;
@@ -23,7 +24,7 @@ import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomEntity;
-import site.coduo.pairroom.repository.PairRoomMemberEntity;
+import site.coduo.pairroom.repository.PairRoomMember;
 import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.retrospect.controller.request.CreateRetrospectRequest;
@@ -57,10 +58,10 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
     void createRetrospect() {
         // Given
         final PairRoomEntity savedPairRoom = saveTestPairRoom();
-        final Member savedMember = saveTestMember();
-        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
+        final MemberEntity savedMemberEntity = memberRepository.save(MemberDummy.createDummy());
+        pairRoomMemberRepository.save(new PairRoomMember(savedPairRoom, savedMemberEntity));
 
-        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        final String credentialToken = jwtProvider.sign(savedMemberEntity.getProviderUserId());
         final CreateRetrospectRequest request = RetrospectCreateRequestFixture.setCreateRequest();
 
         // When && Then
@@ -83,13 +84,13 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
     void findRetrospects() {
         // Given
         final PairRoomEntity savedPairRoom = saveTestPairRoom();
-        final Member savedMember = saveTestMember();
-        final PairRoomMemberEntity pairRoomMember = pairRoomMemberRepository.save(
-                new PairRoomMemberEntity(savedPairRoom, savedMember));
+        final MemberEntity savedMemberEntity = memberRepository.save(MemberDummy.createDummy());
+        final PairRoomMember pairRoomMember = pairRoomMemberRepository.save(
+                new PairRoomMember(savedPairRoom, savedMemberEntity));
 
         saveRetrospectContents(pairRoomMember);
 
-        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        final String credentialToken = jwtProvider.sign(savedMemberEntity.getProviderUserId());
 
         // When
         final FindRetrospectsResponse response = RestAssured
@@ -117,10 +118,10 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
     void findRetrospectById() {
         // Given
         final PairRoomEntity savedPairRoom = saveTestPairRoom();
-        final Member savedMember = saveTestMember();
-        final PairRoomMemberEntity pairRoomMember = pairRoomMemberRepository.save(
-                new PairRoomMemberEntity(savedPairRoom, savedMember));
-        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        final MemberEntity savedMemberEntity = memberRepository.save(MemberDummy.createDummy());
+        final PairRoomMember pairRoomMember = pairRoomMemberRepository.save(
+                new PairRoomMember(savedPairRoom, savedMemberEntity));
+        final String credentialToken = jwtProvider.sign(savedMemberEntity.getProviderUserId());
 
         saveRetrospectContents(pairRoomMember);
 
@@ -149,8 +150,8 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
     @DisplayName("존재하지 않은 회고를 조회하려하면 404를 반환받는다.")
     @Test
     void findNotExistRetrospect() {
-        final Member savedMember = saveTestMember();
-        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        final MemberEntity savedMemberEntity = MemberDummy.createDummy();
+        final String credentialToken = jwtProvider.sign(savedMemberEntity.getProviderUserId());
 
         RestAssured
                 .given()
@@ -170,12 +171,12 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
     void deleteRetrospect() {
         // Given
         final PairRoomEntity savedPairRoom = saveTestPairRoom();
-        final Member savedMember = saveTestMember();
+        final MemberEntity savedMemberEntity = memberRepository.save(MemberDummy.createDummy());
         pairRoomMemberRepository.save(
-                new PairRoomMemberEntity(savedPairRoom, savedMember));
+                new PairRoomMember(savedPairRoom, savedMemberEntity));
 
         // When && Then
-        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        final String credentialToken = jwtProvider.sign(savedMemberEntity.getProviderUserId());
         RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -194,20 +195,14 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
     @Test
     void notOwnerAccessFail() {
         // Given
-        final Member owner = saveTestMember();
-        final Member other = memberRepository.save(
-                Member.builder()
-                        .userId("userid2")
-                        .accessToken("access2")
-                        .loginId("login2")
-                        .username("username2")
-                        .profileImage("some image2")
-                        .build()
-        );
+        final MemberEntity owner = memberRepository.save(MemberDummy.createDummy());
+        final MemberEntity other = memberRepository.save(
+                MemberDummy.createDummy("username2", "accesss2", "userid2", "login2"));
         final PairRoomEntity savedPairRoom = saveTestPairRoom();
+        pairRoomMemberRepository.save(new PairRoomMember(savedPairRoom, owner));
 
         // When
-        final String otherMemberToken = jwtProvider.sign(other.getUserId());
+        final String otherMemberToken = jwtProvider.sign(other.getProviderUserId());
 
         RestAssured
                 .given()
@@ -227,14 +222,15 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
     void existRetrospectWithPairRoom() {
         // Given
         final PairRoomEntity savedPairRoom = saveTestPairRoom();
-        final Member savedMember = saveTestMember();
-        final PairRoomMemberEntity pairRoomMember = pairRoomMemberRepository.save(
-                new PairRoomMemberEntity(savedPairRoom, savedMember));
+        final MemberEntity savedMemberEntity = memberRepository.save(MemberDummy.createDummy());
+
+        final PairRoomMember pairRoomMember = pairRoomMemberRepository.save(
+                new PairRoomMember(savedPairRoom, savedMemberEntity));
 
         saveRetrospectContents(pairRoomMember);
 
         // When
-        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        final String credentialToken = jwtProvider.sign(savedMemberEntity.getProviderUserId());
         final ExistRetrospectWithPairRoomResponse response = RestAssured
                 .given()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -253,18 +249,6 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
         assertThat(response.existRetrospect()).isTrue();
     }
 
-    private Member saveTestMember() {
-        return memberRepository.save(
-                Member.builder()
-                        .userId("userid")
-                        .accessToken("access")
-                        .loginId("login")
-                        .username("username")
-                        .profileImage("some image")
-                        .build()
-        );
-    }
-
     private PairRoomEntity saveTestPairRoom() {
         return pairRoomRepository.save(PairRoomEntity.from(
                 new PairRoom(
@@ -277,7 +261,7 @@ class RetrospectAcceptanceTest extends AcceptanceFixture {
         ));
     }
 
-    private void saveRetrospectContents(final PairRoomMemberEntity pairRoomMember) {
+    private void saveRetrospectContents(final PairRoomMember pairRoomMember) {
         final List<RetrospectEntity> retrospectContentEntities = List.of(
                 new RetrospectEntity(pairRoomMember, RetrospectQuestionType.FIRST, "답변1"),
                 new RetrospectEntity(pairRoomMember, RetrospectQuestionType.SECOND, "답변2"),
