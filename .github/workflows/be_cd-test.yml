@@ -140,8 +140,6 @@ jobs:
             sleep 5
           done
 
-          until curl -sf http://localhost:${GREEN_PORT}/api/actuator/health | grep "UP"; do sleep 5; done
-
       - name: Reload NGINX 
         run: |
           sudo systemctl reload nginx
