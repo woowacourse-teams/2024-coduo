@@ -21,7 +21,7 @@ import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.domain.accesscode.generator.AccessCodeGenerator;
 import site.coduo.pairroom.domain.accesscode.generator.EasyAccessCodeGenerator;
 import site.coduo.pairroom.domain.accesscode.generator.UUIDAccessCodeGenerator;
-import site.coduo.pairroom.exception.DeletePairRoomException;
+import site.coduo.pairroom.exception.InactivePairRoomException;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomMember;
 import site.coduo.pairroom.repository.PairRoomMemberRepository;
@@ -103,29 +103,29 @@ public class PairRoomService {
     @Transactional
     public void updateNavigatorWithDriver(final String accessCode) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
-        checkDeletePairRoom(pairRoomEntity);
+        checkPairRoomIsActive(pairRoomEntity);
         pairRoomEntity.swapNavigatorWithDriver();
-    }
-
-    private void checkDeletePairRoom(final PairRoomEntity pairRoomEntity) {
-        if (pairRoomEntity.isDelete()) {
-            throw new DeletePairRoomException("삭제된 페어룸입니다.");
-        }
     }
 
     @Transactional
     public void updatePairRoomStatus(final String accessCode, final String statusName) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
-        checkDeletePairRoom(pairRoomEntity);
+        checkPairRoomIsActive(pairRoomEntity);
         final PairRoomStatus status = PairRoomStatus.findByName(statusName);
         pairRoomEntity.updateStatus(status);
     }
 
     public PairRoomReadResponse findPairRoomAndTimer(final String accessCode) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
-        checkDeletePairRoom(pairRoomEntity);
+        checkPairRoomIsDeleted(pairRoomEntity);
         final TimerEntity timerEntity = timerRepository.fetchTimerByPairRoomEntity(pairRoomEntity);
         return PairRoomReadResponse.of(pairRoomEntity.toDomain(), timerEntity.toDomain());
+    }
+
+    private void checkPairRoomIsActive(final PairRoomEntity pairRoomEntity) {
+        if (!pairRoomEntity.isActive()) {
+            throw new InactivePairRoomException("종료되거나 삭제된 페어룸을 조작할 수 없습니다.");
+        }
     }
 
     public List<PairRoomMemberResponse> findPairRooms(final String token) {
@@ -133,8 +133,8 @@ public class PairRoomService {
 
         final List<PairRoomMember> pairRooms = pairRoomMemberRepository.findByMemberEntity(memberEntity);
         final List<PairRoomEntity> pairRoomEntities = pairRooms.stream()
-                .map(PairRoomMember::getPairRoomEntity)
-                .filter(pairRoomEntity -> !pairRoomEntity.isDelete())
+                .map(PairRoomMemberEntity::getPairRoom)
+                .filter(pairRoomEntity -> !pairRoomEntity.isDeleted())
                 .toList();
 
         return pairRoomEntities.stream()
@@ -145,8 +145,21 @@ public class PairRoomService {
     @Transactional
     public void deletePairRoom(final String accessCode) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
-        checkDeletePairRoom(pairRoomEntity);
+        checkPairRoomIsDeleted(pairRoomEntity);
         pairRoomEntity.updateStatus(PairRoomStatus.DELETED);
+    }
+
+    @Transactional
+    public void completePairRoom(final String accessCode) {
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
+        checkPairRoomIsActive(pairRoomEntity);
+        pairRoomEntity.updateStatus(PairRoomStatus.COMPLETED);
+    }
+
+    private void checkPairRoomIsDeleted(final PairRoomEntity pairRoomEntity) {
+        if (pairRoomEntity.isDeleted()) {
+            throw new InactivePairRoomException("삭제된 페어룸을 삭제할 수 없습니다.");
+        }
     }
 
     public boolean existMemberInPairRoom(final String credentialToken, final String pairRoomAccessCode) {

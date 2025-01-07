@@ -41,8 +41,10 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
 
     @Autowired
     private JwtProvider jwtProvider;
+
     @Autowired
     private PairRoomRepository pairRoomRepository;
+
     @Autowired
     private PairRoomMemberRepository pairRoomMemberRepository;
 
@@ -194,7 +196,7 @@ class PairRoomAcceptanceTest extends AcceptanceFixture {
                 .all()
 
                 .when()
-                .delete("/api/pair-room/{access-code}", accessCode.accessCode())
+                .patch("/api/pair-room/{access-code}/complete", accessCode.accessCode())
 
                 .then()
                 .statusCode(204);

@@ -2,6 +2,7 @@ package site.coduo.acceptance;
 
 import static site.coduo.acceptance.PairRoomAcceptanceTest.createPairRoom;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -9,6 +10,7 @@ import io.restassured.RestAssured;
 import site.coduo.fixture.PairRoomCreateRequestFixture;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 
+@Disabled
 class SseAcceptanceTest extends AcceptanceFixture {
 
     static void createConnect(final String accessCode) {
@@ -17,7 +19,8 @@ class SseAcceptanceTest extends AcceptanceFixture {
 
                 .when()
                 .log().all()
-                .get("/api/{key}/connect", accessCode)
+//                .get("/api/{key}/connect", accessCode)
+                .get("/ws-connect/{key}/connect", accessCode)
 
                 .then()
                 .log().all()

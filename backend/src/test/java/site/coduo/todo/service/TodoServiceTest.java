@@ -98,7 +98,7 @@ class TodoServiceTest {
         // When & Then
         assertThatThrownBy(() -> todoService.createTodo("NOCODE", content))
                 .isInstanceOf(PairRoomNotFoundException.class)
-                .hasMessage("해당 Access Code의 페어룸은 존재하지 않습니다. - " + "NOCODE");
+                .hasMessage("존재하지 않는 페어룸 접근 코드입니다.");
     }
 
     @DisplayName("투두 id와 새로운 투두 내용이 입력되면 해당 투두를 저장소에서 가져와 내용을 변경한뒤 저장한다.")
@@ -215,9 +215,7 @@ class TodoServiceTest {
         final boolean isChecked = false;
         final Todo todo = new Todo(1L, content, sort, isChecked);
         final TodoEntity todoEntity = new TodoEntity(todo, pairRoomEntity);
-        todoRepository.save(todoEntity);
-
-        final Long todoId = 1L;
+        final Long todoId = todoRepository.save(todoEntity).getId();
 
         // When
         todoService.deleteTodo(todoId);
@@ -290,7 +288,7 @@ class TodoServiceTest {
         // When & Then
         assertThatThrownBy(() -> todoService.getAllOrderBySort(pairRoomAccessCode))
                 .isInstanceOf(PairRoomNotFoundException.class)
-                .hasMessage("해당 Access Code의 페어룸은 존재하지 않습니다. - " + pairRoomAccessCode);
+                .hasMessage("존재하지 않는 페어룸 접근 코드입니다.");
     }
 
     @DisplayName("대상 투두 아이디와 변경할 순서를 입력받으면 위치를 변경시킨다.")

@@ -63,7 +63,7 @@ class PairRoomEntityTest {
         );
 
         // When
-        final boolean isDelete = sut.isDelete();
+        final boolean isDelete = sut.isDeleted();
 
         // Then
         assertThat(isDelete).isTrue();
@@ -82,7 +82,7 @@ class PairRoomEntityTest {
         );
 
         // When
-        final boolean isDelete = sut.isDelete();
+        final boolean isDelete = sut.isDeleted();
 
         // Then
         assertThat(isDelete).isFalse();

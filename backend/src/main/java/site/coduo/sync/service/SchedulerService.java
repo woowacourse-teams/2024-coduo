@@ -14,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import site.coduo.timer.domain.Timer;
 import site.coduo.timer.repository.TimerRepository;
 import site.coduo.timer.service.TimestampRegistry;
+import site.coduo.websocket.PairRoomWebSocketService;
+import site.coduo.websocket.message.EventAndDataMessage;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,17 +24,17 @@ public class SchedulerService {
 
     public static final Duration DELAY_SECOND = Duration.of(1, ChronoUnit.SECONDS);
 
+    private final PairRoomWebSocketService pairRoomWebSocketService;
     private final ThreadPoolTaskScheduler taskScheduler;
     private final SchedulerRegistry schedulerRegistry;
     private final TimestampRegistry timestampRegistry;
     private final TimerRepository timerRepository;
-    private final SseService sseService;
 
     public void start(final String key) {
         if (schedulerRegistry.isActive(key)) {
             return;
         }
-        sseService.broadcast(key, "timer", "start");
+        pairRoomWebSocketService.sendAllPairRoomSessions(key, new EventAndDataMessage("timer", "start"));
         if (isInitial(key)) {
             final Timer timer = timerRepository.fetchTimerByAccessCode(key)
                     .toDomain();
@@ -59,23 +61,28 @@ public class SchedulerService {
             stop(key, timer);
             return;
         }
-        if (sseService.hasNoConnections(key) && schedulerRegistry.has(key)) {
-            pause(key);
+        if (pairRoomWebSocketService.hasNoConnections(key) && schedulerRegistry.has(key)) {
+            pauseTimer(key);
             return;
         }
         timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
-        sseService.broadcast(key, "remaining-time", String.valueOf(timer.getRemainingTime()));
+        pairRoomWebSocketService.sendAllPairRoomSessions(key,
+                new EventAndDataMessage("remaining-time", String.valueOf(timer.getRemainingTime())));
     }
 
-    public void pause(final String key) {
+    private void pauseTimer(final String key) {
         if (schedulerRegistry.isActive(key)) {
-            sseService.broadcast(key, "timer", "pause");
             schedulerRegistry.release(key);
         }
     }
 
+    public void pause(final String key) {
+        pauseTimer(key);
+        pairRoomWebSocketService.sendAllPairRoomSessions(key, new EventAndDataMessage("timer", "pause"));
+    }
+
     private void stop(final String key, final Timer timer) {
-        sseService.broadcast(key, "timer", "stop");
+        pairRoomWebSocketService.sendAllPairRoomSessions(key, new EventAndDataMessage("timer", "stop"));
         schedulerRegistry.release(key);
         final Timer initalTimer = new Timer(timer.getAccessCode(), timer.getDuration(), timer.getDuration());
         timestampRegistry.register(key, initalTimer);

@@ -23,7 +23,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD")
                 .allowedOrigins("http://localhost:3000", "https://coduo.site", "https://test.coduo.site",
-                        "https://api-test.coduo.site", "https://api.coduo.site")
+                        "https://api-test.coduo.site", "https://api.coduo.site",
+                        "ws://test.coduo.site", "wss://test.coduo.site",
+                        "ws://api-test.coduo.site", "wss://api-test.coduo.site")
                 .allowCredentials(true);
     }
 }
