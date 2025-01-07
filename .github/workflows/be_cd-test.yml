@@ -49,10 +49,13 @@ jobs:
           name: docker-compose
           path: ${{ github.workspace }}/backend/be_app-docker-compose.yml
 
-  deployA:
+  deploy:
     environment: test
-    runs-on: test-ec2-runner-a
+    runs-on: ${{ matrix.instance }}
     needs: build
+    strategy:
+      matrix:
+        instance: [ "test-ec2-runner-a", "test-ec2-runner-b" ]
     defaults:
       run:
         working-directory: ./backend
@@ -67,15 +70,23 @@ jobs:
         run: |
           sudo mv be_app-docker-compose.yml ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/
 
-      - name: Extract secrets as .be_app-env file
+      - name: Run deploy script
         run: |
-          echo $(pwd)
           chmod +x ./deploy.sh
-          echo chmod ok          
           source ./deploy.sh
-          echo source ok
           echo "BLUE_PORT=$BLUE_PORT" >> $GITHUB_ENV
           echo "GREEN_PORT=$GREEN_PORT" >> $GITHUB_ENV
+
+      - name: Extract secrets as .be_app-env file
+        run: |
+          if [ "${{ matrix.instance }}" = "test-ec2-runner-a" ]; then
+            INSTANCE_NAME=${{ secrets.INSTANCE_A_NAME }}
+          elif [ "${{ matrix.instance }}" = "test-ec2-runner-b" ]; then
+            INSTANCE_NAME=${{ secrets.INSTANCE_B_NAME }}
+          else
+            echo "Unknown instance: ${{ matrix.instance }}"
+            exit 1
+          fi
           
           cat <<EOF > ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env
 
@@ -101,7 +112,7 @@ jobs:
           JWT_KEY=${{ secrets.JWT_KEY}}
           
           # INSTANCE NAME
-          INSTANCE_NAME=${{ secrets.INSTANCE_A_NAME }}
+          INSTANCE_NAME=$INSTANCE_NAME
           
           # Server App
           BLUE_SERVER_BINDING_PORT=${BLUE_PORT}
@@ -129,90 +140,6 @@ jobs:
         run: |
           sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml -p $BLUE_PORT down
 
-      - name: Delete Dangling docker images
-        run: |
-          sudo docker image prune -a -f
-
-  deployB:
-    environment: test
-    runs-on: test-ec2-runner-b
-    needs: build
-    defaults:
-      run:
-        working-directory: ./backend
-    steps:
-      - name: Set docker-compose YAML script to runner
-        uses: actions/download-artifact@v4
-        with:
-          name: docker-compose
-          path: ${{ github.workspace }}/backend
-
-      - name: Move docker-compose YAML
-        run: |
-          sudo mv be_app-docker-compose.yml ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/
-
-      - name: Extract secrets as .be_app-env file
-        run: |
-          echo $(pwd)
-          chmod +x ./deploy.sh
-          echo chmod ok          
-          source ./deploy.sh
-          echo source ok
-          echo "BLUE_PORT=$BLUE_PORT" >> $GITHUB_ENV
-          echo "GREEN_PORT=$GREEN_PORT" >> $GITHUB_ENV
-          
-          cat <<EOF > ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env
-
-          # Docker Hub info from Github Secrets
-          DOCKER_REPO_NAME=${{ secrets.DOCKER_REPO_NAME }}
-          DOCKER_IMAGE_VERSION=test-latest
-
-           # DB Configuration secrets info from Github Secrets
-          MYSQL_TIME_ZONE=${{ secrets.MYSQL_TIME_ZONE }}
-          DB_BINDING_PORT=${{ secrets.DB_BINDING_PORT }}          
-          MASTER_DB_URL=${{ secrets.TEST_SERVER_MASTER_DB_URL }}
-          MASTER_DB_USERNAME=${{ secrets.TEST_SERVER_DB_USERNAME }}
-          MASTER_DB_PASSWORD=${{ secrets.TEST_SERVER_DB_PASSWORD }}
-          SLAVE_DB_URL=${{ secrets.TEST_SERVER_SLAVE_DB_URL }}
-          SLAVE_DB_USERNAME=${{ secrets.TEST_SERVER_DB_USERNAME }}
-          SLAVE_DB_PASSWORD=${{ secrets.TEST_SERVER_DB_PASSWORD }}
-          DDL_AUTO=${{ secrets.DDL_AUTO }}
-
-          # OAUTH & JWT
-          CLIENT_ID=${{ secrets.TEST_CLIENT_ID }}
-          CLIENT_SECRET=${{ secrets.TEST_CLIENT_SECRET }}
-          CLIENT_REDIRECT_URI=${{ secrets.TEST_CLIENT_REDIRECT_URI }}
-          JWT_KEY=${{ secrets.JWT_KEY}}
-          
-          # INSTANCE NAME
-          INSTANCE_NAME=${{ secrets.INSTANCE_B_NAME }}
-
-          # Server App
-          BLUE_SERVER_BINDING_PORT=${BLUE_PORT}
-          GREEN_SERVER_BINDING_PORT=${GREEN_PORT}
-          SERVER_LOGS_PATH=${{ secrets.SERVER_LOGS_PATH }}
-          EOF
-
-      - name: remove old spring-app image
-        run: |
-          sudo docker image rm -f ${{ secrets.DOCKER_REPO_NAME }}/springboot-app:test-latest;
-
-      - name: Start the new (green/blue) environment
-        run: |
-          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml -p $GREEN_PORT up -d
-
-      - name: Wait for new environment to be healthy
-        run: |
-          until curl -sf http://localhost:${GREEN_PORT}/api/actuator/health | grep "UP"; do sleep 5; done
-
-      - name: Reload NGINX 
-        run: |
-          sudo systemctl reload nginx
-
-      - name: Stop and remove the old environment
-        run: |
-          sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml -p $BLUE_PORT down
-      
       - name: Delete Dangling docker images
         run: |
           sudo docker image prune -a -f
