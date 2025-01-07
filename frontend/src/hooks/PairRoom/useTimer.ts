@@ -91,7 +91,7 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
     const handleTimeLeft = (event: MessageEvent) => {
       const eventName = JSON.parse(event.data).event;
       const eventData = JSON.parse(event.data).data;
-      if (eventName == 'remaining-time' && eventData == '0') {
+      if (eventName == STATUS_KEY && eventData == '0') {
         handleStop();
         alarmAudio.current.play();
         fireNotification('타이머가 끝났어요!', '드라이버 / 내비게이터 역할을 바꿔 주세요!', {
@@ -107,14 +107,14 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
     };
 
     socket.onopen = () => {
-      socket.addEventListener(TIMER_KEY, handleTimeLeft as EventListener);
+      socket.addEventListener(STATUS_KEY, handleTimeLeft as EventListener);
     };
 
     socket.onerror = (error) => {
       console.error('WebSocket connection error:', error);
     };
 
-    socket.addEventListener(STATUS_KEY, handleStatus as EventListener);
+    socket.addEventListener(TIMER_KEY, handleStatus as EventListener);
 
     // sse.onerror = () => {
     //   timeoutCount.current += 1;
