@@ -4,7 +4,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 const SOCKET_URL = process.env.REACT_SOCKET_API_URL;
 
 export const getConnection = (accessCode: string) => {
-  return new WebSocket(`${SOCKET_URL}/ws-connect?accesscode=${accessCode}`);
+  return new WebSocket(`${SOCKET_URL}/wss-connect?accesscode=${accessCode}`);
 };
 
 export interface GetTimerResponse {
