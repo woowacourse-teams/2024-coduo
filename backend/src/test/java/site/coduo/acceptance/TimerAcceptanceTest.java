@@ -69,6 +69,7 @@ class TimerAcceptanceTest extends AcceptanceFixture {
         final String accessCode = createPairRoom(PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST);
         final TimerUpdateRequest request = new TimerUpdateRequest(20000L, 3000L);
         createConnect(accessCode);
+        
         // when & then
         RestAssured
                 .given()

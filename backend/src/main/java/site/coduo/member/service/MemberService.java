@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import site.coduo.member.client.GithubApiClient;
 import site.coduo.member.client.dto.GithubUserRequest;
 import site.coduo.member.client.dto.GithubUserResponse;
-import site.coduo.member.domain.Member;
+import site.coduo.member.domain.repository.MemberEntity;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.exception.InvalidMemberAddException;
 import site.coduo.member.infrastructure.http.Bearer;
@@ -30,43 +30,39 @@ public class MemberService {
         final String accessToken = jwtProvider.extractSubject(encryptedAccessToken);
         final Bearer bearer = new Bearer(accessToken);
         final GithubUserResponse userResponse = githubClient.getUser(new GithubUserRequest(bearer));
-        final Member member = userResponse.toDomain(bearer, username);
-        memberRepository.save(member);
+        final MemberEntity memberEntity = userResponse.toDomain(bearer, username);
+        memberRepository.save(memberEntity);
     }
 
     public MemberReadResponse findMemberNameByCredential(final String token) {
         final String userId = jwtProvider.extractSubject(token);
-        final Member member = memberRepository.fetchByUserId(userId);
+        final MemberEntity memberEntity = memberRepository.fetchByUserId(userId);
 
-        return new MemberReadResponse(member.getUsername());
+        return new MemberReadResponse(memberEntity.getUsername());
     }
 
-    public Member findMemberByCredential(final String token) {
+    public MemberEntity findMemberByCredential(final String token) {
         final String userId = jwtProvider.extractSubject(token);
 
         return memberRepository.fetchByUserId(userId);
     }
 
-    public Member findMember(final String loginId) {
-        return memberRepository.fetchByLoginId(loginId);
-    }
-
     @Transactional
     public void deleteMember(final String token) {
         final String userId = jwtProvider.extractSubject(token);
-        final Member member = memberRepository.fetchByUserId(userId);
+        final MemberEntity memberEntity = memberRepository.fetchByUserId(userId);
 
-        member.delete();
+        memberEntity.delete();
     }
 
-    public Member checkAndFindMember(final String token, final String userId) {
-        final Member loginedMember = findMemberByCredential(token);
-        final Member pairMember = findMember(userId);
+    public MemberEntity checkAndFindMember(final String token, final String loginId) {
+        final MemberEntity loginedMemberEntity = findMemberByCredential(token);
+        final MemberEntity pairMemberEntity = memberRepository.fetchByProviderLoginId(loginId);
 
-        if (loginedMember.equals(pairMember)) {
+        if (loginedMemberEntity.equals(pairMemberEntity)) {
             throw new InvalidMemberAddException("자신의 아이디로 페어 정보 연동을 할 수 없습니다.");
         }
 
-        return pairMember;
+        return pairMemberEntity;
     }
 }

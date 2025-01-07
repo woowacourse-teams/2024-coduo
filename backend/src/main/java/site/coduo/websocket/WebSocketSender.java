@@ -6,5 +6,7 @@ import org.springframework.web.socket.WebSocketSession;
 
 public interface WebSocketSender {
 
-    void sendMessage(final Set<WebSocketSession> sessions, final WebSocketMessage message);
+    void sendMessage(WebSocketSession session, WebSocketMessage message);
+
+    void sendMessage(Set<WebSocketSession> sessions, WebSocketMessage message);
 }

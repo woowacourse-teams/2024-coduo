@@ -14,7 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import site.coduo.member.domain.Member;
+import site.coduo.fixture.MemberDummy;
+import site.coduo.member.domain.repository.MemberEntity;
 import site.coduo.member.domain.repository.MemberRepository;
 import site.coduo.member.infrastructure.security.JwtProvider;
 import site.coduo.pairroom.domain.MissionUrl;
@@ -26,7 +27,7 @@ import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.exception.PairRoomMemberNotFoundException;
 import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.repository.PairRoomEntity;
-import site.coduo.pairroom.repository.PairRoomMemberEntity;
+import site.coduo.pairroom.repository.PairRoomMember;
 import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.repository.CategoryRepository;
@@ -71,15 +72,7 @@ class RetrospectServiceTest {
     @Test
     void createRetrospect() {
         // Given
-        final Member savedMember = memberRepository.save(
-                Member.builder()
-                        .userId("userid")
-                        .accessToken("access")
-                        .loginId("login")
-                        .username("username")
-                        .profileImage("some image")
-                        .build()
-        );
+        final MemberEntity savedMemberEntity = memberRepository.save(MemberDummy.createDummy());
         final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
@@ -87,10 +80,10 @@ class RetrospectServiceTest {
                         new AccessCode("123456"),
                         EASY_ACCESS_CODE_INK_REDDY)
         ));
-        final PairRoomMemberEntity pairRoomMember = pairRoomMemberRepository.save(
-                new PairRoomMemberEntity(savedPairRoom, savedMember));
+        final PairRoomMember pairRoomMember = pairRoomMemberRepository.save(
+                new PairRoomMember(savedPairRoom, savedMemberEntity));
 
-        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        final String credentialToken = jwtProvider.sign(savedMemberEntity.getProviderUserId());
         final String pairRoomAccessCode = "123456";
         final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6");
 
@@ -109,15 +102,7 @@ class RetrospectServiceTest {
     @Test
     void createTwiceRetrospect() {
         // Given
-        final Member savedMember = memberRepository.save(
-                Member.builder()
-                        .userId("userid")
-                        .accessToken("access")
-                        .loginId("login")
-                        .username("username")
-                        .profileImage("some image")
-                        .build()
-        );
+        final MemberEntity savedMemberEntity = memberRepository.save(MemberDummy.createDummy());
         final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
@@ -125,9 +110,9 @@ class RetrospectServiceTest {
                         new AccessCode("123456"),
                         EASY_ACCESS_CODE_INK_REDDY)
         ));
-        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
+        pairRoomMemberRepository.save(new PairRoomMember(savedPairRoom, savedMemberEntity));
 
-        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        final String credentialToken = jwtProvider.sign(savedMemberEntity.getProviderUserId());
         final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6");
         retrospectService.createRetrospect(credentialToken, savedPairRoom.getAccessCode(), answers);
 
@@ -143,17 +128,9 @@ class RetrospectServiceTest {
     @Test
     void notExistPairRoomByAccessCode() {
         // Given
-        final Member savedMember = memberRepository.save(
-                Member.builder()
-                        .userId("userid")
-                        .accessToken("access")
-                        .loginId("login")
-                        .username("username")
-                        .profileImage("some image")
-                        .build()
-        );
+        final MemberEntity savedMemberEntity = memberRepository.save(MemberDummy.createDummy());
 
-        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        final String credentialToken = jwtProvider.sign(savedMemberEntity.getProviderUserId());
         final String pairRoomAccessCode = "kelly-code";
         final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6", "답변7");
 
@@ -166,24 +143,11 @@ class RetrospectServiceTest {
     @Test
     void notJoinPairRoomAndMember() {
         // Given
-        final Member savedMember1 = memberRepository.save(
-                Member.builder()
-                        .userId("userid1")
-                        .accessToken("access1")
-                        .loginId("login1")
-                        .username("username1")
-                        .profileImage("some image")
-                        .build()
-        );
-        final Member savedMember2 = memberRepository.save(
-                Member.builder()
-                        .userId("userid2")
-                        .accessToken("access2")
-                        .loginId("login2")
-                        .username("username2")
-                        .profileImage("some image")
-                        .build()
-        );
+        final MemberEntity dummy1 = MemberDummy.createDummy("username1", "access1", "userid1", "login1");
+        final MemberEntity dummy2 = MemberDummy.createDummy("username2", "access2", "userid2", "login2");
+
+        final MemberEntity savedMember1Entity = memberRepository.save(dummy1);
+        final MemberEntity savedMember2Entity = memberRepository.save(dummy2);
         final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
@@ -191,9 +155,9 @@ class RetrospectServiceTest {
                         new AccessCode("123456"),
                         EASY_ACCESS_CODE_INK_REDDY)
         ));
-        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember1));
+        pairRoomMemberRepository.save(new PairRoomMember(savedPairRoom, savedMember1Entity));
 
-        final String credentialToken = jwtProvider.sign(savedMember2.getUserId());
+        final String credentialToken = jwtProvider.sign(savedMember2Entity.getProviderUserId());
         final String pairRoomAccessCode = "123456";
         final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6", "답변7");
 
@@ -206,15 +170,7 @@ class RetrospectServiceTest {
     @Test
     void findAllRetrospectsByMember() {
         // Given
-        final Member savedMember = memberRepository.save(
-                Member.builder()
-                        .userId("userid")
-                        .accessToken("access")
-                        .loginId("login")
-                        .username("username")
-                        .profileImage("some image")
-                        .build()
-        );
+        final MemberEntity savedMemberEntity = memberRepository.save(MemberDummy.createDummy());
         final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
@@ -223,8 +179,8 @@ class RetrospectServiceTest {
                         EASY_ACCESS_CODE_INK_REDDY)
         ));
         pairRoomMemberRepository.save(
-                new PairRoomMemberEntity(savedPairRoom, savedMember));
-        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+                new PairRoomMember(savedPairRoom, savedMemberEntity));
+        final String credentialToken = jwtProvider.sign(savedMemberEntity.getProviderUserId());
         final String pairRoomAccessCode = "123456";
         final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6");
         retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
@@ -241,24 +197,11 @@ class RetrospectServiceTest {
     @Test
     void deleteRetrospectWhoNotOwner() {
         // Given
-        final Member owner = memberRepository.save(
-                Member.builder()
-                        .userId("userid1")
-                        .accessToken("access1")
-                        .loginId("login1")
-                        .username("username1")
-                        .profileImage("some image1")
-                        .build()
-        );
-        final Member other = memberRepository.save(
-                Member.builder()
-                        .userId("userid2")
-                        .accessToken("access2")
-                        .loginId("login2")
-                        .username("username3")
-                        .profileImage("some image2")
-                        .build()
-        );
+        final MemberEntity dummy1 = MemberDummy.createDummy("username1", "access1", "userid1", "login1");
+        final MemberEntity dummy2 = MemberDummy.createDummy("username2", "access2", "userid2", "login2");
+
+        final MemberEntity owner = memberRepository.save(dummy1);
+        final MemberEntity other = memberRepository.save(dummy2);
         final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
@@ -266,9 +209,9 @@ class RetrospectServiceTest {
                         new AccessCode("123456"),
                         EASY_ACCESS_CODE_INK_REDDY)
         ));
-        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, owner));
-        final String ownerCredentialToken = jwtProvider.sign(owner.getUserId());
-        final String otherCredentialToken = jwtProvider.sign(other.getUserId());
+        pairRoomMemberRepository.save(new PairRoomMember(savedPairRoom, owner));
+        final String ownerCredentialToken = jwtProvider.sign(owner.getProviderUserId());
+        final String otherCredentialToken = jwtProvider.sign(other.getProviderUserId());
 
         final String pairRoomAccessCode = "123456";
         final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6");
@@ -283,15 +226,7 @@ class RetrospectServiceTest {
     @DisplayName("입력된 페어룸, 회원 정보를 가진 회고가 DB에 존재하는지 여부를 반환한다.")
     @Test
     void existRetrospectWithPairRoom() {
-        final Member savedMember = memberRepository.save(
-                Member.builder()
-                        .userId("userid")
-                        .accessToken("access")
-                        .loginId("login")
-                        .username("username")
-                        .profileImage("some image")
-                        .build()
-        );
+        final MemberEntity savedMemberEntity = memberRepository.save(MemberDummy.createDummy());
         final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
@@ -299,8 +234,8 @@ class RetrospectServiceTest {
                         new AccessCode("123456"),
                         EASY_ACCESS_CODE_INK_REDDY)
         ));
-        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
-        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        pairRoomMemberRepository.save(new PairRoomMember(savedPairRoom, savedMemberEntity));
+        final String credentialToken = jwtProvider.sign(savedMemberEntity.getProviderUserId());
         final String pairRoomAccessCode = "123456";
         final List<String> answers = List.of("답변1", "답변2", "답변3", "답변4", "답변5", "답변6");
         retrospectService.createRetrospect(credentialToken, pairRoomAccessCode, answers);
@@ -315,15 +250,7 @@ class RetrospectServiceTest {
     @DisplayName("회고를 입력하지 않은 경우 false를 반환한다.")
     @Test
     void notExistRetrospectWithPairRoom() {
-        final Member savedMember = memberRepository.save(
-                Member.builder()
-                        .userId("userid")
-                        .accessToken("access")
-                        .loginId("login")
-                        .username("username")
-                        .profileImage("some image")
-                        .build()
-        );
+        final MemberEntity savedMemberEntity = memberRepository.save(MemberDummy.createDummy());
         final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
@@ -331,8 +258,8 @@ class RetrospectServiceTest {
                         new AccessCode("123456"),
                         EASY_ACCESS_CODE_INK_REDDY)
         ));
-        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
-        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        pairRoomMemberRepository.save(new PairRoomMember(savedPairRoom, savedMemberEntity));
+        final String credentialToken = jwtProvider.sign(savedMemberEntity.getProviderUserId());
 
         // When
         retrospectService.createRetrospect(credentialToken, savedPairRoom.getAccessCode(),
@@ -348,15 +275,7 @@ class RetrospectServiceTest {
     @DisplayName("회고를 하나 이상 입력한 경우 true를 반환한다.")
     @Test
     void oneExistRetrospectWithPairRoom() {
-        final Member savedMember = memberRepository.save(
-                Member.builder()
-                        .userId("userid")
-                        .accessToken("access")
-                        .loginId("login")
-                        .username("username")
-                        .profileImage("some image")
-                        .build()
-        );
+        final MemberEntity savedMemberEntity = memberRepository.save(MemberDummy.createDummy());
         final PairRoomEntity savedPairRoom = pairRoomRepository.save(PairRoomEntity.from(
                 new PairRoom(PairRoomStatus.IN_PROGRESS,
                         new Pair(new PairName("레디"), new PairName("파슬리")),
@@ -364,8 +283,8 @@ class RetrospectServiceTest {
                         new AccessCode("123456"),
                         EASY_ACCESS_CODE_INK_REDDY)
         ));
-        pairRoomMemberRepository.save(new PairRoomMemberEntity(savedPairRoom, savedMember));
-        final String credentialToken = jwtProvider.sign(savedMember.getUserId());
+        pairRoomMemberRepository.save(new PairRoomMember(savedPairRoom, savedMemberEntity));
+        final String credentialToken = jwtProvider.sign(savedMemberEntity.getProviderUserId());
 
         retrospectService.createRetrospect(credentialToken, savedPairRoom.getAccessCode(),
                 List.of("답변!", "", "", "", "", ""));
