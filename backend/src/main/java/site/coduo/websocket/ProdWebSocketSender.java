@@ -20,11 +20,7 @@ public class ProdWebSocketSender implements WebSocketSender {
     private final ObjectMapper objectMapper;
 
     @Override
-    public void sendMessage(final Set<WebSocketSession> sessions, final WebSocketMessage message) {
-        sessions.parallelStream().forEach(session -> sendMessage(session, message));
-    }
-
-    private void sendMessage(final WebSocketSession session, final WebSocketMessage message) {
+    public void sendMessage(final WebSocketSession session, final WebSocketMessage message) {
         try {
             final TextMessage webSocketMessage = new TextMessage(objectMapper.writeValueAsString(message));
             if (session.isOpen()) {
@@ -33,5 +29,10 @@ public class ProdWebSocketSender implements WebSocketSender {
         } catch (IOException e) {
             log.error(e.getMessage(), e);
         }
+    }
+
+    @Override
+    public void sendMessage(final Set<WebSocketSession> sessions, final WebSocketMessage message) {
+        sessions.parallelStream().forEach(session -> sendMessage(session, message));
     }
 }

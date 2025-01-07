@@ -8,6 +8,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.coduo.sync.service.SchedulerService;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -15,11 +16,13 @@ import lombok.extern.slf4j.Slf4j;
 public class WebSocketHandler extends TextWebSocketHandler {
 
     private final PairRoomWebSocketSessionStore pairRoomWebSocketSessionStore;
+    private final SchedulerService schedulerService;
 
     @Override
     public void afterConnectionEstablished(final WebSocketSession session) {
         final String pairRoomAccessCode = parsePairRoomAccessCode(session);
         pairRoomWebSocketSessionStore.addSession(pairRoomAccessCode, session);
+        schedulerService.notifyTimerStatus(session, pairRoomAccessCode);
         log.info("연결 성공 : {}", session.getId());
     }
 

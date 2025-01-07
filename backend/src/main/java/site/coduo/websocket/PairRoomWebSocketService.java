@@ -14,6 +14,10 @@ public class PairRoomWebSocketService {
     private final PairRoomWebSocketSessionStore pairRoomWebSocketSessionStore;
     private final WebSocketSender prodWebSocketSender;
 
+    public void sendPairRoomSession(final WebSocketSession session, final WebSocketMessage message) {
+        prodWebSocketSender.sendMessage(session, message);
+    }
+
     public void sendAllPairRoomSessions(final String pairRoomAccessCode, final WebSocketMessage message) {
         final Set<WebSocketSession> sessions = pairRoomWebSocketSessionStore.getSessions(pairRoomAccessCode);
         prodWebSocketSender.sendMessage(sessions, message);

@@ -8,6 +8,7 @@ import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.PeriodicTrigger;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.WebSocketSession;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -86,5 +87,11 @@ public class SchedulerService {
         schedulerRegistry.release(key);
         final Timer initalTimer = new Timer(timer.getAccessCode(), timer.getDuration(), timer.getDuration());
         timestampRegistry.register(key, initalTimer);
+    }
+
+    public void notifyTimerStatus(final WebSocketSession session, final String pairRoomAccessCode) {
+        if (schedulerRegistry.isActive(pairRoomAccessCode)) {
+            pairRoomWebSocketService.sendPairRoomSession(session, new EventAndDataMessage("timer", "running"));
+        }
     }
 }
