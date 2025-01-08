@@ -1,4 +1,4 @@
-name: review_reuqest
+name: review_request
 
 on:
   pull_request:
@@ -15,7 +15,7 @@ jobs:
         with:
           script: |
             const excludeMember = context.payload.pull_request.user.login;
-            const members = JSON.parse(${{secrets.DISCORD_FE}});
+            const members = JSON.parse(${{secrets.DISCORD_FE}});
             const requester = members.find(entry => entry.github === excludeMember);
             let outputString = '';
             for (const member of members) {
