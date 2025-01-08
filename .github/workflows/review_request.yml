@@ -1,4 +1,4 @@
-name: review_reuqest
+name: review_request
 
 on:
   pull_request:
