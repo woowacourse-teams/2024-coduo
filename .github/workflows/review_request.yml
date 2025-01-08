@@ -2,7 +2,7 @@ name: review_reuqest
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches: [ "FE/dev", "FE/test", "production" ]
   workflow_dispatch:
 
 jobs:
