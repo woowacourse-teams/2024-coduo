@@ -3,6 +3,8 @@ name: Coduo Backend Test Server CD
 on:
   push:
     branches: [ "BE/test" ]
+  pull_request:
+    branches: [ "BE/dev" ]
 
 jobs:
   build:
