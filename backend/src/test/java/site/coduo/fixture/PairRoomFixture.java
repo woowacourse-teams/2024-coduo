@@ -12,8 +12,9 @@ import site.coduo.pairroom.domain.Pair;
 import site.coduo.pairroom.domain.PairName;
 import site.coduo.pairroom.domain.PairRoom;
 import site.coduo.pairroom.domain.PairRoomStatus;
+import site.coduo.pairroom.repository.PairRoomEntity;
 
-public class PairRoomFixture {
+public abstract class PairRoomFixture {
 
     public static final PairRoom INK_REDDDY_ROOM = new PairRoom(
             PairRoomStatus.IN_PROGRESS,
@@ -45,4 +46,15 @@ public class PairRoomFixture {
             NUMBER_ACCESS_CODE,
             EASY_ACCESS_CODE_KELLY_LEMONE
     );
+
+    public static PairRoomEntity makeDummyEntity() {
+        return PairRoomEntity.builder()
+                .missionUrl("")
+                .navigator("bb")
+                .driver("aa")
+                .status(PairRoomStatus.IN_PROGRESS)
+                .accessCode("helloAccessCode")
+                .easyAccessCode("easy")
+                .build();
+    }
 }
