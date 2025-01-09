@@ -92,7 +92,7 @@ jobs:
           SLAVE_DB_URL=${{ secrets.TEST_SERVER_SLAVE_DB_URL }}
           SLAVE_DB_USERNAME=${{ secrets.TEST_SERVER_DB_USERNAME }}
           SLAVE_DB_PASSWORD=${{ secrets.TEST_SERVER_DB_PASSWORD }}
-          DDL_AUTO=${{ secrets.DDL_AUTO }}
+          DDL_AUTO=${{ secrets.TEST_DDL_AUTO }}
 
           # OAUTH & JWT
           CLIENT_ID=${{ secrets.TEST_CLIENT_ID }}
@@ -176,7 +176,7 @@ jobs:
           SLAVE_DB_URL=${{ secrets.TEST_SERVER_SLAVE_DB_URL }}
           SLAVE_DB_USERNAME=${{ secrets.TEST_SERVER_DB_USERNAME }}
           SLAVE_DB_PASSWORD=${{ secrets.TEST_SERVER_DB_PASSWORD }}
-          DDL_AUTO=${{ secrets.DDL_AUTO }}
+          DDL_AUTO=${{ secrets.TEST_DDL_AUTO }}
 
           # OAUTH & JWT
           CLIENT_ID=${{ secrets.TEST_CLIENT_ID }}
