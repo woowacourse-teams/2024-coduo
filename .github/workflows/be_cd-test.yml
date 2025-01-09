@@ -140,7 +140,7 @@ jobs:
             sleep 5
           done
 
-      - name: Reload NGINX
+      - name: Reload NGINX 
         run: |
           sudo systemctl reload nginx
 
