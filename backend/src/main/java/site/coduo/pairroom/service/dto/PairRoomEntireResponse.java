@@ -46,6 +46,5 @@ public record PairRoomEntireResponse(
         return new PairRoomEntireResponse(pairRoomReadResponse.navigator(), pairRoomReadResponse.driver(),
                 pairRoomReadResponse.status(), pairRoomReadResponse.duration(), pairRoomReadResponse.remainingTime(),
                 pairRoomReadResponse.missionUrl(), todoResponses, categoryReadResponses, referenceLinkResponses);
-
     }
 }
