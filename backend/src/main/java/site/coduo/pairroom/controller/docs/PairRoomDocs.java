@@ -19,15 +19,13 @@ import site.coduo.pairroom.service.dto.PairRoomEntireResponse;
 import site.coduo.pairroom.service.dto.PairRoomExistResponse;
 import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
 import site.coduo.pairroom.service.dto.PairRoomReadRequest;
-import site.coduo.pairroom.service.dto.PairRoomReadResponse;
 import site.coduo.pairroom.service.dto.PairRoomStatusUpdateRequest;
 
 @Tag(name = "페어룸 API")
 public interface PairRoomDocs {
 
     @Operation(summary = "페어룸과 해당 페어룸의 타이머 정보를 함께 조회한다.")
-    @ApiResponse(responseCode = "200", description = "페어룸 & 타이머 조회 성공", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-            schema = @Schema(implementation = PairRoomReadResponse.class)))
+    @ApiResponse(responseCode = "200", description = "페어룸 & 타이머 조회 성공")
     ResponseEntity<PairRoomEntireResponse> getPairRoom(
             @Parameter(description = "페어룸 접근 코드", required = true)
             PairRoomReadRequest request
