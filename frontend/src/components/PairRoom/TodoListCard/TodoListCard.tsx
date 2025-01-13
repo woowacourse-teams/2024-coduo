@@ -8,6 +8,8 @@ import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import Header from '@/components/PairRoom/TodoListCard/Header/Header';
 import TodoList from '@/components/PairRoom/TodoListCard/TodoList/TodoList';
 
+import { Todo } from '@/apis/todo';
+
 import useInput from '@/hooks/_common/useInput';
 
 import useTodosMutation from '@/queries/PairRoom/useTodosMutation';
@@ -17,9 +19,10 @@ import * as S from './TodoListCard.styles';
 interface TodoListCardProps {
   isOpen: boolean;
   toggleIsOpen: () => void;
+  todos: Todo[];
 }
 
-const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
+const TodoListCard = ({ isOpen, toggleIsOpen, todos }: TodoListCardProps) => {
   const { accessCode } = useParams();
 
   const { value, handleChange, resetValue } = useInput();
@@ -35,7 +38,7 @@ const TodoListCard = ({ isOpen, toggleIsOpen }: TodoListCardProps) => {
       <PairRoomCard>
         <Header isOpen={isOpen} toggleIsOpen={toggleIsOpen} />
         <S.Body $isOpen={isOpen}>
-          <TodoList />
+          <TodoList todos={todos} />
           <S.Footer>
             <S.Form onSubmit={handleSubmit}>
               <Input

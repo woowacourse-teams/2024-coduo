@@ -35,6 +35,8 @@ const PairRoom = () => {
     duration,
     remainingTime,
     isFetching,
+    todos,
+    references,
   } = usePairRoomQuery(accessCode || '');
 
   const { updatePairRoleMutation } = usePairRoomMutation();
@@ -65,8 +67,13 @@ const PairRoom = () => {
         />
       </S.Container>
       <S.Container>
-        <TodoListCard isOpen={!isCardOpen} toggleIsOpen={() => setIsCardOpen(false)} />
-        <ReferenceCard accessCode={accessCode || ''} isOpen={isCardOpen} toggleIsOpen={() => setIsCardOpen(true)} />
+        <TodoListCard isOpen={!isCardOpen} toggleIsOpen={() => setIsCardOpen(false)} todos={todos} />
+        <ReferenceCard
+          accessCode={accessCode || ''}
+          isOpen={isCardOpen}
+          toggleIsOpen={() => setIsCardOpen(true)}
+          references={references}
+        />
       </S.Container>
       <GuideModal isOpen={isModalOpen} close={closeModal} accessCode={accessCode || ''} />
     </S.Layout>

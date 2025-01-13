@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { getPairRoom } from '@/apis/pairRoom';
-import { getTimer } from '@/apis/timer';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
@@ -20,12 +19,6 @@ const usePairRoomQuery = (accessCode: string) => {
     refetchOnWindowFocus: false,
   });
 
-  const { data: timer, isFetching: isTimerFetching } = useQuery({
-    queryKey: [QUERY_KEYS.GET_PAIR_ROOM_TIMER, accessCode],
-    queryFn: () => getTimer(accessCode),
-    refetchOnWindowFocus: false,
-  });
-
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_PAIR_ROOM, QUERY_KEYS.GET_PAIR_ROOM_TIMER] });
   }, [accessCode]);
@@ -35,9 +28,11 @@ const usePairRoomQuery = (accessCode: string) => {
     navigator: pairRoom?.navigator || '',
     status: pairRoom?.status || '',
     missionUrl: pairRoom?.missionUrl || '',
-    duration: timer?.duration || 0,
-    remainingTime: timer?.remainingTime || 0,
-    isFetching: (isPairRoomFetching && !isPairRoomReFetching) || isTimerFetching,
+    duration: pairRoom?.duration || 0,
+    remainingTime: pairRoom?.remainingTime || 0,
+    isFetching: isPairRoomFetching && !isPairRoomReFetching,
+    todos: pairRoom?.todos || [],
+    references: pairRoom?.references || [],
   };
 };
 
