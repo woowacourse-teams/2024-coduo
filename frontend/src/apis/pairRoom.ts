@@ -1,4 +1,6 @@
 import fetcher from '@/apis/fetcher';
+import { Reference } from '@/apis/referenceLink';
+import { Todo } from '@/apis/todo';
 
 import { ERROR_MESSAGES } from '@/constants/message';
 
@@ -14,6 +16,8 @@ export interface GetPairRoomResponse {
   duration: number;
   remainingTime: number;
   missionUrl: string;
+  todos: Todo[];
+  references: Reference[];
 }
 
 export const getPairRoom = async (accessCode: string): Promise<GetPairRoomResponse> => {
