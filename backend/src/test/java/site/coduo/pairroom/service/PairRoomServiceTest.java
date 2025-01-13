@@ -263,8 +263,8 @@ class PairRoomServiceTest {
 
         // then
         assertThat(actual)
-                .extracting("pairRoomInfo.navigator", "pairRoomInfo.driver", "pairRoomInfo.status",
-                        "pairRoomInfo.duration", "pairRoomInfo.remainingTime")
+                .extracting("navigator", "driver", "status",
+                        "duration", "remainingTime")
                 .contains(pairRoomEntity.getNavigator(), pairRoomEntity.getDriver(),
                         pairRoomEntity.getStatus().toString(), timer.getDuration(), timer.getRemainingTime());
     }
