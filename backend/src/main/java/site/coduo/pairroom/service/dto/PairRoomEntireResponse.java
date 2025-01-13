@@ -3,11 +3,13 @@ package site.coduo.pairroom.service.dto;
 import java.util.List;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+
 import site.coduo.referencelink.service.dto.CategoryReadResponse;
 import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
 import site.coduo.todo.service.dto.TodoReadResponse;
 
 public record PairRoomEntireResponse(
+
         @Schema(description = "첫 번째 페어의 이름", example = "해시")
         String navigator,
 
@@ -44,5 +46,6 @@ public record PairRoomEntireResponse(
         return new PairRoomEntireResponse(pairRoomReadResponse.navigator(), pairRoomReadResponse.driver(),
                 pairRoomReadResponse.status(), pairRoomReadResponse.duration(), pairRoomReadResponse.remainingTime(),
                 pairRoomReadResponse.missionUrl(), todoResponses, categoryReadResponses, referenceLinkResponses);
+
     }
 }
