@@ -123,7 +123,7 @@ class PairRoomServiceTest {
         pairRoomService.updatePairRoomStatus(accessCode, PairRoomStatus.COMPLETED.name());
 
         // then
-        assertThat(PairRoomStatus.findByName(pairRoomService.findEntirePairRoom(accessCode).pairRoomInfo().status()))
+        assertThat(PairRoomStatus.findByName(pairRoomService.findEntirePairRoom(accessCode).status()))
                 .isEqualTo(PairRoomStatus.COMPLETED);
     }
 
@@ -263,8 +263,7 @@ class PairRoomServiceTest {
 
         // then
         assertThat(actual)
-                .extracting("pairRoomInfo.navigator", "pairRoomInfo.driver", "pairRoomInfo.status",
-                        "pairRoomInfo.duration", "pairRoomInfo.remainingTime")
+                .extracting("navigator", "driver", "status", "duration", "remainingTime")
                 .contains(pairRoomEntity.getNavigator(), pairRoomEntity.getDriver(),
                         pairRoomEntity.getStatus().toString(), timer.getDuration(), timer.getRemainingTime());
     }
