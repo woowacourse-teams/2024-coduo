@@ -10,8 +10,10 @@ export interface GetPairRoomResponse {
   id: number;
   driver: string;
   navigator: string;
-  missionUrl: string;
   status: PairRoomStatus;
+  duration: number;
+  remainingTime: number;
+  missionUrl: string;
 }
 
 export const getPairRoom = async (accessCode: string): Promise<GetPairRoomResponse> => {
