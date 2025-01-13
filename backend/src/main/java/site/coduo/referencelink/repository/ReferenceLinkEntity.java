@@ -1,5 +1,7 @@
 package site.coduo.referencelink.repository;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -19,6 +21,7 @@ import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.referencelink.domain.Category;
 import site.coduo.referencelink.domain.ReferenceLink;
+import site.coduo.referencelink.exception.InvalidUrlFormatException;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -77,6 +80,14 @@ public class ReferenceLinkEntity extends BaseTimeEntity {
             return null;
         }
         return categoryEntity.getCategoryName();
+    }
+
+    public ReferenceLink toDomain() {
+        try {
+            return new ReferenceLink(new URL(url), new AccessCode(pairRoomEntity.getAccessCode()));
+        } catch (MalformedURLException e) {
+            throw new InvalidUrlFormatException("링크 형식이 맞지 않습니다.");
+        }
     }
 
     @Override

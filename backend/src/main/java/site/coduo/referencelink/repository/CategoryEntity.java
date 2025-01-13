@@ -44,6 +44,10 @@ public class CategoryEntity extends BaseTimeEntity {
         this.categoryName = categoryName;
     }
 
+    public Category toDomain() {
+        return new Category(categoryName);
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -64,9 +68,9 @@ public class CategoryEntity extends BaseTimeEntity {
     @Override
     public String toString() {
         return "CategoryEntity{" +
-               "id=" + id +
-               ", categoryId='" + categoryName + '\'' +
-               ", pairRoom=" + pairRoomEntity +
-               '}';
+                "id=" + id +
+                ", categoryId='" + categoryName + '\'' +
+                ", pairRoom=" + pairRoomEntity +
+                '}';
     }
 }

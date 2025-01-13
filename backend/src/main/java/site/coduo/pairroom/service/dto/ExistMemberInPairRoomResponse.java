@@ -1,4 +1,4 @@
-package site.coduo.pairroom.controller.dto.request;
+package site.coduo.pairroom.service.dto;
 
 public record ExistMemberInPairRoomResponse(boolean exists) {
 }

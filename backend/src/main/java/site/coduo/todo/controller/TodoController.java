@@ -2,7 +2,6 @@ package site.coduo.todo.controller;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import jakarta.validation.Valid;
 
@@ -17,12 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.todo.controller.docs.TodoDocs;
-import site.coduo.todo.controller.request.CreateTodoRequest;
-import site.coduo.todo.controller.request.UpdateTodoContentRequest;
-import site.coduo.todo.controller.request.UpdateTodoOrderRequest;
-import site.coduo.todo.controller.response.GetTodoResponse;
-import site.coduo.todo.domain.Todo;
 import site.coduo.todo.service.TodoService;
+import site.coduo.todo.service.dto.CreateTodoRequest;
+import site.coduo.todo.service.dto.TodoReadResponse;
+import site.coduo.todo.service.dto.UpdateTodoContentRequest;
+import site.coduo.todo.service.dto.UpdateTodoOrderRequest;
 
 @RequiredArgsConstructor
 @RestController
@@ -31,11 +29,8 @@ public class TodoController implements TodoDocs {
     private final TodoService todoService;
 
     @GetMapping("/{accessCode}/todos")
-    public List<GetTodoResponse> getTodos(@PathVariable("accessCode") final String accessCode) {
-        final List<Todo> allTodos = todoService.getAllOrderBySort(accessCode);
-        return IntStream.range(0, allTodos.size())
-                .mapToObj(index -> GetTodoResponse.from(allTodos.get(index), index))
-                .toList();
+    public List<TodoReadResponse> getTodos(@PathVariable("accessCode") final String accessCode) {
+        return todoService.getAllOrderBySort(accessCode);
     }
 
     @PostMapping("/{accessCode}/todos")
