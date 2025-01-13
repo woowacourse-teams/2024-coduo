@@ -84,7 +84,8 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
                 () -> assertThat(openGraphRepository.findAll()).hasSize(1),
                 () -> {
                     final ReferenceLinkResponse referenceLinkResponses =
-                            referenceLinkService.readAllReferenceLink(pairRoomEntity.getAccessCode()).get(0);
+                            referenceLinkService.findAllReferenceLinkByAccessCode(pairRoomEntity.getAccessCode())
+                                    .get(0);
                     assertThat(referenceLinkResponses)
                             .extracting("url", "headTitle", "openGraphTitle", "description", "image", "categoryName")
                             .contains(request.url(), "헤드 타이틀", "오픈그래프 타이틀", "오픈그래프 설명", "오픈그래프 이미지", "스프링");
@@ -114,7 +115,7 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
         referenceLinkRepository.save(generateReferenceLink(reactCategory));
 
         // when
-        final List<ReferenceLinkResponse> responses = referenceLinkService.readAllReferenceLink(
+        final List<ReferenceLinkResponse> responses = referenceLinkService.findAllReferenceLinkByAccessCode(
                 accessCode.getValue());
         // then
         assertThat(responses).hasSize(3);

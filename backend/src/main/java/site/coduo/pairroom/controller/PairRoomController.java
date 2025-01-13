@@ -24,10 +24,10 @@ import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.pairroom.service.dto.ExistMemberInPairRoomResponse;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
+import site.coduo.pairroom.service.dto.PairRoomEntireResponse;
 import site.coduo.pairroom.service.dto.PairRoomExistResponse;
 import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
 import site.coduo.pairroom.service.dto.PairRoomReadRequest;
-import site.coduo.pairroom.service.dto.PairRoomReadResponse;
 import site.coduo.pairroom.service.dto.PairRoomStatusUpdateRequest;
 
 @Slf4j
@@ -68,12 +68,12 @@ public class PairRoomController implements PairRoomDocs {
     }
 
     @GetMapping("/pair-room/{accessCode}")
-    public ResponseEntity<PairRoomReadResponse> getPairRoom(
+    public ResponseEntity<PairRoomEntireResponse> getPairRoom(
             @Valid @PathVariable("accessCode") final PairRoomReadRequest request
     ) {
-        final PairRoomReadResponse response = pairRoomService.findPairRoomAndTimer(request.accessCode());
+        final PairRoomEntireResponse entirePairRoom = pairRoomService.findEntirePairRoom(request.accessCode());
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(entirePairRoom);
     }
 
     @GetMapping("/my-pair-rooms")

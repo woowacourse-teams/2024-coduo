@@ -1,6 +1,7 @@
 package site.coduo.todo.service;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import site.coduo.todo.domain.TodoSortComparator;
 import site.coduo.todo.exception.TodoNotFoundException;
 import site.coduo.todo.repository.TodoEntity;
 import site.coduo.todo.repository.TodoRepository;
+import site.coduo.todo.service.dto.TodoReadResponse;
 
 @RequiredArgsConstructor
 @Service
@@ -28,12 +30,16 @@ public class TodoService {
     private final TodoRepository todoRepository;
 
     @Transactional(readOnly = true)
-    public List<Todo> getAllOrderBySort(final String accessCode) {
+    public List<TodoReadResponse> getAllOrderBySort(final String accessCode) {
         final PairRoomEntity pairRoom = pairRoomRepository.fetchByAccessCode(accessCode);
-        return todoRepository.findAllByPairRoomEntity(pairRoom)
+        final List<Todo> todos = todoRepository.findAllByPairRoomEntity(pairRoom)
                 .stream()
                 .map(TodoEntity::toDomain)
                 .sorted(new TodoSortComparator())
+                .toList();
+        
+        return IntStream.range(0, todos.size())
+                .mapToObj(index -> TodoReadResponse.from(todos.get(index), index))
                 .toList();
     }
 

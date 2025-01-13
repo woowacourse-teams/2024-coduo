@@ -2,7 +2,6 @@ package site.coduo.todo.controller;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import jakarta.validation.Valid;
 
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.todo.controller.docs.TodoDocs;
-import site.coduo.todo.domain.Todo;
 import site.coduo.todo.service.TodoService;
 import site.coduo.todo.service.dto.CreateTodoRequest;
 import site.coduo.todo.service.dto.TodoReadResponse;
@@ -32,10 +30,7 @@ public class TodoController implements TodoDocs {
 
     @GetMapping("/{accessCode}/todos")
     public List<TodoReadResponse> getTodos(@PathVariable("accessCode") final String accessCode) {
-        final List<Todo> allTodos = todoService.getAllOrderBySort(accessCode);
-        return IntStream.range(0, allTodos.size())
-                .mapToObj(index -> TodoReadResponse.from(allTodos.get(index), index))
-                .toList();
+        return todoService.getAllOrderBySort(accessCode);
     }
 
     @PostMapping("/{accessCode}/todos")

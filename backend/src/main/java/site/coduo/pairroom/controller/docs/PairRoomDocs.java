@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import site.coduo.pairroom.service.dto.ExistMemberInPairRoomResponse;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
+import site.coduo.pairroom.service.dto.PairRoomEntireResponse;
 import site.coduo.pairroom.service.dto.PairRoomExistResponse;
 import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
 import site.coduo.pairroom.service.dto.PairRoomReadRequest;
@@ -27,7 +28,7 @@ public interface PairRoomDocs {
     @Operation(summary = "페어룸과 해당 페어룸의 타이머 정보를 함께 조회한다.")
     @ApiResponse(responseCode = "200", description = "페어룸 & 타이머 조회 성공", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
             schema = @Schema(implementation = PairRoomReadResponse.class)))
-    ResponseEntity<PairRoomReadResponse> getPairRoom(
+    ResponseEntity<PairRoomEntireResponse> getPairRoom(
             @Parameter(description = "페어룸 접근 코드", required = true)
             PairRoomReadRequest request
     );
