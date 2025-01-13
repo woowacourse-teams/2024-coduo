@@ -4,6 +4,7 @@ import CategoryManagementModal from '@/components/PairRoom/CategoryManagementMod
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import Footer from '@/components/PairRoom/ReferenceCard/Footer/Footer';
 import Header from '@/components/PairRoom/ReferenceCard/Header/Header';
+import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 import ReferenceList from '@/components/PairRoom/ReferenceCard/ReferenceList/ReferenceList';
 
 import { Reference } from '@/apis/referenceLink';
@@ -21,14 +22,15 @@ interface ReferenceCardProps {
   isOpen: boolean;
   toggleIsOpen: () => void;
   references: Reference[];
+  categories: Category[];
 }
 
-const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen, references }: ReferenceCardProps) => {
+const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen, references, categories }: ReferenceCardProps) => {
   const [selectedCategoryId, setSelectedCategoryId] = useState(DEFAULT_CATEGORY_ID);
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const { categories, isCategoryExist } = useCategoriesQuery(accessCode);
+  const { isCategoryExist } = useCategoriesQuery(accessCode);
 
   const selectedCategoryName = findValueById(categories, selectedCategoryId) || DEFAULT_CATEGORY_VALUE;
 

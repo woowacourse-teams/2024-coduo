@@ -37,6 +37,7 @@ const PairRoom = () => {
     isFetching,
     todos,
     references,
+    categories,
   } = usePairRoomQuery(accessCode || '');
 
   const { updatePairRoleMutation } = usePairRoomMutation();
@@ -73,6 +74,7 @@ const PairRoom = () => {
           isOpen={isCardOpen}
           toggleIsOpen={() => setIsCardOpen(true)}
           references={references}
+          categories={categories}
         />
       </S.Container>
       <GuideModal isOpen={isModalOpen} close={closeModal} accessCode={accessCode || ''} />
