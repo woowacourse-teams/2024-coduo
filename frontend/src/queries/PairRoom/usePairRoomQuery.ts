@@ -33,6 +33,7 @@ const usePairRoomQuery = (accessCode: string) => {
     isFetching: isPairRoomFetching && !isPairRoomReFetching,
     todos: pairRoom?.todos || [],
     references: pairRoom?.references || [],
+    categories: pairRoom?.categories || [],
   };
 };
 
