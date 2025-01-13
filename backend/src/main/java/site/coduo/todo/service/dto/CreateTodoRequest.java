@@ -1,4 +1,4 @@
-package site.coduo.todo.controller.request;
+package site.coduo.todo.service.dto;
 
 import jakarta.validation.constraints.NotBlank;
 

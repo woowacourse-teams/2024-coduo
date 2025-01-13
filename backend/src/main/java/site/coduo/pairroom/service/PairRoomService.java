@@ -27,11 +27,18 @@ import site.coduo.pairroom.repository.PairRoomMember;
 import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
+import site.coduo.pairroom.service.dto.PairRoomEntireResponse;
 import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
 import site.coduo.pairroom.service.dto.PairRoomReadResponse;
+import site.coduo.referencelink.service.CategoryService;
+import site.coduo.referencelink.service.ReferenceLinkService;
+import site.coduo.referencelink.service.dto.CategoryReadResponse;
+import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
 import site.coduo.timer.domain.Timer;
 import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
+import site.coduo.todo.service.TodoService;
+import site.coduo.todo.service.dto.TodoReadResponse;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -41,6 +48,9 @@ public class PairRoomService {
 
     private final PairRoomRepository pairRoomRepository;
     private final TimerRepository timerRepository;
+    private final CategoryService categoryService;
+    private final TodoService todoService;
+    private final ReferenceLinkService referenceLinkService;
     private final PairRoomMemberRepository pairRoomMemberRepository;
     private final MemberService memberService;
     private final MemberRepository memberRepository;
@@ -115,11 +125,19 @@ public class PairRoomService {
         pairRoomEntity.updateStatus(status);
     }
 
-    public PairRoomReadResponse findPairRoomAndTimer(final String accessCode) {
+    public PairRoomEntireResponse findEntirePairRoom(final String accessCode) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
         checkPairRoomIsDeleted(pairRoomEntity);
-        final TimerEntity timerEntity = timerRepository.fetchTimerByPairRoomEntity(pairRoomEntity);
-        return PairRoomReadResponse.of(pairRoomEntity.toDomain(), timerEntity.toDomain());
+        final Timer timer = timerRepository.fetchTimerByPairRoomEntity(pairRoomEntity).toDomain();
+        final List<CategoryReadResponse> categoryReadResponses = categoryService.findAllByPairRoomAccessCode(
+                pairRoomEntity.getAccessCode());
+        final List<ReferenceLinkResponse> referenceLinkResponses = referenceLinkService
+                .findAllReferenceLinkByAccessCode(accessCode);
+        final List<TodoReadResponse> todoReadResponses = todoService.getAllOrderBySort(accessCode);
+
+        final PairRoomReadResponse pairRoomReadResponse = PairRoomReadResponse.of(pairRoomEntity.toDomain(), timer);
+        return PairRoomEntireResponse.of(pairRoomReadResponse, todoReadResponses, categoryReadResponses,
+                referenceLinkResponses);
     }
 
     private void checkPairRoomIsActive(final PairRoomEntity pairRoomEntity) {

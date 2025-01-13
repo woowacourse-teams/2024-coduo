@@ -27,7 +27,7 @@ public interface ReferenceLinkDocs {
     );
 
     @Operation(summary = "모든 레퍼런스 링크를 조회한다.")
-    @ApiResponse(responseCode = "200", description = "레퍼런스 링크 조회 성공", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ReferenceLinkResponse.class)))
+    @ApiResponse(responseCode = "200", description = "레퍼런스 링크 조회 성공")
     @ApiResponse(responseCode = "4xx", description = "레퍼런스 링크 조회 실패", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class)))
     ResponseEntity<List<ReferenceLinkResponse>> getReferenceLinks(String accessCode);
 

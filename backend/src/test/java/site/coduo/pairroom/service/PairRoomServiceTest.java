@@ -35,8 +35,8 @@ import site.coduo.pairroom.repository.PairRoomMember;
 import site.coduo.pairroom.repository.PairRoomMemberRepository;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
+import site.coduo.pairroom.service.dto.PairRoomEntireResponse;
 import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
-import site.coduo.pairroom.service.dto.PairRoomReadResponse;
 import site.coduo.timer.domain.Timer;
 import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
@@ -68,7 +68,7 @@ class PairRoomServiceTest {
         final String accessCode = pairRoomService.savePairRoom(request, null);
 
         // then
-        assertThatCode(() -> pairRoomService.findPairRoomAndTimer(accessCode))
+        assertThatCode(() -> pairRoomService.findEntirePairRoom(accessCode))
                 .doesNotThrowAnyException();
     }
 
@@ -93,7 +93,7 @@ class PairRoomServiceTest {
         final String notSavedAccessCode = "123456";
 
         // when & then
-        assertThatThrownBy(() -> pairRoomService.findPairRoomAndTimer(notSavedAccessCode))
+        assertThatThrownBy(() -> pairRoomService.findEntirePairRoom(notSavedAccessCode))
                 .isExactlyInstanceOf(PairRoomNotFoundException.class);
     }
 
@@ -108,7 +108,7 @@ class PairRoomServiceTest {
         pairRoomEntity.updateStatus(PairRoomStatus.DELETED);
 
         // when & then
-        assertThatThrownBy(() -> pairRoomService.findPairRoomAndTimer(accessCode))
+        assertThatThrownBy(() -> pairRoomService.findEntirePairRoom(accessCode))
                 .isExactlyInstanceOf(InactivePairRoomException.class);
     }
 
@@ -123,7 +123,7 @@ class PairRoomServiceTest {
         pairRoomService.updatePairRoomStatus(accessCode, PairRoomStatus.COMPLETED.name());
 
         // then
-        assertThat(PairRoomStatus.findByName(pairRoomService.findPairRoomAndTimer(accessCode).status()))
+        assertThat(PairRoomStatus.findByName(pairRoomService.findEntirePairRoom(accessCode).pairRoomInfo().status()))
                 .isEqualTo(PairRoomStatus.COMPLETED);
     }
 
@@ -258,12 +258,13 @@ class PairRoomServiceTest {
         timerRepository.save(new TimerEntity(timer, pairRoomEntity));
 
         // when
-        final PairRoomReadResponse actual = pairRoomService.findPairRoomAndTimer(
+        final PairRoomEntireResponse actual = pairRoomService.findEntirePairRoom(
                 pairRoomEntity.getAccessCode());
 
         // then
         assertThat(actual)
-                .extracting("navigator", "driver", "status", "duration", "remainingTime")
+                .extracting("pairRoomInfo.navigator", "pairRoomInfo.driver", "pairRoomInfo.status",
+                        "pairRoomInfo.duration", "pairRoomInfo.remainingTime")
                 .contains(pairRoomEntity.getNavigator(), pairRoomEntity.getDriver(),
                         pairRoomEntity.getStatus().toString(), timer.getDuration(), timer.getRemainingTime());
     }

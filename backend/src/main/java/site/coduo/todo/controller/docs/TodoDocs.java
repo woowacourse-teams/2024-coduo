@@ -10,17 +10,17 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import site.coduo.todo.controller.request.CreateTodoRequest;
-import site.coduo.todo.controller.request.UpdateTodoContentRequest;
-import site.coduo.todo.controller.request.UpdateTodoOrderRequest;
-import site.coduo.todo.controller.response.GetTodoResponse;
+import site.coduo.todo.service.dto.CreateTodoRequest;
+import site.coduo.todo.service.dto.TodoReadResponse;
+import site.coduo.todo.service.dto.UpdateTodoContentRequest;
+import site.coduo.todo.service.dto.UpdateTodoOrderRequest;
 
 @Tag(name = "투두 API")
 public interface TodoDocs {
 
     @Operation(summary = "특정 페어룸의 투두 목록을 조회한다.")
     @ApiResponse(responseCode = "200", description = "투두 목록 조회 성공")
-    List<GetTodoResponse> getTodos(
+    List<TodoReadResponse> getTodos(
             @Parameter(description = "페어룸 접근 코드", required = true)
             String accessCode
     );
