@@ -31,6 +31,8 @@ const usePairRoomQuery = (accessCode: string) => {
     duration: pairRoom?.duration || 0,
     remainingTime: pairRoom?.remainingTime || 0,
     isFetching: isPairRoomFetching && !isPairRoomReFetching,
+    todos: pairRoom?.todos || [],
+    references: pairRoom?.references || [],
   };
 };
 

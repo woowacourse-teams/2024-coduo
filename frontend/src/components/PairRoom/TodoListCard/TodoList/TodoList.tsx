@@ -1,21 +1,23 @@
-import { useParams } from 'react-router-dom';
-
 import TodoItem from '@/components/PairRoom/TodoListCard/TodoItem/TodoItem';
+
+import { Todo } from '@/apis/todo';
 
 import useDragAndDrop from '@/hooks/PairRoom/useDragAndDrop';
 
 import useTodosMutation from '@/queries/PairRoom/useTodosMutation';
-import useTodosQuery from '@/queries/PairRoom/useTodosQuery';
 
 import * as S from './TodoList.styles';
 
-const TodoList = () => {
-  const { accessCode } = useParams();
+interface TodoListProps {
+  todos: Todo[];
+}
 
-  const { todos } = useTodosQuery(accessCode || '');
+const TodoList = ({ todos }: TodoListProps) => {
   const { updateOrderMutation } = useTodosMutation();
 
-  const handleUpdateOrder = (todoId: number, order: number) => updateOrderMutation({ todoId, order });
+  const handleUpdateOrder = (todoId: number, order: number) => {
+    updateOrderMutation({ todoId, order });
+  };
 
   const { dragOverItem, handleDragStart, handleDragEnter, handleDrop } = useDragAndDrop(todos, handleUpdateOrder);
 

@@ -6,10 +6,11 @@ import Footer from '@/components/PairRoom/ReferenceCard/Footer/Footer';
 import Header from '@/components/PairRoom/ReferenceCard/Header/Header';
 import ReferenceList from '@/components/PairRoom/ReferenceCard/ReferenceList/ReferenceList';
 
+import { Reference } from '@/apis/referenceLink';
+
 import useModal from '@/hooks/_common/useModal';
 
 import useCategoriesQuery, { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/queries/PairRoom/useCategoriesQuery';
-import useReferencesQuery from '@/queries/PairRoom/useReferencesQuery';
 
 import { findValueById } from '@/utils/findOption';
 
@@ -19,15 +20,15 @@ interface ReferenceCardProps {
   accessCode: string;
   isOpen: boolean;
   toggleIsOpen: () => void;
+  references: Reference[];
 }
 
-const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen }: ReferenceCardProps) => {
+const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen, references }: ReferenceCardProps) => {
   const [selectedCategoryId, setSelectedCategoryId] = useState(DEFAULT_CATEGORY_ID);
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const { categories, isCategoryExist } = useCategoriesQuery(accessCode);
-  const { references } = useReferencesQuery(selectedCategoryId, accessCode);
 
   const selectedCategoryName = findValueById(categories, selectedCategoryId) || DEFAULT_CATEGORY_VALUE;
 
