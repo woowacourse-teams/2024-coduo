@@ -39,14 +39,14 @@ public class WebSocketHandler extends TextWebSocketHandler {
     @Override
     public void handleTransportError(final WebSocketSession session, final Throwable exception) {
         final String pairRoomAccessCode = parsePairRoomAccessCode(session);
-        schedulerService.flushTimerToDB(pairRoomAccessCode);
+        schedulerService.syncTimerWithDatabase(pairRoomAccessCode);
         log.error("Web Socket 전송 중 에러 발생 : {}", exception.getMessage());
     }
 
     @Override
     public void afterConnectionClosed(final WebSocketSession session, final CloseStatus status) {
         final String pairRoomAccessCode = parsePairRoomAccessCode(session);
-        schedulerService.flushTimerToDB(pairRoomAccessCode);
+        schedulerService.syncTimerWithDatabase(pairRoomAccessCode);
         pairRoomWebSocketSessionStore.removeSession(pairRoomAccessCode, session);
         log.info("연결 종료 : {}, 상태 : {}", session.getId(), status);
     }

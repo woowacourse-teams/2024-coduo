@@ -98,7 +98,7 @@ public class SchedulerService {
         }
     }
 
-    public void flushTimerToDB(final String key) {
+    public void syncTimerWithDatabase(final String key) {
         final Timer timer = timestampRegistry.get(key);
         final TimerEntity timerEntity = timerRepository.fetchTimerByAccessCode(key);
         timerEntity.updateTimer(timer);
