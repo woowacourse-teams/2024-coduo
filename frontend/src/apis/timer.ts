@@ -1,24 +1,10 @@
 import fetcher from '@/apis/fetcher';
 
 const API_URL = process.env.REACT_APP_API_URL;
+const SOCKET_URL = process.env.REACT_SOCKET_API_URL;
 
-export const getSSEConnection = (accessCode: string) => {
-  return new EventSource(`${API_URL}/${accessCode}/connect`);
-};
-
-export interface GetTimerResponse {
-  id: number;
-  duration: number;
-  remainingTime: number;
-}
-
-export const getTimer = async (accessCode: string): Promise<GetTimerResponse> => {
-  const response = await fetcher.get({
-    url: `${API_URL}/${accessCode}/timer`,
-    errorMessage: '',
-  });
-
-  return response.json();
+export const getConnection = (accessCode: string) => {
+  return new WebSocket(`${SOCKET_URL}/ws-connect?accesscode=${accessCode}`);
 };
 
 interface UpdateDurationRequest {
