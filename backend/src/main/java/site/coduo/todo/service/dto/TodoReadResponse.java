@@ -1,15 +1,15 @@
-package site.coduo.todo.controller.response;
+package site.coduo.todo.service.dto;
 
 import site.coduo.todo.domain.Todo;
 
-public record GetTodoResponse(
+public record TodoReadResponse(
         Long id,
         String content,
         boolean isChecked,
         int order
 ) {
-    public static GetTodoResponse from(final Todo todo, final int order) {
-        return new GetTodoResponse(
+    public static TodoReadResponse from(final Todo todo, final int order) {
+        return new TodoReadResponse(
                 todo.getId(),
                 todo.getContent().getContent(),
                 todo.getIsChecked().isChecked(),

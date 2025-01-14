@@ -28,6 +28,7 @@ import site.coduo.todo.domain.TodoSortComparator;
 import site.coduo.todo.exception.TodoNotFoundException;
 import site.coduo.todo.repository.TodoEntity;
 import site.coduo.todo.repository.TodoRepository;
+import site.coduo.todo.service.dto.TodoReadResponse;
 
 @SpringBootTest
 @Transactional
@@ -250,16 +251,15 @@ class TodoServiceTest {
         final List<String> expectOrder = List.of("투두2!!", "투두4!!", "투두3!!", "투두1!!");
 
         // When
-        final List<Todo> all = todoService.getAllOrderBySort(accessCode);
+        final List<TodoReadResponse> actual = todoService.getAllOrderBySort(accessCode);
 
         // Then
-        final List<String> contents = all.stream()
-                .map(Todo::getContent)
-                .map(TodoContent::getContent)
+        final List<String> contents = actual.stream()
+                .map(TodoReadResponse::content)
                 .toList();
 
         assertSoftly(softAssertions -> {
-            softAssertions.assertThat(all).hasSize(expectSize);
+            softAssertions.assertThat(contents).hasSize(expectSize);
             softAssertions.assertThat(contents).isEqualTo(expectOrder);
         });
     }

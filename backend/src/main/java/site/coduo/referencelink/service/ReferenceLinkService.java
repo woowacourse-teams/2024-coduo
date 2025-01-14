@@ -72,8 +72,8 @@ public class ReferenceLinkService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReferenceLinkResponse> readAllReferenceLink(final String accessCodeText) {
-        final PairRoomEntity pairRoom = pairRoomRepository.fetchByAccessCode(accessCodeText);
+    public List<ReferenceLinkResponse> findAllReferenceLinkByAccessCode(final String accessCode) {
+        final PairRoomEntity pairRoom = pairRoomRepository.fetchByAccessCode(accessCode);
 
         final List<ReferenceLinkEntity> referenceLinkEntities = referenceLinkRepository.findByPairRoomEntity(pairRoom);
 
