@@ -15,7 +15,7 @@ import site.coduo.fixture.PairRoomCreateRequestFixture;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
-import site.coduo.pairroom.service.dto.PairRoomReadResponse;
+import site.coduo.pairroom.service.dto.PairRoomEntireResponse;
 import site.coduo.timer.domain.Timer;
 import site.coduo.timer.service.dto.TimerUpdateRequest;
 import site.coduo.utils.CascadeCleaner;
@@ -62,10 +62,10 @@ class TimerServiceTest extends CascadeCleaner {
         timerService.updateTimer(accessCode, timerRequest);
 
         // then
-        final PairRoomReadResponse pairRoomAndTimer = pairRoomService.findPairRoomAndTimer(accessCode);
+        final PairRoomEntireResponse entirePairRoom = pairRoomService.findEntirePairRoom(accessCode);
         Assertions.assertAll(
-                () -> assertThat(pairRoomAndTimer.duration()).isEqualTo(timerRequest.duration()),
-                () -> assertThat(pairRoomAndTimer.remainingTime()).isEqualTo(timerRequest.remainingTime())
+                () -> assertThat(entirePairRoom.duration()).isEqualTo(timerRequest.duration()),
+                () -> assertThat(entirePairRoom.remainingTime()).isEqualTo(timerRequest.remainingTime())
         );
     }
 
