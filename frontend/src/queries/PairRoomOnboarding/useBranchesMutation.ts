@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import useToastStore from '@/stores/toastStore';
 
-import { addBranch, getSHAforMain } from '@/apis/github';
+import { addBranch, getSHAforMain } from '@/apis/http/github';
 
 const useBranchesMutation = () => {
   const { addToast } = useToastStore();

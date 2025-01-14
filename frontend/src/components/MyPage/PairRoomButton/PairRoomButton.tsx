@@ -3,7 +3,7 @@ import { IoIosArrowForward } from 'react-icons/io';
 import ConfirmModal from '@/components/_common/ConfirmModal/ConfirmModal';
 import Spinner from '@/components/_common/Spinner/Spinner';
 
-import type { PairRoomStatus } from '@/apis/pairRoom';
+import type { PairRoomStatus } from '@/apis/http/pairRoom';
 
 import useModal from '@/hooks/_common/useModal';
 

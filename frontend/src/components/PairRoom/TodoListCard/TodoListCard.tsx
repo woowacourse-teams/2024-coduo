@@ -8,7 +8,7 @@ import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import Header from '@/components/PairRoom/TodoListCard/Header/Header';
 import TodoList from '@/components/PairRoom/TodoListCard/TodoList/TodoList';
 
-import { Todo } from '@/apis/todo';
+import { Todo } from '@/apis/http/todo';
 
 import useInput from '@/hooks/_common/useInput';
 

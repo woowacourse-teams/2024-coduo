@@ -1,5 +1,5 @@
-import fetcher from '@/apis/fetcher';
-import type { PairRoomStatus } from '@/apis/pairRoom';
+import fetcher from '@/apis/http/fetcher';
+import type { PairRoomStatus } from '@/apis/http/pairRoom';
 
 import { ERROR_MESSAGES } from '@/constants/message';
 

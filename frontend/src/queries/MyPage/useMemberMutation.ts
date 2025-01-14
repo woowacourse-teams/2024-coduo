@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import useToastStore from '@/stores/toastStore';
 import useUserStore from '@/stores/userStore';
 
-import { deleteMember } from '@/apis/member';
+import { deleteMember } from '@/apis/http/member';
 
 const useMemberMutation = () => {
   const navigate = useNavigate();

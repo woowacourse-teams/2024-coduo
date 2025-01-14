@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import CheckBox from '@/components/_common/CheckBox/CheckBox';
 
-import { Todo } from '@/apis/todo';
+import { Todo } from '@/apis/http/todo';
 
 import useCopyClipBoard from '@/hooks/_common/useCopyClipboard';
 

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-import type { Reference } from '@/apis/referenceLink';
+import type { Reference } from '@/apis/http/referenceLink';
 
 import useReferencesMutation from '@/queries/PairRoom/useReferencesMutation';
 

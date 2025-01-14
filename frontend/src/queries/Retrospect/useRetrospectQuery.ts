@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getRetrospect } from '@/apis/retrospect';
+import { getRetrospect } from '@/apis/http/retrospect';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 

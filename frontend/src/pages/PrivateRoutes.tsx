@@ -5,7 +5,7 @@ import Loading from '@/pages/Loading/Loading';
 
 import useToastStore from '@/stores/toastStore';
 
-import { getPairRoomExists } from '@/apis/pairRoom';
+import { getPairRoomExists } from '@/apis/http/pairRoom';
 
 const PrivateRoutes = () => {
   const location = useLocation();

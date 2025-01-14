@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaTrashAlt } from 'react-icons/fa';
 import styled, { keyframes, css } from 'styled-components';
 
-import type { PairRoomStatus } from '@/apis/pairRoom';
+import type { PairRoomStatus } from '@/apis/http/pairRoom';
 
 import { Z_INDEX } from '@/constants/style';
 

@@ -1,8 +1,8 @@
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 
-import fetcher from '@/apis/fetcher';
-import { Reference } from '@/apis/referenceLink';
-import { Todo } from '@/apis/todo';
+import fetcher from '@/apis/http/fetcher';
+import { Reference } from '@/apis/http/referenceLink';
+import { Todo } from '@/apis/http/todo';
 
 import { ERROR_MESSAGES } from '@/constants/message';
 

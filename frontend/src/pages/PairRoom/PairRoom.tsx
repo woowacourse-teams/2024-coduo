@@ -11,6 +11,7 @@ import TimerCard from '@/components/PairRoom/TimerCard/TimerCard';
 import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
 
 import useModal from '@/hooks/_common/useModal';
+import usePairRoom from '@/hooks/PairRoom/usePairRoom';
 
 import usePairRoomMutation from '@/queries/PairRoom/usePairRoomMutation';
 import usePairRoomQuery from '@/queries/PairRoom/usePairRoomQuery';
@@ -24,8 +25,6 @@ const PairRoom = () => {
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
   const [isCardOpen, setIsCardOpen] = useState(false);
-
-  const { isModalOpen, closeModal } = useModal(true);
 
   const {
     driver: latestDriver,
@@ -42,6 +41,8 @@ const PairRoom = () => {
 
   const { updatePairRoleMutation } = usePairRoomMutation();
 
+  const { isModalOpen, closeModal } = useModal(true);
+
   useEffect(() => {
     if (status === 'COMPLETED') navigate(`/room/${accessCode}/completed`, { state: { valid: true }, replace: true });
   }, [status]);
@@ -50,6 +51,8 @@ const PairRoom = () => {
     setDriver(latestDriver);
     setNavigator(latestNavigator);
   }, [latestDriver, latestNavigator]);
+
+  const { socket } = usePairRoom(accessCode || '');
 
   if (isFetching) {
     return <Loading />;
@@ -61,9 +64,10 @@ const PairRoom = () => {
       <S.Container>
         <PairRoleCard driver={driver} navigator={navigator} />
         <TimerCard
+          socket={socket}
           accessCode={accessCode || ''}
           defaultTime={duration}
-          defaultTimeleft={remainingTime}
+          defaultTimeLeft={remainingTime}
           onTimerStop={() => updatePairRoleMutation({ accessCode: accessCode || '' })}
         />
       </S.Container>

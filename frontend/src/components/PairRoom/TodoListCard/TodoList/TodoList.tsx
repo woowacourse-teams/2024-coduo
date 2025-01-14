@@ -1,6 +1,6 @@
 import TodoItem from '@/components/PairRoom/TodoListCard/TodoItem/TodoItem';
 
-import { Todo } from '@/apis/todo';
+import { Todo } from '@/apis/http/todo';
 
 import useDragAndDrop from '@/hooks/PairRoom/useDragAndDrop';
 

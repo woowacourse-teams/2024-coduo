@@ -2,7 +2,7 @@ import { useQueryClient, useMutation } from '@tanstack/react-query';
 
 import useToastStore from '@/stores/toastStore';
 
-import { addTodos, updateOrder, updateChecked, updateContents, deleteTodo } from '@/apis/todo';
+import { addTodos, updateOrder, updateChecked, updateContents, deleteTodo } from '@/apis/http/todo';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 

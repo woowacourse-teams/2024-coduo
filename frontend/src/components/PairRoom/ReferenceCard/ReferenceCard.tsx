@@ -7,7 +7,7 @@ import Header from '@/components/PairRoom/ReferenceCard/Header/Header';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 import ReferenceList from '@/components/PairRoom/ReferenceCard/ReferenceList/ReferenceList';
 
-import { Reference } from '@/apis/referenceLink';
+import { Reference } from '@/apis/http/referenceLink';
 
 import useModal from '@/hooks/_common/useModal';
 

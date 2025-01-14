@@ -16,17 +16,19 @@ import { theme } from '@/styles/theme';
 import * as S from './TimerCard.styles';
 
 interface TimerCardProps {
+  socket: WebSocket | null;
   accessCode: string;
   defaultTime: number;
-  defaultTimeleft: number;
+  defaultTimeLeft: number;
   onTimerStop: () => void;
 }
 
-const TimerCard = ({ accessCode, defaultTime, defaultTimeleft, onTimerStop }: TimerCardProps) => {
+const TimerCard = ({ socket, accessCode, defaultTime, defaultTimeLeft, onTimerStop }: TimerCardProps) => {
   const { timeLeft, isActive, handleStart, handlePause } = useTimer(
+    socket,
     accessCode,
     defaultTime,
-    defaultTimeleft,
+    defaultTimeLeft,
     onTimerStop,
   );
 
