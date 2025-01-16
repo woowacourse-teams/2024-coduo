@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { Client, Message } from '@stomp/stompjs';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { AlarmSound } from '@/assets';
@@ -13,12 +14,7 @@ import useNotification from '@/hooks/PairRoom/useNotification';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-const TIMER_EVENTS = {
-  TIMER: 'timer',
-  REMAINING_TIME: 'remaining-time',
-};
-
-const TIMER_MESSAGES = {
+const STATUS = {
   COMPLETE: 'complete',
   START: 'start',
   RUNNING: 'running',
@@ -27,7 +23,7 @@ const TIMER_MESSAGES = {
 };
 
 const useTimer = (
-  socket: WebSocket | null,
+  client: Client | null,
   accessCode: string,
   defaultTime: number,
   defaultTimeLeft: number,
@@ -65,25 +61,34 @@ const useTimer = (
     addToast({ status: 'INFO', message: '드라이버 / 내비게이터 역할을 바꿔 주세요!' });
   };
 
-  const handleTimerEvent = (eventData: string) => {
-    switch (eventData) {
-      case TIMER_MESSAGES.COMPLETE:
+  const handleTimerEvent = (timeLeft: number) => {
+    if (timeLeft === 0) {
+      handleStop();
+      return;
+    }
+
+    setTimeLeft(timeLeft);
+  };
+
+  const handleTimerStatusEvent = (status: string) => {
+    switch (status) {
+      case STATUS.COMPLETE:
         navigate(`/room/${accessCode}/retrospectForm`, { state: { valid: true } });
         addToast({ status: 'WARNING', message: '페어룸이 종료되었습니다.' });
         break;
 
-      case TIMER_MESSAGES.START:
-      case TIMER_MESSAGES.RUNNING:
+      case STATUS.START:
+      case STATUS.RUNNING:
         setIsActive(true);
         addToast({ status: 'SUCCESS', message: '타이머가 시작되었습니다.' });
         break;
 
-      case TIMER_MESSAGES.PAUSE:
+      case STATUS.PAUSE:
         setIsActive(false);
         addToast({ status: 'WARNING', message: '타이머가 일시 정지되었습니다.' });
         break;
 
-      case TIMER_MESSAGES.UPDATE:
+      case STATUS.UPDATE:
         queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_PAIR_ROOM_TIMER] });
         addToast({ status: 'WARNING', message: '타이머 시간이 변경되었습니다.' });
         break;
@@ -93,47 +98,23 @@ const useTimer = (
     }
   };
 
-  const handleRemainingTimeEvent = (eventData: string) => {
-    if (eventData === '0') {
-      handleStop();
-      return;
-    }
-
-    setTimeLeft(Number(eventData));
-  };
-
-  const handleTimer = (eventName: string, eventData: string) => {
-    switch (eventName) {
-      case TIMER_EVENTS.TIMER:
-        handleTimerEvent(eventData);
-        break;
-
-      case TIMER_EVENTS.REMAINING_TIME:
-        handleRemainingTimeEvent(eventData);
-        break;
-
-      default:
-        console.error(`Unhandled event: ${eventName}`);
-        addToast({ status: 'ERROR', message: '예상하지 못한 에러가 발생했습니다.' });
-    }
-  };
-
-  const handleMessage = (event: MessageEvent) => {
-    const parsedData = JSON.parse(event.data);
-    handleTimer(parsedData.event, parsedData.data);
-  };
-
   useEffect(() => {
-    if (!socket) return;
-
-    socket.onopen = () => {
-      socket.addEventListener('message', handleMessage as EventListener);
-    };
+    if (client) {
+      client.subscribe(`/topic/${accessCode}/timer`, (message: Message) =>
+        handleTimerEvent(JSON.parse(message.body).data),
+      );
+      client.subscribe(`/topic/${accessCode}/timer/status`, (message: Message) =>
+        handleTimerStatusEvent(JSON.parse(message.body).data),
+      );
+    }
 
     return () => {
-      if (socket) socket.removeEventListener('message', handleMessage as EventListener);
+      if (client) {
+        client.unsubscribe('/timer');
+        client.unsubscribe('/timer/status');
+      }
     };
-  }, [socket]);
+  }, [client]);
 
   return {
     timeLeft,

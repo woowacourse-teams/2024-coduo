@@ -52,7 +52,7 @@ const PairRoom = () => {
     setNavigator(latestNavigator);
   }, [latestDriver, latestNavigator]);
 
-  const { socket } = usePairRoom(accessCode || '');
+  const { client } = usePairRoom(accessCode || '');
 
   if (isFetching) {
     return <Loading />;
@@ -64,7 +64,7 @@ const PairRoom = () => {
       <S.Container>
         <PairRoleCard driver={driver} navigator={navigator} />
         <TimerCard
-          socket={socket}
+          client={client}
           accessCode={accessCode || ''}
           defaultTime={duration}
           defaultTimeLeft={remainingTime}
