@@ -38,7 +38,7 @@ const TimerPip = ({ minutes, seconds, progress }: TimerPip) => {
       pipWindow.document.head.appendChild(styleElement);
 
       const timerElement = pipWindow.document.createElement('div');
-      timerElement.className = 'timer';
+      timerElement.className = 'pipWindow';
       pipWindow.document.body.appendChild(timerElement);
 
       pipWindow.addEventListener('unload', () => {
@@ -54,7 +54,7 @@ const TimerPip = ({ minutes, seconds, progress }: TimerPip) => {
   };
 
   const updatePiPContent = (window: Window) => {
-    const timerElement = window.document.querySelector('.timer');
+    const timerElement = window.document.querySelector('.pipWindow');
     if (!timerElement) return;
 
     timerElement.innerHTML = `
@@ -85,14 +85,16 @@ const TimerPip = ({ minutes, seconds, progress }: TimerPip) => {
 
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
-    if (pipWindowRef.current) {
-      updatePiPContent(pipWindowRef.current);
-    }
-
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [minutes, seconds]);
+  }, []);
+
+  useEffect(() => {
+    if (pipWindowRef.current) {
+      updatePiPContent(pipWindowRef.current);
+    }
+  }, [minutes, seconds, progress]);
 
   return null;
 };

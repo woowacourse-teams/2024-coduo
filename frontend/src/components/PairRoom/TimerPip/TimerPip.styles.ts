@@ -49,7 +49,7 @@ export const styles = `
         }
 
       .progress-bar {
-        width: 70%;
+        width: 100%;
         height: 8px; 
         background: #e4e4e4;  
         border-radius: 6px;
