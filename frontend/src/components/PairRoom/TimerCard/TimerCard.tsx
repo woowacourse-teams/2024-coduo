@@ -40,7 +40,7 @@ const TimerCard = ({ accessCode, defaultTime, defaultTimeleft, onTimerStop }: Ti
   return (
     <PairRoomCard>
       <S.Layout aria-label="타이머">
-        <TimerPip minutes={minutes} seconds={seconds} progress={(timeLeft / defaultTime) * 100} />
+        <TimerPip isActive={isActive} minutes={minutes} seconds={seconds} progress={(timeLeft / defaultTime) * 100} />
         <S.ProgressBar
           $progress={(timeLeft / defaultTime) * 100}
           role="timer"

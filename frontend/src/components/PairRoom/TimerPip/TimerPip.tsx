@@ -6,6 +6,7 @@ interface TimerPip {
   minutes: string;
   seconds: string;
   progress: number;
+  isActive: boolean;
 }
 
 declare global {
@@ -16,7 +17,7 @@ declare global {
   }
 }
 
-const TimerPip = ({ minutes, seconds, progress }: TimerPip) => {
+const TimerPip = ({ minutes, seconds, progress, isActive }: TimerPip) => {
   const pipWindowRef = useRef<Window | null>(null);
   const isPipOpenRef = useRef(false);
 
@@ -78,7 +79,7 @@ const TimerPip = ({ minutes, seconds, progress }: TimerPip) => {
 
   useEffect(() => {
     const handleVisibilityChange = () => {
-      if (document.hidden && !isPipOpenRef.current) {
+      if (document.hidden && !isPipOpenRef.current && isActive) {
         openPiP();
       }
     };
@@ -88,7 +89,7 @@ const TimerPip = ({ minutes, seconds, progress }: TimerPip) => {
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []);
+  }, [isActive]);
 
   useEffect(() => {
     if (pipWindowRef.current) {
