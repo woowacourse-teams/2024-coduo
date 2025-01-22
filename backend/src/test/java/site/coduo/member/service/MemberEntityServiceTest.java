@@ -98,4 +98,49 @@ class MemberEntityServiceTest {
         final List<MemberEntity> afterDelete = memberRepository.findAll();
         assertThat(afterDelete).hasSize(beforeDelete.size() - 1);
     }
+
+    @Test
+    @DisplayName("회원을 삭제한다.")
+    void delete_member() {
+        // given
+        final Member member = Member.builder()
+                .userId("userid")
+                .accessToken("access")
+                .loginId("login")
+                .username("username")
+                .profileImage("some image")
+                .build();
+        final String token = jwtProvider.sign(member.getUserId());
+
+        memberRepository.save(member);
+        final List<Member> beforeDelete = memberRepository.findAll();
+
+        // when
+        memberService.deleteMember(token);
+
+        //then
+        final List<Member> afterDelete = memberRepository.findAll();
+        assertThat(afterDelete).hasSize(beforeDelete.size() - 1);
+    }
+
+    @Test
+    @DisplayName("user id로 회원을 조회한다.")
+    void find_by_user_id() {
+        //given
+        final Member member = Member.builder()
+                .userId("targetUserId")
+                .accessToken("access")
+                .loginId("login")
+                .username("username")
+                .profileImage("some image")
+                .build();
+
+        final Member saved = memberRepository.save(member);
+
+        //when
+        final Member find = memberService.findMember(member.getLoginId());
+
+        //then
+        assertThat(find).isEqualTo(saved);
+    }
 }
