@@ -8,6 +8,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public record CreateTodoRequest(
         @Schema(description = "투두 내용")
         @NotBlank
-        String content
+        String contents
 ) {
 }

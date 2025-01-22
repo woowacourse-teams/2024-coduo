@@ -1,7 +1,6 @@
 package site.coduo.todo.service;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,10 +36,8 @@ public class TodoService {
                 .map(TodoEntity::toDomain)
                 .sorted(new TodoSortComparator())
                 .toList();
-        
-        return IntStream.range(0, todos.size())
-                .mapToObj(index -> TodoReadResponse.from(todos.get(index), index))
-                .toList();
+
+        return TodoReadResponse.of(todos);
     }
 
     public void createTodo(final String accessCode, final String content) {
@@ -73,27 +70,34 @@ public class TodoService {
         todoEntity.toggleTodoChecked();
     }
 
-    public void updateTodoSort(final Long targetTodoId, final int destinationSort) {
+    public List<TodoReadResponse> updateTodoSort(final Long targetTodoId, final int destinationSort) {
         final TodoEntity targetTodo = todoRepository.findById(targetTodoId)
                 .orElseThrow(() -> new TodoNotFoundException("존재하지 않은 todo id입니다." + targetTodoId));
         checkPairRoomIsActive(targetTodo.getPairRoomEntity());
-        final List<Todo> allByPairRoom = todoRepository
+        final List<Todo> todos = new java.util.ArrayList<>(todoRepository
                 .findAllByPairRoomEntity(targetTodo.getPairRoomEntity())
                 .stream()
                 .map(TodoEntity::toDomain)
                 .sorted(new TodoSortComparator())
-                .toList();
+                .toList());
 
-        final Todo updated = targetTodo.toDomain().updateSort(allByPairRoom, destinationSort);
-        final TodoEntity updatedTodoEntity = new TodoEntity(updated, targetTodo.getPairRoomEntity());
-        todoRepository.save(updatedTodoEntity);
+        final Todo updated = targetTodo.toDomain()
+                .updateSort(todos, destinationSort);
+        todoRepository.save(new TodoEntity(updated, targetTodo.getPairRoomEntity()));
+        todos.add(updated);
+        return TodoReadResponse.of(todos);
     }
 
-    public void deleteTodo(final Long todoId) {
+    public List<TodoReadResponse> deleteTodo(final Long todoId) {
         final TodoEntity todoEntity = todoRepository.findById(todoId)
                 .orElseThrow(() -> new TodoNotFoundException("존재하지 않은 todo id입니다." + todoId));
         checkPairRoomIsActive(todoEntity.getPairRoomEntity());
         todoRepository.deleteById(todoId);
+        final List<Todo> todos = todoRepository.findAllByPairRoomEntity(todoEntity.getPairRoomEntity())
+                .stream()
+                .map(TodoEntity::toDomain)
+                .toList();
+        return TodoReadResponse.of(todos);
     }
 
     private void checkPairRoomIsActive(final PairRoomEntity pairRoomEntity) {

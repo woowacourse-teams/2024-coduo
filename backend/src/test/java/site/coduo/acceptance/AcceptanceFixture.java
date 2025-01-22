@@ -25,30 +25,22 @@ abstract class AcceptanceFixture {
 
     @Autowired
     protected MemberRepository memberRepository;
-
+    @LocalServerPort
+    int port;
     @Autowired
     private ReferenceLinkRepository referenceLinkRepository;
-
     @Autowired
     private PairRoomRepository pairRoomRepository;
-
     @Autowired
     private OpenGraphRepository openGraphRepository;
-
     @Autowired
     private CategoryRepository categoryRepository;
-
     @Autowired
     private TimerRepository timerRepository;
-
     @Autowired
     private PairRoomMemberRepository pairRoomMemberRepository;
-
     @Autowired
     private RetrospectRepository retrospectRepository;
-
-    @LocalServerPort
-    private int port;
 
     @BeforeEach
     void setUp() {

@@ -9,6 +9,6 @@ public record UpdateTodoContentRequest(
         @Schema(description = "투두 변경할 내용")
         @NotBlank
         @Valid
-        String content
+        String contents
 ) {
 }

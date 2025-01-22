@@ -1,5 +1,8 @@
 package site.coduo.todo.service.dto;
 
+import java.util.List;
+import java.util.stream.IntStream;
+
 import site.coduo.todo.domain.Todo;
 
 public record TodoReadResponse(
@@ -15,5 +18,11 @@ public record TodoReadResponse(
                 todo.getIsChecked().isChecked(),
                 order
         );
+    }
+
+    public static List<TodoReadResponse> of(List<Todo> todos) {
+        return IntStream.range(0, todos.size())
+                .mapToObj(index -> TodoReadResponse.from(todos.get(index), index))
+                .toList();
     }
 }
