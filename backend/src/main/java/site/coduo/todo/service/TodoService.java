@@ -1,5 +1,6 @@
 package site.coduo.todo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -74,7 +75,7 @@ public class TodoService {
         final TodoEntity targetTodo = todoRepository.findById(targetTodoId)
                 .orElseThrow(() -> new TodoNotFoundException("존재하지 않은 todo id입니다." + targetTodoId));
         checkPairRoomIsActive(targetTodo.getPairRoomEntity());
-        final List<Todo> todos = new java.util.ArrayList<>(todoRepository
+        final List<Todo> todos = new ArrayList<>(todoRepository
                 .findAllByPairRoomEntity(targetTodo.getPairRoomEntity())
                 .stream()
                 .map(TodoEntity::toDomain)
