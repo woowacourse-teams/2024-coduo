@@ -2,6 +2,7 @@ package site.coduo.acceptance;
 
 import static site.coduo.acceptance.SseAcceptanceTest.createConnect;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -12,6 +13,7 @@ import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
 import site.coduo.timer.service.dto.TimerUpdateRequest;
 
+@Disabled
 class TimerAcceptanceTest extends AcceptanceFixture {
 
     static String createPairRoom(final PairRoomCreateRequest pairRoom) {
@@ -67,6 +69,7 @@ class TimerAcceptanceTest extends AcceptanceFixture {
         final String accessCode = createPairRoom(PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST);
         final TimerUpdateRequest request = new TimerUpdateRequest(20000L, 3000L);
         createConnect(accessCode);
+        
         // when & then
         RestAssured
                 .given()

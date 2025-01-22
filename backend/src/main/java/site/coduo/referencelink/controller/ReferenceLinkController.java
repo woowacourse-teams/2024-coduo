@@ -33,8 +33,7 @@ public class ReferenceLinkController implements ReferenceLinkDocs {
             @PathVariable("accessCode") final String accessCodeText,
             @Valid @RequestBody final ReferenceLinkCreateRequest request
     ) {
-        final ReferenceLinkResponse response = referenceLinkService.createReferenceLink(
-                accessCodeText, request);
+        final ReferenceLinkResponse response = referenceLinkService.createReferenceLink(accessCodeText, request);
 
         return ResponseEntity.created(URI.create("/"))
                 .body(response);
@@ -44,7 +43,8 @@ public class ReferenceLinkController implements ReferenceLinkDocs {
     public ResponseEntity<List<ReferenceLinkResponse>> getReferenceLinks(
             @PathVariable("accessCode") final String accessCodeText
     ) {
-        final List<ReferenceLinkResponse> responses = referenceLinkService.readAllReferenceLink(accessCodeText);
+        final List<ReferenceLinkResponse> responses = referenceLinkService.findAllReferenceLinkByAccessCode(
+                accessCodeText);
 
         return ResponseEntity.ok(responses);
     }

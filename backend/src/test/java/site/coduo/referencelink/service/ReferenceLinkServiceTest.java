@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import site.coduo.pairroom.domain.accesscode.AccessCode;
+import site.coduo.pairroom.exception.PairRoomNotFoundException;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.Category;
@@ -83,7 +84,8 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
                 () -> assertThat(openGraphRepository.findAll()).hasSize(1),
                 () -> {
                     final ReferenceLinkResponse referenceLinkResponses =
-                            referenceLinkService.readAllReferenceLink(pairRoomEntity.getAccessCode()).get(0);
+                            referenceLinkService.findAllReferenceLinkByAccessCode(pairRoomEntity.getAccessCode())
+                                    .get(0);
                     assertThat(referenceLinkResponses)
                             .extracting("url", "headTitle", "openGraphTitle", "description", "image", "categoryName")
                             .contains(request.url(), "헤드 타이틀", "오픈그래프 타이틀", "오픈그래프 설명", "오픈그래프 이미지", "스프링");
@@ -113,7 +115,7 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
         referenceLinkRepository.save(generateReferenceLink(reactCategory));
 
         // when
-        final List<ReferenceLinkResponse> responses = referenceLinkService.readAllReferenceLink(
+        final List<ReferenceLinkResponse> responses = referenceLinkService.findAllReferenceLinkByAccessCode(
                 accessCode.getValue());
         // then
         assertThat(responses).hasSize(3);
@@ -138,20 +140,17 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
 
     @DisplayName("액세스코드가 일치하지 않으면 삭제를 시도해도 삭제되지 않는다.")
     @Test
-    void cannot_delete_reference_link_and_open_graph_when_invalid_access_code() throws MalformedURLException {
+    void cannot_delete_reference_link_and_open_graph_when_invalid_access_code() {
         // given
         final ReferenceLinkCreateRequest request =
                 new ReferenceLinkCreateRequest(FakeServer.testUrl, springCategory.getId());
         final ReferenceLinkResponse referenceLink = referenceLinkService.createReferenceLink(
                 pairRoomEntity.getAccessCode(), request);
+        final String invalidAccessCode = "abcdef";
 
-        // when
-        referenceLinkService.deleteReferenceLink("abcdef", referenceLink.id());
-
-        assertAll(
-                () -> assertThat(referenceLinkRepository.findAll()).hasSize(1),
-                () -> assertThat(openGraphRepository.findAll()).hasSize(1)
-        );
+        // when & then
+        assertThatThrownBy(() -> referenceLinkService.deleteReferenceLink(invalidAccessCode, referenceLink.id()))
+                .isExactlyInstanceOf(PairRoomNotFoundException.class);
     }
 
     @Test

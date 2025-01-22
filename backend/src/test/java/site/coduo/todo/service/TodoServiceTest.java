@@ -28,6 +28,7 @@ import site.coduo.todo.domain.TodoSortComparator;
 import site.coduo.todo.exception.TodoNotFoundException;
 import site.coduo.todo.repository.TodoEntity;
 import site.coduo.todo.repository.TodoRepository;
+import site.coduo.todo.service.dto.TodoReadResponse;
 
 @SpringBootTest
 @Transactional
@@ -98,7 +99,7 @@ class TodoServiceTest {
         // When & Then
         assertThatThrownBy(() -> todoService.createTodo("NOCODE", content))
                 .isInstanceOf(PairRoomNotFoundException.class)
-                .hasMessage("해당 Access Code의 페어룸은 존재하지 않습니다. - " + "NOCODE");
+                .hasMessage("존재하지 않는 페어룸 접근 코드입니다.");
     }
 
     @DisplayName("투두 id와 새로운 투두 내용이 입력되면 해당 투두를 저장소에서 가져와 내용을 변경한뒤 저장한다.")
@@ -215,9 +216,7 @@ class TodoServiceTest {
         final boolean isChecked = false;
         final Todo todo = new Todo(1L, content, sort, isChecked);
         final TodoEntity todoEntity = new TodoEntity(todo, pairRoomEntity);
-        todoRepository.save(todoEntity);
-
-        final Long todoId = 1L;
+        final Long todoId = todoRepository.save(todoEntity).getId();
 
         // When
         todoService.deleteTodo(todoId);
@@ -252,16 +251,15 @@ class TodoServiceTest {
         final List<String> expectOrder = List.of("투두2!!", "투두4!!", "투두3!!", "투두1!!");
 
         // When
-        final List<Todo> all = todoService.getAllOrderBySort(accessCode);
+        final List<TodoReadResponse> actual = todoService.getAllOrderBySort(accessCode);
 
         // Then
-        final List<String> contents = all.stream()
-                .map(Todo::getContent)
-                .map(TodoContent::getContent)
+        final List<String> contents = actual.stream()
+                .map(TodoReadResponse::content)
                 .toList();
 
         assertSoftly(softAssertions -> {
-            softAssertions.assertThat(all).hasSize(expectSize);
+            softAssertions.assertThat(contents).hasSize(expectSize);
             softAssertions.assertThat(contents).isEqualTo(expectOrder);
         });
     }
@@ -290,7 +288,7 @@ class TodoServiceTest {
         // When & Then
         assertThatThrownBy(() -> todoService.getAllOrderBySort(pairRoomAccessCode))
                 .isInstanceOf(PairRoomNotFoundException.class)
-                .hasMessage("해당 Access Code의 페어룸은 존재하지 않습니다. - " + pairRoomAccessCode);
+                .hasMessage("존재하지 않는 페어룸 접근 코드입니다.");
     }
 
     @DisplayName("대상 투두 아이디와 변경할 순서를 입력받으면 위치를 변경시킨다.")

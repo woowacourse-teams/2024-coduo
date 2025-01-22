@@ -9,7 +9,6 @@ import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,14 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.coduo.pairroom.controller.docs.PairRoomDocs;
-import site.coduo.pairroom.controller.dto.request.ExistMemberInPairRoomResponse;
 import site.coduo.pairroom.service.PairRoomService;
+import site.coduo.pairroom.service.dto.ExistMemberInPairRoomResponse;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
 import site.coduo.pairroom.service.dto.PairRoomCreateResponse;
+import site.coduo.pairroom.service.dto.PairRoomEntireResponse;
 import site.coduo.pairroom.service.dto.PairRoomExistResponse;
 import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
 import site.coduo.pairroom.service.dto.PairRoomReadRequest;
-import site.coduo.pairroom.service.dto.PairRoomReadResponse;
 import site.coduo.pairroom.service.dto.PairRoomStatusUpdateRequest;
 
 @Slf4j
@@ -69,12 +68,12 @@ public class PairRoomController implements PairRoomDocs {
     }
 
     @GetMapping("/pair-room/{accessCode}")
-    public ResponseEntity<PairRoomReadResponse> getPairRoom(
+    public ResponseEntity<PairRoomEntireResponse> getPairRoom(
             @Valid @PathVariable("accessCode") final PairRoomReadRequest request
     ) {
-        final PairRoomReadResponse response = pairRoomService.findPairRoomAndTimer(request.accessCode());
+        final PairRoomEntireResponse entirePairRoom = pairRoomService.findEntirePairRoom(request.accessCode());
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(entirePairRoom);
     }
 
     @GetMapping("/my-pair-rooms")
@@ -95,10 +94,18 @@ public class PairRoomController implements PairRoomDocs {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/pair-room/{accessCode}")
+    @PatchMapping("/pair-room/{accessCode}/complete")
+    public ResponseEntity<Void> completePairRoom(@PathVariable("accessCode") final String accessCode) {
+        pairRoomService.completePairRoom(accessCode);
+        return ResponseEntity.noContent()
+                .build();
+    }
+
+    @PatchMapping("/pair-room/{accessCode}/delete")
     public ResponseEntity<Void> deletePairRoom(@PathVariable("accessCode") final String accessCode) {
         pairRoomService.deletePairRoom(accessCode);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent()
+                .build();
     }
 
     @GetMapping("/member/{accessCode}/exists")

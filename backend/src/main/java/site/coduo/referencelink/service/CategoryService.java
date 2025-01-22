@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
+import site.coduo.pairroom.exception.InactivePairRoomException;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.referencelink.domain.Category;
@@ -41,6 +42,7 @@ public class CategoryService {
 
     public CategoryCreateResponse createCategory(final String accessCode, final CategoryCreateRequest request) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
+        checkPairRoomIsActive(pairRoomEntity);
         validateDuplicated(request.value(), pairRoomEntity);
         final CategoryEntity categoryEntity = categoryRepository.save(
                 new CategoryEntity(pairRoomEntity, new Category(request.value())));
@@ -56,6 +58,7 @@ public class CategoryService {
 
     public CategoryUpdateResponse updateCategoryName(final String accessCode, final CategoryUpdateRequest request) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
+        checkPairRoomIsActive(pairRoomEntity);
         validateDuplicated(request.updatedCategoryName(), pairRoomEntity);
         final CategoryEntity category = categoryRepository.fetchByPairRoomAndCategoryId(pairRoomEntity,
                 request.categoryId());
@@ -65,11 +68,18 @@ public class CategoryService {
 
     public void deleteCategory(final String accessCode, final Long categoryId) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
+        checkPairRoomIsActive(pairRoomEntity);
         if (categoryRepository.existsByIdAndPairRoomEntity(categoryId, pairRoomEntity)) {
             final List<ReferenceLinkEntity> referenceLinks = referenceLinkService.findReferenceLinksEntityByCategory(
                     accessCode, categoryId);
             referenceLinks.forEach(ReferenceLinkEntity::updateCategoryToNull);
             categoryRepository.deleteCategoryByPairRoomEntityAndId(pairRoomEntity, categoryId);
+        }
+    }
+
+    private void checkPairRoomIsActive(final PairRoomEntity pairRoomEntity) {
+        if (!pairRoomEntity.isActive()) {
+            throw new InactivePairRoomException("이미 종료되었거나 삭제된 페어룸의 카테고리를 조작할 수 없습니다.");
         }
     }
 }

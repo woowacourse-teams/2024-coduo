@@ -8,7 +8,7 @@ import site.coduo.sync.service.EventStream;
 
 public class FakeEvenStream implements EventStream {
 
-    private static final long CONNECTION_TIME_OUT_MILLISECONDS = Duration.ofMillis(500).toMillis();
+    private static final long CONNECTION_TIME_OUT_MILLISECONDS = Duration.ofMillis(1).toMillis();
 
     private final SseEmitter sseEmitter;
 

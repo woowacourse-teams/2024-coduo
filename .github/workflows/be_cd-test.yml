@@ -40,7 +40,7 @@ jobs:
 
       - name: Image build and push
         run: |
-          docker build --build-arg PROFILE=test --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_REPO_NAME }}/springboot-app:test-latest --platform linux/arm64 .
+          docker build --build-arg PROFILE=test --build-arg DEPENDENCY=build/dependency -t ${{ secrets.DOCKER_REPO_NAME }}/springboot-app:test-latest --platform linux/amd64 .
           docker push ${{ secrets.DOCKER_REPO_NAME }}/springboot-app:test-latest
 
       - name: Upload docker-compose yaml script to artifact
@@ -51,8 +51,11 @@ jobs:
 
   deploy:
     environment: test
-    runs-on: test-ec2-runner
+    runs-on: ${{ matrix.instance }}
     needs: build
+    strategy:
+      matrix:
+        instance: [ "test-ec2-runner-a", "test-ec2-runner-b" ]
     defaults:
       run:
         working-directory: ./backend
@@ -67,13 +70,23 @@ jobs:
         run: |
           sudo mv be_app-docker-compose.yml ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/
 
-      - name: Extract secrets as .be_app-env file
+      - name: Run deploy script
         run: |
           chmod +x ./deploy.sh
           source ./deploy.sh
-
           echo "BLUE_PORT=$BLUE_PORT" >> $GITHUB_ENV
           echo "GREEN_PORT=$GREEN_PORT" >> $GITHUB_ENV
+
+      - name: Extract secrets as .be_app-env file
+        run: |
+          if [ "${{ matrix.instance }}" = "test-ec2-runner-a" ]; then
+            INSTANCE_NAME=${{ secrets.INSTANCE_A_NAME }}
+          elif [ "${{ matrix.instance }}" = "test-ec2-runner-b" ]; then
+            INSTANCE_NAME=${{ secrets.INSTANCE_B_NAME }}
+          else
+            echo "Unknown instance: ${{ matrix.instance }}"
+            exit 1
+          fi
           
           cat <<EOF > ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env
 
@@ -82,14 +95,15 @@ jobs:
           DOCKER_IMAGE_VERSION=test-latest
 
           # DB Configuration secrets info from Github Secrets
-          MASTER_DB_URL=${{ secrets.TEST_SERVER_DB_URL }}
+          MYSQL_TIME_ZONE=${{ secrets.MYSQL_TIME_ZONE }}
+          DB_BINDING_PORT=${{ secrets.DB_BINDING_PORT }}          
+          MASTER_DB_URL=${{ secrets.TEST_SERVER_MASTER_DB_URL }}
           MASTER_DB_USERNAME=${{ secrets.TEST_SERVER_DB_USERNAME }}
           MASTER_DB_PASSWORD=${{ secrets.TEST_SERVER_DB_PASSWORD }}
-          
-          SLAVE_DB_URL=${{ secrets.TEST_SERVER_DB_URL }}
+          SLAVE_DB_URL=${{ secrets.TEST_SERVER_SLAVE_DB_URL }}
           SLAVE_DB_USERNAME=${{ secrets.TEST_SERVER_DB_USERNAME }}
           SLAVE_DB_PASSWORD=${{ secrets.TEST_SERVER_DB_PASSWORD }}
-          DDL_AUTO=${{ secrets.DDL_AUTO }}
+          DDL_AUTO=${{ secrets.TEST_DDL_AUTO }}
 
           # OAUTH & JWT
           CLIENT_ID=${{ secrets.TEST_CLIENT_ID }}
@@ -97,18 +111,18 @@ jobs:
           CLIENT_REDIRECT_URI=${{ secrets.TEST_CLIENT_REDIRECT_URI }}
           JWT_KEY=${{ secrets.JWT_KEY}}
           
-          # Sticky Synchronize
-          INSTANCE_NAME=${{ secrets.INSTANCE_A_NAME }}
+          # INSTANCE NAME
+          INSTANCE_NAME=$INSTANCE_NAME
           
           # Server App
           BLUE_SERVER_BINDING_PORT=${BLUE_PORT}
           GREEN_SERVER_BINDING_PORT=${GREEN_PORT}
           SERVER_LOGS_PATH=${{ secrets.SERVER_LOGS_PATH }}
           EOF
-          
+
       - name: remove old spring-app image
         run: |
-          sudo docker image rm -f coduo2024/springboot-app:test-latest;
+          sudo docker image rm -f ${{ secrets.DOCKER_REPO_NAME }}/springboot-app:test-latest;
 
       - name: Start the new (green/blue) environment
         run: |
@@ -116,7 +130,15 @@ jobs:
 
       - name: Wait for new environment to be healthy
         run: |
-          until curl -sf http://localhost:${GREEN_PORT}/api/actuator/health | grep "UP"; do sleep 5; done
+          timeout=30
+          while ! curl -sf http://localhost:${GREEN_PORT}/api/actuator/health | grep "UP"; do
+            ((timeout--))
+            if [ $timeout -le 0 ]; then
+              echo "Health check timed out" >&2
+              exit 1
+            fi
+            sleep 5
+          done
 
       - name: Reload NGINX 
         run: |
@@ -128,4 +150,4 @@ jobs:
 
       - name: Delete Dangling docker images
         run: |
-          sudo docker image prune
+          sudo docker image prune -a -f
