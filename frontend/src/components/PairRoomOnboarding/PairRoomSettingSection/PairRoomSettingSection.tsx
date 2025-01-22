@@ -1,0 +1,97 @@
+import { useNavigate } from 'react-router-dom';
+
+import Button from '@/components/_common/Button/Button';
+import AddPairModal from '@/components/PairRoomOnboarding/AddPairModal/AddPairModal';
+import PairNameInput from '@/components/PairRoomOnboarding/PairNameInput/PairNameInput';
+import PairRoleInput from '@/components/PairRoomOnboarding/PairRoleInput/PairRoleInput';
+import TimerDurationInput from '@/components/PairRoomOnboarding/TimerDurationInput/TimerDurationInput';
+
+import useDebounce from '@/hooks/_common/useDebounce';
+import useModal from '@/hooks/_common/useModal';
+import useAutoMoveIndex from '@/hooks/PairRoomOnboarding/useAutoMoveIndex';
+import usePairRoomInformation from '@/hooks/PairRoomOnboarding/usePairRoomInformation';
+
+import usePairRoomMutation from '@/queries/PairRoom/usePairRoomMutation';
+
+import * as S from './PairRoomSettingSection.styles';
+
+interface PairRoomSettingSectionProps {
+  repositoryName: string;
+}
+
+const PairRoomSettingSection = ({ repositoryName }: PairRoomSettingSectionProps) => {
+  const navigate = useNavigate();
+
+  const {
+    userPairName,
+    pairId,
+    pairName,
+    driver,
+    navigator,
+    timerDuration,
+    isPairRoomNameValid,
+    isPairRoleValid,
+    isTimerDurationValid,
+    handleUserPairName,
+    handlePairName,
+    handlePairData,
+    handlePairRole,
+    handleTimerDuration,
+  } = usePairRoomInformation();
+
+  const validationList = [useDebounce(isPairRoomNameValid, 500), isPairRoleValid, isTimerDurationValid];
+
+  const { moveIndex } = useAutoMoveIndex(0, validationList);
+  const { isModalOpen, openModal, closeModal } = useModal();
+
+  const { addPairRoomMutation } = usePairRoomMutation();
+
+  const handleSuccess = () => {
+    const missionUrl = repositoryName !== '' ? `https://github.com/coduo-missions/${repositoryName}` : '';
+
+    addPairRoomMutation(
+      {
+        pairId,
+        driver,
+        navigator,
+        missionUrl,
+        timerDuration: Number(timerDuration) * 60 * 1000,
+        timerRemainingTime: Number(timerDuration) * 60 * 1000,
+      },
+      { onSuccess: (accessCode) => navigate(`/room/${accessCode}`, { state: { valid: true }, replace: true }) },
+    );
+  };
+
+  return (
+    <S.Layout aria-label="해당 섹션에서는 당신과 페어의 이름, 드라이버와 네비게이터, 타이머 시간을 설정할 수 있습니다.">
+      <PairNameInput
+        userPairName={userPairName}
+        pairId={pairId}
+        pairName={pairName}
+        onUserPairName={handleUserPairName}
+        onPairName={handlePairName}
+        openAddPairModal={openModal}
+      />
+      <AddPairModal isOpen={isModalOpen} closeModal={closeModal} onPairData={handlePairData} />
+      {moveIndex >= 1 && (
+        <PairRoleInput
+          userPairName={userPairName.value}
+          pairName={pairName.value}
+          driver={driver}
+          navigator={navigator}
+          onPairRole={handlePairRole}
+        />
+      )}
+      {moveIndex >= 2 && <TimerDurationInput timerDuration={timerDuration} onTimerDuration={handleTimerDuration} />}
+      {moveIndex >= 3 && (
+        <S.ButtonWrapper>
+          <Button size="lg" disabled={validationList.some((valid) => !valid)} onClick={handleSuccess}>
+            완료
+          </Button>
+        </S.ButtonWrapper>
+      )}
+    </S.Layout>
+  );
+};
+
+export default PairRoomSettingSection;

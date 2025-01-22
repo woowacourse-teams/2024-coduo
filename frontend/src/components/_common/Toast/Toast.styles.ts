@@ -1,0 +1,70 @@
+import styled, { css, keyframes, RuleSet } from 'styled-components';
+
+import type { Status } from './Toast';
+
+const slideIn = keyframes`
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+`;
+
+const slideOut = keyframes`
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+`;
+
+const pushDown = keyframes`
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translateY(0);
+  }
+`;
+
+const backgroundMapper: Record<Status, RuleSet<object>> = {
+  SUCCESS: css`
+    background-color: ${({ theme }) => theme.color.success[600]};
+  `,
+  INFO: css`
+    background-color: ${({ theme }) => theme.color.info[400]};
+  `,
+  WARNING: css`
+    background-color: ${({ theme }) => theme.color.warning[500]};
+  `,
+  ERROR: css`
+    background-color: ${({ theme }) => theme.color.danger[500]};
+  `,
+};
+
+export const Layout = styled.div<{ $isOpen: boolean; $isPush: boolean; $status: Status }>`
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+
+  width: 30rem;
+  min-height: 5rem;
+  padding: 1.2rem 1.8rem;
+  border-radius: 1.5rem;
+
+  color: ${({ theme }) => theme.color.black[0]};
+  font-size: ${({ theme }) => theme.fontSize.md};
+  line-height: 1.5;
+
+  animation:
+    ${({ $isOpen }) => ($isOpen ? slideIn : slideOut)} 0.8s none,
+    ${({ $isPush }) => $isPush && pushDown} 0.5s none;
+
+  ${({ $status }) => backgroundMapper[$status]};
+`;

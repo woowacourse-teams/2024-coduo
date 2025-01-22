@@ -1,0 +1,59 @@
+import styled from 'styled-components';
+
+export const InputLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+`;
+
+export const Content = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+
+  padding: 1.2rem 3.2rem;
+  border-radius: 5rem;
+
+  transition: background-color 0.2s ease-in-out;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.color.black[300]};
+  }
+
+  &:active {
+    background-color: ${({ theme }) => theme.color.black[400]};
+  }
+`;
+export const PairRoomCode = styled.p`
+  font-size: ${({ theme }) => theme.fontSize.h1};
+  font-weight: ${({ theme }) => theme.fontWeight.semibold};
+`;
+
+export const IconBox = styled.div`
+  padding: 0.5rem;
+  padding-bottom: 0;
+  border-radius: 0.5rem;
+
+  color: ${({ theme }) => theme.color.primary[600]};
+`;
+
+export const ModalBodyWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+`;
+
+export const Layout = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+
+  width: 100%;
+  margin-top: 2.5rem;
+`;

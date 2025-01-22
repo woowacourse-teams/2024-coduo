@@ -1,0 +1,58 @@
+import styled, { keyframes } from 'styled-components';
+
+export const Layout = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1rem;
+
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+`;
+
+const slideDown = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+export const Panel = styled.div`
+  padding: 1.5rem 2rem;
+  border: 1px solid ${({ theme }) => theme.color.black[100]};
+  border-radius: 1rem;
+
+  background: ${({ theme }) => theme.color.black[0]};
+
+  animation: ${slideDown} 0.3s ease-out;
+`;
+
+export const Title = styled.p`
+  margin-bottom: 0.5rem;
+
+  color: ${({ theme }) => theme.color.black[500]};
+  font-size: ${({ theme }) => theme.fontSize.sm};
+  font-weight: ${({ theme }) => theme.fontWeight.medium};
+`;
+
+export const Form = styled.form`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  p {
+    font-size: ${({ theme }) => theme.fontSize.sm};
+    font-weight: ${({ theme }) => theme.fontWeight.medium};
+  }
+`;
+
+export const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;

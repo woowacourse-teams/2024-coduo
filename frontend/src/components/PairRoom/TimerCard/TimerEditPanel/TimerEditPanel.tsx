@@ -1,0 +1,89 @@
+import { useRef } from 'react';
+import { useParams } from 'react-router-dom';
+
+import { IoSettingsOutline } from 'react-icons/io5';
+
+import Button from '@/components/_common/Button/Button';
+import IconButton from '@/components/_common/IconButton/IconButton';
+import Input from '@/components/_common/InputField/Input/Input';
+
+import useToastStore from '@/stores/toastStore';
+
+import useClickOutside from '@/hooks/_common/customEvent/useClickOutside';
+import useInput from '@/hooks/_common/useInput';
+import useModal from '@/hooks/_common/useModal';
+
+import useTimerMutation from '@/queries/PairRoom/useTimerMutation';
+
+import { validateTimerDuration } from '@/validations/validateTimerDuration';
+
+import { theme } from '@/styles/theme';
+
+import * as S from './TimerEditPanel.styles';
+
+interface TimerEditPanelProps {
+  isActive: boolean;
+}
+
+const TimerEditPanel = ({ isActive }: TimerEditPanelProps) => {
+  const panelRef = useRef<HTMLDivElement>(null);
+  const { accessCode } = useParams();
+  const { addToast } = useToastStore();
+
+  const { isModalOpen: isPanelOpen, openModal: openPanel, closeModal: closePanel } = useModal();
+  const { value, handleChange, resetValue } = useInput();
+  const { updateTimerDurationMutation } = useTimerMutation();
+
+  const handleButtonClick = () => {
+    if (isActive) {
+      addToast({ status: 'ERROR', message: '타이머 작동 중에는 타이머 시간을 변경할 수 없습니다.' });
+      return;
+    }
+
+    openPanel();
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!value || !accessCode) return;
+    updateTimerDurationMutation({ duration: value, accessCode });
+
+    resetValue();
+    closePanel();
+  };
+
+  useClickOutside(panelRef, () => closePanel());
+
+  const isButtonDisabled = value === '' || !validateTimerDuration(value);
+
+  return (
+    <S.Layout>
+      <IconButton
+        icon={<IoSettingsOutline />}
+        color={theme.color.secondary[500]}
+        size="md"
+        onClick={handleButtonClick}
+        aria-label="타이머 시간 수정 버튼"
+      />
+      {isPanelOpen && (
+        <S.Panel ref={panelRef}>
+          <S.Title>타이머 시간 변경</S.Title>
+          <S.Form onSubmit={handleSubmit} aria-label="타이머 시간을 분 단위로 입력해 주세요.">
+            <Input id="timer" value={value} placeholder="타이머 시간 (분)" onChange={handleChange} />
+            <S.ButtonContainer>
+              <Button type="button" color="secondary" size="sm" filled={false} rounded={true} onClick={closePanel}>
+                닫기
+              </Button>
+              <Button type="submit" color="secondary" size="sm" rounded={true} disabled={isButtonDisabled}>
+                완료
+              </Button>
+            </S.ButtonContainer>
+          </S.Form>
+        </S.Panel>
+      )}
+    </S.Layout>
+  );
+};
+
+export default TimerEditPanel;
