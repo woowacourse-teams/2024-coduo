@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 import useToastStore from '@/stores/toastStore';
 
-import { getPairRoomExists } from '@/apis/pairRoom';
+import { getPairRoomExists } from '@/apis/http/pairRoom';
 
 const usePairRoomValid = (accessCode: string) => {
   const location = useLocation();

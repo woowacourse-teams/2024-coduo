@@ -2,7 +2,7 @@ import { useQueryClient, useMutation } from '@tanstack/react-query';
 
 import useToastStore from '@/stores/toastStore';
 
-import { addReferenceLink, deleteReferenceLink } from '@/apis/referenceLink';
+import { addReferenceLink, deleteReferenceLink } from '@/apis/http/referenceLink';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 

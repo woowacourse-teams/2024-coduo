@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import useToastStore from '@/stores/toastStore';
 
-import { updateDuration } from '@/apis/timer';
+import { updateDuration } from '@/apis/http/timer';
 
 const useTimerMutation = () => {
   const { addToast } = useToastStore();

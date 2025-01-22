@@ -1,8 +1,8 @@
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 
-import fetcher from '@/apis/fetcher';
-import { Reference } from '@/apis/referenceLink';
-import { Todo } from '@/apis/todo';
+import fetcher from '@/apis/http/fetcher';
+import { Reference } from '@/apis/http/referenceLink';
+import { Todo } from '@/apis/http/todo';
 
 import { ERROR_MESSAGES } from '@/constants/message';
 
@@ -100,7 +100,7 @@ export const updatePairRoomStatus = async ({ accessCode }: UpdatePairRoomStatusR
 };
 
 export const deletePairRoom = async ({ accessCode }: { accessCode: string }) => {
-  await fetcher.delete({
+  await fetcher.patch({
     url: `${API_URL}/pair-room/${accessCode}`,
     errorMessage: ERROR_MESSAGES.DELETE_PAIR_ROOM,
   });

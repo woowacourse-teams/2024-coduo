@@ -7,7 +7,9 @@ import Header from '@/components/PairRoom/ReferenceCard/Header/Header';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 import ReferenceList from '@/components/PairRoom/ReferenceCard/ReferenceList/ReferenceList';
 
-import { Reference } from '@/apis/referenceLink';
+import useSocketStore from '@/stores/socketStore';
+
+import { Reference } from '@/apis/http/referenceLink';
 
 import useModal from '@/hooks/_common/useModal';
 
@@ -18,14 +20,15 @@ import { findValueById } from '@/utils/findOption';
 import * as S from './ReferenceCard.styles';
 
 interface ReferenceCardProps {
-  accessCode: string;
   isOpen: boolean;
   toggleIsOpen: () => void;
   references: Reference[];
   categories: Category[];
 }
 
-const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen, references, categories }: ReferenceCardProps) => {
+const ReferenceCard = ({ isOpen, toggleIsOpen, references, categories }: ReferenceCardProps) => {
+  const { accessCode } = useSocketStore();
+
   const [selectedCategoryId, setSelectedCategoryId] = useState(DEFAULT_CATEGORY_ID);
 
   const { isModalOpen, openModal, closeModal } = useModal();

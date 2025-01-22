@@ -16,19 +16,13 @@ import { theme } from '@/styles/theme';
 import * as S from './TimerCard.styles';
 
 interface TimerCardProps {
-  accessCode: string;
   defaultTime: number;
-  defaultTimeleft: number;
+  defaultTimeLeft: number;
   onTimerStop: () => void;
 }
 
-const TimerCard = ({ accessCode, defaultTime, defaultTimeleft, onTimerStop }: TimerCardProps) => {
-  const { timeLeft, isActive, handleStart, handlePause } = useTimer(
-    accessCode,
-    defaultTime,
-    defaultTimeleft,
-    onTimerStop,
-  );
+const TimerCard = ({ defaultTime, defaultTimeLeft, onTimerStop }: TimerCardProps) => {
+  const { timeLeft, isActive, handleStart, handlePause } = useTimer(defaultTime, defaultTimeLeft, onTimerStop);
 
   const timeLeftRef = useRef(timeLeft);
   timeLeftRef.current = timeLeft;

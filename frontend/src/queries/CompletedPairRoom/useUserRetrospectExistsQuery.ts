@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getUserRetrospectExists } from '@/apis/member';
+import { getUserRetrospectExists } from '@/apis/http/member';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 

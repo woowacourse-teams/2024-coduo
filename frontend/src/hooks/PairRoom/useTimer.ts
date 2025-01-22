@@ -1,41 +1,39 @@
-import { useRef, useState, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useQueryClient } from '@tanstack/react-query';
 
 import { AlarmSound } from '@/assets';
 
+import useSocketStore from '@/stores/socketStore';
 import useToastStore from '@/stores/toastStore';
 
-import { getConnection, startTimer, stopTimer } from '@/apis/timer';
+import { startTimer, stopTimer } from '@/apis/http/timer';
+import { subscribeTopic } from '@/apis/websocket/websocket';
 
 import useNotification from '@/hooks/PairRoom/useNotification';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-const EVENT_NAMES = {
-  TIMER: 'timer',
-  REMAINING_TIME: 'remaining-time',
-};
+enum TimerStatus {
+  COMPLETE = 'complete',
+  START = 'start',
+  RUNNING = 'running',
+  PAUSE = 'pause',
+  UPDATE = 'update',
+}
 
-const MESSAGES = {
-  COMPLETE: 'complete',
-  START: 'start',
-  RUNNING: 'running',
-  PAUSE: 'pause',
-  UPDATE: 'update',
-};
+const STATUS = TimerStatus;
 
-const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: number, onTimerStop: () => void) => {
-  const navigate = useNavigate();
+const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () => void) => {
+  const { client, isConnected, accessCode } = useSocketStore();
 
-  const queryClient = useQueryClient();
-
-  const alarmAudio = useRef(new Audio(AlarmSound));
-  // const timeoutCount = useRef(0);
-
-  const [timeLeft, setTimeLeft] = useState(defaultTimeleft);
+  const [timeLeft, setTimeLeft] = useState(defaultTimeLeft);
   const [isActive, setIsActive] = useState(false);
+
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const alarmAudio = useRef(new Audio(AlarmSound));
 
   const { addToast } = useToastStore();
   const { fireNotification } = useNotification();
@@ -45,100 +43,85 @@ const useTimer = (accessCode: string, defaultTime: number, defaultTimeleft: numb
   };
 
   const handlePause = () => {
-    stopTimer(accessCode);
+    if (isActive) stopTimer(accessCode);
   };
 
   const handleStop = () => {
-    addToast({ status: 'SUCCESS', message: '타이머가 종료되었습니다.' });
-
     setIsActive(false);
     setTimeLeft(defaultTime);
     onTimerStop();
 
+    alarmAudio.current.play();
+    fireNotification('타이머가 끝났어요!', '드라이버 / 내비게이터 역할을 바꿔 주세요!', {
+      requireInteraction: true,
+    });
+
+    addToast({ status: 'SUCCESS', message: '타이머가 종료되었습니다.' });
     addToast({ status: 'INFO', message: '드라이버 / 내비게이터 역할을 바꿔 주세요!' });
   };
 
-  const handleEvent = (eventName: string, eventData: string) => {
-    switch (eventName) {
-      case EVENT_NAMES.TIMER:
-        handleTimerEvent(eventData);
-        break;
-      case EVENT_NAMES.REMAINING_TIME:
-        handleRemainingTimeEvent(eventData);
-        break;
-      default:
-        console.warn(`Unhandled event: ${eventName}`);
+  const handleTimerEvent = (timeLeft: number) => {
+    if (timeLeft === 0) {
+      handleStop();
+      return;
     }
+
+    setTimeLeft(timeLeft);
   };
 
-  const handleTimerEvent = (eventData: string) => {
-    switch (eventData) {
-      case MESSAGES.COMPLETE:
+  const handleTimerStatusEvent = (status: TimerStatus) => {
+    switch (status) {
+      case STATUS.COMPLETE:
         navigate(`/room/${accessCode}/retrospectForm`, { state: { valid: true } });
         addToast({ status: 'WARNING', message: '페어룸이 종료되었습니다.' });
         break;
-      case MESSAGES.START:
-      case MESSAGES.RUNNING:
+
+      case STATUS.START:
+      case STATUS.RUNNING:
         setIsActive(true);
         addToast({ status: 'SUCCESS', message: '타이머가 시작되었습니다.' });
         break;
-      case MESSAGES.PAUSE:
+
+      case STATUS.PAUSE:
         setIsActive(false);
         addToast({ status: 'WARNING', message: '타이머가 일시 정지되었습니다.' });
         break;
-      case MESSAGES.UPDATE:
+
+      case STATUS.UPDATE:
         queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_PAIR_ROOM_TIMER] });
         addToast({ status: 'WARNING', message: '타이머 시간이 변경되었습니다.' });
         break;
-      default:
-        console.warn(`Unhandled timer event data: ${eventData}`);
-    }
-  };
 
-  const handleRemainingTimeEvent = (eventData: string) => {
-    if (eventData === '0') {
-      handleStop();
-      alarmAudio.current.play();
-      fireNotification('타이머가 끝났어요!', '드라이버 / 내비게이터 역할을 바꿔 주세요!', {
-        requireInteraction: true,
-      });
-    } else {
-      setTimeLeft(Number(eventData));
+      default:
+        addToast({ status: 'ERROR', message: '예상하지 못한 에러가 발생했습니다.' });
     }
   };
 
   useEffect(() => {
-    const socket = getConnection(accessCode);
+    if (client && isConnected) {
+      // 타이머 남은 시간
+      subscribeTopic<{ data: number }>(client, `/topic/${accessCode}/timer`, (body) => handleTimerEvent(body.data));
 
-    const handleMessage = (event: MessageEvent) => {
-      console.log('Received event:', event.data);
-      const parsedData = JSON.parse(event.data);
-      handleEvent(parsedData.event, parsedData.data);
-    };
-
-    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-      event.preventDefault();
-    };
-
-    socket.onopen = () => {
-      console.log('WebSocket connection opened');
-      socket.addEventListener('message', handleMessage as EventListener);
-    };
-
-    socket.onerror = (error) => {
-      console.error('WebSocket connection error:', error);
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
+      // 타이머 상태
+      subscribeTopic<{ data: TimerStatus }>(client, `/topic/${accessCode}/timer/status`, (body) =>
+        handleTimerStatusEvent(body.data),
+      );
+    }
 
     return () => {
-      socket.removeEventListener('message', handleMessage as EventListener);
-      socket.close();
-      window.removeEventListener('beforeunload', handleBeforeUnload);
+      if (client && isConnected) {
+        client.unsubscribe('/timer');
+        client.unsubscribe('/timer/status');
+      }
     };
-  }, []);
+  }, [client]);
 
-  return { timeLeft, isActive, handleStart, handlePause };
+  return {
+    timeLeft,
+    isActive,
+    handleStart,
+    handlePause,
+  };
 };
 
 export default useTimer;

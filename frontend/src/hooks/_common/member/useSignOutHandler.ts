@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 import useUserStore from '@/stores/userStore';
 
-import { getSignOut } from '@/apis/member';
+import { getSignOut } from '@/apis/http/member';
 
 const useSignOutHandler = () => {
   const navigate = useNavigate();

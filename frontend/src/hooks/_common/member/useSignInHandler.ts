@@ -1,4 +1,4 @@
-import { getSignInGithub } from '@/apis/oauth';
+import { getSignInGithub } from '@/apis/http/oauth';
 
 const useSignInHandler = () => {
   const handleSignInGithub = async () => {

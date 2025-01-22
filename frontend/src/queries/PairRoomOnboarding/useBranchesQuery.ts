@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getBranches } from '@/apis/github';
+import { getBranches } from '@/apis/http/github';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 

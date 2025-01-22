@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import useToastStore from '@/stores/toastStore';
 
-import { addPairRoom, updatePairRole, updatePairRoomStatus, deletePairRoom } from '@/apis/pairRoom';
+import { addPairRoom, updatePairRole, updatePairRoomStatus, deletePairRoom } from '@/apis/http/pairRoom';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
