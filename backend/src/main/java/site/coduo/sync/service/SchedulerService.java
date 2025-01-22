@@ -8,16 +8,19 @@ import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.PeriodicTrigger;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.WebSocketSession;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.coduo.timer.domain.Timer;
+import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
 import site.coduo.timer.service.TimestampRegistry;
 import site.coduo.websocket.PairRoomWebSocketService;
 import site.coduo.websocket.message.EventAndDataMessage;
 
+@Transactional
 @Slf4j
 @RequiredArgsConstructor
 @Component
@@ -93,5 +96,11 @@ public class SchedulerService {
         if (schedulerRegistry.isActive(pairRoomAccessCode)) {
             pairRoomWebSocketService.sendPairRoomSession(session, new EventAndDataMessage("timer", "running"));
         }
+    }
+
+    public void syncTimerWithDatabase(final String key) {
+        final Timer timer = timestampRegistry.get(key);
+        final TimerEntity timerEntity = timerRepository.fetchTimerByAccessCode(key);
+        timerEntity.updateTimer(timer);
     }
 }
