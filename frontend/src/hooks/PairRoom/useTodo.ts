@@ -1,18 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-import { Todo } from '@/components/PairRoom/TodoListCard/TodoListCard.type';
+import useSocketStore from '@/stores/socketStore';
 
-const TODO_MESSAGES = {
-  GET: 'get',
-  POST: 'post',
-  PUT: 'put',
-  DELETE: 'delete',
-};
+import { Todo } from '@/apis/http/todo';
+import { subscribeTopic } from '@/apis/websocket/websocket';
 
-const useTodo = (client: Client | null, accessCode: string) => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+const useTodo = (defaultTodos: Todo[]) => {
+  const [todos, setTodos] = useState<Todo[]>(defaultTodos);
 
-  return { todos, setTodos };
+  const { client, isConnected, accessCode } = useSocketStore();
+
+  const handleTodos = (todos: Todo[]) => setTodos(todos);
+
+  useEffect(() => {
+    if (client && isConnected) {
+      subscribeTopic<Todo[]>(client, `/topic/${accessCode}/todo`, handleTodos);
+    }
+
+    return () => {
+      if (client && isConnected) {
+        client.unsubscribe(`/topic/${accessCode}/todo`);
+      }
+    };
+  }, [client]);
+
+  return { todos };
 };
 
 export default useTodo;

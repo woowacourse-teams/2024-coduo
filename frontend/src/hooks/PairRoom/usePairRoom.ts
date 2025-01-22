@@ -1,14 +1,12 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
-import { Client } from '@stomp/stompjs';
-
+import useSocketStore from '@/stores/socketStore';
 import useToastStore from '@/stores/toastStore';
 
 import { getConnection } from '@/apis/websocket/websocket';
 
 const usePairRoom = () => {
-  const stompClient = useRef<Client | null>(null);
-
+  const { setClient, setIsConnected } = useSocketStore();
   const { addToast } = useToastStore();
 
   const handleBeforeUnload = (event: BeforeUnloadEvent) => {
@@ -19,11 +17,13 @@ const usePairRoom = () => {
     const client = getConnection();
 
     client.onConnect = () => {
-      stompClient.current = client;
+      setClient(client);
+      setIsConnected(true);
     };
 
     client.onDisconnect = () => {
-      stompClient.current = null;
+      setClient(null);
+      setIsConnected(false);
     };
 
     client.onStompError = (error) => {
@@ -37,11 +37,13 @@ const usePairRoom = () => {
 
     return () => {
       client.deactivate();
+      setClient(null);
+      setIsConnected(false);
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, []);
 
-  return { client: stompClient.current };
+  return {};
 };
 
 export default usePairRoom;

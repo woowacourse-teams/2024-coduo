@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 
-import { Client } from '@stomp/stompjs';
 import { FaPause, FaPlay } from 'react-icons/fa6';
 
 import IconButton from '@/components/_common/IconButton/IconButton';
@@ -17,21 +16,13 @@ import { theme } from '@/styles/theme';
 import * as S from './TimerCard.styles';
 
 interface TimerCardProps {
-  client: Client | null;
-  accessCode: string;
   defaultTime: number;
   defaultTimeLeft: number;
   onTimerStop: () => void;
 }
 
-const TimerCard = ({ client, accessCode, defaultTime, defaultTimeLeft, onTimerStop }: TimerCardProps) => {
-  const { timeLeft, isActive, handleStart, handlePause } = useTimer(
-    client,
-    accessCode,
-    defaultTime,
-    defaultTimeLeft,
-    onTimerStop,
-  );
+const TimerCard = ({ defaultTime, defaultTimeLeft, onTimerStop }: TimerCardProps) => {
+  const { timeLeft, isActive, handleStart, handlePause } = useTimer(defaultTime, defaultTimeLeft, onTimerStop);
 
   const timeLeftRef = useRef(timeLeft);
   timeLeftRef.current = timeLeft;

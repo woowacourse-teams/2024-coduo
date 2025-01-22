@@ -1,34 +1,33 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Client, Message } from '@stomp/stompjs';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { AlarmSound } from '@/assets';
 
+import useSocketStore from '@/stores/socketStore';
 import useToastStore from '@/stores/toastStore';
 
 import { startTimer, stopTimer } from '@/apis/http/timer';
+import { subscribeTopic } from '@/apis/websocket/websocket';
 
 import useNotification from '@/hooks/PairRoom/useNotification';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-const STATUS = {
-  COMPLETE: 'complete',
-  START: 'start',
-  RUNNING: 'running',
-  PAUSE: 'pause',
-  UPDATE: 'update',
-};
+enum TimerStatus {
+  COMPLETE = 'complete',
+  START = 'start',
+  RUNNING = 'running',
+  PAUSE = 'pause',
+  UPDATE = 'update',
+}
 
-const useTimer = (
-  client: Client | null,
-  accessCode: string,
-  defaultTime: number,
-  defaultTimeLeft: number,
-  onTimerStop: () => void,
-) => {
+const STATUS = TimerStatus;
+
+const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () => void) => {
+  const { client, isConnected, accessCode } = useSocketStore();
+
   const [timeLeft, setTimeLeft] = useState(defaultTimeLeft);
   const [isActive, setIsActive] = useState(false);
 
@@ -70,7 +69,7 @@ const useTimer = (
     setTimeLeft(timeLeft);
   };
 
-  const handleTimerStatusEvent = (status: string) => {
+  const handleTimerStatusEvent = (status: TimerStatus) => {
     switch (status) {
       case STATUS.COMPLETE:
         navigate(`/room/${accessCode}/retrospectForm`, { state: { valid: true } });
@@ -99,17 +98,18 @@ const useTimer = (
   };
 
   useEffect(() => {
-    if (client) {
-      client.subscribe(`/topic/${accessCode}/timer`, (message: Message) =>
-        handleTimerEvent(JSON.parse(message.body).data),
-      );
-      client.subscribe(`/topic/${accessCode}/timer/status`, (message: Message) =>
-        handleTimerStatusEvent(JSON.parse(message.body).data),
+    if (client && isConnected) {
+      // 타이머 남은 시간
+      subscribeTopic<{ data: number }>(client, `/topic/${accessCode}/timer`, (body) => handleTimerEvent(body.data));
+
+      // 타이머 상태
+      subscribeTopic<{ data: TimerStatus }>(client, `/topic/${accessCode}/timer/status`, (body) =>
+        handleTimerStatusEvent(body.data),
       );
     }
 
     return () => {
-      if (client) {
+      if (client && isConnected) {
         client.unsubscribe('/timer');
         client.unsubscribe('/timer/status');
       }
