@@ -60,7 +60,6 @@ const TimerPip = ({ minutes, seconds, progress, handleStart, handlePause, isActi
     const timerElement = window.document.querySelector('.pipWindow');
     if (!timerElement) return;
 
-    // 초기 HTML 구조 생성
     if (!window.document.querySelector('.layout')) {
       timerElement.innerHTML = `
         <div class="layout">
