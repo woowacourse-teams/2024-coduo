@@ -62,8 +62,33 @@ export const styles = `
         height: 100%;
         background: linear-gradient(to right, #00E0C8, #00C2AD);  
         border-radius: 4px;
-      transition: width 0.3s ease-out;
+        transition: width 0.3s ease-out;
         box-shadow: 0 0 8px rgba(0, 224, 200, 0.5);
+      }
+
+        button{
+          background-color: #F7EAD3;
+          border-radius: 0.5rem;
+          border: none;
+          width: 2.3rem;
+          height: 2.1rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor:pointer;
+        }
+      .button-container{
+        display: flex;
+        align-items: center;
+        justify-content:center;
+        gap: 4px;
+        margin-top:1rem;
+      }
+
+      button:hover{
+        opacity: 1.2;
+        background-color: #f3e2c6;
+        transition: all 0.2s;
       }
 
       `;
