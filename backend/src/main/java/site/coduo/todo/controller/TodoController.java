@@ -38,7 +38,7 @@ public class TodoController implements TodoDocs {
             @PathVariable("accessCode") final String accessCode,
             @RequestBody @Valid final CreateTodoRequest request
     ) {
-        todoService.createTodo(accessCode, request.content());
+        todoService.createTodo(accessCode, request.contents());
         return ResponseEntity.created(URI.create("/")).build();
     }
 
@@ -46,7 +46,7 @@ public class TodoController implements TodoDocs {
     public ResponseEntity<Void> updateContent(
             @PathVariable("todoId") final long todoId,
             @RequestBody @Valid final UpdateTodoContentRequest request) {
-        todoService.updateTodoContent(todoId, request.content());
+        todoService.updateTodoContent(todoId, request.contents());
         return ResponseEntity.noContent().build();
     }
 

@@ -59,8 +59,8 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt:0.12.6'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.12.6'
 
-    // Web Socket
-    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	// Web Socket
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
 	// Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
