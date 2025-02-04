@@ -22,15 +22,11 @@ import site.coduo.timer.domain.Timer;
 import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
 import site.coduo.timer.service.TimestampRegistry;
-import site.coduo.websocket.PairRoomWebSocketService;
 
 @Disabled
 @SpringBootTest
 class SchedulerServiceTest {
 
-    @Autowired
-    private PairRoomWebSocketService pairRoomWebSocketService;
-    
     private ThreadPoolTaskScheduler taskScheduler;
 
     @Autowired
@@ -46,11 +42,9 @@ class SchedulerServiceTest {
     @BeforeEach
     void setUp() {
         timerRepository = mock(TimerRepository.class);
-        pairRoomWebSocketService = mock(PairRoomWebSocketService.class);
 
         schedulerService = new SchedulerService(
                 messagingTemplate,
-                pairRoomWebSocketService,
                 taskScheduler,
                 schedulerRegistry,
                 timestampRegistry,

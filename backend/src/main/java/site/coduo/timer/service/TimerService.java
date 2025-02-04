@@ -12,7 +12,7 @@ import site.coduo.timer.domain.Timer;
 import site.coduo.timer.domain.TimerStatus;
 import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
-import site.coduo.timer.service.dto.TimerResponse;
+import site.coduo.timer.service.dto.TimerStatusResponse;
 import site.coduo.timer.service.dto.TimerUpdateRequest;
 
 @Transactional(readOnly = true)
@@ -48,7 +48,7 @@ public class TimerService {
         timestampRegistry.register(accessCode, newTimer);
         messagingTemplate.convertAndSend(
                 "/topic/" + accessCode + "/timer/status",
-                new TimerResponse(TimerStatus.UPDATE.getName())
+                new TimerStatusResponse(TimerStatus.UPDATE.getName(), newTimer.getDuration())
         );
     }
 }
