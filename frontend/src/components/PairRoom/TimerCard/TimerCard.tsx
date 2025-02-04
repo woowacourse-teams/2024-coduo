@@ -23,7 +23,11 @@ interface TimerCardProps {
 }
 
 const TimerCard = ({ defaultTime, defaultTimeLeft, onTimerStop }: TimerCardProps) => {
-  const { timeLeft, isActive, handleStart, handlePause } = useTimer(defaultTime, defaultTimeLeft, onTimerStop);
+  const { duration, timeLeft, isActive, handleStart, handlePause } = useTimer(
+    defaultTime,
+    defaultTimeLeft,
+    onTimerStop,
+  );
 
   const timeLeftRef = useRef(timeLeft);
   timeLeftRef.current = timeLeft;
@@ -38,12 +42,12 @@ const TimerCard = ({ defaultTime, defaultTimeLeft, onTimerStop }: TimerCardProps
           isActive={isActive}
           minutes={minutes}
           seconds={seconds}
-          progress={(timeLeft / defaultTime) * 100}
+          progress={(timeLeft / duration) * 100}
           handleStart={handleStart}
           handlePause={handlePause}
         />
         <S.ProgressBar
-          $progress={(timeLeft / defaultTime) * 100}
+          $progress={(timeLeft / duration) * 100}
           role="timer"
           aria-label={`현재 남은 시간은 ${minutes}분 ${seconds}초 입니다.`}
         >
