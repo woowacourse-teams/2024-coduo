@@ -30,8 +30,7 @@ class SchedulerServiceTest {
 
     @Autowired
     private PairRoomWebSocketService pairRoomWebSocketService;
-
-    @Autowired
+    
     private ThreadPoolTaskScheduler taskScheduler;
 
     @Autowired
@@ -39,7 +38,7 @@ class SchedulerServiceTest {
 
     @Autowired
     private TimestampRegistry timestampRegistry;
-    
+
     private SimpMessagingTemplate messagingTemplate;
     private TimerRepository timerRepository;
     private SchedulerService schedulerService;
