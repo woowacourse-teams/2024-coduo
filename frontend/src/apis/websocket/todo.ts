@@ -4,7 +4,7 @@ import { publishMessage } from '@/apis/websocket/websocket';
 
 export const publishTodoMessage = {
   add: (client: Client | null, accessCode: string, contents: string) => {
-    publishMessage(client, `/send/${accessCode}/todo/add`, { contents });
+    publishMessage(client, `/send/${accessCode}/todo/post`, { contents });
   },
   updateContents: (client: Client | null, accessCode: string, todoId: number, contents: string) => {
     publishMessage(client, `/send/${accessCode}/todo/update/${todoId}/contents`, { contents });
