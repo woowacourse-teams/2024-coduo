@@ -31,9 +31,8 @@ const usePairRoom = () => {
       addToast({ status: 'ERROR', message: `웹소켓 연결 과정에서 오류가 발생했습니다. ${error}` });
     };
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
     client.activate();
+    window.addEventListener('beforeunload', handleBeforeUnload);
 
     return () => {
       client.deactivate();
