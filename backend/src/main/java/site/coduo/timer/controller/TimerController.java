@@ -3,7 +3,6 @@ package site.coduo.timer.controller;
 import jakarta.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,17 +13,13 @@ import lombok.extern.slf4j.Slf4j;
 import site.coduo.sync.service.SchedulerService;
 import site.coduo.timer.controller.docs.TimerDocs;
 import site.coduo.timer.service.TimerService;
-import site.coduo.timer.service.dto.TimerReadResponse;
 import site.coduo.timer.service.dto.TimerUpdateRequest;
-import site.coduo.websocket.PairRoomWebSocketService;
-import site.coduo.websocket.message.EventAndDataMessage;
 
 @Slf4j
 @RequiredArgsConstructor
 @RestController
 public class TimerController implements TimerDocs {
 
-    private final PairRoomWebSocketService pairRoomWebSocketService;
     private final TimerService timerService;
     private final SchedulerService schedulerService;
 
@@ -38,7 +33,6 @@ public class TimerController implements TimerDocs {
     @PatchMapping("/{accessCode}/timer/stop")
     public ResponseEntity<Void> createTimerStop(@PathVariable("accessCode") final String accessCode) {
         schedulerService.pause(accessCode);
-
         return ResponseEntity.noContent()
                 .build();
     }
@@ -49,18 +43,7 @@ public class TimerController implements TimerDocs {
             @Valid @RequestBody final TimerUpdateRequest request
     ) {
         timerService.updateTimer(accessCode, request);
-        pairRoomWebSocketService.sendAllPairRoomSessions(accessCode, new EventAndDataMessage("timer", "update"));
-
         return ResponseEntity.noContent()
                 .build();
-    }
-
-    @GetMapping("/{accessCode}/timer")
-    public ResponseEntity<TimerReadResponse> getTimer(
-            @PathVariable("accessCode") final String accessCode
-    ) {
-        final TimerReadResponse response = timerService.readTimer(accessCode);
-
-        return ResponseEntity.ok(response);
     }
 }

@@ -3,7 +3,6 @@ package site.coduo.config;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import site.coduo.fake.FakeGithubApiClient;
 import site.coduo.fake.FakeGithubOAuthClient;
@@ -39,11 +38,5 @@ public class TestConfig {
     @Primary
     public GithubApiClient fakeGithubApiClient() {
         return new FakeGithubApiClient();
-    }
-
-    @Bean
-    @Primary
-    public ThreadPoolTaskScheduler testThreadPoolTaskScheduler() {
-        return new ThreadPoolTaskScheduler();
     }
 }

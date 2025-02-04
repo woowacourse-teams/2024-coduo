@@ -1,5 +1,6 @@
 package site.coduo.timer.service;
 
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,9 +9,10 @@ import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.timer.domain.Timer;
+import site.coduo.timer.domain.TimerStatus;
 import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
-import site.coduo.timer.service.dto.TimerReadResponse;
+import site.coduo.timer.service.dto.TimerResponse;
 import site.coduo.timer.service.dto.TimerUpdateRequest;
 
 @Transactional(readOnly = true)
@@ -18,15 +20,10 @@ import site.coduo.timer.service.dto.TimerUpdateRequest;
 @Service
 public class TimerService {
 
+    private final SimpMessagingTemplate messagingTemplate;
     private final TimerRepository timerRepository;
     private final TimestampRegistry timestampRegistry;
     private final PairRoomRepository pairRoomRepository;
-
-    public TimerReadResponse readTimer(final String accessCode) {
-        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
-        final TimerEntity timerEntity = timerRepository.fetchTimerByPairRoomEntity(pairRoomEntity);
-        return TimerReadResponse.of(timerEntity.getId(), timerEntity.toDomain());
-    }
 
     public long readTimerRemainingTime(final String accessCode) {
         if (timestampRegistry.has(accessCode)) {
@@ -49,5 +46,9 @@ public class TimerService {
         );
         timerEntity.updateTimer(newTimer);
         timestampRegistry.register(accessCode, newTimer);
+        messagingTemplate.convertAndSend(
+                "/topic/" + accessCode + "/timer/status",
+                new TimerResponse(TimerStatus.UPDATE.getName())
+        );
     }
 }

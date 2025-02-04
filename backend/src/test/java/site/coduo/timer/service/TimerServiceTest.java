@@ -2,9 +2,9 @@ package site.coduo.timer.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +15,8 @@ import site.coduo.fixture.PairRoomCreateRequestFixture;
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.service.PairRoomService;
 import site.coduo.pairroom.service.dto.PairRoomCreateRequest;
+import site.coduo.pairroom.service.dto.PairRoomEntireResponse;
 import site.coduo.timer.domain.Timer;
-import site.coduo.timer.service.dto.TimerReadResponse;
 import site.coduo.timer.service.dto.TimerUpdateRequest;
 import site.coduo.utils.CascadeCleaner;
 
@@ -50,23 +50,6 @@ class TimerServiceTest extends CascadeCleaner {
     }
 
     @Test
-    @DisplayName("타이머를 반환한다.")
-    void get_latest_timer() {
-        // given
-        final PairRoomCreateRequest request = PairRoomCreateRequestFixture.PAIR_ROOM_CREATE_REQUEST;
-        final String accessCode = pairRoomService.savePairRoom(request, null);
-
-        // when
-        final TimerReadResponse actual = timerService.readTimer(accessCode);
-
-        // then
-        assertAll(
-                () -> assertThat(actual.duration()).isEqualTo(request.timerDuration()),
-                () -> assertThat(actual.remainingTime()).isEqualTo(request.timerRemainingTime())
-        );
-    }
-
-    @Test
     @DisplayName("타이머를 업데이트 한다.")
     void update_timer() {
         // given
@@ -79,10 +62,11 @@ class TimerServiceTest extends CascadeCleaner {
         timerService.updateTimer(accessCode, timerRequest);
 
         // then
-        final TimerReadResponse actual = timerService.readTimer(accessCode);
-        assertThat(actual)
-                .extracting("duration", "remainingTime")
-                .contains(timerRequest.duration(), timerRequest.remainingTime());
+        final PairRoomEntireResponse entirePairRoom = pairRoomService.findEntirePairRoom(accessCode);
+        Assertions.assertAll(
+                () -> assertThat(entirePairRoom.duration()).isEqualTo(timerRequest.duration()),
+                () -> assertThat(entirePairRoom.remainingTime()).isEqualTo(timerRequest.remainingTime())
+        );
     }
 
     @Test
