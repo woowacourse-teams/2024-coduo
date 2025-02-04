@@ -6,7 +6,7 @@ import { Modal } from '@/components/_common/Modal';
 
 import useToastStore from '@/stores/toastStore';
 
-import { getMemberName } from '@/apis/member';
+import { getMemberName } from '@/apis/http/member';
 
 import useClickEnterKey from '@/hooks/_common/customEvent/useClickEnterKey';
 import useInput from '@/hooks/_common/useInput';

@@ -10,7 +10,10 @@ import ReferenceCard from '@/components/PairRoom/ReferenceCard/ReferenceCard';
 import TimerCard from '@/components/PairRoom/TimerCard/TimerCard';
 import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
 
+import useSocketStore from '@/stores/socketStore';
+
 import useModal from '@/hooks/_common/useModal';
+import usePairRoom from '@/hooks/PairRoom/usePairRoom';
 
 import usePairRoomMutation from '@/queries/PairRoom/usePairRoomMutation';
 import usePairRoomQuery from '@/queries/PairRoom/usePairRoomQuery';
@@ -25,7 +28,8 @@ const PairRoom = () => {
   const [navigator, setNavigator] = useState('');
   const [isCardOpen, setIsCardOpen] = useState(false);
 
-  const { isModalOpen, closeModal } = useModal(true);
+  usePairRoom();
+  const { isConnected } = useSocketStore();
 
   const {
     driver: latestDriver,
@@ -42,6 +46,8 @@ const PairRoom = () => {
 
   const { updatePairRoleMutation } = usePairRoomMutation();
 
+  const { isModalOpen, closeModal } = useModal(true);
+
   useEffect(() => {
     if (status === 'COMPLETED') navigate(`/room/${accessCode}/completed`, { state: { valid: true }, replace: true });
   }, [status]);
@@ -51,7 +57,7 @@ const PairRoom = () => {
     setNavigator(latestNavigator);
   }, [latestDriver, latestNavigator]);
 
-  if (isFetching) {
+  if (isFetching || !isConnected) {
     return <Loading />;
   }
 
@@ -61,16 +67,14 @@ const PairRoom = () => {
       <S.Container>
         <PairRoleCard driver={driver} navigator={navigator} />
         <TimerCard
-          accessCode={accessCode || ''}
           defaultTime={duration}
-          defaultTimeleft={remainingTime}
+          defaultTimeLeft={remainingTime}
           onTimerStop={() => updatePairRoleMutation({ accessCode: accessCode || '' })}
         />
       </S.Container>
       <S.Container>
-        <TodoListCard isOpen={!isCardOpen} toggleIsOpen={() => setIsCardOpen(false)} todos={todos} />
+        <TodoListCard isOpen={!isCardOpen} toggleIsOpen={() => setIsCardOpen(false)} defaultTodos={todos} />
         <ReferenceCard
-          accessCode={accessCode || ''}
           isOpen={isCardOpen}
           toggleIsOpen={() => setIsCardOpen(true)}
           references={references}

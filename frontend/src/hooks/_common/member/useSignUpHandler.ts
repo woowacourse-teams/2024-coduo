@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 import useUserStore from '@/stores/userStore';
 
-import { addSignUp } from '@/apis/oauth';
+import { addSignUp } from '@/apis/http/oauth';
 
 const useSignUpHandler = () => {
   const navigate = useNavigate();

@@ -1,5 +1,3 @@
-import { useParams } from 'react-router-dom';
-
 import { LuPlus } from 'react-icons/lu';
 
 import Button from '@/components/_common/Button/Button';
@@ -8,29 +6,32 @@ import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import Header from '@/components/PairRoom/TodoListCard/Header/Header';
 import TodoList from '@/components/PairRoom/TodoListCard/TodoList/TodoList';
 
-import { Todo } from '@/apis/todo';
+import useSocketStore from '@/stores/socketStore';
+
+import { Todo } from '@/apis/http/todo';
+import { publishTodoMessage } from '@/apis/websocket/todo';
 
 import useInput from '@/hooks/_common/useInput';
-
-import useTodosMutation from '@/queries/PairRoom/useTodosMutation';
+import useTodo from '@/hooks/PairRoom/useTodo';
 
 import * as S from './TodoListCard.styles';
 
 interface TodoListCardProps {
   isOpen: boolean;
   toggleIsOpen: () => void;
-  todos: Todo[];
+  defaultTodos: Todo[];
 }
 
-const TodoListCard = ({ isOpen, toggleIsOpen, todos }: TodoListCardProps) => {
-  const { accessCode } = useParams();
-
+const TodoListCard = ({ isOpen, toggleIsOpen, defaultTodos }: TodoListCardProps) => {
+  const { todos } = useTodo(defaultTodos);
   const { value, handleChange, resetValue } = useInput();
-  const { addTodosMutation } = useTodosMutation();
+
+  const { client, accessCode } = useSocketStore();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    addTodosMutation({ content: value, accessCode: accessCode || '' }, { onSuccess: resetValue });
+    publishTodoMessage.add(client, accessCode, value);
+    resetValue();
   };
 
   return (

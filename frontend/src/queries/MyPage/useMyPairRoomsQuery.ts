@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getMyPairRooms } from '@/apis/member';
+import { getMyPairRooms } from '@/apis/http/member';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 

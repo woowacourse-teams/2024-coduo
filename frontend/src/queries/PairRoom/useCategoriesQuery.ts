@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getCategories } from '@/apis/category';
+import { getCategories } from '@/apis/http/category';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 

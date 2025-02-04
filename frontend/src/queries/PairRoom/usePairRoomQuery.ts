@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { getPairRoom } from '@/apis/pairRoom';
+import { getPairRoom } from '@/apis/http/pairRoom';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 

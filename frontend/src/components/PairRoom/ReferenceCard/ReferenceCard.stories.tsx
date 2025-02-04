@@ -12,7 +12,5 @@ export default meta;
 type Story = StoryObj<typeof ReferenceCard>;
 
 export const Default: Story = {
-  render: () => (
-    <ReferenceCard accessCode="1234" isOpen={true} toggleIsOpen={() => {}} references={[]} categories={[]} />
-  ),
+  render: () => <ReferenceCard isOpen={true} toggleIsOpen={() => {}} references={[]} categories={[]} />,
 };
