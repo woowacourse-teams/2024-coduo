@@ -9,6 +9,7 @@ public enum TimerStatus {
 
     START("start"),
     PAUSE("pause"),
+    RUNNING("running"),
     UPDATE("update");
 
     private final String name;

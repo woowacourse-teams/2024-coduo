@@ -10,7 +10,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.PeriodicTrigger;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.socket.WebSocketSession;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +18,8 @@ import site.coduo.timer.domain.TimerStatus;
 import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
 import site.coduo.timer.service.TimestampRegistry;
-import site.coduo.timer.service.dto.TimerResponse;
-import site.coduo.websocket.PairRoomWebSocketService;
-import site.coduo.websocket.message.EventAndDataMessage;
+import site.coduo.timer.service.dto.TimerStartResponse;
+import site.coduo.timer.service.dto.TimerStatusResponse;
 
 @Transactional
 @Slf4j
@@ -32,7 +30,6 @@ public class SchedulerService {
     public static final Duration DELAY_SECOND = Duration.of(1, ChronoUnit.SECONDS);
 
     private final SimpMessagingTemplate messagingTemplate;
-    private final PairRoomWebSocketService pairRoomWebSocketService;
     private final ThreadPoolTaskScheduler taskScheduler;
     private final SchedulerRegistry schedulerRegistry;
     private final TimestampRegistry timestampRegistry;
@@ -44,7 +41,7 @@ public class SchedulerService {
         }
         messagingTemplate.convertAndSend(
                 "/topic/" + key + "/timer/status",
-                new TimerResponse(TimerStatus.START.getName())
+                new TimerStatusResponse(TimerStatus.START.getName(), null)
         );
         if (isInitial(key)) {
             final Timer timer = timerRepository.fetchTimerByAccessCode(key)
@@ -80,7 +77,7 @@ public class SchedulerService {
         timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
         messagingTemplate.convertAndSend(
                 "/topic/" + key + "/timer",
-                new TimerResponse(timer.getRemainingTime())
+                new TimerStartResponse(timer.getRemainingTime())
         );
     }
 
@@ -94,21 +91,23 @@ public class SchedulerService {
         pauseTimer(key);
         messagingTemplate.convertAndSend(
                 "/topic/" + key + "/timer/status",
-                new TimerResponse(TimerStatus.PAUSE.getName()));
+                new TimerStatusResponse(TimerStatus.PAUSE.getName(), null));
     }
 
     private void stop(final String key, final Timer timer) {
         messagingTemplate.convertAndSend(
                 "/topic/" + key + "/timer/status",
-                new TimerResponse(TimerStatus.PAUSE.getName()));
+                new TimerStatusResponse(TimerStatus.PAUSE.getName(), null));
         schedulerRegistry.release(key);
         final Timer initalTimer = new Timer(timer.getAccessCode(), timer.getDuration(), timer.getDuration());
         timestampRegistry.register(key, initalTimer);
     }
 
-    public void notifyTimerStatus(final WebSocketSession session, final String pairRoomAccessCode) {
-        if (schedulerRegistry.isActive(pairRoomAccessCode)) {
-            pairRoomWebSocketService.sendPairRoomSession(session, new EventAndDataMessage("timer", "running"));
+    public void notifyTimerStatus(final String key) {
+        if (schedulerRegistry.isActive(key)) {
+            messagingTemplate.convertAndSend(
+                    "/topic/" + key + "/timer/status",
+                    new TimerStatusResponse(TimerStatus.RUNNING.getName(), null));
         }
     }
 

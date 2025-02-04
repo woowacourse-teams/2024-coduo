@@ -19,8 +19,9 @@ public class WebSocketBrokerConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
-                .setAllowedOrigins("wss://localhost", "wss://coduo.site", "wss://test.coduo.site",
-                        "http://localhost", "http://coduo.site", "http://test.coduo.site",
-                        "https://localhost", "https://coduo.site", "https://test.coduo.site");
+                .setAllowedOrigins("*");
+//                .setAllowedOrigins("wss://localhost", "wss://coduo.site", "wss://test.coduo.site",
+//                        "http://localhost", "http://coduo.site", "http://test.coduo.site",
+//                        "https://localhost", "https://coduo.site", "https://test.coduo.site");
     }
 }
