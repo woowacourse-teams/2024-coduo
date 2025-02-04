@@ -33,8 +33,10 @@ public class TodoWebSocketController {
     @MessageMapping("/{accessCode}/todo/update/{todoId}/order")
     @SendTo("/topic/{accessCode}/todo")
     public List<TodoReadResponse> modifyTodoOrder(final UpdateTodoOrderRequest request,
-                                                  @DestinationVariable("todoId") Long id) {
-        return todoService.updateTodoSort(id, request.order());
+                                                  @DestinationVariable("accessCode") final String accessCode,
+                                                  @DestinationVariable("todoId") final Long id) {
+        todoService.updateTodoSort(id, request.order());
+        return todoService.getAllOrderBySort(accessCode);
     }
 
     @MessageMapping("/{accessCode}/todo/update/{todoId}/contents")
