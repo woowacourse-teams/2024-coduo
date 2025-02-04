@@ -14,15 +14,12 @@ import site.coduo.sync.service.SchedulerService;
 import site.coduo.timer.controller.docs.TimerDocs;
 import site.coduo.timer.service.TimerService;
 import site.coduo.timer.service.dto.TimerUpdateRequest;
-import site.coduo.websocket.PairRoomWebSocketService;
-import site.coduo.websocket.message.EventAndDataMessage;
 
 @Slf4j
 @RequiredArgsConstructor
 @RestController
 public class TimerController implements TimerDocs {
 
-    private final PairRoomWebSocketService pairRoomWebSocketService;
     private final TimerService timerService;
     private final SchedulerService schedulerService;
 
@@ -36,7 +33,6 @@ public class TimerController implements TimerDocs {
     @PatchMapping("/{accessCode}/timer/stop")
     public ResponseEntity<Void> createTimerStop(@PathVariable("accessCode") final String accessCode) {
         schedulerService.pause(accessCode);
-
         return ResponseEntity.noContent()
                 .build();
     }
@@ -47,8 +43,6 @@ public class TimerController implements TimerDocs {
             @Valid @RequestBody final TimerUpdateRequest request
     ) {
         timerService.updateTimer(accessCode, request);
-        pairRoomWebSocketService.sendAllPairRoomSessions(accessCode, new EventAndDataMessage("timer", "update"));
-
         return ResponseEntity.noContent()
                 .build();
     }
