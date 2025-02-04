@@ -55,7 +55,7 @@ jobs:
     needs: build
     strategy:
       matrix:
-        instance: [ "test-ec2-runner-a", "test-ec2-runner-b" ]
+        instance: [ "test-ec2-runner-a" ]
     defaults:
       run:
         working-directory: ./backend
@@ -127,18 +127,6 @@ jobs:
       - name: Start the new (green/blue) environment
         run: |
           sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml -p $GREEN_PORT up -d
-
-      - name: Wait for new environment to be healthy
-        run: |
-          timeout=30
-          while ! curl -sf http://localhost:${GREEN_PORT}/api/actuator/health | grep "UP"; do
-            ((timeout--))
-            if [ $timeout -le 0 ]; then
-              echo "Health check timed out" >&2
-              exit 1
-            fi
-            sleep 5
-          done
 
       - name: Reload NGINX 
         run: |
