@@ -23,19 +23,18 @@ enum TimerStatus {
   UPDATE = 'update',
 }
 
-const STATUS = TimerStatus;
-
 const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () => void) => {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
   const { client, isConnected, accessCode } = useSocketStore();
+  const { addToast } = useToastStore();
 
   const [timeLeft, setTimeLeft] = useState(defaultTimeLeft);
   const [isActive, setIsActive] = useState(false);
 
-  const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const alarmAudio = useRef(new Audio(AlarmSound));
 
-  const { addToast } = useToastStore();
   const { fireNotification } = useNotification();
 
   const handleStart = () => {
@@ -51,10 +50,9 @@ const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () 
     setTimeLeft(defaultTime);
     onTimerStop();
 
+    // 타이머 종료 알람 플레이
     alarmAudio.current.play();
-    fireNotification('타이머가 끝났어요!', '드라이버 / 내비게이터 역할을 바꿔 주세요!', {
-      requireInteraction: true,
-    });
+    fireNotification('타이머가 끝났어요!', '드라이버 / 내비게이터 역할을 바꿔 주세요!', { requireInteraction: true });
 
     addToast({ status: 'SUCCESS', message: '타이머가 종료되었습니다.' });
     addToast({ status: 'INFO', message: '드라이버 / 내비게이터 역할을 바꿔 주세요!' });
@@ -71,23 +69,23 @@ const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () 
 
   const handleTimerStatusEvent = (status: TimerStatus) => {
     switch (status) {
-      case STATUS.COMPLETE:
+      case TimerStatus.COMPLETE:
         navigate(`/room/${accessCode}/retrospectForm`, { state: { valid: true } });
         addToast({ status: 'WARNING', message: '페어룸이 종료되었습니다.' });
         break;
 
-      case STATUS.START:
-      case STATUS.RUNNING:
+      case TimerStatus.START:
+      case TimerStatus.RUNNING:
         setIsActive(true);
         addToast({ status: 'SUCCESS', message: '타이머가 시작되었습니다.' });
         break;
 
-      case STATUS.PAUSE:
+      case TimerStatus.PAUSE:
         setIsActive(false);
         addToast({ status: 'WARNING', message: '타이머가 일시 정지되었습니다.' });
         break;
 
-      case STATUS.UPDATE:
+      case TimerStatus.UPDATE:
         queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_PAIR_ROOM_TIMER] });
         addToast({ status: 'WARNING', message: '타이머 시간이 변경되었습니다.' });
         break;

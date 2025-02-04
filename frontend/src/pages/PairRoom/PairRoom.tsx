@@ -24,12 +24,13 @@ const PairRoom = () => {
   const navigate = useNavigate();
   const { accessCode } = useParams();
 
+  // 웹소켓 연결
+  usePairRoom();
+  const { isConnected } = useSocketStore();
+
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
   const [isCardOpen, setIsCardOpen] = useState(false);
-
-  usePairRoom();
-  const { isConnected } = useSocketStore();
 
   const {
     driver: latestDriver,

@@ -15,8 +15,8 @@ const useSocketStore = create<SocketStore>((set) => ({
   isConnected: false,
   accessCode: '',
   setClient: (client) => set({ client }),
-  setAccessCode: (accessCode) => set({ accessCode }),
   setIsConnected: (isConnected) => set({ isConnected }),
+  setAccessCode: (accessCode) => set({ accessCode }),
 }));
 
 export default useSocketStore;
