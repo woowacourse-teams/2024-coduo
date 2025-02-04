@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.ScheduledFuture;
 
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.PeriodicTrigger;
@@ -14,9 +15,11 @@ import org.springframework.web.socket.WebSocketSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import site.coduo.timer.domain.Timer;
+import site.coduo.timer.domain.TimerStatus;
 import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
 import site.coduo.timer.service.TimestampRegistry;
+import site.coduo.timer.service.dto.TimerResponse;
 import site.coduo.websocket.PairRoomWebSocketService;
 import site.coduo.websocket.message.EventAndDataMessage;
 
@@ -28,6 +31,7 @@ public class SchedulerService {
 
     public static final Duration DELAY_SECOND = Duration.of(1, ChronoUnit.SECONDS);
 
+    private final SimpMessagingTemplate messagingTemplate;
     private final PairRoomWebSocketService pairRoomWebSocketService;
     private final ThreadPoolTaskScheduler taskScheduler;
     private final SchedulerRegistry schedulerRegistry;
@@ -38,7 +42,10 @@ public class SchedulerService {
         if (schedulerRegistry.isActive(key)) {
             return;
         }
-        pairRoomWebSocketService.sendAllPairRoomSessions(key, new EventAndDataMessage("timer", "start"));
+        messagingTemplate.convertAndSend(
+                "/topic/" + key + "/timer/status",
+                new TimerResponse(TimerStatus.START.getName())
+        );
         if (isInitial(key)) {
             final Timer timer = timerRepository.fetchTimerByAccessCode(key)
                     .toDomain();
@@ -65,13 +72,16 @@ public class SchedulerService {
             stop(key, timer);
             return;
         }
-        if (pairRoomWebSocketService.hasNoConnections(key) && schedulerRegistry.has(key)) {
-            pauseTimer(key);
-            return;
-        }
+        // todo - STOMP에서 특정 topic을 구독하고 있는 사용자 수를 가져올 방법 생각
+//        if (pairRoomWebSocketService.hasNoConnections(key) && schedulerRegistry.has(key)) {
+//            pauseTimer(key);
+//            return;
+//        }
         timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
-        pairRoomWebSocketService.sendAllPairRoomSessions(key,
-                new EventAndDataMessage("remaining-time", String.valueOf(timer.getRemainingTime())));
+        messagingTemplate.convertAndSend(
+                "/topic/" + key + "/timer",
+                new TimerResponse(timer.getRemainingTime())
+        );
     }
 
     private void pauseTimer(final String key) {
@@ -82,11 +92,15 @@ public class SchedulerService {
 
     public void pause(final String key) {
         pauseTimer(key);
-        pairRoomWebSocketService.sendAllPairRoomSessions(key, new EventAndDataMessage("timer", "pause"));
+        messagingTemplate.convertAndSend(
+                "/topic/" + key + "/timer/status",
+                new TimerResponse(TimerStatus.PAUSE.getName()));
     }
 
     private void stop(final String key, final Timer timer) {
-        pairRoomWebSocketService.sendAllPairRoomSessions(key, new EventAndDataMessage("timer", "stop"));
+        messagingTemplate.convertAndSend(
+                "/topic/" + key + "/timer/status",
+                new TimerResponse(TimerStatus.PAUSE.getName()));
         schedulerRegistry.release(key);
         final Timer initalTimer = new Timer(timer.getAccessCode(), timer.getDuration(), timer.getDuration());
         timestampRegistry.register(key, initalTimer);
@@ -99,8 +113,10 @@ public class SchedulerService {
     }
 
     public void syncTimerWithDatabase(final String key) {
-        final Timer timer = timestampRegistry.get(key);
-        final TimerEntity timerEntity = timerRepository.fetchTimerByAccessCode(key);
-        timerEntity.updateTimer(timer);
+        if (timestampRegistry.has(key)) {
+            final Timer timer = timestampRegistry.get(key);
+            final TimerEntity timerEntity = timerRepository.fetchTimerByAccessCode(key);
+            timerEntity.updateTimer(timer);
+        }
     }
 }
