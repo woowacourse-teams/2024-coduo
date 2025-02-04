@@ -71,7 +71,7 @@ public class TodoService {
         todoEntity.toggleTodoChecked();
     }
 
-    public List<TodoReadResponse> updateTodoSort(final Long targetTodoId, final int destinationSort) {
+    public void updateTodoSort(final Long targetTodoId, final int destinationSort) {
         final TodoEntity targetTodo = todoRepository.findById(targetTodoId)
                 .orElseThrow(() -> new TodoNotFoundException("존재하지 않은 todo id입니다." + targetTodoId));
         checkPairRoomIsActive(targetTodo.getPairRoomEntity());
@@ -85,8 +85,6 @@ public class TodoService {
         final Todo updated = targetTodo.toDomain()
                 .updateSort(todos, destinationSort);
         todoRepository.save(new TodoEntity(updated, targetTodo.getPairRoomEntity()));
-        todos.add(updated);
-        return TodoReadResponse.of(todos);
     }
 
     public List<TodoReadResponse> deleteTodo(final Long todoId) {
