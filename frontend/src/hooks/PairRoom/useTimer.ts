@@ -1,8 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useQueryClient } from '@tanstack/react-query';
-
 import { AlarmSound } from '@/assets';
 
 import useSocketStore from '@/stores/socketStore';
@@ -12,8 +10,6 @@ import { startTimer, stopTimer } from '@/apis/http/timer';
 import { subscribeTopic } from '@/apis/websocket/websocket';
 
 import useNotification from '@/hooks/PairRoom/useNotification';
-
-import { QUERY_KEYS } from '@/constants/queryKeys';
 
 enum TimerStatus {
   COMPLETE = 'complete',
@@ -25,11 +21,11 @@ enum TimerStatus {
 
 const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () => void) => {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
 
   const { client, isConnected, accessCode } = useSocketStore();
   const { addToast } = useToastStore();
 
+  const [duration, setDuration] = useState(defaultTime);
   const [timeLeft, setTimeLeft] = useState(defaultTimeLeft);
   const [isActive, setIsActive] = useState(false);
 
@@ -67,7 +63,7 @@ const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () 
     setTimeLeft(timeLeft);
   };
 
-  const handleTimerStatusEvent = (status: TimerStatus) => {
+  const handleTimerStatusEvent = (status: TimerStatus, data: number | null) => {
     switch (status) {
       case TimerStatus.COMPLETE:
         navigate(`/room/${accessCode}/retrospectForm`, { state: { valid: true } });
@@ -86,8 +82,11 @@ const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () 
         break;
 
       case TimerStatus.UPDATE:
-        queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_PAIR_ROOM_TIMER] });
-        addToast({ status: 'WARNING', message: '타이머 시간이 변경되었습니다.' });
+        if (data) {
+          setDuration(data);
+          setTimeLeft(data);
+          addToast({ status: 'WARNING', message: '타이머 시간이 변경되었습니다.' });
+        }
         break;
 
       default:
@@ -101,8 +100,10 @@ const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () 
       subscribeTopic<{ data: number }>(client, `/topic/${accessCode}/timer`, (body) => handleTimerEvent(body.data));
 
       // 타이머 상태
-      subscribeTopic<{ data: TimerStatus }>(client, `/topic/${accessCode}/timer/status`, (body) =>
-        handleTimerStatusEvent(body.data),
+      subscribeTopic<{ status: TimerStatus; data: number | null }>(
+        client,
+        `/topic/${accessCode}/timer/status`,
+        (body) => handleTimerStatusEvent(body.status, body.data),
       );
     }
 
@@ -115,6 +116,7 @@ const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () 
   }, [client]);
 
   return {
+    duration,
     timeLeft,
     isActive,
     handleStart,
