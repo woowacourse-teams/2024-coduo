@@ -127,6 +127,10 @@ jobs:
       - name: Start the new (green/blue) environment
         run: |
           sudo docker-compose --env-file ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env -f ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/be_app-docker-compose.yml -p $GREEN_PORT up -d
+      
+      - name: Wait for new environment to be healthy
+        run: |
+          until curl -sf http://localhost:${GREEN_PORT}/api/actuator/health | grep "UP"; do sleep 5; done
 
       - name: Reload NGINX 
         run: |
