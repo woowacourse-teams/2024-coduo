@@ -21,7 +21,7 @@ interface ToastStore {
 const useToastStore = create<ToastStore>((set) => ({
   toastList: [],
   addToast: (toast: Toast) => {
-    const id = Date.now();
+    const id = Date.now() + Math.random();
     const toastItem = { ...toast, id, isOpen: true, isPush: false };
 
     set((state) => {
