@@ -43,7 +43,7 @@ public class ReferenceLinkController implements ReferenceLinkDocs {
     public ResponseEntity<List<ReferenceLinkResponse>> getReferenceLinks(
             @PathVariable("accessCode") final String accessCodeText
     ) {
-        final List<ReferenceLinkResponse> responses = referenceLinkService.findAllReferenceLinkByAccessCode(
+        final List<ReferenceLinkResponse> responses = referenceLinkService.findAllReferenceLinkWithOpenGraphByAccessCode(
                 accessCodeText);
 
         return ResponseEntity.ok(responses);

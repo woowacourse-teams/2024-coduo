@@ -19,6 +19,7 @@ import site.coduo.referencelink.domain.ReferenceLink;
 import site.coduo.referencelink.exception.InvalidUrlFormatException;
 import site.coduo.referencelink.repository.CategoryEntity;
 import site.coduo.referencelink.repository.CategoryRepository;
+import site.coduo.referencelink.repository.OpenGraphEntity;
 import site.coduo.referencelink.repository.ReferenceLinkEntity;
 import site.coduo.referencelink.repository.ReferenceLinkRepository;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
@@ -72,31 +73,29 @@ public class ReferenceLinkService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReferenceLinkResponse> findAllReferenceLinkByAccessCode(final String accessCode) {
-        final PairRoomEntity pairRoom = pairRoomRepository.fetchByAccessCode(accessCode);
-
-        final List<ReferenceLinkEntity> referenceLinkEntities = referenceLinkRepository.findByPairRoomEntity(pairRoom);
-
-        return referenceLinkEntities.stream()
-                .map(this::makeReferenceLinkResponse)
-                .toList();
-    }
-
-    @Transactional(readOnly = true)
     public List<ReferenceLinkResponse> findReferenceLinksByCategory(
             final String accessCodeText,
             final Long categoryId
     ) {
-        final AccessCode accessCode = new AccessCode(accessCodeText);
-        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCodeText);
         final CategoryEntity categoryEntity = categoryRepository.fetchByPairRoomAndCategoryId(pairRoomEntity,
                 categoryId);
-        final Category category = new Category(categoryEntity.getCategoryName());
+        final List<ReferenceLinkResponse> allReferenceLinks = findAllReferenceLinkWithOpenGraphByAccessCode(
+                accessCodeText);
+        return filterByCategoryName(allReferenceLinks, categoryEntity.getCategoryName());
+    }
 
-        return referenceLinkRepository.findByPairRoomEntity(pairRoomEntity)
-                .stream()
-                .filter(link -> link.isSameCategory(category))
-                .map(this::makeReferenceLinkResponse)
+    @Transactional(readOnly = true)
+    public List<ReferenceLinkResponse> findAllReferenceLinkWithOpenGraphByAccessCode(final String accessCode) {
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
+        final List<OpenGraphEntity> openGraphEntities = openGraphService.findAllByPairRoomEntity(pairRoomEntity);
+        return ReferenceLinkResponse.from(openGraphEntities);
+    }
+
+    private List<ReferenceLinkResponse> filterByCategoryName(final List<ReferenceLinkResponse> allReferenceLinks,
+                                                             final String categoryName) {
+        return allReferenceLinks.stream()
+                .filter(referenceLink -> referenceLink.categoryName().equals(categoryName))
                 .toList();
     }
 
@@ -115,11 +114,6 @@ public class ReferenceLinkService {
                 .stream()
                 .filter(link -> link.isSameCategory(category))
                 .toList();
-    }
-
-    private ReferenceLinkResponse makeReferenceLinkResponse(final ReferenceLinkEntity referenceLinkEntity) {
-        final OpenGraph openGraph = openGraphService.findOpenGraph(referenceLinkEntity.getId());
-        return new ReferenceLinkResponse(referenceLinkEntity, openGraph);
     }
 
     public void deleteReferenceLink(final String accessCodeText, final long id) {
