@@ -5,14 +5,14 @@ import java.util.List;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.referencelink.service.ReferenceLinkService;
 import site.coduo.referencelink.service.dto.ReferenceLinkCreateRequest;
 import site.coduo.referencelink.service.dto.ReferenceLinkResponse;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class ReferenceLinkWebSocketController {
 
