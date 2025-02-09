@@ -20,6 +20,7 @@ import site.coduo.timer.repository.TimerRepository;
 import site.coduo.timer.service.TimestampRegistry;
 import site.coduo.timer.service.dto.TimerStartResponse;
 import site.coduo.timer.service.dto.TimerStatusResponse;
+import site.coduo.websocket.StompSubscriptionService;
 
 @Transactional
 @Slf4j
@@ -30,6 +31,7 @@ public class SchedulerService {
     public static final Duration DELAY_SECOND = Duration.of(1, ChronoUnit.SECONDS);
 
     private final SimpMessagingTemplate messagingTemplate;
+    private final StompSubscriptionService stompSubscriptionService;
     private final ThreadPoolTaskScheduler taskScheduler;
     private final SchedulerRegistry schedulerRegistry;
     private final TimestampRegistry timestampRegistry;
@@ -69,11 +71,10 @@ public class SchedulerService {
             stop(key, timer);
             return;
         }
-        // todo - STOMP에서 특정 topic을 구독하고 있는 사용자 수를 가져올 방법 생각
-//        if (pairRoomWebSocketService.hasNoConnections(key) && schedulerRegistry.has(key)) {
-//            pauseTimer(key);
-//            return;
-//        }
+        if (stompSubscriptionService.hasSubscription("/topic/" + key + "/timer") && schedulerRegistry.has(key)) {
+            pauseTimer(key);
+            return;
+        }
         timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
         messagingTemplate.convertAndSend(
                 "/topic/" + key + "/timer",
