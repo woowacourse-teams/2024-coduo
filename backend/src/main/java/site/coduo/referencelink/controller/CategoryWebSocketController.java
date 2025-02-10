@@ -34,4 +34,11 @@ public class CategoryWebSocketController {
                                                  @Valid @RequestBody final CategoryUpdateRequest request) {
         return categoryService.updateCategoryName(accessCode, request);
     }
+
+    @MessageMapping("/{accessCode}/category/delete/{categoryId}")
+    @SendTo("/topic/{accessCode}/category")
+    public void deleteCategory(@DestinationVariable("accessCode") String accessCode,
+                               @DestinationVariable("categoryId") long categoryId) {
+        categoryService.deleteCategory(accessCode, categoryId);
+    }
 }
