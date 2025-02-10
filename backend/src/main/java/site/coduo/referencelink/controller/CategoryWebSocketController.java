@@ -1,5 +1,7 @@
 package site.coduo.referencelink.controller;
 
+import java.util.List;
+
 import jakarta.validation.Valid;
 
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import site.coduo.referencelink.service.CategoryService;
 import site.coduo.referencelink.service.dto.CategoryCreateRequest;
 import site.coduo.referencelink.service.dto.CategoryCreateResponse;
+import site.coduo.referencelink.service.dto.CategoryReadResponse;
 import site.coduo.referencelink.service.dto.CategoryUpdateRequest;
 import site.coduo.referencelink.service.dto.CategoryUpdateResponse;
 
@@ -20,6 +23,12 @@ import site.coduo.referencelink.service.dto.CategoryUpdateResponse;
 public class CategoryWebSocketController {
 
     private final CategoryService categoryService;
+
+    @MessageMapping("/{accessCode}/category/get")
+    @SendTo("/topic/{accessCode}/category")
+    public List<CategoryReadResponse> getCategories(@DestinationVariable("accessCode") String accessCode) {
+        return categoryService.findAllByPairRoomAccessCode(accessCode);
+    }
 
     @MessageMapping("/{accessCode}/category/post")
     @SendTo("/topic/{accessCode}/category")
