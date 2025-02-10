@@ -19,7 +19,7 @@ public class CategoryWebSocketController {
 
     private final CategoryService categoryService;
 
-    @MessageMapping("/send/{accessCode}/category/post")
+    @MessageMapping("/{accessCode}/category/post")
     @SendTo("/topic/{accessCode}/category")
     public CategoryCreateResponse createCategory(@DestinationVariable("accessCode") final String accessCode,
                                                       @Valid @RequestBody final CategoryCreateRequest request) {
