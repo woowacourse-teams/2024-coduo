@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import site.coduo.referencelink.service.CategoryService;
 import site.coduo.referencelink.service.dto.CategoryCreateRequest;
 import site.coduo.referencelink.service.dto.CategoryCreateResponse;
+import site.coduo.referencelink.service.dto.CategoryUpdateRequest;
+import site.coduo.referencelink.service.dto.CategoryUpdateResponse;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,8 +24,14 @@ public class CategoryWebSocketController {
     @MessageMapping("/{accessCode}/category/post")
     @SendTo("/topic/{accessCode}/category")
     public CategoryCreateResponse createCategory(@DestinationVariable("accessCode") final String accessCode,
-                                                      @Valid @RequestBody final CategoryCreateRequest request) {
+                                                 @Valid @RequestBody final CategoryCreateRequest request) {
         return categoryService.createCategory(accessCode, request);
     }
 
+    @MessageMapping("/{accessCode}/category/update")
+    @SendTo("/topic/{accessCode}/category")
+    public CategoryUpdateResponse updateCategory(@DestinationVariable("accessCode") final String accessCode,
+                                                 @Valid @RequestBody final CategoryUpdateRequest request) {
+        return categoryService.updateCategoryName(accessCode, request);
+    }
 }
