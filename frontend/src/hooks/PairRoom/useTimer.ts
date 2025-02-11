@@ -16,6 +16,7 @@ enum TimerStatus {
   START = 'start',
   RUNNING = 'running',
   PAUSE = 'pause',
+  STOP = 'stop',
   UPDATE = 'update',
 }
 
@@ -79,6 +80,12 @@ const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () 
       case TimerStatus.PAUSE:
         setIsActive(false);
         addToast({ status: 'WARNING', message: '타이머가 일시 정지되었습니다.' });
+        break;
+
+      case TimerStatus.STOP:
+        setIsActive(false);
+        setTimeLeft(defaultTime);
+        onTimerStop();
         break;
 
       case TimerStatus.UPDATE:
