@@ -84,8 +84,8 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
                 () -> assertThat(openGraphRepository.findAll()).hasSize(1),
                 () -> {
                     final ReferenceLinkResponse referenceLinkResponses =
-                            referenceLinkService.findAllReferenceLinkByAccessCode(pairRoomEntity.getAccessCode())
-                                    .get(0);
+                            referenceLinkService.findAllReferenceLinkWithOpenGraphByAccessCode(
+                                    pairRoomEntity.getAccessCode()).get(0);
                     assertThat(referenceLinkResponses)
                             .extracting("url", "headTitle", "openGraphTitle", "description", "image", "categoryName")
                             .contains(request.url(), "헤드 타이틀", "오픈그래프 타이틀", "오픈그래프 설명", "오픈그래프 이미지", "스프링");
@@ -107,16 +107,20 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
 
     @Test
     @DisplayName("모든 레퍼런스 링크를 조회한다.")
-    void search_all_reference_link() throws MalformedURLException {
+    void search_all_reference_link() {
         // given
-        final AccessCode accessCode = new AccessCode(pairRoomEntity.getAccessCode());
-        referenceLinkRepository.save(generateReferenceLink(springCategory));
-        referenceLinkRepository.save(generateReferenceLink(springCategory));
-        referenceLinkRepository.save(generateReferenceLink(reactCategory));
+        final String accessCode = pairRoomEntity.getAccessCode();
+        referenceLinkService.createReferenceLink(accessCode,
+                new ReferenceLinkCreateRequest(FakeServer.testUrl, springCategory.getId()));
+        referenceLinkService.createReferenceLink(accessCode,
+                new ReferenceLinkCreateRequest(FakeServer.testUrl, springCategory.getId()));
+        referenceLinkService.createReferenceLink(accessCode,
+                new ReferenceLinkCreateRequest(FakeServer.testUrl, reactCategory.getId()));
 
         // when
-        final List<ReferenceLinkResponse> responses = referenceLinkService.findAllReferenceLinkByAccessCode(
-                accessCode.getValue());
+        final List<ReferenceLinkResponse> responses = referenceLinkService.findAllReferenceLinkWithOpenGraphByAccessCode(
+                accessCode);
+
         // then
         assertThat(responses).hasSize(3);
     }
@@ -157,13 +161,13 @@ class ReferenceLinkServiceTest extends CascadeCleaner {
     @DisplayName("카테고리가 일치하는 모든 레퍼런스 링크를 조회한다.")
     void find_reference_links_by_category() throws MalformedURLException {
         // given
-        final ReferenceLinkEntity reactReferenceLink = generateReferenceLink(reactCategory);
-        final ReferenceLinkEntity reactReferenceLink2 = generateReferenceLink(reactCategory);
-        final ReferenceLinkEntity springReferenceLink = generateReferenceLink(springCategory);
-
-        referenceLinkRepository.save(reactReferenceLink);
-        referenceLinkRepository.save(reactReferenceLink2);
-        referenceLinkRepository.save(springReferenceLink);
+        final String accessCode = pairRoomEntity.getAccessCode();
+        referenceLinkService.createReferenceLink(accessCode,
+                new ReferenceLinkCreateRequest(FakeServer.testUrl, reactCategory.getId()));
+        referenceLinkService.createReferenceLink(accessCode,
+                new ReferenceLinkCreateRequest(FakeServer.testUrl, reactCategory.getId()));
+        referenceLinkService.createReferenceLink(accessCode,
+                new ReferenceLinkCreateRequest(FakeServer.testUrl, springCategory.getId()));
 
         // when
         final List<ReferenceLinkResponse> referenceLinksByCategory = referenceLinkService.findReferenceLinksByCategory(
