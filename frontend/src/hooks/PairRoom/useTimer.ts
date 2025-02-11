@@ -99,6 +99,19 @@ const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () 
   };
 
   useEffect(() => {
+    const unsubscribeTopics = () => {
+      if (client && isConnected) {
+        client.unsubscribe(`/topic/${accessCode}/timer`);
+        client.unsubscribe(`/topic/${accessCode}/timer/status`);
+      }
+    };
+
+    const handleBeforeUnload = () => {
+      unsubscribeTopics();
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
     if (client && isConnected) {
       // 타이머 남은 시간
       subscribeTopic<{ data: number }>(client, `/topic/${accessCode}/timer`, (body) => handleTimerEvent(body.data));
@@ -112,10 +125,8 @@ const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () 
     }
 
     return () => {
-      if (client && isConnected) {
-        client.unsubscribe('/timer');
-        client.unsubscribe('/timer/status');
-      }
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      unsubscribeTopics();
     };
   }, [client]);
 
