@@ -86,7 +86,7 @@ public class SchedulerService {
     }
 
     private void stop(final String key, final Timer timer) {
-        timerStompManager.send(key, new TimerStatusResponse(TimerStatus.PAUSE.getName(), null));
+        timerStompManager.send(key, new TimerStatusResponse(TimerStatus.STOP.getName(), null));
         schedulerRegistry.release(key);
         final Timer initalTimer = new Timer(timer.getAccessCode(), timer.getDuration(), timer.getDuration());
         timestampRegistry.register(key, initalTimer);

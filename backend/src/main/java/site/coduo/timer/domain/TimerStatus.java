@@ -9,6 +9,7 @@ public enum TimerStatus {
 
     START("start"),
     PAUSE("pause"),
+    STOP("stop"),
     RUNNING("running"),
     UPDATE("update");
 
