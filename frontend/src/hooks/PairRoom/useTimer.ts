@@ -109,8 +109,8 @@ const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () 
 
     return () => {
       if (client && isConnected) {
-        client.unsubscribe('/timer');
-        client.unsubscribe('/timer/status');
+        client.unsubscribe(`/topic/${accessCode}/timer`);
+        client.unsubscribe(`/topic/${accessCode}/timer/status`);
       }
     };
   }, [client]);
