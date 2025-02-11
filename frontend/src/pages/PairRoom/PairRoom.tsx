@@ -71,6 +71,7 @@ const PairRoom = () => {
           defaultTime={duration}
           defaultTimeLeft={remainingTime}
           onTimerStop={() => updatePairRoleMutation({ accessCode: accessCode || '' })}
+          driver={driver}
         />
       </S.Container>
       <S.Container>
