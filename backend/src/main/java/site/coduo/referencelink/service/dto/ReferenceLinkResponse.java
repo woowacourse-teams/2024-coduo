@@ -1,9 +1,12 @@
 package site.coduo.referencelink.service.dto;
 
+import java.util.List;
+
 import jakarta.validation.constraints.NotBlank;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import site.coduo.referencelink.domain.OpenGraph;
+import site.coduo.referencelink.repository.OpenGraphEntity;
 import site.coduo.referencelink.repository.ReferenceLinkEntity;
 
 @Schema(description = "레퍼런스 링크 응답")
@@ -54,5 +57,13 @@ public record ReferenceLinkResponse(
                 openGraph.getImage(),
                 referenceLinkEntity.getCategoryName()
         );
+    }
+
+    public static List<ReferenceLinkResponse> from(final List<OpenGraphEntity> openGraphEntities) {
+        return openGraphEntities.stream()
+                .map(openGraphEntity -> new ReferenceLinkResponse(
+                        openGraphEntity.getReferenceLinkEntity(), openGraphEntity.toDomain()
+                ))
+                .toList();
     }
 }

@@ -132,7 +132,7 @@ public class PairRoomService {
         final List<CategoryReadResponse> categoryReadResponses = categoryService.findAllByPairRoomAccessCode(
                 pairRoomEntity.getAccessCode());
         final List<ReferenceLinkResponse> referenceLinkResponses = referenceLinkService
-                .findAllReferenceLinkByAccessCode(accessCode);
+                .findAllReferenceLinkWithOpenGraphByAccessCode(accessCode);
         final List<TodoReadResponse> todoReadResponses = todoService.getAllOrderBySort(accessCode);
 
         final PairRoomReadResponse pairRoomReadResponse = PairRoomReadResponse.of(pairRoomEntity.toDomain(), timer);
