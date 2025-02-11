@@ -14,19 +14,26 @@ import site.coduo.sync.service.SchedulerService;
 @RequiredArgsConstructor
 public class StompEventListener {
 
+    private static final int DESTINATION_PREFIX_LENGTH = "/topic/".length();
+
     private final SchedulerService schedulerService;
 
     @EventListener
     public void onSubscription(final SessionSubscribeEvent event) {
         final StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-        final String id = (String) headerAccessor.getHeader(SimpMessageHeaderAccessor.SUBSCRIPTION_ID_HEADER);
-        schedulerService.notifyTimerStatus(id);
+        final String destination = (String) headerAccessor.getHeader(SimpMessageHeaderAccessor.DESTINATION_HEADER);
+        schedulerService.notifyTimerStatus(parsePairRoomKey(destination));
     }
 
     @EventListener
     public void onUnSubscription(final SessionUnsubscribeEvent event) {
         final StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-        final String id = (String) headerAccessor.getHeader(SimpMessageHeaderAccessor.SUBSCRIPTION_ID_HEADER);
-        schedulerService.syncTimerWithDatabase(id);
+        final String destination = (String) headerAccessor.getHeader(SimpMessageHeaderAccessor.SUBSCRIPTION_ID_HEADER);
+        schedulerService.syncTimerWithDatabase(parsePairRoomKey(destination));
+    }
+
+    private String parsePairRoomKey(final String destination) {
+        final int endIndex = destination.indexOf("/", DESTINATION_PREFIX_LENGTH);
+        return destination.substring(DESTINATION_PREFIX_LENGTH, endIndex);
     }
 }
