@@ -9,6 +9,7 @@ import org.springframework.web.socket.messaging.SessionUnsubscribeEvent;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.sync.service.SchedulerService;
+import site.coduo.websocket.exception.NotFoundAccessCodeInQueryException;
 
 @Component
 @RequiredArgsConstructor
@@ -22,18 +23,29 @@ public class StompEventListener {
     public void onSubscription(final SessionSubscribeEvent event) {
         final StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
         final String destination = (String) headerAccessor.getHeader(SimpMessageHeaderAccessor.DESTINATION_HEADER);
-        schedulerService.notifyTimerStatus(parsePairRoomKey(destination));
+        if (destination == null) {
+            throw new NotFoundAccessCodeInQueryException("STOMP 헤더에 simpDestination가 존재하지 않습니다.");
+        }
+        final String key = parsePairRoomKey(destination);
+        schedulerService.notifyTimerStatus(key);
     }
 
     @EventListener
     public void onUnSubscription(final SessionUnsubscribeEvent event) {
         final StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
         final String destination = (String) headerAccessor.getHeader(SimpMessageHeaderAccessor.SUBSCRIPTION_ID_HEADER);
-        schedulerService.syncTimerWithDatabase(parsePairRoomKey(destination));
+        if (destination == null) {
+            throw new NotFoundAccessCodeInQueryException("STOMP 헤더에 simpSubscriptionId가 존재하지 않습니다.");
+        }
+        final String key = parsePairRoomKey(destination);
+        schedulerService.syncTimerWithDatabase(key);
     }
 
     private String parsePairRoomKey(final String destination) {
         final int endIndex = destination.indexOf("/", DESTINATION_PREFIX_LENGTH);
+        if (endIndex == -1) {
+            throw new NotFoundAccessCodeInQueryException("STOMP subscribe의 destination에서 accessCode를 파싱할 수 없습니다.");
+        }
         return destination.substring(DESTINATION_PREFIX_LENGTH, endIndex);
     }
 }
