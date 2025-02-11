@@ -1,12 +1,14 @@
 package site.coduo.referencelink.service;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.referencelink.domain.OpenGraph;
 import site.coduo.referencelink.repository.OpenGraphEntity;
 import site.coduo.referencelink.repository.OpenGraphRepository;
@@ -34,6 +36,11 @@ public class OpenGraphService {
             return openGraphEntity.get().toDomain();
         }
         return new OpenGraph();
+    }
+
+    @Transactional(readOnly = true)
+    public List<OpenGraphEntity> findAllByPairRoomEntity(final PairRoomEntity pairRoomEntity) {
+        return openGraphRepository.findAllByPairRoomEntity(pairRoomEntity);
     }
 
     public void deleteByReferenceLink(final ReferenceLinkEntity referenceLinkEntity) {
