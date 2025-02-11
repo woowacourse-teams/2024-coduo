@@ -16,7 +16,6 @@ enum TimerStatus {
   START = 'start',
   RUNNING = 'running',
   PAUSE = 'pause',
-  STOP = 'stop',
   UPDATE = 'update',
 }
 
@@ -82,12 +81,6 @@ const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () 
         addToast({ status: 'WARNING', message: '타이머가 일시 정지되었습니다.' });
         break;
 
-      case TimerStatus.STOP:
-        setIsActive(false);
-        setTimeLeft(defaultTime);
-        onTimerStop();
-        break;
-
       case TimerStatus.UPDATE:
         if (data) {
           setDuration(data);
@@ -102,6 +95,19 @@ const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () 
   };
 
   useEffect(() => {
+    const unsubscribeTopics = () => {
+      if (client && isConnected) {
+        client.unsubscribe(`/topic/${accessCode}/timer`);
+        client.unsubscribe(`/topic/${accessCode}/timer/status`);
+      }
+    };
+
+    const handleBeforeUnload = () => {
+      unsubscribeTopics();
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
     if (client && isConnected) {
       // 타이머 남은 시간
       subscribeTopic<{ data: number }>(client, `/topic/${accessCode}/timer`, (body) => handleTimerEvent(body.data));
@@ -115,10 +121,8 @@ const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () 
     }
 
     return () => {
-      if (client && isConnected) {
-        client.unsubscribe(`/topic/${accessCode}/timer`);
-        client.unsubscribe(`/topic/${accessCode}/timer/status`);
-      }
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      unsubscribeTopics();
     };
   }, [client]);
 
