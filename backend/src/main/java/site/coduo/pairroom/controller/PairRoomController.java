@@ -74,7 +74,6 @@ public class PairRoomController implements PairRoomDocs {
             @Valid @PathVariable("accessCode") final PairRoomReadRequest request
     ) {
         final PairRoomEntireResponse entirePairRoom = pairRoomService.findEntirePairRoom(request.accessCode());
-        schedulerService.notifyTimerStatus(request.accessCode());
         return ResponseEntity.ok(entirePairRoom);
     }
 

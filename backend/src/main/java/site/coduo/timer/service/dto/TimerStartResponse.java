@@ -1,6 +1,4 @@
 package site.coduo.timer.service.dto;
 
-public record TimerStartResponse(
-        long data
-) {
+public record TimerStartResponse(long data) {
 }

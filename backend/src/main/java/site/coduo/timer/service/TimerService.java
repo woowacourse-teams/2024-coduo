@@ -1,6 +1,5 @@
 package site.coduo.timer.service;
 
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +19,7 @@ import site.coduo.timer.service.dto.TimerUpdateRequest;
 @Service
 public class TimerService {
 
-    private final SimpMessagingTemplate messagingTemplate;
+    private final TimerStompManager timerStompManager;
     private final TimerRepository timerRepository;
     private final TimestampRegistry timestampRegistry;
     private final PairRoomRepository pairRoomRepository;
@@ -46,9 +45,7 @@ public class TimerService {
         );
         timerEntity.updateTimer(newTimer);
         timestampRegistry.register(accessCode, newTimer);
-        messagingTemplate.convertAndSend(
-                "/topic/" + accessCode + "/timer/status",
-                new TimerStatusResponse(TimerStatus.UPDATE.getName(), newTimer.getDuration())
-        );
+        timerStompManager.send(accessCode,
+                new TimerStatusResponse(TimerStatus.UPDATE.getName(), newTimer.getDuration()));
     }
 }

@@ -13,7 +13,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import site.coduo.pairroom.domain.accesscode.AccessCode;
@@ -21,6 +20,7 @@ import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.timer.domain.Timer;
 import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
+import site.coduo.timer.service.TimerStompManager;
 import site.coduo.timer.service.TimestampRegistry;
 
 @Disabled
@@ -35,7 +35,7 @@ class SchedulerServiceTest {
     @Autowired
     private TimestampRegistry timestampRegistry;
 
-    private SimpMessagingTemplate messagingTemplate;
+    private TimerStompManager timerStompManager;
     private TimerRepository timerRepository;
     private SchedulerService schedulerService;
 
@@ -44,7 +44,7 @@ class SchedulerServiceTest {
         timerRepository = mock(TimerRepository.class);
 
         schedulerService = new SchedulerService(
-                messagingTemplate,
+                timerStompManager,
                 taskScheduler,
                 schedulerRegistry,
                 timestampRegistry,

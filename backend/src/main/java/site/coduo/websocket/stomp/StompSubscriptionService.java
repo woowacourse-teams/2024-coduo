@@ -1,4 +1,4 @@
-package site.coduo.websocket;
+package site.coduo.websocket.stomp;
 
 import java.util.Optional;
 
