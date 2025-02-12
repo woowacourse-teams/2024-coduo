@@ -16,7 +16,7 @@ export const publishCategoryMessage = {
     publishMessage(client, `/send/${accessCode}/category/post`, { value });
   },
   update: (client: Client | null, accessCode: string, categoryId: string, value: string) => {
-    publishMessage(client, `/send/${accessCode}/category/update/${categoryId}/name`, { value });
+    publishMessage(client, `/send/${accessCode}/category/update/${categoryId}`, { value });
   },
   delete: (client: Client | null, accessCode: string, categoryId: string) => {
     publishMessage(client, `/send/${accessCode}/category/delete/${categoryId}`);
