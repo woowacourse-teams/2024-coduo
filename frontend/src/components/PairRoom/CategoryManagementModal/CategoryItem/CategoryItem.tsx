@@ -8,8 +8,6 @@ import Input from '@/components/_common/InputField/Input/Input';
 import useSocketStore from '@/stores/socketStore';
 import useToastStore from '@/stores/toastStore';
 
-import { publishCategoryMessage } from '@/apis/websocket/reference';
-
 import useEditCategory from '@/hooks/PairRoom/useEditCategory';
 
 import { DEFAULT_CATEGORY_ID } from '@/queries/PairRoom/useCategoriesQuery';
@@ -27,22 +25,26 @@ interface CategoryItemProps {
 }
 
 const CategoryItem = ({ categoryId, categoryName, isChecked, closeModal, handleSelectCategory }: CategoryItemProps) => {
-  const { client, accessCode } = useSocketStore();
-  const { newCategoryName, handleCategoryName, isEditing, startEditing, stopEditing } = useEditCategory(
-    accessCode,
-    categoryId,
-    categoryName,
-  );
+  const { accessCode } = useSocketStore();
+  const {
+    newCategoryName,
+    handleCategoryName,
+    isEditing,
+    startEditing,
+    stopEditing,
+    updateCategoryName,
+    deleteCategoryName,
+  } = useEditCategory(accessCode, categoryId, categoryName);
 
   const { addToast } = useToastStore();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    publishCategoryMessage.update(client, accessCode, categoryId, newCategoryName.value);
+    await updateCategoryName();
   };
 
   const handleDeleteCategory = async () => {
-    publishCategoryMessage.delete(client, accessCode, categoryId);
+    await deleteCategoryName();
     if (isChecked) handleSelectCategory(DEFAULT_CATEGORY_ID);
   };
 

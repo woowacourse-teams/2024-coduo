@@ -12,8 +12,8 @@ import useSocketStore from '@/stores/socketStore';
 import { Reference } from '@/apis/http/referenceLink';
 
 import useModal from '@/hooks/_common/useModal';
-import useCategory from '@/hooks/PairRoom/useCategory';
-import useReference from '@/hooks/PairRoom/useReference';
+import useCategory from '@/hooks/PairRoom/useCategorySocket';
+import useReference from '@/hooks/PairRoom/useReferenceSocket';
 
 import useCategoriesQuery, { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/queries/PairRoom/useCategoriesQuery';
 

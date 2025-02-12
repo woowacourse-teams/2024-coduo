@@ -4,6 +4,7 @@ import Quote from '@/components/CoduoDocs/Quote/Quote';
 import SourceCode from '@/components/CoduoDocs/SourceCode/SourceCode';
 import Steps from '@/components/CoduoDocs/Steps/Steps';
 
+import useScrollToTop from '@/hooks/_common/useScrollToTop';
 import useHashScroll from '@/hooks/CoduoDocs/useHashScroll';
 
 import {
@@ -19,6 +20,7 @@ import {
 import * as S from './CoduoDocs.styles';
 
 const CoduoDocs = () => {
+  useScrollToTop();
   const { activeSection } = useHashScroll();
 
   return (

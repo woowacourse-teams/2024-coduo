@@ -7,7 +7,7 @@ import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import TimerEditPanel from '@/components/PairRoom/TimerCard/TimerEditPanel/TimerEditPanel';
 import TimerPip from '@/components/PairRoom/TimerPip/TimerPip';
 
-import useTimer from '@/hooks/PairRoom/useTimer';
+import useTimer from '@/hooks/PairRoom/useTimerSocket';
 import useTitleTime from '@/hooks/PairRoom/useTitleTime';
 
 import { formatTime } from '@/utils/formatTime';

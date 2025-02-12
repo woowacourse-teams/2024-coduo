@@ -12,7 +12,7 @@ import { Todo } from '@/apis/http/todo';
 import { publishTodoMessage } from '@/apis/websocket/todo';
 
 import useInput from '@/hooks/_common/useInput';
-import useTodo from '@/hooks/PairRoom/useTodo';
+import useTodo from '@/hooks/PairRoom/useTodoSocket';
 
 import * as S from './TodoListCard.styles';
 
