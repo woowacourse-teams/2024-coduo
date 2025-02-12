@@ -4,10 +4,10 @@ import { publishMessage } from '@/apis/websocket/websocket';
 
 export const publishReferenceMessage = {
   add: (client: Client | null, accessCode: string, url: string, categoryId: string | null) => {
-    publishMessage(client, `/send/${accessCode}/referenceLink/post`, { url, categoryId });
+    publishMessage(client, `/send/${accessCode}/reference-link/post`, { url, categoryId });
   },
   delete: (client: Client | null, accessCode: string, referenceLinkId: number) => {
-    publishMessage(client, `/send/${accessCode}/referenceLink/delete/${referenceLinkId}`);
+    publishMessage(client, `/send/${accessCode}/reference-link/delete/${referenceLinkId}`);
   },
 };
 
