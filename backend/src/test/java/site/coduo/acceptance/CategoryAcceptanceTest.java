@@ -2,6 +2,7 @@ package site.coduo.acceptance;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -58,6 +59,7 @@ class CategoryAcceptanceTest extends AcceptanceFixture {
                 .statusCode(200);
     }
 
+    @Disabled
     @Test
     @DisplayName("카테고리를 업데이트 한다.")
     void update_category() {

@@ -40,8 +40,8 @@ public class CategoryEntity extends BaseTimeEntity {
         this.categoryName = category.getValue();
     }
 
-    public void updateCategoryName(final String categoryName) {
-        this.categoryName = categoryName;
+    public void updateCategoryName(final Category category) {
+        this.categoryName = category.getValue();
     }
 
     public Category toDomain() {
