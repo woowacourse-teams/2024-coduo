@@ -1,6 +1,6 @@
 import { InputStatus } from '@/components/_common/InputField/InputField.type';
 
-import { DEFAULT_CATEGORY_NAME } from '@/queries/PairRoom/useCategoriesQuery';
+import { DEFAULT_CATEGORY_VALUE } from '@/queries/PairRoom/useCategoriesQuery';
 
 const MAX_CATEGORY_NAME_LENGTH = 10;
 
@@ -17,7 +17,7 @@ export const validateCategoryName = (
     return { status: 'ERROR' as InputStatus, message: '이전과 동일한 카테고리 이름입니다. 다른 이름을 입력해 주세요.' };
   }
 
-  if (isCategoryNameExists(categoryName) || categoryName === DEFAULT_CATEGORY_NAME) {
+  if (isCategoryNameExists(categoryName) || categoryName === DEFAULT_CATEGORY_VALUE) {
     return { status: 'ERROR' as InputStatus, message: '중복된 카테고리 입니다.' };
   }
 

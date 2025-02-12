@@ -15,7 +15,7 @@ import useModal from '@/hooks/_common/useModal';
 import useCategory from '@/hooks/PairRoom/useCategory';
 import useReference from '@/hooks/PairRoom/useReference';
 
-import useCategoriesQuery, { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_NAME } from '@/queries/PairRoom/useCategoriesQuery';
+import useCategoriesQuery, { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/queries/PairRoom/useCategoriesQuery';
 
 import { findValueById } from '@/utils/findOption';
 
@@ -39,7 +39,7 @@ const ReferenceCard = ({ isOpen, toggleIsOpen, defaultReferences, defaultCategor
 
   const { isCategoryExist } = useCategoriesQuery(accessCode);
 
-  const selectedCategoryName = findValueById(categories, selectedCategoryId) || DEFAULT_CATEGORY_NAME;
+  const selectedCategoryName = findValueById(categories, selectedCategoryId) || DEFAULT_CATEGORY_VALUE;
 
   return (
     <S.Layout>
