@@ -1,4 +1,4 @@
-package site.coduo.sync.exception;
+package site.coduo.timer.exception;
 
 public class NotFoundScheduledFutureException extends SyncException {
 

@@ -8,7 +8,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import site.coduo.sync.service.SchedulerService;
+import site.coduo.timer.service.SchedulerService;
 
 @Slf4j
 @RequiredArgsConstructor

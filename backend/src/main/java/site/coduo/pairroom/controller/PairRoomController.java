@@ -29,7 +29,6 @@ import site.coduo.pairroom.service.dto.PairRoomExistResponse;
 import site.coduo.pairroom.service.dto.PairRoomMemberResponse;
 import site.coduo.pairroom.service.dto.PairRoomReadRequest;
 import site.coduo.pairroom.service.dto.PairRoomStatusUpdateRequest;
-import site.coduo.sync.service.SchedulerService;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -37,7 +36,6 @@ import site.coduo.sync.service.SchedulerService;
 public class PairRoomController implements PairRoomDocs {
 
     private final PairRoomService pairRoomService;
-    private final SchedulerService schedulerService;
 
     @PostMapping("/pair-room")
     public ResponseEntity<PairRoomCreateResponse> createPairRoom(
@@ -74,7 +72,6 @@ public class PairRoomController implements PairRoomDocs {
             @Valid @PathVariable("accessCode") final PairRoomReadRequest request
     ) {
         final PairRoomEntireResponse entirePairRoom = pairRoomService.findEntirePairRoom(request.accessCode());
-        schedulerService.notifyTimerStatus(request.accessCode());
         return ResponseEntity.ok(entirePairRoom);
     }
 

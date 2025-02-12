@@ -1,4 +1,4 @@
-package site.coduo.sync.service;
+package site.coduo.timer.service;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -6,7 +6,7 @@ import java.util.concurrent.ScheduledFuture;
 
 import org.springframework.stereotype.Component;
 
-import site.coduo.sync.exception.NotFoundScheduledFutureException;
+import site.coduo.timer.exception.NotFoundScheduledFutureException;
 
 @Component
 public class SchedulerRegistry {
