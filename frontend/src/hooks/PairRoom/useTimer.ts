@@ -21,11 +21,11 @@ enum TimerStatus {
 
 const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () => void) => {
   const navigate = useNavigate();
+  const durationRef = useRef(defaultTime);
 
   const { client, isConnected, accessCode } = useSocketStore();
   const { addToast } = useToastStore();
 
-  const [duration, setDuration] = useState(defaultTime);
   const [timeLeft, setTimeLeft] = useState(defaultTimeLeft);
   const [isActive, setIsActive] = useState(false);
 
@@ -43,7 +43,7 @@ const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () 
 
   const handleStop = () => {
     setIsActive(false);
-    setTimeLeft(duration);
+    setTimeLeft(durationRef.current);
     onTimerStop();
 
     // 타이머 종료 알람 플레이
@@ -87,7 +87,7 @@ const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () 
 
       case TimerStatus.UPDATE:
         if (data) {
-          setDuration(data);
+          durationRef.current = data;
           setTimeLeft(data);
           addToast({ status: 'WARNING', message: '타이머 시간이 변경되었습니다.' });
         }
@@ -131,7 +131,7 @@ const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () 
   }, [client]);
 
   return {
-    duration,
+    duration: durationRef.current,
     timeLeft,
     isActive,
     handleStart,

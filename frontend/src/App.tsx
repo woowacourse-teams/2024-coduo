@@ -31,7 +31,13 @@ import { getIsUserLoggedIn } from '@/apis/http/oauth';
 import GlobalStyles from './styles/Global.style';
 import { theme } from './styles/theme';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const App = () => {
   const { setUser } = useUserStore();
