@@ -46,6 +46,7 @@ import site.coduo.todo.service.dto.TodoReadResponse;
 @Service
 public class PairRoomService {
 
+    private final PairRoomStompManager pairRoomStompManager;
     private final PairRoomRepository pairRoomRepository;
     private final TimerRepository timerRepository;
     private final CategoryService categoryService;
@@ -172,6 +173,7 @@ public class PairRoomService {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
         checkPairRoomIsActive(pairRoomEntity);
         pairRoomEntity.updateStatus(PairRoomStatus.COMPLETED);
+        pairRoomStompManager.send(accessCode, PairRoomStatus.COMPLETED);
     }
 
     private void checkPairRoomIsDeleted(final PairRoomEntity pairRoomEntity) {
