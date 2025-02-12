@@ -22,12 +22,6 @@ public class CategoryWebSocketController {
 
     private final CategoryService categoryService;
 
-    @MessageMapping("/{accessCode}/category/get")
-    @SendTo("/topic/{accessCode}/category")
-    public List<CategoryReadResponse> getCategories(@DestinationVariable("accessCode") final String accessCode) {
-        return categoryService.findAllByPairRoomAccessCode(accessCode);
-    }
-
     @MessageMapping("/{accessCode}/category/post")
     @SendTo("/topic/{accessCode}/category")
     public List<CategoryReadResponse> createCategory(@DestinationVariable("accessCode") final String accessCode,
