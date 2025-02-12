@@ -13,7 +13,7 @@ import { publishReferenceMessage } from '@/apis/websocket/reference';
 
 import useInput from '@/hooks/_common/useInput';
 
-import { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/queries/PairRoom/useCategoriesQuery';
+import { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_NAME } from '@/queries/PairRoom/useCategoriesQuery';
 
 import { findValueById } from '@/utils/findOption';
 import { formatLink } from '@/utils/formatLink';
@@ -50,7 +50,7 @@ const Footer = ({ categories }: FooterProps) => {
         direction="UPPER"
         placeholder="카테고리를 선택해 주세요."
         options={categories}
-        selectedOption={findValueById(categories, currentCategoryId || '') || DEFAULT_CATEGORY_VALUE}
+        selectedOption={findValueById(categories, currentCategoryId || '') || DEFAULT_CATEGORY_NAME}
         onSelect={(option) => handleCurrentCategoryId(option)}
       />
       <S.Form onSubmit={handleSubmit}>

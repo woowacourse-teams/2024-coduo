@@ -5,11 +5,11 @@ import { getCategories } from '@/apis/http/category';
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
 export const DEFAULT_CATEGORY_ID = '0';
-export const DEFAULT_CATEGORY_VALUE = '전체';
+export const DEFAULT_CATEGORY_NAME = '전체';
 
 const DEFAULT_CATEGORY = {
   id: DEFAULT_CATEGORY_ID,
-  value: DEFAULT_CATEGORY_VALUE,
+  value: DEFAULT_CATEGORY_NAME,
 };
 
 const useCategoriesQuery = (accessCode: string) => {

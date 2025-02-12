@@ -7,7 +7,7 @@ import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 
 import useModal from '@/hooks/_common/useModal';
 
-import useCategoriesQuery, { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/queries/PairRoom/useCategoriesQuery';
+import useCategoriesQuery, { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_NAME } from '@/queries/PairRoom/useCategoriesQuery';
 import useReferencesQuery from '@/queries/PairRoom/useReferencesQuery';
 
 import { findValueById } from '@/utils/findOption';
@@ -26,7 +26,7 @@ const ReferenceCard = ({ accessCode }: ReferenceCardProps) => {
   const { categories, isCategoryExist } = useCategoriesQuery(accessCode);
   const { references } = useReferencesQuery(selectedCategoryId, accessCode);
 
-  const selectedCategoryName = findValueById(categories, selectedCategoryId) || DEFAULT_CATEGORY_VALUE;
+  const selectedCategoryName = findValueById(categories, selectedCategoryId) || DEFAULT_CATEGORY_NAME;
 
   return (
     <S.Layout>

@@ -12,11 +12,11 @@ export const publishReferenceMessage = {
 };
 
 export const publishCategoryMessage = {
-  add: (client: Client | null, accessCode: string, categoryName: string) => {
-    publishMessage(client, `/send/${accessCode}/category/post`, { categoryName });
+  add: (client: Client | null, accessCode: string, value: string) => {
+    publishMessage(client, `/send/${accessCode}/category/post`, { value });
   },
-  update: (client: Client | null, accessCode: string, categoryId: string, categoryName: string) => {
-    publishMessage(client, `/send/${accessCode}/category/update/${categoryId}/name`, { categoryName });
+  update: (client: Client | null, accessCode: string, categoryId: string, value: string) => {
+    publishMessage(client, `/send/${accessCode}/category/update/${categoryId}/name`, { value });
   },
   delete: (client: Client | null, accessCode: string, categoryId: string) => {
     publishMessage(client, `/send/${accessCode}/category/delete/${categoryId}`);
