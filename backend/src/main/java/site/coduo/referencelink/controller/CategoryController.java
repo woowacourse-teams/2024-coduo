@@ -47,12 +47,14 @@ public class CategoryController implements CategoryDocs {
                 .body(response);
     }
 
-    @PatchMapping("/{accessCode}/category")
+    @PatchMapping("/{accessCode}/category/{categoryId}")
     public ResponseEntity<CategoryUpdateResponse> updateCategory(
             @PathVariable("accessCode") String accessCode,
+            @PathVariable("categoryId") Long categoryId,
             @Valid @RequestBody CategoryUpdateRequest categoryUpdateRequest
     ) {
         final CategoryUpdateResponse response = categoryService.updateCategoryName(accessCode,
+                categoryId,
                 categoryUpdateRequest);
 
         return ResponseEntity.ok(response);

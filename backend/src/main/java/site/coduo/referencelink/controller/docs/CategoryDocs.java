@@ -36,6 +36,7 @@ public interface CategoryDocs {
     @ApiResponse(responseCode = "200", description = "카테고리 생성 성공", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = CategoryUpdateRequest.class)))
     @ApiResponse(responseCode = "4xx", description = "카테고리 생성 실패", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = ApiErrorResponse.class)))
     ResponseEntity<CategoryUpdateResponse> updateCategory(@PathVariable("accessCode") String accessCode,
+                                                          @PathVariable("categoryId") Long categoryId,
                                                           @RequestBody CategoryUpdateRequest categoryUpdateRequest
     );
 
