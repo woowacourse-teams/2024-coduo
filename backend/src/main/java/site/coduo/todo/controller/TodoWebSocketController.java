@@ -54,7 +54,7 @@ public class TodoWebSocketController {
 
     @MessageMapping("/todo/{accessCode}/{todoId}/delete")
     @SendTo("/topic/{accessCode}/todo")
-    public List<TodoReadResponse> delete(@DestinationVariable("todoId") final long todoId,
+    public List<TodoReadResponse> delete(@DestinationVariable("todoId") final Long todoId,
                                          @DestinationVariable("accessCode") final String accessCode) {
         return todoServiceFacade.deleteTodo(todoId, accessCode);
     }
