@@ -1,19 +1,22 @@
 import { useState } from 'react';
 
+import useSocketStore from '@/stores/socketStore';
+
+import { publishCategoryMessage } from '@/apis/websocket/reference';
+
 import useInput from '@/hooks/_common/useInput';
 
-import useCategoriesMutation from '@/queries/PairRoom/useCategoriesMutation';
 import useCategoriesQuery from '@/queries/PairRoom/useCategoriesQuery';
 
 import { validateCategoryName } from '@/validations/validateCategory';
 
 const useEditCategory = (accessCode: string, categoryId: string, categoryName: string) => {
+  const { client } = useSocketStore();
   const [isEditing, setIsEditing] = useState(false);
 
   const { value, handleChange, resetValue, message, status } = useInput(categoryName);
 
   const { isCategoryExist } = useCategoriesQuery(accessCode);
-  const { updateCategoryMutation, deleteCategoryMutation } = useCategoriesMutation();
 
   const startEditing = () => setIsEditing(true);
 
@@ -32,12 +35,12 @@ const useEditCategory = (accessCode: string, categoryId: string, categoryName: s
       return;
     }
 
-    updateCategoryMutation({ categoryId, updatedCategoryName: value, accessCode });
+    publishCategoryMessage.update(client, accessCode, categoryId, value);
     stopEditing();
   };
 
   const deleteCategoryName = async () => {
-    deleteCategoryMutation({ categoryId, accessCode });
+    publishCategoryMessage.delete(client, accessCode, categoryId);
   };
 
   return {
