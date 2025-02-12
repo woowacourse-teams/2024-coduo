@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import site.coduo.todo.service.TodoService;
+import site.coduo.todo.service.TodoServiceFacade;
 import site.coduo.todo.service.dto.CreateTodoRequest;
 import site.coduo.todo.service.dto.TodoReadResponse;
 import site.coduo.todo.service.dto.UpdateTodoContentRequest;
@@ -20,14 +20,13 @@ import site.coduo.todo.service.dto.UpdateTodoOrderRequest;
 @RequiredArgsConstructor
 public class TodoWebSocketController {
 
-    private final TodoService todoService;
+    private final TodoServiceFacade todoServiceFacade;
 
     @MessageMapping("/{accessCode}/todo/post")
     @SendTo("/topic/{accessCode}/todo")
     public List<TodoReadResponse> createTodo(final CreateTodoRequest request,
                                              @DestinationVariable("accessCode") final String accessCode) {
-        todoService.createTodo(accessCode, request.contents());
-        return todoService.getAllOrderBySort(accessCode);
+        return todoServiceFacade.createTodo(request, accessCode);
     }
 
     @MessageMapping("/{accessCode}/todo/update/{todoId}/order")
@@ -35,8 +34,7 @@ public class TodoWebSocketController {
     public List<TodoReadResponse> modifyTodoOrder(final UpdateTodoOrderRequest request,
                                                   @DestinationVariable("accessCode") final String accessCode,
                                                   @DestinationVariable("todoId") final Long id) {
-        todoService.updateTodoSort(id, request.order());
-        return todoService.getAllOrderBySort(accessCode);
+        return todoServiceFacade.updateTodoOrder(request, accessCode, id);
     }
 
     @MessageMapping("/{accessCode}/todo/update/{todoId}/contents")
@@ -44,21 +42,20 @@ public class TodoWebSocketController {
     public List<TodoReadResponse> modifyTodoContent(@DestinationVariable("todoId") final long todoId,
                                                     @DestinationVariable("accessCode") final String accessCode,
                                                     final UpdateTodoContentRequest request) {
-        todoService.updateTodoContent(todoId, request.contents());
-        return todoService.getAllOrderBySort(accessCode);
+        return todoServiceFacade.updateTodoContent(request, accessCode, todoId);
     }
 
     @MessageMapping("/{accessCode}/todo/update/{todoId}/checked")
     @SendTo("/topic/{accessCode}/todo")
-    public List<TodoReadResponse> modifyTodoCheck(@DestinationVariable("todoId") final long todoId,
+    public List<TodoReadResponse> modifyTodoCheck(@DestinationVariable("todoId") final Long todoId,
                                                   @DestinationVariable("accessCode") final String accessCode) {
-        todoService.toggleTodoChecked(todoId);
-        return todoService.getAllOrderBySort(accessCode);
+        return todoServiceFacade.updateTodoChecked(todoId, accessCode);
     }
 
     @MessageMapping("/todo/{accessCode}/{todoId}/delete")
     @SendTo("/topic/{accessCode}/todo")
-    public List<TodoReadResponse> delete(@DestinationVariable("todoId") final long todoId) {
-        return todoService.deleteTodo(todoId);
+    public List<TodoReadResponse> delete(@DestinationVariable("todoId") final long todoId,
+                                         @DestinationVariable("accessCode") final String accessCode) {
+        return todoServiceFacade.deleteTodo(todoId, accessCode);
     }
 }
