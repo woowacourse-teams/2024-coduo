@@ -71,7 +71,7 @@ class CategoryServiceTest extends CascadeCleaner {
                 ACCESS_CODE.getValue());
         assertThat(categories.stream().anyMatch(
                 category -> category.id().equals(createdCategory.id()) &&
-                        category.categoryName().equals(createdCategory.value())))
+                        category.value().equals(createdCategory.value())))
                 .isTrue();
     }
 
@@ -87,14 +87,14 @@ class CategoryServiceTest extends CascadeCleaner {
 
         //when
         final CategoryUpdateResponse updatedCategory = categoryService.updateCategoryName(ACCESS_CODE.getValue(),
-                new CategoryUpdateRequest(Long.parseLong(createdCategory.id()), "파이썬"));
+                Long.parseLong(createdCategory.id()), new CategoryUpdateRequest("파이썬"));
 
         //then
         final List<CategoryReadResponse> categories = categoryService.findAllByPairRoomAccessCode(
                 ACCESS_CODE.getValue());
         assertThat(categories.stream().anyMatch(
                 category -> category.id().equals(createdCategory.id()) &&
-                        category.categoryName().equals(updatedCategory.updatedCategoryName())))
+                        category.value().equals(updatedCategory.updatedCategoryName())))
                 .isTrue();
     }
 
