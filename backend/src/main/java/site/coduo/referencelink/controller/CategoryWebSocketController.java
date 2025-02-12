@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import lombok.RequiredArgsConstructor;
 import site.coduo.referencelink.service.CategoryService;
 import site.coduo.referencelink.service.dto.CategoryCreateRequest;
-import site.coduo.referencelink.service.dto.CategoryCreateResponse;
 import site.coduo.referencelink.service.dto.CategoryReadResponse;
 import site.coduo.referencelink.service.dto.CategoryUpdateRequest;
-import site.coduo.referencelink.service.dto.CategoryUpdateResponse;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,22 +30,25 @@ public class CategoryWebSocketController {
 
     @MessageMapping("/{accessCode}/category/post")
     @SendTo("/topic/{accessCode}/category")
-    public CategoryCreateResponse createCategory(@DestinationVariable("accessCode") final String accessCode,
-                                                 @Valid @RequestBody final CategoryCreateRequest request) {
-        return categoryService.createCategory(accessCode, request);
+    public List<CategoryReadResponse> createCategory(@DestinationVariable("accessCode") final String accessCode,
+                                                     @Valid @RequestBody final CategoryCreateRequest request) {
+        categoryService.createCategory(accessCode, request);
+        return categoryService.findAllByPairRoomAccessCode(accessCode);
     }
 
     @MessageMapping("/{accessCode}/category/update")
     @SendTo("/topic/{accessCode}/category")
-    public CategoryUpdateResponse updateCategory(@DestinationVariable("accessCode") final String accessCode,
-                                                 @Valid @RequestBody final CategoryUpdateRequest request) {
-        return categoryService.updateCategoryName(accessCode, request);
+    public List<CategoryReadResponse> updateCategory(@DestinationVariable("accessCode") final String accessCode,
+                                                     @Valid @RequestBody final CategoryUpdateRequest request) {
+        categoryService.updateCategoryName(accessCode, request);
+        return categoryService.findAllByPairRoomAccessCode(accessCode);
     }
 
     @MessageMapping("/{accessCode}/category/delete/{categoryId}")
     @SendTo("/topic/{accessCode}/category")
-    public void deleteCategory(@DestinationVariable("accessCode") final String accessCode,
-                               @DestinationVariable("categoryId") final long categoryId) {
+    public List<CategoryReadResponse> deleteCategory(@DestinationVariable("accessCode") final String accessCode,
+                                                     @DestinationVariable("categoryId") final long categoryId) {
         categoryService.deleteCategory(accessCode, categoryId);
+        return categoryService.findAllByPairRoomAccessCode(accessCode);
     }
 }
