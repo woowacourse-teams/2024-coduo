@@ -71,7 +71,7 @@ class CategoryServiceTest extends CascadeCleaner {
                 ACCESS_CODE.getValue());
         assertThat(categories.stream().anyMatch(
                 category -> category.id().equals(createdCategory.id()) &&
-                        category.value().equals(createdCategory.value())))
+                        category.categoryName().equals(createdCategory.value())))
                 .isTrue();
     }
 
@@ -94,7 +94,7 @@ class CategoryServiceTest extends CascadeCleaner {
                 ACCESS_CODE.getValue());
         assertThat(categories.stream().anyMatch(
                 category -> category.id().equals(createdCategory.id()) &&
-                        category.value().equals(updatedCategory.updatedCategoryName())))
+                        category.categoryName().equals(updatedCategory.updatedCategoryName())))
                 .isTrue();
     }
 

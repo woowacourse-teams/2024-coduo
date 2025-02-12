@@ -9,7 +9,7 @@ public record CategoryReadResponse(
         String id,
 
         @Schema(description = "카테고리 값", example = "카테고리 없음")
-        String value
+        String categoryName
 ) {
 
     public static CategoryReadResponse from(final CategoryEntity category) {
