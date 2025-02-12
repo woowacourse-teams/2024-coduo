@@ -1,4 +1,4 @@
-package site.coduo.websocket;
+package site.coduo.websocket.stomp;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
