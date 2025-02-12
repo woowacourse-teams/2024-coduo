@@ -30,11 +30,12 @@ public class CategoryWebSocketController {
         return categoryService.findAllByPairRoomAccessCode(accessCode);
     }
 
-    @MessageMapping("/{accessCode}/category/update")
+    @MessageMapping("/{accessCode}/category/update/{categoryId}")
     @SendTo("/topic/{accessCode}/category")
     public List<CategoryReadResponse> updateCategory(@DestinationVariable("accessCode") final String accessCode,
+                                                     @DestinationVariable("categoryId") final long categoryId,
                                                      @Valid @RequestBody final CategoryUpdateRequest request) {
-        categoryService.updateCategoryName(accessCode, request);
+        categoryService.updateCategoryName(accessCode, categoryId, request);
         return categoryService.findAllByPairRoomAccessCode(accessCode);
     }
 
