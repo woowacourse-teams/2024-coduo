@@ -87,16 +87,11 @@ public class TodoService {
         todoRepository.save(new TodoEntity(updated, targetTodo.getPairRoomEntity()));
     }
 
-    public List<TodoReadResponse> deleteTodo(final Long todoId) {
+    public void deleteTodo(final Long todoId) {
         final TodoEntity todoEntity = todoRepository.findById(todoId)
                 .orElseThrow(() -> new TodoNotFoundException("존재하지 않은 todo id입니다." + todoId));
         checkPairRoomIsActive(todoEntity.getPairRoomEntity());
         todoRepository.deleteById(todoId);
-        final List<Todo> todos = todoRepository.findAllByPairRoomEntity(todoEntity.getPairRoomEntity())
-                .stream()
-                .map(TodoEntity::toDomain)
-                .toList();
-        return TodoReadResponse.of(todos);
     }
 
     private void checkPairRoomIsActive(final PairRoomEntity pairRoomEntity) {
