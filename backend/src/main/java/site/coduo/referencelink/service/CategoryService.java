@@ -62,9 +62,11 @@ public class CategoryService {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
         checkPairRoomIsActive(pairRoomEntity);
         validateDuplicated(request.value(), pairRoomEntity);
-        final CategoryEntity category = categoryRepository.fetchByPairRoomAndCategoryId(pairRoomEntity, categoryId);
-        category.updateCategoryName(request.value());
-        return new CategoryUpdateResponse(category.getCategoryName());
+        final CategoryEntity categoryEntity = categoryRepository.fetchByPairRoomAndCategoryId(pairRoomEntity,
+                categoryId);
+        final Category category = new Category(categoryEntity.getCategoryName());
+        categoryEntity.updateCategoryName(category);
+        return new CategoryUpdateResponse(categoryEntity.getCategoryName());
     }
 
     public void deleteCategory(final String accessCode, final Long categoryId) {
