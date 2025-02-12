@@ -14,6 +14,7 @@ import useUserStore from '@/stores/userStore';
 
 import usePreventBackNavigation from '@/hooks/_common/customEvent/usePreventBackNavigation';
 import useSignInHandler from '@/hooks/_common/member/useSignInHandler';
+import useScrollToTop from '@/hooks/_common/useScrollToTop';
 import useTitleTime from '@/hooks/PairRoom/useTitleTime';
 
 const targetSections: TargetSection[] = [
@@ -32,6 +33,7 @@ const Landing = () => {
   const { handleSignInGithub } = useSignInHandler();
 
   useTitleTime();
+  useScrollToTop();
   usePreventBackNavigation();
 
   return (
