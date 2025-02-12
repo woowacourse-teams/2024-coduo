@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { getPairRoom } from '@/apis/http/pairRoom';
+import { getPairRoom, PairRoomStatus } from '@/apis/http/pairRoom';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
@@ -26,7 +26,7 @@ const usePairRoomQuery = (accessCode: string) => {
   return {
     driver: pairRoom?.driver || '',
     navigator: pairRoom?.navigator || '',
-    status: pairRoom?.status || '',
+    status: (pairRoom?.status as PairRoomStatus) || '',
     missionUrl: pairRoom?.missionUrl || '',
     duration: pairRoom?.duration || 0,
     remainingTime: pairRoom?.remainingTime || 0,

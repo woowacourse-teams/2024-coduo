@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { AlarmSound } from '@/assets';
 
@@ -12,7 +11,6 @@ import { subscribeTopic } from '@/apis/websocket/websocket';
 import useNotification from '@/hooks/PairRoom/useNotification';
 
 enum TimerStatus {
-  COMPLETE = 'complete',
   START = 'start',
   RUNNING = 'running',
   PAUSE = 'pause',
@@ -20,7 +18,6 @@ enum TimerStatus {
 }
 
 const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () => void) => {
-  const navigate = useNavigate();
   const durationRef = useRef(defaultTime);
 
   const { client, isConnected, accessCode } = useSocketStore();
@@ -65,11 +62,6 @@ const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () 
 
   const handleTimerStatusEvent = (status: TimerStatus, data: number | null) => {
     switch (status) {
-      case TimerStatus.COMPLETE:
-        navigate(`/room/${accessCode}/retrospectForm`, { state: { valid: true } });
-        addToast({ status: 'WARNING', message: '페어룸이 종료되었습니다.' });
-        break;
-
       case TimerStatus.START:
         setIsActive(true);
         addToast({ status: 'SUCCESS', message: '타이머가 시작되었습니다.' });
