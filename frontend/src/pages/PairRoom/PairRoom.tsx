@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import Loading from '@/pages/Loading/Loading';
 
@@ -14,6 +14,7 @@ import useSocketStore from '@/stores/socketStore';
 
 import useModal from '@/hooks/_common/useModal';
 import usePairRoom from '@/hooks/PairRoom/usePairRoom';
+import usePairRoomStatusSocket from '@/hooks/PairRoom/usePairRoomStatusSocket';
 
 import usePairRoomMutation from '@/queries/PairRoom/usePairRoomMutation';
 import usePairRoomQuery from '@/queries/PairRoom/usePairRoomQuery';
@@ -21,12 +22,7 @@ import usePairRoomQuery from '@/queries/PairRoom/usePairRoomQuery';
 import * as S from './PairRoom.styles';
 
 const PairRoom = () => {
-  const navigate = useNavigate();
   const { accessCode } = useParams();
-
-  // 웹소켓 연결
-  usePairRoom();
-  const { isConnected } = useSocketStore();
 
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
@@ -35,23 +31,26 @@ const PairRoom = () => {
   const {
     driver: latestDriver,
     navigator: latestNavigator,
-    status,
+    status: defaultStatus,
     missionUrl,
-    duration,
-    remainingTime,
+    duration: defaultTime,
+    remainingTime: defaultTimeLeft,
     isFetching,
     todos,
     references,
     categories,
   } = usePairRoomQuery(accessCode || '');
 
+  // 웹소켓 연결
+  usePairRoom();
+  const { isConnected } = useSocketStore();
+
+  // 페어룸 상태 웹소켓
+  usePairRoomStatusSocket(defaultStatus);
+
   const { updatePairRoleMutation } = usePairRoomMutation();
 
   const { isModalOpen, closeModal } = useModal(true);
-
-  useEffect(() => {
-    if (status === 'COMPLETED') navigate(`/room/${accessCode}/completed`, { state: { valid: true }, replace: true });
-  }, [status]);
 
   useEffect(() => {
     setDriver(latestDriver);
@@ -68,8 +67,8 @@ const PairRoom = () => {
       <S.Container>
         <PairRoleCard driver={driver} navigator={navigator} />
         <TimerCard
-          defaultTime={duration}
-          defaultTimeLeft={remainingTime}
+          defaultTime={defaultTime}
+          defaultTimeLeft={defaultTimeLeft}
           onTimerStop={() => updatePairRoleMutation({ accessCode: accessCode || '' })}
         />
       </S.Container>
