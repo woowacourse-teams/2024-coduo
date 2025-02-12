@@ -78,8 +78,8 @@ const PairRoom = () => {
         <ReferenceCard
           isOpen={isCardOpen}
           toggleIsOpen={() => setIsCardOpen(true)}
-          references={references}
-          categories={categories}
+          defaultReferences={references}
+          defaultCategories={categories}
         />
       </S.Container>
       <GuideModal isOpen={isModalOpen} close={closeModal} accessCode={accessCode || ''} />

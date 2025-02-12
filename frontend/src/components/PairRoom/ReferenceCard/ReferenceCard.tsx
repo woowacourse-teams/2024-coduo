@@ -12,6 +12,8 @@ import useSocketStore from '@/stores/socketStore';
 import { Reference } from '@/apis/http/referenceLink';
 
 import useModal from '@/hooks/_common/useModal';
+import useCategory from '@/hooks/PairRoom/useCategory';
+import useReference from '@/hooks/PairRoom/useReference';
 
 import useCategoriesQuery, { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/queries/PairRoom/useCategoriesQuery';
 
@@ -22,12 +24,14 @@ import * as S from './ReferenceCard.styles';
 interface ReferenceCardProps {
   isOpen: boolean;
   toggleIsOpen: () => void;
-  references: Reference[];
-  categories: Category[];
+  defaultReferences: Reference[];
+  defaultCategories: Category[];
 }
 
-const ReferenceCard = ({ isOpen, toggleIsOpen, references, categories }: ReferenceCardProps) => {
+const ReferenceCard = ({ isOpen, toggleIsOpen, defaultReferences, defaultCategories }: ReferenceCardProps) => {
   const { accessCode } = useSocketStore();
+  const { references } = useReference(defaultReferences);
+  const { categories } = useCategory(defaultCategories);
 
   const [selectedCategoryId, setSelectedCategoryId] = useState(DEFAULT_CATEGORY_ID);
 

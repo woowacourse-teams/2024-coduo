@@ -1,19 +1,20 @@
 import { useState, useEffect } from 'react';
 
 import useSocketStore from '@/stores/socketStore';
+
 import { Reference } from '@/apis/http/referenceLink';
 import { subscribeTopic } from '@/apis/websocket/websocket';
 
-const useReferenceLink = () => {
+const useReference = (defaultReferences: Reference[]) => {
   const { client, isConnected, accessCode } = useSocketStore();
 
-  const [referenceLinks, setReferenceLinks] = useState<Reference[]>([]);
+  const [references, setReferences] = useState<Reference[]>(defaultReferences);
 
-  const handleReferenceLinks = (referenceLinks: Reference[]) => setReferenceLinks(referenceLinks);
+  const handleReferences = (references: Reference[]) => setReferences(references);
 
   useEffect(() => {
     if (client && isConnected) {
-      subscribeTopic<Reference[]>(client, `/topic/${accessCode}/reference-link`, handleReferenceLinks);
+      subscribeTopic<Reference[]>(client, `/topic/${accessCode}/reference-link`, handleReferences);
     }
 
     return () => {
@@ -23,7 +24,7 @@ const useReferenceLink = () => {
     };
   }, [client]);
 
-  return { referenceLinks };
+  return { references };
 };
 
-export default useReferenceLink;
+export default useReference;

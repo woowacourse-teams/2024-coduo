@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 
-import useSocketStore from '@/stores/socketStore';
-import { subscribeTopic } from '@/apis/websocket/websocket';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 
-const useCategory = () => {
+import useSocketStore from '@/stores/socketStore';
+
+import { subscribeTopic } from '@/apis/websocket/websocket';
+
+const useCategory = (defaultCategories: Category[]) => {
   const { client, isConnected, accessCode } = useSocketStore();
 
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<Category[]>(defaultCategories);
 
   const handleCategories = (categories: Category[]) => setCategories(categories);
 
@@ -15,7 +17,7 @@ const useCategory = () => {
     if (client && isConnected) {
       subscribeTopic<Category[]>(client, `/topic/${accessCode}/category`, handleCategories);
     }
-    
+
     return () => {
       if (client && isConnected) {
         client.unsubscribe(`/topic/${accessCode}/category`);
