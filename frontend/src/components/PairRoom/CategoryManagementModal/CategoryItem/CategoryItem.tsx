@@ -64,6 +64,7 @@ const CategoryItem = ({ categoryId, categoryName, isChecked, closeModal, handleS
             height="4.4rem"
             placeholder="수정할 카테고리 이름을 입력해 주세요."
             value={newCategoryName.value}
+            maxLength={10}
             status={newCategoryName.status}
             onChange={(event) => handleCategoryName(event, categoryName)}
           />
