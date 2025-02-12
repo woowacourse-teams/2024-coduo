@@ -48,6 +48,8 @@ const CategoryManagementModal = ({
     if (status === 'ERROR') return;
 
     publishCategoryMessage.add(client, accessCode, value);
+
+    resetValue();
   };
 
   const handleCloseModal = () => {
@@ -70,7 +72,7 @@ const CategoryManagementModal = ({
               isChecked={category.id === selectedCategoryId}
               closeModal={handleCloseModal}
               categoryId={category.id}
-              categoryName={category.value}
+              categoryName={category.categoryName}
               handleSelectCategory={handleSelectedCategoryId}
             />
           ))}
