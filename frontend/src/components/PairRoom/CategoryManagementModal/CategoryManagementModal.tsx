@@ -86,6 +86,7 @@ const CategoryManagementModal = ({
               placeholder="추가할 카테고리를 입력해 주세요."
               height="4.4rem"
               status={status}
+              maxLength={10}
               onChange={(event: ChangeEvent<HTMLInputElement>) =>
                 handleChange(event, validateCategoryName(event.target.value, isCategoryExist))
               }
