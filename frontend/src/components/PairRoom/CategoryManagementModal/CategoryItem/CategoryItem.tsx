@@ -5,7 +5,10 @@ import { CheckBoxChecked, CheckBoxUnchecked } from '@/assets';
 import IconButton from '@/components/_common/IconButton/IconButton';
 import Input from '@/components/_common/InputField/Input/Input';
 
+import useSocketStore from '@/stores/socketStore';
 import useToastStore from '@/stores/toastStore';
+
+import { publishCategoryMessage } from '@/apis/websocket/reference';
 
 import useEditCategory from '@/hooks/PairRoom/useEditCategory';
 
@@ -16,7 +19,6 @@ import { theme } from '@/styles/theme';
 import * as S from './CategoryItem.styles';
 
 interface CategoryItemProps {
-  accessCode: string;
   categoryId: string;
   categoryName: string;
   isChecked: boolean;
@@ -24,33 +26,23 @@ interface CategoryItemProps {
   handleSelectCategory: (categoryId: string) => void;
 }
 
-const CategoryItem = ({
-  accessCode,
-  categoryId,
-  categoryName,
-  isChecked,
-  closeModal,
-  handleSelectCategory,
-}: CategoryItemProps) => {
-  const {
-    newCategoryName,
-    handleCategoryName,
-    isEditing,
-    startEditing,
-    stopEditing,
-    updateCategoryName,
-    deleteCategoryName,
-  } = useEditCategory(accessCode, categoryId, categoryName);
+const CategoryItem = ({ categoryId, categoryName, isChecked, closeModal, handleSelectCategory }: CategoryItemProps) => {
+  const { client, accessCode } = useSocketStore();
+  const { newCategoryName, handleCategoryName, isEditing, startEditing, stopEditing } = useEditCategory(
+    accessCode,
+    categoryId,
+    categoryName,
+  );
 
   const { addToast } = useToastStore();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    await updateCategoryName();
+    publishCategoryMessage.update(client, accessCode, categoryId, newCategoryName.value);
   };
 
   const handleDeleteCategory = async () => {
-    await deleteCategoryName();
+    publishCategoryMessage.delete(client, accessCode, categoryId);
     if (isChecked) handleSelectCategory(DEFAULT_CATEGORY_ID);
   };
 

@@ -7,10 +7,13 @@ import { Dropdown } from '@/components/_common/Dropdown';
 import Input from '@/components/_common/InputField/Input/Input';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 
+import useSocketStore from '@/stores/socketStore';
+
+import { publishReferenceMessage } from '@/apis/websocket/reference';
+
 import useInput from '@/hooks/_common/useInput';
 
 import { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/queries/PairRoom/useCategoriesQuery';
-import useReferencesMutation from '@/queries/PairRoom/useReferencesMutation';
 
 import { findValueById } from '@/utils/findOption';
 import { formatLink } from '@/utils/formatLink';
@@ -18,16 +21,13 @@ import { formatLink } from '@/utils/formatLink';
 import * as S from './Footer.styles';
 
 interface FooterProps {
-  accessCode: string;
   categories: Category[];
 }
 
-const Footer = ({ accessCode, categories }: FooterProps) => {
+const Footer = ({ categories }: FooterProps) => {
   const [currentCategoryId, setCurrentCategoryId] = useState<string | null>(null);
-
+  const { client, accessCode } = useSocketStore();
   const { value, status, handleChange, resetValue } = useInput();
-
-  const { addReferenceMutation } = useReferencesMutation();
 
   const handleCurrentCategoryId = (categoryId: string | null) => setCurrentCategoryId(categoryId);
 
@@ -37,7 +37,8 @@ const Footer = ({ accessCode, categories }: FooterProps) => {
     const url = formatLink(value);
     const categoryId = currentCategoryId === DEFAULT_CATEGORY_ID ? null : currentCategoryId;
 
-    addReferenceMutation({ url, accessCode, categoryId }, { onSuccess: resetValue });
+    publishReferenceMessage.add(client, accessCode, url, categoryId);
+    resetValue(); // TODO: 에러 처리 로직 추가해야 함!
   };
 
   return (
