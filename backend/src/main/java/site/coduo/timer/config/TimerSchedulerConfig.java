@@ -1,4 +1,4 @@
-package site.coduo.sync.config;
+package site.coduo.timer.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 @Configuration
-public class SchedulerConfig {
+public class TimerSchedulerConfig {
 
     @Bean
     @Primary

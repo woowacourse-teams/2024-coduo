@@ -1,0 +1,48 @@
+package site.coduo.referencelink.controller;
+
+import java.util.List;
+
+import jakarta.validation.Valid;
+
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import lombok.RequiredArgsConstructor;
+import site.coduo.referencelink.service.CategoryService;
+import site.coduo.referencelink.service.dto.CategoryCreateRequest;
+import site.coduo.referencelink.service.dto.CategoryReadResponse;
+import site.coduo.referencelink.service.dto.CategoryUpdateRequest;
+
+@Controller
+@RequiredArgsConstructor
+public class CategoryWebSocketController {
+
+    private final CategoryService categoryService;
+
+    @MessageMapping("/{accessCode}/category/post")
+    @SendTo("/topic/{accessCode}/category")
+    public List<CategoryReadResponse> createCategory(@DestinationVariable("accessCode") final String accessCode,
+                                                     @Valid @RequestBody final CategoryCreateRequest request) {
+        categoryService.createCategory(accessCode, request);
+        return categoryService.findAllByPairRoomAccessCode(accessCode);
+    }
+
+    @MessageMapping("/{accessCode}/category/update")
+    @SendTo("/topic/{accessCode}/category")
+    public List<CategoryReadResponse> updateCategory(@DestinationVariable("accessCode") final String accessCode,
+                                                     @Valid @RequestBody final CategoryUpdateRequest request) {
+        categoryService.updateCategoryName(accessCode, request);
+        return categoryService.findAllByPairRoomAccessCode(accessCode);
+    }
+
+    @MessageMapping("/{accessCode}/category/delete/{categoryId}")
+    @SendTo("/topic/{accessCode}/category")
+    public List<CategoryReadResponse> deleteCategory(@DestinationVariable("accessCode") final String accessCode,
+                                                     @DestinationVariable("categoryId") final long categoryId) {
+        categoryService.deleteCategory(accessCode, categoryId);
+        return categoryService.findAllByPairRoomAccessCode(accessCode);
+    }
+}

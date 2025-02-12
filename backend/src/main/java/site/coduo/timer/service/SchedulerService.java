@@ -1,10 +1,9 @@
-package site.coduo.sync.service;
+package site.coduo.timer.service;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.ScheduledFuture;
 
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.PeriodicTrigger;
@@ -17,7 +16,6 @@ import site.coduo.timer.domain.Timer;
 import site.coduo.timer.domain.TimerStatus;
 import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
-import site.coduo.timer.service.TimestampRegistry;
 import site.coduo.timer.service.dto.TimerStartResponse;
 import site.coduo.timer.service.dto.TimerStatusResponse;
 
@@ -29,7 +27,7 @@ public class SchedulerService {
 
     public static final Duration DELAY_SECOND = Duration.of(1, ChronoUnit.SECONDS);
 
-    private final SimpMessagingTemplate messagingTemplate;
+    private final TimerStompManager timerStompManager;
     private final ThreadPoolTaskScheduler taskScheduler;
     private final SchedulerRegistry schedulerRegistry;
     private final TimestampRegistry timestampRegistry;
@@ -39,10 +37,7 @@ public class SchedulerService {
         if (schedulerRegistry.isActive(key)) {
             return;
         }
-        messagingTemplate.convertAndSend(
-                "/topic/" + key + "/timer/status",
-                new TimerStatusResponse(TimerStatus.START.getName(), null)
-        );
+        timerStompManager.send(key, new TimerStatusResponse(TimerStatus.START.getName(), null));
         if (isInitial(key)) {
             final Timer timer = timerRepository.fetchTimerByAccessCode(key)
                     .toDomain();
@@ -69,16 +64,12 @@ public class SchedulerService {
             stop(key, timer);
             return;
         }
-        // todo - STOMP에서 특정 topic을 구독하고 있는 사용자 수를 가져올 방법 생각
-//        if (pairRoomWebSocketService.hasNoConnections(key) && schedulerRegistry.has(key)) {
-//            pauseTimer(key);
-//            return;
-//        }
+        if (timerStompManager.isTimerIdle(key) && schedulerRegistry.has(key)) {
+            pauseTimer(key);
+            return;
+        }
         timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
-        messagingTemplate.convertAndSend(
-                "/topic/" + key + "/timer",
-                new TimerStartResponse(timer.getRemainingTime())
-        );
+        timerStompManager.send(key, new TimerStartResponse(timer.getRemainingTime()));
     }
 
     private void pauseTimer(final String key) {
@@ -89,15 +80,11 @@ public class SchedulerService {
 
     public void pause(final String key) {
         pauseTimer(key);
-        messagingTemplate.convertAndSend(
-                "/topic/" + key + "/timer/status",
-                new TimerStatusResponse(TimerStatus.PAUSE.getName(), null));
+        timerStompManager.send(key, new TimerStatusResponse(TimerStatus.PAUSE.getName(), null));
     }
 
     private void stop(final String key, final Timer timer) {
-        messagingTemplate.convertAndSend(
-                "/topic/" + key + "/timer/status",
-                new TimerStatusResponse(TimerStatus.PAUSE.getName(), null));
+        // timerStompManager.send(key, new TimerStatusResponse(TimerStatus.STOP.getName(), null));
         schedulerRegistry.release(key);
         final Timer initalTimer = new Timer(timer.getAccessCode(), timer.getDuration(), timer.getDuration());
         timestampRegistry.register(key, initalTimer);
@@ -105,9 +92,7 @@ public class SchedulerService {
 
     public void notifyTimerStatus(final String key) {
         if (schedulerRegistry.isActive(key)) {
-            messagingTemplate.convertAndSend(
-                    "/topic/" + key + "/timer/status",
-                    new TimerStatusResponse(TimerStatus.RUNNING.getName(), null));
+            timerStompManager.send(key, new TimerStatusResponse(TimerStatus.RUNNING.getName(), null));
         }
     }
 
