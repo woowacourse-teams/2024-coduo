@@ -2,8 +2,8 @@ import { Client } from '@stomp/stompjs';
 
 import { publishMessage } from '@/apis/websocket/websocket';
 
-export const publishReferenceLinkMessage = {
-  add: (client: Client | null, accessCode: string, url: string, categoryId: number) => {
+export const publishReferenceMessage = {
+  add: (client: Client | null, accessCode: string, url: string, categoryId: string | null) => {
     publishMessage(client, `/send/${accessCode}/referenceLink/post`, { url, categoryId });
   },
   delete: (client: Client | null, accessCode: string, referenceLinkId: number) => {

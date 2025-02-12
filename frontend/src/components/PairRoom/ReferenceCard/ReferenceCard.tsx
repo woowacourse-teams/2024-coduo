@@ -51,8 +51,8 @@ const ReferenceCard = ({ isOpen, toggleIsOpen, defaultReferences, defaultCategor
           onButtonClick={openModal}
         />
         <S.Body $isOpen={isOpen}>
-          <ReferenceList references={references || []} accessCode={accessCode} />
-          <Footer accessCode={accessCode} categories={categories} />
+          <ReferenceList references={references || []} />
+          <Footer categories={categories} />
         </S.Body>
       </PairRoomCard>
       <CategoryManagementModal
