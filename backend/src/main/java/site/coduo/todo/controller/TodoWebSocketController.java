@@ -52,7 +52,7 @@ public class TodoWebSocketController {
         return todoServiceFacade.updateTodoChecked(todoId, accessCode);
     }
 
-    @MessageMapping("/todo/{accessCode}/{todoId}/delete")
+    @MessageMapping("{accessCode}/todo/delete/{todoId}")
     @SendTo("/topic/{accessCode}/todo")
     public List<TodoReadResponse> delete(@DestinationVariable("todoId") final Long todoId,
                                          @DestinationVariable("accessCode") final String accessCode) {
