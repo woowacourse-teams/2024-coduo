@@ -1,4 +1,4 @@
-package site.coduo.sync.service;
+package site.coduo.timer.service;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -16,8 +16,6 @@ import site.coduo.timer.domain.Timer;
 import site.coduo.timer.domain.TimerStatus;
 import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
-import site.coduo.timer.service.TimerStompManager;
-import site.coduo.timer.service.TimestampRegistry;
 import site.coduo.timer.service.dto.TimerStartResponse;
 import site.coduo.timer.service.dto.TimerStatusResponse;
 

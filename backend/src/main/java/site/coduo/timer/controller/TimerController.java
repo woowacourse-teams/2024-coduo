@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import site.coduo.sync.service.SchedulerService;
 import site.coduo.timer.controller.docs.TimerDocs;
+import site.coduo.timer.service.SchedulerService;
 import site.coduo.timer.service.TimerService;
 import site.coduo.timer.service.dto.TimerUpdateRequest;
 

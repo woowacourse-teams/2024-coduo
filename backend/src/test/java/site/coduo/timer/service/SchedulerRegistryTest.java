@@ -1,4 +1,4 @@
-package site.coduo.sync.service;
+package site.coduo.timer.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;

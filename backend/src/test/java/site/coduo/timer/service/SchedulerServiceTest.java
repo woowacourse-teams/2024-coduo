@@ -1,4 +1,4 @@
-package site.coduo.sync.service;
+package site.coduo.timer.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -20,8 +20,6 @@ import site.coduo.pairroom.repository.PairRoomEntity;
 import site.coduo.timer.domain.Timer;
 import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
-import site.coduo.timer.service.TimerStompManager;
-import site.coduo.timer.service.TimestampRegistry;
 
 @Disabled
 @SpringBootTest
