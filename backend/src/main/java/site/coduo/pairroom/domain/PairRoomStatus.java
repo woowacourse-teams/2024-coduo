@@ -6,17 +6,20 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import site.coduo.pairroom.exception.InvalidPairRoomStatusException;
 
+@RequiredArgsConstructor
 @Getter
 public enum PairRoomStatus {
 
-    IN_PROGRESS,
-    COMPLETED,
-    DELETED;
+    IN_PROGRESS("in_progress"),
+    COMPLETED("completed"),
+    DELETED("deleted");
 
     private static final Map<String, PairRoomStatus> STATUS = Arrays.stream(values())
             .collect(Collectors.toMap(PairRoomStatus::name, Function.identity()));
+    private final String name;
 
     public static PairRoomStatus findByName(String value) {
         if (STATUS.containsKey(value)) {
