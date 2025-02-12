@@ -30,9 +30,7 @@ interface ReferenceCardProps {
 
 const ReferenceCard = ({ isOpen, toggleIsOpen, defaultReferences, defaultCategories }: ReferenceCardProps) => {
   const { accessCode } = useSocketStore();
-  const { references } = useReference(defaultReferences);
   const { categories } = useCategory(defaultCategories);
-
   const [selectedCategoryId, setSelectedCategoryId] = useState(DEFAULT_CATEGORY_ID);
 
   const { isModalOpen, openModal, closeModal } = useModal();
@@ -40,6 +38,8 @@ const ReferenceCard = ({ isOpen, toggleIsOpen, defaultReferences, defaultCategor
   const { isCategoryExist } = useCategoriesQuery(accessCode);
 
   const selectedCategoryName = findValueById(categories, selectedCategoryId) || DEFAULT_CATEGORY_VALUE;
+
+  const { references } = useReference(defaultReferences, selectedCategoryName);
 
   return (
     <S.Layout>
