@@ -56,12 +56,13 @@ public class CategoryService {
         }
     }
 
-    public CategoryUpdateResponse updateCategoryName(final String accessCode, final CategoryUpdateRequest request) {
+    public CategoryUpdateResponse updateCategoryName(final String accessCode,
+                                                     final long categoryId,
+                                                     final CategoryUpdateRequest request) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(new AccessCode(accessCode));
         checkPairRoomIsActive(pairRoomEntity);
         validateDuplicated(request.categoryName(), pairRoomEntity);
-        final CategoryEntity category = categoryRepository.fetchByPairRoomAndCategoryId(pairRoomEntity,
-                request.categoryId());
+        final CategoryEntity category = categoryRepository.fetchByPairRoomAndCategoryId(pairRoomEntity, categoryId);
         category.updateCategoryName(request.categoryName());
         return new CategoryUpdateResponse(category.getCategoryName());
     }

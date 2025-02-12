@@ -87,7 +87,8 @@ class CategoryServiceTest extends CascadeCleaner {
 
         //when
         final CategoryUpdateResponse updatedCategory = categoryService.updateCategoryName(ACCESS_CODE.getValue(),
-                new CategoryUpdateRequest(Long.parseLong(createdCategory.id()), "파이썬"));
+                Long.parseLong(createdCategory.id()),
+                new CategoryUpdateRequest("파이썬"));
 
         //then
         final List<CategoryReadResponse> categories = categoryService.findAllByPairRoomAccessCode(
