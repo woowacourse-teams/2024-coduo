@@ -72,7 +72,7 @@ const CategoryManagementModal = ({
               isChecked={category.id === selectedCategoryId}
               closeModal={handleCloseModal}
               categoryId={category.id}
-              categoryName={category.categoryName}
+              categoryName={category.value}
               handleSelectCategory={handleSelectedCategoryId}
             />
           ))}
