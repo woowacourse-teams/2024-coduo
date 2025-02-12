@@ -15,10 +15,10 @@ export const publishCategoryMessage = {
   add: (client: Client | null, accessCode: string, categoryName: string) => {
     publishMessage(client, `/send/${accessCode}/category/post`, { categoryName });
   },
-  update: (client: Client | null, accessCode: string, categoryId: number, categoryName: string) => {
+  update: (client: Client | null, accessCode: string, categoryId: string, categoryName: string) => {
     publishMessage(client, `/send/${accessCode}/category/update/${categoryId}/name`, { categoryName });
   },
-  delete: (client: Client | null, accessCode: string, categoryId: number) => {
+  delete: (client: Client | null, accessCode: string, categoryId: string) => {
     publishMessage(client, `/send/${accessCode}/category/delete/${categoryId}`);
   },
 };
