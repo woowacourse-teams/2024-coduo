@@ -26,7 +26,7 @@ public class CategoryWebSocketController {
 
     @MessageMapping("/{accessCode}/category/get")
     @SendTo("/topic/{accessCode}/category")
-    public List<CategoryReadResponse> getCategories(@DestinationVariable("accessCode") String accessCode) {
+    public List<CategoryReadResponse> getCategories(@DestinationVariable("accessCode") final String accessCode) {
         return categoryService.findAllByPairRoomAccessCode(accessCode);
     }
 
@@ -46,8 +46,8 @@ public class CategoryWebSocketController {
 
     @MessageMapping("/{accessCode}/category/delete/{categoryId}")
     @SendTo("/topic/{accessCode}/category")
-    public void deleteCategory(@DestinationVariable("accessCode") String accessCode,
-                               @DestinationVariable("categoryId") long categoryId) {
+    public void deleteCategory(@DestinationVariable("accessCode") final String accessCode,
+                               @DestinationVariable("categoryId") final long categoryId) {
         categoryService.deleteCategory(accessCode, categoryId);
     }
 }
