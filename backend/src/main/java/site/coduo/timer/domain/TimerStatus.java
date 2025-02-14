@@ -7,11 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum TimerStatus {
 
-    START("start"),
-    PAUSE("pause"),
-    STOP("stop"),
-    RUNNING("running"),
-    UPDATE("update");
-
-    private final String name;
+    START,
+    PAUSE,
+    STOP,
+    RUNNING,
+    UPDATE
 }

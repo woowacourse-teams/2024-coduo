@@ -18,7 +18,7 @@ public class PairRoomStompManager {
     public void send(final String accessCode, final PairRoomStatus pairRoomStatus) {
         simpMessagingTemplate.convertAndSend(
                 String.format(STATUS_DESTINATION, accessCode),
-                new PairRoomStatusResponse(pairRoomStatus.getName())
+                new PairRoomStatusResponse(pairRoomStatus.name())
         );
     }
 }
