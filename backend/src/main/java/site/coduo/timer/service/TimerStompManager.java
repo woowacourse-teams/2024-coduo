@@ -19,21 +19,21 @@ public class TimerStompManager {
     private final StompSubscriptionService stompSubscriptionService;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
-    public void send(final String accessCode, final TimerStatus status) {
+    public void sendStatus(final String accessCode, final TimerStatus status) {
         simpMessagingTemplate.convertAndSend(
                 String.format(STATUS_DESTINATION, accessCode),
                 new TimerStatusResponse(status.name(), null)
         );
     }
 
-    public void send(final String accessCode, final TimerStatus status, final long data) {
+    public void sendInfo(final String accessCode, final TimerStatus status, final long data) {
         simpMessagingTemplate.convertAndSend(
                 String.format(STATUS_DESTINATION, accessCode),
                 new TimerStatusResponse(status.name(), data)
         );
     }
 
-    public void send(final String accessCode, final long data) {
+    public void sendTime(final String accessCode, final long data) {
         simpMessagingTemplate.convertAndSend(String.format(TIME_DESTINATION, accessCode), new TimerStartResponse(data));
     }
 

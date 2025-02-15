@@ -35,7 +35,7 @@ public class SchedulerService {
         if (schedulerRegistry.isActive(key)) {
             return;
         }
-        timerStompManager.send(key, TimerStatus.START);
+        timerStompManager.sendStatus(key, TimerStatus.START);
         if (isInitial(key)) {
             final Timer timer = timerRepository.fetchTimerByAccessCode(key)
                     .toDomain();
@@ -67,14 +67,14 @@ public class SchedulerService {
             return;
         }
         timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
-        timerStompManager.send(key, timer.getRemainingTime());
+        timerStompManager.sendTime(key, timer.getRemainingTime());
     }
 
     public void pause(final String key) {
         if (schedulerRegistry.isActive(key)) {
             schedulerRegistry.release(key);
         }
-        timerStompManager.send(key, TimerStatus.PAUSE);
+        timerStompManager.sendStatus(key, TimerStatus.PAUSE);
     }
 
     private void reset(final String key, final Timer timer) {
@@ -85,7 +85,7 @@ public class SchedulerService {
 
     public void notifyTimerStatus(final String key) {
         if (schedulerRegistry.isActive(key)) {
-            timerStompManager.send(key, TimerStatus.RUNNING);
+            timerStompManager.sendStatus(key, TimerStatus.RUNNING);
         }
     }
 

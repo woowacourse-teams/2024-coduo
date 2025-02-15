@@ -44,6 +44,6 @@ public class TimerService {
         );
         timerEntity.updateTimer(newTimer);
         timestampRegistry.register(accessCode, newTimer);
-        timerStompManager.send(accessCode, TimerStatus.UPDATE, newTimer.getDuration());
+        timerStompManager.sendInfo(accessCode, TimerStatus.UPDATE, newTimer.getDuration());
     }
 }
