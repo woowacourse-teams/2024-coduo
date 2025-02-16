@@ -22,19 +22,19 @@ public class TimerStompManager {
     public void sendStatus(final String accessCode, final TimerStatus status) {
         simpMessagingTemplate.convertAndSend(
                 String.format(STATUS_DESTINATION, accessCode),
-                new TimerStatusResponse(status.name(), null)
+                new TimerStatusResponse(status.getMessage(), null)
         );
     }
 
-    public void sendInfo(final String accessCode, final TimerStatus status, final long data) {
+    public void sendTime(final String accessCode, final long time) {
+        simpMessagingTemplate.convertAndSend(String.format(TIME_DESTINATION, accessCode), new TimerStartResponse(time));
+    }
+
+    public void sendStatusAndTime(final String accessCode, final TimerStatus status, final long time) {
         simpMessagingTemplate.convertAndSend(
                 String.format(STATUS_DESTINATION, accessCode),
-                new TimerStatusResponse(status.name(), data)
+                new TimerStatusResponse(status.getMessage(), time)
         );
-    }
-
-    public void sendTime(final String accessCode, final long data) {
-        simpMessagingTemplate.convertAndSend(String.format(TIME_DESTINATION, accessCode), new TimerStartResponse(data));
     }
 
     public boolean isTimerIdle(final String accessCode) {

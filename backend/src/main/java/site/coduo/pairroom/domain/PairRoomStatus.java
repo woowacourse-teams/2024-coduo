@@ -13,12 +13,13 @@ import site.coduo.pairroom.exception.InvalidPairRoomStatusException;
 @Getter
 public enum PairRoomStatus {
 
-    IN_PROGRESS,
-    COMPLETED,
-    DELETED;
+    IN_PROGRESS("IN_PROGRESS"),
+    COMPLETED("COMPLETED"),
+    DELETED("DELETED");
 
     private static final Map<String, PairRoomStatus> STATUS = Arrays.stream(values())
             .collect(Collectors.toMap(PairRoomStatus::name, Function.identity()));
+    private final String message;
 
     public static PairRoomStatus findByName(String value) {
         if (STATUS.containsKey(value)) {
