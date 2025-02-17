@@ -39,7 +39,8 @@ const ReferenceCard = ({ isOpen, toggleIsOpen, defaultReferences, defaultCategor
 
   const selectedCategoryName = findValueById(categories, selectedCategoryId) || DEFAULT_CATEGORY_VALUE;
 
-  const { references } = useReference(defaultReferences);
+  const { references } = useReference(defaultReferences, selectedCategoryName);
+  console.log(selectedCategoryName);
 
   return (
     <S.Layout>
