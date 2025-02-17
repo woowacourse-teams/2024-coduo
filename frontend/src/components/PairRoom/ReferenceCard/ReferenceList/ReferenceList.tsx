@@ -9,10 +9,13 @@ import * as S from './ReferenceList.styles';
 
 interface ReferenceListProps {
   references: Reference[];
+  categoryName: string;
 }
 
-const ReferenceList = ({ references }: ReferenceListProps) => {
+const ReferenceList = ({ references, categoryName }: ReferenceListProps) => {
   const { client, accessCode } = useSocketStore();
+
+  const filteredReferences = references.filter((reference) => reference.categoryName === categoryName);
 
   if (!references || references.length < 1) return <S.EmptyLayout>저장된 링크가 없습니다.</S.EmptyLayout>;
 
@@ -25,7 +28,7 @@ const ReferenceList = ({ references }: ReferenceListProps) => {
   return (
     <S.Layout $columns={columns}>
       <S.List $columns={columns}>
-        {references.map((reference) => {
+        {filteredReferences.map((reference) => {
           return (
             <S.Item key={reference.id}>
               <S.DeleteButton onClick={() => handleDeleteReference(reference.id)} />

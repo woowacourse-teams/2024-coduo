@@ -5,17 +5,12 @@ import useSocketStore from '@/stores/socketStore';
 import { Reference } from '@/apis/http/referenceLink';
 import { subscribeTopic } from '@/apis/websocket/websocket';
 
-const useReference = (defaultReferences: Reference[], categoryName: string | null) => {
+const useReference = (defaultReferences: Reference[]) => {
   const { client, isConnected, accessCode } = useSocketStore();
 
   const [references, setReferences] = useState<Reference[]>(defaultReferences);
 
-  const handleReferences = (references: Reference[]) => {
-    if (categoryName) {
-      setReferences(references.filter((reference) => reference.categoryName === categoryName));
-    }
-    setReferences(references);
-  };
+  const handleReferences = (references: Reference[]) => setReferences(references);
 
   useEffect(() => {
     if (client && isConnected) {
