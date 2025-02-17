@@ -16,7 +16,7 @@ const ReferenceList = ({ references, categoryName }: ReferenceListProps) => {
   const { client, accessCode } = useSocketStore();
 
   const filteredReferences =
-    categoryName === null ? references : references.filter((reference) => reference.categoryName === categoryName);
+    categoryName === '전체' ? references : references.filter((reference) => reference.categoryName === categoryName);
 
   if (!references || references.length < 1) return <S.EmptyLayout>저장된 링크가 없습니다.</S.EmptyLayout>;
 
