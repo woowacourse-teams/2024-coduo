@@ -39,8 +39,7 @@ const ReferenceCard = ({ isOpen, toggleIsOpen, defaultReferences, defaultCategor
 
   const selectedCategoryName = findValueById(categories, selectedCategoryId) || DEFAULT_CATEGORY_VALUE;
 
-  const { references } = useReference(defaultReferences, selectedCategoryName);
-  console.log(selectedCategoryName);
+  const { references } = useReference(defaultReferences);
 
   return (
     <S.Layout>
@@ -52,7 +51,7 @@ const ReferenceCard = ({ isOpen, toggleIsOpen, defaultReferences, defaultCategor
           onButtonClick={openModal}
         />
         <S.Body $isOpen={isOpen}>
-          <ReferenceList references={references || []} />
+          <ReferenceList references={references || []} categoryName={selectedCategoryName} />
           <Footer categories={categories} />
         </S.Body>
       </PairRoomCard>
