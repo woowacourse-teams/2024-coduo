@@ -28,6 +28,11 @@ const PrivateRoutes = () => {
       return;
     }
 
+    if (location.pathname === `/room/${accessCode}/retrospect`) {
+      setIsValid(true);
+      return;
+    }
+
     if (!accessCode || !location.state?.valid) {
       setIsValid(false);
       addToast({ status: 'ERROR', message: '유효하지 않은 접근입니다. 올바른 경로로 접근해 주세요.' });
