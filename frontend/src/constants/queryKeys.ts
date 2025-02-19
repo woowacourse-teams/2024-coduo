@@ -3,6 +3,7 @@ export const QUERY_KEYS = {
   GET_PAIR_ROOM: 'getPairRoom',
   GET_PAIR_ROOM_TIMER: 'getPairRoomTimer',
   GET_PAIR_ROOM_HISTORY: 'getPairRoomHistory',
+  GET_PAIR_ROOM_EXISTS: 'getPairRoomExists',
   GET_MY_PAIR_ROOMS: 'getMyPairRooms',
   GET_MEMBER_NAME: 'getMemberName',
   GET_REPOSITORIES: 'getRepositories',
