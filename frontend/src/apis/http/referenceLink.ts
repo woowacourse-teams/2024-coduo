@@ -12,6 +12,7 @@ export interface Reference {
   description: string;
   image: string;
   categoryName: string;
+  categoryId: number;
 }
 
 interface GetReferenceLinksRequest {
