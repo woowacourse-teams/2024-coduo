@@ -79,15 +79,6 @@ jobs:
 
       - name: Extract secrets as .be_app-env file
         run: |
-          if [ "${{ matrix.instance }}" = "coduo-prod-a" ]; then
-            INSTANCE_NAME=${{ secrets.INSTANCE_A_NAME }}
-          elif [ "${{ matrix.instance }}" = "coduo-prod-b" ]; then
-            INSTANCE_NAME=${{ secrets.INSTANCE_B_NAME }}
-          else
-            echo "Unknown instance: ${{ matrix.instance }}"
-            exit 1
-          fi
-
           cat <<EOF > ${{ secrets.DOCKER_COMPOSE_YAML_PATH }}/.be_app-env
           # Docker Hub info from Github Secrets
           DOCKER_IMAGE_VERSION=latest
