@@ -15,7 +15,7 @@ export const QuoteBar = styled.span`
 `;
 
 export const Content = styled.p`
-  color: ${({ theme }) => theme.color.black[800]};
+  color: ${({ theme }) => theme.color.black[500]};
   font-size: ${({ theme }) => theme.fontSize.base};
 `;
 
