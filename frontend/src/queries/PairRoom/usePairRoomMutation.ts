@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import useToastStore from '@/stores/toastStore';
 
-import { addPairRoom, updatePairRole, updatePairRoomStatus, deletePairRoom } from '@/apis/http/pairRoom';
+import { addPairRoom, updatePairRole, completePairRoom, deletePairRoom } from '@/apis/http/pairRoom';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
@@ -22,8 +22,8 @@ const usePairRoomMutation = () => {
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });
 
-  const { mutate: updatePairRoomStatusMutation } = useMutation({
-    mutationFn: updatePairRoomStatus,
+  const { mutate: completePairRoomMutation } = useMutation({
+    mutationFn: completePairRoom,
     onSuccess: () => addToast({ status: 'SUCCESS', message: '페어 프로그래밍이 완료되었습니다.' }),
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });
@@ -40,7 +40,7 @@ const usePairRoomMutation = () => {
   return {
     addPairRoomMutation,
     updatePairRoleMutation,
-    updatePairRoomStatusMutation,
+    completePairRoomMutation,
     deletePairRoomMutation,
     isDeletePairRoomPending,
   };

@@ -87,15 +87,10 @@ export const updatePairRole = async ({ accessCode }: UpdatePairRoleRequest) => {
   });
 };
 
-interface UpdatePairRoomStatusRequest {
-  accessCode: string;
-}
-
-export const updatePairRoomStatus = async ({ accessCode }: UpdatePairRoomStatusRequest) => {
+export const completePairRoom = async ({ accessCode }: { accessCode: string }) => {
   await fetcher.patch({
-    url: `${API_URL}/pair-room/${accessCode}/status`,
+    url: `${API_URL}/pair-room/${accessCode}/complete`,
     errorMessage: ERROR_MESSAGES.UPDATE_PAIR_ROOM_STATUS,
-    body: JSON.stringify({ status: 'COMPLETED' }),
   });
 };
 

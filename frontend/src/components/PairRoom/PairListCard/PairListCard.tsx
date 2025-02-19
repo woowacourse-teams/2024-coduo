@@ -29,10 +29,10 @@ const PairListCard = ({ driver, navigator, missionUrl, accessCode }: PairListCar
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const { updatePairRoomStatusMutation } = usePairRoomMutation();
+  const { completePairRoomMutation } = usePairRoomMutation();
 
   const handleCompletePairRoom = () => {
-    updatePairRoomStatusMutation(
+    completePairRoomMutation(
       { accessCode },
       { onSuccess: () => navigate(`/room/${accessCode}/retrospectForm`, { state: { valid: true } }) },
     );
