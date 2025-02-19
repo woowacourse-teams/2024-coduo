@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import site.coduo.pairroom.repository.PairRoomEntity;
+import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.timer.domain.Timer;
 import site.coduo.timer.domain.TimerStatus;
 import site.coduo.timer.repository.TimerEntity;
@@ -30,6 +32,7 @@ public class SchedulerService {
     private final SchedulerRegistry schedulerRegistry;
     private final TimestampRegistry timestampRegistry;
     private final TimerRepository timerRepository;
+    private final PairRoomRepository pairRoomRepository;
 
     public void start(final String key) {
         if (schedulerRegistry.isActive(key)) {
@@ -62,7 +65,8 @@ public class SchedulerService {
             reset(key, timer);
             return;
         }
-        if (timerStompManager.isTimerIdle(key) && schedulerRegistry.isActive(key)) {
+        PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(key);
+        if (timerStompManager.isTimerIdle(key) && schedulerRegistry.isActive(key) || pairRoomEntity.isCompleted()) {
             schedulerRegistry.release(key);
             return;
         }
