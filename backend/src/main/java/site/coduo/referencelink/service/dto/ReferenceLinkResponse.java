@@ -45,7 +45,12 @@ public record ReferenceLinkResponse(
         @Schema(description = "카테고리",
                 example = "스프링",
                 nullable = true)
-        String categoryName
+        String categoryName,
+
+        @Schema(description = "카테고리 id",
+                example = "1",
+                nullable = true)
+        Long categoryId
 ) {
 
     public ReferenceLinkResponse(final ReferenceLinkEntity referenceLinkEntity, final OpenGraph openGraph) {
@@ -55,7 +60,8 @@ public record ReferenceLinkResponse(
                 openGraph.getOpenGraphTitle(),
                 openGraph.getDescription(),
                 openGraph.getImage(),
-                referenceLinkEntity.getCategoryName()
+                referenceLinkEntity.getCategoryName(),
+                referenceLinkEntity.getCategoryId()
         );
     }
 
