@@ -19,10 +19,11 @@ import * as S from './TimerCard.styles';
 interface TimerCardProps {
   defaultTime: number;
   defaultTimeLeft: number;
+  driver: string;
   onTimerStop: () => void;
 }
 
-const TimerCard = ({ defaultTime, defaultTimeLeft, onTimerStop }: TimerCardProps) => {
+const TimerCard = ({ defaultTime, defaultTimeLeft, onTimerStop, driver }: TimerCardProps) => {
   const { duration, timeLeft, isActive, handleStart, handlePause } = useTimer(
     defaultTime,
     defaultTimeLeft,
@@ -42,6 +43,7 @@ const TimerCard = ({ defaultTime, defaultTimeLeft, onTimerStop }: TimerCardProps
           isActive={isActive}
           minutes={minutes}
           seconds={seconds}
+          driver={driver}
           progress={(timeLeft / duration) * 100}
           handleStart={handleStart}
           handlePause={handlePause}

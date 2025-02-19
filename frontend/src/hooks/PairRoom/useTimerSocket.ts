@@ -11,10 +11,10 @@ import { subscribeTopic } from '@/apis/websocket/websocket';
 import useNotification from '@/hooks/PairRoom/useNotification';
 
 enum TimerStatus {
-  START = 'start',
-  RUNNING = 'running',
-  PAUSE = 'pause',
-  UPDATE = 'update',
+  START = 'START',
+  RUNNING = 'RUNNING',
+  PAUSE = 'PAUSE',
+  UPDATE = 'UPDATE',
 }
 
 const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () => void) => {

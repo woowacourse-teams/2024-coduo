@@ -24,7 +24,7 @@ export const startTimer = async (accessCode: string) => {
 
 export const stopTimer = async (accessCode: string) => {
   await fetcher.patch({
-    url: `${API_URL}/${accessCode}/timer/stop`,
+    url: `${API_URL}/${accessCode}/timer/pause`,
     errorMessage: '',
   });
 };

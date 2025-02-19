@@ -7,6 +7,7 @@ interface TimerPip {
   seconds: string;
   progress: number;
   isActive: boolean;
+  driver: string;
   handleStart: () => void;
   handlePause: () => void;
 }
@@ -19,7 +20,7 @@ declare global {
   }
 }
 
-const TimerPip = ({ minutes, seconds, progress, handleStart, handlePause, isActive }: TimerPip) => {
+const TimerPip = ({ minutes, seconds, progress, driver, handleStart, handlePause, isActive }: TimerPip) => {
   const pipWindowRef = useRef<Window | null>(null);
   const isPipOpenRef = useRef(false);
 
@@ -30,7 +31,7 @@ const TimerPip = ({ minutes, seconds, progress, handleStart, handlePause, isActi
 
     try {
       const pipWindow = await window.documentPictureInPicture.requestWindow({
-        width: 250,
+        width: 230,
         height: 180,
       });
       pipWindowRef.current = pipWindow;
@@ -58,10 +59,15 @@ const TimerPip = ({ minutes, seconds, progress, handleStart, handlePause, isActi
 
   const updatePiPContent = (window: Window) => {
     const timerElement = window.document.querySelector('.pipWindow');
+
     if (!timerElement) return;
 
     if (!window.document.querySelector('.layout')) {
       timerElement.innerHTML = `
+        <div class="driver-container">
+          <div class="driver">드라이버</div>
+          <div class="driver-name"></div>
+        </div>
         <div class="layout">
           <div class="container">
             <div class="timer-container">
@@ -75,8 +81,7 @@ const TimerPip = ({ minutes, seconds, progress, handleStart, handlePause, isActi
           <div class="progress-bar">
             <div class="progress-bar-fill"></div>
           </div>
-          <div class="button-container">
-          </div>
+          <div class="button-container"></div>
         </div>
       `;
     }
@@ -85,11 +90,17 @@ const TimerPip = ({ minutes, seconds, progress, handleStart, handlePause, isActi
     const secondsSpan = window.document.querySelector('.timer-container:last-child .timer-text');
     const progressBar = window.document.querySelector('.progress-bar-fill');
     const buttonContainer = window.document.querySelector('.button-container');
-
+    const driverNameDiv = window.document.querySelector('.driver-name');
     if (minutesSpan) minutesSpan.textContent = minutes;
     if (secondsSpan) secondsSpan.textContent = seconds;
+    if (driverNameDiv) driverNameDiv.textContent = driver;
     if (progressBar) {
       progressBar.setAttribute('style', `width: ${progress}%`);
+      if (progress <= 20) {
+        progressBar.classList.add('warning');
+      } else {
+        progressBar.classList.remove('warning');
+      }
     }
 
     if (buttonContainer) {
@@ -130,6 +141,10 @@ const TimerPip = ({ minutes, seconds, progress, handleStart, handlePause, isActi
     const handleVisibilityChange = () => {
       if (document.hidden && !isPipOpenRef.current) {
         openPiP();
+      } else if (!document.hidden && pipWindowRef.current) {
+        pipWindowRef.current.close();
+        pipWindowRef.current = null;
+        isPipOpenRef.current = false;
       }
     };
 
@@ -144,7 +159,7 @@ const TimerPip = ({ minutes, seconds, progress, handleStart, handlePause, isActi
     if (pipWindowRef.current) {
       updatePiPContent(pipWindowRef.current);
     }
-  }, [minutes, seconds, progress, isActive]);
+  }, [minutes, seconds, progress, isActive, driver]);
 
   return null;
 };
