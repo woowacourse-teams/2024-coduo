@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      DISCORD_WEBHOOK_URL: ${{ secrets.BE_SLACK_WEB_HOOK }}
     steps:
       - name: Extract receiver list
         id: extract_receiver_list
@@ -28,8 +30,6 @@ jobs:
             
       - name: Discord Message
         uses: discord-actions/message@v2
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.BE_SLACK_WEB_HOOK }}
         with:
-          webhookUrl: $DISCORD_WEBHOOK_URL
+          webhookUrl: ${{ env.DISCORD_WEBHOOK_URL }}
           message:  "👑${{steps.extract_receiver_list.outputs.requester}}👑 PR이 도착했습니다. \n↓↓↓\n\n⚡⚡⚡⚡⚡⚡⚡⚡⚡\n*⚡[${{steps.extract_receiver_list.outputs.requester}}](${{github.event.pull_request.html_url}}) 혼구멍 내러가기~>⚡* \n⚡⚡⚡⚡⚡⚡⚡⚡⚡\n\n _혼내줄 사람들: ${{steps.extract_receiver_list.outputs.names}}_ \n"
