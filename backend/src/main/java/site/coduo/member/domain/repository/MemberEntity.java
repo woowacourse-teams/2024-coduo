@@ -67,6 +67,8 @@ public class MemberEntity extends BaseTimeEntity {
     }
 
     public void delete() {
+        this.providerAccessToken = "";
+        this.providerUserId = "";
         this.deletedAt = LocalDateTime.now();
     }
 
