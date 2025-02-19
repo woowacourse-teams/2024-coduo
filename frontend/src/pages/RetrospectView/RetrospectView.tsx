@@ -4,6 +4,7 @@ import Spinner from '@/components/_common/Spinner/Spinner';
 import Header from '@/components/Retrospect/Header/Header';
 import Question from '@/components/Retrospect/Question/Question';
 
+import usePairRoomExistsQuery from '@/queries/PairRoom/usePairRoomExistsQuery';
 import useRetrospectQuery from '@/queries/Retrospect/useRetrospectQuery';
 
 import { RETROSPECT_QUESTIONS } from '@/constants/retrospect';
@@ -15,6 +16,7 @@ const RetrospectView = () => {
 
   const navigate = useNavigate();
 
+  const { exists } = usePairRoomExistsQuery(accessCode || '');
   const { answers, isFetching } = useRetrospectQuery(accessCode || '');
 
   if (isFetching) return <Spinner size="sm" />;
@@ -26,6 +28,7 @@ const RetrospectView = () => {
           title={accessCode || ''}
           subTitle={`${accessCode}에서 작성한 회고입니다!`}
           buttonText="페어룸으로 이동"
+          buttonDisabled={exists}
           onButtonClick={() => navigate(`/room/${accessCode}/completed`, { state: { valid: true }, replace: true })}
         />
         {RETROSPECT_QUESTIONS.map((question, index) => (
