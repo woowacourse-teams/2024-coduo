@@ -4,6 +4,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
+import site.coduo.timer.domain.TimerStatus;
 import site.coduo.timer.service.dto.TimerStartResponse;
 import site.coduo.timer.service.dto.TimerStatusResponse;
 import site.coduo.websocket.stomp.StompSubscriptionService;
@@ -18,12 +19,22 @@ public class TimerStompManager {
     private final StompSubscriptionService stompSubscriptionService;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
-    public void send(final String accessCode, final TimerStatusResponse payload) {
-        simpMessagingTemplate.convertAndSend(String.format(STATUS_DESTINATION, accessCode), payload);
+    public void sendStatus(final String accessCode, final TimerStatus status) {
+        simpMessagingTemplate.convertAndSend(
+                String.format(STATUS_DESTINATION, accessCode),
+                new TimerStatusResponse(status.getMessage(), null)
+        );
     }
 
-    public void send(final String accessCode, final TimerStartResponse payload) {
-        simpMessagingTemplate.convertAndSend(String.format(TIME_DESTINATION, accessCode), payload);
+    public void sendTime(final String accessCode, final long time) {
+        simpMessagingTemplate.convertAndSend(String.format(TIME_DESTINATION, accessCode), new TimerStartResponse(time));
+    }
+
+    public void sendStatusAndTime(final String accessCode, final TimerStatus status, final long time) {
+        simpMessagingTemplate.convertAndSend(
+                String.format(STATUS_DESTINATION, accessCode),
+                new TimerStatusResponse(status.getMessage(), time)
+        );
     }
 
     public boolean isTimerIdle(final String accessCode) {

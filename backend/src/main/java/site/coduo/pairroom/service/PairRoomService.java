@@ -173,7 +173,7 @@ public class PairRoomService {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
         checkPairRoomIsActive(pairRoomEntity);
         pairRoomEntity.updateStatus(PairRoomStatus.COMPLETED);
-        pairRoomStompManager.send(accessCode, PairRoomStatus.COMPLETED);
+        pairRoomStompManager.sendStatus(accessCode, PairRoomStatus.COMPLETED);
     }
 
     private void checkPairRoomIsDeleted(final PairRoomEntity pairRoomEntity) {

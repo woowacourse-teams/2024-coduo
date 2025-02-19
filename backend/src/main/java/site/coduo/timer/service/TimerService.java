@@ -11,7 +11,6 @@ import site.coduo.timer.domain.Timer;
 import site.coduo.timer.domain.TimerStatus;
 import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
-import site.coduo.timer.service.dto.TimerStatusResponse;
 import site.coduo.timer.service.dto.TimerUpdateRequest;
 
 @Transactional(readOnly = true)
@@ -45,7 +44,6 @@ public class TimerService {
         );
         timerEntity.updateTimer(newTimer);
         timestampRegistry.register(accessCode, newTimer);
-        timerStompManager.send(accessCode,
-                new TimerStatusResponse(TimerStatus.UPDATE.getName(), newTimer.getDuration()));
+        timerStompManager.sendStatusAndTime(accessCode, TimerStatus.UPDATE, newTimer.getDuration());
     }
 }
