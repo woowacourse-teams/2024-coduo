@@ -5,18 +5,22 @@ import useSocketStore from '@/stores/socketStore';
 import type { Reference } from '@/apis/http/referenceLink';
 import { publishReferenceMessage } from '@/apis/websocket/reference';
 
+import { DEFAULT_CATEGORY_ID } from '@/queries/PairRoom/useCategoriesQuery';
+
 import * as S from './ReferenceList.styles';
 
 interface ReferenceListProps {
   references: Reference[];
-  categoryName: string;
+  categoryId: string;
 }
 
-const ReferenceList = ({ references, categoryName }: ReferenceListProps) => {
+const ReferenceList = ({ references, categoryId }: ReferenceListProps) => {
   const { client, accessCode } = useSocketStore();
 
   const filteredReferences =
-    categoryName === '전체' ? references : references.filter((reference) => reference.categoryName === categoryName);
+    categoryId === DEFAULT_CATEGORY_ID
+      ? references
+      : references.filter((reference) => reference.categoryId === Number(categoryId));
 
   if (!references || references.length < 1) return <S.EmptyLayout>저장된 링크가 없습니다.</S.EmptyLayout>;
 

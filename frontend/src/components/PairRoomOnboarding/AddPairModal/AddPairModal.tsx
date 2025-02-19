@@ -58,7 +58,9 @@ const AddPairModal = ({ isOpen, closeModal, onPairData }: AddPairModalProps) => 
               handleChange(event, validatePairInfo(event.target.value))
             }
           />
-          <InputField.Message status={status}>{message}</InputField.Message>
+          <InputField.Message status={status}>
+            {message ? message : '코딩해듀오에 회원가입 된 깃허브 아이디만 연동하실 수 있습니다.'}
+          </InputField.Message>
         </InputField>
       </S.Body>
       <S.Footer>
