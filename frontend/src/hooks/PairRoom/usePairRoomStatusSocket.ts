@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import useSocketStore from '@/stores/socketStore';
@@ -10,8 +10,6 @@ import { subscribeTopic } from '@/apis/websocket/websocket';
 const usePairRoomStatusSocket = (defaultStatus: PairRoomStatus) => {
   const navigate = useNavigate();
 
-  const [status, setStatus] = useState<PairRoomStatus>(defaultStatus);
-
   const { client, isConnected, accessCode } = useSocketStore();
   const { addToast } = useToastStore();
 
@@ -19,14 +17,12 @@ const usePairRoomStatusSocket = (defaultStatus: PairRoomStatus) => {
     navigate(`/room/${accessCode}/completed`, { state: { valid: true }, replace: true });
   }
 
-  const handleStatus = (status: PairRoomStatus) => setStatus(status);
-
-  useEffect(() => {
+  const handleStatus = (status: PairRoomStatus) => {
     if (status === 'COMPLETED') {
-      addToast({ status: 'WARNING', message: '페어룸이 종료되었습니다.' });
+      addToast({ status: 'SUCCESS', message: '페어 프로그래밍이 완료되었습니다.' });
       navigate(`/room/${accessCode}/retrospectForm`, { state: { valid: true } });
     }
-  }, [status]);
+  };
 
   useEffect(() => {
     if (client && isConnected) {
@@ -41,8 +37,6 @@ const usePairRoomStatusSocket = (defaultStatus: PairRoomStatus) => {
       }
     };
   }, [client]);
-
-  return { status };
 };
 
 export default usePairRoomStatusSocket;

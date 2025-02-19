@@ -34,6 +34,11 @@ const PrivateRoutes = () => {
       return;
     }
 
+    if (location.pathname === `/${accessCode}/retrospect`) {
+      setIsValid(true);
+      return;
+    }
+
     const { exists } = await getPairRoomExists(accessCode || '');
 
     if (!exists) {
