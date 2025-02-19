@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      DISCORD_WEBHOOK_URL: ${{ secrets.FE_SLACK_WEB_HOOK }}
     steps:
       - name: Extract receiver list
         id: extract_receiver_list
@@ -15,7 +17,7 @@ jobs:
         with:
           script: |
             const excludeMember = context.payload.pull_request.user.login;
-            const members = JSON.parse(${{secrets.DISCORD_FE}});
+            const members = JSON.parse(${{secrets.DISCORD_BE}});
             const requester = members.find(entry => entry.github === excludeMember);
             let outputString = '';
             for (const member of members) {
@@ -29,5 +31,5 @@ jobs:
       - name: Discord Message
         uses: discord-actions/message@v2
         with:
-          webhookUrl: ${{secrets.FE_SLACK_WEB_HOOK}};
+          webhookUrl: ${{ env.DISCORD_WEBHOOK_URL }}
           message:  "👑${{steps.extract_receiver_list.outputs.requester}}👑 PR이 도착했습니다. \n↓↓↓\n\n⚡⚡⚡⚡⚡⚡⚡⚡⚡\n*⚡[${{steps.extract_receiver_list.outputs.requester}}](${{github.event.pull_request.html_url}}) 혼구멍 내러가기~>⚡* \n⚡⚡⚡⚡⚡⚡⚡⚡⚡\n\n _혼내줄 사람들: ${{steps.extract_receiver_list.outputs.names}}_ \n"
