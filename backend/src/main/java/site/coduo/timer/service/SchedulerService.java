@@ -16,8 +16,6 @@ import site.coduo.timer.domain.Timer;
 import site.coduo.timer.domain.TimerStatus;
 import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
-import site.coduo.timer.service.dto.TimerStartResponse;
-import site.coduo.timer.service.dto.TimerStatusResponse;
 
 @Transactional
 @Slf4j
@@ -37,7 +35,7 @@ public class SchedulerService {
         if (schedulerRegistry.isActive(key)) {
             return;
         }
-        timerStompManager.send(key, new TimerStatusResponse(TimerStatus.START.getName(), null));
+        timerStompManager.sendStatus(key, TimerStatus.START);
         if (isInitial(key)) {
             final Timer timer = timerRepository.fetchTimerByAccessCode(key)
                     .toDomain();
@@ -61,30 +59,25 @@ public class SchedulerService {
 
     private void runTimer(final String key, final Timer timer) {
         if (timer.isTimeUp() && schedulerRegistry.has(key)) {
-            stop(key, timer);
+            reset(key, timer);
             return;
         }
-        if (timerStompManager.isTimerIdle(key) && schedulerRegistry.has(key)) {
-            pauseTimer(key);
+        if (timerStompManager.isTimerIdle(key) && schedulerRegistry.isActive(key)) {
+            schedulerRegistry.release(key);
             return;
         }
         timer.decreaseRemainingTime(DELAY_SECOND.toMillis());
-        timerStompManager.send(key, new TimerStartResponse(timer.getRemainingTime()));
-    }
-
-    private void pauseTimer(final String key) {
-        if (schedulerRegistry.isActive(key)) {
-            schedulerRegistry.release(key);
-        }
+        timerStompManager.sendTime(key, timer.getRemainingTime());
     }
 
     public void pause(final String key) {
-        pauseTimer(key);
-        timerStompManager.send(key, new TimerStatusResponse(TimerStatus.PAUSE.getName(), null));
+        if (schedulerRegistry.isActive(key)) {
+            schedulerRegistry.release(key);
+        }
+        timerStompManager.sendStatus(key, TimerStatus.PAUSE);
     }
 
-    private void stop(final String key, final Timer timer) {
-        // timerStompManager.send(key, new TimerStatusResponse(TimerStatus.STOP.getName(), null));
+    private void reset(final String key, final Timer timer) {
         schedulerRegistry.release(key);
         final Timer initalTimer = new Timer(timer.getAccessCode(), timer.getDuration(), timer.getDuration());
         timestampRegistry.register(key, initalTimer);
@@ -92,7 +85,7 @@ public class SchedulerService {
 
     public void notifyTimerStatus(final String key) {
         if (schedulerRegistry.isActive(key)) {
-            timerStompManager.send(key, new TimerStatusResponse(TimerStatus.RUNNING.getName(), null));
+            timerStompManager.sendStatus(key, TimerStatus.RUNNING);
         }
     }
 

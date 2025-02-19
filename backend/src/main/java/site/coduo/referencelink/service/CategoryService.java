@@ -64,7 +64,7 @@ public class CategoryService {
         validateDuplicated(request.value(), pairRoomEntity);
         final CategoryEntity categoryEntity = categoryRepository.fetchByPairRoomAndCategoryId(pairRoomEntity,
                 categoryId);
-        final Category category = new Category(categoryEntity.getCategoryName());
+        final Category category = new Category(request.value());
         categoryEntity.updateCategoryName(category);
         return new CategoryUpdateResponse(categoryEntity.getCategoryName());
     }
