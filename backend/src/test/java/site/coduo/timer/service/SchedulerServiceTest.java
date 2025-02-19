@@ -17,6 +17,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import site.coduo.pairroom.domain.accesscode.AccessCode;
 import site.coduo.pairroom.repository.PairRoomEntity;
+import site.coduo.pairroom.repository.PairRoomRepository;
 import site.coduo.timer.domain.Timer;
 import site.coduo.timer.repository.TimerEntity;
 import site.coduo.timer.repository.TimerRepository;
@@ -25,6 +26,7 @@ import site.coduo.timer.repository.TimerRepository;
 @SpringBootTest
 class SchedulerServiceTest {
 
+    @Autowired
     private ThreadPoolTaskScheduler taskScheduler;
 
     @Autowired
@@ -33,8 +35,15 @@ class SchedulerServiceTest {
     @Autowired
     private TimestampRegistry timestampRegistry;
 
+    @Autowired
+    private PairRoomRepository pairRoomRepository;
+
+    @Autowired
     private TimerStompManager timerStompManager;
+
+    @Autowired
     private TimerRepository timerRepository;
+
     private SchedulerService schedulerService;
 
     @BeforeEach
@@ -46,7 +55,8 @@ class SchedulerServiceTest {
                 taskScheduler,
                 schedulerRegistry,
                 timestampRegistry,
-                timerRepository
+                timerRepository,
+                pairRoomRepository
         );
     }
 
