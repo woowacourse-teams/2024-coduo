@@ -106,6 +106,10 @@ public class PairRoomEntity extends BaseTimeEntity {
         return status != PairRoomStatus.COMPLETED && status != PairRoomStatus.DELETED;
     }
 
+    public boolean isCompleted() {
+        return status == PairRoomStatus.COMPLETED;
+    }
+
     public boolean isDeleted() {
         return status == PairRoomStatus.DELETED;
     }
