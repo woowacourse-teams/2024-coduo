@@ -9,6 +9,7 @@ import org.springframework.web.socket.messaging.SessionUnsubscribeEvent;
 
 import lombok.RequiredArgsConstructor;
 import site.coduo.timer.service.SchedulerService;
+import site.coduo.timer.service.TimerStompManager;
 import site.coduo.websocket.exception.NotFoundAccessCodeInQueryException;
 
 @Component
@@ -19,6 +20,7 @@ public class StompEventListener {
     private static final String PATH = "/";
 
     private final SchedulerService schedulerService;
+    private final TimerStompManager timerStompManager;
 
     @EventListener
     public void onSubscription(final SessionSubscribeEvent event) {
@@ -28,7 +30,9 @@ public class StompEventListener {
             throw new NotFoundAccessCodeInQueryException("STOMP 헤더에 simpDestination이 존재하지 않습니다.");
         }
         final String key = parsePairRoomKey(destination);
-        schedulerService.notifyTimerStatus(key);
+        if (timerStompManager.isTimerStatusDestination(destination, key)) {
+            schedulerService.notifyTimerStatus(key);
+        }
     }
 
     @EventListener
@@ -39,7 +43,9 @@ public class StompEventListener {
             throw new NotFoundAccessCodeInQueryException("STOMP 헤더에 simpSubscriptionId가 존재하지 않습니다.");
         }
         final String key = parsePairRoomKey(destination);
-        schedulerService.syncTimerWithDatabase(key);
+        if (timerStompManager.isTimerStatusDestination(destination, key)) {
+            schedulerService.syncTimerWithDatabase(key);
+        }
     }
 
     private String parsePairRoomKey(final String destination) {

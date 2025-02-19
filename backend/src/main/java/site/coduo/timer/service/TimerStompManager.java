@@ -40,4 +40,8 @@ public class TimerStompManager {
     public boolean isTimerIdle(final String accessCode) {
         return stompSubscriptionService.hasSubscription(String.format(TIME_DESTINATION, accessCode));
     }
+
+    public boolean isTimerStatusDestination(final String accessCode, final String destination) {
+        return String.format(STATUS_DESTINATION, accessCode).equals(destination);
+    }
 }
