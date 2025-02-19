@@ -28,7 +28,7 @@ const RetrospectView = () => {
           title={accessCode || ''}
           subTitle={`${accessCode}에서 작성한 회고입니다!`}
           buttonText="페어룸으로 이동"
-          buttonDisabled={exists}
+          isbuttonExists={exists}
           onButtonClick={() => navigate(`/room/${accessCode}/completed`, { state: { valid: true }, replace: true })}
         />
         {RETROSPECT_QUESTIONS.map((question, index) => (
