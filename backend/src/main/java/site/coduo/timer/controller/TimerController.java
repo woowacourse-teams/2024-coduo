@@ -24,14 +24,14 @@ public class TimerController implements TimerDocs {
     private final SchedulerService schedulerService;
 
     @PatchMapping("/{accessCode}/timer/start")
-    public ResponseEntity<Void> createTimerStart(@PathVariable("accessCode") final String accessCode) {
+    public ResponseEntity<Void> startTimer(@PathVariable("accessCode") final String accessCode) {
         schedulerService.start(accessCode);
         return ResponseEntity.noContent()
                 .build();
     }
 
-    @PatchMapping("/{accessCode}/timer/stop")
-    public ResponseEntity<Void> createTimerStop(@PathVariable("accessCode") final String accessCode) {
+    @PatchMapping("/{accessCode}/timer/pause")
+    public ResponseEntity<Void> pauseTimer(@PathVariable("accessCode") final String accessCode) {
         schedulerService.pause(accessCode);
         return ResponseEntity.noContent()
                 .build();
