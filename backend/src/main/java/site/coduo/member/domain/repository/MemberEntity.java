@@ -59,17 +59,17 @@ public class MemberEntity extends BaseTimeEntity {
     }
 
     public void update(final MemberEntity other) {
-        this.providerAccessToken = other.providerAccessToken;
-        this.providerLoginId = other.providerLoginId;
-        this.providerUserId = other.providerUserId;
-        this.username = other.username;
-        this.deletedAt = other.deletedAt;
+        providerAccessToken = other.providerAccessToken;
+        providerLoginId = other.providerLoginId;
+        providerUserId = other.providerUserId;
+        username = other.username;
+        deletedAt = other.deletedAt;
     }
 
     public void delete() {
-        this.providerAccessToken = "";
-        this.providerUserId = "";
-        this.deletedAt = LocalDateTime.now();
+        deletedAt = LocalDateTime.now();
+        providerAccessToken = providerAccessToken + deletedAt + "deleted";
+        providerUserId = providerUserId + deletedAt + "deleted";
     }
 
     @Override
