@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getRepositories } from '@/apis/github';
+import { getRepositories } from '@/apis/http/github';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 

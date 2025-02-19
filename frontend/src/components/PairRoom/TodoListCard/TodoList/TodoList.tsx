@@ -1,10 +1,11 @@
 import TodoItem from '@/components/PairRoom/TodoListCard/TodoItem/TodoItem';
 
-import { Todo } from '@/apis/todo';
+import useSocketStore from '@/stores/socketStore';
+
+import { Todo } from '@/apis/http/todo';
+import { publishTodoMessage } from '@/apis/websocket/todo';
 
 import useDragAndDrop from '@/hooks/PairRoom/useDragAndDrop';
-
-import useTodosMutation from '@/queries/PairRoom/useTodosMutation';
 
 import * as S from './TodoList.styles';
 
@@ -13,10 +14,10 @@ interface TodoListProps {
 }
 
 const TodoList = ({ todos }: TodoListProps) => {
-  const { updateOrderMutation } = useTodosMutation();
+  const { client, accessCode } = useSocketStore();
 
   const handleUpdateOrder = (todoId: number, order: number) => {
-    updateOrderMutation({ todoId, order });
+    publishTodoMessage.updateOrder(client, accessCode, todoId, order);
   };
 
   const { dragOverItem, handleDragStart, handleDragEnter, handleDrop } = useDragAndDrop(todos, handleUpdateOrder);

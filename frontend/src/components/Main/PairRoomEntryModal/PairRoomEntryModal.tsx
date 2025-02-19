@@ -6,7 +6,7 @@ import { Modal } from '@/components/_common/Modal';
 
 import useToastStore from '@/stores/toastStore';
 
-import { getPairRoomExists } from '@/apis/pairRoom';
+import { getPairRoomExists } from '@/apis/http/pairRoom';
 
 import useClickEnterKey from '@/hooks/_common/customEvent/useClickEnterKey';
 import useInput from '@/hooks/_common/useInput';

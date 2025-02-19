@@ -2,11 +2,12 @@ import { useState } from 'react';
 
 import CheckBox from '@/components/_common/CheckBox/CheckBox';
 
-import { Todo } from '@/apis/todo';
+import useSocketStore from '@/stores/socketStore';
+
+import { Todo } from '@/apis/http/todo';
+import { publishTodoMessage } from '@/apis/websocket/todo';
 
 import useCopyClipBoard from '@/hooks/_common/useCopyClipboard';
-
-import useTodosMutation from '@/queries/PairRoom/useTodosMutation';
 
 import * as S from './TodoItem.styles';
 
@@ -22,7 +23,7 @@ const TodoItem = ({ todo, isDraggedOver, onDragStart, onDragEnter, onDrop }: Tod
   const [isIconHovered, setIsIconHovered] = useState(false);
   const [, onCopy] = useCopyClipBoard();
 
-  const { updateCheckedMutation, deleteTodoMutation } = useTodosMutation();
+  const { client, accessCode } = useSocketStore();
 
   const { id, isChecked, content } = todo;
 
@@ -38,7 +39,7 @@ const TodoItem = ({ todo, isDraggedOver, onDragStart, onDragEnter, onDrop }: Tod
       onDragEnd={onDrop}
     >
       <S.TodoContainer $isChecked={isChecked}>
-        <CheckBox isChecked={isChecked} onClick={() => updateCheckedMutation({ todoId: id })} />
+        <CheckBox isChecked={isChecked} onClick={() => publishTodoMessage.updateChecked(client, accessCode, id)} />
         <p>{content}</p>
       </S.TodoContainer>
       <S.IconContainer>
@@ -52,7 +53,7 @@ const TodoItem = ({ todo, isDraggedOver, onDragStart, onDragEnter, onDrop }: Tod
           $isChecked={isChecked}
           onMouseEnter={() => setIsIconHovered(true)}
           onMouseLeave={() => setIsIconHovered(false)}
-          onClick={() => deleteTodoMutation({ todoId: id })}
+          onClick={() => publishTodoMessage.delete(client, accessCode, id)}
         />
       </S.IconContainer>
     </S.Layout>

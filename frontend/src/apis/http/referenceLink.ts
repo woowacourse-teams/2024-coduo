@@ -1,4 +1,4 @@
-import fetcher from '@/apis/fetcher';
+import fetcher from '@/apis/http/fetcher';
 
 import { ERROR_MESSAGES } from '@/constants/message';
 
@@ -12,6 +12,7 @@ export interface Reference {
   description: string;
   image: string;
   categoryName: string;
+  categoryId: number;
 }
 
 interface GetReferenceLinksRequest {
@@ -28,30 +29,4 @@ export const getReferenceLinks = async ({ accessCode, categoryId }: GetReference
   });
 
   return await response.json();
-};
-
-interface AddReferenceLinkRequest {
-  url: string;
-  accessCode: string;
-  categoryId: string | null;
-}
-
-export const addReferenceLink = async ({ url, accessCode, categoryId }: AddReferenceLinkRequest) => {
-  await fetcher.post({
-    url: `${API_URL}/${accessCode}/reference-link`,
-    body: JSON.stringify({ url, categoryId }),
-    errorMessage: ERROR_MESSAGES.ADD_REFERENCE_LINKS,
-  });
-};
-
-interface DeleteReferenceLinkRequest {
-  id: number;
-  accessCode: string;
-}
-
-export const deleteReferenceLink = async ({ id, accessCode }: DeleteReferenceLinkRequest) => {
-  await fetcher.delete({
-    url: `${API_URL}/${accessCode}/reference-link/${id}`,
-    errorMessage: ERROR_MESSAGES.DELETE_REFERENCE_LINKS,
-  });
 };

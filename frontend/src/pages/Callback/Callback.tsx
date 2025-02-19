@@ -5,8 +5,8 @@ import Spinner from '@/components/_common/Spinner/Spinner';
 
 import useUserStore from '@/stores/userStore';
 
-import { getMember } from '@/apis/member';
-import { getSignInCallback } from '@/apis/oauth';
+import { getMember } from '@/apis/http/member';
+import { getSignInCallback } from '@/apis/http/oauth';
 
 import * as S from './Callback.styles';
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import Loading from '@/pages/Loading/Loading';
 
@@ -10,7 +10,11 @@ import ReferenceCard from '@/components/PairRoom/ReferenceCard/ReferenceCard';
 import TimerCard from '@/components/PairRoom/TimerCard/TimerCard';
 import TodoListCard from '@/components/PairRoom/TodoListCard/TodoListCard';
 
+import useSocketStore from '@/stores/socketStore';
+
 import useModal from '@/hooks/_common/useModal';
+import usePairRoom from '@/hooks/PairRoom/usePairRoom';
+import usePairRoomStatusSocket from '@/hooks/PairRoom/usePairRoomStatusSocket';
 
 import usePairRoomMutation from '@/queries/PairRoom/usePairRoomMutation';
 import usePairRoomQuery from '@/queries/PairRoom/usePairRoomQuery';
@@ -18,40 +22,42 @@ import usePairRoomQuery from '@/queries/PairRoom/usePairRoomQuery';
 import * as S from './PairRoom.styles';
 
 const PairRoom = () => {
-  const navigate = useNavigate();
   const { accessCode } = useParams();
 
   const [driver, setDriver] = useState('');
   const [navigator, setNavigator] = useState('');
   const [isCardOpen, setIsCardOpen] = useState(false);
 
-  const { isModalOpen, closeModal } = useModal(true);
-
   const {
     driver: latestDriver,
     navigator: latestNavigator,
-    status,
+    status: defaultStatus,
     missionUrl,
-    duration,
-    remainingTime,
+    duration: defaultTime,
+    remainingTime: defaultTimeLeft,
     isFetching,
     todos,
     references,
     categories,
   } = usePairRoomQuery(accessCode || '');
 
+  // 웹소켓 연결
+  usePairRoom();
+  const { isConnected } = useSocketStore();
+
+  // 페어룸 상태 웹소켓
+  usePairRoomStatusSocket(defaultStatus);
+
   const { updatePairRoleMutation } = usePairRoomMutation();
 
-  useEffect(() => {
-    if (status === 'COMPLETED') navigate(`/room/${accessCode}/completed`, { state: { valid: true }, replace: true });
-  }, [status]);
+  const { isModalOpen, closeModal } = useModal(true);
 
   useEffect(() => {
     setDriver(latestDriver);
     setNavigator(latestNavigator);
   }, [latestDriver, latestNavigator]);
 
-  if (isFetching) {
+  if (isFetching || !isConnected) {
     return <Loading />;
   }
 
@@ -61,20 +67,19 @@ const PairRoom = () => {
       <S.Container>
         <PairRoleCard driver={driver} navigator={navigator} />
         <TimerCard
-          accessCode={accessCode || ''}
-          defaultTime={duration}
-          defaultTimeleft={remainingTime}
+          defaultTime={defaultTime}
+          defaultTimeLeft={defaultTimeLeft}
           onTimerStop={() => updatePairRoleMutation({ accessCode: accessCode || '' })}
+          driver={driver}
         />
       </S.Container>
       <S.Container>
-        <TodoListCard isOpen={!isCardOpen} toggleIsOpen={() => setIsCardOpen(false)} todos={todos} />
+        <TodoListCard isOpen={!isCardOpen} toggleIsOpen={() => setIsCardOpen(false)} defaultTodos={todos} />
         <ReferenceCard
-          accessCode={accessCode || ''}
           isOpen={isCardOpen}
           toggleIsOpen={() => setIsCardOpen(true)}
-          references={references}
-          categories={categories}
+          defaultReferences={references}
+          defaultCategories={categories}
         />
       </S.Container>
       <GuideModal isOpen={isModalOpen} close={closeModal} accessCode={accessCode || ''} />

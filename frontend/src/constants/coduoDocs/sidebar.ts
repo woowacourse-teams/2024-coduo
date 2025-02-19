@@ -17,7 +17,7 @@ export const START_WITH_MISSION = [
   },
   {
     id: 'fork-repository',
-    subtitle: 'fork 하기',
+    subtitle: '미션 레포지토리 fork 하기',
   },
   {
     id: 'copy-repository-address',
@@ -52,6 +52,10 @@ export const ABOUT_PAIR_PROGRAMMING = [
   {
     id: 'what-is-pair-programming',
     subtitle: '페어 프로그래밍이란?',
+  },
+  {
+    id: 'pair-programming-caution',
+    subtitle: '페어 프로그래밍 시 유의할 점',
   },
   {
     id: 'what-is-pair-room',

@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import useToastStore from '@/stores/toastStore';
 
-import { addRetrospect, deleteRetrospect } from '@/apis/retrospect';
+import { addRetrospect, deleteRetrospect } from '@/apis/http/retrospect';
 
 import { QUERY_KEYS } from '@/constants/queryKeys';
 

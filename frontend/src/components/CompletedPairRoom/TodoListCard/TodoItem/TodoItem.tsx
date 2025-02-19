@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Todo } from '@/apis/todo';
+import { Todo } from '@/apis/http/todo';
 
 import useCopyClipBoard from '@/hooks/_common/useCopyClipboard';
 

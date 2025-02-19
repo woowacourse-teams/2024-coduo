@@ -33,6 +33,7 @@ const RetrospectForm = () => {
           title="회고 작성하기"
           subTitle="지금까지 진행한 페어 프로그래밍에 대한 회고를 작성해 보세요!"
           buttonText="나중에 작성하기"
+          isbuttonExists={true}
           onButtonClick={openModal}
         />
         <S.Form onSubmit={handleSubmit}>

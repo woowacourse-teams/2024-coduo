@@ -25,13 +25,19 @@ import HowToPair from '@/components/Landing/HowToPair/HowToPair';
 
 import useUserStore from '@/stores/userStore';
 
-import { getMember } from '@/apis/member';
-import { getIsUserLoggedIn } from '@/apis/oauth';
+import { getMember } from '@/apis/http/member';
+import { getIsUserLoggedIn } from '@/apis/http/oauth';
 
 import GlobalStyles from './styles/Global.style';
 import { theme } from './styles/theme';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const App = () => {
   const { setUser } = useUserStore();

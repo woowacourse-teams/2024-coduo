@@ -1,8 +1,8 @@
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 
-import fetcher from '@/apis/fetcher';
-import { Reference } from '@/apis/referenceLink';
-import { Todo } from '@/apis/todo';
+import fetcher from '@/apis/http/fetcher';
+import { Reference } from '@/apis/http/referenceLink';
+import { Todo } from '@/apis/http/todo';
 
 import { ERROR_MESSAGES } from '@/constants/message';
 
@@ -87,21 +87,16 @@ export const updatePairRole = async ({ accessCode }: UpdatePairRoleRequest) => {
   });
 };
 
-interface UpdatePairRoomStatusRequest {
-  accessCode: string;
-}
-
-export const updatePairRoomStatus = async ({ accessCode }: UpdatePairRoomStatusRequest) => {
+export const completePairRoom = async ({ accessCode }: { accessCode: string }) => {
   await fetcher.patch({
-    url: `${API_URL}/pair-room/${accessCode}/status`,
+    url: `${API_URL}/pair-room/${accessCode}/complete`,
     errorMessage: ERROR_MESSAGES.UPDATE_PAIR_ROOM_STATUS,
-    body: JSON.stringify({ status: 'COMPLETED' }),
   });
 };
 
 export const deletePairRoom = async ({ accessCode }: { accessCode: string }) => {
-  await fetcher.delete({
-    url: `${API_URL}/pair-room/${accessCode}`,
+  await fetcher.patch({
+    url: `${API_URL}/pair-room/${accessCode}/delete`,
     errorMessage: ERROR_MESSAGES.DELETE_PAIR_ROOM,
   });
 };

@@ -3,9 +3,10 @@ import { Navigate, Outlet, useLocation, useParams } from 'react-router-dom';
 
 import Loading from '@/pages/Loading/Loading';
 
+import useSocketStore from '@/stores/socketStore';
 import useToastStore from '@/stores/toastStore';
 
-import { getPairRoomExists } from '@/apis/pairRoom';
+import { getPairRoomExists } from '@/apis/http/pairRoom';
 
 const PrivateRoutes = () => {
   const location = useLocation();
@@ -13,6 +14,7 @@ const PrivateRoutes = () => {
 
   const [isValid, setIsValid] = useState<boolean | null>(null);
 
+  const { setAccessCode } = useSocketStore();
   const { addToast } = useToastStore();
 
   const validateAccess = async () => {
@@ -22,6 +24,11 @@ const PrivateRoutes = () => {
     }
 
     if (location.state?.from === `/${accessCode}/retrospectForm`) {
+      setIsValid(true);
+      return;
+    }
+
+    if (location.pathname === `/room/${accessCode}/retrospect`) {
       setIsValid(true);
       return;
     }
@@ -45,6 +52,7 @@ const PrivateRoutes = () => {
 
   useEffect(() => {
     validateAccess();
+    setAccessCode(accessCode || '');
   }, []);
 
   if (isValid === null) return <Loading />;

@@ -8,9 +8,11 @@ import { Modal } from '@/components/_common/Modal';
 import CategoryItem from '@/components/PairRoom/CategoryManagementModal/CategoryItem/CategoryItem';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 
-import useInput from '@/hooks/_common/useInput';
+import useSocketStore from '@/stores/socketStore';
 
-import useCategoriesMutation from '@/queries/PairRoom/useCategoriesMutation';
+import { publishCategoryMessage } from '@/apis/websocket/reference';
+
+import useInput from '@/hooks/_common/useInput';
 
 import { validateCategoryName } from '@/validations/validateCategory';
 
@@ -29,7 +31,6 @@ interface CategoryManagementModalProps {
 }
 
 const CategoryManagementModal = ({
-  accessCode,
   isOpen,
   closeModal,
   categories,
@@ -39,14 +40,16 @@ const CategoryManagementModal = ({
 }: CategoryManagementModalProps) => {
   const { value, handleChange, resetValue, message, status } = useInput('');
 
-  const { addCategoryMutation } = useCategoriesMutation();
+  const { client, accessCode } = useSocketStore();
 
   const handleAddCategorySubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (status === 'ERROR') return;
 
-    addCategoryMutation({ category: value, accessCode }, { onSuccess: resetValue });
+    publishCategoryMessage.add(client, accessCode, value);
+
+    resetValue();
   };
 
   const handleCloseModal = () => {
@@ -67,7 +70,6 @@ const CategoryManagementModal = ({
             <CategoryItem
               key={category.id}
               isChecked={category.id === selectedCategoryId}
-              accessCode={accessCode}
               closeModal={handleCloseModal}
               categoryId={category.id}
               categoryName={category.value}
@@ -84,6 +86,7 @@ const CategoryManagementModal = ({
               placeholder="추가할 카테고리를 입력해 주세요."
               height="4.4rem"
               status={status}
+              maxLength={10}
               onChange={(event: ChangeEvent<HTMLInputElement>) =>
                 handleChange(event, validateCategoryName(event.target.value, isCategoryExist))
               }

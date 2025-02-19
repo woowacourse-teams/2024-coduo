@@ -1,30 +1,42 @@
 import { Link } from 'react-router-dom';
 
-import type { Reference } from '@/apis/referenceLink';
+import useSocketStore from '@/stores/socketStore';
 
-import useReferencesMutation from '@/queries/PairRoom/useReferencesMutation';
+import type { Reference } from '@/apis/http/referenceLink';
+import { publishReferenceMessage } from '@/apis/websocket/reference';
+
+import { DEFAULT_CATEGORY_ID } from '@/queries/PairRoom/useCategoriesQuery';
 
 import * as S from './ReferenceList.styles';
 
 interface ReferenceListProps {
   references: Reference[];
-  accessCode: string;
+  categoryId: string;
 }
 
-const ReferenceList = ({ references, accessCode }: ReferenceListProps) => {
-  const { deleteReferenceMutation } = useReferencesMutation();
+const ReferenceList = ({ references, categoryId }: ReferenceListProps) => {
+  const { client, accessCode } = useSocketStore();
+
+  const filteredReferences =
+    categoryId === DEFAULT_CATEGORY_ID
+      ? references
+      : references.filter((reference) => reference.categoryId === Number(categoryId));
 
   if (!references || references.length < 1) return <S.EmptyLayout>저장된 링크가 없습니다.</S.EmptyLayout>;
 
   const columns = references.length;
 
+  const handleDeleteReference = (referenceLinkId: number) => {
+    publishReferenceMessage.delete(client, accessCode, referenceLinkId);
+  };
+
   return (
     <S.Layout $columns={columns}>
       <S.List $columns={columns}>
-        {references.map((reference) => {
+        {filteredReferences.map((reference) => {
           return (
             <S.Item key={reference.id}>
-              <S.DeleteButton onClick={() => deleteReferenceMutation({ id: reference.id, accessCode })} />
+              <S.DeleteButton onClick={() => handleDeleteReference(reference.id)} />
               <Link to={reference.url} target="_blank">
                 {reference.image ? (
                   <S.Image alt="link" src={reference.image} />

@@ -5,8 +5,9 @@ import { FaPause, FaPlay } from 'react-icons/fa6';
 import IconButton from '@/components/_common/IconButton/IconButton';
 import { PairRoomCard } from '@/components/PairRoom/PairRoomCard';
 import TimerEditPanel from '@/components/PairRoom/TimerCard/TimerEditPanel/TimerEditPanel';
+import TimerPip from '@/components/PairRoom/TimerPip/TimerPip';
 
-import useTimer from '@/hooks/PairRoom/useTimer';
+import useTimer from '@/hooks/PairRoom/useTimerSocket';
 import useTitleTime from '@/hooks/PairRoom/useTitleTime';
 
 import { formatTime } from '@/utils/formatTime';
@@ -16,17 +17,16 @@ import { theme } from '@/styles/theme';
 import * as S from './TimerCard.styles';
 
 interface TimerCardProps {
-  accessCode: string;
   defaultTime: number;
-  defaultTimeleft: number;
+  defaultTimeLeft: number;
+  driver: string;
   onTimerStop: () => void;
 }
 
-const TimerCard = ({ accessCode, defaultTime, defaultTimeleft, onTimerStop }: TimerCardProps) => {
-  const { timeLeft, isActive, handleStart, handlePause } = useTimer(
-    accessCode,
+const TimerCard = ({ defaultTime, defaultTimeLeft, onTimerStop, driver }: TimerCardProps) => {
+  const { duration, timeLeft, isActive, handleStart, handlePause } = useTimer(
     defaultTime,
-    defaultTimeleft,
+    defaultTimeLeft,
     onTimerStop,
   );
 
@@ -39,8 +39,17 @@ const TimerCard = ({ accessCode, defaultTime, defaultTimeleft, onTimerStop }: Ti
   return (
     <PairRoomCard>
       <S.Layout aria-label="타이머">
+        <TimerPip
+          isActive={isActive}
+          minutes={minutes}
+          seconds={seconds}
+          driver={driver}
+          progress={(timeLeft / duration) * 100}
+          handleStart={handleStart}
+          handlePause={handlePause}
+        />
         <S.ProgressBar
-          $progress={(timeLeft / defaultTime) * 100}
+          $progress={(timeLeft / duration) * 100}
           role="timer"
           aria-label={`현재 남은 시간은 ${minutes}분 ${seconds}초 입니다.`}
         >

@@ -1,4 +1,3 @@
-import Quote from '@/components/CoduoDocs/Quote/Quote';
 import SourceCode from '@/components/CoduoDocs/SourceCode/SourceCode';
 
 import * as S from './Steps.styles';
@@ -21,8 +20,8 @@ const Steps = ({ steps }: DocsImageProps) => {
       {steps?.map((data, index) => {
         return (
           <S.Container key={index} id={data.id}>
-            {data.title && <S.Contents>{data.title}</S.Contents>}
-            {data.info && <Quote text={data.info} />}
+            {data.title && <S.Title>{data.title}</S.Title>}
+            {data.info && <S.Content>{data.info}</S.Content>}
             {data.src && <S.Image src={data.src} alt={data.id} />}
             {data.sourceCode?.map((sourceCode, index) => <SourceCode key={index} code={sourceCode}></SourceCode>)}
           </S.Container>

@@ -7,9 +7,13 @@ import Header from '@/components/PairRoom/ReferenceCard/Header/Header';
 import { Category } from '@/components/PairRoom/ReferenceCard/ReferenceCard.type';
 import ReferenceList from '@/components/PairRoom/ReferenceCard/ReferenceList/ReferenceList';
 
-import { Reference } from '@/apis/referenceLink';
+import useSocketStore from '@/stores/socketStore';
+
+import { Reference } from '@/apis/http/referenceLink';
 
 import useModal from '@/hooks/_common/useModal';
+import useCategory from '@/hooks/PairRoom/useCategorySocket';
+import useReference from '@/hooks/PairRoom/useReferenceSocket';
 
 import useCategoriesQuery, { DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_VALUE } from '@/queries/PairRoom/useCategoriesQuery';
 
@@ -18,14 +22,15 @@ import { findValueById } from '@/utils/findOption';
 import * as S from './ReferenceCard.styles';
 
 interface ReferenceCardProps {
-  accessCode: string;
   isOpen: boolean;
   toggleIsOpen: () => void;
-  references: Reference[];
-  categories: Category[];
+  defaultReferences: Reference[];
+  defaultCategories: Category[];
 }
 
-const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen, references, categories }: ReferenceCardProps) => {
+const ReferenceCard = ({ isOpen, toggleIsOpen, defaultReferences, defaultCategories }: ReferenceCardProps) => {
+  const { accessCode } = useSocketStore();
+  const { categories } = useCategory(defaultCategories);
   const [selectedCategoryId, setSelectedCategoryId] = useState(DEFAULT_CATEGORY_ID);
 
   const { isModalOpen, openModal, closeModal } = useModal();
@@ -33,6 +38,8 @@ const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen, references, categorie
   const { isCategoryExist } = useCategoriesQuery(accessCode);
 
   const selectedCategoryName = findValueById(categories, selectedCategoryId) || DEFAULT_CATEGORY_VALUE;
+
+  const { references } = useReference(defaultReferences);
 
   return (
     <S.Layout>
@@ -44,8 +51,8 @@ const ReferenceCard = ({ accessCode, isOpen, toggleIsOpen, references, categorie
           onButtonClick={openModal}
         />
         <S.Body $isOpen={isOpen}>
-          <ReferenceList references={references || []} accessCode={accessCode} />
-          <Footer accessCode={accessCode} categories={categories} />
+          <ReferenceList references={references || []} categoryId={selectedCategoryId} />
+          <Footer categories={categories} />
         </S.Body>
       </PairRoomCard>
       <CategoryManagementModal

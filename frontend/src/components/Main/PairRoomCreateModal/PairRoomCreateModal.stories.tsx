@@ -13,7 +13,7 @@ type Story = StoryObj<typeof PairRoomCreateModal>;
 
 export const Default: Story = {
   render: () => {
-    return <PairRoomCreateModal isOpen={true} closeModal={() => console.log()} />;
+    return <PairRoomCreateModal isOpen={true} closeModal={() => alert('닫기')} />;
   },
   args: {
     isOpen: true,
