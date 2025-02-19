@@ -113,6 +113,12 @@ public class ReferenceLinkService {
                 .toList();
     }
 
+    public void updateCategory(final PairRoomEntity pairRoomEntity, final CategoryEntity categoryEntity) {
+        final List<ReferenceLinkEntity> referenceLinkEntities = referenceLinkRepository.findByPairRoomEntity(
+                pairRoomEntity);
+        referenceLinkEntities.forEach(referenceLinkEntity -> referenceLinkEntity.updateCategory(categoryEntity));
+    }
+
     public void deleteReferenceLink(final String accessCodeText, final long id) {
         final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCodeText);
         checkPairRoomIsActive(pairRoomEntity);

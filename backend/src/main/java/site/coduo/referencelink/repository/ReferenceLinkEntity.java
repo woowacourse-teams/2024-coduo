@@ -89,6 +89,10 @@ public class ReferenceLinkEntity extends BaseTimeEntity {
         return categoryEntity.getId();
     }
 
+    public void updateCategory(final CategoryEntity categoryEntity) {
+        this.categoryEntity = categoryEntity;
+    }
+
     public ReferenceLink toDomain() {
         try {
             return new ReferenceLink(new URL(url), new AccessCode(pairRoomEntity.getAccessCode()));

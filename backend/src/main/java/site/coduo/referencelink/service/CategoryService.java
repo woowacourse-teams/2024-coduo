@@ -66,6 +66,7 @@ public class CategoryService {
                 categoryId);
         final Category category = new Category(request.value());
         categoryEntity.updateCategoryName(category);
+        referenceLinkService.updateCategory(pairRoomEntity, categoryEntity);
         return new CategoryUpdateResponse(categoryEntity.getCategoryName());
     }
 
