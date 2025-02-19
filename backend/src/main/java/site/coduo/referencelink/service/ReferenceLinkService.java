@@ -77,12 +77,9 @@ public class ReferenceLinkService {
             final String accessCodeText,
             final Long categoryId
     ) {
-        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCodeText);
-        final CategoryEntity categoryEntity = categoryRepository.fetchByPairRoomAndCategoryId(pairRoomEntity,
-                categoryId);
         final List<ReferenceLinkResponse> allReferenceLinks = findAllReferenceLinkWithOpenGraphByAccessCode(
                 accessCodeText);
-        return filterByCategoryName(allReferenceLinks, categoryEntity.getCategoryName());
+        return filterByCategoryId(allReferenceLinks, categoryId);
     }
 
     @Transactional(readOnly = true)
@@ -92,10 +89,10 @@ public class ReferenceLinkService {
         return ReferenceLinkResponse.from(openGraphEntities);
     }
 
-    private List<ReferenceLinkResponse> filterByCategoryName(final List<ReferenceLinkResponse> allReferenceLinks,
-                                                             final String categoryName) {
+    private List<ReferenceLinkResponse> filterByCategoryId(final List<ReferenceLinkResponse> allReferenceLinks,
+                                                           final Long categoryId) {
         return allReferenceLinks.stream()
-                .filter(referenceLink -> referenceLink.categoryName().equals(categoryName))
+                .filter(referenceLink -> referenceLink.categoryId().equals(categoryId))
                 .toList();
     }
 
