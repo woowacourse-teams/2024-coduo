@@ -1,4 +1,4 @@
-import { LuArrowLeft, LuPencil, LuTrash2 } from 'react-icons/lu';
+import { LuX, LuPencil, LuCheck, LuTrash2 } from 'react-icons/lu';
 
 import { CheckBoxChecked, CheckBoxUnchecked } from '@/assets';
 
@@ -63,14 +63,13 @@ const CategoryItem = ({ categoryId, categoryName, isChecked, closeModal, handleS
           <Input
             height="4.4rem"
             placeholder="수정할 카테고리 이름을 입력해 주세요."
-            value={newCategoryName.value}
             maxLength={10}
             status={newCategoryName.status}
             onChange={(event) => handleCategoryName(event, categoryName)}
           />
           <S.IconContainer>
-            <IconButton icon={<LuPencil />} color={theme.color.primary[800]} type="submit" size="md" />
-            <IconButton icon={<LuArrowLeft />} color={theme.color.primary[800]} onClick={stopEditing} size="md" />
+            <IconButton icon={<LuCheck />} color={theme.color.primary[800]} type="submit" size="md" />
+            <IconButton icon={<LuX />} color={theme.color.danger[500]} onClick={stopEditing} size="md" />
           </S.IconContainer>
         </S.Layout>
       </form>
