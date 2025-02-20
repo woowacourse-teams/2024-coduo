@@ -30,9 +30,7 @@ public class StompEventListener {
             throw new NotFoundAccessCodeInQueryException("STOMP 헤더에 simpDestination이 존재하지 않습니다.");
         }
         final String key = parsePairRoomKey(destination);
-        if (timerStompManager.isTimerStatusDestination(destination, key)) {
-            schedulerService.notifyTimerStatus(key);
-        }
+        schedulerService.notifyTimerStatus(key);
     }
 
     @EventListener
@@ -43,9 +41,7 @@ public class StompEventListener {
             throw new NotFoundAccessCodeInQueryException("STOMP 헤더에 simpSubscriptionId가 존재하지 않습니다.");
         }
         final String key = parsePairRoomKey(destination);
-        if (timerStompManager.isTimerStatusDestination(destination, key)) {
-            schedulerService.syncTimerWithDatabase(key);
-        }
+        schedulerService.syncTimerWithDatabase(key);
     }
 
     private String parsePairRoomKey(final String destination) {
