@@ -25,7 +25,7 @@ const CategoryItem = ({
     if (isChecked) return;
 
     handleSelectedCategoryId(event.currentTarget.id);
-    addToast({ status: 'SUCCESS', message: `${categoryName}가 선택되었어요.` });
+    addToast({ status: 'SUCCESS', message: `${categoryName}이(가) 선택되었어요.` });
     closeModal();
   };
 
