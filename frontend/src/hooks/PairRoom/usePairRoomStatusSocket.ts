@@ -36,7 +36,7 @@ const usePairRoomStatusSocket = (defaultStatus: PairRoomStatus) => {
         client.unsubscribe(`/topic/${accessCode}/pair-room/status`);
       }
     };
-  }, [client]);
+  }, [client, isConnected]);
 };
 
 export default usePairRoomStatusSocket;

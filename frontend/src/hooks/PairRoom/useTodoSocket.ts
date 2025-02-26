@@ -23,7 +23,7 @@ const useTodo = (defaultTodos: Todo[]) => {
         client.unsubscribe(`/topic/${accessCode}/todo`);
       }
     };
-  }, [client]);
+  }, [client, isConnected]);
 
   return { todos };
 };

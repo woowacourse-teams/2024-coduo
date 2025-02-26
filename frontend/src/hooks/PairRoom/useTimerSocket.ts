@@ -120,7 +120,7 @@ const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () 
       window.removeEventListener('beforeunload', handleBeforeUnload);
       unsubscribeTopics();
     };
-  }, [client]);
+  }, [client, isConnected]);
 
   return {
     duration: durationRef.current,
