@@ -33,7 +33,7 @@ export const DriverBox = styled(RoleBox)`
   background: linear-gradient(
     180deg,
     ${({ theme }) => theme.color.primary[50]},
-    ${({ theme }) => theme.color.primary[200]}
+    ${({ theme }) => theme.color.primary[100]}
   );
 `;
 
