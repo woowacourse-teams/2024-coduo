@@ -69,7 +69,7 @@ const useTimer = (defaultTime: number, defaultTimeLeft: number, onTimerStop: () 
 
       case TimerStatus.RUNNING:
         setIsActive(true);
-        addToast({ status: 'WARNING', message: '타이머가 진행 중입니다.' });
+        // addToast({ status: 'WARNING', message: '타이머가 진행 중입니다.' });
         break;
 
       case TimerStatus.PAUSE:
