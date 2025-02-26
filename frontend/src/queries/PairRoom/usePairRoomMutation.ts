@@ -24,7 +24,6 @@ const usePairRoomMutation = () => {
 
   const { mutate: completePairRoomMutation } = useMutation({
     mutationFn: completePairRoom,
-    onSuccess: () => addToast({ status: 'SUCCESS', message: '페어 프로그래밍이 완료되었습니다.' }),
     onError: (error) => addToast({ status: 'ERROR', message: error.message }),
   });
 
