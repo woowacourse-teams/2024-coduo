@@ -32,8 +32,8 @@ const RoleBox = styled.div`
 export const DriverBox = styled(RoleBox)`
   background: linear-gradient(
     180deg,
-    ${({ theme }) => theme.color.secondary[50]},
-    ${({ theme }) => theme.color.secondary[200]}
+    ${({ theme }) => theme.color.primary[50]},
+    ${({ theme }) => theme.color.primary[200]}
   );
 `;
 
@@ -72,11 +72,11 @@ const RoleLabel = styled.div`
 `;
 
 export const DriverLabel = styled(RoleLabel)`
-  background-color: ${({ theme }) => theme.color.secondary[500]};
+  background-color: ${({ theme }) => theme.color.primary[600]};
 `;
 
 export const NavigatorLabel = styled(RoleLabel)`
-  background-color: ${({ theme }) => theme.color.primary[600]};
+  background-color: ${({ theme }) => theme.color.secondary[500]};
 `;
 
 export const DriverText = styled.p`
@@ -84,7 +84,7 @@ export const DriverText = styled.p`
 
   max-width: 10rem;
 
-  color: ${({ theme }) => theme.color.secondary[900]};
+  color: ${({ theme }) => theme.color.primary[900]};
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
@@ -94,7 +94,7 @@ export const NavigatorText = styled.p`
 
   max-width: 10rem;
 
-  color: ${({ theme }) => theme.color.primary[900]};
+  color: ${({ theme }) => theme.color.secondary[900]};
   text-overflow: ellipsis;
   white-space: nowrap;
 `;
