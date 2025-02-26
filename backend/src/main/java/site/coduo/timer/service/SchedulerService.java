@@ -87,9 +87,9 @@ public class SchedulerService {
         timestampRegistry.register(key, initalTimer);
     }
 
-    public void notifyTimerStatus(final String key, final String sessionId) {
+    public void notifyTimerStatus(final String key) {
         if (schedulerRegistry.isActive(key)) {
-            timerStompManager.sendStatusToUser(sessionId, key, TimerStatus.RUNNING);
+            timerStompManager.sendStatus(key, TimerStatus.RUNNING);
         }
     }
 
