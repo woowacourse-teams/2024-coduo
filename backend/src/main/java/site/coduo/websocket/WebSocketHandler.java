@@ -22,7 +22,6 @@ public class WebSocketHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(final WebSocketSession session) {
         final String pairRoomAccessCode = parsePairRoomAccessCode(session);
         pairRoomWebSocketSessionStore.addSession(pairRoomAccessCode, session);
-        schedulerService.notifyTimerStatus(pairRoomAccessCode);
         log.info("연결 성공 : {}", session.getId());
     }
 
