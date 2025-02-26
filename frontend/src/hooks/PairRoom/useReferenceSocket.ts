@@ -22,7 +22,7 @@ const useReference = (defaultReferences: Reference[]) => {
         client.unsubscribe(`/topic/${accessCode}/reference-link`);
       }
     };
-  }, [client]);
+  }, [client, isConnected]);
 
   return { references };
 };
