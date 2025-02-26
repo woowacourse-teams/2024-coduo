@@ -31,7 +31,7 @@ const useCategory = (defaultCategories: Category[]) => {
         client.unsubscribe(`/topic/${accessCode}/category`);
       }
     };
-  }, [client]);
+  }, [client, isConnected]);
 
   return { categories: [DEFAULT_CATEGORY, ...(categories || [])] };
 };
