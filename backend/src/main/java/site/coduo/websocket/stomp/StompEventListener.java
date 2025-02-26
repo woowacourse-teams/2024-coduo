@@ -31,8 +31,7 @@ public class StompEventListener {
         }
         final String key = parsePairRoomKey(destination);
         if (timerStompManager.isTimerStatusDestination(key, destination)) {
-            final String sessionId = headerAccessor.getSessionId();
-            schedulerService.notifyTimerStatus(key, sessionId);
+            schedulerService.notifyTimerStatus(key);
         }
     }
 

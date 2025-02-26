@@ -26,14 +26,6 @@ public class TimerStompManager {
         );
     }
 
-    public void sendStatusToUser(final String sessionId, final String accessCode, final TimerStatus status) {
-        simpMessagingTemplate.convertAndSendToUser(
-                sessionId,
-                String.format(STATUS_DESTINATION, accessCode),
-                new TimerStatusResponse(status.getMessage(), null)
-        );
-    }
-
     public void sendTime(final String accessCode, final long time) {
         simpMessagingTemplate.convertAndSend(String.format(TIME_DESTINATION, accessCode), new TimerStartResponse(time));
     }
