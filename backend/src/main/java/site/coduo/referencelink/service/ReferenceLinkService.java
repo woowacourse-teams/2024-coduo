@@ -17,6 +17,8 @@ import site.coduo.referencelink.domain.Category;
 import site.coduo.referencelink.domain.OpenGraph;
 import site.coduo.referencelink.domain.ReferenceLink;
 import site.coduo.referencelink.exception.InvalidUrlFormatException;
+import site.coduo.referencelink.mq.MQService;
+import site.coduo.referencelink.mq.ReferenceLinkMQMessageDto;
 import site.coduo.referencelink.repository.CategoryEntity;
 import site.coduo.referencelink.repository.CategoryRepository;
 import site.coduo.referencelink.repository.OpenGraphEntity;
@@ -35,6 +37,7 @@ public class ReferenceLinkService {
     private final PairRoomRepository pairRoomRepository;
     private final CategoryRepository categoryRepository;
     private final OpenGraphService openGraphService;
+    private final MQService mqService;
 
     public ReferenceLinkResponse createReferenceLink(
             final String accessCodeText,
@@ -49,6 +52,23 @@ public class ReferenceLinkService {
         final ReferenceLinkEntity referenceLinkEntity = saveReferenceLink(request, pairRoomEntity, referenceLink);
         final OpenGraph openGraph = openGraphService.createOpenGraph(referenceLinkEntity, url);
         return new ReferenceLinkResponse(referenceLinkEntity, openGraph);
+    }
+
+    public void createReferenceLinkWithSimpleOpenGraph(
+            final String accessCodeText,
+            final ReferenceLinkCreateRequest request
+    ) {
+        final AccessCode accessCode = new AccessCode(accessCodeText);
+        final PairRoomEntity pairRoomEntity = pairRoomRepository.fetchByAccessCode(accessCode);
+        checkPairRoomIsActive(pairRoomEntity);
+        final URL url = makeUrl(request.url());
+        final ReferenceLink referenceLink = new ReferenceLink(url, accessCode);
+
+        final ReferenceLinkEntity referenceLinkEntity = saveReferenceLink(request, pairRoomEntity, referenceLink);
+        final OpenGraphEntity openGraphEntity = openGraphService.createHeadTitle(referenceLinkEntity, url);
+        final ReferenceLinkMQMessageDto referenceLinkMQMessageDto = new ReferenceLinkMQMessageDto(url, pairRoomEntity,
+                openGraphEntity.getId());
+        mqService.sendMessage(referenceLinkMQMessageDto);
     }
 
     private URL makeUrl(final String requestUrl) {

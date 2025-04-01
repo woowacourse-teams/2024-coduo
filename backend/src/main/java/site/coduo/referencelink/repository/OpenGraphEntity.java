@@ -61,6 +61,13 @@ public class OpenGraphEntity extends BaseTimeEntity {
                 .build();
     }
 
+    public void applyCrawledElements(final OpenGraph openGraph) {
+        this.headTitle = openGraph.getHeadTitle();
+        this.openGraphTitle = openGraph.getOpenGraphTitle();
+        this.description = openGraph.getDescription();
+        this.image = openGraph.getImage();
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
