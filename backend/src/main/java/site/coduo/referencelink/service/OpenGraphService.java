@@ -29,7 +29,7 @@ public class OpenGraphService {
                 .toDomain();
     }
 
-    public OpenGraphEntity createHeadTitle(final ReferenceLinkEntity referenceLinkEntity, final URL url) {
+    public OpenGraphEntity createSimpleOpenGraph(final ReferenceLinkEntity referenceLinkEntity, final URL url) {
         final OpenGraph openGraph = OpenGraph.from(url);
         final OpenGraphEntity openGraphEntity = new OpenGraphEntity(openGraph, referenceLinkEntity);
         return openGraphRepository.save(openGraphEntity);

@@ -65,7 +65,7 @@ public class ReferenceLinkService {
         final ReferenceLink referenceLink = new ReferenceLink(url, accessCode);
 
         final ReferenceLinkEntity referenceLinkEntity = saveReferenceLink(request, pairRoomEntity, referenceLink);
-        final OpenGraphEntity openGraphEntity = openGraphService.createHeadTitle(referenceLinkEntity, url);
+        final OpenGraphEntity openGraphEntity = openGraphService.createSimpleOpenGraph(referenceLinkEntity, url);
         final ReferenceLinkMQMessageDto referenceLinkMQMessageDto = new ReferenceLinkMQMessageDto(url, pairRoomEntity,
                 openGraphEntity.getId());
         mqService.sendMessage(referenceLinkMQMessageDto);
