@@ -30,11 +30,11 @@ public class MQService {
     @Value("${rabbitmq.routing.key}")
     private String routingKey;
 
-    public void sendMessage(final ReferenceLinkMQMessageDto referenceLinkMQMessageDto) {
+    public void sendMessage(final ReferenceLinkMQMessageDto message) {
         TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
             @Override
             public void afterCommit() {
-                rabbitTemplate.convertAndSend(exchangeName, routingKey, referenceLinkMQMessageDto);
+                rabbitTemplate.convertAndSend(exchangeName, routingKey, message);
             }
         });
     }
