@@ -29,6 +29,18 @@ public class OpenGraphService {
                 .toDomain();
     }
 
+    public OpenGraphEntity createSimpleOpenGraph(final ReferenceLinkEntity referenceLinkEntity, final URL url) {
+        final OpenGraph openGraph = OpenGraph.from(url);
+        final OpenGraphEntity openGraphEntity = new OpenGraphEntity(openGraph, referenceLinkEntity);
+        return openGraphRepository.save(openGraphEntity);
+    }
+
+    public void crawlOpenGraph(final URL url, final long openGraphId) {
+        final OpenGraph openGraph = htmlParser.getOpenGraph(url);
+        final OpenGraphEntity openGraphEntity = openGraphRepository.fetchById(openGraphId);
+        openGraphEntity.applyCrawledElements(openGraph);
+    }
+
     @Transactional(readOnly = true)
     public OpenGraph findOpenGraph(final Long id) {
         final Optional<OpenGraphEntity> openGraphEntity = openGraphRepository.findByReferenceLinkEntityId(id);
