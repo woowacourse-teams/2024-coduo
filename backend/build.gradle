@@ -62,9 +62,6 @@ dependencies {
 	// Web Socket
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
-	// RabbitMQ
-	implementation 'org.springframework.boot:spring-boot-starter-amqp'
-
 	// Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

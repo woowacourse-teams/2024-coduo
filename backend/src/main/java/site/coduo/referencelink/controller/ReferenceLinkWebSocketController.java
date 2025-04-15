@@ -22,7 +22,7 @@ public class ReferenceLinkWebSocketController {
     @SendTo("/topic/{accessCode}/reference-link")
     public List<ReferenceLinkResponse> createReferenceLink(@DestinationVariable("accessCode") final String accessCode,
                                                            final ReferenceLinkCreateRequest request) {
-        referenceLinkService.createReferenceLinkWithSimpleOpenGraph(accessCode, request);
+        referenceLinkService.createReferenceLink(accessCode, request);
         return referenceLinkService.findAllReferenceLinkWithOpenGraphByAccessCode(accessCode);
     }
 
