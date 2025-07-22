@@ -96,7 +96,7 @@ const buttonAnimation = ({ animation }: ButtonAnimationProp) => css`
 
 export const Button = styled.button<ButtonStyleProp>`
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 
   border: 1px solid;
